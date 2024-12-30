@@ -1,0 +1,53 @@
+::ng-deep .ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-icon {
+    border: none !important;
+    background: var(--green2) !important;
+    box-shadow: 0px 0px 4px 0px #0000002B;
+
+    border-radius: 50%;
+
+}
+
+::ng-deep .ant-steps-item-icon {
+    width: 35px !important;
+    height: 35px;
+    margin: 0px 0px ;
+    font-size: 16px;
+    font-family: Inter;
+    line-height: 34px;
+    text-align: center;
+    border: none;
+    background-color: var(--white);
+    box-shadow: 0px 0px 4px 0px #0000000d;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+}
+::ng-deep .ant-steps-item-title::after {
+
+    background-color: var(--gray1) !important;
+}
+::ng-deep .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-icon{
+    background-color: var(--white);
+}
+
+::ng-deep .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title::after {
+    background: var(--gray1 ) !important;
+}
+
+::ng-deep .ant-steps-item-custom > .ant-steps-item-container > .ant-steps-item-icon > .ant-steps-icon {
+    font-size: 16px;
+}
+::ng-deep  .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+    color:var(--gray1);
+}
+::ng-deep .ant-steps-item-custom.ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon{
+    color: var(--white);
+
+}
+.ant-steps-horizontal:not(.ant-steps-label-vertical) .ant-steps-item , .ant-steps-item-title {
+    padding: 3px;
+}
+::ng-deep  .ant-steps-item-title{
+    padding: 3px;
+
+    
+}

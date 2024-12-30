@@ -1,0 +1,117 @@
+<div class="registerInstructor">
+
+    <div class="cardForm">
+      <div class="logo">
+        <img src="Images/Logo.png" alt="">
+  
+      </div>
+      <div class="dataInstructor my-4 px-3">
+  
+        <nz-steps [nzCurrent]="current">
+          <nz-step [nzIcon]="one"></nz-step>
+          <nz-step [nzIcon]="two"></nz-step>
+  
+          <ng-template #one>1</ng-template>
+  
+          <ng-template #two>2</ng-template>
+  
+  
+        </nz-steps>
+  
+  
+      </div>
+  
+      <form class="p-3">
+  
+        @switch (current) {
+        @case (0) {
+        <!-- Lable Input -->
+        <div class="position-relative mb-3">
+          <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="label">
+          <label id="label-input">Name</label>
+        </div>
+  
+        <div class="position-relative mb-3">
+          <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="label">
+          <label id="label-input">User name</label>
+        </div>
+  
+        <div class="position-relative mb-3">
+          <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="label">
+          <label id="label-input">Email</label>
+        </div>
+  
+        <div class="position-relative mb-3">
+          <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="label">
+          <label id="label-input">Phone</label>
+        </div>
+  
+        }
+  
+
+  
+  
+  
+        @case (1) {
+        <!-- Lable Input -->
+        <div class="position-relative mb-3">
+          <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="label">
+          <label id="label-input">Password</label>
+        </div>
+  
+        <div class="position-relative mb-3">
+          <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="label">
+          <label id="label-input">Repassword</label>
+        </div>
+  
+  
+  
+  
+        }
+  
+        }
+  
+  
+  
+  
+      </form>
+  
+  
+  
+      <div class="steps-action py-3">
+        @if (current == 0) {
+  
+        <div class="action mx-4  px-3 d-flex justify-content-end  gap-3 ">
+          <button class="btn " routerLink="/startregister">
+            <span>Back</span>
+          </button>
+          <button class="btn btnAcrive" (click)="next()">
+            <span>Next</span>
+          </button>
+  
+        </div>
+  
+        }
+  
+        @if (current === 1) {
+        <div class="action mx-4  px-3 d-flex justify-content-end  gap-3 ">
+          <button class="btn " (click)="pre()">
+            <span>Back</span>
+          </button>
+          <button class="btn btnAcrive" (click)="done()">
+            <span>Done</span>
+          </button>
+  
+        </div>
+        }
+      </div>
+  
+  
+  
+    </div>
+  
+    <div class="ImgLogin">
+      <img src="Images/Login_Screen.png" alt="">
+    </div>
+  
+  </div>

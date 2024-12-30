@@ -1,0 +1,37 @@
+
+:root{
+     --bggreen:#F3FFEF;
+    --green1:#18c36e;
+    --green2:#76D750;
+
+    --fwhite:#F8FBF7;
+    --success:#059529;
+    --error :#B90000;
+    --color_link :#000000;
+    --color_border:#C6D1DC;
+    --white: #FFFFFF;
+    --gray1:#C6D1DC;
+    --gray2: #1F28328F;
+
+
+}
+a{
+    text-decoration: none;
+    color: var(--color_link);
+}
+.form-control{
+    display: inline !important;
+}
+.form-control{
+    display: inline !important;
+    box-shadow: none !important;
+
+}
+.form-control.is-invalid{
+    border-color:#B90000 !important;
+
+}
+.done{
+    border: 1px solid #059529 !important;
+}
+
