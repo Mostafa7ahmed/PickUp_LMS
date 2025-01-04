@@ -59,7 +59,7 @@
   
  .inputFloating:focus ~ label#label-input,
 .inputFloating:not(:placeholder-shown) ~ #label-input {
-     top: -23% !important;
+    top: -28% !important;
     left: 10px !important;
     transform: scale(.8);
     background: #fff;
@@ -72,12 +72,12 @@
   }
   
   .inputFloating {
-    transition: outline 0.2s ease;
+   transition: outline 0.2s ease;
     font-size: 1rem;
     outline-color: var(--button-text);
     outline: unset;
     border: 1px solid var(--gray1);
-    padding: 17px 10px 10px 17px;
+    padding: 10px 10px 10px 10px;
     width: 95%;
 
     border-radius: 8px ;
