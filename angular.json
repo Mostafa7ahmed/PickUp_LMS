@@ -23,6 +23,9 @@
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "allowedCommonJsDependencies": [
+              "google-libphonenumber"
+            ],
             "assets": [
               {
                 "glob": "**/*",

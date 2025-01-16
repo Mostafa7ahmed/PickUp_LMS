@@ -64,9 +64,37 @@
       </div>
 
       <div class="position-relative mb-3">
-        <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="userName"
+        <input class="input-cal input-base inputFloating"
+         placeholder="" type="text"
+          formControlName="userName"
+          [ngClass]="{
+            'invalid': isFieldInvalid('userName'),
+            'success': isFieldValid('userName')
+          }"
         >
         <label id="label-input">User name</label>
+
+
+
+             <!-- Icon Container -->
+             <div
+             class="input-Icon"
+             [ngClass]="{
+               'input-Icon-failed': isFieldInvalid('userName'),
+               'input-Icon-success': isFieldValid('userName')
+             }"
+           >
+             <!-- Icon -->
+             <i
+               class="fa-solid"
+               [ngClass]="{
+                 'fa-xmark': isFieldInvalid('userName'),
+                 'fa-check': isFieldValid('userName')
+               }"
+             ></i>
+           </div>
+           
+           <p class="mt-2">asdasdasd</p>
       </div>
 
       <div class="position-relative mb-3">
