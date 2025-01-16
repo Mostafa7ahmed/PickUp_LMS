@@ -6,7 +6,7 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [RouterLink],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrls:[ './login.component.scss',"../../Core/Shared/CSS/input.scss"]
 })
 export class LoginComponent {
   passwordFieldType: boolean = true;

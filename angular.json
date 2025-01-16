@@ -20,9 +20,7 @@
             "outputPath": "dist/pickup",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -39,10 +37,14 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "node_modules/intl-tel-input/build/css/intlTelInput.css",
+              "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+
               "src/theme.less",
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [
+            ],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
@@ -54,13 +56,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2MB",
-                  "maximumError": "2MB"
+                  "maximumWarning": "5MB",
+                  "maximumError": "5MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "10kB",
-                  "maximumError": "40kB"
+                  "maximumWarning": "5MB",
+                  "maximumError": "2MB"
                 }
               ],
               "outputHashing": "all"
@@ -91,10 +93,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -103,9 +102,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "styles": ["src/styles.scss"],
             "scripts": []
           }
         }

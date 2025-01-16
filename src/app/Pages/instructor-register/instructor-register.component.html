@@ -23,42 +23,85 @@
 
     </div>
 
-    <form class="p-3">
+    <form class="p-3" [formGroup]="registerFrom">
 
       @switch (current) {
       @case (0) {
       <!-- Lable Input -->
       <div class="position-relative mb-3">
-        <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="label">
+        <!-- Input Field -->
+        <input
+          class="input-cal input-base inputFloating"
+          placeholder=""
+          type="text"
+          formControlName="name"
+          [ngClass]="{
+            'invalid': isFieldInvalid('name'),
+            'success': isFieldValid('name')
+          }"
+        />
+        
+        <!-- Label -->
         <label id="label-input">Name</label>
+        
+        <!-- Icon Container -->
+        <div
+          class="input-Icon"
+          [ngClass]="{
+            'input-Icon-failed': isFieldInvalid('name'),
+            'input-Icon-success': isFieldValid('name')
+          }"
+        >
+          <!-- Icon -->
+          <i
+            class="fa-solid"
+            [ngClass]="{
+              'fa-xmark': isFieldInvalid('name'),
+              'fa-check': isFieldValid('name')
+            }"
+          ></i>
+        </div>
       </div>
 
       <div class="position-relative mb-3">
-        <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="label">
+        <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="userName"
+        >
         <label id="label-input">User name</label>
       </div>
 
       <div class="position-relative mb-3">
-        <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="label">
+        <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="email" >
         <label id="label-input">Email</label>
       </div>
 
-      <div class="position-relative mb-3">
-        <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="label">
-        <label id="label-input">Phone</label>
-      </div>
+      <div class="position-relative  my-3  " >
+        <ngx-intl-tel-input
+        [cssClass]="'custom'" 
+        [preferredCountries]="preferredCountries"
+        [searchCountryFlag]="true"
+        [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" 
+        [selectFirstCountry]="true"
+        [selectedCountryISO]="CountryISO.Egypt" 
+        [maxLength]="11" 
+        [phoneValidation]="true"
+        [numberFormat]="PhoneNumberFormat.National" 
+        name="phone"
+        formControlName="phoneNumber"
 
+        ></ngx-intl-tel-input>
+      </div>
       }
 
       @case (1) {
       <!-- Lable Input -->
       <div class="position-relative mb-3">
-        <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="label">
-        <label id="label-input">Country</label>
+        <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="countryId"
+        >
+        <label id="label-input" >Country</label>
       </div>
 
       <div class="position-relative mb-3">
-        <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="label">
+        <input class="input-cal input-base inputFloating" placeholder="" type="text" >
         <label id="label-input">Preferred language</label>
       </div>
 
@@ -72,12 +115,12 @@
       @case (2) {
       <!-- Lable Input -->
       <div class="position-relative mb-3">
-        <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="label">
+        <input class="input-cal input-base inputFloating" placeholder="" type="text" >
         <label id="label-input">Password</label>
       </div>
 
       <div class="position-relative mb-3">
-        <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="label">
+        <input class="input-cal input-base inputFloating" placeholder="" type="text" >
         <label id="label-input">Repassword</label>
       </div>
 
@@ -99,7 +142,7 @@
       @if (current == 0) {
 
       <div class="action mx-4  px-3 d-flex justify-content-end  gap-3 ">
-        <button class="btn " routerLink="/startregister">
+        <button class="btn " type="submit" (click)="submitForm()">
           <span>Back</span>
         </button>
         <button class="btn btnAcrive" (click)="next()">
