@@ -115,9 +115,12 @@ nav {
   align-items: center;
   gap: 20px;
   justify-content: center;
+
   position: relative;
 }
-
+nav.overflow{
+  overflow: unset !important;
+}
 nav ul {
   list-style: none;
   padding: 0;
@@ -128,8 +131,8 @@ nav ul {
 ul li {
   margin-bottom: 40px;
   font-size: 20px;
-  position: relative; /* لجعل z-index يعمل */
-  z-index: 3453453453453451; /* إعطاء الأولوية للعناصر الفردية */
+  position: relative;  
+  z-index: 104488400;
 }
 
 nav ul li i {
@@ -154,6 +157,8 @@ nav ul li .showRouters {
   transform: translateY(-50%); 
   pointer-events: painted; 
 
+  visibility: hidden;
+
 }
 
 nav ul li .showRouters a {
@@ -169,20 +174,24 @@ nav ul li .showRouters a {
   font-size: 12px;
   font-weight: 400;
   line-height: 20px;
+
 }
 
 nav ul li .showRouters a:hover {
   background-color: var(--color-side);
 }
 
-nav ul li i:hover  {
+nav ul li.show i  {
   color: #24C12B;
+
 }
 
 
 nav ul li.show .showRouters {
   opacity: 1;
-  z-index: 10444444444444444444444444444400;
+  z-index: 888888888400;
+  visibility: visible;
+
 }
 
 

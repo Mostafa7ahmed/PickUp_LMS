@@ -65,7 +65,6 @@
     align-items: center;
     gap: 20px;
     cursor: grab;
-    z-index: 585877787887878788787877878878787;
 
 
   }
@@ -80,14 +79,13 @@
 .headerDrag .Icon {
   cursor: grab !important;
   padding: 8px;
-  z-index: 585877787887878788787877878878787;
+
 
 }
 
  .Icon i{
   cursor: grab ;
   opacity: .5 ;
-  z-index: 585877787887878788787877878878787;
 }
  .headerDrag .Icon:hover i{
     cursor: grab !important;

@@ -25,13 +25,13 @@
    
 
 
-        <nav>
+        <nav   [class.overflow]="activeDropdown"  >
           <ul>
             <li class="home "  [class.show]="activeDropdown" >
               <i class="fa-solid fa-ticket"  (click)="toggleDropdown()" ></i>
               <div [class.showRouters]="isCollapsed" [ngClass]="isCollapsed ?'' : 'd-none'">
-                <a routerLink="/topic" routerLinkActive="active">Topic List</a> 
-                <a routerLink="/homeInstructor" routerLinkActive="active">Home </a>  
+                <a routerLink="/topic" routerLinkActive="active" (click)="toggleDropdown()">Topic List</a> 
+                <a routerLink="/homeInstructor" routerLinkActive="active" (click)="toggleDropdown()">Home </a>  
 
               </div>
             </li>
