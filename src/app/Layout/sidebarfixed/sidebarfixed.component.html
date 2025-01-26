@@ -38,8 +38,8 @@
 
 
 
-            <li class="home"  [class.show]="activeDropdown" >
-              <i class="fa-solid fa-person-chalkboard"   (click)="toggleDropdown()" ></i>
+            <li class="home"  >
+              <i class="fa-solid fa-person-chalkboard"  ></i>
               <div [class.showRouters]="isCollapsed"  [ngClass]="isCollapsed ?'' : 'd-none'">
                 <a routerLink="/topic" routerLinkActive="active">Topic List</a> 
                 <a routerLink="/homeInstructor" routerLinkActive="active">Home </a>  
