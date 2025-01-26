@@ -1,0 +1,177 @@
+.Board , .boxOpreation{
+    padding: 20px;
+    border-radius:10px ;
+    background-color: var(--white);
+}
+.Board p{
+    padding: 5px;
+    position: relative;
+}
+.Board p::before{
+    content: "";
+
+    position: absolute;
+    height: 20px;
+    left: -2px;
+    width: 3px;
+    height: 20px;
+    background: var(--color_border);
+    border-radius: 2px;
+}
+
+
+.search{
+    width: 350px;
+
+}
+.search input{
+    padding: 7px 10px;
+    border-radius: 5px;
+    border: 1px solid var(--color_border);
+    width: 90%;
+    outline: none;
+}
+
+
+.btns .btn_add{
+    padding: 10px;
+    border: none;
+    background-color: var(--green1);
+    color: var(--white);
+}
+
+
+
+
+.example-list {
+    width: 500px;
+    max-width: 100%;
+    border: solid 1px #ccc;
+    min-height: 60px;
+    display: block;
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .DragDiv{
+    padding: 20px;
+    border-radius:10px ;
+    background-color: var(--white);
+  }
+  .headerDrag{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .headerDrag p{
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-family: Itim;
+    background-color: var(--color_border) ;
+  }
+  .headerDrag h3{
+    font-family: Itim;
+
+  }
+
+  .headerDrag:hover{
+    cursor: grab;
+}
+.headerDrag:focus{
+    cursor: grab;
+}
+.headerDrag:hover  i{
+    opacity: 1 !important;
+    transition: .5s opacity ease-in-out;
+}
+  .cdk-drag-preview {
+    border: none;
+    box-sizing: border-box;
+    border-radius: 15px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2);
+    cursor: grab;
+
+  }
+  .cdk-drag-preview:focus ,  .cdk-drag-preview:hover {
+    cursor: grab;
+
+  }
+  .cdk-drag-placeholder {
+    opacity: 0;
+    cursor: grab;
+
+  }
+  
+  .cdk-drag-animating {
+    transition: transform .8ms cubic-bezier(0, 0, 0.2, 1);
+    border-radius:10px ;
+    cursor: grab;
+
+
+  }
+  
+  .example-box:last-child {
+    border: none;
+    cursor: grab;
+
+  }
+  
+  .Dargs.cdk-drop-list-dragging .headerDrag:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+
+
+
+
+
+
+
+
+
+  .drag_Horizontal {
+ 
+    display: flex;
+    flex-grow: 2;
+    gap: 20px;
+    flex-direction: row;
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+    padding: 30px;
+    border: none;
+  }
+  
+  .drag_Horizontal_box{
+    width: 200px;
+    border-radius: 5px ;
+    padding: 20px;
+    border: 1px solid rgba(245, 205, 109, 0.25);
+    box-shadow: 0px 0px 1px 1px rgba(245, 205, 109, 0.25);
+
+    
+  }
+  
+  .cdk-drag-preview {
+    box-sizing: border-box;
+    border-radius: 5px ;
+    border: 1px solid rgba(245, 205, 109, 0.25);
+    box-shadow: 0px 0px 1px 1px rgba(245, 205, 109, 0.25);
+  }
+  
+  .cdk-drag-placeholder {
+    opacity: 0;
+  }
+  
+  .cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }
+  
+  .example-box:last-child {
+    border: none;
+  }
+  
+  .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }

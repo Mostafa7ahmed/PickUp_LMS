@@ -1,0 +1,31 @@
+.haeader-Nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--white);
+    border-radius: 15px;
+}
+.nav-Left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+}
+.nav-Left .user-Porfile{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
+    background-color: var(--green2);
+    padding: 5px 8px;
+    border-radius: 10px;
+    color: var(--white);
+}
+.nav-Left .user-Porfile p{
+
+    margin: 0;
+}
+
+.offcanvas{
+    width: 300px;
+}

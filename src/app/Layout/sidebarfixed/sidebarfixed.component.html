@@ -1,0 +1,52 @@
+
+<div  [ngClass]="isCollapsed ? 'fixed-sidebar-collapsed':  'fixedSidebar'" >
+  <div class="sidebar" [class.collapsed]="isCollapsed">
+    <div class="logo" >
+      <div class="logoImages pos "> 
+      <div class="left  d-flex align-items-center ">
+        <img src="Images/logoPickup.png" alt="logo" width="50" />
+
+        <h3 class="m-0 " [class.logoName]="!isCollapsed">Pickup</h3>
+
+      </div>
+
+      <div class=" icon_collaped" (click)="toggleSidebar()"  [class.right]="!isCollapsed"  [class.center]="isCollapsed">
+        <i class="fa-solid fa-right-left "></i>
+
+      </div>
+      </div>
+
+      <div class="searchInput" [class.close]="isCollapsed">
+        <input type="search" name="" id="" placeholder="Search" >
+      </div>
+
+     <div  [class.line]="!isCollapsed"></div>
+    </div>
+    <ul nz-menu nzMode="inline"  nzMenuClassName="menulist"  nzTheme="dark" [nzInlineCollapsed]="isCollapsed">
+
+
+        <li nz-submenu nzTitle="Topic" nzIcon="snippets" nzMenuClassName="menulist">
+          <ul>
+            <li nz-menu-item>Option 5</li>
+            <li nz-menu-item>Option 6</li>
+          </ul>
+        </li>
+        <li nz-submenu nzTitle="Navigation Three" nzIcon="setting">
+          <ul>
+            <li nz-menu-item>Option 9</li>
+            <li nz-menu-item>Option 10</li>
+            <li nz-menu-item>Option 11</li>
+          </ul>
+        </li>
+      </ul>
+
+
+
+     <div class="settig">
+              <i class="fa-solid fa-right-left "></i>
+
+     </div> 
+
+  </div>
+  
+</div>

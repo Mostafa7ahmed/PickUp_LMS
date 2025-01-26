@@ -2,24 +2,33 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../Environments/environment';
 import { Observable } from 'rxjs';
-import { User } from '../Interface/user';
+import { User, validate } from '../Interface/user';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RegisterService {
+  private urlBase: string;
 
-  private urlRegister: string;
-
-  constructor(private _http:HttpClient) { 
-    this.urlRegister =`${environment.baseUrl}${environment.pickup}user/register`
+  constructor(private _http: HttpClient) {
+    this.urlBase = `${environment.baseUrl}${environment.pickup}`;
+  }
+  setRegiterForm(data: User): Observable<any> {
+    return this._http.post(`${this.urlBase}user/register`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+        redirectUrl: 'http://localhost:4200/',
+      },
+    });
   }
 
-  setRegiterForm(data: User): Observable<any> {
-    const headers = new HttpHeaders({
-      redirectUrl: 'https://pick-up-lms.vercel.app/'
+  validateRegistration(type: number, value: string): Observable<any> {
+    const body = { type, value };
+    return this._http.post(`${this.urlBase}user/validate-registration`, body, {
+      headers: {
+        accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
     });
-    return this._http.post(this.urlRegister,data, {headers}
-    );
   }
 }

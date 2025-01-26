@@ -96,3 +96,25 @@
     color: var(--white);
     padding: 6px 30px;
   }
+  i.passicon {
+    bottom: 35%;
+    right: 25px;
+    color:  var(--color_border);
+    transition: transform 0.8s ease;
+}
+
+.passicon.fa-eye {
+    transform: scaleX(1);
+}
+
+.passicon.fa-eye-slash {
+    transform: scaleX(-1);
+}
+
+.selected{
+
+  border:  1px solid var(--gray2);
+  border-radius: 5px;
+  outline: none;
+}
+

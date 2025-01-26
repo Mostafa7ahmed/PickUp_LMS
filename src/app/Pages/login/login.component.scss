@@ -139,13 +139,25 @@ i.passicon {
     text-align: center;
     background-color: var(--green1);
     color: #f8fbf7;
-    font-weight: 600;
+    font-weight: 400;
+    transition: 0.8s all ease-in-out;
+
 }
+
+
 .btn_border{
     background-color: transparent;
     color:var(--green1);;
+    border: 1px solid var(--green1);
+    transition: 0.8s all ease-in-out;
+
+}
+.btn_border:hover{
+    background-color: var(--green1);
+        color:var(--white);;
     border: 1px solid var(--green1);;
 
 }
+
 
 

@@ -10,3 +10,22 @@ export interface User {
     password: string;
     confirmedPassword: string;
 }
+
+export interface validate {
+    type: number
+    value: string
+  }
+  
+
+  export interface Decode {
+    UserId:              string;
+    roles:               string;
+    UserType:            userType;
+    InstructorId:        string;
+
+}
+
+  export enum userType {
+    Instructor,
+    Student
+  }

@@ -40,19 +40,18 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
-              "node_modules/intl-tel-input/build/css/intlTelInput.css",
+               "node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
               "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
-
               "src/theme.less",
               "src/styles.scss"
+
             ],
             "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ],
             "server": "src/main.server.ts",
-            "prerender": true,
-            "ssr": {
-              "entry": "server.ts"
-            }
+            "prerender": false,
+            "ssr":false
           },
           "configurations": {
             "production": {

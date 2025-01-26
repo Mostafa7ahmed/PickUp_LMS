@@ -1,11 +1,46 @@
 
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the theme object.
+$Pickup-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$azure-palette,
+    tertiary: mat.$blue-palette,
+  ),
+  density: (
+    scale: 0,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+:root {
+  @include mat.all-component-themes($Pickup-theme);
+}
+
+// Comment out the line below if you want to use the pre-defined typography utility classes.
+// For more information: https://material.angular.io/guide/typography#using-typography-styles-in-your-application.
+// @include mat.typography-hierarchy($Pickup-theme);
+
+// Comment out the line below if you want to use the deprecated `color` inputs.
+// @include mat.color-variants-backwards-compatibility($Pickup-theme);
+
 
 :root{
      --bggreen:#F3FFEF;
     --green1:#18c36e;
     --green2:#76D750;
-    
-
+    --bgHome:#F4F4F4;
     --fwhite:#F8FBF7;
     --success:#059529;
     --error :#B90000;
@@ -21,6 +56,9 @@
 a{
     text-decoration: none;
     color: var(--color_link);
+}
+.cr{
+  cursor: pointer;
 }
 .form-control{
     display: inline !important;
@@ -46,7 +84,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .iti {
     display: block !important;
-    margin-bottom: 20px;
   }
   
   .iti .dropdown-menu.country-dropdown {
@@ -102,8 +139,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       width: 88.3vw;
     }
   }
-  
-  ngx-intl-tel-input input {
+  .error-message{
+    color: var(--error);
+    font-size: 14px;
+    font-weight: 400;
+    font-family:  'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+  }
+  ngx-intl-tel-input .custom {
     transition: outline 0.2s ease;
     font-size: 1rem;
     outline-color: var(--button-text);
@@ -111,17 +153,24 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     border: 1px solid var(--gray1);
     padding: 17px 10px 10px 17px;
     width: 100%;
-
+margin-bottom: 0;
     border-radius: 8px ;
 
   }
   
-//   ngx-intl-tel-input.ng-invalid.ng-touched input {
-//     border: 1px solid #c0392b;
-//   }
-  
+  ngx-intl-tel-input .success {
 
+    border: 1px solid var(--success);
+   
+
+  }
   
+  ngx-intl-tel-input .invalid {
+
+    border: 1px solid var(--error);
+   
+
+  }
   ngx-intl-tel-input input:focus {
     outline: none !important;
 
@@ -147,3 +196,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     background-color: #e5eaf1;
   }
   
+
+  .main-content.collapsed {
+    margin-left: 70px !important; /* عندما الـ Sidebar مغلق */
+  }

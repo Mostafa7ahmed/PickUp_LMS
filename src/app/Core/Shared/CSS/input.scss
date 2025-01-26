@@ -19,7 +19,7 @@
   
  .inputFloating:focus ~ label#label-input,
 .inputFloating:not(:placeholder-shown) ~ #label-input {
-    top: -27% !important;
+    top: -23% !important;
     left: 4px !important;
     transform: scale(0.8);
     background: white;

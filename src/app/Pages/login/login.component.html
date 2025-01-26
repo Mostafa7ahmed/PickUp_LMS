@@ -10,20 +10,43 @@
             Pick Up <br>No place for the idle!
         </p>
 
-        <form action="" class="mt-4 p-3 py-5">
+        <form  class="mt-4 p-3 py-5" [formGroup]="loginForm" (ngSubmit)="LoginSubmit()" >
 
             <div class="position-relative mb-3">
-                <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="label">
+                <input class="input-cal input-base inputFloating"
+                 placeholder="" 
+                 type="text"
+                  formControlName="emailOrPhoneNumber"
+                  [ngClass]="{
+                    invalid: isFieldInvalid('emailOrPhoneNumber'),
+                    success:  isFieldValid('emailOrPhoneNumber')
+                  }"
+                  >
                 <label id="label-input">Email or Phone number</label>
               </div>
 
             <div class="position-relative mb-3">
-                <input class="input-cal input-base inputFloating" placeholder="" [type]="passwordFieldType ? 'password' : 'text'" formControlName="label">
+                <input class="input-cal input-base inputFloating" 
+                placeholder="" 
+                [type]="passwordFieldType ? 'password' : 'text'"
+                 formControlName="password"
+                 [ngClass]="{
+                    invalid: isFieldInvalid('password'),
+                    success:  isFieldValid('password')
+                  }"
+                 >
                 <label id="label-input">Password</label>
-                <i (click)="togglePasswordVisibility()" role="button" class="fa-solid position-absolute passicon"
-                [class.fa-eye]="passwordFieldType" [class.fa-eye-slash]="!passwordFieldType">
-            </i>
+                        <i (click)="togglePasswordVisibility()" role="button" class="fa-solid position-absolute passicon"
+                        [class.fa-eye]="passwordFieldType" [class.fa-eye-slash]="!passwordFieldType">
+                    </i>
               </div>
+
+              @if(MessageUseName){
+                <p class="error-message m">{{MessageUseName}}</p>
+
+              }
+
+
       
 
             <div class="input_group d-flex justify-content-between">
@@ -43,7 +66,12 @@
 
             </div>
 
-            <button class="btn mb-3">Login</button>
+            <button class="btn btnt mb-3"  type="submit" [disabled]="loginForm.invalid">
+                Login @if(isLoading){
+                    <span> <i class="fas fa-spin fa-spinner mx-2"></i> </span>
+            
+                    }
+            </button>
             <button class="btn btn_border" routerLink="/startregister">Sign Up</button>
 
 

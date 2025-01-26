@@ -6,7 +6,7 @@ import { NzStepsModule } from 'ng-zorro-antd/steps';
   standalone: true,
   imports: [NzStepsModule,RouterLink],
   templateUrl: './student-register.component.html',
-  styleUrls: ['../../Core/Shared/CSS/Stepper.scss' ,'./student-register.component.scss']
+  styleUrls: ['../../../Core/Shared/CSS/Stepper.scss' ,'./student-register.component.scss']
 })
 export class StudentRegisterComponent {
   current = 0;
