@@ -141,6 +141,7 @@
     overflow: hidden;
     padding: 30px;
     border: none;
+    cursor: grab;
   }
   
   .drag_Horizontal_box{
@@ -153,18 +154,8 @@
 
     
   }
-  .drag_Horizontal_box::after{
-    content: "";
-    position: absolute;
-    padding: 3px;
 
-    background-color: #f5cc6ddf;
-    border-radius: 4px;
-    top: 50%;
-    right: -8px;
-    transform: translate(-50%);
-  }
-  .drag_Horizontal_box::before{
+  .dot_right{
     content: "";
     position: absolute;
     padding: 3px;
@@ -173,6 +164,18 @@
     border-radius: 4px;
     top: 50%;
     left: -2px;
+    transform: translate(-50%);
+    
+    
+  }
+  .dot_left{
+    position: absolute;
+    padding: 3px;
+
+    background-color: #f5cc6ddf;
+    border-radius: 4px;
+    top: 50%;
+    right: -5px;
     transform: translate(-50%);
     
     
@@ -197,6 +200,7 @@
     border: 1px solid rgba(245, 205, 109, 0.25);
     box-shadow: 0px 0px 1px 1px rgba(245, 205, 109, 0.25);
     overflow: hidden;
+    cursor: grab;
 
   }
   
