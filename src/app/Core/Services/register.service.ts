@@ -17,7 +17,7 @@ export class RegisterService {
     return this._http.post(`${this.urlBase}user/register`, data, {
       headers: {
         'Content-Type': 'application/json',
-        redirectUrl: 'http://localhost:4200/',
+        redirectUrl: 'https://pick-up-lms.vercel.app/',
       },
     });
   }

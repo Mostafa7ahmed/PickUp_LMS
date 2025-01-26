@@ -26,7 +26,7 @@ export class LoginComponent {
       loginForm: FormGroup = this._FormBuilder.group(
     {
       emailOrPhoneNumber: [null, [Validators.email, Validators.required]],
-      password: [null, [Validators.pattern(/^[A-Z][a-zA-Z0-9@#$%^&+=]{7,}$/), Validators.required]],
+      password: [null, Validators.required],
     },
   );
 
