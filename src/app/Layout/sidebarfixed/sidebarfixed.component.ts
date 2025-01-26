@@ -16,7 +16,12 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class SidebarfixedComponent {
 
+  activeDropdown: boolean = false;
 
+  toggleDropdown() {
+    this.activeDropdown = !this.activeDropdown ;
+    return this.activeDropdown;
+  }
 
   menuItems = [
     { icon: 'fas fa-home', label: 'Home' },

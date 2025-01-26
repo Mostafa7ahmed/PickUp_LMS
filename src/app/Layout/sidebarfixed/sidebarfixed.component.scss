@@ -180,10 +180,9 @@ nav ul li:hover i {
 }
 
 
-nav ul li:hover  .showRouters {
-  opacity: 1; /* إظهار القائمة */
-  z-index: 10444444444444444444444444444400; 
-
+nav ul li.show .showRouters {
+  opacity: 1;
+  z-index: 10444444444444444444444444444400;
 }
 
 
