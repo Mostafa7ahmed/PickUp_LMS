@@ -7,15 +7,19 @@
     border-radius: 17px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     transition: width 0.8s ease-in;
     width: 200px;
     z-index: 1000;
-    overflow: hidden;
     backdrop-filter: blur(160px);
+    overflow: hidden;
 
     
     box-shadow: 0px 3px 24px rgb(36 193 43 / 36%);    
 
+  }
+  .sidebar.collapsed{
+    overflow: unset;
   }
   .fixedSidebar{
     transition: 0.8s margin-left ease-in;
@@ -66,7 +70,7 @@
   transition: .8s all ease-in;
   overflow: hidden;
   top: 30px;
-  right: 15px;
+  right: 20px;
 }
 .logo .center{
   position: absolute;
@@ -104,92 +108,93 @@
 
 
 }
+ 
+nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+  position: relative;
+}
 
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
 
-  .menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  ul li{
-    margin-bottom: 20px;
-  }
-  // .sidebar li {
+ul li {
+  margin-bottom: 40px;
+  font-size: 20px;
+  position: relative; /* لجعل z-index يعمل */
+  z-index: 3453453453453451; /* إعطاء الأولوية للعناصر الفردية */
+}
 
-  //   padding: 20px 30px;
-  //   cursor: pointer;
-  //   transition: background-color 0.3s;
+nav ul li i {
+  color: var(--color_border);
+  transition: 0.5s color ease-in-out;
+  cursor: pointer;
+}
 
-  // }
-  
-  // .menu li:hover {
-  //   color: var(--green2);
-  //   background-color: var(--white);
-  // }
-  
-  // .menu i {
-  //   margin-right: 10px;
-  // }
-  
-  // .toggle-btn {
-  //   background: none;
-  //   border: none;
-  //   color: white;
-  //   font-size: 18px;
-  //   margin: 10px;
-  //   cursor: pointer;
-  //   align-self: center;
-  //   transition: transform 0.3s;
-  // }
-  
-  // .toggle-btn:hover {
-  //   transform: scale(1.1);
-  // }
-  
-  // .toggle-btn i {
-  //   font-size: 16px;
-  // }
-  
-
-
-  .ant-menu-dark .ant-menu-item:hover{
-    border-radius: 20px;
-    background-color: aqua;
-
-  }
-  .menulist{
-    padding-left: 24px;
-    background: black;
-    border-radius: 20px;
-  }
-  .ant-menu-dark .ant-menu-item:hover, .ant-menu-dark .ant-menu-item-active, .ant-menu-dark .ant-menu-submenu-active, .ant-menu-dark .ant-menu-submenu-open, .ant-menu-dark .ant-menu-submenu-selected, .ant-menu-dark .ant-menu-submenu-title:hover{
-    background-color: var(--green2);
-    border-radius: 20px;
-    transition:  .5s border-radius ease-in-out;
-
-  }
-
-
-    .ant-menu.ant-menu-dark, .ant-menu-submenu.ant-menu-submenu-vertical {
-    border-radius: 20px;
-    background-color: var(--white);
-
-    color: var(--bs-dark) !important;
-
-  }
-  ::ng-deep .ant-menu-dark .ant-menu-inline.ant-menu-sub{
-    background: var(--white) !important;
-
-  }
-
-  ::ng-deep .ant-menu-submenu-vertical.ant-menu-submenu-open{
-    background: var(--white) !important;
-
-  }
-  ::ng-deep .ant-menu-inline.ant-menu-root .ant-menu-item, .ant-menu-inline.ant-menu-root .ant-menu-submenu-title {
-    display: flex;
-    align-items: center;
-    background-color: var(--green2) !important;
-    border-radius: 20px;
+nav ul li .showRouters {
+  background: var(--color_border);
+  transition: 0.8s all ease-in-out;
+  padding: 10px;
+  border-radius: 10px;
+  z-index: 55555;
+  background-color: var(--white);
+  box-shadow: 0px 3px 24px rgba(50, 56, 51, 0.36);
+  width: 180px;
+  opacity: 0;
+  position: absolute;
+  left: 50px; 
+  top: 50%; 
+  transform: translateY(-50%); 
+  pointer-events: painted; 
 
 }
+
+nav ul li .showRouters a {
+  background-color: var(--white);
+  text-decoration: none;
+  font-family: Itim;
+  display: block;
+  padding: 8px 14px;
+  transition: 0.8s background-color ease-in-out;
+  gap: 10px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+nav ul li .showRouters a:hover {
+  background-color: var(--color-side);
+}
+
+nav ul li:hover i {
+  color: #24C12B;
+}
+
+
+nav ul li:hover  .showRouters ,
+
+nav ul li .hover_Icon:hover +  .showRouters:hover {
+  opacity: 1; /* إظهار القائمة */
+  z-index: 10444444444444444444444444444400; 
+
+}
+
+
+nav ul li {
+  position: relative; /* السماح للعناصر المنبثقة باستخدام position */
+  z-index: 1;
+}
+
+nav ul li:hover {
+  z-index: 2; /* رفع العنصر أثناء التمرير */
+}
+

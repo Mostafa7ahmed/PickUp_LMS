@@ -50,10 +50,11 @@ $Pickup-theme: mat.define-theme((
     --gray1:#C6D1DC;
     --gray2: #1F28328F;
     --label-color:#5f5d5dee;
+    --color-side:#D7EAD2;
 
 
 }
-a{
+a, a:hover, a:active, a:visited {
     text-decoration: none;
     color: var(--color_link);
 }

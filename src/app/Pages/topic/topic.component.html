@@ -32,7 +32,24 @@
 
         <div cdkDropList cdkDropListOrientation="horizontal" class="drag_Horizontal my-3" (cdkDropListDropped)="dropWitht($event)">
             @for (timePeriod of timePeriods; track timePeriod) {
-              <div class="drag_Horizontal_box p-3" cdkDrag>{{timePeriod}}</div>
+              <div class="drag_Horizontal_box p-3" cdkDrag>
+                <div class="stages ">
+                  <div class="stagesheader d-flex  gap-3  align-items-center">
+                    <img src="Images/stage.svg" alt="" width="15"> 
+                    <h5>New </h5>
+                  </div>
+
+                  <p>51 $</p>
+
+                
+                </div>
+
+                <div class="connector"></div>
+
+
+
+
+              </div>
             }
           </div>
          

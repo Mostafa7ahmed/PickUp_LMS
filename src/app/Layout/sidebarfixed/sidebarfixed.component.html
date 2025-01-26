@@ -22,31 +22,77 @@
 
      <div  [class.line]="!isCollapsed"></div>
     </div>
-    <ul nz-menu nzMode="inline"  nzMenuClassName="menulist"  nzTheme="dark" [nzInlineCollapsed]="isCollapsed">
+   
 
 
-        <li nz-submenu nzTitle="Topic" nzIcon="snippets" nzMenuClassName="menulist">
+        <nav>
           <ul>
-            <li nz-menu-item>Option 5</li>
-            <li nz-menu-item>Option 6</li>
+            <li class="home">
+              <i class="fa-solid fa-ticket"></i>
+              <div [class.showRouters]="isCollapsed" [ngClass]="isCollapsed ?'' : 'd-none'">
+                <a routerLink="/topic" routerLinkActive="active">Topic List</a> 
+                <a routerLink="/homeInstructor" routerLinkActive="active">Home </a>  
+
+              </div>
+            </li>
+
+
+
+            <li class="home">
+              <i class="fa-solid fa-person-chalkboard"></i>
+              <div [class.showRouters]="isCollapsed"  [ngClass]="isCollapsed ?'' : 'd-none'">
+                <a routerLink="/topic" routerLinkActive="active">Topic List</a> 
+                <a routerLink="/homeInstructor" routerLinkActive="active">Home </a>  
+
+              </div>
+            </li>
+
+
+
+
+
+            <li class="home">
+              <i class="fa-solid fa-user-check"></i>
+              <div [class.showRouters]="isCollapsed"  [ngClass]="isCollapsed ?'' : 'd-none'">
+                <a routerLink="/topic" routerLinkActive="active">Topic List</a> 
+                <a routerLink="/homeInstructor" routerLinkActive="active">Home </a>  
+
+              </div>
+            </li>
+
+            <li class="home">
+              <i class="fa-regular fa-bell"></i>
+                <div [class.showRouters]="isCollapsed"  [ngClass]="isCollapsed ?'' : 'd-none'">
+                <a routerLink="/topic" routerLinkActive="active">Topic List</a> 
+                <a routerLink="/homeInstructor" routerLinkActive="active">Home </a>  
+
+              </div>
+            </li>
+
+
+            
+       
+
+
+
+
+
           </ul>
-        </li>
-        <li nz-submenu nzTitle="Navigation Three" nzIcon="setting">
-          <ul>
-            <li nz-menu-item>Option 9</li>
-            <li nz-menu-item>Option 10</li>
-            <li nz-menu-item>Option 11</li>
-          </ul>
-        </li>
-      </ul>
+        </nav>
 
+      <nav>
+        <ul>
+          <li class="setting ">
+            <i class="fa-solid fa-gear"></i>
+             <div [class.showRouters]="isCollapsed"  [ngClass]="isCollapsed ?'' : 'd-none'">
+              <a routerLink="/homeInstructor" routerLinkActive="active">Change password </a>  
+              <a routerLink="/topic" routerLinkActive="active">Logout</a> 
 
-
-     <div class="settig">
-              <i class="fa-solid fa-right-left "></i>
-
-     </div> 
-
+  
+            </div>
+          </li>
+        </ul>
+      </nav>
   </div>
   
 </div>
