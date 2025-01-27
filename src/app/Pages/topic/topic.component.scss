@@ -4,10 +4,14 @@
   border-radius: 10px;
   background-color: var(--white);
 }
+.Board{
+  padding-bottom: 5px;
 
+}
 .Board p {
   padding: 5px;
   position: relative;
+  margin: 0;
 }
 
 .Board p::before {
@@ -21,8 +25,30 @@
   background: var(--color_border);
   border-radius: 2px;
 }
+.iconTopic .left{
+  position: relative;
+}
+.iconTopic .left::before{
+  content: "";
+  position: absolute;
+  height: 4px;
+  bottom: -5px;
+  width: 100%;
+  background: var(--green1);
+  border-radius: 2px;
+}
 
+.iconTopic .left i  , .iconTopic .left span{
+  color: var(--green1);
+  font-size: 20px;
+}
+.iconTopic .right i{
+  font-size: 20px;
+  color: var(--color_border);
 
+}
+
+// End Top Topic
 .search {
   width: 350px;
 
@@ -32,45 +58,47 @@
   padding: 7px 10px;
   border-radius: 5px;
   border: 1px solid var(--color_border);
-  width: 90%;
+  width: 100%;
   outline: none;
 }
 
 
-.btns .btn_add {
-  padding: 10px;
-  border: none;
-  background-color: var(--green1);
+.boxOpreation_btn i{
   color: var(--white);
+  font-size: 20px;
+  cursor: pointer;
+
+}
+.boxOpreation_btn .btn_add {
+  background-color: var(--green1);
+  border: none;
+  color: var(--white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 8px;
+
 }
 
 
 
 
-.example-list {
-  width: 500px;
-  max-width: 100%;
-  border: solid 1px #ccc;
-  min-height: 60px;
-  display: block;
-  background: white;
-  border-radius: 4px;
-  overflow: hidden;
-}
 
 .DragDiv {
   padding: 20px 0px   ;
   padding-left: 10px;
   border-radius: 10px;
+  position: relative;
 
   background-color: var(--white);
+  cursor: pointer;
 }
 
 .headerDrag {
   display: flex;
   align-items: center;
   gap: 20px;
-  cursor: grab;
+  cursor: pointer !important;
 
 
 }
@@ -82,6 +110,18 @@
   background-color: var(--color_border);
 }
 
+.headerDrag h3 {
+  font-family: Itim;
+  cursor: pointer;
+
+
+}
+.headerDrag .inputEdit{
+  padding: 7px 10px;
+  border-radius: 5px;
+  border: 1px solid var(--color_border);
+  outline: none;
+}
 
 .headerDrag .Icon {
   cursor: grab !important;
@@ -101,10 +141,6 @@
 
 }
 
-.headerDrag h3 {
-  font-family: Itim;
-
-}
 
 .headerDrag:hover {
   cursor: grab;
@@ -289,9 +325,14 @@
 ::ng-deep .ant-modal-content{
   border-radius: 15px !important;
   overflow: hidden !important;
+  height:290px !important; 
+
 }
 
 ::ng-deep .ant-modal-close-x{
+  display: none !important;
+}
+::ng-deep .ant-modal-footer{
   display: none !important;
 }
 
@@ -299,4 +340,180 @@
   width: 200px;
 
   
+}
+
+.cardTabs{
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 10px !important;
+  background-color: var(--white);
+  box-shadow: 0px 3px 24px rgba(50, 56, 51, 0.36);
+  position: absolute;
+  top: 80px;
+  width: 250px;
+  opacity: 1;
+  transition: 0.2s opacity ease-in;
+  visibility: visible;
+  z-index: 5888;
+
+
+  
+}
+
+.Dargs .cardTabs{
+  top: 60px;
+  left: 40px;
+}
+.cardTabs.showTabs{
+  opacity: 0;
+  visibility: hidden;
+
+}
+
+
+
+// Tabs
+::ng-deep .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(--green2) !important;
+  transition: 0.5s color ease-in;
+  overflow: hidden;
+
+
+
+}
+::ng-deep .ant-tabs-tab-btn:focus, .ant-tabs-tab-remove:focus, .ant-tabs-tab-btn:active, .ant-tabs-tab-remove:active {
+  color: var(--green2) !important;
+}
+::ng-deep  .ant-tabs-tab-btn:hover{
+  color: var(--green2) !important;
+  transition: 0.5s color ease-in;
+  overflow: hidden;
+
+
+}
+::ng-deep .ant-tabs-ink-bar {
+  position: absolute;
+  background: var(--green2) !important;
+  pointer-events: none;
+  transition: 0.5s color ease-in;
+  overflow: hidden;
+
+}
+
+.colorBox{
+  cursor: pointer;
+}
+
+
+.inputName input{
+  outline: none;
+  width: 100%;
+  padding: 5px 8px;
+  border-radius: 5px;
+  border: 1px solid var(--color_border);
+}
+
+
+.description textarea {
+  width: 100%;
+  padding: 5px 8px;
+  border-radius: 5px;
+  border: 1px solid var(--color_border);
+  outline: none;
+  resize:none;
+  height: 80px;
+}
+
+
+
+
+nz-select {
+  width: 120px;
+}
+::ng-deep  .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+  border-color: var(--green2) !important;
+}
+
+::ng-deep  .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  border-color: var(--green2) !important;
+  box-shadow: 0 0 0 2px var(--color_border);
+  outline: 0;
+}
+
+
+
+
+
+
+.containerCheck input {
+  display: none;
+}
+
+.containerCheck {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  font-size: 15px;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.checkmark {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  background-color: #2196f300;
+  border-radius: 4px;
+  transition: all 0.25s;
+}
+
+.containerCheck input:checked~.checkmark {
+  background-color:var(--green1);;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  transform: rotate(0deg);
+  border: 0.4px solid black;
+  left: 0;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  transition: all 0.25s, border-width 0.1s;
+}
+
+.containerCheck input:checked~.checkmark:after {
+  left: 5.4px;
+  top: 3px;
+  width: 5px;
+  height: 9px;
+  border-color: rgba(255, 255, 255, 0) white white rgba(255, 255, 255, 0);
+  border-width: 0 0.15em 0.15em 0;
+  border-radius: 0em;
+  transform: rotate(45deg);
+}
+
+.checkedCard {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  border-radius: 5px;
+  border: 1px solid var(--color_border);
+  padding: 5px;
+  gap: 10px;
+}
+
+
+.btn_preview{
+  padding: 5px 15px;
+  border: none;
+  background-color: var(--bg-btn);
+  color: var(--white);
+  border-radius: 5px;
+  cursor: pointer;
 }

@@ -1,27 +1,52 @@
 <div class="topic p-2 mt-3">
-
+ <!-- Start Top Topic  -->
   <div class="Board ">
-
     <h3>Board</h3>
+    <div class="d-flex justify-content-between align-items-center">
+      <p>In this comprehensive course, we will take you on an...</p>
 
-    <p>In this comprehensive course, we will take you on an...</p>
+      <div class="iconTopic d-flex align-items-center  gap-4">
+        <div class="left d-flex  align-items-center  gap-1">
+          <i class="fa-solid fa-table-list"></i>
+          <span>Table</span>
+        </div>
+
+        <div class="right">
+          <i class="fa-solid fa-circle-chevron-down"></i>
+        
+        </div>
+
+     
+      </div>
+
+    
+    </div>
+
   </div>
+  <!-- End  Top Topic -->
+
+
+  <!-- Box Add Search -->
   <div class="boxOpreation  mt-3 d-flex justify-content-between align-items-center">
 
     <div class="search">
       <input type="search" name="" id="" placeholder="Search">
     </div>
 
-    <div class="btns">
-      <button class="btn_add rounded-2"  (click)="showModal()"> <i
-          class="fa-solid fa-square-plus mx-2 fs-4"></i> New Topic</button>
+    <div class="boxOpreation_btn">
+      <button class="btn_add rounded-2"  (click)="showModal()"> 
+        <i class="fa-solid fa-square-plus mx-2 fs-4"></i> 
+        <span>New</span>
+
+      
+      </button>
     </div>
 
 
 
   </div>
 
-
+  <!-- Box Add Search -->
 
   <div cdkDropList class="Dargs mt-3" (cdkDropListDropped)="drop($event)">
     @for (movie of movies; track movie) {
@@ -31,8 +56,51 @@
           <i class="fa-solid fa-grip-vertical fs-5"></i>
         </div>
 
-        <p class="m-0">T</p>
-        <h3 class="m-0">Computer Science {{movie}}</h3>
+        <p class="m-0"   (click)="showTabTopic(movie)" ><i [class]="currentIcon" aria-hidden="true"></i>   </p>
+           <div class="cardTabs " [class.showTabs]="!movie.isTabOpen">
+          <nz-tabset>
+            <nz-tab nzTitle="Color">
+              <div class="Colors pb-2 d-flex  justify-content-center gap-4 flex-wrap" >
+              @for( color of colors; track $index) {
+                <div
+                class="colorBox p-3 rounded-5"
+                [ngClass]="color"
+                (click)="selectBg(color)"
+
+              ></div>
+              }
+            </div>
+            </nz-tab>
+            <nz-tab nzTitle="Icon">
+              <div class="Colors pb-2 d-flex justify-content-center gap-4 flex-wrap" >
+                   @for (Icon of icons; track $index) {
+                    <div class="colorBox p-2 rounded-1 bg-light "
+                         (click)="selectIcon(Icon.icon)"
+                    >
+                      <i [class]="Icon.icon" aria-hidden="true"></i>
+
+                    </div>
+            
+                     
+                   }
+              </div>
+            </nz-tab>
+          </nz-tabset>
+
+        </div>
+        <h3 class="m-0" *ngIf="!movie.isEditing" (click)="startEditing(movie)">
+          {{ movie.textValue }}
+        </h3>
+
+        <input
+          *ngIf="movie.isEditing"
+          class="inputEdit"
+          type="text"
+          [(ngModel)]="movie.textValue"
+          (blur)="saveValue(movie, movie.textValue)"
+          (keyup.enter)="saveValue(movie, movie.textValue)"
+          autofocus
+        />
 
       </div>
 
@@ -94,36 +162,118 @@
 
 
 
-  <!-- Model -->
+<!-- Model -->
 
 
 
-  <nz-modal nzDraggable nzCentered [(nzVisible)]="isVisible" (nzOnCancel)="handleCancel()"
-    (nzOnOk)="handleOk()">
+<nz-modal  nzCentered [(nzVisible)]="isVisible" (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()">
+ <div class="ModelTopic" *nzModalContent>
+  <div class="content-model d-flex justify-content-between pt-3"   >
 
-    <div class="content-model d-flex justify-content-between pt-3" *nzModalContent>
 
+    <div class="leftContant" >
+      <div class="nameContact d-flex  gap-2 align-items-center" >
+        <div class="Tasbs  colorBox p-2 rounded-1 "
+        [ngClass]="colorDefault"
 
-      <div class="leftContant">
-        <div class="nameContact d-flex gap-2 align-items-center" >
-          <div class="Tasbs p-3 bg-danger rounded-2">
+         (click)="showTab()" >
+          <i [class]="currentIcon" aria-hidden="true"></i>
+        </div>
+ 
+
+        <div class="cardTabs " [class.showTabs]="!ishowTab">
+          <nz-tabset>
+            <nz-tab nzTitle="Color">
+              <div class="Colors pb-2 d-flex  justify-content-center gap-4 flex-wrap" >
+              @for( color of colors; track $index) {
+                <div
+                class="colorBox p-3 rounded-5"
+                [ngClass]="color"
+                (click)="selectBg(color)"
+
+              ></div>
+              }
+            </div>
+            </nz-tab>
+            <nz-tab nzTitle="Icon">
+              <div class="Colors pb-2 d-flex justify-content-center gap-4 flex-wrap" >
+                   @for (Icon of icons; track $index) {
+                    <div class="colorBox p-2 rounded-1 bg-light "
+                         (click)="selectIcon(Icon.icon)"
+                    >
+                      <i [class]="Icon.icon" aria-hidden="true"></i>
+
+                    </div>
             
-      
-          </div>
+                     
+                   }
+              </div>
+            </nz-tab>
+          </nz-tabset>
 
+        </div>
+  
 
-          <div class="inputName ">
-            <input type="text" placeholder="Name">
-          </div>
-
+        <div class="inputName ">
+          <input type="text" placeholder="Name Topic">
         </div>
 
       </div>
-      <div class="rightContant">
-        <img src="Images/imageModel.png" alt="">
 
+
+       <div class="description my-2">
+
+        <textarea name="" id=""  placeholder="Description " ></textarea>
+
+       </div>
+
+       <div class="chooseTopic d-flex gap-3 justify-content-between align-items-center">
+
+        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a person" [(ngModel)]="selectedValue">
+          <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
+          <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
+          <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
+
+
+        </nz-select>
+
+        <div class="d-flex gap-2 checkedCard ">
+          <label class="labelChecked " for="invalidCheck">Main  </label>
+
+          <label class="containerCheck">
+              <input  type="checkbox" id="invalidCheck">
+              <div class="checkmark"></div>
+          </label> 
       </div>
+
+
+
+
+       </div>
+
+    </div>
+    <div class="rightContant ">
+      <img src="Images/imageModel.png" alt="">
 
     </div>
 
-  </nz-modal>
+
+
+
+  </div>
+
+
+
+  <div class="footerModel d-flex justify-content-end align-items-end mt-3">
+    <div class="btns ">
+      <button class="btn_preview rounded-2"     (click)="handleCancel()">Next</button>
+    </div>
+  
+  </div>
+
+</div>
+
+
+
+</nz-modal>
