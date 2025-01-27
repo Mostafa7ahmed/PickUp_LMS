@@ -128,8 +128,22 @@
   padding: 8px;
 
 
+
 }
 
+.rightDarg .btn_default{
+ padding: 3px 10px;
+  border-radius: 8px ;
+  background-color: #7EDA82;
+  color: var(--white);
+  font-size: 13px;
+  font-weight: Item;
+}
+.rightDarg .btn_default:disabled{
+  background-color: #83AAD0;
+  
+
+}
 .Icon i {
   cursor: grab;
   opacity: .5;
@@ -179,11 +193,7 @@
 
 }
 
-.example-box:last-child {
-  border: none;
-  cursor: grab;
 
-}
 
 .Dargs.cdk-drop-list-dragging .headerDrag:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);

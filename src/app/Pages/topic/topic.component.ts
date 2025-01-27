@@ -106,10 +106,11 @@ export class TopicComponent {
 
   isEditing: boolean = false; // حالة التحرير
   textValue: string ='Episode'; // القيمة الافتراضية
+
   movies = [
-    { id: 1, textValue: 'Computer Science ', isEditing: false , isTabOpen: false },
-    { id: 2, textValue: 'Computer Science ', isEditing: false , isTabOpen: false },
-    { id: 3, textValue: ' Computer Science', isEditing: false , isTabOpen: false }
+    { id: 1, textValue: 'Computer Science ', isEditing: false , isTabOpen: false  , isDefault: true },
+    { id: 2, textValue: 'Computer Science ', isEditing: false , isTabOpen: false  , isDefault: false },
+    { id: 3, textValue: ' Computer Science', isEditing: false , isTabOpen: false  , isDefault: false }
   ];
 
   showTabTopic(movie: any) {
