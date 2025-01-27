@@ -1,79 +1,86 @@
-.Board , .boxOpreation{
-    padding: 20px;
-    border-radius:10px ;
-    background-color: var(--white);
-}
-.Board p{
-    padding: 5px;
-    position: relative;
-}
-.Board p::before{
-    content: "";
-
-    position: absolute;
-    height: 20px;
-    left: -2px;
-    width: 3px;
-    height: 20px;
-    background: var(--color_border);
-    border-radius: 2px;
+.Board,
+.boxOpreation {
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--white);
 }
 
-
-.search{
-    width: 350px;
-
+.Board p {
+  padding: 5px;
+  position: relative;
 }
-.search input{
-    padding: 7px 10px;
-    border-radius: 5px;
-    border: 1px solid var(--color_border);
-    width: 90%;
-    outline: none;
+
+.Board p::before {
+  content: "";
+
+  position: absolute;
+  height: 20px;
+  left: -2px;
+  width: 3px;
+  height: 20px;
+  background: var(--color_border);
+  border-radius: 2px;
 }
 
 
-.btns .btn_add{
-    padding: 10px;
-    border: none;
-    background-color: var(--green1);
-    color: var(--white);
+.search {
+  width: 350px;
+
+}
+
+.search input {
+  padding: 7px 10px;
+  border-radius: 5px;
+  border: 1px solid var(--color_border);
+  width: 90%;
+  outline: none;
+}
+
+
+.btns .btn_add {
+  padding: 10px;
+  border: none;
+  background-color: var(--green1);
+  color: var(--white);
 }
 
 
 
 
 .example-list {
-    width: 500px;
-    max-width: 100%;
-    border: solid 1px #ccc;
-    min-height: 60px;
-    display: block;
-    background: white;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  
-  .DragDiv{
-    padding: 20px;
-    border-radius:10px ;
+  width: 500px;
+  max-width: 100%;
+  border: solid 1px #ccc;
+  min-height: 60px;
+  display: block;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+}
 
-    background-color: var(--white);
-  }
-  .headerDrag{
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    cursor: grab;
+.DragDiv {
+  padding: 20px 0px   ;
+  padding-left: 10px;
+  border-radius: 10px;
+
+  background-color: var(--white);
+}
+
+.headerDrag {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: grab;
 
 
-  }
-  .headerDrag p{
-    padding: 2px 8px;
-    border-radius: 3px;
-    font-family: Itim;
-    background-color: var(--color_border) ;
-  }
+}
+
+.headerDrag p {
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-family: Itim;
+  background-color: var(--color_border);
+}
 
 
 .headerDrag .Icon {
@@ -83,64 +90,68 @@
 
 }
 
- .Icon i{
-  cursor: grab ;
-  opacity: .5 ;
-}
- .headerDrag .Icon:hover i{
-    cursor: grab !important;
-    opacity: 1 !important;
-
-}
-  .headerDrag h3{
-    font-family: Itim;
-
-  }
-
-  .headerDrag:hover{
-    cursor: grab;
-}
-.headerDrag:focus{
-    cursor: grab;
+.Icon i {
+  cursor: grab;
+  opacity: .5;
 }
 
-  .cdk-drag-preview {
-    border: none;
-    box-sizing: border-box;
-    border-radius: 15px;
-    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2);
-    cursor: grab;
+.headerDrag .Icon:hover i {
+  cursor: grab !important;
+  opacity: 1 !important;
 
-  }
-  .cdk-drag-preview:focus ,  .cdk-drag-preview:hover {
-    cursor: grab;
+}
 
-  }
-  .cdk-drag-placeholder {
-    opacity: 0;
-    cursor: grab;
+.headerDrag h3 {
+  font-family: Itim;
 
-  }
-  
-  .cdk-drag-animating {
-    transition: transform .8ms cubic-bezier(0, 0, 0.2, 1);
-    border-radius:10px ;
-    cursor: grab;
+}
+
+.headerDrag:hover {
+  cursor: grab;
+}
+
+.headerDrag:focus {
+  cursor: grab;
+}
+
+.cdk-drag-preview {
+  border: none;
+  box-sizing: border-box;
+  border-radius: 15px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2);
+  cursor: grab;
+
+}
+
+.cdk-drag-preview:focus,
+.cdk-drag-preview:hover {
+  cursor: grab;
+
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+  cursor: grab;
+
+}
+
+.cdk-drag-animating {
+  transition: transform .8ms cubic-bezier(0, 0, 0.2, 1);
+  border-radius: 10px;
+  cursor: grab;
 
 
-  }
-  
-  .example-box:last-child {
-    border: none;
-    cursor: grab;
+}
 
-  }
-  
-  .Dargs.cdk-drop-list-dragging .headerDrag:not(.cdk-drag-placeholder) {
-    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-  }
+.example-box:last-child {
+  border: none;
+  cursor: grab;
 
+}
 
+.Dargs.cdk-drop-list-dragging .headerDrag:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
 
 
 
@@ -149,118 +160,143 @@
 
 
 
-  .drag_Horizontal {
- 
-    display: flex;
-    flex-grow: 2;
-    gap: 50px;
-    flex-direction: row;
-    background: white;
-    border-radius: 4px;
-    overflow: hidden;
-    padding: 30px;
-    border: none;
-    cursor: grab;
-  }
-  
-  .drag_Horizontal_box{
-    width: 200px;
-    border-radius: 5px ;
-    padding: 20px;
-    border: 1px solid #f5cd6d40;
-    box-shadow: 0px 0px 1px 1px rgba(245, 205, 109, 0.25);
-    position: relative;
 
-    
-  }
 
-  .dot_right{
-    content: "";
-    position: absolute;
-    padding: 3px;
+.drag_Horizontal {
 
-    background-color: #f5cc6ddf;
-    border-radius: 4px;
-    top: 50%;
-    left: -2px;
-    transform: translate(-50%);
-    
-    
-  }
-  .dot_left{
-    position: absolute;
-    padding: 3px;
+  display: flex;
+  flex-grow: 2;
+  gap: 50px;
+  flex-direction: row;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 30px;
+  border: none;
+  cursor: grab;
+}
 
-    background-color: #f5cc6ddf;
-    border-radius: 4px;
-    top: 50%;
-    right: -5px;
-    transform: translate(-50%);
-    
-    
-  }
+.drag_Horizontal_box {
+  width: 200px;
+  border-radius: 5px;
+  padding: 20px;
+  border: 1px solid #f5cd6d40;
+  box-shadow: 0px 0px 1px 1px rgba(245, 205, 109, 0.25);
+  position: relative;
+  z-index: 444;
 
-  .connector{
-    width: 50px;
-    height: 2px;
-    background-color: #ddd;
-    position: relative;
-    width: 50px;
-    height: 2x;
-    background-color: #ddd;
-    position: absolute;
-    top: 52%;
-    right: -51px;
-  }
-  
-  .cdk-drag-preview {
-    box-sizing: border-box;
-    border-radius: 5px ;
-    border: 1px solid rgba(245, 205, 109, 0.25);
-    box-shadow: 0px 0px 1px 1px rgba(245, 205, 109, 0.25);
-    overflow: hidden;
-    cursor: grab;
 
-  }
-  
-  .cdk-drag-placeholder {
-    opacity: 0;
-  }
-  
-  .cdk-drag-animating {
-    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-  }
-  
-  .example-box:last-child {
-    border: none;
-  }
-  
-  .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
-    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-  }
-.stages{
+}
+
+.dot_right {
+  content: "";
+  position: absolute;
+  padding: 3px;
+
+  background-color: #f5cc6ddf;
+  border-radius: 4px;
+  top: 50%;
+  left: -2px;
+  transform: translate(-50%);
+
+
+}
+
+.dot_left {
+  position: absolute;
+  padding: 3px;
+
+  background-color: #f5cc6ddf;
+  border-radius: 4px;
+  top: 50%;
+  right: -5px;
+  transform: translate(-50%);
+
+
+}
+
+.connector {
+  width: 50px;
+  height: 2px;
+  background-color: #ddd;
+  position: relative;
+  width: 50px;
+  height: 2x;
+  background-color: #ddd;
+  position: absolute;
+  top: 52%;
+  right: -51px;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px solid rgba(245, 205, 109, 0.25);
+  box-shadow: 0px 0px 1px 1px rgba(245, 205, 109, 0.25);
+  overflow: hidden;
+  cursor: grab;
+
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform .5s ease-in-out ;
+}
+
+.example-box:last-child {
+  border: none;
+}
+
+.example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+  transition: transform .5s ease-in-out ;
+}
+
+.stages {
   display: flex;
   flex-direction: column;
   gap: 10px;
 
-  }
-  .stages h5{
-    font-family: Itim;
-    font-size: 15px;
-    font-weight: 400;
-    line-height: 12px;
-    color: #79877E;
-    margin-bottom: 0;
+}
 
-  }
+.stages h5 {
+  font-family: Itim;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 12px;
+  color: #79877E;
+  margin-bottom: 0;
 
-  .stages p{
-    font-family: Itim;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 12px;
-    color: #79877E;
-    margin: 0;
-    text-align: end;
+}
 
-  }
+.stages p {
+  font-family: Itim;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 12px;
+  color: #79877E;
+  margin: 0;
+  text-align: end;
+
+}
+
+
+
+// Model
+
+::ng-deep .ant-modal-content{
+  border-radius: 15px !important;
+  overflow: hidden !important;
+}
+
+::ng-deep .ant-modal-close-x{
+  display: none !important;
+}
+
+.content-model img{
+  width: 200px;
+
+  
+}

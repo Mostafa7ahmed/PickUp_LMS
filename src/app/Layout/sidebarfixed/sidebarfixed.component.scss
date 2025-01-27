@@ -1,206 +1,205 @@
 .sidebar {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    height: 96vh;
-    background-color: var(--white);
-    border-radius: 17px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: width 0.8s ease-in;
-    width: 200px;
-    z-index: 1000;
-    backdrop-filter: blur(160px);
-    overflow: hidden;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  height: 96vh;
+  background-color: var(--white);
+  border-radius: 17px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: width 0.8s ease-in;
+  width: 200px;
+  z-index: 1000;
+  backdrop-filter: blur(160px);
+  overflow: hidden;
 
-    
-    box-shadow: 0px 3px 24px rgb(36 193 43 / 36%);    
-
-  }
-  .sidebar.collapsed{
-    overflow: unset;
-  }
-  .fixedSidebar{
-    transition: 0.8s margin-left ease-in;
-
-    margin-left: 120px;
-    
-  }
-  .fixed-sidebar-collapsed{
-    
-    transition:  0.8s margin-left ease-in;
-    
-  }
   
-  
-  .sidebar.collapsed {
-    transition: 0.8s width ease-in;
+  box-shadow: 0px 3px 24px rgb(36 193 43 / 36%);    
 
-    width: 70px;
-  }
-  
-  .logo {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 15px 10px    ;
-  }
-  .logoImages h3{
-    color:rgba(40, 41, 38, 1);
-    font-size: 20px;
-    font-weight: 600;
-    font-family: Itim;
-    opacity: 0;
-    transition: .8s opacity ease-in-out;
-    
-  }
-  .logoImages .logoName{
-    opacity: 1;
-    transition: .8s opacity ease-in-out;
+}
+.sidebar.collapsed{
+  overflow: unset;
+}
+.fixedSidebar{
+  transition: 0.8s margin-left ease-in;
 
-  }
-.icon_collaped i{
-  color: var(--color_border);
+  margin-left: 120px;
+  
+}
+.fixed-sidebar-collapsed{
+  
+  transition:  0.8s margin-left ease-in;
+  
+}
+
+
+.sidebar.collapsed {
+  transition: 0.8s width ease-in;
+
+  width: 70px;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 15px 10px    ;
+}
+.logoImages h3{
+  color:rgba(40, 41, 38, 1);
   font-size: 20px;
+  font-weight: 600;
+  font-family: Itim;
+  opacity: 0;
+  transition: .8s opacity ease-in-out;
+  
+}
+.logoImages .logoName{
+  opacity: 1;
+  transition: .8s opacity ease-in-out;
+
+}
+.icon_collaped i{
+color: var(--color_border);
+font-size: 20px;
 }
 .logo .right{
-  position: absolute;
-  cursor: pointer;
-  transition: .8s all ease-in;
-  overflow: hidden;
-  top: 30px;
-  right: 20px;
+position: absolute;
+cursor: pointer;
+transition: .8s all ease-in;
+overflow: hidden;
+top: 30px;
+right: 20px;
 }
 .logo .center{
-  position: absolute;
-  cursor: pointer;
-  transition: .8s all ease-out;
-  overflow: hidden;
-  top: 80px;
-  left: 20px;
+position: absolute;
+cursor: pointer;
+transition: .8s all ease-out;
+overflow: hidden;
+top: 80px;
+left: 20px;
 }
 .line{
-  background-color: var(--color_border);
-  width: 100%;
-  height: .5px;
-  opacity: .8;
-  transition: .8s width ease-in-out;
+background-color: var(--color_border);
+width: 100%;
+height: .5px;
+opacity: .8;
+transition: .8s width ease-in-out;
 
 
 }
 .searchInput{
-  width: 100%;
-  transition: .8s width ease-in-out;
+width: 100%;
+transition: .8s width ease-in-out;
 
 }
 .searchInput.close{
-  width: 0;
-  overflow: hidden;
-  transition: .8s width ease-in-out;
+width: 0;
+overflow: hidden;
+transition: .8s width ease-in-out;
 }
 .searchInput input{
-  border: 0.5px solid var(--color_border);
-  border-radius: 5px;
-  outline: none;
-  padding: 6px 7px;
-  transition: .8s width ease-in-out;
+border: 0.5px solid var(--color_border);
+border-radius: 5px;
+outline: none;
+padding: 6px 7px;
+transition: .8s width ease-in-out;
 
 
 }
- 
-nav {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  justify-content: center;
 
-  position: relative;
+nav {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 20px;
+justify-content: center;
+
+position: relative;
 }
 nav.overflow{
-  overflow: unset !important;
+overflow: unset !important;
 }
 nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  position: relative;
+list-style: none;
+padding: 0;
+margin: 0;
+position: relative;
 }
 
 ul li {
-  margin-bottom: 40px;
-  font-size: 20px;
-  position: relative;  
-  z-index: 104488400;
+margin-bottom: 40px;
+font-size: 20px;
+position: relative;  
+z-index: 104488400;
 }
 
 nav ul li i {
-  color: var(--color_border);
-  transition: 0.5s color ease-in-out;
-  cursor: pointer;
+color: var(--color_border);
+transition: 0.5s color ease-in-out;
+cursor: pointer;
 }
 
 nav ul li .showRouters {
-  background: var(--color_border);
-  transition: 0.8s all ease-in-out;
-  padding: 10px;
-  border-radius: 10px;
-  z-index: 55555;
-  background-color: var(--white);
-  box-shadow: 0px 3px 24px rgba(50, 56, 51, 0.36);
-  width: 180px;
-  opacity: 0;
-  position: absolute;
-  left: 50px; 
-  top: 50%; 
-  transform: translateY(-50%); 
-  pointer-events: painted; 
+background: var(--color_border);
+transition: 0.8s all ease-in-out;
+padding: 10px;
+border-radius: 10px;
+z-index: 55555;
+background-color: var(--white);
+box-shadow: 0px 3px 24px rgba(50, 56, 51, 0.36);
+width: 180px;
+opacity: 0;
+position: absolute;
+left: 50px; 
+top: 50%; 
+transform: translateY(-50%); 
+pointer-events: painted; 
 
-  visibility: hidden;
+visibility: hidden;
 
 }
 
 nav ul li .showRouters a {
-  background-color: var(--white);
-  text-decoration: none;
-  font-family: Itim;
-  display: block;
-  padding: 8px 14px;
-  transition: 0.8s background-color ease-in-out;
-  gap: 10px;
-  border-radius: 12px;
-  margin-bottom: 15px;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 20px;
+background-color: var(--white);
+text-decoration: none;
+font-family: Itim;
+display: block;
+padding: 8px 14px;
+transition: 0.8s background-color ease-in-out;
+gap: 10px;
+border-radius: 12px;
+margin-bottom: 15px;
+font-size: 12px;
+font-weight: 400;
+line-height: 20px;
 
 }
 
 nav ul li .showRouters a:hover {
-  background-color: var(--color-side);
+background-color: var(--color-side);
 }
 
 nav ul li.show i  {
-  color: #24C12B;
+color: #24C12B;
 
 }
 
 
 nav ul li.show .showRouters {
-  opacity: 1;
-  z-index: 888888888400;
-  visibility: visible;
+opacity: 1;
+z-index: 888888888400;
+visibility: visible;
 
 }
 
 
 nav ul li {
-  position: relative; /* السماح للعناصر المنبثقة باستخدام position */
-  z-index: 1;
+position: relative; /* السماح للعناصر المنبثقة باستخدام position */
+z-index: 1;
 }
 
 nav ul li:hover {
-  z-index: 2; /* رفع العنصر أثناء التمرير */
+z-index: 2; /* رفع العنصر أثناء التمرير */
 }
-
