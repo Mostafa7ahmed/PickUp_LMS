@@ -1,5 +1,5 @@
 <div class="topic p-2 mt-3">
- <!-- Start Top Topic  -->
+  <!-- Start Top Topic  -->
   <div class="Board ">
     <h3>Board</h3>
     <div class="d-flex justify-content-between align-items-center">
@@ -13,13 +13,13 @@
 
         <div class="right">
           <i class="fa-solid fa-circle-chevron-down"></i>
-        
+
         </div>
 
-     
+
       </div>
 
-    
+
     </div>
 
   </div>
@@ -34,11 +34,11 @@
     </div>
 
     <div class="boxOpreation_btn">
-      <button class="btn_add rounded-2"  (click)="showModal()"> 
-        <i class="fa-solid fa-square-plus mx-2 fs-4"></i> 
+      <button class="btn_add rounded-2" (click)="showModal()">
+        <i class="fa-solid fa-square-plus mx-2 fs-4"></i>
         <span>New</span>
 
-      
+
       </button>
     </div>
 
@@ -49,76 +49,53 @@
   <!-- Box Add Search -->
 
   <div cdkDropList class="Dargs mt-3" (cdkDropListDropped)="drop($event)">
-    @for (movie of movies; track movie) {
+    @for (movie of Topics; track movie.id) {
     <div class="DragDiv mb-3" cdkDrag>
       <div class="topDarg  d-flex justify-content-between align-items-center px-3">
         <div class="headerDrag d-flex gap-3">
-          <div class="Icon">
+          <div class="Icon" >
             <i class="fa-solid fa-grip-vertical fs-5"></i>
           </div>
-  
-          <p class="m-0"   (click)="showTabTopic(movie)" ><i [class]="currentIcon" aria-hidden="true"></i>   </p>
-             <div class="cardTabs " [class.showTabs]="!movie.isTabOpen">
-            <nz-tabset>
-              <nz-tab nzTitle="Color">
-                <div class="Colors pb-2 d-flex  justify-content-center gap-4 flex-wrap" >
-                @for( color of colors; track $index) {
-                  <div
-                  class="colorBox p-3 rounded-5"
-                  [ngClass]="color"
-                  (click)="selectBg(color)"
-  
-                ></div>
-                }
-              </div>
-              </nz-tab>
-              <nz-tab nzTitle="Icon">
-                <div class="Colors pb-2 d-flex justify-content-center gap-4 flex-wrap" >
-                     @for (Icon of icons; track $index) {
-                      <div class="colorBox p-2 rounded-1 bg-light "
-                           (click)="selectIcon(Icon.icon)"
-                      >
-                        <i [class]="Icon.icon" aria-hidden="true"></i>
-  
-                      </div>
-              
-                       
-                     }
-                </div>
-              </nz-tab>
-            </nz-tabset>
-  
+
+          <p class="m-0"   [ngClass]="movie.color" (click)="showTabTopic(movie)">
+
+            <i 
+            [class]="'fas ' + movie.icon  " 
+            aria-hidden="true" 
+        
+
+            
+            >
+          </i>     
+             </p>
+          <div class="cardTabs " [class.showTabs]="true">
+           
+            <app-select-icon  [Icons]="icons" ></app-select-icon>
+
           </div>
-          <h3 class="m-0" *ngIf="!movie.isEditing" (click)="startEditing(movie)">
-            {{ movie.textValue }}
+          <h3 class="m-0" *ngIf="true" (click)="startEditing(movie)">
+            {{ movie.name }}
           </h3>
-  
-          <input
-            *ngIf="movie.isEditing"
-            class="inputEdit"
-            type="text"
-            [(ngModel)]="movie.textValue"
-            (blur)="saveValue(movie, movie.textValue)"
-            (keyup.enter)="saveValue(movie, movie.textValue)"
-            autofocus
-          />
-  
+
+          <input *ngIf="false" class="inputEdit" type="text" [(ngModel)]="movie.name"
+            (blur)="saveValue(movie, movie.name)" (keyup.enter)="saveValue(movie, movie.name)" autofocus />
+
         </div>
 
 
         <div class="rightDarg ">
-          <button class="btn btn_default" [disabled]="!movie.isDefault">Default</button>
+          <button class="btn btn_default" [disabled]="!movie.default">Default</button>
           <i class="fa-solid fa-sliders mx-3"></i>
-        
+
         </div>
-        
-    </div>
+
+      </div>
 
       <div cdkDropList cdkDropListOrientation="horizontal" class="drag_Horizontal my-3"
         (cdkDropListDropped)="dropWitht($event)">
-        @for (timePeriod of timePeriods; track timePeriod) {
-        <div class="drag_Horizontal_box p-3" cdkDrag [style.border-color]="timePeriod.border"
-          [style.box-shadow]="timePeriod.border">
+        @for (timePeriod of movie.stages; track timePeriod) {
+        <div class="drag_Horizontal_box p-3" cdkDrag [style.border-color]="timePeriod.color"
+          [style.box-shadow]="timePeriod.color">
           <div class="stages ">
             <div class="stagesheader d-flex  gap-3  align-items-center">
               <svg width="15" height="15" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -156,8 +133,62 @@
       </div>
 
 
+      <div class="bottomDrag d-flex align-items-center gap-3 px-3">
+        <div class="contact_bottom d-flex align-items-center gap-2">
+          <i class="fa fa-book" aria-hidden="true"></i>
+          <span class="tittle">Courses :</span>
+
+          <span>{{movie.snapshot.totalPrice}}</span>
+        </div>
+        <span class="line"></span>
+        <div class="contact_bottom   d-flex align-items-center gap-2">
+          <span class="tittle">Total Price :</span>
+
+          <span>{{movie.snapshot.totalPrice | currency}}</span>
+        </div>
+        <span class="line"></span>
 
 
+        @if(movie.updatedOn){
+
+        <div class="contact_bottom   d-flex  align-items-center gap-2">
+          <i class="fa fa-book" aria-hidden="true"></i>
+          <span class="tittle">Last update :</span>
+
+         
+          <span>{{movie.updatedOn}}</span>
+
+        </div>
+      }
+
+        <div class="contact_bottom  d-flex  align-items-center gap-2">
+          <i class="fa fa-book" aria-hidden="true"></i>
+          <span class="tittle">Creator :</span>
+
+          <span>{{movie.creator.name}}</span>
+        </div>
+        <span class="line"></span>
+        <div class="contact_bottom   d-flex  align-items-center gap-2">
+          <i class="fa fa-book" aria-hidden="true"></i>
+          <span class="tittle">Created On :</span>
+          <span>{{movie.createdOn | date}}</span>
+        </div>
+       @if($last){
+        <span class="line"></span>
+
+       }
+        @if(movie.updater){
+        <div class="contact_bottom   d-flex  align-items-center gap-2">
+          <i class="fa fa-book" aria-hidden="true"></i>
+          <span class="tittle">Last Updater :</span>
+       
+            <span>{{movie.updater}}</span>
+
+          
+
+        </div>
+      }
+      </div>
     </div>
     }
   </div>
@@ -174,116 +205,6 @@
 
 <!-- Model -->
 
+<app-popaddtopic  [(isAddPopupVisible)]="isVisible">
+</app-popaddtopic>
 
-
-<nz-modal  nzCentered [(nzVisible)]="isVisible" (nzOnCancel)="handleCancel()"
-  (nzOnOk)="handleOk()">
- <div class="ModelTopic" *nzModalContent>
-  <div class="content-model d-flex justify-content-between pt-3"   >
-
-
-    <div class="leftContant" >
-      <div class="nameContact d-flex  gap-2 align-items-center" >
-        <div class="Tasbs  colorBox p-2 rounded-1 "
-        [ngClass]="colorDefault"
-
-         (click)="showTab()" >
-          <i [class]="currentIcon" aria-hidden="true"></i>
-        </div>
- 
-
-        <div class="cardTabs " [class.showTabs]="!ishowTab">
-          <nz-tabset>
-            <nz-tab nzTitle="Color">
-              <div class="Colors pb-2 d-flex  justify-content-center gap-4 flex-wrap" >
-              @for( color of colors; track $index) {
-                <div
-                class="colorBox p-3 rounded-5"
-                [ngClass]="color"
-                (click)="selectBg(color)"
-
-              ></div>
-              }
-            </div>
-            </nz-tab>
-            <nz-tab nzTitle="Icon">
-              <div class="Colors pb-2 d-flex justify-content-center gap-4 flex-wrap" >
-                   @for (Icon of icons; track $index) {
-                    <div class="colorBox p-2 rounded-1 bg-light "
-                         (click)="selectIcon(Icon.icon)"
-                    >
-                      <i [class]="Icon.icon" aria-hidden="true"></i>
-
-                    </div>
-            
-                     
-                   }
-              </div>
-            </nz-tab>
-          </nz-tabset>
-
-        </div>
-  
-
-        <div class="inputName ">
-          <input type="text" placeholder="Name Topic">
-        </div>
-
-      </div>
-
-
-       <div class="description my-2">
-
-        <textarea name="" id=""  placeholder="Description " ></textarea>
-
-       </div>
-
-       <div class="chooseTopic d-flex gap-3 justify-content-between align-items-center">
-
-        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a person" [(ngModel)]="selectedValue">
-          <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
-          <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
-          <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
-
-
-        </nz-select>
-
-        <div class="d-flex gap-2 checkedCard ">
-          <label class="labelChecked " for="invalidCheck">Main  </label>
-
-          <label class="containerCheck">
-              <input  type="checkbox" id="invalidCheck">
-              <div class="checkmark"></div>
-          </label> 
-      </div>
-
-
-
-
-       </div>
-
-    </div>
-    <div class="rightContant ">
-      <img src="Images/imageModel.png" alt="">
-
-    </div>
-
-
-
-
-  </div>
-
-
-
-  <div class="footerModel d-flex justify-content-end align-items-end mt-3">
-    <div class="btns ">
-      <button class="btn_preview rounded-2"     (click)="handleCancel()">Next</button>
-    </div>
-  
-  </div>
-
-</div>
-
-
-
-</nz-modal>

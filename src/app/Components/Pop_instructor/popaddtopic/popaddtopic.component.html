@@ -1,0 +1,116 @@
+
+<nz-modal
+ nzCentered 
+ [(nzVisible)]="isAddPopupVisible" 
+  [nzFooter]="null"
+ 
+ >
+    <div class="ModelTopic" *nzModalContent >
+
+     <app-top-pop [NamePopup]="'Add Topic'" (isVisibleChange)="handleCancel()"></app-top-pop>
+      <div class="content-model d-flex justify-content-between pt-3">
+  
+  
+        <div  class="leftContant">
+          <div class="nameContact d-flex  gap-2 align-items-center">
+            <div class="Tasbs  colorBox p-2 rounded-1 " [ngClass]="colorDefault" (click)="showTab()">
+              <i [class]="currentIcon" aria-hidden="true"></i>
+            </div>
+  
+  
+            <div class="cardTabs " [class.showTabs]="!ishowTab">
+
+       
+                <!-- Use Select Icon Copompot here -->
+  
+                <app-select-icon
+                    [Icons]="icons"
+                    [colors]="colors"
+                    (iconSelected)="handleIconSelected($event)"
+                    (colorSelected)="handleColorSelected($event)"
+                    (closeModal)="showTab()" 
+                    
+                    >
+              </app-select-icon>
+  
+   
+        
+            </div>
+  
+  
+            <div  [formGroup]="myForm"  class="inputName ">
+              <input type="text" placeholder="Name Topic" formControlName="name">
+            </div>
+  
+          </div>
+  
+  
+          <div   [formGroup]="myForm"  class="description my-2">
+  
+            <textarea name="" id="" placeholder="Description "  formControlName="description"></textarea>
+  
+          </div>
+  
+          <div class="chooseTopic d-flex gap-3 justify-content-between align-items-center">
+  
+            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a person" [(ngModel)]="selectedValue">
+              <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
+              <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
+              <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
+  
+  
+            </nz-select>
+  
+            <div  [formGroup]="myForm"  class="d-flex gap-2 checkedCard ">
+              <label class="labelChecked " for="invalidCheck">Main </label>
+  
+              <label class="containerCheck">
+                <input type="checkbox" id="invalidCheck" formControlName="isMain">
+                <div class="checkmark"></div>
+              </label>
+            </div>
+  
+  
+  
+  
+          </div>
+  
+        </div>
+        <div class="rightContant ">
+          <img src="Images/imageModel.png" alt="">
+  
+        </div>
+  
+  
+  
+  
+      </div>
+  
+  
+  
+      <div class="footerModel d-flex justify-content-end align-items-end mt-3 mx-3">
+        <div class="btns ">
+          <button class="btn_preview rounded-2" (click)="addTopic()" [disabled] = "myForm.invalid">Next</button>
+        </div>
+  
+      </div>
+  
+    </div>
+  
+  
+  
+  </nz-modal>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<app-editpopuptopic  [twovisible]="twovisible"  [topicList]="topicList"       />

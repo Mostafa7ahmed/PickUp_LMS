@@ -1,0 +1,263 @@
+
+
+// Model
+::ng-deep .ant-modal-body {
+    padding: 0px !important;
+}
+::ng-deep .ant-modal-content{
+  border-radius: 15px !important;
+  overflow: hidden !important;
+  height:350px !important; 
+  width: 600px !important; 
+
+}
+.content-model{
+    padding: 24px !important;
+}
+::ng-deep .ant-modal-close-x{
+  display: none !important;
+}
+
+
+.content-model img{
+  width: 200px;
+
+  
+}
+
+.cardTabs{
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 10px !important;
+  background-color: var(--white);
+  box-shadow: 0px 3px 24px rgba(50, 56, 51, 0.36);
+  position: absolute;
+  top: 100px;
+  width: 250px;
+  opacity: 1;
+  transition: 0.2s opacity ease-in;
+  visibility: visible;
+  z-index: 5888;  
+}
+
+.Dargs .cardTabs{
+  top: 60px;
+  left: 40px;
+}
+.cardTabs.showTabs{
+  opacity: 0;
+  visibility: hidden;
+
+}
+
+
+
+// Tabs
+::ng-deep .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(--green2) !important;
+  transition: 0.5s color ease-in;
+  overflow: hidden;
+
+
+
+}
+::ng-deep .ant-tabs-tab-btn:focus, .ant-tabs-tab-remove:focus, .ant-tabs-tab-btn:active, .ant-tabs-tab-remove:active {
+  color: var(--green2) !important;
+}
+::ng-deep  .ant-tabs-tab-btn:hover , ::ng-deep .ant-tabs-tab:hover{ 
+  color: var(--green2) !important;
+  transition: 0.5s color ease-in;
+  overflow: hidden;
+
+
+}
+::ng-deep .ant-tabs-ink-bar {
+  position: absolute;
+  background: var(--green2) !important;
+  pointer-events: none;
+  transition: 0.5s color ease-in;
+  overflow: hidden;
+
+}
+
+.colorBox{
+  cursor: pointer;
+}
+
+
+.inputName input{
+  outline: none;
+  width: 100%;
+  padding: 5px 8px;
+  border-radius: 5px;
+  border: 1px solid var(--color_border);
+}
+
+
+.description textarea {
+  width: 100%;
+  padding: 5px 8px;
+  border-radius: 5px;
+  border: 1px solid var(--color_border);
+  outline: none;
+  resize:none;
+  height: 80px;
+}
+
+
+
+
+nz-select {
+  width: 120px;
+}
+::ng-deep  .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+  border-color: var(--green2) !important;
+}
+
+::ng-deep  .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  border-color: var(--green2) !important;
+  box-shadow: 0 0 0 2px var(--color_border);
+  outline: 0;
+}
+
+
+
+
+
+
+
+
+.btn_preview{
+  padding: 5px 15px;
+  border: none;
+  background-color: var(--bg-btn);
+  color: var(--white);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.bottomDrag .line{
+  font-size: 15px;
+  color: var(--color_border);
+  cursor: pointer;
+  background-color: var(--color_border);
+  width: 2px;
+  height: 20px;
+  border-radius: 2px;
+}
+.contact_bottom i{
+  font-size: 15px;
+  color: var(--color_border);
+  cursor: pointer;
+
+
+
+}
+
+.contact_bottom .tittle{
+  font-size: 15px;
+  color: var(--color_border);
+  cursor: pointer;
+  font-family: Itim;
+}
+
+
+
+
+
+
+
+
+
+
+// Tow Model 
+
+
+::ng-deep  .EditTopic .ant-modal-content {
+  border-radius: 15px;
+  overflow: hidden;
+  height: 350px !important;
+  max-height: 90vh; // لتجنب تجاوز الشاشة في بعض الحالات
+  display: flex;
+  flex-direction: column;
+}
+.EditTopic .content-model{
+  padding: 18px !important;
+}
+.EditTopic .leftContant h3{
+  font-family: Itim;
+  font-size: 25px;
+  font-weight: 400;
+
+
+
+}
+
+.EditTopic .leftContant .content p{
+  font-family: Itim;
+font-size: 12px;
+font-weight: 400;
+  line-height: 19.23px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+
+}
+.EditTopic .leftContant .content p::before{
+  content: "|";
+  margin-right: 5px;
+  color: var(--color_border);
+
+}
+
+
+
+.stages-container {
+
+    width:350px;
+   overflow-y: auto;
+   height: 150px;
+  .add-stage-btn {
+    background-color: transparent;
+    border:none;
+
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-family: Itim;
+}
+
+  .stage-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 90%;
+
+    gap: 10px;
+
+    .drag-handle {
+      cursor: grab;
+    }
+
+    .color-selector {
+      width: 60px;
+    }
+
+    input {
+      flex: 1;
+      padding: 5px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .remove-btn {
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      border-radius: 5px;
+      padding: 5px;
+      cursor: pointer;
+    }
+  }
+}

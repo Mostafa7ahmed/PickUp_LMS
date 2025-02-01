@@ -15,10 +15,7 @@ export class AppComponent implements OnInit {
 
   constructor(private tokenRefreshService: RefreshtokenService) {}
   ngOnInit() {
-    if(localStorage.getItem('UserAuth') != null){
-      this.tokenRefreshService.startTokenRefresh();
 
-    }
   }
 
 }

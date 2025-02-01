@@ -1,0 +1,56 @@
+<nz-modal nzCentered [(nzVisible)]="twovisible" [nzFooter]="null">
+  <div class="EditTopic" *nzModalContent>
+    <app-top-pop [NamePopup]="'Add Stages'" (isVisibleChange)="handleCancelTwo()"></app-top-pop>
+
+    <div class="content-model d-flex justify-content-between pt-3">
+      <div class="leftContant">
+        <h3>Board</h3>
+        <div class="content">
+          <p>In this comprehensive course, we will take you through...</p>
+        </div>
+
+        <div class="stages-container" [formGroup]="editForm">
+          <button (click)="addStage()" class="add-stage-btn" [disabled]="maxStages == 8">+ Add Stage</button>
+
+          <!-- First Static Stage -->
+          <div class="stage-row fixed-stage">
+            <select class="color-selector" disabled>
+              <option value="green">🟩</option>
+            </select>
+            <input type="text" disabled [value]="firstStage.name" />
+          </div>
+
+          <!-- Dynamic Stages -->
+          <div *ngFor="let stage of dynamicStages; let i = index" class="stage-row" cdkDrag>
+            <span class="drag-handle" cdkDragHandle>⋮⋮</span>
+            <select class="color-selector" formControlName="color">
+              <option value="green">🟩</option>
+              <option value="red">🟥</option>
+              <option value="blue">🟦</option>
+            </select>
+            <input type="text"   formControlName="name" />
+            <button (click)="removeStage(i)" class="remove-stage-btn">X</button>
+          </div>
+
+          <!-- Last Static Stage -->
+          <div class="stage-row fixed-stage">
+            <select class="color-selector" disabled>
+              <option value="red">🟥</option>
+            </select>
+            <input type="text" disabled [value]="lastStage.name" />
+          </div>
+        </div>
+      </div>
+
+      <div class="rightContant">
+        <img src="Images/editTopic.png" alt="Edit Topic" />
+      </div>
+    </div>
+
+    <div class="footerModel d-flex justify-content-end align-items-end mb-3 mx-3">
+      <div class="btns">
+        <button class="btn_preview rounded-2" (click)="addStages()">Save Edit</button>
+      </div>
+    </div>
+  </div>
+</nz-modal>

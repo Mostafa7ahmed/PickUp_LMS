@@ -43,7 +43,7 @@ export class LoginComponent {
 
           this._loginService.saveUserAuth();
           this.userDecode =this._loginService.saveUserAuth()!;
-          console.log(this.userDecode.UserType)
+          console.log("message"+ this.userDecode.UserType)
           this._Router.navigate([`/home${this.userDecode.UserType}`])
 
 

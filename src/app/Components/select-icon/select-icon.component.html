@@ -1,0 +1,29 @@
+
+<div class="">
+ 
+    <div class="icon" (click)="close()"> 
+        <i class="fa fa-close" aria-hidden="true"></i>
+
+     </div>
+    <nz-tabset>
+
+        <nz-tab nzTitle="Color">
+      
+          <div class="Colors pb-2 d-flex justify-content-center gap-4 flex-wrap">
+            @for (color of colors; track $index) {
+            <div class="colorBox p-3 rounded-5" [ngClass]="color" (click)="selectBg(color)"></div>
+            }
+          </div>
+        </nz-tab>
+      
+        <nz-tab nzTitle="Icon">
+          <div class="Colors pb-2 d-flex justify-content-center gap-4 flex-wrap">
+            @for (Icon of Icons; track $index) {
+            <div class="colorBox p-2 rounded-1 bg-light" (click)="selectIcon(Icon)">
+              <i [class]="Icon" aria-hidden="true"></i>
+            </div>
+            }
+          </div>
+        </nz-tab>
+      </nz-tabset>
+</div>
