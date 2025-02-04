@@ -48,7 +48,7 @@ export class EditpopuptopicComponent implements OnChanges {
 
   addStage() {
     if (this.maxStages < 8) {
-      const name = this.editForm.get('name')?.value || 'mostafa'; // No default value
+      const name = this.editForm.get('name')?.value || 'mostafa'; 
       const color = this.editForm.get('color')?.value || 'green';
       const newStage = {
         topicId: this.topicId,

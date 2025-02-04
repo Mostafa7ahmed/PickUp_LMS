@@ -26,23 +26,27 @@ import { TopicService } from '../../../Core/Services/topic.service';
   styleUrl: './popaddtopic.component.scss'
 })
 export class PopaddtopicComponent {
-
   icons: any[] = [];
   colors: any[] = [];
   topicList!: any;  // لتخزين `id` المستلم من الاستجابة
 
   private _FormBuilder = inject(FormBuilder);
   private _Topic = inject(TopicService);
-  private cdr = inject(ChangeDetectorRef);
+  selectedValue: string | null = null;
 
+  optionsList = [
+    { label: 'Jack', value: 'jack' },
+    { label: 'Lucy', value: 'lucy' },
+    { label: 'Tom', value: 'tom' }
+  ];
 
   myForm: FormGroup = this._FormBuilder.group({
     name: ['', Validators.required],
-    color: ['', Validators.required],  
-    icon: ['', Validators.required],   
-    description: ['', Validators.maxLength(500)],
-    mainId: null,
-    isMain: true
+    color: ['bg-light'],  
+    icon: ['fa fa-address-book'], 
+    description: ['', [Validators.required, Validators.maxLength(500)]],
+    isMain: [false, [Validators.required]],
+    mainId: [null],
   });
 
   constructor(private iconsService: IconListService, private colorlistService: ColorlistService) {
@@ -53,16 +57,27 @@ export class PopaddtopicComponent {
   @Input() isAddPopupVisible: boolean = false;
   @Input() twovisible: boolean = false;
 
-  @Output() isAddPopupVisibleChange  = new EventEmitter<boolean>();
+  @Output() isAddPopupVisibleChange = new EventEmitter<boolean>();
 
   currentIcon: string = 'fa fa-address-book';
   colorDefault: string = "bg-light";
-  selectedValue: string | null = null;
   ishowTab: boolean = false;
+
+  ngOnInit() {
+    this.myForm.get('isMain')?.valueChanges.subscribe((isMain) => {
+      if (isMain) {
+        this.myForm.get('mainId')?.setValue(null);
+        this.myForm.get('mainId')?.disable();
+      } else {
+        this.myForm.get('mainId')?.enable();
+        this.myForm.get('mainId')?.setValue(null);
+      }
+    });
+  }
 
   handleIconSelected(icon: string) {
     this.currentIcon = icon;
-    this.myForm.controls['icon'].setValue(icon)
+    this.myForm.controls['icon'].setValue(icon);
   }
 
   handleColorSelected(color: string) {
@@ -80,18 +95,26 @@ export class PopaddtopicComponent {
 
   handleCancel() {
     this.isAddPopupVisible = false;
-    this.isAddPopupVisibleChange .emit(false);
+    this.isAddPopupVisibleChange.emit(false);
+  }
+
+  updateMainId(event: Event) {
+    const selectedValue = (event.target as HTMLSelectElement).value;
+    this.myForm.get('mainId')?.setValue(selectedValue);
   }
 
   addTopic() {
     if (this.myForm.valid) {
+      console.log("🚀 Form Data Before Sending:", this.myForm.value);
+
       this._Topic.addTopic(this.myForm.value).subscribe((res) => {
-        this.myForm.reset();
-        this.topicList = res.result
-
+        this.topicList = res.result;
+        this.twovisible = true;
         this.handleCancel();
-        this.twovisible =true;
 
+        this.myForm.reset();
+        this.currentIcon ='fa fa-address-book';
+        this.colorDefault = "bg-light";
       });
     }
   }

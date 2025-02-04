@@ -9,32 +9,90 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 @Component({
   selector: 'app-sidebarfixed',
   standalone: true,
-  imports: [NzButtonModule, NzMenuModule, NzToolTipModule  , RouterLinkActive,CommonModule, RouterLink],
+  imports: [NzButtonModule, NzMenuModule, NzToolTipModule , RouterLinkActive  ,CommonModule, RouterLink],
   templateUrl: './sidebarfixed.component.html',
   styleUrl: './sidebarfixed.component.scss',
   
 })
 export class SidebarfixedComponent {
 
-  activeDropdown: boolean = false;
 
-  toggleDropdown() {
-    this.activeDropdown = !this.activeDropdown ;
-    return this.activeDropdown;
-  }
+  ListSidebarClose = [
+    { icon: 'fa-solid fa-money-bill-transfer', routes: [{ name: 'Topic List', link: '/topic' }, { name: 'Home', link: '/homeInstructor' }] },
+    { icon: 'fa-solid fa-chalkboard-user', routes: [{ name: 'Topic List', link: '/topic' }, { name: 'Home', link: '/homeInstructor' }] },
+    { icon: 'fa-solid fa-user-check', routes: [{ name: 'Topic List', link: '/topic' }, { name: 'Home', link: '/homeInstructor' }] },
+    { icon: 'fa-regular fa-bell', routes: [{ name: 'Topic List', link: '/topic' }, { name: 'Home', link: '/homeInstructor' }] },
+    { icon: 'fa-regular fa-bell', routes: [{ name: 'Topic List', link: '/topic' }, { name: 'Setting', link: '/homeInstructor' }] },
 
-  menuItems = [
-    { icon: 'fas fa-home', label: 'Home' },
-    { icon: 'fas fa-user', label: 'Profile' },
-    { icon: 'fas fa-cogs', label: 'Settings' },
-    { icon: 'fas fa-sign-out-alt', label: 'Logout' },
   ];
-  @Input() isCollapsed: boolean = true; // هذه القيمة تأتي من الـ AppComponent
+  activeIndex: number | null = null;
 
-  @Output() toggleSidebarEvent = new EventEmitter<boolean>();
+  togglesidebarCollaped(index: number) {
+    this.activeIndex = this.activeIndex === index ? null : index;
+  }
+  
+  isCollapsed: boolean = false; 
+
 
   toggleSidebar() {
-    this.isCollapsed = !this.isCollapsed; // التبديل بين المصغر والموسع
-    this.toggleSidebarEvent.emit(this.isCollapsed); // إرسال الحدث إلى الـ AppComponent
+    this.isCollapsed = !this.isCollapsed;
   }
+
+
+  toggleRoute(){
+    this.activeIndex = null;
+  }
+
+
+
+
+
+
+
+
+
+  ListSidebarOpen = [
+    { 
+      name: 'Transaction 1', 
+      Icon: 'fa-solid fa-money-bill-transfer', 
+      list: ["course List", "course"], 
+      routes: ["course", "course"]
+    },
+    { 
+      name: 'Courses',  
+      Icon: 'fa-solid fa-chalkboard-user', 
+      list: ["Board", "course List", "Dashboard"], 
+      routes: ["topic", "course", "course"]
+    }
+    ,
+    { 
+      name: 'Follower',  
+      Icon: 'fa-solid fa-user-check', 
+      list: ["Users", "Students"], 
+      routes: ["course", "course", "course"]
+    },
+    { 
+      name: 'Notification',  
+      Icon: 'fa-regular fa-bell', 
+      list: ["Message", "Notification"], 
+      routes: ["Message", "Message"]
+    }
+    ,
+    { 
+      name: 'Setting',  
+      Icon: 'fa-solid fa-gear', 
+      list: ["Message", "Notification"], 
+      routes: ["Message", "Message"]
+    }
+  ];
+  
+  openIndex: number | null = null;
+  isRotated: boolean = false; // لتتبع حالة دوران الأيقونة
+
+  toggleCard(index: number) {
+    this.isRotated = !this.isRotated; // تبديل الحالة
+    this.openIndex = this.openIndex === index ? null : index;
+  }
+
+
 }

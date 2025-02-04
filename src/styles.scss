@@ -1,12 +1,7 @@
 
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
-@use '@angular/material' as mat;
-// Plus imports for other components in your app.
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
+@use '@angular/material' as mat;
+
 @include mat.core();
 
 // Define the theme object.
@@ -21,19 +16,11 @@ $Pickup-theme: mat.define-theme((
   )
 ));
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
 :root {
   @include mat.all-component-themes($Pickup-theme);
 }
 
-// Comment out the line below if you want to use the pre-defined typography utility classes.
-// For more information: https://material.angular.io/guide/typography#using-typography-styles-in-your-application.
-// @include mat.typography-hierarchy($Pickup-theme);
 
-// Comment out the line below if you want to use the deprecated `color` inputs.
-// @include mat.color-variants-backwards-compatibility($Pickup-theme);
 
 
 :root{
@@ -52,11 +39,13 @@ $Pickup-theme: mat.define-theme((
     --label-color:#5f5d5dee;
     --color-side:#D7EAD2;
     --bg-btn:#7AD34C;
-    --bg-red : #FD00001A;
-    ;
+    --bg-red : #FD00001A; ;
     --red-icon-hover :#FD000080;
 
 
+}
+ul {
+  list-style: none;
 }
 a, a:hover, a:active, a:visited {
     text-decoration: none;
@@ -77,67 +66,12 @@ a, a:hover, a:active, a:visited {
     border-color:#B90000 !important;
 
 }
-.done{
-    border: 1px solid #059529 !important;
-}
 
 
-html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
 
-.iti {
-    display: block !important;
-  }
-  
-  .iti .dropdown-menu.country-dropdown {
-    border-radius: 15px;
-    border: none;
-    border: 1px solid var(--green1);
-    transform: translateY(-60px) !important;
-    width: 400px;
-
- 
-  }
-
-  .iti .search-container{
-    border-radius: 15px;
-    padding: 10px ;
-
-  }
-
-  .iti__selected-flag {
-    padding: 0px 10px 0 15px !important;
-    border-radius: 8px;
-
-  }
-  .iti .iti__country-list {
-    border-radius: 20px;
-
-    box-shadow: none;
-    font-size: 14px;
-    margin-left: 0;
-    width: 100%;
-    max-height: 170px;
-    overflow-x: hidden;
-  }
-  
-  .iti__flag-container.open + input {
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-  }
-  
-  .iti .search-container input {
-    font-size: 14px;
-    border-color: #c7cace;
-    border-radius: 0;
-    padding: 5px 10px;
-  }
-  
-  .iti .search-container input:focus {
-    outline: none;
-  }
   
   @media screen and (max-width: 479px) {
     .iti .iti__country-list {
@@ -202,6 +136,3 @@ margin-bottom: 0;
   }
   
 
-  .main-content.collapsed {
-    margin-left: 70px !important; /* عندما الـ Sidebar مغلق */
-  }

@@ -1,25 +1,19 @@
 .layout {
     display: flex;
     background-color: var(--bgHome);
+    min-height: 100vh;
 
   }
   
 
-  app-sidebarfixed.collapsed {
-    width: 70px;
-  }
   
   .main-content {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
-    transition: margin-left 0.3s ease;
-    margin-left: 110px;
+    flex-grow: 155;
+    margin-left: 100px;
   }
   
-  .main-content.collapsed {
-    margin-left: 70px;
-  }
-  
+
  
   

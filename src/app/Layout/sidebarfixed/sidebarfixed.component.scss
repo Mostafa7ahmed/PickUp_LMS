@@ -7,199 +7,325 @@
   border-radius: 17px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 10px;
   transition: width 0.8s ease-in;
-  width: 200px;
   z-index: 1000;
   backdrop-filter: blur(160px);
+
+  width: 70px;
+
+  box-shadow: 0px 3px 24px rgb(36 193 43 / 36%);
+}
+
+.sidebar.collapsed {
   overflow: hidden;
-
-  
-  box-shadow: 0px 3px 24px rgb(36 193 43 / 36%);    
-
 }
-.sidebar.collapsed{
-  overflow: unset;
-}
-.fixedSidebar{
+
+.fixedSidebar {
   transition: 0.8s margin-left ease-in;
 
-  margin-left: 120px;
-  
-}
-.fixed-sidebar-collapsed{
-  
-  transition:  0.8s margin-left ease-in;
-  
+  margin-left: 150px;
 }
 
+.fixed-sidebar-collapsed {
+  transition: 0.8s margin-left ease-in;
+}
 
 .sidebar.collapsed {
   transition: 0.8s width ease-in;
-
-  width: 70px;
+  width: 220px;
 }
 
 .logo {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 15px 10px    ;
+  padding: 15px 10px;
 }
-.logoImages h3{
-  color:rgba(40, 41, 38, 1);
+
+.logoImages h3 {
+  color: rgba(40, 41, 38, 1);
   font-size: 20px;
   font-weight: 600;
   font-family: Itim;
   opacity: 0;
-  transition: .8s opacity ease-in-out;
-  
+  transition: 0.8s opacity ease-in-out;
 }
-.logoImages .logoName{
+
+.logoImages .logoName {
   opacity: 1;
-  transition: .8s opacity ease-in-out;
-
-}
-.icon_collaped i{
-color: var(--color_border);
-font-size: 20px;
-}
-.logo .right{
-position: absolute;
-cursor: pointer;
-transition: .8s all ease-in;
-overflow: hidden;
-top: 30px;
-right: 20px;
-}
-.logo .center{
-position: absolute;
-cursor: pointer;
-transition: .8s all ease-out;
-overflow: hidden;
-top: 80px;
-left: 20px;
-}
-.line{
-background-color: var(--color_border);
-width: 100%;
-height: .5px;
-opacity: .8;
-transition: .8s width ease-in-out;
-
-
-}
-.searchInput{
-width: 100%;
-transition: .8s width ease-in-out;
-
-}
-.searchInput.close{
-width: 0;
-overflow: hidden;
-transition: .8s width ease-in-out;
-}
-.searchInput input{
-border: 0.5px solid var(--color_border);
-border-radius: 5px;
-outline: none;
-padding: 6px 7px;
-transition: .8s width ease-in-out;
-
-
+  transition: 0.8s opacity ease-in-out;
 }
 
-nav {
-display: flex;
-flex-direction: column;
-align-items: center;
-gap: 20px;
-justify-content: center;
-
-position: relative;
-}
-nav.overflow{
-overflow: unset !important;
-}
-nav ul {
-list-style: none;
-padding: 0;
-margin: 0;
-position: relative;
+.icon_collaped i {
+  color: var(--color_border);
+  font-size: 20px;
 }
 
-ul li {
-margin-bottom: 40px;
-font-size: 20px;
-position: relative;  
-z-index: 104488400;
+.logo .right {
+  position: absolute;
+  cursor: pointer;
+  transition: 0.8s all ease-in;
+  overflow: hidden;
+  top: 30px;
+  right: 20px;
 }
 
-nav ul li i {
-color: var(--color_border);
-transition: 0.5s color ease-in-out;
-cursor: pointer;
+.logo .center {
+  position: absolute;
+  cursor: pointer;
+  transition: 0.8s all ease-out;
+  overflow: hidden;
+  top: 80px;
+  left: 20px;
 }
 
-nav ul li .showRouters {
-background: var(--color_border);
-transition: 0.8s all ease-in-out;
-padding: 10px;
-border-radius: 10px;
-z-index: 55555;
-background-color: var(--white);
-box-shadow: 0px 3px 24px rgba(50, 56, 51, 0.36);
-width: 180px;
-opacity: 0;
-position: absolute;
-left: 50px; 
-top: 50%; 
-transform: translateY(-50%); 
-pointer-events: painted; 
+.line {
+  background-color: var(--color_border);
+  width: 100%;
+  height: 0.5px;
+  opacity: 0.8;
+  transition: 0.8s width ease-in-out;
+}
 
-visibility: hidden;
+.searchInput {
+  transition: 0.8s width ease-in-out;
+}
+
+.searchInput.close {
+  width: 0;
+  overflow: hidden;
+  transition: 0.8s width ease-in-out;
+}
+
+.searchInput input {
+  border: 0.5px solid var(--color_border);
+  border-radius: 5px;
+  outline: none;
+  padding: 6px 7px;
+  transition: 0.8s width ease-in-out;
+  width: 100%;
+}
+
+.navSide ul .list-item {
+  cursor: pointer;
+}
+.list-item:last-child ,.nav ul li:last-child{
+  position: absolute;
+  bottom: 50px;
+  width: 90%;
+}
+
+.navSide ul .list-item .nav-link {
+  padding: 15px;
+  background-color: transparent;
+  border-radius: 15px;
+  transition: 0.5s background-color ease-in-out;
+  text-wrap: unset;
+}
+
+.navSide ul .list-item .nav-click {
+  padding: 15px;
+  background: #24c12b2b;
+  border-radius: 15px;
+}
+
+.navSide ul .list-item .nav-link p {
+  font-family: Itim;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--color_border);
+  white-space: nowrap;
+}
+
+.navSide ul .list-item .nav-click p {
+  color: var(--color_link);
+}
+
+.navSide ul .list-item i {
+  font-size: 15px;
+  color: var(--color_border);
+}
+
+.navSide ul .list-item .nav-click i {
+  color: var(--color_link);
+}
+
+.cardlist {
+  width: 100%;
+  border-radius: 8px;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  padding: 0px;
+  margin-top: 5px;
+  transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out,
+    padding 0.5s ease-in-out;
+}
+
+.cardlist.open {
+  visibility: visible;
+  max-height: 150px;
+  padding: 15px 0px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  opacity: 1;
+}
+
+.cardlist.open::-webkit-scrollbar {
+  display: none;
+}
+
+.menu {
+  padding: 0;
+}
+
+.submenu li {
+  position: relative;
+  padding: 20px;
+  padding-left: 30px;
+
+  margin-bottom: 15px;
+}
+
+.submenu li a {
+  padding: 10px 20px;
+  border-radius: 25px;
+}
+
+.active {
+  background-color: #24c12b2b !important;
+}
+
+.submenu li::before {
+  content: "";
+  position: absolute;
+  left: 0px;
+  top: -74px;
+  height: 147%;
+  width: 2px;
+  background: var(--color_border);
+  border-radius: 5px;
+}
+
+.submenu li::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 26px;
+  padding: 15px;
+  border-radius: 0px 0px 0px 25px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: transparent transparent var(--color_border) var(--color_border);
+}
+
+.right .fa-angle-down {
+  transition: transform 0.3s ease;
+}
+
+.right .fa-angle-down.rotate {
+  transform: rotate(180deg);
+}
+
+
+
+
+
+
+
+
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+ 
+  height: 100%;
+  position: relative;
+}
+.nav.overflow {
+  overflow: unset !important;
+}
+.nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  height: 100%;
 
 }
 
-nav ul li .showRouters a {
-background-color: var(--white);
-text-decoration: none;
-font-family: Itim;
-display: block;
-padding: 8px 14px;
-transition: 0.8s background-color ease-in-out;
-gap: 10px;
-border-radius: 12px;
-margin-bottom: 15px;
-font-size: 12px;
-font-weight: 400;
-line-height: 20px;
-
+.nav ul li {
+  margin-bottom: 40px;
+  font-size: 20px;
+  position: relative;
+  z-index: 104488400;
 }
 
-nav ul li .showRouters a:hover {
-background-color: var(--color-side);
+.nav ul li i {
+  color: var(--color_border);
+  transition: 0.5s color ease-in-out;
+  cursor: pointer;
+}
+.nav ul li .showRouters {
+  background: var(--color_border);
+  transition: 0.8s all ease-in-out;
+  padding: 10px;
+  border-radius: 10px;
+  z-index: 55555;
+  background-color: var(--white);
+  box-shadow: 0px 3px 24px rgba(50, 56, 51, 0.36);
+  width: 180px;
+  opacity: 0;
+  position: absolute;
+  left: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: painted;
+
+  visibility: hidden;
 }
 
-nav ul li.show i  {
-color: #24C12B;
-
+.nav ul li .showRouters a {
+  background-color: var(--white);
+  text-decoration: none;
+  font-family: Itim;
+  display: block;
+  padding: 8px 14px;
+  transition: 0.8s background-color ease-in-out;
+  gap: 10px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
 }
 
-
-nav ul li.show .showRouters {
-opacity: 1;
-z-index: 888888888400;
-visibility: visible;
-
+.nav ul li .showRouters a:hover {
+  background-color: var(--color-side);
 }
 
-
-nav ul li {
-position: relative; /* السماح للعناصر المنبثقة باستخدام position */
-z-index: 1;
+.nav ul li.show i {
+  color: #24c12b;
 }
 
-nav ul li:hover {
-z-index: 2; /* رفع العنصر أثناء التمرير */
+.nav ul li.show .showRouters {
+  opacity: 1;
+  z-index: 888888888400;
+  visibility: visible;
 }
+
+.nav ul li {
+  position: relative; /* السماح للعناصر المنبثقة باستخدام position */
+  z-index: 1;
+}
+
+.nav ul li:hover {
+  z-index: 2; /* رفع العنصر أثناء التمرير */
+}
+

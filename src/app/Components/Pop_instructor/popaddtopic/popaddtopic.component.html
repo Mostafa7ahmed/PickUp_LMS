@@ -50,31 +50,36 @@
             <textarea name="" id="" placeholder="Description "  formControlName="description"></textarea>
   
           </div>
-  
+          <form [formGroup]="myForm">
+
           <div class="chooseTopic d-flex gap-3 justify-content-between align-items-center">
-  
-            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a person" [(ngModel)]="selectedValue">
-              <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
-              <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
-              <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
-  
-  
-            </nz-select>
-  
-            <div  [formGroup]="myForm"  class="d-flex gap-2 checkedCard ">
-              <label class="labelChecked " for="invalidCheck">Main </label>
-  
+
+            <nz-select
+            nzMode="default"
+            nzPlaceHolder="Select Preferred language"
+            nzAllowClear
+            nzServerSearch
+            class="input-cal input-base inputFloating"
+            formControlName="mainId"
+
+
+            >
+            <nz-option nzValue="0" nzLabel="Arabic"></nz-option>
+            <nz-option nzValue="1" nzLabel="English"></nz-option>
+          </nz-select>
+
+          
+            <div [formGroup]="myForm" class="d-flex gap-2 checkedCard">
+              <label class="labelChecked" for="invalidCheck">Main</label>
+          
               <label class="containerCheck">
                 <input type="checkbox" id="invalidCheck" formControlName="isMain">
                 <div class="checkmark"></div>
               </label>
             </div>
-  
-  
-  
-  
+          
           </div>
-  
+        </form>
         </div>
         <div class="rightContant ">
           <img src="Images/imageModel.png" alt="">

@@ -4,6 +4,9 @@
   border-radius: 10px;
   background-color: var(--white);
 }
+.topic{
+  position: relative;
+}
 .Board{
   padding-bottom: 5px;
 
@@ -378,175 +381,144 @@
   visibility: hidden;
 
 }
-
-
-
-// Tabs
-::ng-deep .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-  color: var(--green2) !important;
-  transition: 0.5s color ease-in;
-  overflow: hidden;
-
-
-
-}
-::ng-deep .ant-tabs-tab-btn:focus, .ant-tabs-tab-remove:focus, .ant-tabs-tab-btn:active, .ant-tabs-tab-remove:active {
-  color: var(--green2) !important;
-}
-::ng-deep  .ant-tabs-tab-btn:hover{
-  color: var(--green2) !important;
-  transition: 0.5s color ease-in;
-  overflow: hidden;
-
-
-}
-::ng-deep .ant-tabs-ink-bar {
-  position: absolute;
-  background: var(--green2) !important;
-  pointer-events: none;
-  transition: 0.5s color ease-in;
-  overflow: hidden;
-
-}
-
-.colorBox{
-  cursor: pointer;
-}
-
-
-.inputName input{
-  outline: none;
-  width: 100%;
-  padding: 5px 8px;
-  border-radius: 5px;
-  border: 1px solid var(--color_border);
-}
-
-
-.description textarea {
-  width: 100%;
-  padding: 5px 8px;
-  border-radius: 5px;
-  border: 1px solid var(--color_border);
-  outline: none;
-  resize:none;
-  height: 80px;
-}
-
-
-
-
-nz-select {
-  width: 120px;
-}
-::ng-deep  .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
-  border-color: var(--green2) !important;
-}
-
-::ng-deep  .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
-  border-color: var(--green2) !important;
-  box-shadow: 0 0 0 2px var(--color_border);
-  outline: 0;
-}
-
-
-
-
-
-
-.containerCheck input {
-  display: none;
-}
-
-.containerCheck {
-  display: block;
-  position: relative;
-  cursor: pointer;
-  font-size: 15px;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.checkmark {
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 16px;
-  height: 16px;
-  background-color: #2196f300;
-  border-radius: 4px;
-  transition: all 0.25s;
-}
-
-.containerCheck input:checked~.checkmark {
-  background-color:var(--green1);;
-}
-
-.checkmark:after {
-  content: "";
-  position: absolute;
-  transform: rotate(0deg);
-  border: 0.4px solid black;
-  left: 0;
-  top: 0;
-  width: 16px;
-  height: 16px;
-  border-radius: 4px;
-  transition: all 0.25s, border-width 0.1s;
-}
-
-.containerCheck input:checked~.checkmark:after {
-  left: 5.4px;
-  top: 3px;
-  width: 5px;
-  height: 9px;
-  border-color: rgba(255, 255, 255, 0) white white rgba(255, 255, 255, 0);
-  border-width: 0 0.15em 0.15em 0;
-  border-radius: 0em;
-  transform: rotate(45deg);
-}
-
-.checkedCard {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  border-radius: 5px;
-  border: 1px solid var(--color_border);
-  padding: 5px;
-  gap: 10px;
-}
-
-
-.btn_preview{
-  padding: 5px 15px;
-  border: none;
-  background-color: var(--bg-btn);
-  color: var(--white);
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.bottomDrag .line{
-  font-size: 15px;
-  color: var(--color_border);
-  cursor: pointer;
-  background-color: var(--color_border);
+.viewTopic .line{
   width: 2px;
-  height: 20px;
-  border-radius: 2px;
+  height: 90%;
+  background-color: var(--color_border);
+  position: absolute;
+  left: 52%;
+  top: 41px;
 }
-.contact_bottom i{
-  font-size: 15px;
-  color: var(--color_border);
+.viewTopic{
+  position: absolute;
+  top: 0%;
+  left: 200px;
+  z-index: 588888888888888900000000000000000000000000;
+  width: 1000px;
+  height: 500px;
+  background-color: var(--white) !important;
+  border: 0.5px solid #E1E1E1;
+  border-radius: 15px;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transition: .5s opacity ease-in-out;
+  
+}
+.viewTopic.showelement{
+  opacity: 2;
+  visibility: visible;
+}
+.viewTopic .icontopic{
+  background-color: var(--color_border);
+  padding: 5px 8px;
+  border-radius: 4px;
+  color: white;
   cursor: pointer;
-
-
+  transition: .8s  background-color ease-in-out ,.8s  color ease-in-out ;
 
 }
-
-.contact_bottom .tittle{
-  font-size: 15px;
-  color: var(--color_border);
-  cursor: pointer;
+.viewTopic h3{
   font-family: Itim;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 9.6px;
+
+}
+.viewTopic .icontopic:hover{
+  background-color:#FD00001A;
+
+  padding: 5px 8px;
+  border-radius: 4px;
+  color: #FD000080;
+
+  cursor: pointer;
+  transition: .8s  background-color ease-in-out ,.8s  color ease-in-out ;
+
+}
+
+
+.Description{
+   padding: 10px;
+   border: 1px solid  #D7D7D74D;
+   margin-top: 20px;
+   border-radius: 10px;
+
+}
+.Description p{
+  font-family: Itim;
+  font-size: 10px;
+  font-weight: 400;
+  color: #959494;
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+.aboutInstructor {
+  
+  font-family: Itim;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #C6D1DC;
+}
+
+.aboutInstructor p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.aboutInstructor span{
+  color: black;
+}
+.aboutInstructor i {
+  color: #C6D1DC;
+}
+.addStages{
+  border-radius: 10px;
+  border: 1px solid #D7D7D74D;
+  padding: 12px 18px ;
+
+  box-shadow: 0px 0px 2px 1px #3e3d3c20;
+
+
+}
+.addStages p{
+  font-family: Itim;
+  font-size: 17px;
+  line-height: 1.6;
+  color: #C6D1DC;
+  margin: 0;
+}
+.addStages .icontopic{
+  padding: 2px 7px !important;
+}
+.Stages{
+
+  margin: 20px 0;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 0px 1px 1px #88FF6121;
+
+  border: 1px solid #D7D7D74D;
+}
+
+
+.Stages .stage{
+
+  margin: 20px 0;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 0px 1px 1px #88FF6121;
+
+  border: 1px solid #D7D7D74D;
 }
