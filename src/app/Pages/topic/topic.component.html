@@ -76,8 +76,21 @@
     
             <div class="rightDarg ">
               <button class="btn btn_default" [disabled]=" isSuccess && topic.default"  (click)="setDefaultTopic(topic.id)">Default</button>
-              <i class="fa-solid fa-sliders mx-3" (click)="getTopicbyID(topic.id)" ></i>
-    
+           
+              <i class="fa-solid fa-sliders mx-3" (click)="getTopicbyID(topic.id)"  #ViewTopicTd ></i>     
+              
+              @defer (on interaction(ViewTopicTd)) {
+                <!-- Model -->
+                  <app-viewtpoic 
+                  [viewTopic]="showsViewTopic" 
+                  [viewTopicData]="viewTopicData" 
+                  (topicsUpdated)="handleTopicAdded()"
+                  [getTopicbyIDValue]="setDefaultTopic.bind(this)"
+                  (closePopup)="closePopup()">
+                  </app-viewtpoic>
+                }
+
+                
             </div>
     
           </div>
@@ -186,6 +199,7 @@
           </div>
         </div>
         }
+      
     }
 
     @else {
@@ -206,14 +220,6 @@
 
 
 
-<!-- Model -->
 
-<app-viewtpoic 
-  [viewTopic]="showsViewTopic" 
-  [viewTopicData]="viewTopicData" 
-  [getTopicbyIDValue]="setDefaultTopic.bind(this)"
-  (closePopup)="closePopup()">
-  
-</app-viewtpoic>
 <app-popaddtopic [(isAddPopupVisible)]="isVisible"  (onTopicAdded)="handleTopicAdded()">
 </app-popaddtopic>

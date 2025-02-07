@@ -21,10 +21,7 @@
 
 
 }
-.icon:hover{
-    background-color: var(--bg-red) !important;
-    transition:  0.2s  background-color ease-in-out;
-}
+
 .icon:hover i{
     color: var(--red-icon-hover) !important;
     transition:  0.2s  all ease-in-out;

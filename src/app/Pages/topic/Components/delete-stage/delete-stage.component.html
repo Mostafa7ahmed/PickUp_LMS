@@ -1,1 +1,23 @@
-<p>delete-stage works!</p>
+<div class="deleteTopic"  [class.deleteElement]="showDeleteTopic">
+
+
+    <div class="icon" (click)="closeDeleteTopic()"> 
+        <i class="fa fa-close" aria-hidden="true"></i>
+     </div>
+
+    <div class="content">
+        <img src="Images/Delete.png" alt="">
+ 
+
+
+        <p>Are you sure to delete topic ?</p>
+
+        <div class="footerDelete d-flex gap-5">
+            <button class="btn btnCancel"  (click)="closeDeleteTopic()" >Cancel</button>
+            <button  class="btn btnDelete " (click)="deleteTopicConfirmed()"  >Delete</button>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,38 +1,51 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TopicService } from './../../../../Core/Services/topic.service';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { TopPopComponent } from '../../../../Components/top-pop/top-pop.component';
 import { ITopic } from '../../../../Core/Interface/itopic';
 import { CommonModule, NgIf } from '@angular/common';
+import { DeleteStageComponent } from "../delete-stage/delete-stage.component";
 
 @Component({
   selector: 'app-viewtpoic',
   standalone: true,
-  imports: [TopPopComponent , CommonModule],
+  imports: [TopPopComponent, CommonModule, DeleteStageComponent],
   templateUrl: './viewtpoic.component.html',
   styleUrl: './viewtpoic.component.scss'
 })
 export class ViewtpoicComponent {
 
+  constructor(private _TopicService:TopicService) {}
 
   @Input() viewTopic:boolean = false;
   @Input() viewTopicData : ITopic | any = {} as ITopic ;
   @Output() closePopup = new EventEmitter<void>();
   @Input() getTopicbyIDValue: (id: number) => void = () => {}; // الدالة من الأب
+
+  showDeleteTopic:boolean = false;
+  selectedTopicId!: number; // تخزين ID الموضوع
+
   fetchTopic(id: number): void {
     this.getTopicbyIDValue(id)
     
   }
 
-  // Close popup when the child component triggers it
+  deleteTpoic(topicId: number): void {
+    console.log("first delete");
+    this.showDeleteTopic = true;
+    this.selectedTopicId = topicId;
+
+
+  }
+
   closePopupHandler(): void {
     this.closePopup.emit();
   }
  
+  @Output() topicsUpdated = new EventEmitter<void>(); 
 
+  notifyParentToUpdateTopics(): void {
+    this.topicsUpdated.emit(); 
+  }
+  
 
-    courseCount = 7;
-    totalPrice = 10.00;
-    lastUpdate = '4-2-2025';
-    creator = 'Salma shorbgy';
-    createdOn = '4-2-2025';
-    lastUpdater = 'Salma shorbgy';
 }

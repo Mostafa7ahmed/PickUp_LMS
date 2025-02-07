@@ -10,11 +10,12 @@ import { TopPopComponent } from '../../Components/top-pop/top-pop.component';
 import { ITopic } from '../../Core/Interface/itopic';
 import { ViewtpoicComponent } from "./Components/viewtpoic/viewtpoic.component";
 import { finalize, Subscription } from 'rxjs';
+import { DeleteStageComponent } from "./Components/delete-stage/delete-stage.component";
 
 @Component({
   selector: 'app-topic',
   standalone: true,
-  imports: [InfiniteScrollModule, FormsModule, CommonModule, SelectIconComponent, PopaddtopicComponent, ViewtpoicComponent],
+  imports: [InfiniteScrollModule, FormsModule, CommonModule, SelectIconComponent, PopaddtopicComponent, ViewtpoicComponent, DeleteStageComponent],
   templateUrl: './topic.component.html',
   styleUrl: './topic.component.scss'
 })
@@ -107,10 +108,6 @@ export class TopicComponent implements OnInit {
       });
   }
 
-  sasa(){
-    console.log('sasa')
-
-  }
   closePopup(): void {
     this.showsViewTopic = false;
   }

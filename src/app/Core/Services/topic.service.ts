@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../Environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -43,7 +43,16 @@ export class TopicService {
 
 
   }
-
+  deleteTpoic(id: number, isMove: boolean): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.UserAuth}`,
+      'id': id.toString(),
+      'move': isMove.toString()
+    });
+  
+    return this._HttpClient.delete(`${environment.baseUrl}${environment.pickup}topic/delete`, { headers });
+  }
+  
  
   getTopicById(topic: number): Observable<any> {
     return this._HttpClient.get(`${this.getTopic}?id=${topic}`,

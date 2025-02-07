@@ -1,0 +1,108 @@
+.deleteTopic{
+    position: fixed !important;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 888777777777777777777880;
+    height: 500px;
+    background-color: var(--white) !important;
+    border: 0.5px solid #E1E1E1;
+    overflow: hidden;
+    width: 350px;
+   max-height: 280px    !important;
+
+    gap: 0px;
+    border-radius: 15px;
+    opacity: 0;
+    visibility: hidden;
+
+    transition: .5s all ease-in-out;
+    overflow: hidden !important;
+
+}
+.deleteTopic.deleteElement{
+    opacity: 2 ;
+    visibility: visible;
+  }
+.deleteTopic .content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+    padding: 30px 20px;
+}
+.deleteTopic p{
+    font-size: 20px;
+    margin: 0;
+    font-family: Itim;
+    font-weight: 400;
+    line-height: 10.22px;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+
+}
+
+.deleteTopic .footerDelete .btn{
+
+    font-family: Itim;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    color: var(--color_primary);
+    background-color: var(--color_white);
+    border: 1px solid #EB2626;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.8s ease-in-out;
+    padding: 3px 25px;
+    color: #EB2626;
+
+
+}
+.deleteTopic .footerDelete .btnDelete{
+    background-color: #EB2626;
+    color: #E1E1E1;
+}
+.deleteTopic .footerDelete .btnCancel:hover{
+    background-color: #EB2626;
+    color: #E1E1E1;
+}
+
+
+
+.icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 23px;
+    height: 23px;
+    background-color: var(--color_border);
+    border-radius: 50%;
+    position: absolute;
+    top: 15px;
+    right: 9px;
+    transition:  0.2s  background-color ease-in-out;
+    z-index: 778855;
+    cursor: pointer;
+}
+.icon i{
+    color: var(--white);
+    font-size: 17x;
+    transition:  0.2s  color ease-in-out;
+
+
+}
+.icon:hover {
+    color: var(--white) !important;
+    background-color: #EB2626;
+
+}
+.icon:hover i{
+    color: var(--white) !important;
+    transition:  0.2s  all ease-in-out;
+
+}

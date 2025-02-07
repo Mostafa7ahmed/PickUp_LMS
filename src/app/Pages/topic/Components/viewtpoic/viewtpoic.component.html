@@ -16,8 +16,8 @@
           <div class="option">
             <div class="viewTopicRight  d-flex  gap-3 align-items-center">
                 <button class="btn btn_default" [disabled]="viewTopicData.default"  (click)="fetchTopic(viewTopicData.id)">Default</button>
-                <div class="icontopic" >
-                <i class="fa-solid fa-trash-can"></i>
+                <div class="icontopic"  (click)="deleteTpoic(viewTopicData.id)">  
+                <i class="fa-solid fa-trash-can" ></i>
               </div>
             </div>
           </div>
@@ -96,3 +96,10 @@
       </div>
     </div>
   </div>
+
+  <app-delete-stage
+  [showDeleteTopic]="showDeleteTopic"
+  [selectedTopicId]="selectedTopicId"
+  (closePopup)="showDeleteTopic = false"
+  (topicDeleted)="notifyParentToUpdateTopics()" >
+></app-delete-stage>

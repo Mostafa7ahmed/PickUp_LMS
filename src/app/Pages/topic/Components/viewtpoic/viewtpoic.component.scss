@@ -8,7 +8,7 @@
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.295); /* شفافية */
-    z-index: 588888888888888900000000000000000000000000 - 1; /* أقل من الـ Popup */
+    z-index: 8888 - 1; /* أقل من الـ Popup */
     opacity: 1;
     transition: opacity 0.5s ease-in-out;
 }
@@ -26,7 +26,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 588888888888888900000000000000000000000000;
+    z-index: 8888;
     width: 1000px;
     height: 500px;
     background-color: var(--white) !important;
