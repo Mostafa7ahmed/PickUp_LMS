@@ -17,13 +17,12 @@
 .icon i{
     color: var(--white);
     font-size: 17x;
-    transition:  0.2s  color ease-in-out;
+    transition:  0.2s  all ease-in-out;
 
 
 }
-
-.icon:hover i{
-    color: var(--red-icon-hover) !important;
-    transition:  0.2s  all ease-in-out;
+.icon:hover{
+  background-color:  var(--red-icon-hover) !important;
+  color: var(--white) !important;
 
 }

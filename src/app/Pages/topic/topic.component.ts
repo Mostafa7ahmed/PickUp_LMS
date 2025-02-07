@@ -11,11 +11,13 @@ import { ITopic } from '../../Core/Interface/itopic';
 import { ViewtpoicComponent } from "./Components/viewtpoic/viewtpoic.component";
 import { finalize, Subscription } from 'rxjs';
 import { DeleteStageComponent } from "./Components/delete-stage/delete-stage.component";
+import { AddStagesComponent } from "./Components/add-stages/add-stages.component";
+import { AddTopicComponent } from "./Components/add-topic/add-topic.component";
 
 @Component({
   selector: 'app-topic',
   standalone: true,
-  imports: [InfiniteScrollModule, FormsModule, CommonModule, SelectIconComponent, PopaddtopicComponent, ViewtpoicComponent, DeleteStageComponent],
+  imports: [InfiniteScrollModule, FormsModule, CommonModule, SelectIconComponent, PopaddtopicComponent, ViewtpoicComponent, DeleteStageComponent, AddStagesComponent, AddTopicComponent],
   templateUrl: './topic.component.html',
   styleUrl: './topic.component.scss'
 })

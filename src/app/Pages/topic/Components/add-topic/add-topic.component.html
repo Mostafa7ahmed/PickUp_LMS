@@ -1,1 +1,60 @@
-<p>add-topic works!</p>
+<div class="addStage">
+
+    <app-top-pop [NamePopup]="'Add Topic'"></app-top-pop>
+
+
+    <div class="content d-flex justify-content-between align-items-center p-3">
+
+
+        <div class="left  d-flex  flex-column gap-3">
+            <div class="topContent d-flex   gap-3">
+                <div class="Icon   colorBox  rounded-1">
+                    <i class="fa fa-angle-double-down fs-5" aria-hidden="true"></i>
+                </div>
+                <div class="inputName">
+                    <input type="text" placeholder=" Topic Name">
+                </div>
+                  
+            </div>
+            <div class="medialContent">
+                <textarea name="" id="" placeholder="Description"></textarea>
+
+            </div>
+            <div class="bottomContent d-flex  gap-3">
+
+
+                <div class="custom-select">
+                    <button class="select-button" (click)="toggleDropdown()" [attr.aria-expanded]="isOpen">
+                      <span class="selected-value">{{selectedValue}}</span>
+                      <span class="arrow"  [ngClass]="{ 'open': isOpen }"></span>
+                    </button>
+                    <ul class="select-dropdown "  [ngClass]="{ 'hidden': isOpen }">
+                        <li *ngFor="let option of options" (click)="selectOption(option)">
+                            {{ option }}
+                          </li>
+                    </ul>
+                  </div>
+              
+                <div class="d-flex gap-2 checkedCard">
+                  <label class="labelChecked" for="invalidCheck">Main</label>
+              
+                  <label class="containerCheck">
+                    <input type="checkbox" id="invalidCheck" formControlName="isMain">
+                    <div class="checkmark"></div>
+                  </label>
+                </div>
+
+            </div>
+       
+
+
+
+        </div>
+
+        <div class="right">
+            <img src="Images/imageModel.png" alt="">
+
+        </div>
+    </div>
+
+</div>
