@@ -8,55 +8,77 @@ import { Observable } from 'rxjs';
 })
 export class TopicService {
   private urlTopic: string;
-  private Topic: string;
+  private createtopic: string;
+  private getTopic: string;
   private stages: string;
 
 
-  private UserAuth = localStorage.getItem('UserAuth');  
+  private UserAuth = localStorage.getItem('UserAuth');
 
-  constructor( private _HttpClient:HttpClient) { 
-     this.urlTopic =`${environment.baseUrl}${environment.pickup}topic/paginate`,
-     this.Topic =`${environment.baseUrl}${environment.pickup}topic/create`
-     this.stages=`${environment.baseUrl}${environment.pickup}topic/add-stages`
+  constructor(private _HttpClient: HttpClient) {
+    this.urlTopic = `${environment.baseUrl}${environment.pickup}topic/paginate`,
+      this.createtopic = `${environment.baseUrl}${environment.pickup}topic/create`,
+        this.getTopic = `${environment.baseUrl}${environment.pickup}topic/get`,
+    this.stages = `${environment.baseUrl}${environment.pickup}topic/add-stages`
   }
 
-    getAllLanguage(orderBy :number = 2 ,pageNumber:number=1 , pageSize:number = 50 ,orderBeforPagination:boolean = false , orderDirection:number=1):Observable<any>{
-     return this._HttpClient.get(`${this.urlTopic}?orderBy=${orderBy}&pageNumber=${pageNumber}&pageSize=${pageSize}&orderBeforPagination=${orderBeforPagination}&orderDirection=${orderDirection}`,
+  getAllTopic(orderBy: number = 2, pageNumber: number = 1, pageSize: number = 5, orderBeforPagination: boolean = false, orderDirection: number = 1): Observable<any> {
+    return this._HttpClient.get(`${this.urlTopic}?orderBy=${orderBy}&pageNumber=${pageNumber}&pageSize=${pageSize}&orderBeforPagination=${orderBeforPagination}&orderDirection=${orderDirection}`,
       {
         headers: {
           'Authorization': `Bearer ${this.UserAuth}`
         }
 
-     })
-    }
+      })
+  }
 
-    addTopic(topic:any):Observable<any>{
-      return this._HttpClient.post(`${this.Topic}`,topic,
+  addTopic(topic: any): Observable<any> {
+    return this._HttpClient.post(`${this.createtopic}`, topic,
       {
         headers: {
           'Authorization': `Bearer ${this.UserAuth}`
-        }    
-      } 
-     )
-      
-      
+        }
       }
+    )
 
 
+  }
 
-      addstages(topic:any):Observable<any>{
-        return this._HttpClient.post(`${this.stages}`,topic,
-        {
-          headers: {
-            'Authorization': `Bearer ${this.UserAuth}`
-          }    
-        } 
-       )
-        
-        
+ 
+  getTopicById(topic: number): Observable<any> {
+    return this._HttpClient.get(`${this.getTopic}?id=${topic}`,
+      {
+        headers: {
+          'Authorization': `Bearer ${this.UserAuth}`
         }
+      }
+    )
+  }
+
+  addstages(topic: any): Observable<any> {
+    return this._HttpClient.post(`${this.stages}`, topic,
+      {
+        headers: {
+          'Authorization': `Bearer ${this.UserAuth}`
+        }
+      }
+    )
 
 
-    
-  
+  }
+ 
+
+
+  setDefaultTopic(idTopic: number): Observable<any>{
+    return this._HttpClient.put(`${environment.baseUrl}${environment.pickup}topic/set-default`,{
+      id:idTopic
+    },{
+      headers: {
+        'Authorization': `Bearer ${this.UserAuth}`
+      }
+    })
+  }
+
+
+
 }

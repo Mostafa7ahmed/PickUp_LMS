@@ -26,11 +26,9 @@ export class EditpopuptopicComponent implements OnChanges {
   maxStages: number = 0;
   firstStage = { color: 'green', name: 'New' };
   lastStage = { color: 'red', name: 'Published' };
-  dynamicStages: { topicId: number; name: string; color: string; icon: string; order: number }[] = [];
 
-  // Track newly added stages
   newStages: { name: string; color: string; icon: string; order: number }[] = [];
-
+ 
   private _FormBuilder = inject(FormBuilder);
   private _TopicService = inject(TopicService);
 
@@ -48,33 +46,26 @@ export class EditpopuptopicComponent implements OnChanges {
 
   addStage() {
     if (this.maxStages < 8) {
-      const name = this.editForm.get('name')?.value || 'mostafa'; 
+      const name = this.editForm.get('name')?.value || 'ahmed'; 
       const color = this.editForm.get('color')?.value || 'green';
-      const newStage = {
-        topicId: this.topicId,
+      let newStage = {
         name: name,
         color: color,
         icon: 'fa fa-address-book',
         order: this.maxStages + 2
       };
-      this.dynamicStages.push(newStage);
-      this.newStages.push({ name: name, color: color, icon: 'fa fa-address-book', order: this.maxStages + 2 });
+      this.newStages.push(newStage);
+      
       this.maxStages++;
 
-      // Reset the form for the next stage
-      this.editForm.reset({
-        topicId: this.topicId,
-        name: '',
-        color: 'green',
-        icon: 'fa fa-address-book',
-        order: this.maxStages + 1 // Updated to +1
-      });
+
+      console.log(newStage)
     }
+    
   }
 
   removeStage(index: number) {
-    this.dynamicStages.splice(index, 1);
-    this.newStages.splice(index, 1); // Remove from newStages too
+    this.newStages.splice(index, 1); 
     this.maxStages--;
   }
 
@@ -87,7 +78,6 @@ export class EditpopuptopicComponent implements OnChanges {
     const requestBody = {
       topicId: this.topicId,
       stages: this.newStages.map((stage) => ({
-        topicId: this.topicId,
         name: stage.name,
         color: stage.color,
         icon: stage.icon,
@@ -101,11 +91,9 @@ export class EditpopuptopicComponent implements OnChanges {
       next: (res) => {
         console.log('Stages added successfully:', res);
         this.handleCancelTwo();
-        this.dynamicStages = [];
         this.newStages = [];
         this.maxStages = 0;
         this.editForm.reset({
-          topicId: this.topicId,
           name: '',
           color: 'green',
           icon: 'fa fa-address-book',

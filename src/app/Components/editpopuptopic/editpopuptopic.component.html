@@ -21,14 +21,14 @@
           </div>
 
           <!-- Dynamic Stages -->
-          <div *ngFor="let stage of dynamicStages; let i = index" class="stage-row" cdkDrag>
+          <div *ngFor="let stage of newStages; let i = index" class="stage-row" cdkDrag>
             <span class="drag-handle" cdkDragHandle>⋮⋮</span>
             <select class="color-selector" formControlName="color">
               <option value="green">🟩</option>
               <option value="red">🟥</option>
               <option value="blue">🟦</option>
             </select>
-            <input type="text"   formControlName="name" />
+            <input type="text"     formControlName="name"  />
             <button (click)="removeStage(i)" class="remove-stage-btn">X</button>
           </div>
 

@@ -77,7 +77,7 @@ export class PopaddtopicComponent {
 
   handleIconSelected(icon: string) {
     this.currentIcon = icon;
-    this.myForm.controls['icon'].setValue(icon);
+    this.myForm.controls['icon'].setValue(icon || 'fa fa-address-book');  
   }
 
   handleColorSelected(color: string) {
@@ -102,10 +102,10 @@ export class PopaddtopicComponent {
     const selectedValue = (event.target as HTMLSelectElement).value;
     this.myForm.get('mainId')?.setValue(selectedValue);
   }
+  @Output() onTopicAdded = new EventEmitter<void>(); // حدث جديد
 
   addTopic() {
     if (this.myForm.valid) {
-      console.log("🚀 Form Data Before Sending:", this.myForm.value);
 
       this._Topic.addTopic(this.myForm.value).subscribe((res) => {
         this.topicList = res.result;
@@ -115,6 +115,8 @@ export class PopaddtopicComponent {
         this.myForm.reset();
         this.currentIcon ='fa fa-address-book';
         this.colorDefault = "bg-light";
+        this.onTopicAdded.emit();
+
       });
     }
   }

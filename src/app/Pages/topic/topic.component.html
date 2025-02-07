@@ -36,8 +36,6 @@
       <button class="btn_add rounded-2" (click)="showModal()">
         <i class="fa-solid fa-square-plus mx-2 fs-4"></i>
         <span>New</span>
-
-
       </button>
     </div>
 
@@ -47,328 +45,158 @@
 
   <!-- Box Add Search -->
 
-  <div class="Dargs mt-3">
-    @for (movie of Topics.slice(0,1); track movie.id) {
-    <div class="DragDiv mb-3">
-      <div class="topDarg  d-flex justify-content-between align-items-center px-3">
-        <div class="headerDrag d-flex gap-3">
-          <div class="Icon">
-            <i class="fa-solid fa-grip-vertical fs-5"></i>
-          </div>
+  <div class="Dargs mt-3" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="500" (scrolled)="loadTopics()">
 
-          <p class="m-0" [ngClass]="movie.color" (click)="showTabTopic(movie)">
-
-            <i [class]="'fas ' + movie.icon  " aria-hidden="true">
-            </i>
-          </p>
-          <div class="cardTabs " [class.showTabs]="true">
-
-            <app-select-icon [Icons]="icons"></app-select-icon>
-
-          </div>
-          <h3 class="m-0" *ngIf="true" (click)="startEditing(movie)">
-            {{ movie.name }}
-          </h3>
-
-          <input *ngIf="false" class="inputEdit" type="text" [(ngModel)]="movie.name"
-            (blur)="saveValue(movie, movie.name)" (keyup.enter)="saveValue(movie, movie.name)" autofocus />
-
-        </div>
-
-
-        <div class="rightDarg ">
-          <button class="btn btn_default" [disabled]="!movie.default">Default</button>
-          <i class="fa-solid fa-sliders mx-3" (click)="shows()"></i>
-
-        </div>
-
-      </div>
-
-      <div class="drag_Horizontal my-3">
-        @for (timePeriod of movie.stages; track timePeriod) {
-        <div class="drag_Horizontal_box p-3" [style.border-color]="timePeriod.color"
-          [style.box-shadow]="timePeriod.color">
-          <div class="stages ">
-            <div class="stagesheader d-flex  gap-3  align-items-center">
-              <svg width="15" height="15" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g opacity="0.8">
-                  <path
-                    d="M11 3.5L7.31 7.1675C6.8115 7.663 6.562 7.911 6.2525 7.911C5.943 7.911 5.694 7.663 5.195 7.167L5.075 7.048C4.5765 6.552 4.3265 6.3035 4.017 6.3035C3.7075 6.3035 3.458 6.552 2.9595 7.0485L1 9M11 3.5V6.273M11 3.5H8.209"
-                    [attr.stroke]="timePeriod.color" stroke-width="1.5" stroke-linecap="round"
-                    stroke-linejoin="round" />
-                </g>
-              </svg>
-              <h5>{{timePeriod.name}} </h5>
+    @if(topics.length > 0){
+      @for (topic of topics; track topic.id) {
+        <div class="DragDiv mb-3">
+          <div class="topDarg  d-flex justify-content-between align-items-center px-3">
+            <div class="headerDrag d-flex gap-3">
+              <div class="Icon">
+                <i class="fa-solid fa-grip-vertical fs-5"></i>
+              </div>
+    
+              <p class="m-0" [ngClass]="topic.color">
+                <i [class]="'fas ' + topic.icon  " aria-hidden="true">
+                </i>
+              </p>
+              <div class="cardTabs " [class.showTabs]="true" >
+    
+                <app-select-icon ></app-select-icon>
+    
+              </div>
+              <h3 class="m-0" *ngIf="true" >
+                {{ topic.name }}
+              </h3>
+    
+              <input *ngIf="false" class="inputEdit"   type="text" [(ngModel)]="topic.name" />
+    
             </div>
-
-            <p>{{timePeriod.price}} $</p>
-
-
+    
+    
+            <div class="rightDarg ">
+              <button class="btn btn_default" [disabled]=" isSuccess && topic.default"  (click)="setDefaultTopic(topic.id)">Default</button>
+              <i class="fa-solid fa-sliders mx-3" (click)="getTopicbyID(topic.id)" ></i>
+    
+            </div>
+    
           </div>
-          @if ( !$first) {
-          <span class="dot_right" [style.background-color]="timePeriod.color"></span>
+    
+          <div class="drag_Horizontal my-3">
+            @for (stage of topic.stages; track stage.id) {
+            <div class="drag_Horizontal_box p-3"   [ngStyle]="{ 'border-color': stage.color}"   >
+              <div class="stages ">
+                <div class="stagesheader d-flex  gap-3  align-items-center">
+                  <svg width="15" height="15" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g opacity="0.8">
+                      <path
+                        d="M11 3.5L7.31 7.1675C6.8115 7.663 6.562 7.911 6.2525 7.911C5.943 7.911 5.694 7.663 5.195 7.167L5.075 7.048C4.5765 6.552 4.3265 6.3035 4.017 6.3035C3.7075 6.3035 3.458 6.552 2.9595 7.0485L1 9M11 3.5V6.273M11 3.5H8.209"
+                        [attr.stroke]="stage.color" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    </g>
+                  </svg>
+                  <h5>{{stage.name}} </h5>
+                </div>
+                <p>{{stage.snapshot.totalPrice}} $</p>
+              </div>
+              @if ( !$first) {
+              <span class="dot_right" [style.background-color]="stage.color"></span>
+    
+              }
+              @if ( !$last) {
+              <div class="connector"></div>
+    
+              }
+    
+              @if ( !$last) {
+              <span class="dot_left" [style.background-color]="stage.color"></span>
+    
+    
+              }
+    
+            </div>
+            }
+          </div>
+    
+    
+          <div class="bottomDrag d-flex align-items-center gap-3 px-3">
+            <div class="contact_bottom d-flex align-items-center gap-2">
+              <i class="fa fa-book" aria-hidden="true"></i>
+              <span class="tittle">Courses :</span>
+    
+              <span>{{topic.snapshot.totalPrice}}</span>
+            </div>
+            <span class="line"></span>
+            <div class="contact_bottom   d-flex align-items-center gap-2">
+              <span class="tittle">Total Price :</span>
+    
+              <span>{{topic.snapshot.totalPrice | currency}}</span>
+            </div>
+            <span class="line"></span>
+    
+    
+         
+            <div class="contact_bottom   d-flex  align-items-center gap-2">
+              <i class="fa fa-book" aria-hidden="true"></i>
+              <span class="tittle">Last update :</span>
+    
+              @if(topic.updatedOn){
 
-          }
-          @if ( !$last) {
-          <div class="connector"></div>
-
-          }
-
-          @if ( !$last) {
-          <span class="dot_left" [style.background-color]="timePeriod.color"></span>
-
-
-          }
-
+                <span>{{topic.updatedOn | date :"dd/MM/yyyy"}}</span>
+    
+              }
+              @else {
+                <span> - - </span>
+    
+              }
+    
+            </div>
+            <span class="line"></span>
+    
+            <div class="contact_bottom  d-flex  align-items-center gap-2">
+              <i class="fa fa-book" aria-hidden="true"></i>
+              <span class="tittle">Creator :</span>
+    
+              <span>{{topic.creator.name}}</span>
+            </div>
+            <span class="line"></span>
+            <div class="contact_bottom   d-flex  align-items-center gap-2">
+              <i class="fa fa-book" aria-hidden="true"></i>
+              <span class="tittle">Created On :</span>
+              <span>{{topic.createdOn |  date :"dd/MM/yyyy"}}</span>
+            </div>
+            @if($last){
+            <span class="line"></span>
+    
+            }
+        
+            <div class="contact_bottom   d-flex  align-items-center gap-2">
+              <i class="fa fa-book" aria-hidden="true"></i>
+              <span class="tittle">Last Updater :</span>
+              @if(topic.updater){
+                <span>{{topic.updater.name}}</span>
+              }
+              @else {
+                <span>- -</span>
+              }
+    
+    
+    
+            </div>
+          </div>
         </div>
         }
-      </div>
-
-
-      <div class="bottomDrag d-flex align-items-center gap-3 px-3">
-        <div class="contact_bottom d-flex align-items-center gap-2">
-          <i class="fa fa-book" aria-hidden="true"></i>
-          <span class="tittle">Courses :</span>
-
-          <span>{{movie.snapshot.totalPrice}}</span>
-        </div>
-        <span class="line"></span>
-        <div class="contact_bottom   d-flex align-items-center gap-2">
-          <span class="tittle">Total Price :</span>
-
-          <span>{{movie.snapshot.totalPrice | currency}}</span>
-        </div>
-        <span class="line"></span>
-
-
-        @if(movie.updatedOn){
-
-        <div class="contact_bottom   d-flex  align-items-center gap-2">
-          <i class="fa fa-book" aria-hidden="true"></i>
-          <span class="tittle">Last update :</span>
-
-
-          <span>{{movie.updatedOn}}</span>
-
-        </div>
-        }
-
-        <div class="contact_bottom  d-flex  align-items-center gap-2">
-          <i class="fa fa-book" aria-hidden="true"></i>
-          <span class="tittle">Creator :</span>
-
-          <span>{{movie.creator.name}}</span>
-        </div>
-        <span class="line"></span>
-        <div class="contact_bottom   d-flex  align-items-center gap-2">
-          <i class="fa fa-book" aria-hidden="true"></i>
-          <span class="tittle">Created On :</span>
-          <span>{{movie.createdOn | date}}</span>
-        </div>
-        @if($last){
-        <span class="line"></span>
-
-        }
-        @if(movie.updater){
-        <div class="contact_bottom   d-flex  align-items-center gap-2">
-          <i class="fa fa-book" aria-hidden="true"></i>
-          <span class="tittle">Last Updater :</span>
-
-          <span>{{movie.updater}}</span>
-
-
-
-        </div>
-        }
-      </div>
-    </div>
     }
+
+    @else {
+         
+      <div class="loading ">
+        <div class="loader"></div>
+      </div>
+    }
+ 
   </div>
 
-
-
-
-  <div class="viewTopic"  [class.showelement]="showsss">
-
-    <app-top-pop p [NamePopup]="'View Topic'"></app-top-pop>
-
-    <div class="contentTopicView  d-flex gap-5  justify-content-between  p-4 py-4">
-      <div class="left  w-50 ">
-
-        <div class="headerView d-flex align-items-center justify-content-between ">
-
-          <div class="info d-flex align-items-center gap-2">
-            <div class="iconViewTopic">
-
-              <i class="fa fa-address-card fs-5" aria-hidden="true"></i>
-
-            </div>
-
-            <h3 class="m-0 h4">Computer Science</h3>
-          </div>
-
-          <div class="option">
-
-            <div class="rightDarg  d-flex  gap-3 align-items-center">
-              <button class="btn btn_default">Default</button>
-
-              <div class="icontopic" >
-                <i class="fa-solid fa-trash-can"></i>
-              </div>
-
-            </div>
-
-
-          </div>
-
-
-
-        </div>
-
-
-        <div class="Description ">
-          <p>This topic covers the principles, methodologies, and practices of software engineering. Students will learn
-            how to design, develop, test, and maintain software systems that meet user requirements. The course provides
-            a strong foundation in software development life cycles, version control, design patterns, and project
-            management.</p>
-        </div>
-
-        <div class="aboutInstructor mt-3">
-
-          <p><i class="fas fa-book"></i> Courses: <span>{{ courseCount }}</span></p>
-          <p><i class="fas fa-dollar-sign"></i> Total Price: <span>${{ totalPrice }}</span></p>
-          <p><i class="fas fa-clock"></i> Last update: <span>{{ lastUpdate }}</span></p>
-          <p><i class="fas fa-user"></i> Creator: <span>{{ creator }}</span> <i class="fas fa-image"></i></p>
-          <p><i class="fas fa-calendar-alt"></i> Created On: <span>{{ createdOn }}</span></p>
-          <p><i class="fas fa-user"></i> Last Updater: <span>{{ lastUpdater }}</span> <i class="fas fa-image"></i></p>
-
-        </div>
-
-
-
-
-
-      </div>
-
-      <span class="line"></span>
-
-
-      <div class="right flex-grow-1 ">
-
-        <div class="addStages d-flex align-items-center justify-content-between ">
-
-          <p>Stages</p>
-
-
-          <div class="icontopic">
-            <i class="fa fa-plus-square" aria-hidden="true"></i>
-          </div>
-
-
-        </div>
-
-        <div class="Stages">
-
-          <div class="stage d-flex justify-content-between align-items-center p-3 shadow-sm">
-
-            <div class="lft">
-              <svg width="15" height="15" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g opacity="0.8">
-                  <path
-                    d="M11 3.5L7.31 7.1675C6.8115 7.663 6.562 7.911 6.2525 7.911C5.943 7.911 5.694 7.663 5.195 7.167L5.075 7.048C4.5765 6.552 4.3265 6.3035 4.017 6.3035C3.7075 6.3035 3.458 6.552 2.9595 7.0485L1 9M11 3.5V6.273M11 3.5H8.209"
-                    stroke-width="1.5" stroke-linecap="round" [attr.stroke]="'#F3C048'" stroke-linejoin="round" />
-                </g>
-              </svg>
-
-              <span class="mx-3">New</span>
-            </div>
-
-
-            <div class="rightDarg  d-flex  gap-3 align-items-center">
-              <button class="btn btn_default">Default</button>
-
-              <div class="icontopic">
-                <i class="fa-solid fa-trash-can"></i>
-              </div>
-
-            </div>
-          </div>
-
-
-
-          <div class="stage d-flex justify-content-between align-items-center p-3 shadow-sm">
-
-            <div class="lft">
-              <svg width="15" height="15" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g opacity="0.8">
-                  <path
-                    d="M11 3.5L7.31 7.1675C6.8115 7.663 6.562 7.911 6.2525 7.911C5.943 7.911 5.694 7.663 5.195 7.167L5.075 7.048C4.5765 6.552 4.3265 6.3035 4.017 6.3035C3.7075 6.3035 3.458 6.552 2.9595 7.0485L1 9M11 3.5V6.273M11 3.5H8.209"
-                    stroke-width="1.5" stroke-linecap="round" [attr.stroke]="'#79877E'" stroke-linejoin="round" />
-                </g>
-              </svg>
-
-              <span class="mx-3">Recording</span>
-            </div>
-
-
-            <div class="rightDarg  d-flex  gap-3 align-items-center">
-              <button class="btn btn_default">Default</button>
-
-              <div class="icontopic">
-                <i class="fa-solid fa-trash-can"></i>
-              </div>
-
-            </div>
-          </div>
-
-
-
-
-          <div class="stage d-flex justify-content-between align-items-center p-3 shadow-sm">
-
-            <div class="lft">
-              <svg width="15" height="15" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g opacity="0.8">
-                  <path
-                    d="M11 3.5L7.31 7.1675C6.8115 7.663 6.562 7.911 6.2525 7.911C5.943 7.911 5.694 7.663 5.195 7.167L5.075 7.048C4.5765 6.552 4.3265 6.3035 4.017 6.3035C3.7075 6.3035 3.458 6.552 2.9595 7.0485L1 9M11 3.5V6.273M11 3.5H8.209"
-                    stroke-width="1.5" stroke-linecap="round" [attr.stroke]="'#E65656'" stroke-linejoin="round" />
-                </g>
-              </svg>
-
-              <span class="mx-3">Preparation</span>
-            </div>
-
-
-            <div class="rightDarg  d-flex  gap-3 align-items-center">
-              <button class="btn btn_default">Default</button>
-
-              <div class="icontopic">
-                <i class="fa-solid fa-trash-can"></i>
-              </div>
-
-            </div>
-          </div>
-
-
-
-
-        </div>
-
-
-
-
-      </div>
-
-
-    </div>
-
-
-
-
-
-
-
-  </div>
 
 
 
@@ -380,5 +208,12 @@
 
 <!-- Model -->
 
-<app-popaddtopic [(isAddPopupVisible)]="isVisible">
+<app-viewtpoic 
+  [viewTopic]="showsViewTopic" 
+  [viewTopicData]="viewTopicData" 
+  [getTopicbyIDValue]="setDefaultTopic.bind(this)"
+  (closePopup)="closePopup()">
+  
+</app-viewtpoic>
+<app-popaddtopic [(isAddPopupVisible)]="isVisible"  (onTopicAdded)="handleTopicAdded()">
 </app-popaddtopic>

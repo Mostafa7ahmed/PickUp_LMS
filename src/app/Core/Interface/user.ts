@@ -18,10 +18,10 @@ export interface validate {
   
 
   export interface Decode {
-    UserId:              string;
-    roles:               string;
-    UserType:            userType;
-    InstructorId:        string;
+    UserId:string;
+    roles: string;
+    UserType:userType;
+    InstructorId:string;
 
 }
 

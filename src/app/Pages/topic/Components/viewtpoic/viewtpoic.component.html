@@ -1,0 +1,98 @@
+<div class="overlay" *ngIf="viewTopic" ></div>
+<div class="viewTopic"  [class.showelement]="viewTopic">
+    <app-top-pop  [NamePopup]="'View Topic'" (isVisibleChange)="closePopupHandler()"></app-top-pop>
+    <div class="contentTopicView  d-flex gap-5  justify-content-between  p-4 py-4">
+      <div class="left  w-50 ">
+        <div class="headerView d-flex align-items-center justify-content-between ">
+          <div class="info d-flex align-items-center gap-2">
+            <div class="iconViewTopic">
+                <p class="m-0 " [ngClass]="viewTopicData.color">
+                    <i [class]="'fas ' + viewTopicData.icon  " aria-hidden="true">
+                    </i>
+                  </p>       
+              </div>
+            <h3 class="m-0 h4">{{viewTopicData.name}}</h3>
+          </div>
+          <div class="option">
+            <div class="viewTopicRight  d-flex  gap-3 align-items-center">
+                <button class="btn btn_default" [disabled]="viewTopicData.default"  (click)="fetchTopic(viewTopicData.id)">Default</button>
+                <div class="icontopic" >
+                <i class="fa-solid fa-trash-can"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="Description ">
+          <p>{{viewTopicData.description}}</p>
+        </div>
+        <div class="aboutInstructor mt-4">
+          <p><i class="fas fa-book"></i> Courses: <span>{{ viewTopicData.snapshot?.totalPrice }}</span></p>
+          <p><i class="fas fa-dollar-sign"></i> Total Price: <span>${{ viewTopicData.snapshot?.totalPrice }}</span></p>
+          <p><i class="fas fa-clock"></i> Last update: <span>{{ viewTopicData?.updatedOn | date :"dd/MM/yyyy" }}</span></p>
+          <p><i class="fas fa-user"></i> Creator: <span>{{ viewTopicData.creator?.name }}</span> <i class="fas fa-image"></i></p>
+          <p><i class="fas fa-calendar-alt"></i> Created On: <span>{{ viewTopicData?.createdOn | date :"dd/MM/yyyy" }}</span></p>
+          <p><i class="fas fa-user"></i> Last Updater: <span>{{ viewTopicData.updater?.name  }}</span> <i class="fas fa-image"></i></p>
+        </div>
+      </div>
+      <span class="line"></span>
+      <div class="right flex-grow-1 ">
+        <div class="addStages d-flex align-items-center justify-content-between ">
+          <p>Stages</p>
+          <div class="icontopic">
+            <i class="fa fa-plus-square" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="Stages   ">  
+
+          @for (stage of viewTopicData.stages; track stage.id) {
+            
+            <div class="drag-drop mb-3 d-flex  gap-3  align-items-center">
+
+              <div class="IconDarg " [class.opacity-0]="$first || $last">
+                <i class="fa-solid fa-grip-vertical fs-4"></i>
+              </div>
+            
+              <div class="stage flex-grow-1 d-flex  mb-3 justify-content-between align-items-center p-3 shadow-sm"  [ngStyle]="{ 'border-color': stage.color}">
+                <div class="left">
+                  <svg width="15" height="15" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g opacity="0.8">
+                      <path
+                        d="M11 3.5L7.31 7.1675C6.8115 7.663 6.562 7.911 6.2525 7.911C5.943 7.911 5.694 7.663 5.195 7.167L5.075 7.048C4.5765 6.552 4.3265 6.3035 4.017 6.3035C3.7075 6.3035 3.458 6.552 2.9595 7.0485L1 9M11 3.5V6.273M11 3.5H8.209"
+                        stroke-width="1.5" stroke-linecap="round" [attr.stroke]="stage.color" stroke-linejoin="round" />
+                    </g>
+                  </svg>
+                  <span class="mx-3">{{stage.name}}</span>
+                </div>
+                <div class="right d-flex  gap-3 align-items-center">
+                  <button class="btn btn_default "  [disabled]="stage.default"  (click)="fetchTopic(viewTopicData.id)">Default</button>
+                  <div class="icontopic">
+                    <i class="fa-solid fa-trash-can"></i>
+                  </div>
+                </div>
+
+           
+              </div>
+              @if ( !$first) {
+                <span class="dot_top" [style.background-color]="stage.color"></span>
+      
+                }
+                @if ( !$last) {
+                  <div class="centerLine"></div>
+        
+                  }
+                @if ( !$last) {
+                  <span class="dot_bottom" [style.background-color]="stage.color"></span>
+        
+                  }
+          
+            </div>
+            
+          }
+
+  
+       
+       
+        </div>
+      </div>
+    </div>
+  </div>
