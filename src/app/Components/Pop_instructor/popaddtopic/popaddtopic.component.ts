@@ -11,8 +11,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SelectIconComponent } from '../../select-icon/select-icon.component';
 import { TopPopComponent } from "../../top-pop/top-pop.component";
-import { EditpopuptopicComponent } from "../../editpopuptopic/editpopuptopic.component";
 import { TopicService } from '../../../Core/Services/topic.service';
+import { EditpopuptopicComponent } from '../editpopuptopic/editpopuptopic.component';
 
 @Component({
   selector: 'app-popaddtopic',

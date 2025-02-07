@@ -1,8 +1,0 @@
-{
-  "routes": [
-    "/",
-    "/RegisterInstructor",
-    "/RegisterStudent",
-    "/startregister"
-  ]
-}

@@ -6,8 +6,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
-import { TopPopComponent } from '../top-pop/top-pop.component';
-import { TopicService } from '../../Core/Services/topic.service';
+import { TopPopComponent } from '../../top-pop/top-pop.component';
+import { TopicService } from '../../../Core/Services/topic.service';
 
 @Component({
   selector: 'app-editpopuptopic',
