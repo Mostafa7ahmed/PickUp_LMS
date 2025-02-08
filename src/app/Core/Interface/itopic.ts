@@ -1,25 +1,41 @@
-export interface ITopic{
-  id: number;
-  instructorId: number;
-  creatorId: number;
-  updaterId: number;
-  name: string;
-  color: string;
-  icon: string;
-  order: number;
-  default: boolean;
-  snapshot: SnapshotTopic;
-  createdOn: string;
-  updatedOn: string;
-  creator: Creator;
-  updater: Updater;
-  stages: Stage[];
-  description: string;
+export interface ITpoic {
+  success: boolean
+  statusCode: number
+  message: string
+  pageSize: number
+  pageIndex: number
+  totalCount: number
+  count: number
+  totalPages: number
+  moveNext: boolean
+  movePrevious: boolean
+  result: Result[]
+}
+// export interface pageIndex  {
+//   pageIndex: number
 
+// }
 
+export interface Result {
+  id: number
+  instructorId: number
+  creatorId: number
+  updaterId: number
+  name: string
+  description: string
+  color: string
+  icon: string
+  order: number
+  default: boolean
+  snapshot: Snapshot
+  createdOn: string
+  updatedOn: string
+  creator: Creator
+  updater: Updater
+  stages: Stage[]
 }
 
-export interface SnapshotTopic {
+export interface Snapshot {
   totalPrice: number
   hasCourses: boolean
 }
@@ -46,10 +62,10 @@ export interface Stage {
   type: number
   createdOn: string
   default: boolean
-  snapshot: SnapshotStage
+  snapshot: Snapshot2
 }
 
-export interface SnapshotStage {
+export interface Snapshot2 {
   totalPrice: number
   hasCourses: boolean
   coursesCount: number

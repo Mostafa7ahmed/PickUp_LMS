@@ -1,7 +1,7 @@
 import { TopicService } from './../../../../Core/Services/topic.service';
 import { ChangeDetectorRef, Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { TopPopComponent } from '../../../../Components/top-pop/top-pop.component';
-import { ITopic } from '../../../../Core/Interface/itopic';
+import { ITpoic } from '../../../../Core/Interface/itopic';
 import { CommonModule, NgIf } from '@angular/common';
 import { DeleteStageComponent } from "../delete-stage/delete-stage.component";
 
@@ -17,7 +17,7 @@ export class ViewtpoicComponent {
   constructor(private _TopicService:TopicService) {}
 
   @Input() viewTopic:boolean = false;
-  @Input() viewTopicData : ITopic | any = {} as ITopic ;
+  @Input() viewTopicData : ITpoic | any = {} as ITpoic ;
   @Output() closePopup = new EventEmitter<void>();
   @Input() getTopicbyIDValue: (id: number) => void = () => {}; // الدالة من الأب
 
