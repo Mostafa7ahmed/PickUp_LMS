@@ -17,7 +17,7 @@ import { AddTopicComponent } from "./Components/add-topic/add-topic.component";
 @Component({
   selector: 'app-topic',
   standalone: true,
-  imports: [InfiniteScrollModule, FormsModule, CommonModule, SelectIconComponent, PopaddtopicComponent, ViewtpoicComponent, DeleteStageComponent, AddStagesComponent, AddTopicComponent],
+  imports: [InfiniteScrollModule, FormsModule, CommonModule, SelectIconComponent, PopaddtopicComponent, ViewtpoicComponent, AddTopicComponent],
   templateUrl: './topic.component.html',
   styleUrl: './topic.component.scss'
 })

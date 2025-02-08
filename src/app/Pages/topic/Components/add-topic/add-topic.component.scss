@@ -5,12 +5,19 @@
     transform: translate(-50%, -50%);
     z-index: 8888;
     width: 600px;
-    height: 350px;
+    height: 375px;
     border: 0.5px solid #E1E1E1;
     background-color: var(--white);
-    border-radius: 15px;    
+    border-radius: 15px;  
+    transition: .5s opacity ease-in-out;
+    opacity: 0;
 
 }
+.addStage.showelement{
+  opacity: 2;
+  visibility: visible;
+}
+
 .addStage .right img{
     height: 90%;
 }
@@ -22,14 +29,17 @@
     border-radius: 5px;
     border: 1px solid var(--color_border);
   }
-  
   .topContent .Icon{
-    background-color: aquamarine;
     padding: 3px 7px !important;
     display: flex;
+     font-size: 15px;
     align-items: center;
     justify-content: center;
-
+    cursor: pointer;
+  }
+  .topContent .Icon i{
+    font-size: 15px !important;
+ 
   }
 .medialContent textarea {
     width: 100%;
@@ -40,11 +50,7 @@
     resize:none;
     height: 80px;
   }
-  .bottomContent{
-    position: relative;
-    z-index: 8778887878787878787877887887 !important;
-  }
-  
+
 
   .custom-select {
     position: relative;
@@ -63,6 +69,13 @@
     border-radius: 0.25rem;
     background-color: white;
     cursor: pointer;
+  }
+  .select-button:disabled{
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  .custom-select .selected-value{
+     overflow: hidden;
   }
   .arrow {
     border-left: 5px solid transparent;
@@ -87,7 +100,10 @@
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     max-height: 200px;
     overflow-y: auto;
+    overflow-x: hidden;
+
     opacity: 0;
+
   }
   .select-dropdown.hidden{
     opacity: 1;
@@ -119,8 +135,45 @@
   }
 
 
+  .btn_preview{
+    padding: 5px 15px;
+    border: none;
+    background-color: var(--bg-btn);
+    color: var(--white);
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .btn_preview:disabled{
+    background-color: var(--color_border);
+    color: var(--color_text);
+    cursor: not-allowed;
+  }
 
+  .cardTabs{
+    gap: 10px;
+    padding: 10px;
+    border-radius: 10px !important;
+    background-color: var(--white);
+    box-shadow: 0px 3px 24px rgba(50, 56, 51, 0.36);
+    position: absolute;
+    top: 120px;
+    width: 250px;
+    opacity: 1;
+    visibility: visible;
+    overflow: hidden;
+    padding: 10px;
+    z-index: 5888;  
+    transition: 0.2s all ease-in;
 
+  }
+  
+ 
+  .cardTabs.showTabs{
+    opacity: 0;
+    visibility: hidden;
+
+  
+  }
   
 
 .containerCheck input {

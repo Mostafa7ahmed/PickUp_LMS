@@ -14,6 +14,7 @@
     transition:  0.2s  background-color ease-in-out;
     z-index: 778855;
     cursor: pointer;
+    overflow: hidden;
 }
 .icon i{
     color: var(--white);

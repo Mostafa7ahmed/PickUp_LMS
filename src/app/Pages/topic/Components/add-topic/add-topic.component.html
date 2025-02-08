@@ -1,36 +1,63 @@
-<div class="addStage">
+<div class="overlay" *ngIf="isAddPopupVisible" ></div>
 
-    <app-top-pop [NamePopup]="'Add Topic'"></app-top-pop>
+<div class="addStage"  [class.showelement]="isAddPopupVisible"   >
+
+    <app-top-pop [NamePopup]="'Add Topic'" (isVisibleChange)="handleCancel()"></app-top-pop>
 
 
     <div class="content d-flex justify-content-between align-items-center p-3">
-
-
-        <div class="left  d-flex  flex-column gap-3">
+        <form  [formGroup]="dataStage"  class="left  d-flex  flex-column gap-3">
             <div class="topContent d-flex   gap-3">
-                <div class="Icon   colorBox  rounded-1">
-                    <i class="fa fa-angle-double-down fs-5" aria-hidden="true"></i>
-                </div>
+                <div class="Icon   colorBox  rounded-1" #select  [ngClass]="colorDefault" (click)="showTab()">
+                    <i [class]="currentIcon" aria-hidden="true"></i>
+                  </div>
+
+
+                  @defer ( on interaction(select)) {
+                    <div class="cardTabs " [class.showTabs]="ishowTab">
+                        <!-- Use Select Icon Copompot here -->
+          
+                        <app-select-icon
+                            [Icons]="icons"
+                            [colors]="colors"
+                            (iconSelected)="handleIconSelected($event)"
+                            (colorSelected)="handleColorSelected($event)"
+                            (closeModal)="showTab()" 
+                            
+                            >
+                      </app-select-icon>
+          
+           
+                
+                    </div>
+          
+                    
+                  }
+        
+                
+           
                 <div class="inputName">
-                    <input type="text" placeholder=" Topic Name">
+                    <input type="text" placeholder=" Topic Name" max="40" formControlName="name" >
                 </div>
                   
             </div>
             <div class="medialContent">
-                <textarea name="" id="" placeholder="Description"></textarea>
+                <textarea name="" id="" placeholder="Description" formControlName="description"></textarea>
 
             </div>
             <div class="bottomContent d-flex  gap-3">
 
 
                 <div class="custom-select">
-                    <button class="select-button" (click)="toggleDropdown()" [attr.aria-expanded]="isOpen">
-                      <span class="selected-value">{{selectedValue}}</span>
-                      <span class="arrow"  [ngClass]="{ 'open': isOpen }"></span>
+                    <button class="select-button" type="button" (click)="toggleDropdown()"[attr.aria-expanded]="isOpen" 
+                    [disabled]="dataStage.get('isMain')?.value">
+                    
+                    <span class="selected-value">{{selectedValue}}</span>
+                      <span class="arrow"  [ngClass]="{ 'open': isOpen}"></span>
                     </button>
-                    <ul class="select-dropdown "  [ngClass]="{ 'hidden': isOpen }">
+                    <ul class="select-dropdown "   [ngClass]="{ 'hidden': isOpen }">
                         <li *ngFor="let option of options" (click)="selectOption(option)">
-                            {{ option }}
+                            {{ option.name }}
                           </li>
                     </ul>
                   </div>
@@ -46,10 +73,7 @@
 
             </div>
        
-
-
-
-        </div>
+        </form>
 
         <div class="right">
             <img src="Images/imageModel.png" alt="">
@@ -57,4 +81,11 @@
         </div>
     </div>
 
-</div>
+    <div class="footerModel d-flex justify-content-end align-items-end mx-3">
+        <div class="btns ">
+          <button class="btn_preview rounded-2" (click)="addTopic()" [disabled] ="dataStage.invalid">Next</button>
+        </div>
+  
+      </div>
+
+</div><app-editpopuptopic  [twovisible]="twovisible"  [topicList]="topicList"       />
