@@ -33,10 +33,15 @@
     </div>
 
     <div class="boxOpreation_btn">
-      <button class="btn_add rounded-2" (click)="showModal()">
+      <button class="btn_add rounded-2" (click)="showModal()" #addTpoic>
         <i class="fa-solid fa-square-plus mx-2 fs-4"></i>
         <span>New</span>
       </button>
+
+
+      @defer (on interaction(addTpoic)) {
+        <app-add-topic [(isAddPopupVisible)]="isVisible"  (onTopicAdded)="handleTopicAdded()"   />
+      }
     </div>
 
 
@@ -45,7 +50,7 @@
 
   <!-- Box Add Search -->
 
-  <div class="Dargs mt-3" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="500" (scrolled)="loadTopics()">
+  <div class="Dargs mt-3" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="500"  (scrolled)="loadTopics(0, true)">
 
     @for (topic of topics.result; track  $index) {
       <div class="DragDiv mb-3">
@@ -74,7 +79,7 @@
   
   
           <div class="rightDarg ">
-            <button class="btn btn_default" [disabled]=" isSuccess && topic.default"  (click)="setDefaultTopic(topic.id , topics.pageIndex)" >Default</button>
+            <button class="btn btn_default" [disabled]="topic.default"  (click)="setDefaultTopic(topic.id )" >Default</button>
          
             <i class="fa-solid fa-sliders mx-3" (click)="getTopicbyID(topic.id)"  #ViewTopicTd ></i>     
             
@@ -84,6 +89,7 @@
                 [viewTopic]="showsViewTopic" 
                 [viewTopicData]="viewTopicData" 
                 (topicsUpdated)="handleTopicAdded()"
+                [getTopicbyIDValue]="setDefaultTopic.bind(this)"
                 (closePopup)="closePopup()">
                 </app-viewtpoic>
               }
@@ -207,9 +213,8 @@
 </div>
 
 
+<app-add-stages />
 
 
 
 
-
-<app-add-topic     [(isAddPopupVisible)]="isVisible"  (onTopicAdded)="handleTopicAdded()"   />

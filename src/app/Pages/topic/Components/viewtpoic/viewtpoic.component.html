@@ -1,5 +1,4 @@
-<div class="overlay" *ngIf="viewTopic" ></div>
-<div class="viewTopic"  [class.showelement]="viewTopic">
+<div class="viewTopic"  [class.showelementview]="viewTopic">
     <app-top-pop  [NamePopup]="'View Topic'" (isVisibleChange)="closePopupHandler()"></app-top-pop>
     <div class="contentTopicView  d-flex gap-5  justify-content-between  p-4 py-4">
       <div class="left  w-50 ">
@@ -38,7 +37,7 @@
       <div class="right flex-grow-1 ">
         <div class="addStages d-flex align-items-center justify-content-between ">
           <p>Stages</p>
-          <div class="icontopic Iconadd">
+          <div class="icontopic Iconadd" (click)="addSatge(viewTopicData.id)">
             <i class="fa fa-plus-square" aria-hidden="true"></i>
           </div>
         </div>

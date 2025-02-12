@@ -16,7 +16,7 @@ import { AddTopicComponent } from "./Components/add-topic/add-topic.component";
 @Component({
   selector: 'app-topic',
   standalone: true,
-  imports: [InfiniteScrollModule, FormsModule, CommonModule, SelectIconComponent, ViewtpoicComponent, AddTopicComponent],
+  imports: [InfiniteScrollModule, FormsModule, CommonModule, SelectIconComponent, ViewtpoicComponent, AddTopicComponent, AddStagesComponent],
   templateUrl: './topic.component.html',
   styleUrl: './topic.component.scss'
 })
@@ -24,17 +24,15 @@ export class TopicComponent implements OnInit {
   private _topicService = inject(TopicService);
   private cdr = inject(ChangeDetectorRef);
   pageIndex :number = 0;
-  moveNext:boolean = false;
-  movePrevious:boolean = false;
-  lastScrollTop:number = 0
-
+  moveNext :boolean = false;
+  movePrevious :boolean = false;
 
 
   topics:ITpoic = {} as ITpoic;
 
   viewTopicData :ITpoic = {} as ITpoic;
   pageNumber = 1;
-  pageSize = 5;
+  pageSize = 30;
   loading = false;
   hasMoreData = true;
   isVisible = false;
@@ -59,38 +57,67 @@ export class TopicComponent implements OnInit {
     this.loadTopics();
   }
 
-  loadTopics(pageIndex ?:number ): void {
+  loadTopics(pageIndex :number = 0 , isScroll :boolean = false, _default :boolean = false): void {
     if (this.loading || !this.hasMoreData) return;
- 
     this.loading = true;
-    this._topicService.getAllTopic(2,pageIndex ? pageIndex : this.pageNumber, this.pageSize).subscribe((response: any) => {
+   
+
+   if(isScroll ){
+    if(this.topics.totalPages > this.pageNumber && this.topics.moveNext ){
+      this.pageNumber++;
+
+      this._topicService.getAllTopic(2,pageIndex !== 0 ? pageIndex : this.pageNumber, this.pageSize).subscribe((response: any) => {
+        if (response.success) {
+  
+          this.topics.result = [...this.topics.result,...response.result];
+  
+      
+  
+         
+      
+        } else {
+          this.hasMoreData = false;
+        }
+        this.loading = false;
+      });
+  
+    }
+   }
+
+ 
+   else{
+    this._topicService.getAllTopic(2,pageIndex !== 0 ? pageIndex : 1 , this.pageSize).subscribe((response: any) => {
       if (response.success) {
 
+        this.topics = response; 
 
-         this.topics = response;
-         this.moveNext = response.moveNext;
-         this.movePrevious = response.movePrevious;
-         console.log(this.moveNext)
-
-        this.topics.result.push(...response.result);
-
+       
     
-        this.pageNumber++;
-      } else {
+      }
+       else {
         this.hasMoreData = false;
       }
       this.loading = false;
     });
+   }
+
+
   }
 
 
-  setDefaultTopic(id:number , oldpage:number):void {
+  setDefaultTopic(id:number ):void {
     this._topicService.setDefaultTopic(id).subscribe((res) => {
       if (res.success) {
+        let newDefaultTopicIndex = this.topics.result.findIndex(topic => topic.id === res.result.newDefaultTopicId);
+         this.topics.result[newDefaultTopicIndex].default = true;
+       let oldDefaultTopicIndex = this.topics.result.findIndex(topic => topic.id === res.result.oldDefaultTopicId);
+       this.topics.result[oldDefaultTopicIndex].default = false;
 
-        this.topics.result = []; 
-        this.loadTopics(oldpage); 
-        // this.getTopicbyID(id)
+
+
+      
+
+     
       } else {
         console.error('Failed to set default topic:', res);
       }
@@ -98,30 +125,8 @@ export class TopicComponent implements OnInit {
 
     });
   }
+ 
 
-
-  @HostListener('window:scroll', ['$event'])
-  onScroll(event: any) {
-    // error message
-    const windowHeight = window.innerHeight;
-    const documentHeight = document.documentElement.scrollHeight;
-    const scrollPosition = window.scrollY || window.pageYOffset || document.body.scrollTop + (document.documentElement && document.documentElement.scrollTop || 0);
-
-
-
-    if ((documentHeight - (scrollPosition + windowHeight) < 100 )&&( scrollPosition > this.lastScrollTop)) {
-      console.log("Scrolling Down ⬇️");
-      if(this.moveNext){
-
-        this.loadTopics();
-      }
-    } else if (scrollPosition < this.lastScrollTop) {
-    
-    }
-
-    this.lastScrollTop = scrollPosition; 
-
-  }
 
   getTopicbyID(id: number): void {
     this.currentTopicId = id;

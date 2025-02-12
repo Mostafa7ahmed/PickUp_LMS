@@ -81,13 +81,13 @@ export class SidebarfixedComponent {
     { 
       name: 'Setting',  
       Icon: 'fa-solid fa-gear', 
-      list: ["Message", "Notification"], 
-      routes: ["Message", "Message"]
+      list: ["Message", "Log Up"], 
+      routes: ["Message", "login"]
     }
   ];
   
   openIndex: number | null = null;
-  isRotated: boolean = false; // لتتبع حالة دوران الأيقونة
+  isRotated: boolean = false; 
 
   toggleCard(index: number) {
     this.isRotated = !this.isRotated; // تبديل الحالة

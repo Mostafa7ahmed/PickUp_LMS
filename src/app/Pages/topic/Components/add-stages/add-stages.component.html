@@ -1,3 +1,76 @@
-<div class="addStage">
+<div class="addStage " [class.showelement]="isAddPopupVisible">
+    <app-top-pop [NamePopup]="'Add Stage'" (isVisibleChange)="handleCancel()"></app-top-pop>
+
+
+    <div class="contenet p-3">
+        <div class="leftStage">
+            <div class="title">
+                <h5>Board</h5>
+                <p>In this comprehensive course, we will take yo...</p>
+            </div>
+            <button class="btnStage" [disabled]="stages.length >= maxStages" (click)="addStage()"> <i class="fa-regular fa-square-plus"></i> Add Stage</button>
+
+            <div class="stages" [formGroup]="stageForm">
+                <div class="stage mb-3 d-flex gap-3">
+                    <div class="SelectColor ">
+                        <span class="bgColor" [style.background-color]="topicList?.stages?.[0]?.color"></span>
+                    </div>
+                    <input type="text" class="inputStage" readonly [value]="topicList?.stages?.[0]?.name">
+                  
+                </div>
+                <div class="stagesDynamic"  formArrayName ="stages">
+                    <div *ngFor="let child of stages.controls; let i = index" [formGroupName]="i">
+                        <div class="stage position-relative gap-3 mb-3">
+                          <div class="dragIcon">
+                            <i class="fa-solid fa-grip-vertical"></i>
+                          </div>
+                  
+                          <!-- قائمة الألوان -->
+                          <select class="SelectColor" formControlName="color">
+                            <option value="red">🟥</option>
+                            <option value="blue">🟦</option>
+                            <option value="green">💚</option>
+                          </select>
+                  
+                          <!-- إدخال اسم المرحلة -->
+                          <input type="text" class="inputStage" formControlName="name">
+                  
+                          <!-- زر الحذف -->
+                          <div class="trashIcon" (click)="removeStage(i)">
+                            <i class="fa-solid fa-trash"></i>
+                          </div>
+                        </div>
+
+                      
+
+
+                      </div>
+                      
+              
+          
+                </div>
+
+                <div class="stage d-flex gap-3">
+                    <div class="SelectColor ">
+                        <span class="bgColor" [style.background-color]="topicList?.stages?.[1]?.color"></span>
+                    </div>
+                    <input type="text" class="inputStage" readonly [value]="topicList?.stages?.[1]?.name">
+                  
+                </div>
+             
+            </div>
+        </div>
+        <div class="rightStage d-flex justify-content-between flex-column">
+            <img src="Images/editTopic.png" alt="Edit Topic" />
+
+            <div class="footerModel d-flex justify-content-end align-items-end  ">
+                <div class="btns">
+                  <button class="btn_preview rounded-2" (click)="addStageToAPi()" >Save Edit</button>
+                </div>
+              </div>
+        </div>
+
+    </div>
     
+
 </div>

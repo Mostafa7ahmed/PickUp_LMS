@@ -76,6 +76,7 @@
               <div [class.showRouters]="!isCollapsed" [ngClass]="!isCollapsed ? '' : 'd-none'"  >
                 @for (router of menuItem.routes; track $index) {
                   <a [routerLink]="'/'+router" routerLinkActive="active" (click)="toggleRoute()">{{ menuItem.list[$index] }}</a>
+                  
                 }
               </div>
             </li>

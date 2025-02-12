@@ -29,9 +29,14 @@ export class LoginService {
     // return user Data ==>userData userType ==> route pages
   }
   SignOut() {
+    localStorage.removeItem('UserAuth');
+    localStorage.removeItem('refreshToken');
+    this._router.navigate(['/login']);
+    
+
+    return ;
 
 
-  return  ;
  
   }
   setLoginForm(data: any): Observable<any> {

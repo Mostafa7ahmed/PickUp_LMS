@@ -32,3 +32,34 @@
     transition:  0.2s  all ease-in-out;
 
 }
+
+
+::ng-deep  .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+
+    border-color: var(--green2) !important;
+  }
+
+  ::ng-deep  .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    border-color: var(--green2) !important;
+    box-shadow: 0 0 0 2px var(--color_border);
+    outline: 0;
+  }
+
+
+  ::ng-deep  .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color:  var(--green2) !important;
+    text-shadow: 0 0 .25px currentcolor;
+}
+
+
+::ng-deep  .ant-tabs-tab:hover {
+    color:  var(--green2) !important;
+}
+::ng-deep   .ant-tabs-ink-bar {
+    position: absolute;
+    background: var(--green2) !important;
+    pointer-events: none;
+}
+::ng-deep  .ant-tabs-tab-btn:focus, .ant-tabs-tab-remove:focus, .ant-tabs-tab-btn:active, .ant-tabs-tab-remove:active {
+    color:  var(--green2) !important;
+}

@@ -1,0 +1,153 @@
+.addStage {
+  position: fixed !important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 8888;
+  width: 600px;
+  max-height: 375px;
+  border: 0.5px solid #e1e1e1;
+  background-color: var(--white);
+  border-radius: 15px;
+  transition: 0.5s opacity ease-in-out;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.addStage.showelement {
+  opacity: 2;
+  visibility: visible;
+}
+
+.addStage .contenet {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.addStage .rightStage img {
+  width: 250px;
+  height: 70%;
+}
+.addStage .title h5 {
+  font-family: Itim;
+  font-size: 25px;
+  font-weight: 400;
+}
+
+.addStage .title p {
+  font-family: Itim;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 19.23px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: #79877e;
+}
+.addStage .title p::before {
+  content: "|";
+  margin-right: 5px;
+  color: var(--color_border);
+  font-size: 12px;
+}
+.addStage .leftStage .btnStage {
+  border: none;
+  color: var(--color_border);
+  background-color: transparent;
+  color: #79877e;
+  font-family: Itim;
+  margin: 10px 0;
+}
+.addStage .leftStage .btnStage:disabled {
+    background-color: red;
+ 
+  }
+.addStage .leftStage .btnStage:hover {
+  color: #333333;
+}
+.addStage .leftStage .stage .inputStage {
+  flex: 1;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none;
+}
+.addStage .leftStage .stage .SelectColor {
+  padding: 5px;
+  border: 1px solid #ddd;
+  width: 50px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+}
+.SelectColor .bgColor{
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    background-color: var(--antd-wave-shadow-color);
+  
+}
+.addStage .leftStage .stagesDynamic {
+  max-height: 100px;
+
+  overflow-y: auto;
+  padding: 0 5px;
+}
+.addStage .leftStage .stagesDynamic::-webkit-scrollbar {
+  display: none;
+}
+
+.stagesDynamic .stage {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.stagesDynamic .stage .trashIcon {
+  padding: 8px;
+  background: #c6d1dc7e;
+  color: #fff;
+  border-radius: 5px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease-in-out;
+  cursor: pointer;
+}
+.stagesDynamic .stage .trashIcon:hover {
+  background: #fd00001a;
+  color: #fd000080;
+}
+.stagesDynamic .stage .dragIcon i {
+  color: #79877e;
+  cursor: grab;
+}
+.stagesDynamic .stage .dragIcon i:hover {
+  color: #333333;
+}
+
+.btn_preview {
+  padding: 5px 15px;
+  border: none;
+  background-color: var(--bg-btn);
+  color: var(--white);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.SelectColor ul{
+    position: absolute;
+    width: 50px;
+    bottom: -10px;
+    height: 200px;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    background-color: black;
+
+}

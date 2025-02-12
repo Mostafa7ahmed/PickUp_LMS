@@ -46,7 +46,7 @@ export class TopicService {
   deleteTpoic(id: number, isMove: boolean): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.UserAuth}`,
-      'id': id.toString(),
+      'id': id,
       'move': isMove.toString()
     });
   

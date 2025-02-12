@@ -26,7 +26,7 @@ export class DeleteStageComponent {
       return;
     }
   
-    this._TopicService.deleteTpoic(this.selectedTopicId, false).subscribe({
+    this._TopicService.deleteTpoic(this.selectedTopicId, false , ).subscribe({
       next: (response) => {
         console.log("Topic deleted successfully", response);
         this.showDeleteTopic = false;

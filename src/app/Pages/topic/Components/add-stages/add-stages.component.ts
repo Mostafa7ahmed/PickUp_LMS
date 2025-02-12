@@ -1,12 +1,78 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { IStage } from '../../../../Core/Interface/istage';
+import { TopPopComponent } from '../../../../Components/top-pop/top-pop.component';
+import { TopicService } from '../../../../Core/Services/topic.service';
 
 @Component({
   selector: 'app-add-stages',
   standalone: true,
-  imports: [],
+  imports: [TopPopComponent, CommonModule, ReactiveFormsModule],
   templateUrl: './add-stages.component.html',
   styleUrl: './add-stages.component.scss'
 })
-export class AddStagesComponent {
+export class AddStagesComponent implements OnChanges {
+  maxStages = 8;
 
+  @Input() topicList!: IStage;
+  @Input() isAddPopupVisible: boolean = false;
+  @Output() isAddPopupVisibleChange = new EventEmitter<boolean>();
+  private _TopicService = inject(TopicService);
+
+  stageForm: FormGroup = new FormGroup({
+    topicId: new FormControl(null),
+    stages: new FormArray([])
+  });
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['topicList'] && this.topicList) {
+      this.createFormStage();
+    }
+  }
+
+  createFormStage() {
+    this.stageForm = new FormGroup({
+      topicId: new FormControl(this.topicList?.id || null), 
+      stages: new FormArray([])
+    });
+  }
+
+  get stages(): FormArray {
+    return this.stageForm?.get('stages') as FormArray || new FormArray([]);   
+  }
+
+  addStage() {
+    if (this.stages.length >= this.maxStages) return;
+    const orderValue = this.stages.length + 2;
+    this.stages.push(new FormGroup({
+      name: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]),
+      color: new FormControl('red', Validators.required),
+      icon: new FormControl('fa fa-address-book', Validators.required),
+      order: new FormControl(orderValue)
+    }));
+  }
+
+  removeStage(index: number) {
+    this.stages.removeAt(index);
+  }
+
+  handleCancel() {
+    this.isAddPopupVisible = false;
+    this.isAddPopupVisibleChange.emit(false);
+  }
+
+  addStageToAPi() {
+     this._TopicService.addstages(this.stageForm.value).subscribe({
+      next: (response) => {
+        console.log("Stages added successfully", response);
+        this.isAddPopupVisible = false;
+        this.isAddPopupVisibleChange.emit(false);
+      },
+      error: (error) => {
+        console.error("Error adding stages:", error);
+      }
+     })
+  
+  }
 }

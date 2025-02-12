@@ -6,12 +6,13 @@ import { IconListService } from '../../../../Core/Shared/service/icon-list.servi
 import { ColorlistService } from '../../../../Core/Shared/service/colorlist.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TopicService } from '../../../../Core/Services/topic.service';
-import { EditpopuptopicComponent } from '../../../../Components/Pop_instructor/editpopuptopic/editpopuptopic.component';
+import { AddStagesComponent } from "../add-stages/add-stages.component";
+import { IStage } from '../../../../Core/Interface/istage';
 
 @Component({
   selector: 'app-add-topic',
   standalone: true,
-  imports: [TopPopComponent,SelectIconComponent, CommonModule,EditpopuptopicComponent,ReactiveFormsModule, CommonModule],
+  imports: [TopPopComponent, SelectIconComponent, CommonModule, ReactiveFormsModule, CommonModule, AddStagesComponent],
   templateUrl: './add-topic.component.html',
   styleUrl: './add-topic.component.scss'
 })
@@ -20,7 +21,7 @@ export class AddTopicComponent {
   options: any[] =[];
   icons: any[] = [];
   colors: any[] = [];
-  topicList!: any;  
+  topicList!: IStage;  
     
     private _FormBuilder = inject(FormBuilder);
     private _Topic = inject(TopicService);
@@ -40,7 +41,7 @@ export class AddTopicComponent {
     }
   
     @Input() isAddPopupVisible: boolean = true;
-    @Input() twovisible: boolean = false;
+     twovisible: boolean = false;
   
     @Output() isAddPopupVisibleChange = new EventEmitter<boolean>();
   
@@ -104,9 +105,6 @@ export class AddTopicComponent {
     @Output() onTopicAdded = new EventEmitter<void>(); // حدث جديد
   
     addTopic() {
-
- 
-
     let formData = { ...this.dataStage.value };
 
     if (!formData.name) {
