@@ -63,6 +63,8 @@ export interface Stage {
   createdOn: string
   default: boolean
   snapshot: Snapshot2
+  topicId:number
+
 }
 
 export interface Snapshot2 {

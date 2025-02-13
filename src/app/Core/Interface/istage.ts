@@ -28,4 +28,5 @@ export interface IStage {
     createdOn: string
     default: boolean
     snapshot: any
+    topicId:number
   }

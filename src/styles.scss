@@ -66,10 +66,30 @@ a, a:hover, a:active, a:visited {
 }
 
 
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+body {
+  margin: 0; font-family: Itim, "Helvetica Neue", sans-serif; 
+  &::-webkit-scrollbar {
+    width: 3px;
+    height: 8px;
+  }
 
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
 
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+    
+    &:hover {
+      background: #555;
+    }
+  }
+}
+
+  
   
   @media screen and (max-width: 479px) {
     .iti .iti__country-list {

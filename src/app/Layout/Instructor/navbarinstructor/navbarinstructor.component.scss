@@ -4,7 +4,7 @@
     align-items: center;
     background-color: var(--white);
     z-index: 555555;
-    border-radius: 15px;
+    border-radius: 8px;
 
 }
 .nav-Left {
@@ -13,15 +13,14 @@
     gap: 20px;
 
 }
-.nav-Left .user-Porfile{
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    cursor: pointer;
-    background-color: var(--green2);
-    padding: 5px 8px;
-    border-radius: 10px;
-    color: var(--white);
+.nav-Left i{
+ 
+    color: #C6D1DC;
+}
+.nav-Left .user-Porfile img{
+    border: 1px solid var(--bg-btn);
+    cursor: pointer !important;;
+
 }
 .nav-Left .user-Porfile p{
 

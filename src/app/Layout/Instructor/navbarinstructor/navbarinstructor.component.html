@@ -1,6 +1,6 @@
-<div class="haeader-Nav   px-4 ps-2 mt-2  ">
+<div class="haeader-Nav   px-4 ps-2 mt-2 p-1 ">
     <div class="logo" routerLink="/homeInstructor">
-        <img src="Images/Logo.png" alt="" width="150">
+        <img src="Images/Logo.png" alt="" height="60">
     </div>
 
     <div class="nav-Left">
@@ -11,9 +11,10 @@
             <i class="fa-solid fa-bell"></i>    
         </div>
 
-        <div class="user-Porfile" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-            <p><i class="fa-solid fa-m"></i> </p>
-            <p>Mostafa</p>
+        <div class="user-Porfile" >
+
+            <img src="Images/user.jpg" alt="" width="30" class=" rounded-circle border-1">
+          
         </div>
 
 
@@ -24,26 +25,3 @@
 
 
 
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasRightLabel">Sidebar</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body position-relative">
-        <div class="top-Side mb-4 cr">
-            <h5 routerLink="/porfile">Porfile</h5>
-        </div>
-        <div class="top-Side mb-4 cr">
-            <h5 routerLink="/topic">Topic</h5>
-        </div>
-        <hr>
-        <div class="medile-Side mb-4">
-            <h5>Setting</h5>
-        </div>
-        <hr>
-
-        <div class="bottom-Side position-absolute bottom-0 mb-4" (click)="logOut()">
-            <h5>logout</h5>
-        </div>
-    </div>
-  </div>

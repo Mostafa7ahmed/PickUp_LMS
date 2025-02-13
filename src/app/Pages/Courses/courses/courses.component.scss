@@ -1,0 +1,548 @@
+
+.topCourses{
+    height: 89px;
+
+    border-radius: 5px;
+    background: #FFFFFF;
+
+}
+.topCourses h3{
+    font-family: Itim;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 36px;
+    letter-spacing: 0%;
+
+}
+
+
+.custom-select {
+    position: relative;
+    display: inline-block;
+    width: 150px;
+    max-width: 100%;
+    border: none !important;;
+
+  }
+  .custom-select::before{
+    content: "";
+    position: absolute;
+    width: 3px;
+    height: 90%;
+    left: -5px !important;
+    background-color: #ccc;
+    border-radius: 5px;
+ 
+  }
+  .select-button {
+    font-size: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-radius: 0.25rem;
+    background-color: white;
+    color: #79877E;
+    cursor: pointer;
+    border: none !important;
+
+  }
+  .select-button:disabled{
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  .custom-select .selected-value{
+     overflow: hidden;
+  }
+  .arrow {
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #79877E;
+    transition: transform ease-in-out 0.3s;
+  }
+  .arrow.open {
+    transform: rotate(180deg);
+  }
+  .select-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    border: 1px solid var(--color_border);
+    border-radius: 0.25rem;
+    background-color: white;
+    list-style: none;
+    padding: 10px;
+    margin: 10px 0 0;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    max-height: 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    visibility: hidden;
+    z-index: 888888;
+
+    opacity: 0;
+
+  }
+  .select-dropdown.hidden{
+    opacity: 1;
+    visibility: visible;
+
+  }
+  .select-dropdown::-webkit-scrollbar {
+    width: 7px;
+  }
+  .select-dropdown::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 25px;
+  }
+  .select-dropdown::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 25px;
+  }
+  .select-dropdown li {
+    padding: 10px;
+    cursor: pointer;
+  }
+  .select-dropdown li.selected {
+    background-color: #f2f2f2;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+  .select-dropdown li:hover,
+  .select-dropdown li:focus {
+    background-color: #f2f2f2;
+    border-radius: 4px;
+  }
+
+  .line{
+    font-size: 15px;
+    color: var(--color_border);
+    cursor: pointer;
+    background-color: var(--color_border);
+    width: 2px;
+    height: 20px;
+    border-radius: 2px;
+  }
+
+
+  .rightFooter span{
+    font-family: Itim;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: 0px;
+    color: #C6D1DC;
+
+  }
+  .rightFooter i{
+    font-size: 20px;
+    color: #C6D1DC;
+  }
+  .openCard {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  
+    &.rotatearrow {
+      transform: rotate(180deg);
+    }
+  
+}
+  .rightFooter .leftbanner{
+    position: relative;
+  }
+  .rightFooter .leftbanner span ,   .rightFooter .leftbanner  i{
+    color: var(--green1);
+  }
+  .rightFooter .leftbanner::after{
+    content: "";
+    position: absolute;
+    height: 4px;
+    bottom: -11px;
+    width: 100%;
+    background: var(--green1);
+    border-radius: 2px;
+
+  }
+
+  .showContent{
+    display: flex !important;
+    background-color: transparent !important;
+    overflow: hidden;
+    width: 100%;
+    opacity: 0;
+    height: 0;
+    transition: opacity 0.5s ease, height 0.5s ease;
+
+  }
+  .showContent.showInfo{
+    opacity: 1;
+    height: 140px;
+  }
+  .showContent .leftContent{
+    flex-grow: 2;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+
+
+  }
+  .showContent  .rightContent .cards{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 450px;
+  }
+  .showContent  .rightContent .cards .cardInformation{
+    width: 207px;
+    height: 65px;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    padding:  10px;
+    
+  }
+  .aboutCourses p{
+    font-family: Itim;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 16px;
+    letter-spacing: 0px;
+    color: #79877E;
+  }
+  .aboutCourses  i{
+    font-size: 18px;
+    color: #C6D1DC;
+  }
+
+  .showDataCourses{
+    height: 500px;
+    overflow: hidden;
+
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    padding: 20px;
+
+  }
+  .showDataCourses .headerTabs{
+    height: 48px;
+    border-radius: 5px;
+    background: #F4F4F4;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+  }
+
+  .headerTabs .tab{
+    width: 129px;
+    height: 33px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #79877E;
+    position: relative;
+
+
+  }
+
+  .showDataCourses .headerTabs .tab::before{
+    content: "";
+    position: absolute;
+    width:1px;
+    right:-10px ;
+    height: 100%;
+    background: #79877E36;
+    border-radius: 2px;
+  }
+  .tab .tabtext{
+    font-family: Itim;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21.6px;
+    letter-spacing: 0px;
+    color: #79877E;
+
+  }
+  .tab .tabtext span{
+    background-color: blanchedalmond;
+    margin: 0 5px ;
+    padding: 2px 4px;
+    font-family: Itim;
+    font-weight: 400;
+    font-size: 9px;
+    line-height: 10.8px;
+    letter-spacing: 0px;
+
+    background: #E1E1E1;
+
+    border-radius: 9px;
+
+  }
+  .headerTabs .tab.active{
+    background: #FFFFFF;
+  }
+  .headerTabs .tab.active .tabtext span{
+    background: #A1D483;
+    color: #FFFFFF;
+  }
+
+  .addTab{
+    background: #79877EC2;
+    margin: 0 15px;
+    width: 19.626445770263672px;
+    height: 22.64330291748047px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    border-radius: 4px;
+
+    color: #FFFFFF;
+  }
+
+  .headerFliter{
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .headerFliter .leftFliter .search {
+    width: 204px;
+    height: 28px;
+
+
+  }
+  .headerFliter .leftFliter .search input{
+    width: 100%;
+    height: 100%;
+    padding: 5px 10px;
+    font-family: Itim;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 19.23px;
+    letter-spacing: 0%;
+    
+    color: #79877E;
+    border: 0.5px solid #D7D7D7;
+    
+    border-radius: 5px;
+    border-width: 0.5px;
+    outline: none;
+  }
+  .fliterIcon{
+    width: 28px;
+    height: 28px;
+
+    border-radius: 5px;
+    border-width: 1px;
+    border: 1px solid #D7D7D7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    border-radius: 4px;
+
+    color: #D7D7D7;
+
+  }
+
+
+
+
+
+
+
+
+//   
+
+
+.custom-fliter {
+    position: relative;
+    display: inline-block;
+    width: 90px;
+    max-width: 100%;
+    border: none !important;;
+    max-width: 80px !important;
+    height: 28px;
+    text-align: center;
+
+    border-radius: 5px;
+    border-width: 1px;
+    border: 1px solid #D7D7D7;
+
+  }
+.custom-fliterDate{
+    position: relative;
+    max-width: 100%;
+    border: none !important;;
+    height: 28px;
+    text-align: center;
+    border-radius: 5px;
+    border-width: 1px;
+    border: 1px solid #D7D7D7;
+}
+  .select-button-fliter {
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    border-radius: 0.25rem;
+    background-color: white;
+    color: #79877E;
+    cursor: pointer;
+    border: 1px solid #D7D7D7;
+    overflow: hidden;
+
+
+  }
+  .select-button:disabled{
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  .custom-select .selected-value{
+     overflow: hidden;
+     text-align: center;
+
+  }
+
+  .select-dropdown-fliter {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    border: 1px solid var(--color_border);
+    border-radius: 0.25rem;
+    background-color: white;
+    list-style: none;
+    padding: 0px;
+    margin: 10px 0 0;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    max-height: 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    visibility: hidden;
+    z-index: 888888;
+
+    opacity: 0;
+
+  }
+  .select-dropdown-fliter.hidden{
+    opacity: 1;
+    visibility: visible;
+
+  }
+  .select-dropdown-fliter::-webkit-scrollbar {
+    width: 7px;
+  }
+  .select-dropdown-fliter::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 25px;
+  }
+  .select-dropdown-fliter::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 25px;
+  }
+  .select-dropdown-fliter li {
+    padding: 10px;
+    cursor: pointer;
+  }
+  .select-dropdown-fliter li.selected {
+    background-color: #f2f2f2;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+  .select-dropdown-fliter li:hover,
+  .select-dropdown-fliter li:focus {
+    background-color: #f2f2f2;
+    border-radius: 4px;
+  }
+
+
+  .rightFliter .btn_add {
+    background-color: var(--green1);
+    border: none;
+    color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 8px;
+    width: 114px;
+    height: 28px;
+
+    border-radius: 3px;
+    font-family: Itim;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0px;
+
+
+  
+  }
+  
+
+  table {
+    width: 100%;
+    height: 250px;
+    overflow-y: auto;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+
+  
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+  
+    th {
+      background: #f5f5f5;
+    }
+    tbody {
+        display: block;
+        height: 250px; 
+        overflow-y: scroll;  
+        &::-webkit-scrollbar{
+            display: none;
+        }
+      }
+      thead, tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+      }
+    
+      tbody tr:hover {
+        background: #f9f9f9;
+      }
+  
+    .course-name {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      gap: 10px;
+      
+      .circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background:var(--green1);
+      }
+    }
+  
+    tbody tr:hover {
+      background: #f9f9f9;
+    }
+  }
+  

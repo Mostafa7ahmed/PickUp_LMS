@@ -56,26 +56,26 @@ export class SidebarfixedComponent {
       name: 'Transaction 1', 
       Icon: 'fa-solid fa-money-bill-transfer', 
       list: ["course List", "course"], 
-      routes: ["course", "course"]
+      routes: ["courseList", "course"]
     },
     { 
       name: 'Courses',  
       Icon: 'fa-solid fa-chalkboard-user', 
       list: ["Board", "course List", "Dashboard"], 
-      routes: ["topic", "course", "course"]
+      routes: ["topic", "course", "dashboard"]
     }
     ,
     { 
       name: 'Follower',  
       Icon: 'fa-solid fa-user-check', 
       list: ["Users", "Students"], 
-      routes: ["course", "course", "course"]
+      routes: ["Users", "Students"]
     },
     { 
       name: 'Notification',  
       Icon: 'fa-regular fa-bell', 
       list: ["Message", "Notification"], 
-      routes: ["Message", "Message"]
+      routes: ["Message", "Notification"]
     }
     ,
     { 

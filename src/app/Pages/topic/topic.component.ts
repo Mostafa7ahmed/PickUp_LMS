@@ -1,4 +1,4 @@
-import { ITpoic, Result } from './../../Core/Interface/itopic';
+import { ITpoic, Result, Stage } from './../../Core/Interface/itopic';
 import { ChangeDetectorRef, Component, HostListener, inject, OnInit } from '@angular/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
@@ -6,22 +6,21 @@ import { CommonModule, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TopicService } from '../../Core/Services/topic.service';
 import { SelectIconComponent } from "../../Components/select-icon/select-icon.component";
-import { PopaddtopicComponent } from "../../Components/Pop_instructor/popaddtopic/popaddtopic.component";
-import { TopPopComponent } from '../../Components/top-pop/top-pop.component';
 import { ViewtpoicComponent } from "./Components/viewtpoic/viewtpoic.component";
 import { finalize, Subscription } from 'rxjs';
-import { DeleteStageComponent } from "./Components/delete-stage/delete-stage.component";
-import { AddStagesComponent } from "./Components/add-stages/add-stages.component";
 import { AddTopicComponent } from "./Components/add-topic/add-topic.component";
 @Component({
   selector: 'app-topic',
   standalone: true,
-  imports: [InfiniteScrollModule, FormsModule, CommonModule, SelectIconComponent, ViewtpoicComponent, AddTopicComponent, AddStagesComponent],
+  imports: [InfiniteScrollModule, FormsModule, CommonModule, SelectIconComponent, ViewtpoicComponent, AddTopicComponent],
   templateUrl: './topic.component.html',
   styleUrl: './topic.component.scss'
 })
 export class TopicComponent implements OnInit {
   private _topicService = inject(TopicService);
+
+
+
   private cdr = inject(ChangeDetectorRef);
   pageIndex :number = 0;
   moveNext :boolean = false;
@@ -54,7 +53,20 @@ export class TopicComponent implements OnInit {
   handleTopicAdded(): void {
     this.pageNumber = 1;
     this.topics.result = [];
-    this.loadTopics();
+    this.loadTopics(); 
+  }
+  viewTopics(list:Stage){
+     
+    console.log("Res => "+list)
+    console.log("From Children " +  list.topicId);
+    let indexTopic= this.topics.result.findIndex(t => t.id === list.topicId);
+    console.log();
+    let dataTopic = this.topics.result[indexTopic];
+
+
+    dataTopic.stages.splice(dataTopic.stages.length - 1 ,0,list);
+
+
   }
 
   loadTopics(pageIndex :number = 0 , isScroll :boolean = false, _default :boolean = false): void {
@@ -112,12 +124,6 @@ export class TopicComponent implements OnInit {
          this.topics.result[newDefaultTopicIndex].default = true;
        let oldDefaultTopicIndex = this.topics.result.findIndex(topic => topic.id === res.result.oldDefaultTopicId);
        this.topics.result[oldDefaultTopicIndex].default = false;
-
-
-
-      
-
-     
       } else {
         console.error('Failed to set default topic:', res);
       }
@@ -125,24 +131,18 @@ export class TopicComponent implements OnInit {
 
     });
   }
- 
+  onTopicSetDefualt(id:number){
+    console.log("From default topic  " + id);
+    this.setDefaultTopic(id);
 
 
-  getTopicbyID(id: number): void {
-    this.currentTopicId = id;
+
+  }
+
+
+  getTopicbyID(): void {
     this.showsViewTopic = true;
-    this.subscription = this._topicService.getTopicById(id)
-      .subscribe((response: any) => {
-        if (response.success) {
-          
-          this.viewTopicData = response.result;
-
-          console.log(response);
-        } else {
-          this.showsViewTopic = false;
-          console.error('Failed to get topic:', response);
-        }
-      });
+  
   }
 
   closePopup(): void {

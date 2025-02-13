@@ -1,49 +1,50 @@
-<div class="viewTopic"  [class.showelementview]="viewTopic">
+@if(viewTopicData !== null && viewTopicData !== undefined  && viewTopicData.success   ){
+  <div class="viewTopic"  [class.showelementview]="viewTopic">
     <app-top-pop  [NamePopup]="'View Topic'" (isVisibleChange)="closePopupHandler()"></app-top-pop>
     <div class="contentTopicView  d-flex gap-5  justify-content-between  p-4 py-4">
       <div class="left  w-50 ">
         <div class="headerView d-flex align-items-center justify-content-between ">
           <div class="info d-flex align-items-center gap-2">
             <div class="iconViewTopic">
-                <p class="m-0 " [ngClass]="viewTopicData.color">
-                    <i [class]="'fas ' + viewTopicData.icon  " aria-hidden="true">
+                <p class="m-0 " [ngClass]="viewTopicData.result.color">
+                    <i [class]="'fas ' + viewTopicData.result.icon  " aria-hidden="true">
                     </i>
                   </p>       
               </div>
-            <h3 class="m-0 h4">{{viewTopicData.name}}</h3>
+            <h3 class="m-0 h4">{{viewTopicData.result.name}}</h3>
           </div>
           <div class="option">
             <div class="viewTopicRight  d-flex  gap-3 align-items-center">
-                <button class="btn btn_default" [disabled]="viewTopicData.default"  (click)="fetchTopic(viewTopicData.id)">Default</button>
-                <div class="icontopic"  (click)="deleteTpoic(viewTopicData.id)">  
+                <button class="btn btn_default" [disabled]="viewTopicData.result.default"  (click)="setDefaultTopic(viewTopicData.result.id)">Default</button>
+                <div class="icontopic"  (click)="deleteTpoic(viewTopicData.result.id)">  
                 <i class="fa-solid fa-trash-can" ></i>
               </div>
             </div>
           </div>
         </div>
         <div class="Description ">
-          <p>{{viewTopicData.description}}</p>
+          <p>{{viewTopicData.result.description}}</p>
         </div>
         <div class="aboutInstructor mt-4">
-          <p><i class="fas fa-book"></i> Courses: <span>{{ viewTopicData.snapshot?.totalPrice }}</span></p>
-          <p><i class="fas fa-dollar-sign"></i> Total Price: <span>${{ viewTopicData.snapshot?.totalPrice }}</span></p>
-          <p><i class="fas fa-clock"></i> Last update: <span>{{ viewTopicData?.updatedOn | date :"dd/MM/yyyy" }}</span></p>
-          <p><i class="fas fa-user"></i> Creator: <span>{{ viewTopicData.creator?.name }}</span> <i class="fas fa-image"></i></p>
-          <p><i class="fas fa-calendar-alt"></i> Created On: <span>{{ viewTopicData?.createdOn | date :"dd/MM/yyyy" }}</span></p>
-          <p><i class="fas fa-user"></i> Last Updater: <span>{{ viewTopicData.updater?.name  }}</span> <i class="fas fa-image"></i></p>
+          <p><i class="fas fa-book"></i> Courses: <span>{{ viewTopicData.result.snapshot.totalPrice }}</span></p>
+          <p><i class="fas fa-dollar-sign"></i> Total Price: <span>${{ viewTopicData.result.snapshot.totalPrice }}</span></p>
+          <p><i class="fas fa-clock"></i> Last update: <span>{{ viewTopicData.result.updatedOn | date :"dd/MM/yyyy" }}</span></p>
+          <p><i class="fas fa-user"></i> Creator: <span>{{ viewTopicData.result.creator.name }}</span> <i class="fas fa-image"></i></p>
+          <p><i class="fas fa-calendar-alt"></i> Created On: <span>{{ viewTopicData.result.createdOn | date :"dd/MM/yyyy" }}</span></p>
+          <p><i class="fas fa-user"></i> Last Updater: <span>{{ viewTopicData.result.updater.name  }}</span> <i class="fas fa-image"></i></p>
         </div>
       </div>
       <span class="line"></span>
       <div class="right flex-grow-1 ">
         <div class="addStages d-flex align-items-center justify-content-between ">
           <p>Stages</p>
-          <div class="icontopic Iconadd" (click)="addSatge(viewTopicData.id)">
+          <div class="icontopic Iconadd" (click)="addSatge(viewTopicData.result.id)">
             <i class="fa fa-plus-square" aria-hidden="true"></i>
           </div>
         </div>
         <div class="Stages   ">  
 
-          @for (stage of viewTopicData.stages; track stage.id) {
+          @for (stage of viewTopicData.result.stages; track stage.id) {
             
             <div class="drag-drop mb-3 d-flex  gap-3  align-items-center">
 
@@ -63,7 +64,7 @@
                   <span class="mx-3">{{stage.name}}</span>
                 </div>
                 <div class="right d-flex  gap-3 align-items-center">
-                  <button class="btn btn_default "  [disabled]="stage.default"  (click)="fetchTopic(viewTopicData.id)">Default</button>
+                  <button class="btn btn_default "  [disabled]="stage.default"  (click)="setDefaultTopic(viewTopicData.result.id)">Default</button>
                   <div class="icontopic">
                     <i class="fa-solid fa-trash-can"></i>
                   </div>
@@ -102,3 +103,5 @@
   (closePopup)="showDeleteTopic = false"
   (topicDeleted)="notifyParentToUpdateTopics()" >
 ></app-delete-stage>
+
+}

@@ -1,0 +1,225 @@
+<div class="courses py-2">
+
+    <div class="topCourses p-3">
+
+        <h3 class="m-0">Courses List</h3>
+
+        <div class="footerBanner d-flex justify-content-between  align-items-center">
+            <div class="leftFooter">
+                <div class="custom-select">
+                    <button class="select-button" type="button" (click)="toggleDropdown()"[attr.aria-expanded]="isOpen" 
+                   >
+                    
+                    <span class="selected-value">{{selectedValue}}</span>
+                      <span class="arrow"  [ngClass]="{ 'open': isOpen}"></span>
+                    </button>
+                    <ul class="select-dropdown "   [ngClass]="{ 'hidden': isOpen }">
+                        <li *ngFor="let option of options" (click)="selectOption(option)">
+                            {{ option.name }}
+                          </li>
+                    </ul>
+                  </div>
+              
+            </div>
+
+            <div class="rightFooter d-flex  align-items-center gap-3">
+                <div class="leftbanner d-flex  align-items-center  gap-2">
+                    <i class="fa-solid fa-table-list"></i>
+                    <span>Table</span>
+                  </div>
+                  <span class="line"></span>
+          
+                  <div class="rightbanner  d-flex  align-items-center  ">
+                    <i class="fa-solid fa-chart-simple mx-1"></i>
+                      <span>Kanban</span>
+                      <div class="openCard" (click)="toggShowInfo()" [class.rotatearrow]="showInfo">
+                        <i class="fa-solid fa-circle-chevron-down mx-3"></i>
+                      </div>
+
+                  </div>
+          
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="showContent   my-2  mb-3"  [class.showInfo]="showInfo">
+        <div class="leftContent"></div>
+        <div class="rightContent">
+            <div class="cards">
+                <div class="cardInformation">
+                    <div class="aboutCourses d-flex justify-content-between   align-items-center">
+                        <p class="m-0">Total student of courses</p>
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div class="numberCources mt-2 d-flex align-items-end justify-content-end">
+                        <span>52</span>
+                    </div>
+
+                </div>
+                <div class="cardInformation">
+                    <div class="aboutCourses d-flex justify-content-between   align-items-center">
+                        <p class="m-0">Total price of courses</p>
+                        <i class="fa-solid fa-sack-dollar"></i>
+                    </div>
+                    <div class="numberCources mt-2 d-flex align-items-end justify-content-end">
+                        <span>520$</span>
+                    </div>
+
+                </div>
+                <div class="cardInformation">
+                    <div class="aboutCourses d-flex justify-content-between   align-items-center">
+                        <p class="m-0">Total number of courses</p>
+                        <i class="fa-solid fa-dollar-sign"></i>
+                    </div>
+                    <div class="numberCources mt-2 d-flex align-items-end justify-content-end">
+                        <span>52</span>
+                    </div>
+
+                </div>
+                <div class="cardInformation">
+                    <div class="aboutCourses d-flex justify-content-between   align-items-center">
+                        <p class="m-0">Total profit of courses</p>
+                        <i class="fa-solid fa-dollar-sign"></i>
+                    </div>
+                    <div class="numberCources mt-2 d-flex align-items-end justify-content-end">
+                        <span>520$</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="showDataCourses">
+        <div class="headerTabs">
+
+            <div class="tab tab1 active">
+                <span class="tabtext">All courses <span>+99</span></span>
+
+            </div>
+            <div class="tab tab2 ">
+                <span class="tabtext">All courses <span>+99</span></span>
+
+            </div>
+            <div class="tab tab3">
+                <span class="tabtext">All courses <span>+99</span></span>
+
+            </div>
+
+            <div class="addTab">
+                <i class="fa-solid fa-plus"></i>
+            </div>
+               
+        
+
+        </div>
+
+        <div class="headerFliter">
+            <div class="leftFliter  d-flex justify-content-between align-items-center gap-4">
+                <div class="advancedFliter d-flex justify-content-between align-items-center gap-4">
+                    <div class="search">
+                        <input type="text" placeholder="Search">
+                    </div>
+                    
+                    <div class="fliterIcon">
+                        <i class="fa-solid fa-filter"></i>
+                    </div>
+                </div>
+
+                <span class="line"></span>
+                <div class="normalFliter  d-flex  gap-3">
+                    <div class="custom-fliter">
+                        <button class="select-button-fliter" type="button" (click)="toggShowFliter()"[attr.aria-expanded]="isOpen">
+                        <span class="selected-value">{{selectedFliter}}</span>
+                        </button>
+                        <ul class="select-dropdown-fliter "   [ngClass]="{ 'hidden': showFliter }">
+                            <li *ngFor="let option of options" (click)="selectOption(option)">
+                                {{ option.name }}
+                              </li>
+                        </ul>
+                      </div>
+
+                      <div class=" custom-fliterDate ">
+                        <button class="select-button-fliter" type="button" (click)="toggShowDate()"[attr.aria-expanded]="isOpen">
+                        <span class="selected-value"><i class="fa-solid fa-clock-rotate-left mx-2"></i>Creation Date</span>
+                        </button>
+                        <ul class="select-dropdown-fliter "   [ngClass]="{ 'hidden': showDate }">
+                            <li *ngFor="let option of options" (click)="selectOption(option)">
+                                {{ option.name }}
+                              </li>
+                        </ul>
+                      </div>
+                  
+
+                </div>
+
+
+
+           
+                
+            </div>
+            <div class="rightFliter">
+
+                <button class="btn_add rounded-2" >
+                    <i class="fa-solid fa-square-plus mx-2"></i>
+                    <span>Add Course</span>
+                  </button>
+                
+            </div>
+        </div>
+
+        <table class="mt-5">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Students</th>
+                <th>Updater</th>
+
+                <th>Rate</th>
+                <th>Quizzes</th>
+                <th>Lessons</th>
+                <th>Status</th>
+                <th>Topics</th>
+                <th>Profit</th>
+                <th>Discount</th>
+                <th>Created on</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let course of courses">
+                <td>
+                  <div class="course-name">
+                    <div class="circle"></div>
+                    <div   [matTooltip]="course.createdBy ">
+                      <strong>{{ course.name }}</strong>
+      
+                    </div>
+                  </div>
+                </td>
+                <td>{{ course.students }}</td>
+                <td>{{ course.instructor }}</td>
+
+                <td>  {{course.rate}} ⭐ </td>
+                <td>{{ course.quizzes }}</td>
+                <td>{{ course.lessons }}</td>
+                <td>{{ course.status }}</td>
+                <td>{{ course.topics }}</td>
+                <td>{{ course.profit }}</td>
+                <td>{{ course.discount }}</td>
+                <td>{{ course.createdBy }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+
+    </div>
+
+
+
+
+
+</div>

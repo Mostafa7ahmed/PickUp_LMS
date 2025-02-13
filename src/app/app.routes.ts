@@ -6,11 +6,11 @@ import { StudentRegisterComponent } from './Pages/Students/student-register/stud
 import { ConfirmEmailComponent } from './Components/confirm-email/confirm-email.component';
 import { PorfileComponent } from './Pages/Instructor/porfile/porfile.component';
 import { HomeinstructorComponent } from './Pages/Instructor/homeinstructor/homeinstructor.component';
-import { HomestudentComponent } from './Pages/Students/homestudent/homestudent.component';
 import { isloginguardsGuard } from './Core/Guards/isloginguards.guard';
 import { notloginguardsGuard } from './Core/Guards/notloginguards.guard';
 import { RoutesinstructorComponent } from './Layout/Instructor/routesinstructor/routesinstructor.component';
 import { TopicComponent } from './Pages/topic/topic.component';
+import { CoursesComponent } from './Pages/Courses/courses/courses.component';
 
 export const routes: Routes = [
     //  Auth Router
@@ -51,6 +51,8 @@ export const routes: Routes = [
             { path: '', redirectTo: 'homeInstructor', pathMatch: 'full' },
             { path: "homeInstructor", title:"Home Instrctor",component: HomeinstructorComponent},
             { path: "porfile", title:"porfile",component: PorfileComponent },
+            { path: "course", title:"Course",component: CoursesComponent },
+
             { path: "topic", title:"topic",component: TopicComponent },
 
         ]

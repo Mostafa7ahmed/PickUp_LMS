@@ -1,3 +1,4 @@
+import { Result } from './../../../../Core/Interface/itopic';
 import { Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -65,7 +66,10 @@ export class AddStagesComponent implements OnChanges {
   addStageToAPi() {
      this._TopicService.addstages(this.stageForm.value).subscribe({
       next: (response) => {
-        console.log("Stages added successfully", response);
+        console.log(  "Input => " + this.topicList.stages) // Input response
+        this.topicList.stages = response.result.stages;
+        console.log(   "response => " + this.topicList.stages)
+
         this.isAddPopupVisible = false;
         this.isAddPopupVisibleChange.emit(false);
       },

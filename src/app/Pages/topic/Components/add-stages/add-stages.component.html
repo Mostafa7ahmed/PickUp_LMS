@@ -13,9 +13,9 @@
             <div class="stages" [formGroup]="stageForm">
                 <div class="stage mb-3 d-flex gap-3">
                     <div class="SelectColor ">
-                        <span class="bgColor" [style.background-color]="topicList?.stages?.[0]?.color"></span>
+                        <span class="bgColor" [style.background-color]="topicList.stages[0].color"></span>
                     </div>
-                    <input type="text" class="inputStage" readonly [value]="topicList?.stages?.[0]?.name">
+                    <input type="text" class="inputStage" readonly [value]="topicList.stages[0].name">
                   
                 </div>
                 <div class="stagesDynamic"  formArrayName ="stages">
@@ -52,9 +52,9 @@
 
                 <div class="stage d-flex gap-3">
                     <div class="SelectColor ">
-                        <span class="bgColor" [style.background-color]="topicList?.stages?.[1]?.color"></span>
+                        <span class="bgColor" [style.background-color]="topicList.stages[1].color"></span>
                     </div>
-                    <input type="text" class="inputStage" readonly [value]="topicList?.stages?.[1]?.name">
+                    <input type="text" class="inputStage" readonly [value]="topicList.stages[1].name">
                   
                 </div>
              

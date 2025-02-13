@@ -81,16 +81,15 @@
           <div class="rightDarg ">
             <button class="btn btn_default" [disabled]="topic.default"  (click)="setDefaultTopic(topic.id )" >Default</button>
          
-            <i class="fa-solid fa-sliders mx-3" (click)="getTopicbyID(topic.id)"  #ViewTopicTd ></i>     
+            <i class="fa-solid fa-sliders mx-3" (click)="getTopicbyID()"  #ViewTopicTd ></i>     
             
             @defer (on interaction(ViewTopicTd)) {
               <!-- Model -->
                 <app-viewtpoic 
                 [viewTopic]="showsViewTopic" 
-                [viewTopicData]="viewTopicData" 
-                (topicsUpdated)="handleTopicAdded()"
-                [getTopicbyIDValue]="setDefaultTopic.bind(this)"
-                (closePopup)="closePopup()">
+                [topicId]="topic.id"
+                (onTopicSetDefualt)="onTopicSetDefualt($event)"
+               (closePopup)="closePopup()">
                 </app-viewtpoic>
               }
 
@@ -213,7 +212,6 @@
 </div>
 
 
-<app-add-stages />
 
 
 
