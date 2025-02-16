@@ -45,7 +45,11 @@
   </div>
 
   <div class="showContent my-2 mb-3" [class.showInfo]="showInfo">
-    <div class="leftContent"></div>
+    <div class="leftContent">
+        <div echarts [options]="chartOptions" class="chart-container"></div>
+
+
+    </div>
     <div class="rightContent">
       <div class="cards">
         <div class="cardInformation">
@@ -249,8 +253,49 @@
     </div>
 
 
-    <div class="pagination p-4 bg-info mt-3">
-        
+    <div class="pagination d-flex align-items-center gap-3 justify-content-end mt-3">
+
+        <div class="paginationTabl  d-flex align-items-center justify-content-between px-3 " [class.collapsePagination]="collapsePagination">
+
+
+            <div class="rightpagination d-flex gap-2">
+                <select name="" id="">
+                    <option value="">5</option>
+                    <option value="">10</option>
+                    <option value="">20</option>
+                    <option value="">50</option>
+                    <option value="">100</option>
+                </select>
+                <div class="moveNext"  *ngIf="collapsePagination" (click)="toggPagination()">
+                    <i class="fa-solid fa-angle-left "></i>
+    
+                </div>
+
+            </div>
+
+            <div class="leftpagination d-flex gap-3 ">
+  
+                <p class="m-0"> 2 of 6</p>
+                <div class="close" (click)="toggPagination()">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+            </div>
+ 
+        </div>
+
+        <div class="movePagination  d-flex align-items-center gap-3 ">
+
+            <div class="moveNext">
+                <i class="fa-solid fa-angle-left "></i>
+
+            </div>
+            
+            <div class="moveNext">
+                <i class="fa-solid fa-angle-right"></i>
+
+            </div>
+        </div>
+
 
     </div>
   </div>

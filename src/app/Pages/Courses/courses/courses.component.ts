@@ -2,11 +2,17 @@ import { Component, ElementRef, HostListener, inject, ViewChild } from '@angular
 import { Icourses } from '../Core/interface/icourses';
 import { CommonModule } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from 'ngx-echarts';
+import * as echarts from 'echarts';
 
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, MatTooltipModule],
+  imports: [CommonModule, MatTooltipModule ,NgxEchartsModule  ],
+  providers:[
+    { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } } // 🔥 حل المشكلة هنا
+
+  ],
   templateUrl: './courses.component.html',
   styleUrl: './courses.component.scss'
 })
@@ -60,8 +66,11 @@ export class CoursesComponent {
   toggShowFliter() {
     this.showFliter = !this.showFliter;
   }
+  collapsePagination = false;
 
-
+  toggPagination() {
+    this.collapsePagination = !this.collapsePagination;
+  }
 
   displayedColumns: string[] = [
     'name', 'Updater', 'students', 'rate', 'quizzes', 'lessons', 
@@ -275,6 +284,39 @@ export class CoursesComponent {
     }
   ];
 
+  chartOptions = {
+    title: {
+      text: 'Contacts Creation Rate',
+      left: 'left',
+      textStyle: { fontSize: 14, fontWeight: 'bold' }
+    },
+    tooltip: { trigger: 'axis' },
+    grid: { left: '5%', right: '5%', top: '20%', bottom: '15%' }, // تعديل الهوامش لزيادة مساحة البيانات
+
+
+    xAxis: {
+      type: 'category',
+      data: ['1/27', '1/28', '1/30', '2/3', '2/4', '2/5', '2/6', '2/7', '2/9', '2/10', '2/11', '2/12', '2/13', '2/14', '2/15', '2/16'],
+      axisLine: { show: false },
+      axisTick: { show: false }
+    },
+    yAxis: {
+      type: 'value',
+      axisLine: { show: false },
+      splitLine: { show: false }
+    },
+    series: [
+      {
+        name: 'Contacts',
+        type: 'line',
+        data: [150, 80, 60, 40, 30, 20, 10, 8, 6, 4, 3, 2, 1, 1, 1, 1],
+        smooth: true,
+        showSymbol: false, 
+        lineStyle: { color: '#4A90E2', width: 2 },
+        areaStyle: { color: 'rgba(74, 144, 226, 0.2)' }
+      }
+    ]
+  };
 
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;

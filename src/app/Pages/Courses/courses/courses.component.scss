@@ -177,15 +177,26 @@
   }
   .showContent.showInfo{
     opacity: 1;
-    height: 140px;
+    height: 180px;
   }
   .showContent .leftContent{
     flex-grow: 2;
     background-color: #FFFFFF;
     border-radius: 5px;
+    padding: 20px;
 
 
   }
+ .chart-container{
+  position: relative;
+  height: 140px  !important;  
+  width: 810px !important;
+  padding: 0px;
+  margin: 0px;
+  border-width: 0px;
+  cursor: default;
+ }
+
   .showContent  .rightContent .cards{
     display: flex;
     justify-content: center;
@@ -196,7 +207,7 @@
   }
   .showContent  .rightContent .cards .cardInformation{
     width: 207px;
-    height: 65px;
+    height: 85px;
     border-radius: 5px;
     background-color: #FFFFFF;
     padding:  10px;
@@ -591,3 +602,61 @@
       background: #f9f9f9;
     }
   }
+
+
+  .paginationTabl{
+    height: 36px;
+    background: #7676801F;
+
+    border-radius: 10px;
+    gap: 30px;
+    overflow: hidden;
+    width: 200px; 
+    transition: width 0.8s ease-in-out; 
+    white-space: nowrap; 
+  }
+ .collapsePagination{
+  width: 100px;
+  transition: width 0.8s ease-in-out; 
+  overflow: hidden;
+
+
+
+ }
+  .leftpagination .close{
+    width: 20px;
+    height: 20px;
+    background: #3C3C4399;
+    border-radius:50% ;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    cursor: pointer;
+
+
+  }
+
+  .rightpagination select{
+    border: none;
+    background: transparent;
+    outline: none;
+}
+.movePagination .moveNext {
+  width: 30px;
+  height: 30px;
+  border-radius:50% ;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.rightpagination .moveNext{
+  cursor: pointer;
+}
+.movePagination .moveNext:hover{
+  background: #3c3c434d;
+  color: #FFFFFF;
+
+
+}
