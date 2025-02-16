@@ -216,14 +216,16 @@
   }
 
   .showDataCourses{
-    height: 500px;
-    overflow: hidden;
-
     border-radius: 5px;
     background-color: #FFFFFF;
     padding: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
 
   }
+
   .showDataCourses .headerTabs{
     height: 48px;
     border-radius: 5px;
@@ -487,69 +489,105 @@
 
   
   }
-  
 
-  table {
+  .scrollTable {
     width: 100%;
-    height: 250px;
-    overflow-y: auto;
+    overflow-x: auto;
+    white-space: nowrap; 
+    &::-webkit-scrollbar{
+      display: none
+    }
+  }
+  .showDataCourses .leftScroll{
+    position: absolute;
+    background-color: transparent;
+    padding: 12px;
+    border-radius: 8px;
+    top: 50%;
+    left: 17px;
+    height: 120px;
+    font-size: 20px;
+    z-index: 588;
+    display: flex;
+    align-items: center;
+    color: transparent;
+    z-index: 454444;
+
+  }
+  .showDataCourses .rightScroll{
+    position: absolute;
+    background-color: transparent;
+    padding: 12px;
+    border-radius: 8px;
+    top: 50%;
+    right: 20px;
+    height: 120px;
+    font-size: 20px;
+    z-index: 588;
+    display: flex;
+    align-items: center;
+    color: transparent;
+    z-index: 454444;
+
+  }
+
+
+.showDataCourses .rightScroll:hover, .showDataCourses  .leftScroll:hover {
+  background: #befda5af;
+  color: #79877E;
+}
+  table {
+    width: 150%;
     border-collapse: collapse;
     background: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(124, 138, 118, 0.1);
+    border-radius: 12px;
     overflow: hidden;
-
   
     th, td {
       padding: 12px;
       text-align: left;
-      color: #534D59;
-      font-family: Itim;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 16.8px;
-    letter-spacing: 0%;
-
       border-bottom: 1px solid #ddd;
+      text-align: center;
+      
     }
   
     th {
       background: #f5f5f5;
+      position: sticky;
+      top: 0;
+      z-index: 2;
     }
-    tbody {
-        display: block;
-        height: 250px; 
-        overflow-y: scroll;  
-        &::-webkit-scrollbar{
-            display: none;
-        }
-      }
-      thead, tbody tr {
-        display: table;
-        width: 100%;
-        table-layout: fixed;
-      }
-    
-      tbody tr:hover {
-        background: #f9f9f9;
-      }
   
     .course-name {
       display: flex;
       align-items: center;
-      cursor: pointer;
       gap: 10px;
       
       .circle {
-        width: 40px;
-        height: 40px;
+        width:  30px;
+        height: 30px;
         border-radius: 50%;
-        background:var(--green1);
+        background: purple;
       }
+    }
+  
+    tbody {
+      display: block;
+      height: 350px;  
+      overflow-y: scroll;
+      &::-webkit-scrollbar{
+        display: none
+      }
+    }
+  
+    thead, tbody tr {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
     }
   
     tbody tr:hover {
       background: #f9f9f9;
     }
   }
-  

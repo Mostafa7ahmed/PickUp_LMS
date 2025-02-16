@@ -54,6 +54,8 @@ export const routes: Routes = [
             { path: "course", title:"Course",component: CoursesComponent },
 
             { path: "topic", title:"topic",component: TopicComponent },
+            { path: "**", title:"notFound",component: HomeinstructorComponent },
+
 
         ]
     },

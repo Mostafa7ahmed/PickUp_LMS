@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, ViewChild } from '@angular/core';
 import { Icourses } from '../Core/interface/icourses';
 import { CommonModule } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -71,7 +71,7 @@ export class CoursesComponent {
   courses = [
     {
       name: "OOP",
-      instructor: "Ahmed Fathy",
+      instructor: "Ahmed  Fathy Fathy Fathy",
       students: 5841,
       rate: 4,
       quizzes: 9,
@@ -84,7 +84,104 @@ export class CoursesComponent {
     },
     {
       name: "OOP",
-      instructor: "Ahmed Fathy",
+      instructor: "Ahmed  Fathy Fathy Fathy",
+      students: 5841,
+      rate: 4,
+      quizzes: 32,
+      lessons: 32,
+      status: "Working on",
+      topics: "CS",
+      profit: "--",
+      discount: "--",
+      createdBy: "Mohamed Yasser"
+    }
+    ,
+    {
+      name: "OOP",
+      instructor: "Ahmed  Fathy Fathy Fathy",
+      students: 5841,
+      rate: 4,
+      quizzes: 32,
+      lessons: 32,
+      status: "Working on",
+      topics: "CS",
+      profit: "--",
+      discount: "--",
+      createdBy: "Mohamed Yasser"
+    }
+    ,  {
+      name: "OOP",
+      instructor: "Ahmed  Fathy Fathy Fathy",
+      students: 5841,
+      rate: 4,
+      quizzes: 32,
+      lessons: 32,
+      status: "Working on",
+      topics: "CS",
+      profit: "--",
+      discount: "--",
+      createdBy: "Mohamed Yasser"
+    }
+    ,
+    {
+      name: "OOP",
+      instructor: "Ahmed  Fathy Fathy Fathy",
+      students: 5841,
+      rate: 4,
+      quizzes: 32,
+      lessons: 32,
+      status: "Working on",
+      topics: "CS",
+      profit: "--",
+      discount: "--",
+      createdBy: "Mohamed Yasser"
+    }
+    ,
+    {
+      name: "OOP",
+      instructor: "Ahmed  Fathy Fathy Fathy",
+      students: 5841,
+      rate: 4,
+      quizzes: 32,
+      lessons: 32,
+      status: "Working on",
+      topics: "CS",
+      profit: "--",
+      discount: "--",
+      createdBy: "Mohamed Yasser"
+    }
+    ,
+    {
+      name: "OOP",
+      instructor: "Ahmed  Fathy Fathy Fathy",
+      students: 5841,
+      rate: 4,
+      quizzes: 32,
+      lessons: 32,
+      status: "Working on",
+      topics: "CS",
+      profit: "--",
+      discount: "--",
+      createdBy: "Mohamed Yasser"
+    }
+    ,
+    {
+      name: "OOP",
+      instructor: "Ahmed  Fathy Fathy Fathy",
+      students: 5841,
+      rate: 4,
+      quizzes: 32,
+      lessons: 32,
+      status: "Working on",
+      topics: "CS",
+      profit: "--",
+      discount: "--",
+      createdBy: "Mohamed Yasser"
+    }
+    ,
+    {
+      name: "OOP",
+      instructor: "Ahmed  Fathy Fathy Fathy",
       students: 5841,
       rate: 4,
       quizzes: 32,
@@ -177,5 +274,47 @@ export class CoursesComponent {
       createdBy: "Mohamed Yasser"
     }
   ];
+
+
+
+  @ViewChild('scrollContainer') scrollContainer!: ElementRef;
+  scrollInterval: any;
+  showLeftScroll = false;
+  showRightScroll = true;
+
+  ngAfterViewInit() {
+    this.updateScrollButtons();
+  }
+
+  scrollTable(direction: 'left' | 'right') {
+    const container = this.scrollContainer.nativeElement;
+    const speed = 10;
+    const step = 20; 
+
+    this.scrollInterval = setInterval(() => {
+      container.scrollLeft += direction === 'right' ? step : -step;
+      this.updateScrollButtons();
+    }, speed);
+  }
+
+  stopScroll() {
+    clearInterval(this.scrollInterval);
+    this.updateScrollButtons();
+  }
+
+  updateScrollButtons() {
+    const container = this.scrollContainer.nativeElement;
+    this.showLeftScroll = container.scrollLeft > 0;
+    this.showRightScroll = container.scrollLeft < container.scrollWidth - container.clientWidth;
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.updateScrollButtons();
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.scrollInterval);
+  }
 
 }
