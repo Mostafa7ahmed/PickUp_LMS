@@ -173,6 +173,7 @@
     opacity: 0;
     height: 0;
     transition: opacity 0.5s ease, height 0.5s ease;
+    
 
   }
   .showContent.showInfo{
@@ -180,23 +181,34 @@
     height: 180px;
   }
   .showContent .leftContent{
-    flex-grow: 2;
+    flex-grow: 288;
     background-color: #FFFFFF;
     border-radius: 5px;
-    padding: 20px;
+    padding: 0 0 20px;
+    border-radius: 8px;
+    background: #fff;
+    width: calc(100% - 649px);
+    flex-grow: 1;
+    overflow: hidden;
 
 
   }
  .chart-container{
   position: relative;
-  height: 140px  !important;  
-  width: 810px !important;
-  padding: 0px;
-  margin: 0px;
+  height: 150px !important;
+  width: 1010px !important;
+  padding: -17px;
+  margin: 12px 0 0 0;
   border-width: 0px;
   cursor: default;
+  left: 52px;
+  position: absolute;
+  position: relative;
+  position: absolute !important;
  }
+ .chart-container canvas {
 
+}
   .showContent  .rightContent .cards{
     display: flex;
     justify-content: center;
@@ -207,7 +219,7 @@
   }
   .showContent  .rightContent .cards .cardInformation{
     width: 207px;
-    height: 85px;
+    height: 65px;
     border-radius: 5px;
     background-color: #FFFFFF;
     padding:  10px;

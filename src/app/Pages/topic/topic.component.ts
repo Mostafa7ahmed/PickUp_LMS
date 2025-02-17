@@ -20,7 +20,6 @@ export class TopicComponent implements OnInit {
   private _topicService = inject(TopicService);
 
 
-
   private cdr = inject(ChangeDetectorRef);
   pageIndex :number = 0;
   moveNext :boolean = false;

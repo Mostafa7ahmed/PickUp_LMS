@@ -87,6 +87,8 @@ export class CoursesComponent {
       lessons: 2,
       status: "Complete",
       topics: "IT",
+      list:["m", "s" , "d", "f"],
+      
       profit: "$400",
       discount: "4%",
       createdBy: "Mohamed Yasser"
@@ -97,6 +99,8 @@ export class CoursesComponent {
       students: 5841,
       rate: 4,
       quizzes: 32,
+      list:["m", "s" , "d", "f"],
+
       lessons: 32,
       status: "Working on",
       topics: "CS",
@@ -112,6 +116,8 @@ export class CoursesComponent {
       rate: 4,
       quizzes: 32,
       lessons: 32,
+      list:["m", "s" , "d", "f"],
+
       status: "Working on",
       topics: "CS",
       profit: "--",
@@ -125,6 +131,8 @@ export class CoursesComponent {
       rate: 4,
       quizzes: 32,
       lessons: 32,
+      list:["m", "s" , "d", "f"],
+
       status: "Working on",
       topics: "CS",
       profit: "--",
@@ -285,19 +293,15 @@ export class CoursesComponent {
   ];
 
   chartOptions = {
-    title: {
-      text: 'Contacts Creation Rate',
-      left: 'left',
-      textStyle: { fontSize: 14, fontWeight: 'bold' }
-    },
-    tooltip: { trigger: 'axis' },
-    grid: { left: '5%', right: '5%', top: '20%', bottom: '15%' }, // تعديل الهوامش لزيادة مساحة البيانات
 
+    tooltip: { trigger: 'axis' },
+    grid: { left: '0%', right: '0%', top: '5%', bottom: '0%' },
 
     xAxis: {
       type: 'category',
-      data: ['1/27', '1/28', '1/30', '2/3', '2/4', '2/5', '2/6', '2/7', '2/9', '2/10', '2/11', '2/12', '2/13', '2/14', '2/15', '2/16'],
-      axisLine: { show: false },
+      data: ['2023/Q1', '2023/Q2', '2023/Q3', '2023/Q4', 
+        '2024/Q1', '2024/Q2', '2024/Q3', '2024/Q4'],
+    axisLine: { show: false },
       axisTick: { show: false }
     },
     yAxis: {
@@ -309,7 +313,7 @@ export class CoursesComponent {
       {
         name: 'Contacts',
         type: 'line',
-        data: [150, 80, 60, 40, 30, 20, 10, 8, 6, 4, 3, 2, 1, 1, 1, 1],
+        data: [0, 0, 0, 40, 1500, 20, 800, 100],
         smooth: true,
         showSymbol: false, 
         lineStyle: { color: '#4A90E2', width: 2 },

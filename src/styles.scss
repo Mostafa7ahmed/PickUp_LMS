@@ -18,7 +18,9 @@ $Pickup-theme: mat.define-theme((
   @include mat.all-component-themes($Pickup-theme);
 }
 
-
+html, body{
+  overflow-x: hidden;
+}
 
 
 :root{
