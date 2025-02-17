@@ -313,7 +313,7 @@ export class CoursesComponent {
       {
         name: 'Contacts',
         type: 'line',
-        data: [0, 0, 0, 40, 1500, 20, 800, 100],
+        data: [0, 0, 0, 40, 1500, 1500, 800, 100],
         smooth: true,
         showSymbol: false, 
         lineStyle: { color: '#4A90E2', width: 2 },
