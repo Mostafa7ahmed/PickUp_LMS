@@ -293,32 +293,41 @@ export class CoursesComponent {
   ];
 
   chartOptions = {
-
-    tooltip: { trigger: 'axis' },
+    tooltip: { 
+      trigger: 'axis',
+      formatter: (params: any) => {
+        return ` ${params[0].value}`; // يعرض فقط قيمة Y
+      }
+    },
     grid: {
-      left: '-9%',
-      right: '-8%',
+      left: '-20px',
+      right: '-15px',
       top: '10%',
-      bottom: '10%',
-      containLabel: true
-  },
-  responsive: true,
+      bottom: '20%',
+    },
+
+    responsive: true,
     xAxis: {
-      type: 'category',
-      data: ['2023/Q1', '2023/Q2', '2023/Q3', '2023/Q4', 
-        '2024/Q1', '2024/Q2', '2024/Q3', '2024/Q4'],
+      data: [ 
+             '2024/1', '2024/2', '2024/3', '2024/4' ,'2023/1', '2023/2', '2023/3', '2023/4', 
+             '2024/1', '2024/2', '2024/3', '2024/4'],
       axisLine: { show: false },
-        axisTick: { show: false }
+      axisTick: { show: false },
+      axisLabel: {
+        fontSize: 8,
+        color: '#333',
+        rotate: 0
+      }
     },
     yAxis: {
       type: 'value',
-      axisLine: { show: false },
+      axisLine: { show: true },
       splitLine: { show: false }
     },
     series: [
       {
         type: 'line',
-        data: [200, 300, 500, 400, 200,500 , 800, 100],
+        data: [0, 5, 10,  15 , 20, 25, 30, 35, 40, 45, 50, 100],
         smooth: true,
         showSymbol: false, 
         lineStyle: { color: '#4A90E2', width: 2 },
@@ -326,6 +335,7 @@ export class CoursesComponent {
       }
     ]
   };
+  
 
   chartInstance!: echarts.ECharts;
   @ViewChild('chartContainer', { static: true }) chartContainer!: ElementRef;
