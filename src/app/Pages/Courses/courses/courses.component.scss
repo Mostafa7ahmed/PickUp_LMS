@@ -250,10 +250,12 @@
 }
 
 .showContent .rightContent {
+  flex: 2;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 400px !important;
+ max-width: 400px !important;
   
 }
 
