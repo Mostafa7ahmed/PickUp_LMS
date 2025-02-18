@@ -168,6 +168,7 @@
   .showContent{
     display: flex !important;
     background-color: transparent !important;
+    justify-content: space-between !important;
     overflow: hidden;
     width: 100%;
     opacity: 0;
@@ -179,7 +180,7 @@
   }
   .showContent.showInfo{
     opacity: 1;
-    height: 180px;
+    height: 140px;
   }
   .showContent .leftContent {
     flex: 2;
@@ -190,6 +191,7 @@
     overflow: hidden;
     height: 140px;
     width: 100%;
+    padding: 10px 5px;
 }
 
 /* جعل الرسم البياني يملأ الحاوية */
@@ -212,24 +214,24 @@
 }
 
 .showContent .rightContent {
-  flex: 1; /* Takes up less space than leftContent */
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 400px !important;
   
 }
 
 
   .showContent  .rightContent .cards{
     display: flex;
-    justify-content: center;
+    justify-content: end;
     align-items: center;
     flex-wrap: wrap;
     gap: 10px;
     max-width: 100%;
   }
   .showContent  .rightContent .cards .cardInformation{
-    flex: 1 1 calc(50% - 10px); /* Ensures a flexible distribution */
+    flex: 1 1 calc(50% - 10px); 
     max-width: 220px;
     height: 65px;
     border-radius: 5px;
@@ -580,7 +582,7 @@
     overflow: hidden;
   
     th, td {
-      padding: 12px;
+      padding: 10px;
       text-align: left;
       border-bottom: 1px solid #ddd;
       text-align: center;
@@ -600,16 +602,16 @@
       gap: 10px;
       
       .circle {
-        width:  30px;
-        height: 30px;
+        width:  20px;
+        height: 20px;
         border-radius: 50%;
-        background: purple;
+        background: rgb(21, 128, 0);
       }
     }
   
     tbody {
       display: block;
-      height: 350px;  
+      height: 422px;
       overflow-y: scroll;
       &::-webkit-scrollbar{
         display: none

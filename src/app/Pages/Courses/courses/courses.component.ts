@@ -293,6 +293,15 @@ export class CoursesComponent {
   ];
 
   chartOptions = {
+    title: {
+      text: 'My Chart Title',  // Main title
+      left: 'left',  // Position: 'left' | 'center' | 'right'
+      textStyle: {
+        color: '#333',  // Title color
+        fontSize: 18,
+        fontWeight: 'bold'
+      }
+    },
     tooltip: { 
       trigger: 'axis',
       formatter: (params: any) => {
@@ -327,7 +336,7 @@ export class CoursesComponent {
     series: [
       {
         type: 'line',
-        data: [0, 5, 10,  15 , 20, 25, 30, 35, 40, 45, 50, 100],
+        data: [0, 50, 10,  555 , 200, 155, 300, 350, 400, 450, 500, 1000],
         smooth: true,
         showSymbol: false, 
         lineStyle: { color: '#4A90E2', width: 2 },
