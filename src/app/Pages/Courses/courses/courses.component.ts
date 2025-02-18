@@ -295,14 +295,20 @@ export class CoursesComponent {
   chartOptions = {
 
     tooltip: { trigger: 'axis' },
-    grid: { left: '0%', right: '0%', top: '5%', bottom: '0%' },
-
+    grid: {
+      left: '-9%',
+      right: '-8%',
+      top: '10%',
+      bottom: '10%',
+      containLabel: true
+  },
+  responsive: true,
     xAxis: {
       type: 'category',
       data: ['2023/Q1', '2023/Q2', '2023/Q3', '2023/Q4', 
         '2024/Q1', '2024/Q2', '2024/Q3', '2024/Q4'],
-    axisLine: { show: false },
-      axisTick: { show: false }
+      axisLine: { show: false },
+        axisTick: { show: false }
     },
     yAxis: {
       type: 'value',
@@ -313,7 +319,7 @@ export class CoursesComponent {
       {
         name: 'Contacts',
         type: 'line',
-        data: [0, 0, 0, 40, 1500, 1500, 800, 100],
+        data: [200, 300, 500, 400, 200,500 , 800, 100],
         smooth: true,
         showSymbol: false, 
         lineStyle: { color: '#4A90E2', width: 2 },
@@ -322,6 +328,23 @@ export class CoursesComponent {
     ]
   };
 
+  chartInstance!: echarts.ECharts;
+  @ViewChild('chartContainer', { static: true }) chartContainer!: ElementRef;
+
+
+  initChart() {
+    this.chartInstance = echarts.init(this.chartContainer.nativeElement);
+    this.chartInstance.setOption(this.chartOptions);
+  }
+  
+  @HostListener('window:resize')
+    onResizeChart() {
+      if (this.chartInstance) {
+        setTimeout(() => {
+          this.chartInstance.resize(); 
+        }, 100);
+      }
+  }
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
   scrollInterval: any;

@@ -172,6 +172,7 @@
     width: 100%;
     opacity: 0;
     height: 0;
+    gap: 10px;
     transition: opacity 0.5s ease, height 0.5s ease;
     
 
@@ -180,49 +181,60 @@
     opacity: 1;
     height: 180px;
   }
-  .showContent .leftContent{
-    flex-grow: 288;
+  .showContent .leftContent {
+    flex: 2;
     background-color: #FFFFFF;
-    border-radius: 5px;
-    padding: 0 0 20px;
     border-radius: 8px;
-    background: #fff;
-    width: calc(100% - 649px);
-    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
-
-
-  }
- .chart-container{
-  position: relative;
-  height: 150px !important;
-  width: 1088px !important;
-  padding: -17px;
-  margin: 12px 0 0 0;
-  border-width: 0px;
-  cursor: default;
-  left: 52px;
-  position: absolute;
-  position: relative;
-  position: absolute !important;
- }
- .chart-container canvas {
-
+    height: 140px;
+    width: 100%;
 }
+
+/* جعل الرسم البياني يملأ الحاوية */
+::ng-deep .chart-container {
+  display: flex;
+  width: 100% !important;
+  height: 100% !important;
+  position: relative;
+  position: relative;
+  padding: 0; /* إزالة أي هوامش داخلية */
+  margin: 0; /* إزالة أي هوامش خارجية */
+}
+
+::ng-deep canvas {
+  width: 100% !important;
+  flex-grow: 1;
+  position: relative;
+  padding: 0; /* إزالة أي هوامش داخلية */
+  margin: 0; /* إزالة أي هوامش خارجية */
+}
+
+.showContent .rightContent {
+  flex: 1; /* Takes up less space than leftContent */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+
+
   .showContent  .rightContent .cards{
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     gap: 10px;
-    width: 450px;
+    max-width: 100%;
   }
   .showContent  .rightContent .cards .cardInformation{
-    width: 207px;
+    flex: 1 1 calc(50% - 10px); /* Ensures a flexible distribution */
+    max-width: 220px;
     height: 65px;
     border-radius: 5px;
     background-color: #FFFFFF;
-    padding:  10px;
+    padding: 10px;
     
   }
   .aboutCourses p{
