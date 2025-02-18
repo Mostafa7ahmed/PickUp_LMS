@@ -317,7 +317,6 @@ export class CoursesComponent {
     },
     series: [
       {
-        name: 'Contacts',
         type: 'line',
         data: [200, 300, 500, 400, 200,500 , 800, 100],
         smooth: true,
