@@ -141,13 +141,49 @@
   }
   .openCard {
     cursor: pointer;
+    outline: none;
     transition: transform 0.3s ease;
+    border: 1px solid var(--color_border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: .55px solid #F1F1F1;
+    background-color: #fff;
+    margin-left: 10px;
   
     &.rotatearrow {
       transform: rotate(180deg);
+      border: 1px solid var(--bg-btn);
+
     }
+    &.rotatearrow i {
+ 
+      color: var(--bg-btn) !important;
+
+    }
+
+    &.openCard:hover {
+      border: 1px solid  var(--bg-btn);
+
+    }
+  }
   
+  
+
+.openCard i{
+  font-size: 15px;
+
 }
+.openCard:hover i{
+
+ color:  var(--bg-btn);
+
+}
+
   .rightFooter .leftbanner{
     position: relative;
   }
