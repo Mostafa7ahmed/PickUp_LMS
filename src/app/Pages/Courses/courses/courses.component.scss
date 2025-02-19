@@ -156,12 +156,12 @@
     margin-left: 10px;
   
     &.rotatearrow {
-      transform: rotate(180deg);
       border: 1px solid var(--bg-btn);
 
     }
     &.rotatearrow i {
- 
+      transform: rotate(180deg);
+
       color: var(--bg-btn) !important;
 
     }

@@ -284,13 +284,13 @@ export class CoursesComponent  implements OnInit {
     title: {
       text: 'My Chart Title',
       left: 'left',
-      textStyle: { color: '#333', fontSize: 18, fontWeight: 'bold' }
+      textStyle: { color: '#333', fontSize: 13 }
     },
     tooltip: { 
       trigger: 'axis',
       formatter: (params: any) => ` ${params[0].value}` // يعرض فقط قيمة Y
     },
-    grid: { left: '-20px', right: '-15px', top: '10%', bottom: '20%' },
+    grid: { left: '-20px', right: '-15px', top: '25%', bottom: '20%' },
     responsive: true,
     xAxis: {
       data: [] as string[], 
@@ -327,19 +327,25 @@ export class CoursesComponent  implements OnInit {
   
         if (response?.result?.chart?.data) {
           const dates: string[] = Object.keys(response.result.chart.data);
-          const values: number[] = Object.values(response.result.chart.data);
-          console.log("Extracted Dates:", dates);
-          console.log("Extracted Values:", values);
-  
-          const formattedDates = dates.map(date => {
-            const [year, month] = date.split('-'); 
-            return `${month}/${year}`; 
-          });
-  
-          this.chartOptions = Object.assign({}, this.chartOptions, {
-            xAxis: { ...this.chartOptions.xAxis, data: formattedDates },
-            series: [{ ...this.chartOptions.series[0], data: values }]
-          });
+        const values: number[] = Object.values(response.result.chart.data);
+
+        // ترتيب التواريخ تصاعديًا (من الأقدم إلى الأحدث)
+        const sortedDates = dates.sort((a, b) => a.localeCompare(b));
+
+        // ترتيب القيم بناءً على ترتيب التواريخ الجديد
+        const sortedValues = sortedDates.map(date => response.result.chart.data[date]);
+
+        // تحويل التواريخ إلى تنسيق "MM/YYYY"
+        const formattedDates = sortedDates.map(date => {
+          const [year, month] = date.split('-'); 
+          return `${month}/${year}`; 
+        });
+
+        // تحديث المخطط مع البيانات المرتبة
+        this.chartOptions = Object.assign({}, this.chartOptions, {
+          xAxis: { ...this.chartOptions.xAxis, data: formattedDates },
+          series: [{ ...this.chartOptions.series[0], data: sortedValues }]
+        });
         }
       },
       error: (err) => {
