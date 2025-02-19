@@ -1,9 +1,11 @@
-import { Component, ElementRef, HostListener, inject, ViewChild } from '@angular/core';
+import { GetWidgetsService } from './../Core/service/get-widgets.service';
+import { Component, ElementRef, HostListener, inject, OnInit, ViewChild } from '@angular/core';
 import { Icourses } from '../Core/interface/icourses';
 import { CommonModule } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from 'ngx-echarts';
 import * as echarts from 'echarts';
+import { IwidgetResponse } from '../Core/interface/iwidget-response';
 
 @Component({
   selector: 'app-courses',
@@ -16,24 +18,14 @@ import * as echarts from 'echarts';
   templateUrl: './courses.component.html',
   styleUrl: './courses.component.scss'
 })
-export class CoursesComponent {
+export class CoursesComponent  implements OnInit {
   selectedValue: string = 'Select Topic';
-  icons: any[] = [];
-  colors: any[] = [];
+  private _GetWidgetsService = inject(GetWidgetsService);
+
+  dataWidgets: IwidgetResponse = {} as  IwidgetResponse;
+
   options  = [
-    { id: 1, name: "Angular", category: "Frontend" },
-    { id: 2, name: "TypeScript", category: "Programming Language" },
-    { id: 3, name: "Supabase", category: "Backend" },
-    { id: 4, name: "SCSS", category: "Styling" },
-    { id: 4, name: "SCSS", category: "Styling" },
-
-    { id: 4, name: "SCSS", category: "Styling" },
-
-    { id: 4, name: "SCSS", category: "Styling" },
-
-    { id: 4, name: "SCSS", category: "Styling" },
-
-  ];
+    { id: 1, name: "Angular", category: "Frontend" }];
 
   isOpen: boolean = false;
 
@@ -72,10 +64,6 @@ export class CoursesComponent {
     this.collapsePagination = !this.collapsePagination;
   }
 
-  displayedColumns: string[] = [
-    'name', 'Updater', 'students', 'rate', 'quizzes', 'lessons', 
-    'status', 'topics', 'profit', 'discount', 'createdBy'
-  ];
 
   courses = [
     {
@@ -292,41 +280,23 @@ export class CoursesComponent {
     }
   ];
 
-  chartOptions = {
+  chartOptions :any= {
     title: {
-      text: 'My Chart Title',  // Main title
-      left: 'left',  // Position: 'left' | 'center' | 'right'
-      textStyle: {
-        color: '#333',  // Title color
-        fontSize: 18,
-        fontWeight: 'bold'
-      }
+      text: 'My Chart Title',
+      left: 'left',
+      textStyle: { color: '#333', fontSize: 18, fontWeight: 'bold' }
     },
     tooltip: { 
       trigger: 'axis',
-      formatter: (params: any) => {
-        return ` ${params[0].value}`; // يعرض فقط قيمة Y
-      }
+      formatter: (params: any) => ` ${params[0].value}` // يعرض فقط قيمة Y
     },
-    grid: {
-      left: '-20px',
-      right: '-15px',
-      top: '10%',
-      bottom: '20%',
-    },
-
+    grid: { left: '-20px', right: '-15px', top: '10%', bottom: '20%' },
     responsive: true,
     xAxis: {
-      data: [ 
-             '2024/1', '2024/2', '2024/3', '2024/4' ,'2023/1', '2023/2', '2023/3', '2023/4', 
-             '2024/1', '2024/2', '2024/3', '2024/4'],
+      data: [] as string[], 
       axisLine: { show: false },
       axisTick: { show: false },
-      axisLabel: {
-        fontSize: 8,
-        color: '#333',
-        rotate: 0
-      }
+      axisLabel: { fontSize: 8, color: '#333', rotate: 0 }
     },
     yAxis: {
       type: 'value',
@@ -336,33 +306,49 @@ export class CoursesComponent {
     series: [
       {
         type: 'line',
-        data: [0, 50, 10,  555 , 200, 155, 300, 350, 400, 450, 500, 1000],
+        data: [] as number[],
         smooth: true,
         showSymbol: false, 
         lineStyle: { color: '#4A90E2', width: 2 },
         areaStyle: { color: 'rgba(74, 144, 226, 0.2)' }
       }
     ]
-  };
-  
-
-  chartInstance!: echarts.ECharts;
-  @ViewChild('chartContainer', { static: true }) chartContainer!: ElementRef;
-
-
-  initChart() {
-    this.chartInstance = echarts.init(this.chartContainer.nativeElement);
-    this.chartInstance.setOption(this.chartOptions);
   }
+
+  ngOnInit(): void {
+    this.getwidgets()
+  }
+
+  getwidgets(){
+    this._GetWidgetsService.getWidgets().subscribe({
+      next: (response) => {
+        console.log("API Response:", response);
+        this.dataWidgets = response.result;
   
-  @HostListener('window:resize')
-    onResizeChart() {
-      if (this.chartInstance) {
-        setTimeout(() => {
-          this.chartInstance.resize(); 
-        }, 100);
+        if (response?.result?.chart?.data) {
+          const dates: string[] = Object.keys(response.result.chart.data);
+          const values: number[] = Object.values(response.result.chart.data);
+          console.log("Extracted Dates:", dates);
+          console.log("Extracted Values:", values);
+  
+          const formattedDates = dates.map(date => {
+            const [year, month] = date.split('-'); 
+            return `${month}/${year}`; 
+          });
+  
+          this.chartOptions = Object.assign({}, this.chartOptions, {
+            xAxis: { ...this.chartOptions.xAxis, data: formattedDates },
+            series: [{ ...this.chartOptions.series[0], data: values }]
+          });
+        }
+      },
+      error: (err) => {
+        console.error("Error fetching data:", err);
       }
+    });
   }
+  
+  
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
   scrollInterval: any;
