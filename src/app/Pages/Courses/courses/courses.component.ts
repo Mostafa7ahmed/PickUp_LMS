@@ -6,6 +6,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from 'ngx-echarts';
 import * as echarts from 'echarts';
 import { IwidgetResponse } from '../Core/interface/iwidget-response';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-courses',
@@ -21,6 +22,8 @@ import { IwidgetResponse } from '../Core/interface/iwidget-response';
 export class CoursesComponent  implements OnInit {
   selectedValue: string = 'Select Topic';
   private _GetWidgetsService = inject(GetWidgetsService);
+  private subscription: Subscription = new Subscription();
+
 
   dataWidgets: IwidgetResponse = {} as  IwidgetResponse;
 
@@ -320,7 +323,7 @@ export class CoursesComponent  implements OnInit {
   }
 
   getwidgets(){
-    this._GetWidgetsService.getWidgets().subscribe({
+    this.subscription = this._GetWidgetsService.getWidgets().subscribe({
       next: (response) => {
         console.log("API Response:", response);
         this.dataWidgets = response.result;
@@ -394,6 +397,7 @@ export class CoursesComponent  implements OnInit {
 
   ngOnDestroy() {
     clearInterval(this.scrollInterval);
+    this.subscription.unsubscribe();
   }
 
 }
