@@ -14,14 +14,6 @@ export class StartSessionService {
    }
 
 
-   getSession(): Observable<any>{
-      return this.http.post(this.UrlSession,{},
-        {
-          headers: {
-            'Authorization': `Bearer ${this.UserAuth}`
-          }
-  
-        }
-      )
+   getSession(): Observable<any>{return this.http.post(this.UrlSession,{} )
     } 
 }

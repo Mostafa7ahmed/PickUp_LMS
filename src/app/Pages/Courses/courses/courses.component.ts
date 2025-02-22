@@ -334,7 +334,6 @@ export class CoursesComponent  implements OnInit {
 
   ngOnInit(): void {
     this.getwidgets();
-    this.initializeMegaStorage();
 
   }
 
@@ -380,26 +379,31 @@ export class CoursesComponent  implements OnInit {
   }
 
   async uploadFile() {
+    this.initializeMegaStorage();
+
     if (!this.selectedFile) {
       alert('❌ Please select a file first.');
       return;
     }
-
+  
     this.isUploading = true;
-    this.uploadedFileLink = null ;
-
+    this.uploadedFileLink = null;
+  
     try {
       this.uploadedFileLink = await this._UpdataCoursesService.uploadFile(this.selectedFile);
-       console.log(this.uploadedFileLink.nodeId + " ==> Comp")
-       this.saveStream(this.uploadedFileLink.nodeId )
-      alert('✅ File uploaded successfully!');
+      console.log(this.uploadedFileLink.nodeId + " ==> Comp");
+        await Promise.all([
+        this.saveStream(this.uploadedFileLink.nodeId)
+      ]);
+      this._UpdataCoursesService.logout();
+      alert('✅ File uploaded and saved successfully!');
     } catch (error) {
-      console.error(error);
+      console.error('❌ Error:', error);
+      alert('❌ Upload or save failed!');
     } finally {
       this.isUploading = false;
     }
   }
-
   saveStream(nodeId: string): void {
     this._saveService.getSave(nodeId).subscribe({
       next: (response) => {

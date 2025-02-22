@@ -10,7 +10,6 @@ export class SaveService {
 
  
     private urlSave: string;
-    private UserAuth = localStorage.getItem('UserAuth');
     constructor(private http: HttpClient) {
           this.urlSave = `${environment.baseUrl}${environment.pickup}stream/save`
      }
@@ -18,14 +17,8 @@ export class SaveService {
   
      getSave(nodeId: string): Observable<any> {
       const body = {
-        nodeId: nodeId, // استخدام الـ nodeId هنا
+        nodeId: nodeId
       };
-    
-      const headers = new HttpHeaders({
-        Authorization: `Bearer ${this.UserAuth}`,
-        'Content-Type': 'application/json',
-      });
-    
-      return this.http.post(this.urlSave, body, { headers });
+      return this.http.post(this.urlSave, body);
     }
 }
