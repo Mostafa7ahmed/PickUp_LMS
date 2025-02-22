@@ -309,5 +309,19 @@
   </div>
 
 
+
+  <div class="card p-5 m-5 d-flex   justify-content-between align-items-center shadow-lg">
+    <div class="upload-container">
+      <input type="file" (change)="onFileSelected($event)">
+      <button (click)="uploadFile()" [disabled]="isUploading">Upload File</button>
+    
+      <div *ngIf="isUploading">Uploading... ({{ uploadProgress }}%)</div>
+      <div *ngIf="uploadedFileLink">
+        ✅ File Uploaded! <a [href]="uploadedFileLink" target="_blank">Download Link</a>
+      </div>
+    </div>
+  </div>
+
+
   
 </div>

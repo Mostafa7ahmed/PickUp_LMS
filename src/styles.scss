@@ -41,6 +41,8 @@ html, body{
     --bg-btn:#7AD34C;
     --bg-red : #FD00001A; ;
     --red-icon-hover :#FD000080;
+    --typeFontAR :"Montserrat", sans-serif;
+    --typeFontEN :"Arial", sans-serif;
 
 
 }
@@ -70,7 +72,8 @@ a, a:hover, a:active, a:visited {
 
 
 body {
-  margin: 0; font-family: Itim, "Helvetica Neue", sans-serif; 
+  margin: 0; 
+  font-family: var(--typeFontEN); 
   &::-webkit-scrollbar {
     width: 3px;
     height: 8px;

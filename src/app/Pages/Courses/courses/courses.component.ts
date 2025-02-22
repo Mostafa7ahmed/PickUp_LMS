@@ -7,6 +7,9 @@ import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from 'ngx-echarts';
 import * as echarts from 'echarts';
 import { IwidgetResponse } from '../Core/interface/iwidget-response';
 import { Subscription } from 'rxjs';
+import { StartSessionService } from '../Core/service/start-session.service';
+import { UpdataCoursesService } from '../Core/service/updata-courses.service';
+import { SaveService } from '../Core/service/save.service';
 
 @Component({
   selector: 'app-courses',
@@ -21,7 +24,18 @@ import { Subscription } from 'rxjs';
 })
 export class CoursesComponent  implements OnInit {
   selectedValue: string = 'Select Topic';
+  sessionId: string = '';
+
   private _GetWidgetsService = inject(GetWidgetsService);
+  private _saveService = inject(SaveService);
+  private _UpdataCoursesService = inject(UpdataCoursesService);
+  selectedFile!: File;
+  isUploading = false;
+  uploadProgress = 0;
+  uploadedFileLink: any | null = null;
+
+
+
   private subscription: Subscription = new Subscription();
 
 
@@ -319,7 +333,9 @@ export class CoursesComponent  implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getwidgets()
+    this.getwidgets();
+    this.initializeMegaStorage();
+
   }
 
   getwidgets(){
@@ -332,19 +348,15 @@ export class CoursesComponent  implements OnInit {
           const dates: string[] = Object.keys(response.result.chart.data);
         const values: number[] = Object.values(response.result.chart.data);
 
-        // ترتيب التواريخ تصاعديًا (من الأقدم إلى الأحدث)
         const sortedDates = dates.sort((a, b) => a.localeCompare(b));
 
-        // ترتيب القيم بناءً على ترتيب التواريخ الجديد
         const sortedValues = sortedDates.map(date => response.result.chart.data[date]);
 
-        // تحويل التواريخ إلى تنسيق "MM/YYYY"
         const formattedDates = sortedDates.map(date => {
           const [year, month] = date.split('-'); 
           return `${month}/${year}`; 
         });
 
-        // تحديث المخطط مع البيانات المرتبة
         this.chartOptions = Object.assign({}, this.chartOptions, {
           xAxis: { ...this.chartOptions.xAxis, data: formattedDates },
           series: [{ ...this.chartOptions.series[0], data: sortedValues }]
@@ -356,7 +368,48 @@ export class CoursesComponent  implements OnInit {
       }
     });
   }
-  
+
+
+  initializeMegaStorage() {
+    this._UpdataCoursesService.initializeMega("ahmed.adel.elsayed.ali.basha@gmail.com", "!!!!Test2222")
+      .then(() => console.log('Mega Storage Initialized'))
+      .catch(error => console.error('Failed to initialize Mega Storage:', error));
+  }
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+
+  async uploadFile() {
+    if (!this.selectedFile) {
+      alert('❌ Please select a file first.');
+      return;
+    }
+
+    this.isUploading = true;
+    this.uploadedFileLink = null ;
+
+    try {
+      this.uploadedFileLink = await this._UpdataCoursesService.uploadFile(this.selectedFile);
+       console.log(this.uploadedFileLink.nodeId + " ==> Comp")
+       this.saveStream(this.uploadedFileLink.nodeId )
+      alert('✅ File uploaded successfully!');
+    } catch (error) {
+      console.error(error);
+    } finally {
+      this.isUploading = false;
+    }
+  }
+
+  saveStream(nodeId: string): void {
+    this._saveService.getSave(nodeId).subscribe({
+      next: (response) => {
+        console.log('✅ Response:', response);
+      },
+      error: (error) => {
+        console.error('❌ Error:', error);
+      }
+    });
+  }
   
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
