@@ -20,9 +20,7 @@ export class TableCoursesComponent {
     showLeftScroll = false;
     showRightScroll = true;
   
-    ngAfterViewInit() {
-      this.updateScrollButtons();
-    }
+ 
 
     collapsePagination = false;
 
