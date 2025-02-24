@@ -1,0 +1,62 @@
+<div class="showContent my-2 mb-3" [class.showInfo]="showInfo">
+    <div class="leftContent">
+        <div echarts [options]="chartOptions" class="chart-container"></div>
+    </div>
+    <div class="rightContent">
+      <div class="cards">
+        <div class="cardInformation">
+          <div
+            class="aboutCourses d-flex justify-content-between align-items-center"
+          >
+            <p class="m-0">Total student of courses</p>
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <div
+            class="numberCources mt-2 d-flex align-items-end justify-content-end"
+          >
+            <span>{{dataWidgets.totalNumberEnrolledStudents}}</span>
+          </div>
+        </div>
+        <div class="cardInformation">
+          <div
+            class="aboutCourses d-flex justify-content-between align-items-center"
+          >
+            <p class="m-0">Total price of courses</p>
+            <i class="fa-solid fa-sack-dollar"></i>
+          </div>
+          <div
+            class="numberCources mt-2 d-flex align-items-end justify-content-end"
+          >
+            <span>{{dataWidgets.totalPriceOfCourses}} $</span>
+          </div>
+        </div>
+        <div class="cardInformation">
+          <div
+            class="aboutCourses d-flex justify-content-between align-items-center"
+          >
+            <p class="m-0">Total number of courses</p>
+            <i class="fa-solid fa-book"></i>
+          </div>
+          <div
+            class="numberCources mt-2 d-flex align-items-end justify-content-end"
+          >
+            <span>{{dataWidgets.totalNumberOfCourses}}</span>
+          </div>
+        </div>
+        <div class="cardInformation">
+            <div
+              class="aboutCourses d-flex justify-content-between align-items-center"
+            >
+              <p class="m-0">Total profit of courses</p>
+              <i class="fa-solid fa-dollar-sign"></i>
+            </div>
+            <div
+              class="numberCources mt-2 d-flex align-items-end justify-content-end"
+            >
+            <span>{{dataWidgets.totalProfitOfCourses}} $</span>
+            </div>
+         </div>
+  
+      </div>
+    </div>
+  </div>

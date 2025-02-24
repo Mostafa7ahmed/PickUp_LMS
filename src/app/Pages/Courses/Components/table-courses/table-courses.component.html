@@ -1,0 +1,130 @@
+@if(courseList.length > 0) {
+  <div class="scrollTable mt-5" #scrollContainer>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Students</th>
+          <th>Updater</th>
+          <th>Creator</th>
+          <th>Rate</th>
+          <th>Quizzes</th>
+          <th>Lessons</th>
+          <th>Status</th>
+          <th>Topics</th>
+          <th>Profit</th>
+          <th>Discount</th>
+          <th>Createded on </th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (course of courseList; track  $index ; let i= $index) {
+            <tr >
+                <td>
+                  <div class="course-name">
+                    <div class="circle p-3"></div>
+                    <p class="m-0" [matTooltip]="course.name" > {{course.name | splicText : 15}}</p>
+                
+                  </div>
+                </td>
+                <td >{{ course.studentsCount  }}</td>
+                <td>{{ course.updater.name }}</td>
+                <td>{{ course.creator.name }}</td>
+                <td>{{course.rating  }} ⭐</td>
+                <td>{{course.quizzesCount }}</td>
+                <td>{{course.lessonssCount }}</td>
+                <td [matTooltip]="course.stage.name">  {{course.stage.name| splicText : 15}}</td>
+                <td [matTooltip]="course.name">{{ course.name  | splicText : 15 }}</td>
+
+                <td>{{ course.profit  }}</td>
+                <td>{{ course.discount?.amount ? course.discount.amount : '--' }}</td>
+                <td>{{ course.createdOn | date }}</td>
+              </tr>
+        }
+
+ 
+      </tbody>
+    </table>
+
+    <div
+      class="leftScroll"
+      (mouseenter)="scrollTable('left')"
+      (mouseleave)="stopScroll()"
+    >
+      <i class="fa-solid fa-chevron-left"></i>
+    </div>
+
+    <div
+      class="rightScroll"
+      (mouseenter)="scrollTable('right')"
+      (mouseleave)="stopScroll()"
+    >
+      <i class="fa-solid fa-chevron-right"></i>
+    </div>
+
+
+
+
+    
+  </div>
+
+  <div class="footerTable px-3 py-2">
+    
+    <div class="pagination d-flex align-items-center gap-3 justify-content-end">
+  
+      <div class="paginationTabl  d-flex align-items-center justify-content-between px-3 " [class.collapsePagination]="collapsePagination">
+  
+  
+          <div class="rightpagination d-flex gap-2">
+              <select name="" id="">
+                  <option value="">5</option>
+                  <option value="">10</option>
+                  <option value="">20</option>
+                  <option value="">50</option>
+                  <option value="">100</option>
+              </select>
+              <div class="moveNext"  *ngIf="collapsePagination" (click)="toggPagination()">
+                  <i class="fa-solid fa-angle-left "></i>
+  
+              </div>
+  
+          </div>
+  
+          <div class="leftpagination d-flex gap-3 ">
+  
+              <p class="m-0"> 2 of 6</p>
+              <div class="close" (click)="toggPagination()">
+                  <i class="fa-solid fa-xmark"></i>
+              </div>
+          </div>
+  
+      </div>
+  
+      <div class="movePagination  d-flex align-items-center gap-3 ">
+  
+          <div class="moveNext">
+              <i class="fa-solid fa-angle-left "></i>
+  
+          </div>
+          
+          <div class="moveNext">
+              <i class="fa-solid fa-angle-right"></i>
+  
+          </div>
+      </div>
+  
+  
+  </div>
+    </div>
+  
+  
+}
+@else {
+
+  <div class="text-center mt-2">
+     <img src="Images/notfound.png" alt="">
+  </div>
+
+  
+ 
+}

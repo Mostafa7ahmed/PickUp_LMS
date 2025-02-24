@@ -17,6 +17,7 @@ export class UpdataCoursesService {
         this.storage = new Storage({ email: email, password: password });
         this.storage.ready
           .then(() => {
+            console.log("Login From service")
             resolve();
           })
           .catch((error: any) => {
@@ -40,8 +41,16 @@ export class UpdataCoursesService {
       reader.onload = async () => {
         try {
           const buffer = new Uint8Array(reader.result as ArrayBuffer);
-          const fileName = `${uuidv4()}`;
-          console.log(`📂 Uploading file as: ${fileName}`);
+          const getFileExtension = (fileName: string): string => {
+            const parts = fileName.split('.');
+            return parts.length > 1 ? parts.pop() || '' : '';
+          };
+
+
+          
+          const fileExtension = getFileExtension(file.name);
+          const fileName = `${uuidv4()}${fileExtension ? '.' + fileExtension : ''}`;
+         console.log(`📂 Uploading file as: ${fileName}`);
 
           const uploadStream = this.storage.upload({ name: fileName, size: buffer.length });
           uploadStream.on('complete', (uploadedFile: any) => {
@@ -61,6 +70,25 @@ export class UpdataCoursesService {
       reader.onerror = () => {
         reject(new Error('❌ Failed to read file as buffer'));
       };
+    });
+  }
+
+
+  async deleteFile(nodeId: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (!this.storage) {
+        return reject(new Error('❌ Mega session is not initialized'));
+      }
+  
+      this.storage.delete(nodeId, (error: any) => {
+        if (error) {
+          console.error('❌ Error deleting file:', error);
+          reject(error);
+        } else {
+          console.log('🗑️ File deleted successfully:', nodeId);
+          resolve();
+        }
+      });
     });
   }
 

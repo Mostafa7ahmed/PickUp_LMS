@@ -1,0 +1,49 @@
+async uploadFile() {
+    console.log("before")
+    console.log("after")
+
+    if (!this.selectedFile) {
+      alert('❌ Please select a file first.');
+      return;
+    }
+  
+    this.isUploading = true;
+    this.uploadedFileLink = null;
+  
+    try {
+      this.uploadedFileLink = await this._UpdataCoursesService.uploadFile(this.selectedFile);
+      console.log(this.uploadedFileLink.nodeId + " ==> Comp");
+        await Promise.all([
+        this.saveStream(this.uploadedFileLink.nodeId)
+      ]);
+      alert('✅ File uploaded and saved successfully!');
+    } catch (error) {
+      console.error('❌ Error:', error);
+      alert('❌ Upload or save failed!');
+      
+    } finally {
+      this.isUploading = false;
+      this._UpdataCoursesService.logout(); // logout after upload
+
+    }
+  }
+  saveStream(nodeId: string): void {
+    this._saveService.getSave(nodeId).subscribe({
+      next: (response) => {
+        console.log('✅ Response:', response);
+      },
+      error: (error) => {
+        console.error('❌ Error:', error);
+      }
+    });
+  }
+  initializeMegaStorage() {
+    this._UpdataCoursesService.initializeMega("ahmed.adel.elsayed.ali.basha@gmail.com", "!!!!Test2222")
+      .then(() => console.log('Is login ya Ahmed  '))
+      .catch(error => console.error('Failed to initialize Mega Storage:', error));
+  }
+
+
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }

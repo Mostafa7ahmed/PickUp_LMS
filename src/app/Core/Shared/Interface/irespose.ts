@@ -23,3 +23,13 @@ export interface IPaginationResponse<TResponse> extends IResponse{
     moveNext: boolean
     movePrevious: boolean    
 }
+
+export interface IPagination {
+    pageSize: number;
+    pageIndex: number;
+    totalCount: number;
+    count: number;
+    totalPages: number;
+    moveNext: boolean;
+    movePrevious: boolean;
+  }

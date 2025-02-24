@@ -1,0 +1,88 @@
+.showContent{
+    display: flex !important;
+    background-color: transparent !important;
+    justify-content: space-between !important;
+    overflow: hidden;
+    width: 100%;
+    opacity: 0;
+    height: 0;
+    gap: 10px;
+    transition: opacity 0.5s ease, height 0.5s ease;
+    
+
+  }
+  .showContent.showInfo{
+    opacity: 1;
+    height: 140px;
+  }
+.showContent .leftContent {
+    flex: 2;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 140px;
+    width: 100%;
+    padding: 10px 5px;
+}
+
+/* جعل الرسم البياني يملأ الحاوية */
+::ng-deep .chart-container {
+  display: flex;
+  width: 100% !important;
+  height: 100% !important;
+  position: relative;
+  position: relative;
+  padding: 0; /* إزالة أي هوامش داخلية */
+  margin: 0; /* إزالة أي هوامش خارجية */
+}
+
+::ng-deep canvas {
+  width: 100% !important;
+  flex-grow: 1;
+  position: relative;
+  padding: 0; /* إزالة أي هوامش داخلية */
+  margin: 0; /* إزالة أي هوامش خارجية */
+}
+
+ .rightContent {
+  flex: 2;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ max-width: 400px !important;
+  
+}
+
+
+  .showContent  .rightContent .cards{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 100%;
+  }
+  .showContent  .rightContent .cards .cardInformation{
+    flex: 1 1 calc(50% - 10px); 
+    max-width: 220px;
+    height: 65px;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    padding: 8px;
+    
+  }
+  .aboutCourses p{
+    font-family: Itim;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    letter-spacing: 0px;
+    color: #79877E;
+  }
+  .aboutCourses  i{
+    font-size: 18px;
+    color: #C6D1DC;
+  }

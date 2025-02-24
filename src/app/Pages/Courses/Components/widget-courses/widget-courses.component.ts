@@ -1,0 +1,99 @@
+import { Component, inject, Input, input, OnInit } from '@angular/core';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { Subscription } from 'rxjs';
+import { GetWidgetsService } from '../../Core/service/get-widgets.service';
+import { IwidgetResponse } from '../../Core/interface/iwidget-response';
+
+@Component({
+  selector: 'app-widget-courses',
+  standalone: true,
+  imports: [NgxEchartsModule],
+  templateUrl: './widget-courses.component.html',
+  styleUrl: './widget-courses.component.scss'
+})
+export class WidgetCoursesComponent implements OnInit {
+  private subscription: Subscription = new Subscription();
+
+  @Input() showInfo = false;
+
+    private _GetWidgetsService = inject(GetWidgetsService);
+    dataWidgets: IwidgetResponse = {} as  IwidgetResponse;
+
+  chartOptions :any= {
+    title: {
+      text: 'My Chart Title',
+      left: 'left',
+      textStyle: { color: '#333', fontSize: 13 }
+    },
+    tooltip: { 
+      trigger: 'axis',
+      formatter: (params: any) => ` ${params[0].value}` // يعرض فقط قيمة Y
+    },
+    grid: { left: '-20px', right: '-15px', top: '25%', bottom: '20%' },
+    responsive: true,
+    xAxis: {
+      data: [] as string[], 
+      axisLine: { show: false },
+      axisTick: { show: false },
+      axisLabel: { fontSize: 8, color: '#333', rotate: 0 }
+    },
+    yAxis: {
+      type: 'value',
+      axisLine: { show: true },
+      splitLine: { show: false }
+    },
+    series: [
+      {
+        type: 'line',
+        data: [] as number[],
+        smooth: true,
+        showSymbol: false, 
+        lineStyle: { color: '#4A90E2', width: 2 },
+        areaStyle: { color: 'rgba(74, 144, 226, 0.2)' }
+      }
+    ]
+  }
+
+  
+  getwidgets(){
+    this.subscription =  this.subscription = this._GetWidgetsService.getWidgets().subscribe({
+      next: (response) => {
+        console.log("API Response:", response);
+        this.dataWidgets = response.result;
+  
+        if (response?.result?.chart?.data) {
+          const dates: string[] = Object.keys(response.result.chart.data);
+        const values: number[] = Object.values(response.result.chart.data);
+
+        const sortedDates = dates.sort((a, b) => a.localeCompare(b));
+
+        const sortedValues = sortedDates.map(date => response.result.chart.data[date]);
+
+        const formattedDates = sortedDates.map(date => {
+          const [year, month] = date.split('-'); 
+          return `${month}/${year}`; 
+        });
+
+        this.chartOptions = Object.assign({}, this.chartOptions, {
+          xAxis: { ...this.chartOptions.xAxis, data: formattedDates },
+          series: [{ ...this.chartOptions.series[0], data: sortedValues }]
+        });
+        }
+      },
+      error: (err) => {
+        console.error("Error fetching data:", err);
+      }
+    });
+  }
+  
+  ngOnInit(): void {
+    this.getwidgets();
+  }
+
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+
+}

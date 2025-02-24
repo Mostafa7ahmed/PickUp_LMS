@@ -9,7 +9,10 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { provideAnimations } from '@angular/platform-browser/animations';
 import en from '@angular/common/locales/en';
 import { headersInterceptor } from './Core/interceptors/headers.interceptor';
-
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
+import { NGX_ECHARTS_CONFIG } from 'ngx-echarts';
+import * as echarts from 'echarts';
 registerLocaleData(en);
 
 
@@ -22,7 +25,14 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(FormsModule),
     provideAnimationsAsync(),
     provideHttpClient(withFetch(), withInterceptors([headersInterceptor])),
+    { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } },
+
     provideAnimationsAsync(),
+    providePrimeNG({ 
+        theme: {
+            preset: Aura
+        }
+    }),
      provideNzI18n(en_US),
   ],
 };
