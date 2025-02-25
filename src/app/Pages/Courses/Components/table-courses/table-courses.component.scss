@@ -169,7 +169,9 @@
 }
 
 .moveNext:disabled{
-  cursor: not-allowed;
   background-color: #ccc; 
   opacity: 0.6; 
+  border: none;
+  cursor: not-allowed;
+
 }

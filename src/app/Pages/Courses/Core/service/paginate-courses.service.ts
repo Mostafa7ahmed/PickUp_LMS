@@ -15,10 +15,10 @@ export class PaginateCoursesService {
 
 
 
-   getCourses(topicId: number , pageNumber: number = 1, pageSize: number = 2, orderBy: number = 2, orderDirection: number = 1): Observable<any> {
+   getCourses(topicId: number , pageNumber: number = 1, pageSize: number = 2, courseListViewType :number =0, orderBy: number = 2, orderDirection: number = 1 ,): Observable<any> {
     const params = {
       topicId: topicId.toString(),
-      courseListViewType: '0',
+      courseListViewType: courseListViewType.toString(),
       orderBy: orderBy.toString(),
       pageNumber: pageNumber.toString(),
       pageSize: pageSize.toString(),

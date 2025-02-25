@@ -53,7 +53,7 @@ export class CoursesComponent  implements OnInit {
   isOpen: boolean = false;
   isLoading: boolean = false;
   paginationCoursesResponse: IPaginationResponse<CourseResult>  = {} as IPaginationResponse<CourseResult> ;
-  selectedTopicId: number | null = null;
+  selectedTopicId: number =0;
   valueheader : number = 0;
 
   @ViewChild( TableCoursesComponent) TableCourses!: TableCoursesComponent;
@@ -67,11 +67,18 @@ export class CoursesComponent  implements OnInit {
   }
   changeInnerTab(value: number): void {
     this.valueTable = value;
+    console.log(this.valueTable)
+
+    
+    this.fetchCourses({} , this.selectedTopicId , this.valueTable);
+
   }
   selectOption(option: any): void {
     this.selectedValue = option.name;
+
     this.isOpen = false;
-    this.fetchCourses(option.id);
+    console.log(option.id)
+    this.fetchCourses({},option.id , this.valueTable );
 
   }
   toggShowInfo() {
@@ -89,20 +96,24 @@ export class CoursesComponent  implements OnInit {
     this._topiclistService.getAlllits().subscribe({
       next: (topics) => {
         this.topicsList = topics.result;
+     let defautlTopic =  this. topicsList.filter((e:ITopiclist) =>e.default)[0];
+     this.selectedValue = defautlTopic.name;
+     this.selectedTopicId = defautlTopic.id;
+      // Id & name 
+      console.log(this.selectedTopicId)
         if (topics.success) {
-          this.selectedTopicId = this.topicsList[0].id;
-          this.fetchCourses({ topicId: this.selectedTopicId }); 
+          this.fetchCourses({} ,defautlTopic.id); 
         }
         console.log(this.topicsList)
       },
   
     })
   }
-  fetchCourses(eventData: { topicId: number; pageNumber?: number; pageSize?: number }): void {
-    const { topicId, pageNumber = 1, pageSize = 2 } = eventData;
+  fetchCourses(eventData: {  pageNumber?: number; pageSize?: number } , topicId: number , courseListViewType:number=0): void {
+    const { pageNumber = 1, pageSize = 5} = eventData;
   
     this.isLoading = true;
-    this._PaginateCoursesService.getCourses(topicId, pageNumber, pageSize).subscribe({
+    this._PaginateCoursesService.getCourses(topicId, pageNumber, pageSize , courseListViewType).subscribe({
       next: (response) => {
         console.log(response);
         this.paginationCoursesResponse = response;

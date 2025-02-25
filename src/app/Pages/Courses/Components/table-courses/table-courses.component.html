@@ -1,4 +1,4 @@
-@if(paginationCoursesResponse.success) {
+@if(paginationCoursesResponse.success && paginationCoursesResponse.result.length > 0){
   <div class="scrollTable mt-5" #scrollContainer>
     <table>
       <thead>
@@ -28,7 +28,7 @@
                   </div>
                 </td>
                 <td >{{ course.studentsCount   }} </td>
-                <td>{{ course.updater.name }}</td>
+                <td>{{ course.updater?.name    ??  "--"}}</td>
                 <td>{{ course.creator.name }}</td>
                 <td>{{course.rating  }} ⭐</td>
                 <td>{{course.quizzesCount }}</td>
@@ -37,7 +37,7 @@
                 <td [matTooltip]="course.name">{{ course.name  | splicText : 15 }}</td>
 
                 <td>{{ course.profit  }}</td>
-                <td>{{ course.discount?.amount ? course.discount.amount : '--' }}</td>
+                <td>{{ course.discount?.amount ?? '--' }}</td>
                 <td>{{ course.createdOn | date }}</td>
               </tr>
         }
@@ -127,7 +127,5 @@
   <div class="text-center mt-2">
      <img src="Images/notfound.png" alt="">
   </div>
-
-  
  
 }

@@ -13,7 +13,7 @@ import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose'
   styleUrl: './table-courses.component.scss'
 })
 export class TableCoursesComponent {
-  pageSize: number = 2; 
+  pageSize: number = 5; 
 
 
   @Input()paginationCoursesResponse: IPaginationResponse<CourseResult>  = {} as IPaginationResponse<CourseResult> ;
@@ -21,11 +21,10 @@ export class TableCoursesComponent {
     scrollInterval: any;
     showLeftScroll = false;
     showRightScroll = true;
-    @Output() fetchCoursesEvent = new EventEmitter<{ topicId: number; pageNumber?: number; pageSize?: number }>();
+    @Output() fetchCoursesEvent = new EventEmitter<{ pageNumber?: number; pageSize?: number }>();
 
     someMethodToEmitEvent(pageSize: number , pageNumber : number) {
       this.fetchCoursesEvent.emit({
-        topicId: 1, 
         pageNumber: pageNumber, 
         pageSize: pageSize
       });
@@ -71,12 +70,10 @@ export class TableCoursesComponent {
     getRemainingCourses(pageNumber:number , pageSize:number ){
       pageNumber = pageNumber + 1;
       this.someMethodToEmitEvent(pageSize , pageNumber)
-      console.log(pageNumber)
     }
     getPrevCourses(pageNumber:number , pageSize:number ){
       pageNumber = pageNumber - 1;
       this.someMethodToEmitEvent(pageSize , pageNumber)
-      console.log("getPrevCourses")
     }
     onPageSizeChange(event: Event) {
       const target = event.target as HTMLSelectElement;
