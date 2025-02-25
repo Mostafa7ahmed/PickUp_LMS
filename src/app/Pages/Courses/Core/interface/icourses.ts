@@ -1,11 +1,11 @@
 export interface Icourses {
-    result: Result[]
+    result: CourseResult[]
 
     
 }
 
   
-  export interface Result {
+  export interface CourseResult {
     id: number
     instructorId: number
     creatorId: number

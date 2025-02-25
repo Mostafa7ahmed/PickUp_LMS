@@ -1,6 +1,7 @@
+import { Result } from './../../topic/Core/Interface/itopic';
 import { GetWidgetsService } from './../Core/service/get-widgets.service';
-import { Component, ElementRef, HostListener, inject, OnInit, ViewChild } from '@angular/core';
-import { Icourses } from '../Core/interface/icourses';
+import { Component, ElementRef, HostListener, inject, OnInit, viewChild, ViewChild } from '@angular/core';
+import { CourseResult, Icourses } from '../Core/interface/icourses';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from 'ngx-echarts';
 import * as echarts from 'echarts';
@@ -17,6 +18,7 @@ import { TopiclistService } from '../../topic/Core/Service/topiclist.service';
 import { ITopic } from '../../topic/Core/Interface/itopic';
 import { ITopiclist } from '../Core/interface/itopiclist';
 import { PaginateCoursesService } from '../Core/service/paginate-courses.service';
+import { IPaginationResponse } from '../../../Core/Shared/Interface/irespose';
 
 @Component({
   selector: 'app-courses',
@@ -37,6 +39,7 @@ export class CoursesComponent  implements OnInit {
 
 
 
+
   // End Call services
 
 
@@ -49,10 +52,11 @@ export class CoursesComponent  implements OnInit {
   topicsList: ITopiclist[] = [];
   isOpen: boolean = false;
   isLoading: boolean = false;
-  courseList: Icourses[] = [];
+  paginationCoursesResponse: IPaginationResponse<CourseResult>  = {} as IPaginationResponse<CourseResult> ;
   selectedTopicId: number | null = null;
   valueheader : number = 0;
 
+  @ViewChild( TableCoursesComponent) TableCourses!: TableCoursesComponent;
 
   //^ Functions
   toggleDropdown(): void {
@@ -87,21 +91,21 @@ export class CoursesComponent  implements OnInit {
         this.topicsList = topics.result;
         if (topics.success) {
           this.selectedTopicId = this.topicsList[0].id;
-          this.fetchCourses(this.selectedTopicId);
+          this.fetchCourses({ topicId: this.selectedTopicId }); 
         }
         console.log(this.topicsList)
       },
   
     })
   }
-
-  fetchCourses(topicId: number): void {
+  fetchCourses(eventData: { topicId: number; pageNumber?: number; pageSize?: number }): void {
+    const { topicId, pageNumber = 1, pageSize = 2 } = eventData;
+  
     this.isLoading = true;
-    this._PaginateCoursesService.getCourses(topicId).subscribe({
+    this._PaginateCoursesService.getCourses(topicId, pageNumber, pageSize).subscribe({
       next: (response) => {
-        console.log(response)
-        this.courseList = response?.result;
-
+        console.log(response);
+        this.paginationCoursesResponse = response;
       },
       error: (error) => {
         console.error('Error fetching courses:', error);
@@ -125,6 +129,10 @@ export class CoursesComponent  implements OnInit {
 
    ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  print(){
+    this.TableCourses.getRemainingCourses(1,10)
   }
 
 }

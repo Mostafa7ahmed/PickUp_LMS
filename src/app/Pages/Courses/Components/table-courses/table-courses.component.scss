@@ -82,7 +82,7 @@
   
     tbody {
       display: block;
-      height: 422px;
+      max-height: 422px;
       overflow-y: scroll;
       &::-webkit-scrollbar{
         display: none
@@ -168,4 +168,8 @@
 
 }
 
-
+.moveNext:disabled{
+  cursor: not-allowed;
+  background-color: #ccc; 
+  opacity: 0.6; 
+}

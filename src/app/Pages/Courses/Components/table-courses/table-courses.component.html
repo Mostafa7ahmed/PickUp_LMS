@@ -1,4 +1,4 @@
-@if(courseList.length > 0) {
+@if(paginationCoursesResponse.success) {
   <div class="scrollTable mt-5" #scrollContainer>
     <table>
       <thead>
@@ -18,16 +18,16 @@
         </tr>
       </thead>
       <tbody>
-        @for (course of courseList; track  $index ; let i= $index) {
+        @for (course of paginationCoursesResponse.result; track  $index ; let i= $index) {
             <tr >
                 <td>
                   <div class="course-name">
                     <div class="circle p-3"></div>
                     <p class="m-0" [matTooltip]="course.name" > {{course.name | splicText : 15}}</p>
-                
+
                   </div>
                 </td>
-                <td >{{ course.studentsCount  }}</td>
+                <td >{{ course.studentsCount   }} </td>
                 <td>{{ course.updater.name }}</td>
                 <td>{{ course.creator.name }}</td>
                 <td>{{course.rating  }} ⭐</td>
@@ -76,13 +76,13 @@
   
   
           <div class="rightpagination d-flex gap-2">
-              <select name="" id="">
-                  <option value="">5</option>
-                  <option value="">10</option>
-                  <option value="">20</option>
-                  <option value="">50</option>
-                  <option value="">100</option>
-              </select>
+            <select (change)="onPageSizeChange($event)">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+          </select>
               <div class="moveNext"  *ngIf="collapsePagination" (click)="toggPagination()">
                   <i class="fa-solid fa-angle-left "></i>
   
@@ -92,9 +92,10 @@
   
           <div class="leftpagination d-flex gap-3 ">
   
-              <p class="m-0"> 2 of 6</p>
+              <p class="m-0"> {{paginationCoursesResponse.pageIndex}} of {{paginationCoursesResponse.totalPages}}</p>
               <div class="close" (click)="toggPagination()">
                   <i class="fa-solid fa-xmark"></i>
+                  
               </div>
           </div>
   
@@ -102,15 +103,17 @@
   
       <div class="movePagination  d-flex align-items-center gap-3 ">
   
-          <div class="moveNext">
+        <!-- left => next -->
+        <button class="moveNext btn " type="button" [disabled]="!paginationCoursesResponse.movePrevious" (click)="getPrevCourses(paginationCoursesResponse.pageIndex,paginationCoursesResponse.pageSize)">
               <i class="fa-solid fa-angle-left "></i>
   
-          </div>
+        </button>
           
-          <div class="moveNext">
+        <!-- left => previous -->
+          <button class="moveNext btn"   type="button"  [disabled]="!paginationCoursesResponse.moveNext" (click)="getRemainingCourses(paginationCoursesResponse.pageIndex,paginationCoursesResponse.pageSize)">
               <i class="fa-solid fa-angle-right"></i>
   
-          </div>
+          </button>
       </div>
   
   

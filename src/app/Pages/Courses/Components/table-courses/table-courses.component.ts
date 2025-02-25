@@ -1,8 +1,9 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, HostListener, ViewChild, ElementRef, input, Input } from '@angular/core';
-import { Icourses } from '../../Core/interface/icourses';
+import { Component, HostListener, ViewChild, ElementRef, input, Input, output, Output, EventEmitter } from '@angular/core';
+import { CourseResult, Icourses } from '../../Core/interface/icourses';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SplicTextPipe } from '../../Core/Pipes/splic-text.pipe';
+import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose';
 
 @Component({
   selector: 'app-table-courses',
@@ -12,15 +13,25 @@ import { SplicTextPipe } from '../../Core/Pipes/splic-text.pipe';
   styleUrl: './table-courses.component.scss'
 })
 export class TableCoursesComponent {
+  pageSize: number = 2; 
 
 
-  @Input() courseList :any [] = [];
+  @Input()paginationCoursesResponse: IPaginationResponse<CourseResult>  = {} as IPaginationResponse<CourseResult> ;
     @ViewChild('scrollContainer') scrollContainer!: ElementRef;
     scrollInterval: any;
     showLeftScroll = false;
     showRightScroll = true;
+    @Output() fetchCoursesEvent = new EventEmitter<{ topicId: number; pageNumber?: number; pageSize?: number }>();
+
+    someMethodToEmitEvent(pageSize: number , pageNumber : number) {
+      this.fetchCoursesEvent.emit({
+        topicId: 1, 
+        pageNumber: pageNumber, 
+        pageSize: pageSize
+      });
+    } 
+
   
- 
 
     collapsePagination = false;
 
@@ -55,6 +66,25 @@ export class TableCoursesComponent {
     onResize() {
       this.updateScrollButtons();
     }
+
+
+    getRemainingCourses(pageNumber:number , pageSize:number ){
+      pageNumber = pageNumber + 1;
+      this.someMethodToEmitEvent(pageSize , pageNumber)
+      console.log(pageNumber)
+    }
+    getPrevCourses(pageNumber:number , pageSize:number ){
+      pageNumber = pageNumber - 1;
+      this.someMethodToEmitEvent(pageSize , pageNumber)
+      console.log("getPrevCourses")
+    }
+    onPageSizeChange(event: Event) {
+      const target = event.target as HTMLSelectElement;
+      this.pageSize = Number(target.value);
+      this.someMethodToEmitEvent(this.pageSize, 1);
+    }
+    
+  
   
     ngOnDestroy() {
       clearInterval(this.scrollInterval);

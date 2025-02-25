@@ -79,13 +79,15 @@
         <p-tabs [value]="valueTable">
           <p-tabpanels>
             <p-tabpanel [value]="0">
-              <app-table-courses [courseList]="courseList"></app-table-courses>
+            <app-table-courses (fetchCoursesEvent)="fetchCourses($event)" 
+                              [paginationCoursesResponse]="paginationCoursesResponse">
+            </app-table-courses>
             </p-tabpanel>
             <p-tabpanel [value]="1">
-              <app-table-courses [courseList]="courseList"></app-table-courses>
+              <app-table-courses [paginationCoursesResponse]="paginationCoursesResponse"></app-table-courses>
             </p-tabpanel>
             <p-tabpanel [value]="2">
-              <app-table-courses [courseList]="courseList"></app-table-courses>
+              <app-table-courses [paginationCoursesResponse]="paginationCoursesResponse"></app-table-courses>
             </p-tabpanel>
           </p-tabpanels>
         </p-tabs>
