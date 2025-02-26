@@ -1,0 +1,73 @@
+<table>
+    <thead>
+      <tr>
+        <th *ngFor="let header of headers">{{ header.label }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let record of records">
+        <td *ngFor="let header of headers">
+          <ng-container [ngSwitch]="header.type">
+            <span *ngSwitchCase="'date'">{{ record[header.key] | date }}</span>
+            <span *ngSwitchCase="'boolean'">{{ record[header.key] ? '✔' : '✖' }}</span>
+            <span *ngSwitchDefault>{{ record[header.key] }}</span>
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+  <div class="footerTable px-3 py-2">
+    
+    <div class="pagination d-flex align-items-center gap-3 justify-content-end">
+  
+      <div class="paginationTabl  d-flex align-items-center justify-content-between px-3 " [class.collapsePagination]="collapsePagination">
+  
+  
+          <div class="rightpagination d-flex gap-2">
+            <select (change)="onPageSizeChange($event)">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+          </select>
+              <div class="moveNext"  *ngIf="collapsePagination" (click)="toggPagination()">
+                  <i class="fa-solid fa-angle-left "></i>
+  
+              </div>
+  
+          </div>
+  
+          <div class="leftpagination d-flex gap-3 ">
+  
+              <p class="m-0"> {{paginationResponse.pageIndex}} of {{paginationResponse.totalPages}}</p>
+              <div class="close" (click)="toggPagination()">
+                  <i class="fa-solid fa-xmark"></i>
+                  
+              </div>
+          </div>
+  
+      </div>
+  
+      <div class="movePagination  d-flex align-items-center gap-3 ">
+  
+        <!-- left => next -->
+        <button class="moveNext btn " type="button" [disabled]="!paginationResponse.movePrevious" (click)="getPreviousPage(paginationResponse.pageIndex,paginationResponse.pageSize)">
+              <i class="fa-solid fa-angle-left "></i>
+  
+        </button>
+          
+        <!-- left => previous -->
+          <button class="moveNext btn"   type="button"  [disabled]="!paginationResponse.moveNext" (click)="getNextPage(paginationResponse.pageIndex,paginationResponse.pageSize)">
+              <i class="fa-solid fa-angle-right"></i>
+  
+          </button>
+      </div>
+  
+  
+  </div>
+    </div>
+  

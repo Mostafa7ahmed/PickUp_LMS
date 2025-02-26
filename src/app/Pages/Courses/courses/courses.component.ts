@@ -1,3 +1,5 @@
+import { RecordableHistogram } from 'perf_hooks';
+import { TableHeader } from './../Components/tablereused/tablereused.component';
 import { Result } from './../../topic/Core/Interface/itopic';
 import { GetWidgetsService } from './../Core/service/get-widgets.service';
 import { Component, ElementRef, HostListener, inject, OnInit, viewChild, ViewChild } from '@angular/core';
@@ -19,11 +21,12 @@ import { ITopic } from '../../topic/Core/Interface/itopic';
 import { ITopiclist } from '../Core/interface/itopiclist';
 import { PaginateCoursesService } from '../Core/service/paginate-courses.service';
 import { IPaginationResponse } from '../../../Core/Shared/Interface/irespose';
+import { TablereusedComponent } from '../Components/tablereused/tablereused.component';
 
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, ButtonModule, TabsModule, MatTooltipModule, NgxEchartsModule,WidgetCoursesComponent, TableCoursesComponent],
+  imports: [CommonModule, ButtonModule, TabsModule,TablereusedComponent, MatTooltipModule, NgxEchartsModule,WidgetCoursesComponent, TableCoursesComponent],
   providers:[
     { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } } 
 
@@ -37,7 +40,7 @@ export class CoursesComponent  implements OnInit {
   private _topiclistService = inject(TopiclistService);
   private _PaginateCoursesService = inject(PaginateCoursesService);
 
-
+  tableRecords: Record<string,any>[] = [];
 
 
   // End Call services
@@ -55,6 +58,12 @@ export class CoursesComponent  implements OnInit {
   paginationCoursesResponse: IPaginationResponse<CourseResult>  = {} as IPaginationResponse<CourseResult> ;
   selectedTopicId: number =0;
   valueheader : number = 0;
+
+  headers: TableHeader[] = [
+    { key: 'name', label: 'Name', type: 'string' },
+    { key: 'price', label: 'Price', type: 'number' },
+    { key: 'createdOn', label: 'Created On', type: 'date' }
+  ]
 
   @ViewChild( TableCoursesComponent) TableCourses!: TableCoursesComponent;
 
@@ -117,6 +126,13 @@ export class CoursesComponent  implements OnInit {
       next: (response) => {
         console.log(response);
         this.paginationCoursesResponse = response;
+
+
+        this.paginationCoursesResponse.result.forEach((course) => {
+
+          let courseRecord: Record<string, any> = { name: course.name ,pice: 1500 };
+          this.tableRecords.push(courseRecord);
+        });
       },
       error: (error) => {
         console.error('Error fetching courses:', error);

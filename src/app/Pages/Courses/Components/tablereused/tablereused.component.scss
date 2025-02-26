@@ -1,0 +1,190 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f4f4f4;
+  }
+  .scrollTable {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap; 
+    &::-webkit-scrollbar{
+      display: none
+    }
+  }
+ .leftScroll{
+    position: absolute;
+    background-color: transparent;
+    padding: 12px;
+    border-radius: 8px;
+    top: 50%;
+    left: 17px;
+    height: 120px;
+    font-size: 20px;
+    z-index: 588;
+    display: flex;
+    align-items: center;
+    color: transparent;
+    z-index: 454444;
+
+  }
+ .rightScroll{
+    position: absolute;
+    background-color: transparent;
+    padding: 12px;
+    border-radius: 8px;
+    top: 50%;
+    right: 20px;
+    height: 120px;
+    font-size: 20px;
+    z-index: 588;
+    display: flex;
+    align-items: center;
+    color: transparent;
+    z-index: 454444;
+
+  }
+
+
+ .rightScroll:hover,  .leftScroll:hover {
+  background: #befda5af;
+  color: #79877E;
+}
+  table {
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 2px 10px rgba(124, 138, 118, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+  
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+      
+    }
+  
+    th {
+      background: #f5f5f5;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+  
+    .course-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      
+      .circle {
+        width:  20px;
+        height: 20px;
+        border-radius: 50%;
+        background: rgb(21, 128, 0);
+      }
+    }
+  
+    tbody {
+      display: block;
+      max-height: 422px;
+      overflow-y: scroll;
+      &::-webkit-scrollbar{
+        display: none
+      }
+    }
+  
+    thead, tbody tr {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+    }
+  
+    tbody tr:hover {
+      background: #f9f9f9;
+    }
+  }
+
+
+  .paginationTabl{
+    height: 36px;
+    background: #7676801F;
+
+    border-radius: 10px;
+    gap: 30px;
+    overflow: hidden;
+    width: 200px; 
+    transition: width 0.8s ease-in-out; 
+    white-space: nowrap; 
+  }
+ .collapsePagination{
+  width: 100px;
+  transition: width 0.8s ease-in-out; 
+  overflow: hidden;
+
+
+
+ }
+  .leftpagination .close{
+    width: 20px;
+    height: 20px;
+    background: #3C3C4399;
+    border-radius:50% ;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    cursor: pointer;
+
+
+  }
+
+  .rightpagination select{
+    border: none;
+    background: transparent;
+    outline: none;
+}
+.movePagination .moveNext {
+  width: 30px;
+  height: 30px;
+  border-radius:50% ;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.rightpagination .moveNext{
+  cursor: pointer;
+}
+.movePagination .moveNext:hover{
+  background: #3c3c434d;
+  color: #FFFFFF;
+
+
+}
+
+.footerTable{
+    background-color: #f4f4f4;
+    margin: 10px 0 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    border-radius: 8px;
+
+}
+
+.moveNext:disabled{
+  background-color: #ccc; 
+  opacity: 0.6; 
+  border: none;
+  cursor: not-allowed;
+
+}
