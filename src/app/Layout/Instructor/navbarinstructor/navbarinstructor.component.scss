@@ -1,10 +1,15 @@
+
 .haeader-Nav{
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: var(--white);
     z-index: 555555;
-    border-radius: 8px;
+    height: 60px;
+    border-radius: 7px;
+   width: 100%;
+
+
 
 }
 .nav-Left {

@@ -1,10 +1,12 @@
 .sidebar {
   position: fixed;
-  top: 10px;
-  left: 10px;
+  top: 7px;
+  margin-inline-start: 7px;
+  left: 0;
+  right: 0;
   height: 96vh;
   background-color: var(--white);
-  border-radius: 17px;
+  border-radius: 7px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -12,9 +14,9 @@
   z-index: 1000;
   backdrop-filter: blur(160px);
 
-  width: 70px;
+  width: 60px;
+  box-shadow: 4px 6px 23px rgb(36 193 43 / 29%);
 
-  box-shadow: 0px 3px 24px rgb(36 193 43 / 36%);
 }
 
 .sidebar.collapsed {
@@ -24,7 +26,7 @@
 .fixedSidebar {
   transition: 0.8s margin-left ease-in;
 
-  margin-left: 150px;
+  margin-left: 160px;
 }
 
 .fixed-sidebar-collapsed {

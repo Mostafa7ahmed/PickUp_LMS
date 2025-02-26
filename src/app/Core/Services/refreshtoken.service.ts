@@ -10,26 +10,26 @@ export class RefreshtokenService {
 
   constructor(private authService: LoginService) {}
 
-  // startTokenRefresh() {
-  //   this.subscription = timer(0,  80 * 60 * 2000)
-  //     .pipe(
-  //       switchMap(() => this.authService.setRefreshToken())
-  //     )
-  //     .subscribe({
-  //       next: (res) => {
+  startTokenRefresh() {
+    this.subscription = timer(0,  80 * 60 * 2000)
+      .pipe(
+        switchMap(() => this.authService.setRefreshToken())
+      )
+      .subscribe({
+        next: (res) => {
 
-  //         localStorage.setItem("UserAuth", res.result.jwt);
-  //         localStorage.setItem("refreshToken", res.result.refreshToken);
+          localStorage.setItem("UserAuth", res.result.jwt);
+          localStorage.setItem("refreshToken", res.result.refreshToken);
 
         
         
-  //       },
-  //       error: (err) => {
-  //         console.log(err)
-  //         if(err.error.statusCode =400){
-  //           this.authService.SignOut()
-  //         }
-  //       },
-  //     });
-  // }
+        },
+        error: (err) => {
+          console.log(err)
+          if(err.error.statusCode =400){
+            this.authService.SignOut()
+          }
+        },
+      });
+  }
 }

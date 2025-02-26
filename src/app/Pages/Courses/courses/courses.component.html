@@ -56,7 +56,7 @@
 <p-tabs [value]="valueheader">
   <p-tabpanels>
     <p-tabpanel [value]="0">
-      <div class="showDataCourses">
+      <div class="showDataCourses rounded-5">
         <div class="headerTabs">
           <div class="tab tab1" [class.active]="valueTable == 0">
             <p-button (onClick)="changeInnerTab(0)" rounded="true" styleClass="tabtext">
@@ -95,7 +95,310 @@
     </p-tabpanel>
 
     <p-tabpanel [value]="1">
-      <div class="p-5 Kanban bg-white h-75">
+      <div class="p-3 Kanbans bg-white ">
+
+        <div class="headerKanban">
+
+            <div class="inputSearch">
+              <i class="fa-solid fa-search"></i>
+              <input type="text"  placeholder="Search for courses">
+
+            </div>
+
+            <div class="addCourse">
+              <button class="btn-add"><i class="fa fa-plus-square" aria-hidden="true"></i>  Add Course</button>
+            </div>
+
+
+        </div>
+
+        <div class="KanbansCard  d-flex gap-3">
+          <div class="cardKanban">
+            <div class="headerCard d-flex  px-2 justify-content-between align-items-center">
+              <div class="stageProcess d-flex gap-3 align-items-center">
+                <div class="progressBar"> </div>
+                <div class="stageTitle">
+                  <p class="stageName m-0">New <span class="numberOfStage">2</span></p>
+                  <span class="stageStatus">1302 EGP</span>
+                </div>
+
+              </div>
+
+              <div class="addStage">
+                <i class="fa fa-plus fs-4" aria-hidden="true"></i>
+              </div>
+
+             
+            </div>  
+
+            <div class="cardBodyKanban">
+              <div class="cardStage ">
+                <div class="contentStage  p-4 ">
+                  <div class="headerStage d-flex justify-content-between align-items-center mb-2">
+                    <h3>SOLID Principles</h3>
+                    <div class="dateStage">
+                      <i class="fa-solid fa-clock-rotate-left"></i>
+                      <p class="date m-0">25 / 11 / 2023</p>
+                    </div>
+
+                  </div>
+                  <div class="medialContentStage d-flex gap-2 flex-column">
+                    <p class="m-0"><i class="fa-solid fa-user me-1"></i> Eng Essam </p>
+                    <div class="d-flex gap-2 align-items-center">
+                     <div class="progressBar"></div>
+                     <p class="m-0">  New </p>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <p class="m-0"><i class="fa-solid fa-sack-dollar me-1"></i> 399 </p>
+                      <p class="m-0">399 <i class="fa-solid fa-sack-dollar me-1"></i>  </p>
+                     </div>
+                  </div>
+                  <div class="footerContentStage">
+                    <hr class="m-0 my-2">
+                    <div class="stats-container d-flex align-items-center justify-content-between">
+                      <div class="leftStates">
+                        <div class="stat"><i class="fas fa-user-check" ></i> 954</div>
+                        <div class="stat"><i class="fas fa-box"></i> 4</div>
+                        <div class="stat"><i class="fas fa-comment"></i> 12</div>
+                        <div class="stat"><i class="fas fa-thumbs-up"></i> 733</div>
+                      </div>
+                      <div class="rightStates">
+                        <div class="stat"><i class="fas fa-comment-dots" ></i></div>
+                      </div>
+             
+
+                  </div>
+                  
+                  </div>
+
+         
+
+                </div>
+                <div class="lineStage"></div>
+
+              </div>
+              <div class="cardStage ">
+                <div class="contentStage  p-4 ">
+                  <div class="headerStage d-flex justify-content-between align-items-center mb-2">
+                    <h3>SOLID Principles</h3>
+                    <div class="dateStage">
+                      <i class="fa-solid fa-clock-rotate-left"></i>
+                      <p class="date m-0">25 / 11 / 2023</p>
+                    </div>
+
+                  </div>
+                  <div class="medialContentStage d-flex gap-2 flex-column">
+                    <p class="m-0"><i class="fa-solid fa-user me-1"></i> Eng Essam </p>
+                    <div class="d-flex gap-2 align-items-center">
+                     <div class="progressBar"></div>
+                     <p class="m-0">  New </p>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <p class="m-0"><i class="fa-solid fa-sack-dollar me-1"></i> 399 </p>
+                      <p class="m-0">399 <i class="fa-solid fa-sack-dollar me-1"></i>  </p>
+                     </div>
+                  </div>
+                  <div class="footerContentStage">
+                    <hr class="m-0 my-2">
+                    <div class="stats-container d-flex align-items-center justify-content-between">
+                      <div class="leftStates">
+                        <div class="stat"><i class="fas fa-user-check" ></i> 954</div>
+                        <div class="stat"><i class="fas fa-box"></i> 4</div>
+                        <div class="stat"><i class="fas fa-comment"></i> 12</div>
+                        <div class="stat"><i class="fas fa-thumbs-up"></i> 733</div>
+                      </div>
+                      <div class="rightStates">
+                        <div class="stat"><i class="fas fa-comment-dots" ></i></div>
+                      </div>
+             
+
+                  </div>
+                  
+                  </div>
+
+         
+
+                </div>
+                <div class="lineStage"></div>
+
+              </div>
+
+              <div class="cardStage ">
+                <div class="contentStage  p-4 ">
+                  <div class="headerStage d-flex justify-content-between align-items-center mb-2">
+                    <h3>SOLID Principles</h3>
+                    <div class="dateStage">
+                      <i class="fa-solid fa-clock-rotate-left"></i>
+                      <p class="date m-0">25 / 11 / 2023</p>
+                    </div>
+
+                  </div>
+                  <div class="medialContentStage d-flex gap-2 flex-column">
+                    <p class="m-0"><i class="fa-solid fa-user me-1"></i> Eng Essam </p>
+                    <div class="d-flex gap-2 align-items-center">
+                     <div class="progressBar"></div>
+                     <p class="m-0">  New </p>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <p class="m-0"><i class="fa-solid fa-sack-dollar me-1"></i> 399 </p>
+                      <p class="m-0">399 <i class="fa-solid fa-sack-dollar me-1"></i>  </p>
+                     </div>
+                  </div>
+                  <div class="footerContentStage">
+                    <hr class="m-0 my-2">
+                    <div class="stats-container d-flex align-items-center justify-content-between">
+                      <div class="leftStates">
+                        <div class="stat"><i class="fas fa-user-check" ></i> 954</div>
+                        <div class="stat"><i class="fas fa-box"></i> 4</div>
+                        <div class="stat"><i class="fas fa-comment"></i> 12</div>
+                        <div class="stat"><i class="fas fa-thumbs-up"></i> 733</div>
+                      </div>
+                      <div class="rightStates">
+                        <div class="stat"><i class="fas fa-comment-dots" ></i></div>
+                      </div>
+             
+
+                  </div>
+                  
+                  </div>
+
+         
+
+                </div>
+                <div class="lineStage"></div>
+
+              </div>
+
+              
+
+            </div>
+          </div>  
+
+
+
+
+
+
+
+          <!-- Puplish -->
+          <div class="cardKanban">
+            <div class="headerCard d-flex  px-2 justify-content-between align-items-center">
+              <div class="stageProcess d-flex gap-3 align-items-center">
+                <div class="progressBar"> </div>
+                <div class="stageTitle">
+                  <p class="stageName m-0">New <span class="numberOfStage">2</span></p>
+                  <span class="stageStatus">1302 EGP</span>
+                </div>
+
+              </div>
+
+              <div class="addStage">
+                <i class="fa fa-plus fs-4" aria-hidden="true"></i>
+              </div>
+
+             
+            </div>  
+
+            <div class="cardBodyKanban">
+              <div class="cardStage ">
+                <div class="contentStage  p-4 ">
+                  <div class="headerStage d-flex justify-content-between align-items-center mb-2">
+                    <h3>SOLID Principles</h3>
+                    <div class="dateStage">
+                      <i class="fa-solid fa-clock-rotate-left"></i>
+                      <p class="date m-0">25 / 11 / 2023</p>
+                    </div>
+
+                  </div>
+                  <div class="medialContentStage d-flex gap-2 flex-column">
+                    <p class="m-0"><i class="fa-solid fa-user me-1"></i> Eng Essam </p>
+                    <div class="d-flex gap-2 align-items-center">
+                     <div class="progressBar"></div>
+                     <p class="m-0">  New </p>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <p class="m-0"><i class="fa-solid fa-sack-dollar me-1"></i> 399 </p>
+                      <p class="m-0">399 <i class="fa-solid fa-sack-dollar me-1"></i>  </p>
+                     </div>
+                  </div>
+                  <div class="footerContentStage">
+                    <hr class="m-0 my-2">
+                    <div class="stats-container d-flex align-items-center justify-content-between">
+                      <div class="leftStates">
+                        <div class="stat"><i class="fas fa-user-check" ></i> 954</div>
+                        <div class="stat"><i class="fas fa-box"></i> 4</div>
+                        <div class="stat"><i class="fas fa-comment"></i> 12</div>
+                        <div class="stat"><i class="fas fa-thumbs-up"></i> 733</div>
+                      </div>
+                      <div class="rightStates">
+                        <div class="stat"><i class="fas fa-comment-dots" ></i></div>
+                      </div>
+             
+
+                  </div>
+                  
+                  </div>
+
+         
+
+                </div>
+                <div class="lineStage"></div>
+
+              </div>
+              <div class="cardStage ">
+                <div class="contentStage  p-4 ">
+                  <div class="headerStage d-flex justify-content-between align-items-center mb-2">
+                    <h3>SOLID Principles</h3>
+                    <div class="dateStage">
+                      <i class="fa-solid fa-clock-rotate-left"></i>
+                      <p class="date m-0">25 / 11 / 2023</p>
+                    </div>
+
+                  </div>
+                  <div class="medialContentStage d-flex gap-2 flex-column">
+                    <p class="m-0"><i class="fa-solid fa-user me-1"></i> Eng Essam </p>
+                    <div class="d-flex gap-2 align-items-center">
+                     <div class="progressBar"></div>
+                     <p class="m-0">  New </p>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <p class="m-0"><i class="fa-solid fa-sack-dollar me-1"></i> 399 </p>
+                      <p class="m-0">399 <i class="fa-solid fa-sack-dollar me-1"></i>  </p>
+                     </div>
+                  </div>
+                  <div class="footerContentStage">
+                    <hr class="m-0 my-2">
+                    <div class="stats-container d-flex align-items-center justify-content-between">
+                      <div class="leftStates">
+                        <div class="stat"><i class="fas fa-user-check" ></i> 954</div>
+                        <div class="stat"><i class="fas fa-box"></i> 4</div>
+                        <div class="stat"><i class="fas fa-comment"></i> 12</div>
+                        <div class="stat"><i class="fas fa-thumbs-up"></i> 733</div>
+                      </div>
+                      <div class="rightStates">
+                        <div class="stat"><i class="fas fa-comment-dots" ></i></div>
+                      </div>
+             
+
+                  </div>
+                  
+                  </div>
+
+         
+
+                </div>
+                <div class="lineStage"></div>
+
+              </div>
+
+              
+
+            </div>
+          </div>  
+        </div>
+
+
+         
       </div>
     </p-tabpanel>
   </p-tabpanels>
