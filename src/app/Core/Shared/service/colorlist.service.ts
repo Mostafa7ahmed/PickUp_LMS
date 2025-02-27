@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class ColorlistService {
 
-  colors =["bg-danger", "bg-primary", "bg-warning", "bg-success", "bg-info", "bg-dark" , "bg-light" , "bg-primary"];
+  colors =["#f8b602", "bg-primary", "bg-warning", "bg-success", "bg-info", "bg-dark" , "bg-light" , "bg-primary"];
 
 
 

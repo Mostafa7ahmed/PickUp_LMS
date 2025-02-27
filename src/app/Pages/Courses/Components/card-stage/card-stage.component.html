@@ -1,15 +1,16 @@
 <div class="cardStage ">
     <div class="contentStage p-2   ">
       <div class="headerStage d-flex justify-content-between align-items-center mb-2">
-        <h3 [matTooltip]="course.name" >{{course.name | splicText : 18}}</h3>
-        <div class="dateStage">
-          <i class="fa-solid fa-clock-rotate-left"></i>
-          <p class="date m-0">{{course.createdOn | date}}</p>
-        </div>
+        <h3 [matTooltip]="course.name" >{{course.name | splicText : 30}}</h3>
+ 
 
       </div>
       <div class="medialContentStage d-flex gap-1 flex-column">
         <p class="m-0"><i class="fa-solid fa-user me-1"></i> {{course.creator.name| splicText : 20}}</p>
+        <div class="dateStage d-flex gap-2">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <p class="date m-0">{{course.createdOn | date }}</p>
+        </div>
   
         <div class="d-flex align-items-center justify-content-between">
           <p class="m-0"><i class="fa-solid fa-sack-dollar me-1"></i> {{course.price}} </p>
@@ -26,7 +27,7 @@
             <div class="stat"><i class="fas fa-thumbs-up"></i> {{course.numberOfUnReadedMessages  }}</div>
           </div>
           <div class="rightStates">
-            <div class="stat"><i class="fas fa-comment-dots" ></i></div>
+            <div class="stat"><i class="fas fa-comment-dots" ></i> {{course.numberOfUnReadedMessages  }}</div>
           </div>
  
 
