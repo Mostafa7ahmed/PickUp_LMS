@@ -26,6 +26,6 @@ export class PaginateCoursesService {
       orderDirection: orderDirection.toString()
     };
 
-    return this._HttpClient.get<any>(this.urlPagination, { params });
+    return this._HttpClient.get<any>(`${this.urlPagination}`, { params });
   }
 }

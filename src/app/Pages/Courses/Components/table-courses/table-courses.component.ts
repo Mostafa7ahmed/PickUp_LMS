@@ -49,6 +49,7 @@ export class TableCoursesComponent {
       }, speed);
     }
   
+    //  hoime > persoemn > setting up
     stopScroll() {
       clearInterval(this.scrollInterval);
       this.updateScrollButtons();
