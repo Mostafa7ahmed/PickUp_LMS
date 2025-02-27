@@ -585,18 +585,22 @@
 
 .leftScroll{
   position: absolute;
-  background-color: transparent;
+  background: #befda5af;
+  color: #79877E;
+
   padding: 12px;
   border-radius: 8px;
   top: 50%;
-  left: 17px;
-  height: 120px;
+  left: 5px;
+  height:80px;
   font-size: 20px;
   z-index: 588;
   display: flex;
   align-items: center;
-  color: transparent;
   z-index: 454444;
+  background: hsla(103, 96%, 82%, 0.2);
+  color: #79877E;
+
 
 }
 .rightScroll{
@@ -605,8 +609,8 @@
   padding: 12px;
   border-radius: 8px;
   top: 50%;
-  right: 20px;
-  height: 120px;
+  right: 5px;
+  height:80px;
   font-size: 20px;
   z-index: 588;
   display: flex;
@@ -614,8 +618,14 @@
   color: transparent;
   z-index: 454444;
 
+
+  background: hsla(103, 96%, 82%, 0.2);
+  color: #79877E;
 }
 
+.rightScroll i , .rightScroll i{
+  color: #79877e60;
+}
 
 .rightScroll:hover,  .leftScroll:hover {
 background: #befda5af;

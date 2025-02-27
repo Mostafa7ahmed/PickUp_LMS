@@ -53,6 +53,8 @@ export class CoursesComponent  implements OnInit {
   selectedTopicId: number =0;
   valueheader : number = 0;
 
+  showLeftScroll = false;
+  showRightScroll = true;
   headers: TableHeader[] = [
     { key: 'name', label: 'Name', type: 'string' },
     { key: 'price', label: 'Price', type: 'number' },
@@ -140,17 +142,23 @@ export class CoursesComponent  implements OnInit {
 
   @ViewChild('scrollKanpan') scrollContainer!: ElementRef;
   scrollInterval: any;
-  showLeftScroll = false;
-  showRightScroll = true;
+
 
   scrollTable(direction: 'left' | 'right') {
     const container = this.scrollContainer.nativeElement;
     const speed = 10;
-    const step = 20; 
-
+    const step = 20;
+  
     this.scrollInterval = setInterval(() => {
-      container.scrollLeft += direction === 'right' ? step : -step;
-      this.updateScrollButtons();
+      const maxScrollLeft = container.scrollWidth - container.clientWidth;
+  
+      if ((direction === 'right' && container.scrollLeft >= maxScrollLeft) ||
+          (direction === 'left' && container.scrollLeft <= 0)) {
+        this.stopScroll();
+      } else {
+        container.scrollLeft += direction === 'right' ? step : -step;
+        this.updateScrollButtons();
+      }
     }, speed);
   }
 
@@ -161,8 +169,10 @@ export class CoursesComponent  implements OnInit {
 
   updateScrollButtons() {
     const container = this.scrollContainer.nativeElement;
+    const maxScrollLeft = container.scrollWidth - container.clientWidth;
+  
     this.showLeftScroll = container.scrollLeft > 0;
-    this.showRightScroll = container.scrollLeft < container.scrollWidth - container.clientWidth;
+    this.showRightScroll = container.scrollLeft < maxScrollLeft;
   }
 
 

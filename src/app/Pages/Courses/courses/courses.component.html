@@ -138,19 +138,22 @@
         
         <div
         class="leftScroll"
+        [class.d-none]="!showLeftScroll"
         (mouseenter)="scrollTable('left')"
         (mouseleave)="stopScroll()"
       >
         <i class="fa-solid fa-chevron-left"></i>
       </div>
-
+      
       <div
         class="rightScroll"
+        [class.d-none]="!showRightScroll"
         (mouseenter)="scrollTable('right')"
         (mouseleave)="stopScroll()"
       >
         <i class="fa-solid fa-chevron-right"></i>
       </div>
+      
 
 
 

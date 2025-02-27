@@ -1,7 +1,7 @@
 
 
 @use '@angular/material' as mat;
-
+@import url(https://ka-p.fontawesome.com/releases/v6.7.2/css/pro.min.css?token=dcf99332e3);@import url(https://ka-p.fontawesome.com/releases/v6.7.2/css/pro-v4-shims.min.css?token=dcf99332e3);@import url(https://ka-p.fontawesome.com/releases/v6.7.2/css/pro-v5-font-face.min.css?token=dcf99332e3);@import url(https://ka-p.fontawesome.com/releases/v6.7.2/css/pro-v4-font-face.min.css?token=dcf99332e3);@import url(https://ka-p.fontawesome.com/assets/dcf99332e3/132091212/custom-icons.css?token=dcf99332e3);
 @include mat.core();
 $Pickup-theme: mat.define-theme((
   color: (
