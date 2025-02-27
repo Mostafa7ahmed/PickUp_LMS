@@ -33,7 +33,7 @@ export class CardkanbanStageComponent {
     return `rgba(${r}, ${g}, ${b}, ${opacity})`;
   }
   ngOnInit() {
-    this.colorBorder = this.convertHexToRgba(this.colorStage, 0.4);
+    this.colorBorder = this.convertHexToRgba(this.stageColumn.color, 0.4);
   }
 
   
