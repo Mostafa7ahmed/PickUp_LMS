@@ -40,6 +40,7 @@ export interface ICourseKanban  {
     price: number
     createdOn: Date
     creator:Creator
+    likesCount: number
 }
 
 export interface Creator {
