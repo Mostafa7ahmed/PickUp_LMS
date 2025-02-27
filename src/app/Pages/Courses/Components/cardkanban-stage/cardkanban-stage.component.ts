@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, input } from '@angular/core';
 import { CardStageComponent } from '../card-stage/card-stage.component';
+import { IResponseOf } from '../../../../Core/Shared/Interface/irespose';
+import { IKanbanResponse, IStageKanban, ITopicKanbaResult } from '../../Core/interface/ikanban-response';
 
 @Component({
   selector: 'app-cardkanban-stage',
@@ -13,6 +15,8 @@ export class CardkanbanStageComponent {
 
   @Input() colorStage: string = '#3e97ff'; 
   colorBorder : string = ""
+  @Input({required:true})    stageColumn: IStageKanban  = {} as IStageKanban ;
+  
 
   convertHexToRgba(hex: string, opacity: number = 1): string {
     hex = hex.replace('#', ''); 
@@ -31,5 +35,6 @@ export class CardkanbanStageComponent {
   ngOnInit() {
     this.colorBorder = this.convertHexToRgba(this.colorStage, 0.4);
   }
+
   
 }

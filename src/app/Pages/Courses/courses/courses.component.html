@@ -118,16 +118,13 @@
         </div>
 
         <div class="KanbansCard  d-flex gap-3"  #scrollKanpan>
-          <app-cardkanban-stage [colorStage]="'#48b29a'"></app-cardkanban-stage>
-          <app-cardkanban-stage [colorStage]="'#f8b602'"></app-cardkanban-stage>
-          <app-cardkanban-stage [colorStage]="'#515f65'"></app-cardkanban-stage>
-          <app-cardkanban-stage [colorStage]="'#dfde0d'"></app-cardkanban-stage>
-          <app-cardkanban-stage [colorStage]="'#f06a6a'"></app-cardkanban-stage>
-          <app-cardkanban-stage [colorStage]="'#48b29a'"></app-cardkanban-stage>
-          <app-cardkanban-stage [colorStage]="'#f8b602'"></app-cardkanban-stage>
-          <app-cardkanban-stage [colorStage]="'#515f65'"></app-cardkanban-stage>
-          <app-cardkanban-stage [colorStage]="'#dfde0d'"></app-cardkanban-stage>
-          <app-cardkanban-stage [colorStage]="'#f06a6a'"></app-cardkanban-stage>
+          @if(kanbanResponse.success){
+            @for (stageColumn of kanbanResponse.result.topic.stages; track stageColumn.stageId) {
+              <app-cardkanban-stage [stageColumn]="stageColumn"></app-cardkanban-stage>
+            }
+
+          }
+
 
 
 

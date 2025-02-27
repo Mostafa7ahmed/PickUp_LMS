@@ -7,44 +7,7 @@
       display: none
     }
   }
- .leftScroll{
-    position: absolute;
-    background-color: transparent;
-    padding: 12px;
-    border-radius: 8px;
-    top: 50%;
-    left: 17px;
-    height: 120px;
-    font-size: 20px;
-    z-index: 588;
-    display: flex;
-    align-items: center;
-    color: transparent;
-    z-index: 454444;
 
-  }
- .rightScroll{
-    position: absolute;
-    background-color: transparent;
-    padding: 12px;
-    border-radius: 8px;
-    top: 50%;
-    right: 20px;
-    height: 120px;
-    font-size: 20px;
-    z-index: 588;
-    display: flex;
-    align-items: center;
-    color: transparent;
-    z-index: 454444;
-
-  }
-
-
- .rightScroll:hover,  .leftScroll:hover {
-  background: #befda5af;
-  color: #79877E;
-}
   table {
     width: 150%;
     border-collapse: collapse;

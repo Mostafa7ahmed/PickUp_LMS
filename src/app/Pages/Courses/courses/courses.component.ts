@@ -13,9 +13,11 @@ import { WidgetCoursesComponent } from '../Components/widget-courses/widget-cour
 import { TopiclistService } from '../../topic/Core/Service/topiclist.service';
 import { ITopiclist } from '../Core/interface/itopiclist';
 import { PaginateCoursesService } from '../Core/service/paginate-courses.service';
-import { IPaginationResponse } from '../../../Core/Shared/Interface/irespose';
+import { IPaginationResponse, IResponseOf } from '../../../Core/Shared/Interface/irespose';
 import { SplicTextPipe } from '../Core/Pipes/splic-text.pipe';
 import { CardkanbanStageComponent } from '../Components/cardkanban-stage/cardkanban-stage.component';
+import { KanbanService } from '../Core/service/kanban.service';
+import { IKanbanResponse, ITopicKanbaResult } from '../Core/interface/ikanban-response';
 
 @Component({
   selector: 'app-courses',
@@ -26,13 +28,16 @@ import { CardkanbanStageComponent } from '../Components/cardkanban-stage/cardkan
 
   ],
   templateUrl: './courses.component.html',
-  styleUrl: './courses.component.scss'
+  styleUrls: ['./courses.component.scss', '../../../../app/Core/Shared/CSS/horizontal-scrolling.scss']
+
 })
 export class CoursesComponent  implements OnInit {
   // call services
   private subscription: Subscription = new Subscription();
   private _topiclistService = inject(TopiclistService);
   private _PaginateCoursesService = inject(PaginateCoursesService);
+  private _KanbanService = inject(KanbanService);
+
 
   tableRecords: Record<string,any>[] = [];
 
@@ -50,6 +55,8 @@ export class CoursesComponent  implements OnInit {
   isOpen: boolean = false;
   isLoading: boolean = false;
   paginationCoursesResponse: IPaginationResponse<CourseResult>  = {} as IPaginationResponse<CourseResult> ;
+  kanbanResponse: IResponseOf<IKanbanResponse>  = {} as IResponseOf<IKanbanResponse> ;
+
   selectedTopicId: number =0;
   valueheader : number = 0;
 
@@ -85,6 +92,7 @@ export class CoursesComponent  implements OnInit {
     this.isOpen = false;
     console.log(option.id)
     this.fetchCourses({},option.id , this.valueTable );
+    this.getAllKanbans(option.id)
 
   }
   toggShowInfo() {
@@ -105,10 +113,11 @@ export class CoursesComponent  implements OnInit {
      let defautlTopic =  this. topicsList.filter((e:ITopiclist) =>e.default)[0];
      this.selectedValue = defautlTopic.name;
      this.selectedTopicId = defautlTopic.id;
-      // Id & name 
       console.log(this.selectedTopicId)
         if (topics.success) {
           this.fetchCourses({} ,defautlTopic.id); 
+          this.getAllKanbans(this.selectedTopicId)
+
         }
         console.log(this.topicsList)
       },
@@ -182,7 +191,19 @@ export class CoursesComponent  implements OnInit {
   }
 
   
+getAllKanbans(topicId:number):void{
+  
+  this._KanbanService.getAllKanbans(topicId ).subscribe({
+    next: (response) => {
+      if(response.success) {
+        this.kanbanResponse = response;
+        console.log("parent",this.kanbanResponse)
 
+      }
+      
+    }
+  })
+}
 
 
  

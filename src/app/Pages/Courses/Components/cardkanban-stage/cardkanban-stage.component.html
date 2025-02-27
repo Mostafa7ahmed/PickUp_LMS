@@ -1,62 +1,37 @@
 <div class="cardKanban">
-    <div class="headerCard d-flex  px-2 justify-content-between align-items-center" [ngStyle]="{ 'border-color': colorBorder }">
-      <div class="stageProcess d-flex gap-3 align-items-center">
-        <div class="progressBar" [ngStyle]="{ 'border-color': colorStage }"></div>
-        <div class="stageTitle">
-          <p class="stageName m-0">New <span class="numberOfStage">2</span></p>
-          <span class="stageStatus">1302 EGP</span>
-        </div>
-
+  <div class="headerCard d-flex  px-2 justify-content-between align-items-center" [ngStyle]="{ 'border-color': colorBorder }">
+    <div class="stageProcess d-flex gap-3 align-items-center">
+      <div class="progressBar" [ngStyle]="{ 'border-color': colorStage }"></div>
+      <div class="stageTitle">
+        <p class="stageName m-0">{{stageColumn.name}} <span class="numberOfStage">{{stageColumn.coursesCount}}</span></p>
+        <span class="stageStatus">{{stageColumn.totalPrice}}</span>
       </div>
-
-      <div class="addStage">
-        <i class="fa fa-plus fs-4" aria-hidden="true"></i>
-      </div>
-
-     
-    </div>  
-
-    <div class="cardBodyKanban">
-      <app-card-stage  [colorStage]="colorStage" ></app-card-stage>
-
-
-      <app-card-stage  [colorStage]="colorStage" ></app-card-stage>
-      <app-card-stage  [colorStage]="colorStage" ></app-card-stage>
-      <app-card-stage  [colorStage]="colorStage" ></app-card-stage>
-
-
-      <app-card-stage  [colorStage]="colorStage" ></app-card-stage>
-      <app-card-stage  [colorStage]="colorStage" ></app-card-stage>  
-      <app-card-stage  [colorStage]="colorStage" ></app-card-stage>
-
-
-      <app-card-stage  [colorStage]="colorStage" ></app-card-stage>
-      <app-card-stage  [colorStage]="colorStage" ></app-card-stage>  <app-card-stage  [colorStage]="colorStage" ></app-card-stage>
-
-
-      <app-card-stage  [colorStage]="colorStage" ></app-card-stage>
-      <app-card-stage  [colorStage]="colorStage" ></app-card-stage>  <app-card-stage  [colorStage]="colorStage" ></app-card-stage>
-
-
-      <app-card-stage  [colorStage]="colorStage" ></app-card-stage>
-      <app-card-stage  [colorStage]="colorStage" ></app-card-stage>  <app-card-stage  [colorStage]="colorStage" ></app-card-stage>
-
-
-      <app-card-stage  [colorStage]="colorStage" ></app-card-stage>
-      <app-card-stage  [colorStage]="colorStage" ></app-card-stage>  <app-card-stage  [colorStage]="colorStage" ></app-card-stage>
-
-
-      <app-card-stage  [colorStage]="colorStage" ></app-card-stage>
-      <app-card-stage  [colorStage]="colorStage" ></app-card-stage>  <app-card-stage  [colorStage]="colorStage" ></app-card-stage>
-
-
-      <app-card-stage  [colorStage]="colorStage" ></app-card-stage>
-      <app-card-stage  [colorStage]="colorStage" ></app-card-stage>
-
-      
-
-
-      
 
     </div>
+
+    <div class="addStage">
+      <i class="fa fa-plus fs-4" aria-hidden="true"></i>
+    </div>
+
+   
   </div>  
+
+  <div class="cardBodyKanban">
+
+
+      @for (course of stageColumn.courses; track course.courseId) {
+        <app-card-stage  [course]="course" ></app-card-stage>
+      }
+
+
+
+
+
+
+    
+
+
+    
+
+  </div>
+</div> 

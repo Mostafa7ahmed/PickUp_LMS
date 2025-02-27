@@ -10,7 +10,7 @@ import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose'
   standalone: true,
   imports: [CommonModule  , MatTooltipModule, DatePipe , SplicTextPipe],
   templateUrl: './table-courses.component.html',
-  styleUrl: './table-courses.component.scss'
+  styleUrls: ['./table-courses.component.scss', '../../../../../app/Core/Shared/CSS/horizontal-scrolling.scss']
 })
 export class TableCoursesComponent {
   pageSize: number = 5; 
