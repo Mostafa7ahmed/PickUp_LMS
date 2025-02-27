@@ -46,7 +46,7 @@
   
     tbody {
       display: block;
-      max-height: 422px;
+      max-height: calc(100vh - 342px);
       overflow-y: scroll;
       position: relative;
       &::-webkit-scrollbar{
