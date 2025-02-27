@@ -27,7 +27,7 @@ export interface IStageKanban {
     courses: ICourseKanban[]
 }
 
-export interface ICourseKanban {
+export interface ICourseKanban  {
     courseId: number
     name: string
     creatorId: number
@@ -37,5 +37,13 @@ export interface ICourseKanban {
     numberOfUnReadedMessages: number
     enrollmentsCount: number
     studentsCompletedCourse: number
+    price: number
     createdOn: Date
+    creator:Creator
 }
+
+export interface Creator {
+    id: number
+    name: string
+    photo: string
+  }
