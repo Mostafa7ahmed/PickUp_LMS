@@ -1,32 +1,26 @@
-import { RecordableHistogram } from 'perf_hooks';
 import { TableHeader } from './../Components/tablereused/tablereused.component';
-import { Result } from './../../topic/Core/Interface/itopic';
-import { GetWidgetsService } from './../Core/service/get-widgets.service';
 import { Component, ElementRef, HostListener, inject, OnInit, viewChild, ViewChild } from '@angular/core';
-import { CourseResult, Icourses } from '../Core/interface/icourses';
+import { CourseResult } from '../Core/interface/icourses';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from 'ngx-echarts';
 import * as echarts from 'echarts';
-import { IwidgetResponse } from '../Core/interface/iwidget-response';
 import { Subscription } from 'rxjs';
-import { UpdataCoursesService } from '../Core/service/updata-courses.service';
-import { SaveService } from '../Core/service/save.service';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
 import { TableCoursesComponent } from "../Components/table-courses/table-courses.component";
 import { WidgetCoursesComponent } from '../Components/widget-courses/widget-courses.component';
 import { TopiclistService } from '../../topic/Core/Service/topiclist.service';
-import { ITopic } from '../../topic/Core/Interface/itopic';
 import { ITopiclist } from '../Core/interface/itopiclist';
 import { PaginateCoursesService } from '../Core/service/paginate-courses.service';
 import { IPaginationResponse } from '../../../Core/Shared/Interface/irespose';
-import { TablereusedComponent } from '../Components/tablereused/tablereused.component';
+import { SplicTextPipe } from '../Core/Pipes/splic-text.pipe';
+import { CardkanbanStageComponent } from '../Components/cardkanban-stage/cardkanban-stage.component';
 
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, ButtonModule, TabsModule,TablereusedComponent, MatTooltipModule, NgxEchartsModule,WidgetCoursesComponent, TableCoursesComponent],
+  imports: [CommonModule, ButtonModule,CardkanbanStageComponent, TabsModule,SplicTextPipe, MatTooltipModule, NgxEchartsModule,WidgetCoursesComponent, TableCoursesComponent],
   providers:[
     { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } } 
 
@@ -62,7 +56,8 @@ export class CoursesComponent  implements OnInit {
   headers: TableHeader[] = [
     { key: 'name', label: 'Name', type: 'string' },
     { key: 'price', label: 'Price', type: 'number' },
-    { key: 'createdOn', label: 'Created On', type: 'date' }
+    { key: 'createdOn', label: 'Created On', type: 'date' },
+
   ]
 
   @ViewChild( TableCoursesComponent) TableCourses!: TableCoursesComponent;
@@ -126,11 +121,13 @@ export class CoursesComponent  implements OnInit {
       next: (response) => {
         console.log(response);
         this.paginationCoursesResponse = response;
-
+        this.tableRecords =[];
 
         this.paginationCoursesResponse.result.forEach((course) => {
 
-          let courseRecord: Record<string, any> = { name: course.name ,pice: 1500 };
+
+          let courseRecord: Record<string, any> = { name: course.name ,price: 1500 , createdOn: new Date() };
+
           this.tableRecords.push(courseRecord);
         });
       },
@@ -141,6 +138,38 @@ export class CoursesComponent  implements OnInit {
     });
   }
 
+  @ViewChild('scrollKanpan') scrollContainer!: ElementRef;
+  scrollInterval: any;
+  showLeftScroll = false;
+  showRightScroll = true;
+
+  scrollTable(direction: 'left' | 'right') {
+    const container = this.scrollContainer.nativeElement;
+    const speed = 10;
+    const step = 20; 
+
+    this.scrollInterval = setInterval(() => {
+      container.scrollLeft += direction === 'right' ? step : -step;
+      this.updateScrollButtons();
+    }, speed);
+  }
+
+  stopScroll() {
+    clearInterval(this.scrollInterval);
+    this.updateScrollButtons();
+  }
+
+  updateScrollButtons() {
+    const container = this.scrollContainer.nativeElement;
+    this.showLeftScroll = container.scrollLeft > 0;
+    this.showRightScroll = container.scrollLeft < container.scrollWidth - container.clientWidth;
+  }
+
+
+  @HostListener('window:resize')
+  onResize() {
+    this.updateScrollButtons();
+  }
 
   
 

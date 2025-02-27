@@ -1,7 +1,8 @@
 .scrollTable {
     width: 100%;
     overflow-x: auto;
-    white-space: nowrap; 
+    height: calc(100dvh - 325px);
+        white-space: nowrap; 
     &::-webkit-scrollbar{
       display: none
     }
@@ -53,7 +54,7 @@
     overflow: hidden;
   
     th, td {
-      padding: 10px;
+      padding: 5px;
       text-align: left;
       border-bottom: 1px solid #ddd;
       text-align: center;
@@ -84,6 +85,7 @@
       display: block;
       max-height: 422px;
       overflow-y: scroll;
+      position: relative;
       &::-webkit-scrollbar{
         display: none
       }

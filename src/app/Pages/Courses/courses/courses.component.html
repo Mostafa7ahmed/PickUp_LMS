@@ -1,33 +1,39 @@
 <div class="courses py-2">
-  <div class="topCourses p-3">
-    <h3 class="m-0">Courses List</h3>
+  <div class="topCourses ">
 
-    <div class="footerBanner d-flex justify-content-between align-items-center">
-      <div class="leftFooter">
-        <div class="custom-select">
-          <button class="select-button" type="button" (click)="toggleDropdown()" [attr.aria-expanded]="isOpen">
-            <span class="selected-value">{{ selectedValue }}</span>
-            <span class="arrow" [ngClass]="{ open: isOpen }"></span>
-          </button>
-          <ul class="select-dropdown" [ngClass]="{ hidden: isOpen }">
-            <li *ngFor="let option of topicsList ; let i = index" (click)="selectOption(option)">
-              <div class="d-flex justify-content-between align-items-center ">
-                <p class="m-0">{{ option.name }}</p>
-                <div class="Icon p-2 rounded-1" [ngClass]="option.color">
-                  <i class="fas {{ option.icon }}" aria-hidden="true"></i>
+    <div class="footerBanner d-flex justify-content-between align-items-end ">
+      <div class="leftFooter d-flex align-items-center gap-3">
+        <div class="iconHeader">
+          <i class="fa-solid fa-chalkboard-user"></i>
+        </div>
+        <div class="titleHeader">
+          <h3 class="m-0">Courses List</h3>
+          <div class="custom-select">
+            <button class="select-button" type="button" (click)="toggleDropdown()" [attr.aria-expanded]="isOpen">
+              <span class="selected-value">{{ selectedValue  | splicText:15}}</span>
+              <span class="arrow" [ngClass]="{ open: isOpen }"></span>
+            </button>
+            <ul class="select-dropdown" [ngClass]="{ hidden: isOpen }">
+              <li *ngFor="let option of topicsList ; let i = index" (click)="selectOption(option)">
+                <div class="d-flex justify-content-between align-items-center ">
+                  <p class="m-0">{{ option.name }}</p>
+                  <div class="Icon p-2 rounded-1" [ngClass]="option.color">
+                    <i class="fas {{ option.icon }}" aria-hidden="true"></i>
+                  </div>
+  
+  
                 </div>
-
-
-              </div>
-            </li>
-          </ul>
+              </li>
+            </ul>
+        </div>
+        
         </div>
       </div>
 
-      <div class="rightFooter d-flex align-items-center gap-3">
+      <div class="rightFooter d-flex gap-3">
         <div class="leftbanner d-flex align-items-center gap-2 " [class.activeHeader]="valueheader == 0">
           <p-button (onClick)="changeTab(0)" rounded="true" styleClass="tabHeader">
-            <i class="fa-solid fa-table-list"></i>
+            <i class="fa-solid fa-table"></i>
             <span>Table</span>
           </p-button>
         </div>
@@ -53,10 +59,10 @@
   <app-widget-courses [showInfo]="showInfo"></app-widget-courses>
 
 
-<p-tabs [value]="valueheader">
-  <p-tabpanels>
+<p-tabs [value]="valueheader" class="m-0">
+  <p-tabpanels class="m-0">
     <p-tabpanel [value]="0">
-      <div class="showDataCourses rounded-5">
+      <div class="showDataCourses ">
         <div class="headerTabs">
           <div class="tab tab1" [class.active]="valueTable == 0">
             <p-button (onClick)="changeInnerTab(0)" rounded="true" styleClass="tabtext">
@@ -94,13 +100,12 @@
       </div>
     </p-tabpanel>
 
-    <p-tabpanel [value]="1">
-      <div class="p-3 Kanbans bg-white ">
+    <p-tabpanel [value]="1" >
+      <div class=" Kanbans bg-white ">
 
         <div class="headerKanban">
 
             <div class="inputSearch">
-              <i class="fa-solid fa-search"></i>
               <input type="text"  placeholder="Search for courses">
 
             </div>
@@ -112,290 +117,41 @@
 
         </div>
 
-        <div class="KanbansCard  d-flex gap-3">
-          <div class="cardKanban">
-            <div class="headerCard d-flex  px-2 justify-content-between align-items-center">
-              <div class="stageProcess d-flex gap-3 align-items-center">
-                <div class="progressBar"> </div>
-                <div class="stageTitle">
-                  <p class="stageName m-0">New <span class="numberOfStage">2</span></p>
-                  <span class="stageStatus">1302 EGP</span>
-                </div>
-
-              </div>
-
-              <div class="addStage">
-                <i class="fa fa-plus fs-4" aria-hidden="true"></i>
-              </div>
-
-             
-            </div>  
-
-            <div class="cardBodyKanban">
-              <div class="cardStage ">
-                <div class="contentStage  p-4 ">
-                  <div class="headerStage d-flex justify-content-between align-items-center mb-2">
-                    <h3>SOLID Principles</h3>
-                    <div class="dateStage">
-                      <i class="fa-solid fa-clock-rotate-left"></i>
-                      <p class="date m-0">25 / 11 / 2023</p>
-                    </div>
-
-                  </div>
-                  <div class="medialContentStage d-flex gap-2 flex-column">
-                    <p class="m-0"><i class="fa-solid fa-user me-1"></i> Eng Essam </p>
-                    <div class="d-flex gap-2 align-items-center">
-                     <div class="progressBar"></div>
-                     <p class="m-0">  New </p>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between">
-                      <p class="m-0"><i class="fa-solid fa-sack-dollar me-1"></i> 399 </p>
-                      <p class="m-0">399 <i class="fa-solid fa-sack-dollar me-1"></i>  </p>
-                     </div>
-                  </div>
-                  <div class="footerContentStage">
-                    <hr class="m-0 my-2">
-                    <div class="stats-container d-flex align-items-center justify-content-between">
-                      <div class="leftStates">
-                        <div class="stat"><i class="fas fa-user-check" ></i> 954</div>
-                        <div class="stat"><i class="fas fa-box"></i> 4</div>
-                        <div class="stat"><i class="fas fa-comment"></i> 12</div>
-                        <div class="stat"><i class="fas fa-thumbs-up"></i> 733</div>
-                      </div>
-                      <div class="rightStates">
-                        <div class="stat"><i class="fas fa-comment-dots" ></i></div>
-                      </div>
-             
-
-                  </div>
-                  
-                  </div>
-
-         
-
-                </div>
-                <div class="lineStage"></div>
-
-              </div>
-              <div class="cardStage ">
-                <div class="contentStage  p-4 ">
-                  <div class="headerStage d-flex justify-content-between align-items-center mb-2">
-                    <h3>SOLID Principles</h3>
-                    <div class="dateStage">
-                      <i class="fa-solid fa-clock-rotate-left"></i>
-                      <p class="date m-0">25 / 11 / 2023</p>
-                    </div>
-
-                  </div>
-                  <div class="medialContentStage d-flex gap-2 flex-column">
-                    <p class="m-0"><i class="fa-solid fa-user me-1"></i> Eng Essam </p>
-                    <div class="d-flex gap-2 align-items-center">
-                     <div class="progressBar"></div>
-                     <p class="m-0">  New </p>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between">
-                      <p class="m-0"><i class="fa-solid fa-sack-dollar me-1"></i> 399 </p>
-                      <p class="m-0">399 <i class="fa-solid fa-sack-dollar me-1"></i>  </p>
-                     </div>
-                  </div>
-                  <div class="footerContentStage">
-                    <hr class="m-0 my-2">
-                    <div class="stats-container d-flex align-items-center justify-content-between">
-                      <div class="leftStates">
-                        <div class="stat"><i class="fas fa-user-check" ></i> 954</div>
-                        <div class="stat"><i class="fas fa-box"></i> 4</div>
-                        <div class="stat"><i class="fas fa-comment"></i> 12</div>
-                        <div class="stat"><i class="fas fa-thumbs-up"></i> 733</div>
-                      </div>
-                      <div class="rightStates">
-                        <div class="stat"><i class="fas fa-comment-dots" ></i></div>
-                      </div>
-             
-
-                  </div>
-                  
-                  </div>
-
-         
-
-                </div>
-                <div class="lineStage"></div>
-
-              </div>
-
-              <div class="cardStage ">
-                <div class="contentStage  p-4 ">
-                  <div class="headerStage d-flex justify-content-between align-items-center mb-2">
-                    <h3>SOLID Principles</h3>
-                    <div class="dateStage">
-                      <i class="fa-solid fa-clock-rotate-left"></i>
-                      <p class="date m-0">25 / 11 / 2023</p>
-                    </div>
-
-                  </div>
-                  <div class="medialContentStage d-flex gap-2 flex-column">
-                    <p class="m-0"><i class="fa-solid fa-user me-1"></i> Eng Essam </p>
-                    <div class="d-flex gap-2 align-items-center">
-                     <div class="progressBar"></div>
-                     <p class="m-0">  New </p>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between">
-                      <p class="m-0"><i class="fa-solid fa-sack-dollar me-1"></i> 399 </p>
-                      <p class="m-0">399 <i class="fa-solid fa-sack-dollar me-1"></i>  </p>
-                     </div>
-                  </div>
-                  <div class="footerContentStage">
-                    <hr class="m-0 my-2">
-                    <div class="stats-container d-flex align-items-center justify-content-between">
-                      <div class="leftStates">
-                        <div class="stat"><i class="fas fa-user-check" ></i> 954</div>
-                        <div class="stat"><i class="fas fa-box"></i> 4</div>
-                        <div class="stat"><i class="fas fa-comment"></i> 12</div>
-                        <div class="stat"><i class="fas fa-thumbs-up"></i> 733</div>
-                      </div>
-                      <div class="rightStates">
-                        <div class="stat"><i class="fas fa-comment-dots" ></i></div>
-                      </div>
-             
-
-                  </div>
-                  
-                  </div>
-
-         
-
-                </div>
-                <div class="lineStage"></div>
-
-              </div>
-
-              
-
-            </div>
-          </div>  
+        <div class="KanbansCard  d-flex gap-3"  #scrollKanpan>
+          <app-cardkanban-stage [colorStage]="'#48b29a'"></app-cardkanban-stage>
+          <app-cardkanban-stage [colorStage]="'#f8b602'"></app-cardkanban-stage>
+          <app-cardkanban-stage [colorStage]="'#515f65'"></app-cardkanban-stage>
+          <app-cardkanban-stage [colorStage]="'#dfde0d'"></app-cardkanban-stage>
+          <app-cardkanban-stage [colorStage]="'#f06a6a'"></app-cardkanban-stage>
+          <app-cardkanban-stage [colorStage]="'#48b29a'"></app-cardkanban-stage>
+          <app-cardkanban-stage [colorStage]="'#f8b602'"></app-cardkanban-stage>
+          <app-cardkanban-stage [colorStage]="'#515f65'"></app-cardkanban-stage>
+          <app-cardkanban-stage [colorStage]="'#dfde0d'"></app-cardkanban-stage>
+          <app-cardkanban-stage [colorStage]="'#f06a6a'"></app-cardkanban-stage>
 
 
 
 
 
-
-
-          <!-- Puplish -->
-          <div class="cardKanban">
-            <div class="headerCard d-flex  px-2 justify-content-between align-items-center">
-              <div class="stageProcess d-flex gap-3 align-items-center">
-                <div class="progressBar"> </div>
-                <div class="stageTitle">
-                  <p class="stageName m-0">New <span class="numberOfStage">2</span></p>
-                  <span class="stageStatus">1302 EGP</span>
-                </div>
-
-              </div>
-
-              <div class="addStage">
-                <i class="fa fa-plus fs-4" aria-hidden="true"></i>
-              </div>
-
-             
-            </div>  
-
-            <div class="cardBodyKanban">
-              <div class="cardStage ">
-                <div class="contentStage  p-4 ">
-                  <div class="headerStage d-flex justify-content-between align-items-center mb-2">
-                    <h3>SOLID Principles</h3>
-                    <div class="dateStage">
-                      <i class="fa-solid fa-clock-rotate-left"></i>
-                      <p class="date m-0">25 / 11 / 2023</p>
-                    </div>
-
-                  </div>
-                  <div class="medialContentStage d-flex gap-2 flex-column">
-                    <p class="m-0"><i class="fa-solid fa-user me-1"></i> Eng Essam </p>
-                    <div class="d-flex gap-2 align-items-center">
-                     <div class="progressBar"></div>
-                     <p class="m-0">  New </p>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between">
-                      <p class="m-0"><i class="fa-solid fa-sack-dollar me-1"></i> 399 </p>
-                      <p class="m-0">399 <i class="fa-solid fa-sack-dollar me-1"></i>  </p>
-                     </div>
-                  </div>
-                  <div class="footerContentStage">
-                    <hr class="m-0 my-2">
-                    <div class="stats-container d-flex align-items-center justify-content-between">
-                      <div class="leftStates">
-                        <div class="stat"><i class="fas fa-user-check" ></i> 954</div>
-                        <div class="stat"><i class="fas fa-box"></i> 4</div>
-                        <div class="stat"><i class="fas fa-comment"></i> 12</div>
-                        <div class="stat"><i class="fas fa-thumbs-up"></i> 733</div>
-                      </div>
-                      <div class="rightStates">
-                        <div class="stat"><i class="fas fa-comment-dots" ></i></div>
-                      </div>
-             
-
-                  </div>
-                  
-                  </div>
-
-         
-
-                </div>
-                <div class="lineStage"></div>
-
-              </div>
-              <div class="cardStage ">
-                <div class="contentStage  p-4 ">
-                  <div class="headerStage d-flex justify-content-between align-items-center mb-2">
-                    <h3>SOLID Principles</h3>
-                    <div class="dateStage">
-                      <i class="fa-solid fa-clock-rotate-left"></i>
-                      <p class="date m-0">25 / 11 / 2023</p>
-                    </div>
-
-                  </div>
-                  <div class="medialContentStage d-flex gap-2 flex-column">
-                    <p class="m-0"><i class="fa-solid fa-user me-1"></i> Eng Essam </p>
-                    <div class="d-flex gap-2 align-items-center">
-                     <div class="progressBar"></div>
-                     <p class="m-0">  New </p>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between">
-                      <p class="m-0"><i class="fa-solid fa-sack-dollar me-1"></i> 399 </p>
-                      <p class="m-0">399 <i class="fa-solid fa-sack-dollar me-1"></i>  </p>
-                     </div>
-                  </div>
-                  <div class="footerContentStage">
-                    <hr class="m-0 my-2">
-                    <div class="stats-container d-flex align-items-center justify-content-between">
-                      <div class="leftStates">
-                        <div class="stat"><i class="fas fa-user-check" ></i> 954</div>
-                        <div class="stat"><i class="fas fa-box"></i> 4</div>
-                        <div class="stat"><i class="fas fa-comment"></i> 12</div>
-                        <div class="stat"><i class="fas fa-thumbs-up"></i> 733</div>
-                      </div>
-                      <div class="rightStates">
-                        <div class="stat"><i class="fas fa-comment-dots" ></i></div>
-                      </div>
-             
-
-                  </div>
-                  
-                  </div>
-
-         
-
-                </div>
-                <div class="lineStage"></div>
-
-              </div>
-
-              
-
-            </div>
-          </div>  
         </div>
+        
+        
+        <div
+        class="leftScroll"
+        (mouseenter)="scrollTable('left')"
+        (mouseleave)="stopScroll()"
+      >
+        <i class="fa-solid fa-chevron-left"></i>
+      </div>
+
+      <div
+        class="rightScroll"
+        (mouseenter)="scrollTable('right')"
+        (mouseleave)="stopScroll()"
+      >
+        <i class="fa-solid fa-chevron-right"></i>
+      </div>
+
 
 
          
@@ -407,4 +163,4 @@
 </div>
 
 
-<app-tablereused [paginationResponse]="paginationCoursesResponse" [headers]=headers [records]="tableRecords"></app-tablereused>
+<!-- <app-tablereused [paginationResponse]="paginationCoursesResponse" [headers]=headers [records]="tableRecords" (fetchRemainingDataEvent)="fetchCourses($event,selectedTopicId ,valueTable )"></app-tablereused> -->

@@ -1,8 +1,15 @@
 .topCourses {
-  height: 89px;
-
-  border-radius: 5px;
-  background: #ffffff;
+  padding-top: 12px;
+  padding-bottom: 11px;
+  min-height: 80px;
+  border-radius: 6px;
+  min-height: 80px;
+  background-color: #fff;
+  padding: 10px 24px 10px 16px;
+  justify-content: space-between;
+  height: auto;
+  transition: all 1sease-in-out;
+  z-index: 3;
 }
 .topCourses h3 {
   font-family: Itim;
@@ -12,6 +19,24 @@
   letter-spacing: 0%;
 }
 
+.topCourses .iconHeader{
+  min-width: 36px;
+    min-height: 36px;
+    border-radius: 4px;
+    box-shadow: 0 0 3px 1.2px #0000000d;
+    background-color: var(--bg-btn);
+    color: #fff;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+}
+.rightFooter{
+  display: flex;
+  align-items: flex-end;
+}
 .custom-select {
   position: relative;
   display: inline-block;
@@ -113,10 +138,11 @@
   border: none !important;
   font-family: sans-serif !important;
   transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out !important;
-  border-radius: var(--p-button-border-radius);
   outline-color: transparent;
   gap: 10px !important;
-  font-family: Itim !important;
+  padding: 0px !important;
+  padding:  0px 10px !important;
+  margin: 0px !important;
 }
 .line {
   font-size: 15px;
@@ -191,7 +217,7 @@
   content: "";
   position: absolute;
   height: 4px;
-  bottom: 0px;
+  bottom: -10px;
   width: 100%;
   background: var(--green1);
   border-radius: 2px;
@@ -214,10 +240,12 @@
 }
 
 .showDataCourses {
-  padding: 20px;
+  padding: 10px;
   width: 100%;
+  border-radius: 6px;
 
   position: relative;
+  background-color: #ffffff !important;
 }
 
 .showDataCourses .headerTabs {
@@ -276,9 +304,12 @@
   border-radius: 9px;
 }
 ::ng-deep .p-tabpanels {
+  border-radius: 6px;
+  margin-top: 8px;
+  transition: transform .1sease-in-out;
   padding: 0px !important;
-  background-color: #fff;
-  border-radius: 7px;
+  background-color: transparent  !important;
+  
 }
 .active span {
   background-color: #a1d483;
@@ -496,206 +527,97 @@
 }
 
 // Kanpan desgin
+.Kanbans{
+  background-color:transparent !important;
+  border-radius: 5px;
+  height: calc(100dvh - 185px);
+  position: relative;
 
+}
+::ng-deep .KanbansTab{
+  background-color:transparent !important;
+
+}
+.KanbansCard{
+  overflow-y: scroll;
+  &::-webkit-scrollbar{
+    display: none
+  }
+}
 .headerKanban {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  padding: 10px 20px;
-  background-color: #f4f4f4;
+  padding: 10px;
+  background-color: #ffffff !important;
   border-radius: 5px;
   height: 48px;
 }
-.headerKanban .inputSearch {
-  width: 329px;
-  height: 32px;
-  padding: 3px 10px;
-  top: 9px;
-  left: 26px;
-  border-radius: 4px;
-  border-width: 0.5px;
-  background: #ffffff;
-  border: 0.5px solid #00000026;
-  box-shadow: 0px 0px 4px 0px #00000012;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.inputSearch input {
-  border: none;
+.headerKanban .inputSearch  input{
+  border-radius: 6px;
+  border: 1px solid #E5E5E5;
+  width: 303px;
+  height: 36px;
+  padding: 4px 12px;
+  font-size: 13px !important;
   outline: none;
-  width: 90%;
+}
+.headerKanban .inputSearch  input:hover , .headerKanban .inputSearch  input:focus{
+  border: 1px solid #7ad34c;
 }
 
 .addCourse button {
-  width: 99px;
-  height: 28px;
-  top: 10px;
-  left: 1209px;
-  border-radius: 4px;
-  border-width: 0.5px;
-  background: #7ad34c;
-  border: 0.5px solid #c6d1dc;
-  box-shadow: 0px 0px 4px 0px #00000012;
-  font-family: Itim;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 14.4px;
-  letter-spacing: 0px;
-  color: #ffffff;
-}
-
-.cardKanban {
-  width: 323px;
-  margin: 15px 0;
-}
-.headerCard {
-  width: 100%;
-  height: 48px;
-  border-radius: 4px;
-  border-bottom-width: 2px;
-  border-bottom: 2px solid #778fe6cf;
-  box-shadow: 0px 0px 4px 0px #00000012;
-}
-.progressBar {
-  width: 13.623372845153039px;
-  height: 13.623372845153039px;
-  border-radius: 50%;
-  background: #fff;
-  border: 4px solid #778fe6cf;
-}
-.headerCard .stageTitle {
-  font-family: Itim;
-  font-weight: 400;
-  line-height: 16.8px;
-  letter-spacing: 0%;
-  color: #79877e;
-}
-.headerCard .stageName {
-  font-size: 14px;
+  outline: none;
+  border: none;
+  background-color: #7ad34c;
+  border-radius: 6px;
   display: flex;
   align-items: center;
-  gap: 5px;
-}
-.stageName .numberOfStage {
-  display: inline-block;
-  font-size: 8px;
-
-  width: 10px;
-  height: 10px;
-  background: #e1e1e1;
-  box-shadow: 0px 0px 4px 0px #0000001f;
-
-  border-radius: 2px;
-  display: flex;
-  align-items: center;
+  gap: 4px;
+  padding: 0 10px;
   justify-content: center;
-  gap: 5px;
-}
-.headerCard .stageStatus {
-  font-size: 8px;
-}
-.addStage i{
-  color: #C6D1DC;
-  cursor: pointer;
-}
-.cardBodyKanban {
-  height: calc(100vh - 230px);
-  flex-shrink: 0;
-  border-radius: 6px;
-  border: 1px solid rgba(153, 161, 183, .4);
-  background: #ffffff61;
-  padding: 0 8px 8px;
-  overflow-y: scroll;
-  margin-top: 10px;
-  &::-webkit-scrollbar{
-    display: none
-  }
+  height: 36px;
+  min-width: 100px;
+  color: #fff;
 }
 
 
-.cardBodyKanban .cardStage{
-  margin: 12px auto auto;
-  width: 299px;
-  height: 191.71597290039062px;
-  border-radius: 6px;
-  border-width: 0.5px;
-  background: #FFFFFF;
-  box-shadow: #11111a0d 0 1px, #11111a1a 0 0 8px;  
-  position: relative;
-
-
-}
-.lineStage{
+.leftScroll{
   position: absolute;
-  top: 42%;
-  transform: translateY(-50%);
-  inset-inline-start: 0px;
-  width: 3px;
-  height: 44px;
-  border-radius: 100px;
-  background-color: #778fe6cf ;
-}
-.cardBodyKanban .contentStage .headerStage h3{
-  font-family: Itim;
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 21.6px;
-  letter-spacing: 0%;
-  color: #202624;
-  position: relative;
+  background-color: transparent;
+  padding: 12px;
+  border-radius: 8px;
+  top: 50%;
+  left: 17px;
+  height: 120px;
+  font-size: 20px;
+  z-index: 588;
+  display: flex;
+  align-items: center;
+  color: transparent;
+  z-index: 454444;
 
 }
-.cardBodyKanban .contentStage .headerStage h3::before{
-
-  content: "";
+.rightScroll{
   position: absolute;
-  left: -10px;
-  height: 100%;
-  width: 2px;
-  background: #C6D1DC;
-  border-radius: 4px;
-}
-.cardBodyKanban .contentStage .headerStage  .dateStage{
-
+  background-color: transparent;
+  padding: 12px;
+  border-radius: 8px;
+  top: 50%;
+  right: 20px;
+  height: 120px;
+  font-size: 20px;
+  z-index: 588;
   display: flex;
   align-items: center;
-  gap: 5px;
-  font-family: Inter;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 19.23px;
-  letter-spacing: 0%;
-  color: #C6D1DC;
+  color: transparent;
+  z-index: 454444;
 
 }
-.cardBodyKanban .contentStage .medialContentStage p{
-  font-family: Itim;
-  font-weight: 400;
-  font-size: 13px;
-  line-height: 19.23px;
-  letter-spacing: 0%;
 
-}
-.cardBodyKanban .contentStage .medialContentStage i{
-   color: #C6D1DC;
-}
 
-.stats-container .leftStates {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-.stat {
-  display: flex;
-  align-items: center;
-  font-family: Itim;
-  gap: 5px;
-  font-size: 14px;
-  color: #333;
-}
-.stat i {
-  font-size: 14px;
-  color: #C6D1DC;
+.rightScroll:hover,  .leftScroll:hover {
+background: #befda5af;
+color: #79877E;
 }

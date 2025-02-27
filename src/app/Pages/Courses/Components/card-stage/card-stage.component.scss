@@ -1,0 +1,83 @@
+ .cardStage{
+    margin: 12px auto auto;
+    width: 100%;
+    padding: 6px 6px 3px ;
+    border-radius: 6px;
+    background:#FFF;
+    box-shadow: #11111a0d 0 1px, #11111a1a 0 0 8px;
+    cursor: pointer;
+    position: relative;
+  
+  }
+  .lineStage{
+    position: absolute;
+    top: 42%;
+    transform: translateY(-50%);
+    inset-inline-start: 0px;
+    width: 3px;
+    height: 44px;
+    border-radius: 100px;
+    background-color: #778fe6cf ;
+  }
+.contentStage .headerStage h3{
+    color: #2e2e2e;
+    font-size: 15px;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 14.302px;
+    position: relative;
+  
+  }
+.contentStage .headerStage h3::before{
+  
+    content: "";
+    position: absolute;
+    left: -10px;
+    height: 100%;
+    width: 2px;
+    background: #C6D1DC;
+    border-radius: 4px;
+  }
+.contentStage .headerStage  .dateStage{
+  
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: Inter;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 19.23px;
+    letter-spacing: 0%;
+    color: #C6D1DC;
+  
+  }
+.contentStage .medialContentStage p{
+    font-family: Itim;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 19.23px;
+    letter-spacing: 0%;
+  
+  }
+.contentStage .medialContentStage i{
+     color: #C6D1DC;
+  }
+  
+  .stats-container .leftStates {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  .stat {
+    display: flex;
+    align-items: center;
+    font-family: Itim;
+    gap: 5px;
+    font-size: 14px;
+    color: #333;
+  }
+  .stat i {
+    font-size: 14px;
+    color: #C6D1DC;
+  }

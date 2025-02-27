@@ -43,6 +43,7 @@ export class TablereusedComponent<T> {
         this.someMethodToEmitEvent(pageSize , pageNumber)
       }
       getPreviousPage(pageNumber:number , pageSize:number ){
+
         pageNumber = pageNumber - 1;
         this.someMethodToEmitEvent(pageSize , pageNumber)
       }
