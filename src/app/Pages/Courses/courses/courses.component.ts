@@ -230,9 +230,8 @@ getAllKanbans(topicId:number):void{
     this._MovecourseService.moveCourse(event.newStageId , event.course.courseId).subscribe({
       next: (response) => {
         if(response.success) {
-          console.log("moved",response)
-          this.playSuccessSound(); // تشغيل الصوت عند النجاح
-
+          this.playSuccessSound();
+          console.log("played",response)
         }
       }
     })
@@ -240,7 +239,7 @@ getAllKanbans(topicId:number):void{
 
 
   playSuccessSound() {
-    const audio = new Audio('WhatsApp Audio 2025-02-28 at 1.07.37 PM.mpeg');
+    const audio = new Audio('WhatsApp Audio 2025-02-28 at 4.40.17 PM.mp4');
     audio.play();
   }
 }
