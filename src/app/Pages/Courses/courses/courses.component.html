@@ -120,9 +120,8 @@
         <div class="KanbansCard  d-flex gap-3"  #scrollKanpan>
           @if(kanbanResponse.success){
             @for (stageColumn of kanbanResponse.result.topic.stages; track stageColumn.stageId) {
-              <app-cardkanban-stage [stageColumn]="stageColumn"></app-cardkanban-stage>
+              <app-cardkanban-stage [stageColumn]="stageColumn" [allStages]="kanbanResponse.result.topic.stages" (moveCourse)="handleMoveCourse($event)"></app-cardkanban-stage>
             }
-
           }
 
 

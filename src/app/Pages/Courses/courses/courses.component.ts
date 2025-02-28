@@ -17,7 +17,7 @@ import { IPaginationResponse, IResponseOf } from '../../../Core/Shared/Interface
 import { SplicTextPipe } from '../Core/Pipes/splic-text.pipe';
 import { CardkanbanStageComponent } from '../Components/cardkanban-stage/cardkanban-stage.component';
 import { KanbanService } from '../Core/service/kanban.service';
-import { IKanbanResponse, ITopicKanbaResult } from '../Core/interface/ikanban-response';
+import { ICourseKanban, IKanbanResponse, ITopicKanbaResult } from '../Core/interface/ikanban-response';
 
 @Component({
   selector: 'app-courses',
@@ -222,4 +222,7 @@ getAllKanbans(topicId:number):void{
     this.TableCourses.getRemainingCourses(1,10)
   }
 
+  handleMoveCourse(event: { course: ICourseKanban; newStageId: number }) {
+    console.log('course moved',event.course, event.newStageId);
+  }
 }

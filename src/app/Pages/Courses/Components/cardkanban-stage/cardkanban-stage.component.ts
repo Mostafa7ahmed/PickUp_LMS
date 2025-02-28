@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, input } from '@angular/core';
+import { Component, EventEmitter, Input, input, Output } from '@angular/core';
 import { CardStageComponent } from '../card-stage/card-stage.component';
 import { IResponseOf } from '../../../../Core/Shared/Interface/irespose';
-import { IKanbanResponse, IStageKanban, ITopicKanbaResult } from '../../Core/interface/ikanban-response';
+import { ICourseKanban, IKanbanResponse, IStageKanban, ITopicKanbaResult } from '../../Core/interface/ikanban-response';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
@@ -18,7 +18,37 @@ export class CardkanbanStageComponent {
   @Input() colorStage: string = '#3e97ff'; 
   colorBorder : string = ""
   @Input({required:true})    stageColumn: IStageKanban  = {} as IStageKanban ;
-  
+  @Output() moveCourse = new EventEmitter<{ course: ICourseKanban; newStageId: number }>();
+
+
+  @Input() allStages: IStageKanban[] = []; // Pass all stages from the parent component
+
+  getConnectedStages(): string[] {
+    return this.allStages
+      .filter(stage => stage.stageId !== this.stageColumn.stageId) // Exclude current stage
+      .map(stage => `stage-${stage.stageId}`); // Return all other stage IDs
+  }
+  trackById(index: number, item: any) {
+    return item.courseId;
+  }
+
+
+  onDrop(event: CdkDragDrop<ICourseKanban[]>) {
+    if (event.previousContainer !== event.container) {
+      const course = event.previousContainer.data[event.previousIndex];
+
+      // Move course to the new stage
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+
+      // Emit event to notify parent component (KanbanComponent)
+      this.moveCourse.emit({ course, newStageId: this.stageColumn.stageId });
+    }
+  }
 
   convertHexToRgba(hex: string, opacity: number = 1): string {
     hex = hex.replace('#', ''); 
