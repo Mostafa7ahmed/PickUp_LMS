@@ -3,13 +3,13 @@ import { Component, Input, input } from '@angular/core';
 import { CardStageComponent } from '../card-stage/card-stage.component';
 import { IResponseOf } from '../../../../Core/Shared/Interface/irespose';
 import { IKanbanResponse, IStageKanban, ITopicKanbaResult } from '../../Core/interface/ikanban-response';
-import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDropList, CdkDropListGroup, DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-cardkanban-stage',
   standalone: true,
-  imports: [CommonModule, DragDropModule,CardStageComponent],
+  imports: [CommonModule, DragDropModule,CardStageComponent, CdkDropListGroup, CdkDropList, CdkDrag],
   templateUrl: './cardkanban-stage.component.html',
   styleUrl: './cardkanban-stage.component.scss'
 })
@@ -17,7 +17,7 @@ export class CardkanbanStageComponent {
 
   @Input() colorStage: string = '#3e97ff'; 
   colorBorder : string = ""
-  @Input({required:true})    stageColumn: IStageKanban  = {} as IStageKanban ;
+  @Input({required:true})    stageColumn: IStageKanban [] = [] ;
   
 
   convertHexToRgba(hex: string, opacity: number = 1): string {
@@ -34,9 +34,29 @@ export class CardkanbanStageComponent {
   
     return `rgba(${r}, ${g}, ${b}, ${opacity})`;
   }
-  ngOnInit() {
-    this.colorBorder = this.convertHexToRgba(this.stageColumn.color, 0.4);
+  // ngOnInit() {
+  //   this.colorBorder = this.convertHexToRgba(this.stageColumn.color, 0.4);
+  // }
+
+  trackById(index: number, item: any) {
+    return item.courseId;
   }
 
+  drop(event: CdkDragDrop<any[]>) {
+    console.log(event)
+
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      // Move between lists
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
+
+  }
   
 }

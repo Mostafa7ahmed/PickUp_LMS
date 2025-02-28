@@ -1,37 +1,26 @@
-<div class="cardKanban">
-  <div class="headerCard d-flex  px-2 justify-content-between align-items-center" [ngStyle]="{ 'border-color': colorBorder}">
-    <div class="stageProcess d-flex gap-3 align-items-center">
-      <div class="progressBar" [ngStyle]="{ 'border-color': stageColumn.color}"></div>
-      <div class="stageTitle">
-        <p class="stageName m-0">{{stageColumn.name}} <span class="numberOfStage">{{stageColumn.coursesCount}}</span></p>
-        <span class="stageStatus">{{stageColumn.totalPrice}}</span>
+<div class="KanbansCard d-flex gap-3" #scrollKanpan>
+  @for (stageColumn of stageColumn; track stageColumn.stageId) {
+    <div class="cardKanban" cdkDropList [cdkDropListData]="stageColumn.courses" (cdkDropListDropped)="drop($event)">
+      <div class="headerCard d-flex px-2 justify-content-between align-items-center" [ngStyle]="{ 'border-color': colorBorder }">
+        <div class="stageProcess d-flex gap-3 align-items-center">
+          <div class="progressBar" [ngStyle]="{ 'border-color': stageColumn.color }"></div>
+          <div class="stageTitle">
+            <p class="stageName m-0">
+              {{ stageColumn.name }} <span class="numberOfStage">{{ stageColumn.courses.length }}</span>
+            </p>
+            <span class="stageStatus">{{ stageColumn.totalPrice }}</span>
+          </div>
+        </div>
+        <div class="addStage">
+          <i class="fa fa-plus fs-4" aria-hidden="true"></i>
+        </div>
+      </div>  
+
+      <div class="cardBodyKanban">
+        <div *ngFor="let course of stageColumn.courses; trackBy: trackById" cdkDrag>
+          <app-card-stage [course]="course" [courseColor]="stageColumn.color"></app-card-stage>
+        </div>
       </div>
-
-    </div>
-
-    <div class="addStage">
-      <i class="fa fa-plus fs-4" aria-hidden="true"></i>
-    </div>
-
-   
-  </div>  
-
-  <div class="cardBodyKanban">
-
-
-      @for (course of stageColumn.courses; track course.courseId) {
-        <app-card-stage  [course]="course" [courseColor]="stageColumn.color" ></app-card-stage>
-      }
-
-
-
-
-
-
-    
-
-
-    
-
-  </div>
-</div> 
+    </div> 
+  }
+</div>
