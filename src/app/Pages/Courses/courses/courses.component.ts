@@ -18,6 +18,7 @@ import { SplicTextPipe } from '../Core/Pipes/splic-text.pipe';
 import { CardkanbanStageComponent } from '../Components/cardkanban-stage/cardkanban-stage.component';
 import { KanbanService } from '../Core/service/kanban.service';
 import { ICourseKanban, IKanbanResponse, ITopicKanbaResult } from '../Core/interface/ikanban-response';
+import { MovecourseService } from '../Core/service/movecourse.service';
 
 @Component({
   selector: 'app-courses',
@@ -37,6 +38,8 @@ export class CoursesComponent  implements OnInit {
   private _topiclistService = inject(TopiclistService);
   private _PaginateCoursesService = inject(PaginateCoursesService);
   private _KanbanService = inject(KanbanService);
+  private _MovecourseService = inject(MovecourseService);
+
 
 
   tableRecords: Record<string,any>[] = [];
@@ -224,5 +227,12 @@ getAllKanbans(topicId:number):void{
 
   handleMoveCourse(event: { course: ICourseKanban; newStageId: number }) {
     console.log('course moved',event.course, event.newStageId);
+    this._MovecourseService.moveCourse(event.newStageId , event.course.courseId).subscribe({
+      next: (response) => {
+        if(response.success) {
+          console.log("moved",response)
+        }
+      }
+    })
   }
 }

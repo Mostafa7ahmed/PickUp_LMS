@@ -22,4 +22,7 @@ export class KanbanService {
 
 
     return this._HttpClient.get<IResponseOf<IKanbanResponse>>(`${this.urlKanban}topicId=${topicId}`);
-  }}
+  }
+
+
+}
