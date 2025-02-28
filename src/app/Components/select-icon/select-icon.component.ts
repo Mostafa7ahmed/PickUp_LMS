@@ -37,6 +37,6 @@ export class SelectIconComponent {
 
   selectBg(color: string) {
     this.colorDefault = color;
-    this.colorSelected.emit(color); // Send the selected color to the parent component
+    this.colorSelected.emit(color); 
   }
 }

@@ -100,7 +100,12 @@
   
         <div class="drag_Horizontal my-3">
           @for (stage of topic.stages; track stage.id) {
-          <div class="drag_Horizontal_box p-3"   [ngStyle]="{ 'border-color': stage.color}"   >
+            <div class="drag_Horizontal_box p-3" 
+            [ngStyle]="{
+              'box-shadow': getBoxShadow(stage.color, 0.2), 
+              'border-color': stage.color
+            }">
+            
             <div class="stages ">
               <div class="stagesheader d-flex  gap-3  align-items-center">
                 <svg width="15" height="15" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -7,7 +7,8 @@
     <div class="content d-flex justify-content-between align-items-center p-3">
         <form  [formGroup]="dataStage"  class="left  d-flex  flex-column gap-3">
             <div class="topContent d-flex   gap-3">
-                <div class="Icon   colorBox  rounded-1" #select  [ngClass]="colorDefault" (click)="showTab()">
+                <div class="Icon   colorBox  rounded-1" #select       [ngStyle]="{'background-color': colorDefault}" 
+                (click)="showTab()">
                     <i [class]="currentIcon" aria-hidden="true"></i>
                   </div>
 

@@ -152,4 +152,25 @@ export class TopicComponent implements OnInit {
 
   }
 
+
+  getBoxShadow(hex: string, opacity: number): string {
+    // إزالة # إذا كان موجودًا
+    hex = hex.replace(/^#/, '');
+  
+    // التأكد من أن اللون يحتوي على 6 حروف على الأقل
+    if (hex.length !== 6) {
+      console.warn('لون غير صالح:', hex);
+      return '0px 1px 3px rgba(0, 0, 0, 0.1)'; // لون افتراضي في حالة الخطأ
+    }
+  
+    // تحويل لون HEX إلى RGB
+    let r = parseInt(hex.substring(0, 2), 16);
+    let g = parseInt(hex.substring(2, 4), 16);
+    let b = parseInt(hex.substring(4, 6), 16);
+  
+    // إرجاع box-shadow مع الشفافية المطلوبة
+    return `0px 1px 10px rgba(${r}, ${g}, ${b}, ${opacity})`;
+  }
+  
+
 }

@@ -3,11 +3,13 @@ import { Component, Input, input } from '@angular/core';
 import { CardStageComponent } from '../card-stage/card-stage.component';
 import { IResponseOf } from '../../../../Core/Shared/Interface/irespose';
 import { IKanbanResponse, IStageKanban, ITopicKanbaResult } from '../../Core/interface/ikanban-response';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-cardkanban-stage',
   standalone: true,
-  imports: [CommonModule, CardStageComponent],
+  imports: [CommonModule, DragDropModule,CardStageComponent],
   templateUrl: './cardkanban-stage.component.html',
   styleUrl: './cardkanban-stage.component.scss'
 })

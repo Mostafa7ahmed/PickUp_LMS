@@ -51,7 +51,24 @@ export class WidgetCoursesComponent implements OnInit {
         lineStyle: { color: '#4A90E2', width: 2 },
         areaStyle: { color: 'rgba(74, 144, 226, 0.2)' }
       }
+    ],
+    dataZoom: [
+      {
+        type: 'inside',  
+        xAxisIndex: 0,   
+        filterMode: 'none',
+        minSpan: 5, 
+      },
+      {
+        type: 'inside',
+        xAxisIndex: 0,
+   
+        minSpan: 5, 
+        zoomLock: false,
+        rangeMode: ['value', 'percent'], // يجعل التحكم أفضل
+      }
     ]
+    
   }
 
   

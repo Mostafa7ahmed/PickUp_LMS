@@ -27,9 +27,9 @@
                   
                           <!-- قائمة الألوان -->
                           <select class="SelectColor" formControlName="color">
-                            <option value="red">🟥</option>
-                            <option value="blue">🟦</option>
-                            <option value="green">💚</option>
+                            <option *ngFor="let color of colors" [value]="color" [ngStyle]="{'background-color': color}">
+                              <i class="fa-solid fa-square" [ngStyle]="{'background-color': color}"></i>
+                            </option>
                           </select>
                   
                           <!-- إدخال اسم المرحلة -->
