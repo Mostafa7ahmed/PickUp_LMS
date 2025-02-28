@@ -219,6 +219,8 @@ getAllKanbans(topicId:number):void{
 
    ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.audio.pause() 
+
   }
 
   print(){
@@ -236,10 +238,10 @@ getAllKanbans(topicId:number):void{
       }
     })
   }
+   audio = new Audio('WhatsApp Audio 2025-02-28 at 4.40.17 PM.mp4');
 
 
   playSuccessSound() {
-    const audio = new Audio('WhatsApp Audio 2025-02-28 at 4.40.17 PM.mp4');
-    audio.play();
+    this.audio.play();
   }
 }
