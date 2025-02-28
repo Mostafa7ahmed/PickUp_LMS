@@ -703,17 +703,4 @@
   color: #C6D1DC;
   cursor: pointer;
 }
-.cardBodyKanban {
-  height: calc(100vh - 315px);
-  flex-shrink: 0;
-  border-radius: 6px;
-  border: 1px solid rgba(153, 161, 183, .4);
-  background: #ffffff61;
-  padding: 0 8px 8px;
-  overflow-y: scroll;
-  margin-top: 10px;
-  &::-webkit-scrollbar{
-    display: none
-  }
-}
 

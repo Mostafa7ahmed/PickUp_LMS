@@ -116,18 +116,24 @@
     cursor: pointer;
   }
   .cardBodyKanban {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     height: calc(100vh - 315px);
     flex-shrink: 0;
     border-radius: 6px;
     border: 1px solid rgba(153, 161, 183, .4);
     background: #ffffff61;
     padding: 0 8px 8px;
+    position: relative;
     overflow-y: scroll;
     margin-top: 10px;
-    &::-webkit-scrollbar{
-      display: none
+    
+    &::-webkit-scrollbar {
+        display: none;
     }
-  }
+}
   
-  
-  
+
+
+

@@ -231,8 +231,16 @@ getAllKanbans(topicId:number):void{
       next: (response) => {
         if(response.success) {
           console.log("moved",response)
+          this.playSuccessSound(); // تشغيل الصوت عند النجاح
+
         }
       }
     })
+  }
+
+
+  playSuccessSound() {
+    const audio = new Audio('WhatsApp Audio 2025-02-28 at 1.07.37 PM.mpeg');
+    audio.play();
   }
 }
