@@ -39,35 +39,44 @@ export class CardkanbanStageComponent {
   onDrop(event: CdkDragDrop<ICourseKanban[]>) {
     if (event.previousContainer !== event.container) {
       const course = event.previousContainer.data[event.previousIndex];
-
-      console.log("From ON DROP ++++++++++++++++++++++++++ ", event);
-
-      // Move course to the new stage
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex
       );
-
-      this.stageColumn.coursesCount++;
-      this.stageColumn.totalPrice += course.price;
-      const previousStage = this.allStages.find(stage => `stage-${stage.stageId}` === event.previousContainer.id);
-
+      this.animateNumberChange('coursesCount', this.stageColumn.coursesCount, this.stageColumn.coursesCount + 1);
+      this.animateNumberChange('totalPrice', this.stageColumn.totalPrice, this.stageColumn.totalPrice + course.price);
+  
+      const previousStage = this.allStages.find(
+        stage => `stage-${stage.stageId}` === event.previousContainer.id
+      );
+  
       if (previousStage) {
-        previousStage.coursesCount--;
-        previousStage.totalPrice -= course.price;
+        this.animateNumberChange('coursesCount', previousStage.coursesCount, previousStage.coursesCount - 1);
+        this.animateNumberChange('totalPrice', previousStage.totalPrice, previousStage.totalPrice - course.price);
       }
-
-
       // Emit event to notify parent component (KanbanComponent)
       this.moveCourse.emit({ course, newStageId: this.stageColumn.stageId });
     }
   }
 
-  dropListEnterPredicate = (drag: CdkDrag, drop: CdkDropList) => {
-    return drop.data.length < 10; // مثال: لا يسمح بأكثر من 10 عناصر في القائمة
-  };
+    animateNumberChange(property: 'coursesCount' | 'totalPrice', startValue: number, endValue: number) {
+    const duration = 500;
+    const steps = 20; 
+    const stepValue = (endValue - startValue) / steps;
+    let currentStep = 0;
+  
+    const interval = setInterval(() => {
+      this.stageColumn[property] = Math.round(startValue + stepValue * currentStep);
+      currentStep++;
+  
+      if (currentStep > steps) {
+        this.stageColumn[property] = endValue;
+        clearInterval(interval);
+      }
+    }, duration / steps);
+  }
 
   convertHexToRgba(hex: string, opacity: number = 1): string {
     hex = hex.replace('#', '');
