@@ -45,38 +45,39 @@ export class CardkanbanStageComponent {
         event.previousIndex,
         event.currentIndex
       );
-      this.animateNumberChange('coursesCount', this.stageColumn.coursesCount, this.stageColumn.coursesCount + 1);
-      this.animateNumberChange('totalPrice', this.stageColumn.totalPrice, this.stageColumn.totalPrice + course.price);
-  
+      this.animateNumberChange(this.stageColumn, 'coursesCount', this.stageColumn.coursesCount, this.stageColumn.coursesCount + 1);
+      this.animateNumberChange(this.stageColumn, 'totalPrice', this.stageColumn.totalPrice, this.stageColumn.totalPrice + course.price);
+
       const previousStage = this.allStages.find(
         stage => `stage-${stage.stageId}` === event.previousContainer.id
       );
-  
+
       if (previousStage) {
-        this.animateNumberChange('coursesCount', previousStage.coursesCount, previousStage.coursesCount - 1);
-        this.animateNumberChange('totalPrice', previousStage.totalPrice, previousStage.totalPrice - course.price);
+        this.animateNumberChange(previousStage, 'coursesCount', previousStage.coursesCount, previousStage.coursesCount - 1);
+        this.animateNumberChange(previousStage, 'totalPrice', previousStage.totalPrice, previousStage.totalPrice - course.price);
       }
       // Emit event to notify parent component (KanbanComponent)
       this.moveCourse.emit({ course, newStageId: this.stageColumn.stageId });
     }
   }
 
-    animateNumberChange(property: 'coursesCount' | 'totalPrice', startValue: number, endValue: number) {
+  animateNumberChange(stage: IStageKanban, property: 'coursesCount' | 'totalPrice', previousValue: number, targetValue: number) {
     const duration = 500;
-    const steps = 20; 
-    const stepValue = (endValue - startValue) / steps;
+    const steps = 20;
+    const stepValue = (targetValue - previousValue) / steps;
     let currentStep = 0;
-  
+
     const interval = setInterval(() => {
-      this.stageColumn[property] = Math.round(startValue + stepValue * currentStep);
+      stage[property] = Math.round(previousValue + stepValue * currentStep);
       currentStep++;
-  
-      if (currentStep > steps) {
-        this.stageColumn[property] = endValue;
+
+      if (currentStep >= steps) {
+        stage[property] = targetValue;
         clearInterval(interval);
       }
     }, duration / steps);
   }
+
 
   convertHexToRgba(hex: string, opacity: number = 1): string {
     hex = hex.replace('#', '');
