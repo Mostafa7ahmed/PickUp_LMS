@@ -238,7 +238,7 @@ export class CoursesComponent implements OnInit {
       }
     })
   }
-  audio = new Audio('WhatsApp Audio 2025-02-28 at 4.40.17 PM.mp4');
+  audio = new Audio('WhatsApp Audio 2025-03-01 at 11.08.44 PM.aac');
 
 
   playSuccessSound() {
