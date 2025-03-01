@@ -23,16 +23,16 @@ import { MovecourseService } from '../Core/service/movecourse.service';
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, ButtonModule,CardkanbanStageComponent, TabsModule,SplicTextPipe, MatTooltipModule, NgxEchartsModule,WidgetCoursesComponent, TableCoursesComponent],
-  providers:[
-    { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } } 
+  imports: [CommonModule, ButtonModule, CardkanbanStageComponent, TabsModule, SplicTextPipe, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent],
+  providers: [
+    { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } }
 
   ],
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss', '../../../../app/Core/Shared/CSS/horizontal-scrolling.scss']
 
 })
-export class CoursesComponent  implements OnInit {
+export class CoursesComponent implements OnInit {
   // call services
   private subscription: Subscription = new Subscription();
   private _topiclistService = inject(TopiclistService);
@@ -42,7 +42,7 @@ export class CoursesComponent  implements OnInit {
 
 
 
-  tableRecords: Record<string,any>[] = [];
+  tableRecords: Record<string, any>[] = [];
 
 
   // End Call services
@@ -57,11 +57,11 @@ export class CoursesComponent  implements OnInit {
   topicsList: ITopiclist[] = [];
   isOpen: boolean = false;
   isLoading: boolean = false;
-  paginationCoursesResponse: IPaginationResponse<CourseResult>  = {} as IPaginationResponse<CourseResult> ;
-  kanbanResponse: IResponseOf<IKanbanResponse>  = {} as IResponseOf<IKanbanResponse> ;
+  paginationCoursesResponse: IPaginationResponse<CourseResult> = {} as IPaginationResponse<CourseResult>;
+  kanbanResponse: IResponseOf<IKanbanResponse> = {} as IResponseOf<IKanbanResponse>;
 
-  selectedTopicId: number =0;
-  valueheader : number = 0;
+  selectedTopicId: number = 0;
+  valueheader: number = 0;
 
   showLeftScroll = false;
   showRightScroll = true;
@@ -72,7 +72,7 @@ export class CoursesComponent  implements OnInit {
 
   ]
 
-  @ViewChild( TableCoursesComponent) TableCourses!: TableCoursesComponent;
+  @ViewChild(TableCoursesComponent) TableCourses!: TableCoursesComponent;
 
   //^ Functions
   toggleDropdown(): void {
@@ -85,8 +85,8 @@ export class CoursesComponent  implements OnInit {
     this.valueTable = value;
     console.log(this.valueTable)
 
-    
-    this.fetchCourses({} , this.selectedTopicId , this.valueTable);
+
+    this.fetchCourses({}, this.selectedTopicId, this.valueTable);
 
   }
   selectOption(option: any): void {
@@ -94,7 +94,8 @@ export class CoursesComponent  implements OnInit {
 
     this.isOpen = false;
     console.log(option.id)
-    this.fetchCourses({},option.id , this.valueTable );
+    this.selectedTopicId = option.id;
+    this.fetchCourses({}, option.id, this.valueTable);
     this.getAllKanbans(option.id)
 
   }
@@ -109,39 +110,36 @@ export class CoursesComponent  implements OnInit {
 
 
 
-  getListTopics():void{
+  getListTopics(): void {
     this._topiclistService.getAlllits().subscribe({
       next: (topics) => {
         this.topicsList = topics.result;
-     let defautlTopic =  this. topicsList.filter((e:ITopiclist) =>e.default)[0];
-     this.selectedValue = defautlTopic.name;
-     this.selectedTopicId = defautlTopic.id;
-      console.log(this.selectedTopicId)
+        let defautlTopic = this.topicsList.filter((e: ITopiclist) => e.default)[0];
+        this.selectedValue = defautlTopic.name;
+        this.selectedTopicId = defautlTopic.id;
+        console.log(this.selectedTopicId)
         if (topics.success) {
-          this.fetchCourses({} ,defautlTopic.id); 
+          this.fetchCourses({}, defautlTopic.id);
           this.getAllKanbans(this.selectedTopicId)
 
         }
         console.log(this.topicsList)
       },
-  
+
     })
   }
-  fetchCourses(eventData: {  pageNumber?: number; pageSize?: number } , topicId: number , courseListViewType:number=0): void {
-    const { pageNumber = 1, pageSize = 5} = eventData;
-  
+  fetchCourses(eventData: { pageNumber?: number; pageSize?: number }, topicId: number, courseListViewType: number = 0): void {
+    const { pageNumber = 1, pageSize = 5 } = eventData;
+
     this.isLoading = true;
-    this._PaginateCoursesService.getCourses(topicId, pageNumber, pageSize , courseListViewType).subscribe({
+    this._PaginateCoursesService.getCourses(topicId, pageNumber, pageSize, courseListViewType).subscribe({
       next: (response) => {
         console.log(response);
         this.paginationCoursesResponse = response;
-        this.tableRecords =[];
+        this.tableRecords = [];
 
         this.paginationCoursesResponse.result.forEach((course) => {
-
-
-          let courseRecord: Record<string, any> = { name: course.name ,price: 1500 , createdOn: new Date() };
-
+          let courseRecord: Record<string, any> = { name: course.name, price: 1500, createdOn: new Date() };
           this.tableRecords.push(courseRecord);
         });
       },
@@ -160,12 +158,12 @@ export class CoursesComponent  implements OnInit {
     const container = this.scrollContainer.nativeElement;
     const speed = 10;
     const step = 20;
-  
+
     this.scrollInterval = setInterval(() => {
       const maxScrollLeft = container.scrollWidth - container.clientWidth;
-  
+
       if ((direction === 'right' && container.scrollLeft >= maxScrollLeft) ||
-          (direction === 'left' && container.scrollLeft <= 0)) {
+        (direction === 'left' && container.scrollLeft <= 0)) {
         this.stopScroll();
       } else {
         container.scrollLeft += direction === 'right' ? step : -step;
@@ -182,7 +180,7 @@ export class CoursesComponent  implements OnInit {
   updateScrollButtons() {
     const container = this.scrollContainer.nativeElement;
     const maxScrollLeft = container.scrollWidth - container.clientWidth;
-  
+
     this.showLeftScroll = container.scrollLeft > 0;
     this.showRightScroll = container.scrollLeft < maxScrollLeft;
   }
@@ -193,52 +191,52 @@ export class CoursesComponent  implements OnInit {
     this.updateScrollButtons();
   }
 
-  
-getAllKanbans(topicId:number):void{
-  
-  this._KanbanService.getAllKanbans(topicId ).subscribe({
-    next: (response) => {
-      if(response.success) {
-        this.kanbanResponse = response;
-        console.log("parent",this.kanbanResponse)
+
+  getAllKanbans(topicId: number): void {
+
+    this._KanbanService.getAllKanbans(topicId).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.kanbanResponse = response;
+          console.log("parent", this.kanbanResponse)
+
+        }
 
       }
-      
-    }
-  })
-}
+    })
+  }
 
 
- 
+
 
   ngOnInit(): void {
 
     this.getListTopics();
- 
-   }
-
-   ngOnDestroy() {
-    this.subscription.unsubscribe();
-    this.audio.pause() 
 
   }
 
-  print(){
-    this.TableCourses.getRemainingCourses(1,10)
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+    this.audio.pause()
+
+  }
+
+  print() {
+    this.TableCourses.getRemainingCourses(1, 10)
   }
 
   handleMoveCourse(event: { course: ICourseKanban; newStageId: number }) {
-    console.log('course moved',event.course, event.newStageId);
-    this._MovecourseService.moveCourse(event.newStageId , event.course.courseId).subscribe({
+    console.log('course moved', event.course, event.newStageId);
+    this._MovecourseService.moveCourse(event.newStageId, event.course.courseId).subscribe({
       next: (response) => {
-        if(response.success) {
+        if (response.success) {
           this.playSuccessSound();
-          console.log("played",response)
+          console.log("played", response)
         }
       }
     })
   }
-   audio = new Audio('WhatsApp Audio 2025-02-28 at 4.40.17 PM.mp4');
+  audio = new Audio('WhatsApp Audio 2025-02-28 at 4.40.17 PM.mp4');
 
 
   playSuccessSound() {
