@@ -19,11 +19,12 @@ import { CardkanbanStageComponent } from '../Components/cardkanban-stage/cardkan
 import { KanbanService } from '../Core/service/kanban.service';
 import { ICourseKanban, IKanbanResponse, ITopicKanbaResult } from '../Core/interface/ikanban-response';
 import { MovecourseService } from '../Core/service/movecourse.service';
-
+import { FormsModule } from '@angular/forms';
+import { DatePicker } from 'primeng/datepicker';
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, ButtonModule, CardkanbanStageComponent, TabsModule, SplicTextPipe, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent],
+  imports: [CommonModule, ButtonModule,FormsModule, DatePicker,CardkanbanStageComponent, TabsModule, SplicTextPipe, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent],
   providers: [
     { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } }
 
@@ -43,6 +44,7 @@ export class CoursesComponent implements OnInit {
 
 
   tableRecords: Record<string, any>[] = [];
+  rangeDates: Date[] | undefined;
 
 
   // End Call services

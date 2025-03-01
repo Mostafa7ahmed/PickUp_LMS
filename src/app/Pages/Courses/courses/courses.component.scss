@@ -48,8 +48,7 @@
 .endBannerRight .icon{
   width: 20px;
     height: 20px;
-    display: flex
-;
+    display: flex;
     align-items: center;
     justify-content: center;
 }
@@ -576,7 +575,7 @@
   border-radius: 5px;
   height: 48px;
 }
-.headerKanban .inputSearch  input{
+ .inputSearch  input{
   border-radius: 6px;
   border: 1px solid #E5E5E5;
   width: 303px;
@@ -585,7 +584,7 @@
   font-size: 13px !important;
   outline: none;
 }
-.headerKanban .inputSearch  input:hover , .headerKanban .inputSearch  input:focus{
+.inputSearch  input:hover , .inputSearch  input:focus{
   border: 1px solid #7ad34c;
 }
 
@@ -726,3 +725,100 @@
   cursor: pointer;
 }
 
+.advanced-filter-container{
+  border-radius: 6px;
+  border: 1px solid #E5E5E5;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .2s all ease-in-out; 
+}
+.my-svg path{
+
+  fill: #E5E5E5 !important;
+}
+ .advanced-filter-container:hover , .advanced-filter-container:hover .my-svg path
+  {
+  border-color: #7ad34c;
+  fill: #7ad34c !important;
+}
+
+.CreationDate{
+  display: flex ;
+  min-width: 74px;
+  height: 36px;
+  padding: 0 9px;
+  justify-content: center;
+  align-items: center;
+  gap: var(--Border-Radius-4-px, 4px);
+  border-radius: 6px;
+  border: 1px solid #E5E5E5;
+  cursor: pointer;
+  z-index: 25;
+  transition: .2s all ease-in-out; 
+
+}
+.CreationDate p{
+  color: #687f93;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+
+}
+.icon{
+  width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.CreationDate .icon i{
+
+    color: #a1a5b7;
+    font-size: 18px;
+
+}
+.CreationDate:hover {
+  border: 1px solid #7ad34c;
+
+}
+.CreationDate:hover p , .CreationDate:hover .icon i{
+  color: #7ad34c;
+
+}
+.CreationDateFouce{
+  border: 1px solid #7ad34c;
+
+}
+.CreationDateFouce p , .CreationDateFouce .icon i{
+  color: #7ad34c;
+
+}
+
+::ng-deep .p-inputtext{
+      /* border: 0; */
+      position: absolute;
+      top: -23px;
+      width: 100%;
+      left: -118px;
+      background: transparent !important;
+      height: 36px;
+      min-width: 125px;
+      border: 0 !important;
+      color: transparent !important; /* Hides the date text */
+      cursor: pointer !important;
+}
+
+::ng-deep .p-datepicker-panel{
+  position: absolute;
+  top: 27px !important;;
+  left: -129px !important;;
+  z-index: 1002;
+  transform-origin: center top;
+  margin-top: 2px;
+
+}
