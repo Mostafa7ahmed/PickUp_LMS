@@ -37,6 +37,22 @@
   display: flex;
   align-items: flex-end;
 }
+
+.endBannerRight{
+  display: flex ;
+  align-items: center;
+  gap: 11px;
+  cursor: pointer;
+  transition: all .6sease-in-out;
+}
+.endBannerRight .icon{
+  width: 20px;
+    height: 20px;
+    display: flex
+;
+    align-items: center;
+    justify-content: center;
+}
 .custom-select {
   position: relative;
   display: inline-block;
@@ -141,8 +157,14 @@
   outline-color: transparent;
   gap: 10px !important;
   padding: 0px !important;
-  padding:  0px 10px !important;
-  margin: 0px !important;
+  padding: 5px 10px !important;
+  margin: 0px !important; 
+  border-radius:  0px !important;
+  transition:  .4s ease-in-out all;
+   &:hover{
+    background-color: #f4f4f4 !important;
+    border-radius: 5px !important;
+  }
 }
 .line {
   font-size: 15px;

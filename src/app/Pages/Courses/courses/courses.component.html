@@ -10,7 +10,7 @@
           <h3 class="m-0">Courses List</h3>
           <div class="custom-select">
             <button class="select-button" type="button" (click)="toggleDropdown()" [attr.aria-expanded]="isOpen">
-              <span class="selected-value">{{ selectedValue  | splicText:15}}</span>
+              <span class="selected-value">{{ selectedValue | splicText:15}}</span>
               <span class="arrow" [ngClass]="{ open: isOpen }"></span>
             </button>
             <ul class="select-dropdown" [ngClass]="{ hidden: isOpen }">
@@ -20,37 +20,43 @@
                   <div class="Icon p-2 rounded-1" [ngClass]="option.color">
                     <i class="fas {{ option.icon }}" aria-hidden="true"></i>
                   </div>
-  
-  
+
+
                 </div>
               </li>
             </ul>
-        </div>
-        
+          </div>
+
         </div>
       </div>
 
       <div class="rightFooter d-flex gap-3">
-        <div class="leftbanner d-flex align-items-center gap-2 " [class.activeHeader]="valueheader == 0">
+        
+        <div class="endBannerRight">
+           <div class="leftbanner d-flex align-items-center gap-2 " [class.activeHeader]="valueheader == 0">
           <p-button (onClick)="changeTab(0)" rounded="true" styleClass="tabHeader">
-            <i class="fa-solid fa-table"></i>
-            <span>Table</span>
+            <div class="icon">
+              <i class="fa-solid fa-table"></i>
+            </div> 
+             <span>Table</span>
           </p-button>
         </div>
-  
         <span class="line"></span>
+        <div class="rightbanner d-flex align-items-center pos" [class.activeHeader]="valueheader == 1">
 
-        <div class="rightbanner d-flex align-items-center pos"  [class.activeHeader]="valueheader == 1">
-  
-          <p-button (onClick)="changeTab(1)"  rounded="true" styleClass="tabHeader">
-            <i class="fa-solid fa-chart-simple mx-1"></i>
+          <p-button (onClick)="changeTab(1)" rounded="true" styleClass="tabHeader">
+            <div class="icon">
+              <i class="fa-light fa-objects-align-top"></i>
+            </div> 
             <span>Kanban</span>
           </p-button>
-   
+
         </div>
         <button class="openCard" (click)="toggShowInfo()" [class.rotatearrow]="showInfo">
           <i class="fa-solid fa-caret-down"></i>
         </button>
+        </div>
+       
       </div>
     </div>
   </div>
@@ -59,105 +65,100 @@
   <app-widget-courses [showInfo]="showInfo"></app-widget-courses>
 
 
-<p-tabs [value]="valueheader" class="m-0">
-  <p-tabpanels class="m-0">
-    <p-tabpanel [value]="0">
-      <div class="showDataCourses ">
-        <div class="headerTabs">
-          <div class="tab tab1" [class.active]="valueTable == 0">
-            <p-button (onClick)="changeInnerTab(0)" rounded="true" styleClass="tabtext">
-              All courses <span>+99</span>
-            </p-button>
+  <p-tabs [value]="valueheader" class="m-0">
+    <p-tabpanels class="m-0">
+      <p-tabpanel [value]="0">
+        <div class="showDataCourses ">
+          <div class="headerTabs">
+            <div class="tab tab1" [class.active]="valueTable == 0">
+              <p-button (onClick)="changeInnerTab(0)" rounded="true" styleClass="tabtext">
+                All courses <span>+99</span>
+              </p-button>
+            </div>
+            <div class="tab tab2" [class.active]="valueTable == 1">
+              <p-button (onClick)="changeInnerTab(1)" rounded="true" styleClass="tabtext">
+                Free Courses <span>+99</span>
+              </p-button>
+            </div>
+            <div class="tab tab3" [class.active]="valueTable == 2">
+              <p-button (onClick)="changeInnerTab(2)" rounded="true" styleClass="tabtext">
+                Sold courses <span>+99</span>
+              </p-button>
+            </div>
           </div>
-          <div class="tab tab2" [class.active]="valueTable == 1">
-            <p-button (onClick)="changeInnerTab(1)" rounded="true" styleClass="tabtext">
-              Free Courses <span>+99</span>
-            </p-button>
-          </div>
-          <div class="tab tab3" [class.active]="valueTable == 2">
-            <p-button (onClick)="changeInnerTab(2)" rounded="true" styleClass="tabtext">
-              Sold courses <span>+99</span>
-            </p-button>
-          </div>
+
+          <!-- التبويبات الداخلية -->
+          <p-tabs [value]="valueTable">
+            <p-tabpanels>
+              <p-tabpanel [value]="0">
+                <app-table-courses (fetchCoursesEvent)="fetchCourses($event,selectedTopicId)"
+                  [paginationCoursesResponse]="paginationCoursesResponse">
+                </app-table-courses>
+              </p-tabpanel>
+              <p-tabpanel [value]="1">
+                <app-table-courses [paginationCoursesResponse]="paginationCoursesResponse"
+                  (fetchCoursesEvent)="fetchCourses($event,selectedTopicId ,valueTable )"></app-table-courses>
+              </p-tabpanel>
+              <p-tabpanel [value]="2">
+                <app-table-courses [paginationCoursesResponse]="paginationCoursesResponse"
+                  (fetchCoursesEvent)="fetchCourses($event,selectedTopicId , valueTable)"></app-table-courses>
+              </p-tabpanel>
+            </p-tabpanels>
+          </p-tabs>
         </div>
+      </p-tabpanel>
 
-        <!-- التبويبات الداخلية -->
-        <p-tabs [value]="valueTable">
-          <p-tabpanels>
-            <p-tabpanel [value]="0">
-            <app-table-courses (fetchCoursesEvent)="fetchCourses($event,selectedTopicId)" 
-                              [paginationCoursesResponse]="paginationCoursesResponse">
-            </app-table-courses>
-            </p-tabpanel>
-            <p-tabpanel [value]="1">
-              <app-table-courses [paginationCoursesResponse]="paginationCoursesResponse" (fetchCoursesEvent)="fetchCourses($event,selectedTopicId ,valueTable )"></app-table-courses>
-            </p-tabpanel>
-            <p-tabpanel [value]="2">
-              <app-table-courses [paginationCoursesResponse]="paginationCoursesResponse" (fetchCoursesEvent)="fetchCourses($event,selectedTopicId , valueTable)"></app-table-courses>
-            </p-tabpanel>
-          </p-tabpanels>
-        </p-tabs>
-      </div>
-    </p-tabpanel>
+      <p-tabpanel [value]="1">
+        <div class=" Kanbans bg-white ">
 
-    <p-tabpanel [value]="1" >
-      <div class=" Kanbans bg-white ">
-
-        <div class="headerKanban">
+          <div class="headerKanban">
 
             <div class="inputSearch">
-              <input type="text"  placeholder="Search for courses">
+              <input type="text" placeholder="Search for courses">
 
             </div>
 
             <div class="addCourse">
-              <button class="btn-add"><i class="fa fa-plus-square" aria-hidden="true"></i>  Add Course</button>
+              <button class="btn-add"><i class="fa fa-plus-square" aria-hidden="true"></i> Add Course</button>
             </div>
 
 
-        </div>
+          </div>
 
-        <div class="KanbansCard  d-flex gap-3"  #scrollKanpan>
-          @if(kanbanResponse.success){
+          <div class="KanbansCard  d-flex gap-3" #scrollKanpan>
+            @if(kanbanResponse.success){
             @for (stageColumn of kanbanResponse.result.topic.stages; track stageColumn.stageId) {
-              <app-cardkanban-stage [stageColumn]="stageColumn" [allStages]="kanbanResponse.result.topic.stages" (moveCourse)="handleMoveCourse($event)"></app-cardkanban-stage>
+            <app-cardkanban-stage [stageColumn]="stageColumn" [allStages]="kanbanResponse.result.topic.stages"
+              (moveCourse)="handleMoveCourse($event)"></app-cardkanban-stage>
             }
-          }
+            }
 
+
+
+
+
+
+          </div>
+
+
+          <div class="leftScroll" [class.d-none]="!showLeftScroll" (mouseenter)="scrollTable('left')"
+            (mouseleave)="stopScroll()">
+            <i class="fa-solid fa-chevron-left"></i>
+          </div>
+
+          <div class="rightScroll" [class.d-none]="!showRightScroll" (mouseenter)="scrollTable('right')"
+            (mouseleave)="stopScroll()">
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
 
 
 
 
 
         </div>
-        
-        
-        <div
-        class="leftScroll"
-        [class.d-none]="!showLeftScroll"
-        (mouseenter)="scrollTable('left')"
-        (mouseleave)="stopScroll()"
-      >
-        <i class="fa-solid fa-chevron-left"></i>
-      </div>
-      
-      <div
-        class="rightScroll"
-        [class.d-none]="!showRightScroll"
-        (mouseenter)="scrollTable('right')"
-        (mouseleave)="stopScroll()"
-      >
-        <i class="fa-solid fa-chevron-right"></i>
-      </div>
-      
-
-
-
-         
-      </div>
-    </p-tabpanel>
-  </p-tabpanels>
-</p-tabs>
+      </p-tabpanel>
+    </p-tabpanels>
+  </p-tabs>
 
 </div>
 

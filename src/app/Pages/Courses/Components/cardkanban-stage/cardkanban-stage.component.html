@@ -5,9 +5,12 @@
     <div class="stageProcess d-flex gap-3 align-items-center">
       <div class="progressBar" [ngStyle]="{ 'border-color': stageColumn.color}"></div>
       <div class="stageTitle">
-        <p class="stageName m-0">{{stageColumn.name}} <span class="numberOfStage">{{stageColumn.coursesCount}}</span>
-        </p>
-        <span class="stageStatus">{{stageColumn.totalPrice}}</span>
+        <div class="stageName d-flex gap-2 align-items-center">
+          <p class="m-0">{{stageColumn.name}}</p> 
+          <div class="stageNumberCourses">
+            <span class="numberOfStage">{{stageColumn.coursesCount}}</span>
+          </div>
+        </div>
         <span class="stageStatus">{{stageColumn.totalPrice}}</span>
 
       </div>
