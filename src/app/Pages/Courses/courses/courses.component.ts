@@ -1,3 +1,4 @@
+import { CustomSelectComponent } from './../../../Components/custom-select/custom-select.component';
 import { TableHeader } from './../Components/tablereused/tablereused.component';
 import { Component, ElementRef, HostListener, inject, OnInit, viewChild, ViewChild } from '@angular/core';
 import { CourseResult } from '../Core/interface/icourses';
@@ -21,10 +22,11 @@ import { ICourseKanban, IKanbanResponse, ITopicKanbaResult } from '../Core/inter
 import { MovecourseService } from '../Core/service/movecourse.service';
 import { FormsModule } from '@angular/forms';
 import { DatePicker } from 'primeng/datepicker';
+import { TopPopComponent } from "../../../Components/top-pop/top-pop.component";
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, ButtonModule,FormsModule, DatePicker,CardkanbanStageComponent, TabsModule, SplicTextPipe, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent],
+  imports: [CommonModule, CustomSelectComponent,ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, SplicTextPipe, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent, TopPopComponent, CustomSelectComponent],
   providers: [
     { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } }
 
@@ -44,7 +46,7 @@ export class CoursesComponent implements OnInit {
 
 
   tableRecords: Record<string, any>[] = [];
-  rangeDates: Date[] | undefined;
+  rangeDates: Date[] = [];
 
 
   // End Call services
@@ -75,10 +77,43 @@ export class CoursesComponent implements OnInit {
   ]
 
   @ViewChild(TableCoursesComponent) TableCourses!: TableCoursesComponent;
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('VideoInput') VideoInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('ImageInput') ImageInput!: ElementRef<HTMLInputElement>;
+
+  selectedImageName: string = '';
+  selectedVideoName: string = '';
+  selectedFileName: string = '';
+
+  triggerFileInput(inputType: string) {
+    if (inputType === 'image' && this.ImageInput) {
+      this.ImageInput.nativeElement.click();
+    } else if (inputType === 'video' && this.VideoInput) {
+      this.VideoInput.nativeElement.click();
+    } else if (inputType === 'file' && this.fileInput) {
+      this.fileInput.nativeElement.click();
+    }
+  }
+
+  onFileSelected(event: Event, type: string) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const fileName = input.files[0].name;
+      if (type === 'image') {
+        this.selectedImageName = fileName;
+      } else if (type === 'video') {
+        this.selectedVideoName = fileName;
+      } else if (type === 'file') {
+        this.selectedFileName = fileName;
+      }
+    }
+  }
 
   //^ Functions
   toggleDropdown(): void {
     this.isOpen = !this.isOpen;
+    console.log(this.rangeDates[0].getDate())
+
   }
   changeTab(value: number): void {
     this.valueheader = value;
@@ -106,6 +141,9 @@ export class CoursesComponent implements OnInit {
   }
   toggPagination() {
     this.collapsePagination = !this.collapsePagination;
+  }
+  onSelectChange(selectedValue: string) {
+    console.log('Selected Option:', selectedValue);
   }
 
 

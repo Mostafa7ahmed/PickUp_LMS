@@ -159,7 +159,19 @@ margin-bottom: 0;
     background-color: #e5eaf1;
   }
   
+  p, h1,h2,h3,h4,h5,h6{
+    margin: 0;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
+/* لإخفاء الأسهم في Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
 // view Topic 
 .overlay {
   position: fixed;

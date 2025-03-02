@@ -1,0 +1,62 @@
+.selectAccess {
+    width: 100%;
+    position: relative;
+    border: 0.5px solid #00000026;
+    border-radius: 5px;
+    padding: 4px 8px;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 8px;
+  
+    .selectOptionValue {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    &:hover {
+      border-color: #79d34c;
+    }
+    .icon {
+      transition: transform 0.3s ease;
+    }
+  
+    &.open .icon {
+      transform: rotate(180deg);
+    }
+  
+    .customSelect {
+      position: absolute;
+      top: 115%;
+      left: 0;
+      width: 100%; 
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      display: none;
+      z-index: 100;
+      max-height: 120px;
+        overflow-y: auto;
+      &::-webkit-scrollbar{
+        display: none;
+      }
+  
+      div {
+        padding: 8px;
+        cursor: pointer;
+        transition: background 0.2s;
+        
+        &:hover {
+          background: #79d34c49;
+        }
+      }
+    }
+    
+    &.open .customSelect {
+      display: block;
+    }
+   
+  }
+  .selected {
+    border-color: #79d34c;
+}
