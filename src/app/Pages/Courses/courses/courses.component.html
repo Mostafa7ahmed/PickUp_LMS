@@ -354,50 +354,27 @@
 
       <div class="rightCourse">
         <div class="UploadCover">
-          <div class="inputImage" (click)="triggerFileInput(ImageInput)">
+          <div class="inputImage" (click)="triggerFileInput('image')">
             <i class="fa-solid fa-images"></i>
             <p>{{ selectedImageName || 'Upload course photo' }}</p>
           </div>
-          <input type="file" accept="image/*" #ImageInput class="hidenInput" (change)="onFileSelected($event)">
+          <input type="file" accept="image/*" #ImageInput class="hidenInput" (change)="onFileSelected($event, 'image')">
         </div>
-
-        <div class="UploadCover mt-2 ">
-
-          <div class="inputImage" (click)="triggerFileInput(VideoInput)">
-            <i class="fa-solid fa-video"></i>  
+        
+        <div class="UploadCover mt-2">
+          <div class="inputImage" (click)="triggerFileInput('video')">
+            <i class="fa-solid fa-video"></i>
             <p>{{ selectedVideoName || 'Upload course introduction video' }}</p>
-
           </div>
-          <input type="file"  accept="video/*" #VideoInput class="hidenInput" (change)="onFileSelected($event)">
-
+          <input type="file" accept="video/*" #VideoInput class="hidenInput" (change)="onFileSelected($event, 'video')">
         </div>
-
-        <div class="UploadCover mt-2 ">
-
-          <div class="inputImage" (click)="triggerFileInput(fileInput)">
-            <i class="fa-solid fa-video"></i>  
+        
+        <div class="UploadCover mt-2">
+          <div class="inputImage" (click)="triggerFileInput('file')">
+            <i class="fa-solid fa-file"></i>
             <p>{{ selectedFileName || 'Upload course references' }}</p>
-
           </div>
-          <input type="file"  accept=".pdf, .doc, .docx, .xls, .xlsx, .txt"  #fileInput class="hidenInput" (change)="onFileSelected($event)">
-
-        </div>
-
-        <div class="CourseTags UploadCover mt-2 ">
-          <div class="tags ">
-            <div class="titleText ">
-              <span class="lineText" style="background-color:#659DFFBF ;"></span>
-              <div class="textTags d-flex gap-2 algin-items-center">
-                <h3 >Course tags </h3>
-                <div class="Icon">
-                  <i class="fa-solid fa-exclamation"></i>
-                </div>
-              </div>
-         
-
-            </div>
-          </div>
-          
+          <input type="file" accept=".pdf, .doc, .docx, .xls, .xlsx, .txt" #fileInput class="hidenInput" (change)="onFileSelected($event, 'file')">
         </div>
         <div class="CourseTags UploadCover mt-2 ">
           <div class="tags ">
@@ -428,7 +405,7 @@
   
   
 
-  </div>
+        </div>  
 
 </div>
 </div>
