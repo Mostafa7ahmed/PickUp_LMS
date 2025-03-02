@@ -23,10 +23,21 @@ import { MovecourseService } from '../Core/service/movecourse.service';
 import { FormsModule } from '@angular/forms';
 import { DatePicker } from 'primeng/datepicker';
 import { TopPopComponent } from "../../../Components/top-pop/top-pop.component";
+
+import { NzSelectModule } from 'ng-zorro-antd/select';
+
+function alphabet(): string[] {
+  const children: string[] = [];
+  for (let i = 10; i < 36; i++) {
+    children.push(i.toString(36) + i);
+  }
+  return children;
+}
+
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, CustomSelectComponent,ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, SplicTextPipe, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent, TopPopComponent, CustomSelectComponent],
+  imports: [CommonModule, NzSelectModule,CustomSelectComponent,ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, SplicTextPipe, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent, TopPopComponent, CustomSelectComponent],
   providers: [
     { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } }
 
@@ -43,6 +54,8 @@ export class CoursesComponent implements OnInit {
   private _KanbanService = inject(KanbanService);
   private _MovecourseService = inject(MovecourseService);
 
+  readonly listOfOption: string[] = alphabet();
+  listOfTagOptions: string[] = [];
 
 
   tableRecords: Record<string, any>[] = [];
@@ -80,11 +93,29 @@ export class CoursesComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   @ViewChild('VideoInput') VideoInput!: ElementRef<HTMLInputElement>;
   @ViewChild('ImageInput') ImageInput!: ElementRef<HTMLInputElement>;
-
+  
   selectedImageName: string = '';
+  selectedImageUrl: string | null = null;
+  
   selectedVideoName: string = '';
+  selectedVideoUrl: string | null = null;
+  
   selectedFileName: string = '';
-
+  
+  customFields: { key: string; value: string; checked: boolean }[] = [];
+  newField = { key: '', value: '' };
+  
+  addField() {
+    if (this.newField.key.trim() && this.newField.value.trim()) {
+      this.customFields.push({ ...this.newField, checked: false });
+      this.newField = { key: '', value: '' }; 
+    }
+  }
+  
+  removeField(index: number) {
+    this.customFields.splice(index, 1);
+  }
+  
   triggerFileInput(inputType: string) {
     if (inputType === 'image' && this.ImageInput) {
       this.ImageInput.nativeElement.click();
@@ -94,20 +125,25 @@ export class CoursesComponent implements OnInit {
       this.fileInput.nativeElement.click();
     }
   }
-
+  
   onFileSelected(event: Event, type: string) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
-      const fileName = input.files[0].name;
+      const file = input.files[0];
+      const fileName = file.name;
+  
       if (type === 'image') {
         this.selectedImageName = fileName;
+        this.selectedImageUrl = URL.createObjectURL(file); // عرض الصورة المختارة
       } else if (type === 'video') {
         this.selectedVideoName = fileName;
+        this.selectedVideoUrl = URL.createObjectURL(file); // عرض الفيديو المختار
       } else if (type === 'file') {
         this.selectedFileName = fileName;
       }
     }
   }
+  
 
   //^ Functions
   toggleDropdown(): void {

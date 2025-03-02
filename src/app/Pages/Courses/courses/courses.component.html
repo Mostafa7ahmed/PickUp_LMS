@@ -354,20 +354,25 @@
 
       <div class="rightCourse">
         <div class="UploadCover">
-          <div class="inputImage" (click)="triggerFileInput('image')">
+          <div class="inputImage" *ngIf="!selectedImageUrl" (click)="triggerFileInput('image')">
             <i class="fa-solid fa-images"></i>
             <p>{{ selectedImageName || 'Upload course photo' }}</p>
           </div>
           <input type="file" accept="image/*" #ImageInput class="hidenInput" (change)="onFileSelected($event, 'image')">
+        
+          <img *ngIf="selectedImageUrl" [src]="selectedImageUrl" alt="Selected Image" class="preview-image w-100 h-25 rounded-1">
         </div>
         
         <div class="UploadCover mt-2">
-          <div class="inputImage" (click)="triggerFileInput('video')">
+          <div class="inputImage"  *ngIf="!selectedVideoUrl" (click)="triggerFileInput('video')">
             <i class="fa-solid fa-video"></i>
             <p>{{ selectedVideoName || 'Upload course introduction video' }}</p>
           </div>
           <input type="file" accept="video/*" #VideoInput class="hidenInput" (change)="onFileSelected($event, 'video')">
+        
+          <video *ngIf="selectedVideoUrl" [src]="selectedVideoUrl" controls class="preview-video w-100 h-50 rounded-1"></video>
         </div>
+        
         
         <div class="UploadCover mt-2">
           <div class="inputImage" (click)="triggerFileInput('file')">
@@ -381,14 +386,63 @@
             <div class="titleText ">
               <span class="lineText" style="background-color:#659DFFBF ;"></span>
               <div class="textTags d-flex gap-2 algin-items-center">
-                <h3 >Course custom fields </h3>
+                <h3 >Course custom Tags </h3>
                 <div class="Icon">
                   <i class="fa-solid fa-exclamation"></i>
                 </div>
+    
               </div>
+     
          
 
             </div>
+
+            <div class="mt-3">
+              <nz-select nzMode="tags" nzPlaceHolder="Tag Mode" [(ngModel)]="listOfTagOptions">
+        
+              </nz-select>
+            </div>
+         
+          </div>
+          
+        </div>
+
+        <div class="CourseTags  mt-2 ">
+          <div class="tags  custom-fields-container">
+            <div class="titleText ">
+              <span class="lineText" style="background-color:#659DFFBF ;"></span>
+              <div class="textTags d-flex gap-2 algin-items-center">
+                <h3 >Course custom Tags </h3>
+                <div class="Icon">
+                  <i class="fa-solid fa-exclamation"></i>
+                </div>
+    
+              </div>
+     
+         
+
+            </div>
+          <div class="input-row">
+            <input type="text" placeholder="Key" [(ngModel)]="newField.key">
+            <input type="text" placeholder="Value" [(ngModel)]="newField.value">
+            <button (click)="addField()" class="add-btn">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+
+          <div class="fields-list" [ngClass]="{ 'active': customFields.length > 0 }" >
+            <div *ngFor="let field of customFields; let i = index" class="field-item">
+              <input type="text" [(ngModel)]="field.key" class="field-key">
+              <input type="text" [(ngModel)]="field.value" class="field-value">
+
+              <input type="checkbox" [(ngModel)]="field.checked" class="checkbox">
+
+              <button (click)="removeField(i)" class="delete-btn">
+                <i class="fa-regular fa-trash-can"></i>
+              </button>
+            </div>
+          </div>
+         
           </div>
           
         </div>
