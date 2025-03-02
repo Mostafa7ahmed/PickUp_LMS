@@ -115,7 +115,7 @@
               </div>
             </div>
             <div class="search-container-left">
-              <div class="addCourse">
+              <div class="addCourse" (click)="open()">
                 <button class="btn-add"><i class="fa fa-plus-square" aria-hidden="true"></i> Add Course</button>
               </div>
             </div>
@@ -197,9 +197,9 @@
   </p-tabs>
 
 
-  <div class="ShowPopup">
+  <div class="ShowPopup" [class.showelement]="isAddPopupVisible" >
     <div class="add-Course">
-      <app-top-pop [NamePopup]="'Add Course'"></app-top-pop>
+      <app-top-pop [NamePopup]="'Add Course'" (isVisibleChange)="handleCancel()"></app-top-pop>
       <div class="bodyCourse">
         <div class="leftCourse">
           <div class="couseContentAdd">

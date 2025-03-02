@@ -842,10 +842,18 @@ font-size: 14px !important;
   z-index: 1000;
   box-shadow: 1px 1px 5px #0000001f;
   &::-webkit-scrollbar{
-
     display: none;
   }
+  visibility: hidden;
+  opacity: 0 ;
+  transition: .5s opacity ease-in-out;
+  overflow: hidden;
 
+}
+.ShowPopup.showelement{
+  opacity: 2;
+  visibility: visible;
+  display: block;
 }
 .ShowPopup .add-Course{
   overflow: hidden;

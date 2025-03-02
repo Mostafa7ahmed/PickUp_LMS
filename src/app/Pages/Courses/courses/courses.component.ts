@@ -1,6 +1,6 @@
 import { CustomSelectComponent } from './../../../Components/custom-select/custom-select.component';
 import { TableHeader } from './../Components/tablereused/tablereused.component';
-import { Component, ElementRef, HostListener, inject, OnInit, viewChild, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, inject, Input, OnInit, Output, viewChild, ViewChild } from '@angular/core';
 import { CourseResult } from '../Core/interface/icourses';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from 'ngx-echarts';
@@ -93,6 +93,18 @@ export class CoursesComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   @ViewChild('VideoInput') VideoInput!: ElementRef<HTMLInputElement>;
   @ViewChild('ImageInput') ImageInput!: ElementRef<HTMLInputElement>;
+      @Input() isAddPopupVisible: boolean = false;
+    
+      @Output() isAddPopupVisibleChange = new EventEmitter<boolean>();
+      handleCancel() {
+        this.isAddPopupVisible = false;
+
+        this.isAddPopupVisibleChange.emit(false);
+      }
+      open(){
+        this.isAddPopupVisible = true;
+
+      }
   
   selectedImageName: string = '';
   selectedImageUrl: string | null = null;
