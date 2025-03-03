@@ -25,6 +25,7 @@ import { DatePicker } from 'primeng/datepicker';
 import { TopPopComponent } from "../../../Components/top-pop/top-pop.component";
 
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { AddCoursesComponent } from "../Components/add-courses/add-courses.component";
 
 function alphabet(): string[] {
   const children: string[] = [];
@@ -37,7 +38,7 @@ function alphabet(): string[] {
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, NzSelectModule,CustomSelectComponent,ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, SplicTextPipe, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent, TopPopComponent, CustomSelectComponent],
+  imports: [CommonModule, NzSelectModule, CustomSelectComponent, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, SplicTextPipe, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent, TopPopComponent, CustomSelectComponent, AddCoursesComponent],
   providers: [
     { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } }
 
@@ -54,8 +55,7 @@ export class CoursesComponent implements OnInit {
   private _KanbanService = inject(KanbanService);
   private _MovecourseService = inject(MovecourseService);
 
-  readonly listOfOption: string[] = alphabet();
-  listOfTagOptions: string[] = [];
+
 
 
   tableRecords: Record<string, any>[] = [];
@@ -90,73 +90,11 @@ export class CoursesComponent implements OnInit {
   ]
 
   @ViewChild(TableCoursesComponent) TableCourses!: TableCoursesComponent;
-  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('VideoInput') VideoInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('ImageInput') ImageInput!: ElementRef<HTMLInputElement>;
-      @Input() isAddPopupVisible: boolean = false;
+  isVisible = false;
+  showModal(): void {
+    this.isVisible = true;
     
-      @Output() isAddPopupVisibleChange = new EventEmitter<boolean>();
-      handleCancel() {
-        this.isAddPopupVisible = false;
-
-        this.isAddPopupVisibleChange.emit(false);
-      }
-      open(){
-        this.isAddPopupVisible = true;
-
-      }
-  
-  selectedImageName: string = '';
-  selectedImageUrl: string | null = null;
-  
-  selectedVideoName: string = '';
-  selectedVideoUrl: string | null = null;
-  
-  selectedFileName: string = '';
-  
-  customFields: { key: string; value: string; checked: boolean }[] = [];
-  newField = { key: '', value: '' };
-  
-  addField() {
-    if (this.newField.key.trim() && this.newField.value.trim()) {
-      this.customFields.push({ ...this.newField, checked: false });
-      this.newField = { key: '', value: '' }; 
-    }
   }
-  
-  removeField(index: number) {
-    this.customFields.splice(index, 1);
-  }
-  
-  triggerFileInput(inputType: string) {
-    if (inputType === 'image' && this.ImageInput) {
-      this.ImageInput.nativeElement.click();
-    } else if (inputType === 'video' && this.VideoInput) {
-      this.VideoInput.nativeElement.click();
-    } else if (inputType === 'file' && this.fileInput) {
-      this.fileInput.nativeElement.click();
-    }
-  }
-  
-  onFileSelected(event: Event, type: string) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-      const fileName = file.name;
-  
-      if (type === 'image') {
-        this.selectedImageName = fileName;
-        this.selectedImageUrl = URL.createObjectURL(file); // عرض الصورة المختارة
-      } else if (type === 'video') {
-        this.selectedVideoName = fileName;
-        this.selectedVideoUrl = URL.createObjectURL(file); // عرض الفيديو المختار
-      } else if (type === 'file') {
-        this.selectedFileName = fileName;
-      }
-    }
-  }
-  
-
   //^ Functions
   toggleDropdown(): void {
     this.isOpen = !this.isOpen;
@@ -190,10 +128,6 @@ export class CoursesComponent implements OnInit {
   toggPagination() {
     this.collapsePagination = !this.collapsePagination;
   }
-  onSelectChange(selectedValue: string) {
-    console.log('Selected Option:', selectedValue);
-  }
-
 
 
 
