@@ -20,11 +20,12 @@ import { CardkanbanStageComponent } from '../Components/cardkanban-stage/cardkan
 import { KanbanService } from '../Core/service/kanban.service';
 import { ICourseKanban, IKanbanResponse, ITopicKanbaResult } from '../Core/interface/ikanban-response';
 import { MovecourseService } from '../Core/service/movecourse.service';
+import { AddCoursesComponent } from '../Components/add-courses/add-courses.component';
 
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, ButtonModule, CardkanbanStageComponent, TabsModule, SplicTextPipe, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent],
+  imports: [CommonModule, ButtonModule,AddCoursesComponent, CardkanbanStageComponent, TabsModule, SplicTextPipe, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent],
   providers: [
     { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } }
 

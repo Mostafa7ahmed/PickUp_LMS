@@ -9,7 +9,7 @@
         <div class="titleHeader">
           <h3 class="m-0">Courses List</h3>
           <div class="custom-select">
-            <button class="select-button" type="button" (click)="toggleDropdown()" [attr.aria-expanded]="isOpen">
+            <button class="select-button" type="button"  [attr.aria-expanded]="isOpen">
               <span class="selected-value">{{ selectedValue | splicText:15}}</span>
               <span class="arrow" [ngClass]="{ open: isOpen }"></span>
             </button>
