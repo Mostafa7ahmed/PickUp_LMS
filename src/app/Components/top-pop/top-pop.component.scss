@@ -26,3 +26,20 @@
   color: var(--white) !important;
 
 }
+.header{
+  background-color: #ffffff;
+}
+.rightHeader .iconRignt{
+  width: 22px;
+  height: 22px;
+  border-radius: 5.5px;
+  background: #06cc7a1a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.iconRignt i{
+  color: #06cc7a;
+  font-size: 14px;
+}

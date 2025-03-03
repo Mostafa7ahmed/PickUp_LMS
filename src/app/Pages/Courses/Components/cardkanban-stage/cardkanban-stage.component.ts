@@ -39,35 +39,45 @@ export class CardkanbanStageComponent {
   onDrop(event: CdkDragDrop<ICourseKanban[]>) {
     if (event.previousContainer !== event.container) {
       const course = event.previousContainer.data[event.previousIndex];
-
-      console.log("From ON DROP ++++++++++++++++++++++++++ ", event);
-
-      // Move course to the new stage
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex
       );
+      this.animateNumberChange(this.stageColumn, 'coursesCount', this.stageColumn.coursesCount, this.stageColumn.coursesCount + 1);
+      this.animateNumberChange(this.stageColumn, 'totalPrice', this.stageColumn.totalPrice, this.stageColumn.totalPrice + course.price);
 
-      this.stageColumn.coursesCount++;
-      this.stageColumn.totalPrice += course.price;
-      const previousStage = this.allStages.find(stage => `stage-${stage.stageId}` === event.previousContainer.id);
+      const previousStage = this.allStages.find(
+        stage => `stage-${stage.stageId}` === event.previousContainer.id
+      );
 
       if (previousStage) {
-        previousStage.coursesCount--;
-        previousStage.totalPrice -= course.price;
+        this.animateNumberChange(previousStage, 'coursesCount', previousStage.coursesCount, previousStage.coursesCount - 1);
+        this.animateNumberChange(previousStage, 'totalPrice', previousStage.totalPrice, previousStage.totalPrice - course.price);
       }
-
-
       // Emit event to notify parent component (KanbanComponent)
       this.moveCourse.emit({ course, newStageId: this.stageColumn.stageId });
     }
   }
 
-  dropListEnterPredicate = (drag: CdkDrag, drop: CdkDropList) => {
-    return drop.data.length < 10; // مثال: لا يسمح بأكثر من 10 عناصر في القائمة
-  };
+  animateNumberChange(stage: IStageKanban, property: 'coursesCount' | 'totalPrice', previousValue: number, targetValue: number) {
+    const duration = 500;
+    const steps = 20;
+    const stepValue = (targetValue - previousValue) / steps;
+    let currentStep = 0;
+
+    const interval = setInterval(() => {
+      stage[property] = Math.round(previousValue + stepValue * currentStep);
+      currentStep++;
+
+      if (currentStep >= steps) {
+        stage[property] = targetValue;
+        clearInterval(interval);
+      }
+    }, duration / steps);
+  }
+
 
   convertHexToRgba(hex: string, opacity: number = 1): string {
     hex = hex.replace('#', '');
