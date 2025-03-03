@@ -20,25 +20,11 @@ import { CardkanbanStageComponent } from '../Components/cardkanban-stage/cardkan
 import { KanbanService } from '../Core/service/kanban.service';
 import { ICourseKanban, IKanbanResponse, ITopicKanbaResult } from '../Core/interface/ikanban-response';
 import { MovecourseService } from '../Core/service/movecourse.service';
-import { FormsModule } from '@angular/forms';
-import { DatePicker } from 'primeng/datepicker';
-import { TopPopComponent } from "../../../Components/top-pop/top-pop.component";
-
-import { NzSelectModule } from 'ng-zorro-antd/select';
-import { AddCoursesComponent } from "../Components/add-courses/add-courses.component";
-
-function alphabet(): string[] {
-  const children: string[] = [];
-  for (let i = 10; i < 36; i++) {
-    children.push(i.toString(36) + i);
-  }
-  return children;
-}
 
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, NzSelectModule, CustomSelectComponent, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, SplicTextPipe, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent, TopPopComponent, CustomSelectComponent, AddCoursesComponent],
+  imports: [CommonModule, ButtonModule, CardkanbanStageComponent, TabsModule, SplicTextPipe, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent],
   providers: [
     { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } }
 
@@ -59,7 +45,6 @@ export class CoursesComponent implements OnInit {
 
 
   tableRecords: Record<string, any>[] = [];
-  rangeDates: Date[] = [];
 
 
   // End Call services
