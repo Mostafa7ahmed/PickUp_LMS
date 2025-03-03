@@ -81,11 +81,7 @@ export class CoursesComponent implements OnInit {
     
   }
   //^ Functions
-  toggleDropdown(): void {
-    this.isOpen = !this.isOpen;
-    console.log(this.rangeDates[0].getDate())
 
-  }
   changeTab(value: number): void {
     this.valueheader = value;
   }
