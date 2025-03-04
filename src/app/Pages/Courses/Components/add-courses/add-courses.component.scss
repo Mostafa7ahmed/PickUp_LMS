@@ -312,6 +312,10 @@
     cursor: pointer; 
   
   }
+  .UploadCover img , .UploadCover video{
+    height: 150px !important;
+    object-fit: cover;
+  }
   
   .hidenInput {
     display: none;
@@ -512,22 +516,22 @@
   
   .delete-btn_image {
     position: absolute;
-    top: -1px;
-    left: -1px;
-    background: rgba(255, 0, 0, 0.43);
-    color: white;
+    top: 4px;
+    left: 2px;
+    background: #ffffff;
+    color: #ff00006e;
     border: none;
     border-radius: 50%;
-    width: 25px;
-    height: 25px;
+    width: 35px;
+    height: 35px;
     cursor: pointer;
     font-size: 14px;
     display: flex;
-    align-items: center;
+   align-items: center;
     justify-content: center;
     transition: 0.3s;
     &:hover{
-      background: rgba(255, 0, 0, 0.8);
+      color: rgba(255, 0, 0, 0.8);
     }
   }
   

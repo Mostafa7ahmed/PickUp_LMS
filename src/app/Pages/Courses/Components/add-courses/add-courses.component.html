@@ -167,8 +167,8 @@
           <input type="file" accept="video/*" #VideoInput class="hidenInput" (change)="onFileSelected($event, 'video')">
 
             <div *ngIf="selectedVideoUrl" class="image-preview-container">
-              <video *ngIf="selectedVideoUrl" [src]="selectedVideoUrl" controls
-              class="preview-video w-100 h-50 rounded-1"></video>
+              <video *ngIf="selectedVideoUrl" [src]="selectedVideoUrl" autoplay controls muted class="preview-video w-100 h-50 rounded-1"></video>
+            
                 <button class="delete-btn_image " (click)="removeVideo()"> <i class="fa-regular fa-trash-can"></i>
               </button>
             </div>
