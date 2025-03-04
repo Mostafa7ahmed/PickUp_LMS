@@ -27,18 +27,10 @@ import { TopPopComponent } from "../../../Components/top-pop/top-pop.component";
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { AddCoursesComponent } from "../Components/add-courses/add-courses.component";
 
-function alphabet(): string[] {
-  const children: string[] = [];
-  for (let i = 10; i < 36; i++) {
-    children.push(i.toString(36) + i);
-  }
-  return children;
-}
-
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, NzSelectModule, CustomSelectComponent, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, SplicTextPipe, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent, TopPopComponent, CustomSelectComponent, AddCoursesComponent],
+  imports: [CommonModule, NzSelectModule, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, SplicTextPipe, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent, TopPopComponent, CustomSelectComponent, AddCoursesComponent],
   providers: [
     { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } }
 

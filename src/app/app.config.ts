@@ -6,7 +6,7 @@ import { registerLocaleData } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import en from '@angular/common/locales/en';
 import { headersInterceptor } from './Core/interceptors/headers.interceptor';
 import { providePrimeNG } from 'primeng/config';
@@ -23,11 +23,10 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideNzI18n(en_US),
     importProvidersFrom(FormsModule),
-    provideAnimationsAsync(),
     provideHttpClient(withFetch(), withInterceptors([headersInterceptor])),
     { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } },
+    provideAnimationsAsync(), // ✅ تم إصلاح الفاصلة
 
-    provideAnimationsAsync(),
     providePrimeNG({ 
         theme: {
             preset: Aura
