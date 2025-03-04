@@ -181,7 +181,7 @@
               <i class="fa-solid fa-paperclip mx-3"></i> Add File
             </label>
           
-            <input type="file" accept=".pdf, .doc, .docx, .xls, .xlsx, .txt" #fileInput class="hidden-input" (change)="onFileSelectedFile($event)">
+            <input type="file" multiple accept=".pdf, .doc, .docx, .xls, .xlsx, .txt" #fileInput class="hidden-input" (change)="onFileSelectedFile($event)">
           
             <div class="file-list" *ngIf="selectedFiles.length > 0">
               <div class="file-item" *ngFor="let file of selectedFiles; let i = index">

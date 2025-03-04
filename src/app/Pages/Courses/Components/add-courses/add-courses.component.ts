@@ -72,31 +72,31 @@ export class AddCoursesComponent {
     }
   }
 
-  onFileSelected(event: Event, type: string) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-      const fileName = file.name;
-  
-      if (type === 'image') {
-        this.selectedImageName = fileName;
-        this.selectedImageUrl = URL.createObjectURL(file);
-      } else if (type === 'video') {
-        this.selectedVideoName = fileName;
-        this.selectedVideoUrl = URL.createObjectURL(file);
-        
-        setTimeout(() => {
-          const videoElement = document.querySelector('video');
-          if (videoElement) {
-            videoElement.muted = true; // جعل الفيديو مكتومًا
-          }
-        }, 100);
-      } else if (type === 'file') {
-        this.selectedFileName = fileName;
-      }
+onFileSelected(event: Event, type: string) {
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files.length > 0) {
+    const file = input.files[0];
+    const fileName = file.name;
+
+    if (type === 'image') {
+      this.selectedImageName = fileName;
+      this.selectedImageUrl = URL.createObjectURL(file);
+    } else if (type === 'video') {
+      this.selectedVideoName = fileName;
+      this.selectedVideoUrl = URL.createObjectURL(file);
+      
+      setTimeout(() => {
+        const videoElement = document.querySelector('video');
+        if (videoElement) {
+          videoElement.muted = true; // جعل الفيديو مكتومًا
+        }
+      }, 100);
+    } else if (type === 'file') {
+      this.selectedFileName = fileName;
     }
   }
-  
+}
+
 
   onSelectChange(selectedValue: string) {
     console.log('Selected Option:', selectedValue);
