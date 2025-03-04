@@ -9,7 +9,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     overflow-y: auto;
-    height: 615px;
+    height: 575px;
     width: 750px;
     z-index: 1000;
     box-shadow: 1px 1px 5px #0000001f;
@@ -42,7 +42,7 @@
   }
   .ShowPopup .add-Course .bodyCourse .leftCourse{
     width: 412px;
-    height: 512px;
+    height: 470px;
     padding: 10px 0;
     overflow: scroll;
     &::-webkit-scrollbar{
@@ -52,7 +52,7 @@
   }
   .ShowPopup .add-Course .bodyCourse .rightCourse{
     width: 320px;
-    height: 512px;
+    height: 460px;
     overflow: scroll;
     padding-inline-end: 3px;
     padding-bottom: 10px;
