@@ -453,7 +453,10 @@
     }
   }
 
+  ::ng-deep .p-tooltip{
+    z-index: 888888888888888888888888888888888888888888888888888888888888888888888 !important;
 
+  }
 
 
  ::ng-deep .p-tooltip .p-tooltip-text {
