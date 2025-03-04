@@ -102,12 +102,15 @@ export class AddCoursesComponent {
 
   onSubmit() {
     console.log(this.courseForm.value);
+    this.handleCancel() ;
   }
 
   handleCancel() {
     this.isAddPopupVisible = false;
     this.isAddPopupVisibleChange.emit(false);
-  }
+    this.courseForm.reset();
+
+    }
 
   open() {
     this.isAddPopupVisible = true;
