@@ -1,20 +1,18 @@
-<div class="overlay" *ngIf=""></div>
+<div class="overlay" *ngIf="isAddPopupVisible"></div>
 <div class="ShowPopup" [class.showelement]="isAddPopupVisible">
   <div class="add-Course">
     <app-top-pop [NamePopup]="'Add Course'" (isVisibleChange)="handleCancel()"></app-top-pop>
-    <div class="bodyCourse">
+    <form class="bodyCourse" [formGroup]="courseForm">
       <div class="leftCourse">
         <div class="couseContentAdd">
           <div class="titleCouser">
-
             <app-text-header [title]="'Main course informations'"></app-text-header>
 
             <div class="addData_course my-4">
               <div class="courseDynamic d-flex gap-3 align-items-end mb-2">
-
-                <div class="Course_name  ">
+                <div class="Course_name">
                   <label for="Course_name">Course name</label>
-                  <input type="text" class="input_Couser" id="Course_name" placeholder="Enter course name">
+                  <input formControlName="courseName" type="text" class="input_Couser" id="Course_name" placeholder="Enter course name">
                 </div>
                 <div class="deal-desc-btn" [class.active]="showDescription"
                   [pTooltip]=" !showDescription ? 'Add Description' : 'Hide Description'" tooltipPosition="top"
@@ -24,125 +22,96 @@
               </div>
 
               <div class="desCourse_name Course_name" [class.active]="showDescription">
-                <label for="Course_name">Course description</label>
-                <textarea name="" id="" class="input_Couser textarea_course"></textarea>
+                <label for="Course_description">Course description</label>
+                <textarea formControlName="courseDescription" class="input_Couser textarea_course" id="Course_description"></textarea>
               </div>
             </div>
-
-
-
           </div>
-          <div class="Course_Price d-flex gap-3  align-items-start">
+
+          <div class="Course_Price d-flex gap-3 align-items-start">
             <div class="leftCoursePirce">
-              <div class="couresAccess ">
+              <div class="couresAccess">
                 <div class="titleAccess d-flex justify-content-between gap-2 align-items-center">
                   <p>Course Access</p>
                   <div class="Icon">
                     <i class="fa-solid fa-exclamation"></i>
                   </div>
                 </div>
-
-                <app-custom-select [options]="['Paid', 'Free', 'Subscription','Paid', 'Free', 'Subscription']"
+                <app-custom-select formControlName="courseAccess" [options]="['Paid', 'Free', 'Subscription']"
                   [selectedValue]="'Paid'" (valueChange)="onSelectChange($event)">
                 </app-custom-select>
-
               </div>
             </div>
             <div class="rightCoursePirce flex-grow-1">
               <div class="Course_name d-flex flex-column">
                 <p class="mb-2">Course price</p>
                 <div class="input_Couser_container flex-grow-1">
-                  <input type="number" placeholder="Enter course price">
+                  <input formControlName="coursePrice" type="number" placeholder="Enter course price">
                   <span>EGP</span>
                 </div>
               </div>
             </div>
-
           </div>
 
-          <div class="courseStage mt-3 d-flex gap-3 align-items-start ">
-
+          <div class="courseStage mt-3 d-flex gap-3 align-items-start">
             <div class="leftStage w-50">
               <div class="titleAccess d-flex justify-content-between gap-2 align-items-center">
                 <p>Topic</p>
-
               </div>
-
-              <app-custom-select [options]="['C#', 'C++', 'Python','CSS', 'TS', 'JS']" [selectedValue]="'JS'"
-                (valueChange)="onSelectChange($event)">
+              <app-custom-select formControlName="topic" [options]="['C#', 'C++', 'Python', 'CSS', 'TS', 'JS']" 
+                [selectedValue]="'JS'" (valueChange)="onSelectChange($event)">
               </app-custom-select>
-
             </div>
             <div class="right w-50">
               <div class="titleAccess d-flex justify-content-between gap-2 align-items-center">
                 <p>Stage</p>
-
               </div>
-
-              <app-custom-select [options]="['C#', 'C++', 'Python','CSS', 'TS', 'JS']" [selectedValue]="'JS'"
-                (valueChange)="onSelectChange($event)">
+              <app-custom-select formControlName="stage" [options]="['C#', 'C++', 'Python', 'CSS', 'TS', 'JS']" 
+                [selectedValue]="'JS'" (valueChange)="onSelectChange($event)">
               </app-custom-select>
-
             </div>
-
           </div>
+
           <div class="couserLanguage mt-3">
             <div class="Language w-50">
               <div class="titleAccess d-flex justify-content-between gap-2 align-items-center">
                 <p>Course language</p>
-
               </div>
-
-              <app-custom-select [options]="['En' , 'Ar']" [selectedValue]="'En'"
-                (valueChange)="onSelectChange($event)">
+              <app-custom-select formControlName="courseLanguage" [options]="['En', 'Ar']" 
+                [selectedValue]="'En'" (valueChange)="onSelectChange($event)">
               </app-custom-select>
-
             </div>
           </div>
-
-
         </div>
 
         <div class="couseContentAdd">
-
           <app-text-header [bgColor]="'#FF6584BF'" [title]="'Discount'"></app-text-header>
-
-
-
-          <div class="courseStage courseTopic  mt-3 d-flex gap-3 align-items-start ">
-
+          <div class="courseStage courseTopic mt-3 d-flex gap-3 align-items-start">
             <div class="leftStage w-50">
               <div class="titleAccess d-flex justify-content-between gap-2 align-items-center">
                 <p>Type</p>
-
               </div>
               <div class="custom-select">
-                <select>
+                <select formControlName="discountType">
                   <option value="en">En</option>
                   <option value="ar">Ar</option>
                   <option value="fr">Fr</option>
                 </select>
               </div>
-
-
             </div>
             <div class="right w-50">
               <div class="rightCoursePirce flex-grow-1">
                 <div class="Course_name d-flex flex-column">
                   <p class="mb-2">Value</p>
                   <div class="input_Couser_container flex-grow-1">
-                    <input type="number" placeholder="Enter course Value">
+                    <input formControlName="discountValue" type="number" placeholder="Enter course Value">
                     <span>EGP</span>
                   </div>
                 </div>
               </div>
-
             </div>
-
           </div>
         </div>
-
-
       </div>
 
       <div class="rightCourse">
@@ -152,48 +121,43 @@
             <p>{{ selectedImageName || 'Upload course photo' }}</p>
           </div>
           <input type="file" accept="image/*" #ImageInput class="hidenInput" (change)="onFileSelected($event, 'image')">
-
           <div *ngIf="selectedImageUrl" class="image-preview-container">
             <img [src]="selectedImageUrl" alt="Selected Image" class="preview-image w-100 rounded-1">
-            <button class="delete-btn_image " (click)="removeImage()"> <i class="fa-regular fa-trash-can"></i>
+            <button class="delete-btn_image" (click)="removeImage()"> 
+              <i class="fa-regular fa-trash-can"></i>
             </button>
           </div>
         </div>
 
         <div class="UploadCover mt-2">
           <div class="inputImage" *ngIf="!selectedVideoUrl" (click)="triggerFileInput('video')">
-            <i class="fa-solid fa-video mx-2 "></i>
+            <i class="fa-solid fa-video mx-2"></i>
             <p>{{ selectedVideoName || 'Upload course introduction video' }}</p>
           </div>
           <input type="file" accept="video/*" #VideoInput class="hidenInput" (change)="onFileSelected($event, 'video')">
-
-            <div *ngIf="selectedVideoUrl" class="image-preview-container">
-              <video *ngIf="selectedVideoUrl" [src]="selectedVideoUrl" autoplay controls muted class="preview-video w-100 h-50 rounded-1"></video>
-            
-                <button class="delete-btn_image " (click)="removeVideo()"> <i class="fa-regular fa-trash-can"></i>
-              </button>
-            </div>
+          <div *ngIf="selectedVideoUrl" class="image-preview-container">
+            <video [src]="selectedVideoUrl" autoplay controls muted class="preview-video w-100 h-50 rounded-1"></video>
+            <button class="delete-btn_image" (click)="removeVideo()"> 
+              <i class="fa-regular fa-trash-can"></i>
+            </button>
+          </div>
         </div>
 
-
-        <div class="UploadCover  mt-2">
+        <div class="UploadCover mt-2">
           <div class="upload-container">
             <label class="upload-box" (click)="triggerFileInput('file')">
               <i class="fa-solid fa-paperclip mx-3"></i> Add File
             </label>
-          
-            <input type="file" multiple accept=".pdf, .doc, .docx, .xls, .xlsx, .txt" #fileInput class="hidden-input" (change)="onFileSelectedFile($event)">
-          
+            <input type="file" multiple accept=".pdf, .doc, .docx, .xls, .xlsx, .txt" #fileInput 
+              class="hidden-input" (change)="onFileSelectedFile($event)">
             <div class="file-list" *ngIf="selectedFiles.length > 0">
               <div class="file-item" *ngFor="let file of selectedFiles; let i = index">
                 <i class="fa-solid fa-file"></i>
                 <span class="file-name">{{ file.name | splicText : 10 }}</span>
                 <span class="file-size">{{ getFileSize(file.size) }}</span>
-                
                 <a [href]="getFileUrl(file)" download class="download-btn">
                   <i class="fa-solid fa-download"></i>
                 </a>
-                
                 <button class="delete-btn" (click)="removeFile(i)">
                   <i class="fa-regular fa-trash-can"></i>
                 </button>
@@ -202,67 +166,49 @@
           </div>
         </div>
 
-    
-        
-        <div class="CourseTags UploadCover mt-2 ">
-          <div class="tags ">
-
+        <div class="CourseTags UploadCover mt-2">
+          <div class="tags">
             <app-text-header pTooltip="Add Tags" tooltipPosition="top" [bgColor]="'#659DFFBF'"
               [Icon]="'fa-solid fa-exclamation'" [title]="'Course custom Tags'"></app-text-header>
-
             <div class="mt-3">
-              <nz-select nzMode="tags" nzPlaceHolder="Tag Mode" [(ngModel)]="listOfTagOptions">
-
+              <nz-select nzMode="tags" formControlName="tags" nzPlaceHolder="Tag Mode" 
+                [(ngModel)]="listOfTagOptions">
               </nz-select>
             </div>
-
           </div>
-
         </div>
 
-        <div class="CourseTags  UploadCover mt-2 ">
-          <div class="tags  custom-fields-container">
+        <div class="CourseTags UploadCover mt-2">
+          <div class="tags custom-fields-container">
             <app-text-header pTooltip="Add Fields" tooltipPosition="top" [bgColor]="'#659DFFBF'"
               [Icon]="'fa-solid fa-exclamation'" [title]="'Course custom Fields'"></app-text-header>
-
+        
             <div class="input-row mt-4">
-              <input type="text" placeholder="Key" [(ngModel)]="newField.key">
-              <input type="text" placeholder="Value" [(ngModel)]="newField.value">
+              <input type="text" placeholder="Key" [(ngModel)]="newField.key" [ngModelOptions]="{ standalone: true }">
+              <input type="text" placeholder="Value" [(ngModel)]="newField.value" [ngModelOptions]="{ standalone: true }">
               <button (click)="addField()" class="add-btn" pTooltip="Add Fields" tooltipPosition="top">
                 <i class="fa-solid fa-plus"></i>
               </button>
             </div>
-
+        
             <div class="fields-list" [ngClass]="{ 'active': customFields.length > 0 }">
               <div *ngFor="let field of customFields; let i = index" class="field-item">
-                <input type="text" [(ngModel)]="field.key" class="field-key">
-                <input type="text" [(ngModel)]="field.value" class="field-value">
-
-                <input type="checkbox" [(ngModel)]="field.checked" class="checkbox">
-
+                <input type="text"  class="field-key" placeholder="Key">
+                <input type="text"  class="field-value" placeholder="Value">
+                <input type="checkbox"  class="checkbox">
                 <button (click)="removeField(i)" class="delete-btn" pTooltip="Delete Fields" tooltipPosition="top">
                   <i class="fa-regular fa-trash-can"></i>
                 </button>
               </div>
             </div>
-
           </div>
-
         </div>
-
-
       </div>
-
-    </div>
+    </form>
     <div class="footerCourse bg-white rounded-1">
-      <div class="btnsCourse">
+      <div class="btnsCourse" (click)="onSubmit()">
         <button class="">Create</button>
       </div>
-
-
-
-
     </div>
-
   </div>
 </div>

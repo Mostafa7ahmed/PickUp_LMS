@@ -1,15 +1,14 @@
-<div class="selectAccess" (click)="toggleSelect()"  [class.selected]="isSelected" [class.open]="isOpen">
-    <div class="selectOptionValue">
-      <p>{{ selectedValue }}</p>
-      <div class="icon">
-        <i class="fa-solid fa-chevron-down"></i>
-      </div>
-    </div>
-  
-    <div class="customSelect" >
-      <div *ngFor="let option of options" (click)="selectOption(option)">
-        {{ option }}
-      </div>
+<div class="selectAccess" (click)="toggleSelect()" [class.selected]="isSelected" [class.open]="isOpen">
+  <div class="selectOptionValue">
+    <p>{{ value || 'Select an option' }}</p>
+    <div class="icon">
+      <i class="fa-solid fa-chevron-down"></i>
     </div>
   </div>
-  
+
+  <div class="customSelect" >
+    <div *ngFor="let option of options" (click)="selectOption(option)">
+      {{ option }}
+    </div>
+  </div>
+</div>
