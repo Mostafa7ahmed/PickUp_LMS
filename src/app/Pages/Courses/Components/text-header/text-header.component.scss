@@ -1,0 +1,31 @@
+.titleText h3{
+    color: #616776;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: normal;
+    position: relative;
+  }
+  
+  .titleText {
+    
+    display: flex;
+    gap: 4px;
+  }
+  .titleText .lineText{
+    padding:2px;
+    border-radius: 4px;
+    background: #bdff42;
+  }
+    
+  .Icon{
+    width: 13px;
+    height: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    border:1px solid #79877E;
+    color: #79877E;
+    font-size: 7px;
+  }
+  
