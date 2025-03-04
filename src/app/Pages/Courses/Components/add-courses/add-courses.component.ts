@@ -36,29 +36,29 @@ export class AddCoursesComponent {
     topic: ['', Validators.required],
     stage: ['', Validators.required],
     courseLanguage: ['', Validators.required],
-    discountType: [''],
+    discountType: ['en', Validators.required], 
+
     discountValue: [null],
     tags: [[]],
-    customFields: this.fb.array([]) // FormArray for custom fields
+    customFields: this.fb.array([]) 
   });
 
   customFields: { key: string; value: string; checked: boolean }[] = [];
   newField = { key: '', value: '' };
 
   ngOnInit() {
-    this.syncCustomFieldsWithFormArray(); // Sync customFields with FormArray on initialization
+    this.syncCustomFieldsWithFormArray(); 
   }
 
-  // Add a new custom field
   addField() {
     if (this.newField.key.trim() && this.newField.value.trim()) {
       const newFieldData = { key: this.newField.key, value: this.newField.value, checked: false };
       console.log('Adding field to customFields:', newFieldData);
-      this.customFields.push(newFieldData); // Update UI array
-      this.addCustomFieldControl(newFieldData.key, newFieldData.value, newFieldData.checked); // Update FormArray
+      this.customFields.push(newFieldData);
+      this.addCustomFieldControl(newFieldData.key, newFieldData.value, newFieldData.checked);
       console.log('FormArray after adding:', this.courseForm.get('customFields')?.value);
-      this.newField = { key: '', value: '' }; // Reset input fields
-      this.syncCustomFieldsWithFormArray(); // Force sync after adding to ensure UI updates
+      this.newField = { key: '', value: '' };
+      this.syncCustomFieldsWithFormArray(); 
     }
   }
 

@@ -54,21 +54,24 @@
           </div>
 
           <div class="courseStage mt-3 d-flex gap-3 align-items-start">
-            <div class="leftStage w-50">
-              <div class="titleAccess d-flex justify-content-between gap-2 align-items-center">
-                <p>Topic</p>
-              </div>
-              <app-custom-select formControlName="topic" [options]="['C#', 'C++', 'Python', 'CSS', 'TS', 'JS']" 
-                [selectedValue]="'JS'" (valueChange)="onSelectChange($event)">
+            <div class="leftCoursePirce w-50">
+              <div class="couresAccess w-100">
+                <div class="titleAccess d-flex justify-content-between gap-2 align-items-center">
+                  <p>Topic </p>
+         
+                </div>
+                <app-custom-select formControlName="topic"  [selectedValue]="'sss'" [options]="['sss','dddd', 'JS']" 
+                (valueChange)="onSelectChange($event)">
               </app-custom-select>
+              </div>
             </div>
             <div class="right w-50">
               <div class="titleAccess d-flex justify-content-between gap-2 align-items-center">
                 <p>Stage</p>
               </div>
-              <app-custom-select formControlName="stage" [options]="['C#', 'C++', 'Python', 'CSS', 'TS', 'JS']" 
-                [selectedValue]="'JS'" (valueChange)="onSelectChange($event)">
-              </app-custom-select>
+              <app-custom-select formControlName="stage"  [selectedValue]="'sdsad'" [options]="['sdsad','sdsad', 'sdsad']" 
+              (valueChange)="onSelectChange($event)">
+            </app-custom-select>
             </div>
           </div>
 
@@ -93,7 +96,7 @@
               </div>
               <div class="custom-select">
                 <select formControlName="discountType">
-                  <option value="en">En</option>
+                  <option value="en" selected>En</option>
                   <option value="ar">Ar</option>
                   <option value="fr">Fr</option>
                 </select>
@@ -193,9 +196,9 @@
         
             <div class="fields-list" [ngClass]="{ 'active': customFields.length > 0 }">
               <div *ngFor="let field of customFields; let i = index" class="field-item">
-                <input type="text"  class="field-key" placeholder="Key">
-                <input type="text"  class="field-value" placeholder="Value">
-                <input type="checkbox"  class="checkbox">
+                <input type="text" [value]="field.key"  class="field-key" placeholder="Key">
+                <input type="text" [value]="field.value"   class="field-value" placeholder="Value">
+                <input type="checkbox" [value]="field.value"  class="checkbox">
                 <button (click)="removeField(i)" class="delete-btn" pTooltip="Delete Fields" tooltipPosition="top">
                   <i class="fa-regular fa-trash-can"></i>
                 </button>

@@ -18,7 +18,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class CustomSelectComponent implements ControlValueAccessor {
   @Input() options: string[] = [];
-  @Input() selectedValue: string = ''; // Optional default value
+  @Input() selectedValue: string = ''; 
   @Output() valueChange = new EventEmitter<string>();
 
   isSelected: boolean = false;
@@ -41,9 +41,9 @@ export class CustomSelectComponent implements ControlValueAccessor {
 
   set value(val: string) {
     this._value = val;
-    this.onChange(val); // Notify FormControl of the change
-    this.valueChange.emit(val); // Emit value to parent
-    this.isSelected = !!val; // Update isSelected based on whether a value exists
+    this.onChange(val); 
+    this.valueChange.emit(val);
+    this.isSelected = !!val;
   }
 
   constructor() {}

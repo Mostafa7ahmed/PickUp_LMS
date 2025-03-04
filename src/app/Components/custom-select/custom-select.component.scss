@@ -5,7 +5,6 @@
     border-radius: 5px;
     padding: 4px 8px;
     cursor: pointer;
-    user-select: none;
     margin-top: 8px;
   
     .selectOptionValue {
@@ -44,7 +43,6 @@
       div {
         padding: 8px;
         cursor: pointer;
-        transition: background 0.2s;
         
         &:hover {
           background: #79d34c49;
