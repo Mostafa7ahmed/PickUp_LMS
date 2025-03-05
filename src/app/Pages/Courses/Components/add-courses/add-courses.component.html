@@ -60,7 +60,7 @@
                   <p>Topic </p>
          
                 </div>
-                <app-custom-select formControlName="topic"  [selectedValue]="'sss'" [options]="['sss','dddd', 'JS']" 
+                <app-custom-select formControlName="topic" [isTopic]="true"  [selectedValue]="'sss'" [options]="['sss','dddd', 'JS']" 
                 (valueChange)="onSelectChange($event)">
               </app-custom-select>
               </div>
@@ -69,7 +69,7 @@
               <div class="titleAccess d-flex justify-content-between gap-2 align-items-center">
                 <p>Stage</p>
               </div>
-              <app-custom-select formControlName="stage"  [selectedValue]="'sdsad'" [options]="['sdsad','sdsad', 'sdsad']" 
+              <app-custom-select formControlName="stage"  [iStage]="true" [selectedValue]="'sdsad'" [options]="['sdsad','sdsad', 'sdsad']" 
               (valueChange)="onSelectChange($event)">
             </app-custom-select>
             </div>

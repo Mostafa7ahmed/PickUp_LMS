@@ -20,6 +20,8 @@ export class CustomSelectComponent  {
   @Input() options: string[] = [];
   @Input() selectedValue: string = ''; 
   @Output() valueChange = new EventEmitter<string>();
+  @Input()  isTopic: boolean = false;
+  @Input() iStage: boolean = false;
 
   isSelected: boolean = false;
   isOpen = false;

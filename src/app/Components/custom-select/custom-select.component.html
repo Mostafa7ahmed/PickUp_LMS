@@ -1,14 +1,21 @@
 <div class="selectAccess" (click)="toggleSelect()" [class.open]="isOpen">
   <div class="selectOptionValue">
+
     <p>{{ value || 'Select an option' }}</p>
     <div class="icon">
       <i class="fa-solid fa-chevron-down"></i>
     </div>
   </div>
 
-  <div class="customSelect" >
-    <div *ngFor="let option of options" (click)="selectOption(option)">
+  <div class="customSelect">
+    <div class="d-flex gap-2 align-items-center" *ngFor="let option of options" (click)="selectOption(option)">
+      <div class="progressBar" *ngIf="iStage"></div>
+      <span class="color-indicator" [style.background]="'#6d9ef4'" *ngIf="isTopic">
+        <i class="fas fa-user" aria-hidden="true"></i>
+      </span>
+
       {{ option }}
+
     </div>
   </div>
 </div>
