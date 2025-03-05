@@ -10,7 +10,7 @@
     transform: translate(-50%, -50%);
     overflow-y: auto;
     height: 575px;
-    width: 750px;
+    width: 800px;
     z-index: 1000;
     box-shadow: 1px 1px 5px #0000001f;
     &::-webkit-scrollbar{
@@ -43,8 +43,8 @@
   }
   .ShowPopup .add-Course .bodyCourse .leftCourse{
     width: 412px;
-    height: 470px;
-    padding: 10px 0;
+    height: 440px;
+    padding: 10px 0 0 0;
     overflow: scroll;
     &::-webkit-scrollbar{
       display: none
@@ -52,8 +52,8 @@
   
   }
   .ShowPopup .add-Course .bodyCourse .rightCourse{
-    width: 320px;
-    height: 460px;
+    width: 360px;
+    height: 440px;
     overflow: scroll;
     padding-inline-end: 3px;
     padding-bottom: 10px;
@@ -495,6 +495,7 @@
     user-select: none;
     margin-top: 8px;
     outline: none;
+  
   }
   
 
@@ -627,4 +628,76 @@
 
 .delete-btn:hover i {
   color: rgba(255, 0, 0, 0.83);
+}
+
+
+
+.containerCheck input {
+  display: none;
+}
+
+.containerCheck {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  font-size: 20px;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.checkmark {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  background-color: #2196f300;
+  border-radius: 4px;
+  transition: all 0.25s;
+}
+
+.containerCheck input:checked~.checkmark {
+  background-color:var(--green1);;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  transform: rotate(0deg);
+  border: 0.4px solid black;
+  left: 0;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  transition: all 0.25s, border-width 0.1s;
+}
+
+.containerCheck input:checked~.checkmark:after {
+  left: 5.4px;
+  top: 3px;
+  width: 5px;
+  height: 9px;
+  border-color: rgba(255, 255, 255, 0) white white rgba(255, 255, 255, 0);
+  border-width: 0 0.15em 0.15em 0;
+  border-radius: 0em;
+  transform: rotate(45deg);
+}
+
+.labelChecked,
+.routePassword a {
+  font-weight: 16px;
+  font-weight: 400;
+  color: #1F2832;
+}
+.coursecustom{
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.5s ease, opacity 0.3s ease;
+
+}
+.coursecustom.show {
+  max-height: 300px; /* أو أي ارتفاع مناسب */
+  opacity: 1;
 }

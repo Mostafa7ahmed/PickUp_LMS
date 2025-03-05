@@ -9,8 +9,8 @@
             <span class="selected-value">{{ selectedItem?.name | splicText:10 }}</span>
         </div>
 
-        <div class="icon ">
-            <i class="fa-solid fa-chevron-down" [ngClass]="{ 'rotate': isOpen }"></i>
+        <div class="icon" [ngClass]="{ 'rotate': isOpen }">
+            <i class="fa-solid fa-chevron-down" ></i>
         </div>
     </button>
 

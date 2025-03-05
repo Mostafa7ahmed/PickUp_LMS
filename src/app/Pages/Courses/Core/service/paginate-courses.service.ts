@@ -19,7 +19,6 @@ export class PaginateCoursesService {
     topicId: number, 
     pageNumber: number = 1, 
     pageSize: number = 2,
-
     courseListViewType: number = 0, 
     from?: string, 
     to?: string, 

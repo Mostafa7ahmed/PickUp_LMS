@@ -16,7 +16,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     }
   ]
 })
-export class CustomSelectComponent implements ControlValueAccessor {
+export class CustomSelectComponent  {
   @Input() options: string[] = [];
   @Input() selectedValue: string = ''; 
   @Output() valueChange = new EventEmitter<string>();
@@ -24,19 +24,15 @@ export class CustomSelectComponent implements ControlValueAccessor {
   isSelected: boolean = false;
   isOpen = false;
 
-  private _value: string = ''; // Internal value synced with FormControl
+  private _value: string = ''; 
   private onChange: (value: string) => void = () => {};
   private onTouched: () => void = () => {};
   disabled = false;
 
-  // Getter for filtered options (excludes the currently selected value)
-  get filteredOptions(): string[] {
-    return this.options.filter(option => option !== this.value);
-  }
 
-  // Getter and Setter for value
+
   get value(): string {
-    return this._value || this.selectedValue; // Fallback to selectedValue if _value is empty
+    return this._value || this.selectedValue; 
   }
 
   set value(val: string) {
@@ -48,37 +44,19 @@ export class CustomSelectComponent implements ControlValueAccessor {
 
   constructor() {}
 
-  // Toggle dropdown visibility
   toggleSelect() {
     if (!this.disabled) {
       this.isOpen = !this.isOpen;
-      this.onTouched(); // Mark as touched when interacted with
+      this.onTouched();
     }
   }
 
-  // Handle option selection
   selectOption(value: string) {
     if (!this.disabled) {
-      this.value = value; // Update value using setter
+      this.value = value;
     }
 
   }
 
-  // ControlValueAccessor Methods
-  writeValue(value: string): void {
-    this._value = value || this.selectedValue; // Set value from FormControl or fallback to selectedValue
-    this.isSelected = !!this._value; // Update isSelected based on initial value
-  }
 
-  registerOnChange(fn: (value: string) => void): void {
-    this.onChange = fn; // Register change callback
-  }
-
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn; // Register touched callback
-  }
-
-  setDisabledState?(isDisabled: boolean): void {
-    this.disabled = isDisabled; // Handle disabled state
-  }
 }

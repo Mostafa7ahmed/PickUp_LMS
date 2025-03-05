@@ -36,9 +36,8 @@ export class AddCoursesComponent {
     topic: ['', Validators.required],
     stage: ['', Validators.required],
     courseLanguage: ['', Validators.required],
-    discountType: ['en', Validators.required], 
-
-    discountValue: [null],
+    discountType: ['0'], // Default is Value (EGP)
+    discountValue: ['', [Validators.required]],
     tags: [[]],
     customFields: this.fb.array([]) 
   });
@@ -62,7 +61,6 @@ export class AddCoursesComponent {
     }
   }
 
-  // Add control to FormArray with simpler structure
   addCustomFieldControl(key: string, value: string, checked: boolean) {
     console.log('Adding FormGroup for:', { key, value, checked });
     const customFields = this.courseForm.get('customFields') as FormArray;
@@ -75,7 +73,12 @@ export class AddCoursesComponent {
     );
   }
 
-  // Remove a custom field
+  isChecked: boolean = false;
+
+  toggleVisibility(event: Event) {
+    this.isChecked = (event.target as HTMLInputElement).checked;
+  }
+  
   removeField(index: number) {
     this.customFields.splice(index, 1); // Remove from UI array
     const customFields = this.courseForm.get('customFields') as FormArray;
@@ -161,6 +164,23 @@ export class AddCoursesComponent {
 
   onSelectChange(selectedValue: string) {
     console.log('Selected Option:', selectedValue);
+  }
+  discountSymbol: string = "EGP";
+  isPercentage: boolean = false;
+
+  onDiscountTypeChange(event: any) {
+    const selectedValue = event.target.value;
+    this.isPercentage = selectedValue === "1"; 
+    this.discountSymbol = this.isPercentage ? "%" : "EGP";
+  
+    // تحديث التحقق بناءً على النوع المختار
+    const discountValueControl = this.courseForm.get('discountValue');
+    if (this.isPercentage) {
+      discountValueControl?.setValidators([Validators.required, Validators.min(1), Validators.max(100)]);
+    } else {
+      discountValueControl?.setValidators([Validators.required]);
+    }
+    discountValueControl?.updateValueAndValidity();
   }
 
   onFileSelectedFile(event: any) {

@@ -37,7 +37,7 @@
                     <i class="fa-solid fa-exclamation"></i>
                   </div>
                 </div>
-                <app-custom-select formControlName="courseAccess" [options]="['Paid', 'Free', 'Subscription']"
+                <app-custom-select formControlName="courseAccess" [options]="['Paid', 'Free']"
                   [selectedValue]="'Paid'" (valueChange)="onSelectChange($event)">
                 </app-custom-select>
               </div>
@@ -88,17 +88,30 @@
         </div>
 
         <div class="couseContentAdd">
-          <app-text-header [bgColor]="'#FF6584BF'" [title]="'Discount'"></app-text-header>
-          <div class="courseStage courseTopic mt-3 d-flex gap-3 align-items-start">
+          <div class="d-flex justify-content-between align-items-center">
+
+            <app-text-header [bgColor]="'#FF6584BF'" [title]="'Discount'"></app-text-header>
+
+                <div class="d-flex gap-2 checkedCard">
+                  <label class="containerCheck">
+                      <input  type="checkbox" id="invalidCheck" (change)="isChecked = !isChecked">
+                      <div class="checkmark">
+                          
+                      </div>
+                  </label>
+              </div>
+          </div>
+          
+
+          <div class="coursecustom mt-3 d-flex gap-3 align-items-start" [class.show]="isChecked">
             <div class="leftStage w-50">
               <div class="titleAccess d-flex justify-content-between gap-2 align-items-center">
                 <p>Type</p>
               </div>
               <div class="custom-select">
-                <select formControlName="discountType">
-                  <option value="en" selected>En</option>
-                  <option value="ar">Ar</option>
-                  <option value="fr">Fr</option>
+                <select formControlName="discountType" (change)="onDiscountTypeChange($event)">
+                  <option value="1">Percentage</option>
+                  <option value="0">Value</option>
                 </select>
               </div>
             </div>
@@ -107,8 +120,8 @@
                 <div class="Course_name d-flex flex-column">
                   <p class="mb-2">Value</p>
                   <div class="input_Couser_container flex-grow-1">
-                    <input formControlName="discountValue" type="number" placeholder="Enter course Value">
-                    <span>EGP</span>
+                    <input formControlName="discountValue"    type="number" placeholder="Enter course Value">
+                    <span>{{discountSymbol }}</span>
                   </div>
                 </div>
               </div>
@@ -149,7 +162,7 @@
         <div class="UploadCover mt-2">
           <div class="upload-container">
             <label class="upload-box" (click)="triggerFileInput('file')">
-              <i class="fa-solid fa-paperclip mx-3"></i> Add File
+              <i class="fa-solid fa-paperclip mx-1"></i> Add File
             </label>
             <input type="file" multiple accept=".pdf, .doc, .docx, .xls, .xlsx, .txt" #fileInput 
               class="hidden-input" (change)="onFileSelectedFile($event)">
