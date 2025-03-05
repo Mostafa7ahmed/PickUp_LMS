@@ -16,7 +16,7 @@ interface DropdownItem {
 export class CustomslectwithiconComponent {
   @Input() items: any[] = [];
   @Input() selectedItem: any | null = null;
-  @Output() selectionChange = new EventEmitter<any>();
+  @Output() selectionChange = new EventEmitter<any>(); //
   isSelected: boolean = false;
 
   isOpen = false;

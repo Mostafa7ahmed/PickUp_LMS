@@ -18,10 +18,10 @@
     }
     visibility: hidden;
     opacity: 0 ;
-    transition: .5s opacity ease-in-out;
+    transition: .5s opacity ease-in-out , .5s margin ease-in-out;
     overflow: hidden;
     z-index: 800;
-  
+
   }
   .ShowPopup.showelement{
     opacity: 2;
@@ -340,23 +340,29 @@
 
 }
 .addTags input{
-  width: 70%;
-  padding: 5px 10px;
-  border: none;
+  width: 90%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  height: 30px;
   border-radius: 4px;
   outline: none;
   font-size: 14px;
-  border: 1px solid #ced4da;
   margin-right: 10px;
 }
+
 .addTags .add-item{
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  border: none;
+
+  background-color: #DFEFE0;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  padding:8px 6px;
-  border-radius: 4px;
-  background-color: #f8f9fa;
-  color: #333;
+  justify-content: center;
+  color: #24C12B;
 }
 ::ng-deep .ant-select:not(.ant-select-customize-input) .ant-select-selector {
   border-radius: 4px !important;
@@ -380,10 +386,7 @@
   border: .7px solid #24C12B;
   outline: 0;
 }
-::ng-deep  .ant-select-dropdown {
-  width: 70% !important;
 
-}
 ::ng-deep  .ant-select-item-empty{
   display: none !important;
 }
@@ -445,14 +448,14 @@
         width: 30px;
         height: 30px;
         border-radius: 4px;
-        border-width: 0.5px;
-        border: 0.5px solid #00000026;
-        background-color: transparent;
+        border: none;
+ 
+        background-color: #DFEFE0;
         cursor: pointer;
-        box-shadow: 0px 0px 4px 0px #00000012;
         display: flex;
         align-items: center;
         justify-content: center;
+        color: #24C12B;
   
         
       }
@@ -460,14 +463,15 @@
   
     .fields-list {
   
-      &::-webkit-scrollbar{
-        display: none;
-      }
+  
       &.active{
         border-radius: 5px;
         max-height: 100px;
-        overflow-y: auto;
+        overflow-y: scroll;
         padding: 10px;
+        &::-webkit-scrollbar{
+          display: none;
+        }
   
       }
       .field-item {
@@ -483,7 +487,7 @@
           border: 1px solid #ddd;
           border-radius: 5px;
           width: 45%;
-          height: 35px;
+          height: 30px;
           outline: none;
         }
   
@@ -505,7 +509,7 @@
           border: none;
           background: transparent;
           background-color: #fd000042;
-          padding: 1px 5px;
+          padding: 4px 8px;
           border-radius: 4px;
      
         }
@@ -724,7 +728,7 @@
   content: "";
   position: absolute;
   transform: rotate(0deg);
-  border: 0.4px solid black;
+  border: 1px solid #f0f0f0;
   left: 0;
   top: 0;
   width: 16px;
@@ -754,10 +758,14 @@
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  transition: max-height 0.5s ease, opacity 0.3s ease;
+  transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out , margin .5s ease-in-out;
+  margin-top: 0px;
 
 }
 .coursecustom.show {
   max-height: 300px; /* أو أي ارتفاع مناسب */
   opacity: 1;
+  margin-top: 8px;
+
 }
+

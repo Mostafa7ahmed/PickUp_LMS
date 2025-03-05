@@ -36,8 +36,25 @@ export class AddCoursesComponent {
   @Output() isAddPopupVisibleChange = new EventEmitter<boolean>();
   listOfTags = ['jack', 'lucy' ];
 
-  index = 0;
+  keyOptions: string[] = ['Option 1', 'Option 2', 'Option 3','Option 1', 'Option 2', 'Option 3','Option 1', 'Option 2', 'Option 3','Option 1', 'Option 2', 'Option 3'];  // قائمة الخيارات المتاحة
+  showDropdown = false;
+  filteredOptions: string[] = [...this.keyOptions]; 
 
+filterOptions(): void {
+  const query = this.newField.key.toLowerCase();
+  this.filteredOptions = this.keyOptions.filter(option => 
+    option.toLowerCase().includes(query)
+  );
+}
+
+selectKey(value: string): void {
+  this.newField.key = value;
+  this.showDropdown = false; 
+}
+
+hideDropdown(): void {
+  setTimeout(() => { this.showDropdown = false; }, 200); 
+}
 
   addTags(input: HTMLInputElement): void {
     const value = input.value.trim(); // إزالة المسافات الفارغة
