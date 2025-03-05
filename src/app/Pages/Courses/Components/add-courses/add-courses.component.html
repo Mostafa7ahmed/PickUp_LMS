@@ -46,7 +46,7 @@
               <div class="Course_name d-flex flex-column">
                 <p class="mb-2">Course price</p>
                 <div class="input_Couser_container flex-grow-1">
-                  <input formControlName="coursePrice" type="number" placeholder="Enter course price">
+                  <input formControlName="coursePrice" type="number" maxlength="200" placeholder="Enter course price">
                   <span>EGP</span>
                 </div>
               </div>
@@ -185,24 +185,43 @@
         <div class="CourseTags UploadCover mt-2">
           <div class="tags">
             <app-text-header pTooltip="Add Tags" tooltipPosition="top" [bgColor]="'#659DFFBF'"
-              [Icon]="'fa-solid fa-exclamation'" [title]="'Course custom Tags'"></app-text-header>
+              [Icon]="'fa-solid fa-exclamation'" [title]="'Course Tags'"></app-text-header>
             <div class="mt-3 tagsSelect">
-              <nz-select   nzMode="multiple"
-              nzShowSearch nzAllowClear [nzDropdownRender]="renderTemplate" nzPlaceHolder="custom dropdown render">
-                @for (item of listOfItem; track item) {
-                  <nz-option [nzLabel]="item" [nzValue]="item"></nz-option>
-                }
-              </nz-select>
-              <ng-template #renderTemplate>
-                <nz-divider></nz-divider>
-                <div class="container">
-                  <input type="text" nz-input #inputElement />
-                  <a class="add-item" (click)="addItem(inputElement)">
-                    <i class="fa-solid fa-plus"></i>
-                    Add item
+              <nz-select
+              nzMode="multiple"
+              nzShowSearch
+              [nzDropdownRender]="renderTemplate"
+              [nzMaxTagCount]="1"
+              [nzMaxTagPlaceholder]="tagPlaceHolder"
+              [nzDropdownMatchSelectWidth]="false"
+              nzPlaceHolder="Course tags"
+            >
+            @for (item of listOfTags; track item) {
+              <nz-option [nzLabel]="item" [nzValue]="item"></nz-option>
+
+            }
+            
+            
+            </nz-select>
+            
+            <!-- Placeholder when many tags are selected -->
+            <ng-template #tagPlaceHolder let-selectedList>
+              and {{ selectedList.length }} more selected
+            </ng-template>
+            
+            <ng-template #renderTemplate>
+              <div class="container addTags d-flex justify-content-between align-content-center p-2">
+                <input type="text" #inputElement />
+                <div class="">
+                  <a class="add-item" (click)="addTags(inputElement)">
+                    <i class="fa-solid fa-plus mx-2"></i>
+                    Add 
                   </a>
                 </div>
-              </ng-template>
+         
+              </div>
+            </ng-template>
+            
             </div>
           </div>
         </div>
@@ -220,11 +239,25 @@
               </button>
             </div>
         
-            <div class="fields-list" [ngClass]="{ 'active': customFields.length > 0 }">
+         
+          </div>
+        </div>
+
+        <div class="CourseTags UploadCover mt-2" *ngIf="customFields.length > 0" >
+          <div class="tags custom-fields-container">
+            <app-text-header pTooltip="Add Fields" tooltipPosition="top" [bgColor]="'#659DFFBF'"
+              [Icon]="'fa-solid fa-exclamation'" [title]="'Course custom Fields'"></app-text-header>
+        
+            <div class="fields-list mt-2" [ngClass]="{ 'active': customFields.length > 0 }">
               <div *ngFor="let field of customFields; let i = index" class="field-item">
                 <input type="text" [value]="field.key"  class="field-key" placeholder="Key">
                 <input type="text" [value]="field.value"   class="field-value" placeholder="Value">
-                <input type="checkbox" [value]="field.value"  class="checkbox">
+                <label class="containerCheck">
+                  <input  type="checkbox" id="invalidCheck" (change)="isChecked = !isChecked">
+                  <div class="checkmark">
+                      
+                  </div>
+              </label>          
                 <button (click)="removeField(i)" class="delete-btn" pTooltip="Delete Fields" tooltipPosition="top">
                   <i class="fa-regular fa-trash-can"></i>
                 </button>

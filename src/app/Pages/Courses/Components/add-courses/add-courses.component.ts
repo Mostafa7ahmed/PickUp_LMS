@@ -34,18 +34,17 @@ export class AddCoursesComponent {
   listOfTagOptions: string[] = [];
   showDescription: boolean = false;
   @Output() isAddPopupVisibleChange = new EventEmitter<boolean>();
-  listOfItem = ['jack', 'lucy'];
-  index = 0;
-  readonly listOfOption: Array<{ label: string; value: string }> = alphabet().map(item => ({
-    label: item,
-    value: item
-  }));
+  listOfTags = ['jack', 'lucy' ];
 
-  addItem(input: HTMLInputElement): void {
-    const value = input.value;
-    if (this.listOfItem.indexOf(value) === -1) {
-      this.listOfItem = [...this.listOfItem, input.value || `New item ${this.index++}`];
+  index = 0;
+
+
+  addTags(input: HTMLInputElement): void {
+    const value = input.value.trim(); // إزالة المسافات الفارغة
+    if (value && this.listOfTags.indexOf(value) === -1) {
+      this.listOfTags = [value, ...this.listOfTags]; // إضافة في البداية
     }
+    input.value = ''; // تفريغ الحقل بعد الإضافة
   }
 
   private fb = new FormBuilder();

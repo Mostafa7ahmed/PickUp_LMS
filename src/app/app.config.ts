@@ -25,7 +25,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(FormsModule),
     provideHttpClient(withFetch(), withInterceptors([headersInterceptor])),
     { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } },
-    provideAnimationsAsync(), // ✅ تم إصلاح الفاصلة
+    provideAnimationsAsync(), 
 
     providePrimeNG({ 
         theme: {
