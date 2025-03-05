@@ -26,11 +26,12 @@ import { TopPopComponent } from "../../../Components/top-pop/top-pop.component";
 
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { AddCoursesComponent } from "../Components/add-courses/add-courses.component";
+import { CustomslectwithiconComponent } from '../Components/customslectwithicon/customslectwithicon.component';
 
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, NzSelectModule, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, SplicTextPipe, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent, TopPopComponent, CustomSelectComponent, AddCoursesComponent],
+  imports: [CommonModule, NzSelectModule, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent, CustomslectwithiconComponent, AddCoursesComponent],
   providers: [
     { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } }
 
@@ -50,8 +51,31 @@ export class CoursesComponent implements OnInit {
 
 
 
+
   tableRecords: Record<string, any>[] = [];
-  rangeDates: Date[] = [];
+  rangeDates: Date[] | null = null;
+  convertDateRange() {
+    if (this.rangeDates?.length === 2 && this.rangeDates[0] && this.rangeDates[1]) {
+      const fromDate = this.formatDateToISO(this.rangeDates[0]);
+      const toDate = this.formatDateToISO(this.rangeDates[1]);
+  
+      console.log("📌 Formatted From:", fromDate);
+      console.log("📌 Formatted To:", toDate);
+  
+      // ✅ استدعاء API فقط عند توفر القيمتين
+      this.fetchCourses({}, this.selectedTopicId, this.valueTable, fromDate, toDate);
+    }
+  }
+  clearDateRange() {
+    this.rangeDates = null;  
+    this.fetchCourses({}, this.selectedTopicId, this.valueTable);
+
+    console.log("📌 تم مسح التواريخ");
+  }
+  formatDateToISO(date: Date | null): string {
+    if (!date) return '';
+    return date.toISOString();
+  }
 
 
   // End Call services
@@ -60,7 +84,7 @@ export class CoursesComponent implements OnInit {
   //~ values
   showInfo = false;
   collapsePagination = false;
-  selectedValue: string = 'Select Topic';
+  selectedValue: any ={};
   selectedFile!: File;
   valueTable: number = 0;
   topicsList: ITopiclist[] = [];
@@ -74,12 +98,7 @@ export class CoursesComponent implements OnInit {
 
   showLeftScroll = false;
   showRightScroll = true;
-  headers: TableHeader[] = [
-    { key: 'name', label: 'Name', type: 'string' },
-    { key: 'price', label: 'Price', type: 'number' },
-    { key: 'createdOn', label: 'Created On', type: 'date' },
 
-  ]
 
   @ViewChild(TableCoursesComponent) TableCourses!: TableCoursesComponent;
   isVisible = false;
@@ -88,11 +107,7 @@ export class CoursesComponent implements OnInit {
     
   }
   //^ Functions
-  toggleDropdown(): void {
-    this.isOpen = !this.isOpen;
-    console.log(this.rangeDates[0].getDate())
 
-  }
   changeTab(value: number): void {
     this.valueheader = value;
   }
@@ -105,7 +120,7 @@ export class CoursesComponent implements OnInit {
 
   }
   selectOption(option: any): void {
-    this.selectedValue = option.name;
+
 
     this.isOpen = false;
     console.log(option.id)
@@ -129,7 +144,7 @@ export class CoursesComponent implements OnInit {
       next: (topics) => {
         this.topicsList = topics.result;
         let defautlTopic = this.topicsList.filter((e: ITopiclist) => e.default)[0];
-        this.selectedValue = defautlTopic.name;
+        this.selectedValue = defautlTopic;
         this.selectedTopicId = defautlTopic.id;
         console.log(this.selectedTopicId)
         if (topics.success) {
@@ -142,11 +157,12 @@ export class CoursesComponent implements OnInit {
 
     })
   }
-  fetchCourses(eventData: { pageNumber?: number; pageSize?: number }, topicId: number, courseListViewType: number = 0): void {
+  fetchCourses(eventData: { pageNumber?: number; pageSize?: number }, topicId: number, courseListViewType: number = 0 ,  from?: string, 
+    to?: string): void {
     const { pageNumber = 1, pageSize = 5 } = eventData;
 
     this.isLoading = true;
-    this._PaginateCoursesService.getCourses(topicId, pageNumber, pageSize, courseListViewType).subscribe({
+    this._PaginateCoursesService.getCourses(topicId, pageNumber, pageSize, courseListViewType , from, to).subscribe({
       next: (response) => {
         console.log(response);
         this.paginationCoursesResponse = response;

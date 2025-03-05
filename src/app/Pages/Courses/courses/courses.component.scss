@@ -819,7 +819,20 @@
 
 }
 
-
+.clear{
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border-radius: 50%;
+  background: #fff;
+  border: .1px solid #7ad34c;
+  z-index: 777777777777;
+  color: #7ad34c;
+}
 
 .advanced-filter-container{
   border-radius: 6px;

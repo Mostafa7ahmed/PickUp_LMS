@@ -8,24 +8,13 @@
         </div>
         <div class="titleHeader">
           <h3 class="m-0">Courses List</h3>
-          <div class="custom-select">
-            <button class="select-button" type="button" (click)="toggleDropdown()" [attr.aria-expanded]="isOpen">
-              <span class="selected-value">{{ selectedValue | splicText:15}}</span>
-              <span class="arrow" [ngClass]="{ open: isOpen }"></span>
-            </button>
-            <ul class="select-dropdown" [ngClass]="{ hidden: isOpen }">
-              <li *ngFor="let option of topicsList ; let i = index" (click)="selectOption(option)">
-                <div class="d-flex justify-content-between align-items-center ">
-                  <p class="m-0">{{ option.name }}</p>
-                  <div class="Icon p-2 rounded-1" [ngClass]="option.color">
-                    <i class="fas {{ option.icon }}" aria-hidden="true"></i>
-                  </div>
-
-
-                </div>
-              </li>
-            </ul>
-          </div>
+ 
+          <app-customslectwithicon
+          [items]="topicsList"
+          [selectedItem]="selectedValue"
+          (selectionChange)="selectOption($event)">
+           </app-customslectwithicon>
+   
 
         </div>
       </div>
@@ -103,9 +92,19 @@
                   <i class="icon-grey fa-kit fa-calendar" id="stage-drop-down-icon-i-0"></i>
                 </div>
                 <p class="m-0">Creation Date</p>
-                <p-datepicker class="icon-only position-relative" [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" />
-
-              </div>
+                  <p-datepicker class="icon-only position-relative"
+                  [(ngModel)]="rangeDates"
+                  selectionMode="range"
+                  [readonlyInput]="true"
+                  dateFormat="dd-mm-yyyy"
+                  (onSelect)="convertDateRange()">
+                </p-datepicker>
+                <div class="clear" *ngIf="rangeDates?.length" (click)="clearDateRange()">
+                  <i  class="fa fa-close close-icon" 
+                   aria-hidden="true"></i>         
+                </div>
+       
+                   </div>
 
               <div class="CreationDate">
                 <div class="icon" >
