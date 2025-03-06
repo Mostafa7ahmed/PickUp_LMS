@@ -16,49 +16,61 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     }
   ]
 })
-export class CustomSelectComponent  {
+export class CustomSelectComponent implements ControlValueAccessor {
   @Input() options: string[] = [];
   @Input() selectedValue: string = ''; 
   @Output() valueChange = new EventEmitter<string>();
-  @Input()  isTopic: boolean = false;
+  @Input() isTopic: boolean = false;
   @Input() iStage: boolean = false;
 
   isSelected: boolean = false;
   isOpen = false;
-
+  disabled = false;
   private _value: string = ''; 
+
   private onChange: (value: string) => void = () => {};
   private onTouched: () => void = () => {};
-  disabled = false;
-
-
 
   get value(): string {
     return this._value || this.selectedValue; 
   }
 
   set value(val: string) {
-    this._value = val;
-    this.onChange(val); 
-    this.valueChange.emit(val);
-    this.isSelected = !!val;
+    if (val !== this._value) {
+      this._value = val;
+      this.onChange(val); 
+      this.valueChange.emit(val);
+      this.isSelected = !!val;
+    }
   }
 
   constructor() {}
 
   toggleSelect() {
-    if (!this.disabled) {
-      this.isOpen = !this.isOpen;
-      this.onTouched();
-    }
+    if (this.disabled) return;
+    this.isOpen = !this.isOpen;
+    this.onTouched();
   }
 
   selectOption(value: string) {
-    if (!this.disabled) {
-      this.value = value;
-    }
-
+    if (this.disabled) return;
+    this.value = value;
   }
 
+  /** Implementing ControlValueAccessor methods */
+  writeValue(value: string): void {
+    this.value = value;
+  }
 
+  registerOnChange(fn: (value: string) => void): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
 }

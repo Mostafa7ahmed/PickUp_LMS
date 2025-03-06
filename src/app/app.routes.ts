@@ -12,6 +12,8 @@ import { RoutesinstructorComponent } from './Layout/Instructor/routesinstructor/
 import { TopicComponent } from './Pages/topic/topic.component';
 import { CoursesComponent } from './Pages/Courses/courses/courses.component';
 import { TopicsComponent } from './Pages/Topics/topics/topics.component';
+import { AddTopicComponent } from './Pages/Topics/Components/add-topic/add-topic.component';
+import { AddTopicService } from './Pages/topic/Core/Service/add-topic.service';
 
 export const routes: Routes = [
     //  Auth Router
@@ -54,8 +56,8 @@ export const routes: Routes = [
             { path: "porfile", title:"porfile",component: PorfileComponent },
             { path: "course", title:"Course",component: CoursesComponent },
             { path: "topics", title:"topic",component: TopicsComponent },
+            { path: 'new-project', component: AddTopicService, outlet: 'popup' } ,
 
-            { path: "topic", title:"topic",component: TopicComponent },
             { path: "**", title:"notFound",component: HomeinstructorComponent },
 
 

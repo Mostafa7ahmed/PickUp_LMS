@@ -32,8 +32,8 @@
                     </defs>
                 </svg></div>
         </div>
-        <button>
-            <div class="icon">
+        <button  (click)="openPopup()" >
+            <div class="icon" >
                 <i class="fa-solid fa-plus"></i>
 
             </div>
@@ -41,27 +41,16 @@
         </button>
     </div>
 
+    <router-outlet name="popup"></router-outlet>
+
 
     <div class="Boardstages">
-        <div class="stage">
-            <div class="topStage">
-                <div class="project-head">
-                    <div class="drag ng-star-inserted">
-                        <i class="fa-kit-duotone fa-move-fields"></i>
-                    </div>
-                    <div class="project-name">
-                        <span class="color-indicator">
-                        <i class="fas  fa-user " aria-hidden="true"></i>
-                       </span>
-        
-                        <h1>bbbb</h1>
-                    </div>
-                    </div>
+        <app-all-topic></app-all-topic>
+   
 
-             </div>
 
-        </div>
     </div>
-    
-    
-</div>
+
+
+
+

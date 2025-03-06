@@ -23,7 +23,7 @@
                 <td>
                   <div class="course-name">
                     <div class="circle p-3"></div>
-                    <p class="m-0" [matTooltip]="course.name" > {{course.name | splicText : 15}}</p>
+                    <p class="m-0" [matTooltip]="course.name" > {{course.name | splicText }}</p>
 
                   </div>
                 </td>
@@ -34,11 +34,18 @@
                 <td>{{course.rating  }} ⭐</td>
                 <td>{{course.quizzesCount }}</td>
                 <td>{{course.lessonssCount }}</td>
-                <td [matTooltip]="course.stage.name">  {{course.stage.name| splicText : 15}}</td>
-                <td [matTooltip]="course.name">{{ course.name  | splicText : 15 }}</td>
+                <td [matTooltip]="course.stage.name">  {{course.stage.name| splicText }}</td>
+                <td [matTooltip]="course.name">{{ course.name  | splicText  }}</td>
 
                 <td>{{ course.profit  }}</td>
-                <td>{{ course.discount?.amount ?? '--' }}</td>
+                    @if(course.discount){
+                      <td>{{ course.discount.amount  }}</td>
+
+                    } 
+                    @else{
+                      <td>--</td>
+                    }
+             
                 <td>{{ course.createdOn | date }}</td>
               </tr>
         }

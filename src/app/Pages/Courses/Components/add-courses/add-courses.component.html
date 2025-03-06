@@ -169,7 +169,7 @@
             <div class="file-list" *ngIf="selectedFiles.length > 0">
               <div class="file-item" *ngFor="let file of selectedFiles; let i = index">
                 <i class="fa-solid fa-file"></i>
-                <span class="file-name">{{ file.name | splicText : 10 }}</span>
+                <span class="file-name">{{ file.name | splicText }}</span>
                 <span class="file-size">{{ getFileSize(file.size) }}</span>
                 <a [href]="getFileUrl(file)" download class="download-btn">
                   <i class="fa-solid fa-download"></i>
@@ -184,7 +184,7 @@
 
         <div class="CourseTags UploadCover mt-2">
           <div class="tags">
-            <app-text-header pTooltip="Add Tags" tooltipPosition="top" [bgColor]="'#659DFFBF'"
+            <app-text-header   [bgColor]="'#659DFFBF'"
               [Icon]="'fa-solid fa-exclamation'" [title]="'Course Tags'"></app-text-header>
             <div class="mt-3 tagsSelect">
               <nz-select
@@ -227,7 +227,7 @@
 
         <div class="CourseTags UploadCover mt-2">
           <div class="tags custom-fields-container">
-            <app-text-header pTooltip="Add Fields" tooltipPosition="top" [bgColor]="'#659DFFBF'"
+            <app-text-header  [bgColor]="'#659DFFBF'"
               [Icon]="'fa-solid fa-exclamation'" [title]="'Course custom Fields'"></app-text-header>
         
             <div class="input-row mt-4">

@@ -1,0 +1,130 @@
+.stages {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 0px 22px;
+    margin-bottom: 15px !important;
+  
+    .stage {
+      min-width: 175px;
+      height: 65px;
+      border-radius: 8px;
+      border: .75px solid rgba(246, 246, 246, .9);
+      background: #fff;
+      box-shadow: 0 0 6px #606c801f;
+      padding: 6px 0 6px 8px;
+      position: relative;
+      z-index: 1000;
+      display: flex;
+      border: 1px solid #D7D7D74D;
+      box-shadow: 0px 0px 2px 1px #f8b6021a;
+  
+      flex-direction: column;
+      gap: 4px;
+  
+    }
+  
+    .stageName {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+  
+      h4 {
+        color: #79877E;
+        font-size: 13px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 17.172px;
+        font-family: Itim;
+  
+  
+      }
+    }
+  
+    .progressBar {
+      width: 13.623372845153039px;
+      height: 13.623372845153039px;
+      border-radius: 50%;
+      background: #fff;
+      border: 4px solid #f8b602;
+    }
+  
+    .pirceStage {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0 10px;
+    }
+  
+    .text-2 {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      height: 20px;
+      margin-top: 8px;
+      padding: 0 8px;
+      border-radius: 4px;
+      background-color: #3e97ff1a;
+      width: fit-content;
+  
+      .price {
+        font-family: var(--font-family-2) !important;
+        font-size: 13px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 15.909px;
+        margin-inline-end: 4px;
+        margin-bottom: 0;
+      }
+  
+      span {
+        font-family: Itim;
+        font-size: 13px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 15.909px;
+      }
+    }
+  
+  
+  
+  
+    .leftCircle {
+      content: "";
+      position: absolute;
+      background-color: #f5cc6ddf;
+      border-radius: 50px;
+      width: 7px;
+      height: 7px;
+      top: 50%;
+      left: 0px;
+      transform: translate(-50%, 0);
+  
+      z-index: 1000;
+  
+    }
+  
+    .rightCircle {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      background-color: #f5cc6ddf;
+      border-radius: 50px;
+      top: 50%;
+      right: -7px;
+      transform: translate(-50%);
+      z-index: 1000;
+    }
+  
+    .lineContactWithStages {
+      width: 50px;
+      height: 1px;
+      background-color: #e5e5e5;
+      position: absolute;
+      top: 56%;
+      right: -50px;
+    }
+  }

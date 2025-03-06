@@ -6,7 +6,7 @@
                 <i class="fas {{ selectedItem?.icon }}" aria-hidden="true"></i>
             </span>
 
-            <span class="selected-value">{{ selectedItem?.name | splicText:10 }}</span>
+            <span class="selected-value">{{ selectedItem?.name | splicText  }}</span>
         </div>
 
         <div class="icon" [ngClass]="{ 'rotate': isOpen }">

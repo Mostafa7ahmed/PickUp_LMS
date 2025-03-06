@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, input } from '@angular/core';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-text-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TooltipModule],
   templateUrl: './text-header.component.html',
   styleUrl: './text-header.component.scss'
 })

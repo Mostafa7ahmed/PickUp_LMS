@@ -17,14 +17,6 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 export class SidebarfixedComponent {
 
 
-  ListSidebarClose = [
-    { icon: 'fa-solid fa-money-bill-transfer', routes: [{ name: 'Topic List', link: '/topic' }, { name: 'Home', link: '/homeInstructor' }] },
-    { icon: 'fa-solid fa-chalkboard-user', routes: [{ name: 'Topic List', link: '/topic' }, { name: 'Home', link: '/homeInstructor' }] },
-    { icon: 'fa-solid fa-user-check', routes: [{ name: 'Topic List', link: '/topic' }, { name: 'Home', link: '/homeInstructor' }] },
-    { icon: 'fa-regular fa-bell', routes: [{ name: 'Topic List', link: '/topic' }, { name: 'Home', link: '/homeInstructor' }] },
-    { icon: 'fa-regular fa-bell', routes: [{ name: 'Topic List', link: '/topic' }, { name: 'Setting', link: '/homeInstructor' }] },
-
-  ];
   activeIndex: number | null = null;
 
   togglesidebarCollaped(index: number) {
