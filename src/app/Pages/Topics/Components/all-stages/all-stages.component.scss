@@ -8,7 +8,8 @@
     -ms-overflow-style: none;
     padding: 0px 22px;
     margin-bottom: 15px !important;
-  
+    z-index: 0 !important;
+
     .stage {
       min-width: 175px;
       height: 65px;
@@ -25,6 +26,7 @@
   
       flex-direction: column;
       gap: 4px;
+      z-index: 0 !important;
   
     }
   
