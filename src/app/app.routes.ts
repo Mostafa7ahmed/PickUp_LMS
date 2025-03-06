@@ -11,6 +11,7 @@ import { notloginguardsGuard } from './Core/Guards/notloginguards.guard';
 import { RoutesinstructorComponent } from './Layout/Instructor/routesinstructor/routesinstructor.component';
 import { TopicComponent } from './Pages/topic/topic.component';
 import { CoursesComponent } from './Pages/Courses/courses/courses.component';
+import { TopicsComponent } from './Pages/Topics/topics/topics.component';
 
 export const routes: Routes = [
     //  Auth Router
@@ -52,6 +53,7 @@ export const routes: Routes = [
             { path: "homeInstructor", title:"Home Instrctor",component: HomeinstructorComponent},
             { path: "porfile", title:"porfile",component: PorfileComponent },
             { path: "course", title:"Course",component: CoursesComponent },
+            { path: "topics", title:"topic",component: TopicsComponent },
 
             { path: "topic", title:"topic",component: TopicComponent },
             { path: "**", title:"notFound",component: HomeinstructorComponent },

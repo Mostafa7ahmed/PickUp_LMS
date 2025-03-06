@@ -769,3 +769,13 @@
 
 }
 
+.tagsSelect {
+  position: relative;
+}
+
+.nz-select-dropdown {
+  position: absolute !important;
+  top: 100% !important; /* يجعلها تظهر تحت الـ select */
+  left: 0 !important;
+  width: 100% !important;
+}

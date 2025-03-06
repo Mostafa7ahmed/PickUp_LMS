@@ -37,24 +37,7 @@ export class AddCoursesComponent {
   listOfTags = ['jack', 'lucy' ];
 
   keyOptions: string[] = ['Option 1', 'Option 2', 'Option 3','Option 1', 'Option 2', 'Option 3','Option 1', 'Option 2', 'Option 3','Option 1', 'Option 2', 'Option 3'];  // قائمة الخيارات المتاحة
-  showDropdown = false;
-  filteredOptions: string[] = [...this.keyOptions]; 
-
-filterOptions(): void {
-  const query = this.newField.key.toLowerCase();
-  this.filteredOptions = this.keyOptions.filter(option => 
-    option.toLowerCase().includes(query)
-  );
-}
-
-selectKey(value: string): void {
-  this.newField.key = value;
-  this.showDropdown = false; 
-}
-
-hideDropdown(): void {
-  setTimeout(() => { this.showDropdown = false; }, 200); 
-}
+  
 
   addTags(input: HTMLInputElement): void {
     const value = input.value.trim(); // إزالة المسافات الفارغة
@@ -210,15 +193,7 @@ hideDropdown(): void {
     const selectedValue = event.target.value;
     this.isPercentage = selectedValue === "1"; 
     this.discountSymbol = this.isPercentage ? "%" : "EGP";
-  
-    // تحديث التحقق بناءً على النوع المختار
-    const discountValueControl = this.courseForm.get('discountValue');
-    if (this.isPercentage) {
-      discountValueControl?.setValidators([Validators.required, Validators.min(1), Validators.max(100)]);
-    } else {
-      discountValueControl?.setValidators([Validators.required]);
-    }
-    discountValueControl?.updateValueAndValidity();
+
   }
 
   onFileSelectedFile(event: any) {

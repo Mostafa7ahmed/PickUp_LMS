@@ -62,7 +62,7 @@ export class SidebarfixedComponent {
       name: 'Courses',  
       Icon: 'fa-solid fa-chalkboard-user', 
       list: ["Board", "course List", "Dashboard"], 
-      routes: ["topic", "course", "dashboard"]
+      routes: ["topic", "course", "topics"]
     }
     ,
     { 
