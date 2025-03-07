@@ -1,7 +1,84 @@
-<div class="popup-overlay">
-  <div class="popup">
-    <h2>إضافة عنصر جديد</h2>
-    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellendus officiis quod accusamus distinctio suscipit dolorum nemo enim, pariatur quam, a eveniet rerum, ut quae illo nisi libero quas at atque.  
-    <button (click)="closePopup()">إغلاق</button>
+<div class="overlay"></div>
+<div class="addTopic">
+  <app-top-pop [NamePopup]="'Add Topic'" (isVisibleChange)="closePopup()"></app-top-pop>
+  <div class="bodyAdd d-flex">
+    <div class="leftBody">
+      <div class="headerBody">
+        <h5>Create Your Topic Now</h5>
+        <p>Have more control with different Topic to easily manage</p>
+      </div>
+      <div class="line"></div>
+
+
+      <div class="formBody">
+        <div class="formGroupInput">
+          <label>Project Name</label>
+          <div class="input-info-group mb-2">
+            <input maxlength="50" type="text" pinputtext="" class="p-inputtext" />
+            <div class="dropdownColor">
+              <div class="btn dropdownColor-toggle">
+                <div class="squareSelected" style="background-color: rgb(242, 202, 138)"></div>
+                <i class="fa-solid fa-chevron-down"></i>
+              </div>
+            </div>
+          </div>
+          <label>Project Description</label>
+          <div class="board-group  mb-2">
+            <textarea rows="2" cols="30" pinputtextarea="" maxlength="500"
+              class="p-inputtextarea p-inputtext p-component p-element ng-valid ng-touched ng-dirty p-filled"
+              spellcheck="false" style="
+                position: relative;
+                background: none !important;
+                line-height: 20px;
+              "></textarea>
+          </div>
+          <div class="SelectTopic d-flex gap-3 align-items-start">
+            <div class="customSelect">
+              <app-custom-select [options]="['C#', 'C++' , 'java' , 'python' , 'python']" [selectedValue]="'#'"
+                [isTopic]="true">
+              </app-custom-select>
+            </div>
+
+
+
+            <div class="d-flex gap-2 align-items-center checkedCard">
+              <label class="labelChecked mb-0" for="invalidCheck">Main</label>
+
+              <label class="containerCheck mb-0">
+                <input type="checkbox" id="invalidCheck" formControlName="isMain">
+                <div class="checkmark"></div>
+              </label>
+            </div>
+
+          </div>
+
+
+
+        </div>
+      </div>
+
+    
+    </div>
+    <div class="rightBody">
+      <div class="imagePosition">
+        <img src="Images/2f4af133-fd73-422b-88aa-6fbc53354691.png" alt="">
+      </div>
+    </div>
   </div>
+
+  <footer>
+    <div class="footer-info ng-star-inserted">
+      <div class="progress">
+        <div class="first"></div>
+        <div class="second"></div>
+      </div>
+      <div class="step">
+        <p>Step <span>2/1</span></p>
+        <h3>Project Details</h3>
+      </div>
+    </div>
+    
+    <div class="board-footer-btn">
+      <button      class="p-element ng-star-inserted">    Next Step</button></div>
+  </footer>
 </div>

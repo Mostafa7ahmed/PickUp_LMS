@@ -9,11 +9,9 @@ import { HomeinstructorComponent } from './Pages/Instructor/homeinstructor/homei
 import { isloginguardsGuard } from './Core/Guards/isloginguards.guard';
 import { notloginguardsGuard } from './Core/Guards/notloginguards.guard';
 import { RoutesinstructorComponent } from './Layout/Instructor/routesinstructor/routesinstructor.component';
-import { TopicComponent } from './Pages/topic/topic.component';
 import { CoursesComponent } from './Pages/Courses/courses/courses.component';
 import { TopicsComponent } from './Pages/Topics/topics/topics.component';
 import { AddTopicComponent } from './Pages/Topics/Components/add-topic/add-topic.component';
-import { AddTopicService } from './Pages/topic/Core/Service/add-topic.service';
 
 export const routes: Routes = [
     //  Auth Router
@@ -56,7 +54,13 @@ export const routes: Routes = [
             { path: "porfile", title:"porfile",component: PorfileComponent },
             { path: "course", title:"Course",component: CoursesComponent },
             { path: "topics", title:"topic",component: TopicsComponent },
-            { path: 'new-project', component: AddTopicService, outlet: 'popup' } ,
+            { path: 'new-project', component: AddTopicComponent, outlet: 'popup' } ,
+            {
+
+                path: 'addTopic',   outlet: 'dialog',
+                component: AddTopicComponent
+            },
+            
 
             { path: "**", title:"notFound",component: HomeinstructorComponent },
 

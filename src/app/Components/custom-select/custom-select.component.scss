@@ -17,7 +17,6 @@
     border-radius: 5px;
     padding: 4px 8px;
     cursor: pointer;
-    margin-top: 8px;
   
     .selectOptionValue {
       display: flex;
@@ -45,12 +44,10 @@
       border: 1px solid var(--Gray-200, #EAECF0);
       box-shadow: 0 20px 24px -4px #00000014, 0 8px 8px -4px #00000008;      display: none;
       z-index: 100;
-      max-height: 120px;
-        overflow-y: auto;
-      &::-webkit-scrollbar{
-        display: none;
-      }
-  
+      height: 120px;
+      overflow: scroll;
+      scrollbar-width: none;
+      scroll-snap-type: none;
       div {
         padding: 8px;
         cursor: pointer;
