@@ -392,12 +392,19 @@ footer {
 
 
     }
+    &:disabled{
+      opacity: .5;
+      background: #3e97ff1a;
+      color: #48b299b3;
+
+      cursor: not-allowed !important;
+    }
   }
 
   .stages {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 0px;
     height: 195px;
     width: 360px;
     overflow-y: auto;
@@ -490,7 +497,7 @@ footer {
 
 
 .packageColor{
-  width: 254px;
+  width: 200px;
   background-color: #fff;
   border-radius: 6px;
   display: flex;
@@ -498,13 +505,36 @@ footer {
   position: absolute;
   z-index: 200;
   padding: 8px;
-  gap: 8px;
+  gap: 9px;
   border: 0.5px solid rgba(131, 137, 159, 0.3);
   top: 99%;
   left: 21px;
+  .colorBox{
+    padding: .7rem !important;
+  }
 }
 
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid white;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  margin-right: 8px;
+}
 
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* تعطيل الزر أثناء التحميل */
+.disabled {
+  pointer-events: none;
+  opacity: 0.7;
+}
 
 
 @keyframes grow {

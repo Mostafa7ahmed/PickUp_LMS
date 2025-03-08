@@ -18,6 +18,10 @@
     transition: all 0.3s ease;
     border: .75px solid rgba(211, 214, 220, 0.326) !important;
     height: 34px;
+    &:disabled{
+      cursor: not-allowed !important;
+      background: #f2f2f2a8 !important;
+    }
 
   }
   

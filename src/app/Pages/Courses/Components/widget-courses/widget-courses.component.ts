@@ -73,7 +73,7 @@ export class WidgetCoursesComponent implements OnInit {
 
   
   getwidgets(){
-    this.subscription =  this.subscription = this._GetWidgetsService.getWidgets().subscribe({
+    this.subscription = this._GetWidgetsService.getWidgets().subscribe({
       next: (response) => {
         console.log("API Response:", response);
         this.dataWidgets = response.result;

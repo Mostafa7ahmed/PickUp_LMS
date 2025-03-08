@@ -1,9 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { AllStagesComponent } from "../all-stages/all-stages.component";
 import { PaginateTopicService } from '../../Service/paginate-topic.service';
 import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose';
 import { TopicResult } from '../../Core/Interface/itopic';
 import { CommonModule, DatePipe } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-all-topic',
@@ -12,8 +13,9 @@ import { CommonModule, DatePipe } from '@angular/common';
   templateUrl: './all-topic.component.html',
   styleUrl: './all-topic.component.scss'
 })
-export class AllTopicComponent  implements OnInit {
+export class AllTopicComponent  implements OnInit , OnDestroy {
 
+  private subscription: Subscription = new Subscription();
 
   //Values 
   isShown: boolean = false;
@@ -41,7 +43,7 @@ export class AllTopicComponent  implements OnInit {
 
 
   ngOnInit(): void {
-    this.allStages.getTopics().subscribe({
+    this.subscription= this.allStages.getTopics().subscribe({
       next: (res) => {
         this.paginationTpoicsResponse = res;
         console.log('All Topics', this.paginationTpoicsResponse);
@@ -50,5 +52,9 @@ export class AllTopicComponent  implements OnInit {
         console.error('Error fetching topics', error);
       }
     })
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

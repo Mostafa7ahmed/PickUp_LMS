@@ -18,6 +18,8 @@ export class CustomslectwithiconComponent {
   @Input() selectedItem: any | null = null;
   @Output() selectionChange = new EventEmitter<any>(); //
   @Input() isSelected: boolean = false;
+  @Input() disabled: boolean = false;
+
 
   isOpen = false;
   isValidColor(color: string | undefined | null): boolean {
