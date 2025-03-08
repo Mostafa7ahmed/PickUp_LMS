@@ -8,7 +8,7 @@ import { AddStagesComponent } from '../../topic/Components/add-stages/add-stages
 @Component({
   selector: 'app-topics',
   standalone: true,
-  imports: [AllTopicComponent, CommonModule, RouterOutlet, RouterModule], 
+  imports: [AllTopicComponent, CommonModule, RouterModule], 
   templateUrl: './topics.component.html',
   styleUrl: './topics.component.scss'
 })

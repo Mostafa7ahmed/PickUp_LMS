@@ -12,6 +12,7 @@ import { RoutesinstructorComponent } from './Layout/Instructor/routesinstructor/
 import { CoursesComponent } from './Pages/Courses/courses/courses.component';
 import { TopicsComponent } from './Pages/Topics/topics/topics.component';
 import { AddTopicComponent } from './Pages/Topics/Components/add-topic/add-topic.component';
+import { TopicComponent } from './Pages/topic/topic.component';
 
 export const routes: Routes = [
     //  Auth Router
@@ -60,7 +61,8 @@ export const routes: Routes = [
                 path: 'addTopic',   outlet: 'dialog',
                 component: AddTopicComponent
             },
-            
+            { path: "topicod", title:"topic",component: TopicComponent },
+
 
             { path: "**", title:"notFound",component: HomeinstructorComponent },
 

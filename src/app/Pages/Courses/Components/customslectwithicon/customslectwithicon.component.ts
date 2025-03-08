@@ -17,7 +17,7 @@ export class CustomslectwithiconComponent {
   @Input() items: any[] = [];
   @Input() selectedItem: any | null = null;
   @Output() selectionChange = new EventEmitter<any>(); //
-  isSelected: boolean = false;
+  @Input() isSelected: boolean = false;
 
   isOpen = false;
   isValidColor(color: string | undefined | null): boolean {

@@ -1,5 +1,4 @@
-
-.icon{
+.icon {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -11,55 +10,78 @@
     position: absolute;
     top: 7px;
     right: 9px;
-    transition:  0.2s  background-color ease-in-out;
+    transition: 0.2s background-color ease-in-out;
     z-index: 778855;
     cursor: pointer;
     overflow: hidden;
 }
-.icon i{
+
+.icon i {
     color: var(--white);
     font-size: 17x;
-    transition:  0.2s  color ease-in-out;
+    transition: 0.2s color ease-in-out;
 
 
 }
-.icon:hover{
+
+.icon:hover {
     background-color: var(--bg-red) !important;
-    transition:  0.2s  background-color ease-in-out;
+    transition: 0.2s background-color ease-in-out;
 }
-.icon:hover i{
+
+.icon:hover i {
     color: var(--red-icon-hover) !important;
-    transition:  0.2s  all ease-in-out;
+    transition: 0.2s all ease-in-out;
 
 }
 
 
-::ng-deep  .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+
+::ng-deep .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
 
     border-color: var(--green2) !important;
-  }
+}
 
-  ::ng-deep  .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+::ng-deep .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
     border-color: var(--green2) !important;
     box-shadow: 0 0 0 2px var(--color_border);
     outline: 0;
-  }
+}
 
 
-  ::ng-deep  .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-    color:  var(--green2) !important;
+::ng-deep .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: var(--green2) !important;
     text-shadow: 0 0 .25px currentcolor;
 }
 
 
-::ng-deep  .ant-tabs-tab:hover {
-    color:  var(--green2) !important;
+::ng-deep .ant-tabs-tab:hover {
+    color: var(--green2) !important;
 }
-::ng-deep   .ant-tabs-ink-bar {
+
+::ng-deep .ant-tabs-ink-bar {
     position: absolute;
     background: var(--green2) !important;
     pointer-events: none;
 }
-::ng-deep  .ant-tabs-tab-btn:focus, .ant-tabs-tab-remove:focus, .ant-tabs-tab-btn:active, .ant-tabs-tab-remove:active {
-    color:  var(--green2) !important;
+
+::ng-deep .ant-tabs-tab-btn:focus,
+.ant-tabs-tab-remove:focus,
+.ant-tabs-tab-btn:active,
+.ant-tabs-tab-remove:active {
+    color: var(--green2) !important;
+}
+
+
+::ng-deep .ant-tabs-content-holder {
+    height: 120px !important;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+::ng-deep .ant-tabs-content-holder::-webkit-scrollbar-button {
+    display: none;
+}
+.Colors{
+    cursor: pointer;
 }

@@ -18,6 +18,7 @@ import { IPaginationResponse, IResponseOf } from '../../../Core/Shared/Interface
 import { SplicTextPipe } from '../Core/Pipes/splic-text.pipe';
 import { CardkanbanStageComponent } from '../Components/cardkanban-stage/cardkanban-stage.component';
 import { KanbanService } from '../Core/service/kanban.service';
+
 import { ICourseKanban, IKanbanResponse, ITopicKanbaResult } from '../Core/interface/ikanban-response';
 import { MovecourseService } from '../Core/service/movecourse.service';
 import { FormsModule } from '@angular/forms';

@@ -1,6 +1,9 @@
 <div class="overlay"></div>
 <div class="addTopic">
-  <app-top-pop [NamePopup]="'Add Topic'" (isVisibleChange)="closePopup()"></app-top-pop>
+  <app-top-pop
+    [NamePopup]="'Add Topic'"
+    (isVisibleChange)="closePopup()"
+  ></app-top-pop>
   <div class="bodyAdd d-flex">
     <div class="leftBody">
       <div class="headerBody">
@@ -9,59 +12,173 @@
       </div>
       <div class="line"></div>
 
-
-      <div class="formBody">
+      <div class="formBody" *ngIf="isnext">
         <div class="formGroupInput">
-          <label>Project Name</label>
+          <label>Topic Name</label>
           <div class="input-info-group mb-2">
-            <input maxlength="50" type="text" pinputtext="" class="p-inputtext" />
+            <input
+              maxlength="50"
+              type="text"
+              pinputtext=""
+              class="p-inputtext"
+            />
             <div class="dropdownColor">
-              <div class="btn dropdownColor-toggle">
-                <div class="squareSelected" style="background-color: rgb(242, 202, 138)"></div>
+              <div class="btn dropdownColor-toggle" (click)="showTab()">
+                <div
+                  class="squareSelected"
+                  [ngStyle]="{ 'background-color': colorDefault }"
+                >
+                  <i [class]="currentIcon"></i>
+                </div>
                 <i class="fa-solid fa-chevron-down"></i>
               </div>
             </div>
+            <div class="cardTabs" [class.showTabs]="ishowTab">
+              <!-- Use Select Icon Copompot here -->
+
+              <app-select-icon
+                [Icons]="icons"
+                [colors]="colors"
+                (iconSelected)="handleIconSelected($event)"
+                (colorSelected)="handleColorSelected($event)"
+                (closeModal)="showTab()"
+              >
+              </app-select-icon>
+            </div>
           </div>
-          <label>Project Description</label>
-          <div class="board-group  mb-2">
-            <textarea rows="2" cols="30" pinputtextarea="" maxlength="500"
+          <label>Topic Description</label>
+          <div class="board-group mb-2">
+            <textarea
+              rows="2"
+              cols="30"
+              pinputtextarea=""
+              maxlength="500"
               class="p-inputtextarea p-inputtext p-component p-element ng-valid ng-touched ng-dirty p-filled"
-              spellcheck="false" style="
+              spellcheck="false"
+              style="
                 position: relative;
                 background: none !important;
                 line-height: 20px;
-              "></textarea>
+              "
+            ></textarea>
           </div>
-          <div class="SelectTopic d-flex gap-3 align-items-start">
+          <div
+            class="SelectTopic d-flex gap-3 align-items-start justify-content-between"
+          >
             <div class="customSelect">
-              <app-custom-select [options]="['C#', 'C++' , 'java' , 'python' , 'python']" [selectedValue]="'#'"
-                [isTopic]="true">
-              </app-custom-select>
+              <app-customslectwithicon
+                [items]="topicsList"
+                [isSelected]="true"
+                [selectedItem]="selectedValue"
+              >
+              </app-customslectwithicon>
             </div>
 
-
-
-            <div class="d-flex gap-2 align-items-center checkedCard">
+            <div class="d-flex gap-2 align-items-center just checkedCard">
               <label class="labelChecked mb-0" for="invalidCheck">Main</label>
 
               <label class="containerCheck mb-0">
-                <input type="checkbox" id="invalidCheck" formControlName="isMain">
+                <input
+                  type="checkbox"
+                  id="invalidCheck"
+                />
                 <div class="checkmark"></div>
               </label>
             </div>
-
           </div>
-
-
+        </div>
+      </div>
+      <div class="fromStage"  *ngIf="!isnext">
+        <button class="add-stage-btn" (click)="addStage()">
+          <i class="fa-kit fa-add-circle"></i> Add Stage
+        </button>
+        <div class="cdk-drop-list stages" [formGroup]="stageForm">
+          <div class="cdk-drag stage ng-star-inserted">
+            <img src="https://s3.dinarcrm.com/assets/img/tasks-board/drag.svg" />
+            <div class="color-popup d-flex justify-content-center position-relative">
+              <div class="squareSelected circle" ></div>
+  
+            </div>
+            <input
+              maxlength="50"
+              type="text"
+              pinputtext=""
+              class="p-inputtext p-component p-element dragged ng-untouched ng-pristine ng-valid"
+              placeholder="Enter Stage Name"
+              fdprocessedid="g34q5n"
+            /><button
+              class="stage-trash ng-star-inserted"
+              fdprocessedid="1ubdpa"
+            >
+              <i class="fa-kit fa-delete"></i></button
+            >
+          </div>
+          <div class="stagesDynamic"  formArrayName ="stages">
+            <div *ngFor="let child of stages.controls; let i = index" [formGroupName]="i">
+              <div class="cdk-drag stage ng-star-inserted">
+                <img src="https://s3.dinarcrm.com/assets/img/tasks-board/drag.svg" />
+                <div class="color-popup position-relative" (click)="togglePackageColor(i)">
+                  <div class="squareSelected circle" ></div>
+                  <img
+                    alt=""
+                    class="arrow_stage"
+                    src="https://s3.dinarcrm.com/assets/img/tasks-board/arrow-down.svg"
+                  />
+                </div>
+                <input
+                  maxlength="50"
+                  type="text"
+                  class="p-inputtext p-component p-element dragged ng-untouched ng-pristine ng-valid"
+                  placeholder="Enter Stage Name"
+                />
+                <button class="stage-trash ng-star-inserted">
+                  <i class="fa-kit fa-delete"></i>
+                </button>
+                <div class="packageColor" *ngIf="openIndex === i">
+                  @for (color of colors; track $index) {
+                    <div
+                      class="colorBox p-3 rounded-1"
+                      [ngStyle]="{'background-color': color}"
+                    ></div>
+                  }
+                </div>
+              </div>
+            </div>
+              
+      
+  
+        </div>
+        <div class="cdk-drag stage ng-star-inserted">
+          <img src="https://s3.dinarcrm.com/assets/img/tasks-board/drag.svg" />
+          <div class="color-popup position-relative">
+            <div class="squareSelected circle" ></div>
+            <img
+              alt=""
+              class="arrow_stage"
+              src="https://s3.dinarcrm.com/assets/img/tasks-board/arrow-down.svg"
+            />
+          </div>
+          <input
+            maxlength="50"
+            type="text"
+            pinputtext=""
+            class="p-inputtext p-component p-element dragged ng-untouched ng-pristine ng-valid"
+            placeholder="Enter Stage Name"
+            fdprocessedid="g34q5n"
+          /><button
+            class="stage-trash ng-star-inserted"
+            fdprocessedid="1ubdpa"
+          >
+            <i class="fa-kit fa-delete"></i></button
+          >
+        </div>
 
         </div>
       </div>
-
-    
     </div>
     <div class="rightBody">
       <div class="imagePosition">
-        <img src="Images/2f4af133-fd73-422b-88aa-6fbc53354691.png" alt="">
+        <img src="Images/2f4af133-fd73-422b-88aa-6fbc53354691.png" alt="" />
       </div>
     </div>
   </div>
@@ -74,11 +191,12 @@
       </div>
       <div class="step">
         <p>Step <span>2/1</span></p>
-        <h3>Project Details</h3>
+        <h3>Topic Details</h3>
       </div>
     </div>
-    
-    <div class="board-footer-btn">
-      <button      class="p-element ng-star-inserted">    Next Step</button></div>
+
+    <div class="board-footer-btn" (click)="next()">
+      <button class="p-element ng-star-inserted">Next Step</button>
+    </div>
   </footer>
 </div>
