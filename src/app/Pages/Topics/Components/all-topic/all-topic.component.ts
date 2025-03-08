@@ -4,7 +4,8 @@ import { PaginateTopicService } from '../../Service/paginate-topic.service';
 import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose';
 import { TopicResult } from '../../Core/Interface/itopic';
 import { CommonModule, DatePipe } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-all-topic',
@@ -16,6 +17,13 @@ import { Subscription } from 'rxjs';
 export class AllTopicComponent  implements OnInit , OnDestroy {
 
   private subscription: Subscription = new Subscription();
+  constructor(private router: Router) {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.getAllTopics()
+    });
+  }
 
   //Values 
   isShown: boolean = false;
@@ -40,18 +48,22 @@ export class AllTopicComponent  implements OnInit , OnDestroy {
     this.selectedTopicId = this.selectedTopicId === topicId ? null : topicId;
 
   }
-
+  
+ getAllTopics(){
+  this.subscription= this.allStages.getTopics().subscribe({
+    next: (res) => {
+      this.paginationTpoicsResponse = res;
+      console.log('All Topics', this.paginationTpoicsResponse);
+    },
+    error: (error) => {
+      console.error('Error fetching topics', error);
+    }
+  })
+ }
 
   ngOnInit(): void {
-    this.subscription= this.allStages.getTopics().subscribe({
-      next: (res) => {
-        this.paginationTpoicsResponse = res;
-        console.log('All Topics', this.paginationTpoicsResponse);
-      },
-      error: (error) => {
-        console.error('Error fetching topics', error);
-      }
-    })
+    this.getAllTopics()
+
   }
 
   ngOnDestroy(): void {

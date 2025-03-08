@@ -15,7 +15,6 @@ import { AddStagesComponent } from '../../topic/Components/add-stages/add-stages
 export class TopicsComponent {
   constructor(private router: Router) {}
 
-  openPopup() {
-    this.router.navigate([{ outlets: { dialog: [ 'addTopic'] } }]);  }
+  openPopup() { this.router.navigate([{ outlets: { dialog: [ 'addTopic'] } }]);  }
   
 }
