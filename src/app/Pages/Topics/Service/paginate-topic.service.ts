@@ -20,7 +20,7 @@ export class PaginateTopicService {
 
    getTopics(
     pageNumber: number = 1, 
-    pageSize: number = 10,
+    pageSize: number = 100,
     orderBy: number = 2, 
     orderDirection: number = 1,
 

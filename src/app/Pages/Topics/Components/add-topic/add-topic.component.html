@@ -20,7 +20,7 @@
         <div class="formGroupInput" [formGroup]="topicForm">
           <label>Topic Name</label>
           <div class="input-info-group mb-2">
-            <input maxlength="50" type="text" pinputtext="" class="p-inputtext" formControlName="name" />
+            <input maxlength="50" type="text"   formControlName="name" />
             <div class="dropdownColor">
               <div class="btn dropdownColor-toggle" (click)="showTab()">
                 <div class="squareSelected" [ngStyle]="{ 'background-color': colorDefault }">
@@ -72,7 +72,7 @@
 
             </div>
             <input maxlength="50" type="text" [value]="topicResult.result.stages[0].name" readonly
-              class="p-inputtext p-component p-element dragged ng-untouched ng-pristine ng-valid"
+              class=" dragged "
               placeholder="Enter Stage Name" />
               <button class="stage-trash ng-star-inserted opacity-0">
               <i class="fa-kit fa-delete"></i></button>
@@ -85,7 +85,7 @@
                   <div class="squareSelected circle" [ngStyle]="{'background-color': selectedColors[i]}"></div>
                   <img alt="" class="arrow_stage" src="https://s3.dinarcrm.com/assets/img/tasks-board/arrow-down.svg" />
                 </div>
-                <input maxlength="50" type="text" formControlName="name" class="p-inputtext  p-element dragged "
+                <input maxlength="50" type="text" formControlName="name" class=" dragged "
                   placeholder="Enter Stage Name" />
                 <button class="stage-trash ng-star-inserted" (click)="removeStage(i)">
                   <i class="fa-kit fa-delete"></i>
@@ -108,7 +108,7 @@
               </div>
             </div>
             <input maxlength="50" type="text" pinputtext="" [value]="topicResult.result.stages[1].name" readonly
-              class="p-inputtext p-component p-element dragged ng-untouched ng-pristine ng-valid"
+              class=" dragged "
               placeholder="Enter Stage Name" />
               <button class="stage-trash ng-star-inserted opacity-0">
               <i class="fa-kit fa-delete"></i>
@@ -147,7 +147,7 @@
     </div>
     @if(isnext){
     <div class="board-footer-btn" (click)="submitFormTopic()">
-      <button class="p-element ng-star-inserted" [disabled]="isLoad">
+      <button class="p-element " [disabled]="isLoad">
         <span *ngIf="isLoad" class="spinner"></span>
         <span *ngIf="!isLoad">Next Step</span>
       </button>
@@ -156,7 +156,7 @@
     }
     @else {
     <div class="board-footer-btn" (click)="submitFormStage()">
-      <button class="p-element ng-star-inserted">
+      <button class="p-element ">
         <span *ngIf="isLoad" class="spinner"></span>
         <span *ngIf="!isLoad">Done</span>
       </button>
