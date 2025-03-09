@@ -38,7 +38,6 @@
     padding: 8px 16px;
     width: 100%;
     display: flex;
-    align-items: center;
     gap: 10px;
 
     .leftViewTopic {
@@ -106,7 +105,7 @@
         gap: 16px;
         position: relative;
 
-        &::before {
+        .line {
           content: "";
           position: absolute;
           top: -11px;
@@ -252,7 +251,23 @@
 
 
 
+.defaultValue {
+  height: 24px;
+  width: 32px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-inline-start: 8px;
+  background-color: #f4b74030;
 
+   .iconShow{
+
+    i {
+      color: #f4b740;
+    }
+   }
+}
 
 
 

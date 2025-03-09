@@ -9,17 +9,24 @@
             <div class="leftViewTopic">
                 <div class="title d-flex justify-content-between align-items-center">
                     <div class="IconTit mb-1 d-flex gap-2 align-items-center">
-                        <span class="color-indicator" [style.background]="'#76D750'">
-                            <i class="fas  fa-address-card" aria-hidden="true"></i>
+                        <span class="color-indicator" [style.background]="TopicResult.result.color">
+                            <i [class]="TopicResult.result.icon" aria-hidden="true"></i>
                         </span>
-                        <h5>Board {{topicId}}</h5>
+                        <h5>{{TopicResult.result.name}}</h5>
+                        <div class="defaultValue" *ngIf="TopicResult.result.default">
+                            <div class="iconShow">
+                                <i class="fa fa-star" aria-hidden="true"></i>
+    
+                            </div>
+                        </div>
+            
 
                     </div>
                     <div class="more">
                         <i class="fa-solid fa-ellipsis-vertical"></i>
                     </div>
                 </div>
-                <p [pTooltip]="text" tooltipPosition="top">{{text | spliceDescreption}}</p>
+                <p [pTooltip]="TopicResult.result.description" tooltipPosition="top">{{TopicResult.result.description | spliceDescreption}}</p>
 
             </div>
             <div class="invoice" style="width: 315px;">
@@ -28,17 +35,18 @@
                         <div class="box">
                             <div class="content">
                                 <div class="dealValue"> Total Price</div>
-                                <div class="price">
-                                    <span class="no">3,100,000.00 </span>
+                                <div class="price" >
+                                    <span class="no" [style.color]="TopicResult.result.color">{{TopicResult.result.snapshot.totalPrice}}</span>
                                     <span class="currency">EGP</span>
                                 </div>
+                                <div class="line" [style.background]="TopicResult.result.color"></div>
                             </div>
 
                         </div>
                         <div class="expectedProfits ">
                             <div class="label">Courses :</div>
                             <div class="value">
-                                <span class="expected">2,999,995.00 </span>
+                                <span class="expected">{{TopicResult.result.snapshot.coursesCount}}</span>
                             </div>
                         </div>
                     </div>
@@ -54,7 +62,9 @@
                 </div>
                 <div id="ddContent" class="content">
                     <div class="label">Creation Date</div>
-                    <div class="date"><span id="ddNum" class="num">2025/01/27</span></div>
+                    <div class="date"><span id="ddNum" class="num">{{TopicResult.result.createdOn |date}}</span></div>
+
+
                 </div>
             </div>
             <div class="box">
@@ -64,7 +74,14 @@
                 </div>
                 <div id="ddContent" class="content">
                     <div class="label">Creator Name</div>
-                    <span>Mostafa Hamed</span>
+                    @if(TopicResult.result.creator){
+                        <span>{{TopicResult.result.creator.name}}</span>
+
+                    }
+                    @else {
+                        <span>--</span>
+
+                    }
                 </div>
             </div>
             <div class="box">
@@ -74,7 +91,14 @@
                 </div>
                 <div id="ddContent" class="content">
                     <div class="label">Updater Name</div>
-                    <span>Mostafa Hamed</span>
+                    @if(TopicResult.result.updater){
+                        <span>{{TopicResult.result.updater.name}}</span>
+
+                    }
+                    @else {
+                        <span>--</span>
+
+                    }
 
                 </div>
             </div>
@@ -84,7 +108,17 @@
                 </div>
                 <div id="ddContent" class="content">
                     <div class="label">Updation Date</div>
-                    <div class="date"><span id="ddNum" class="num">2025/01/27</span></div>
+                    @if(TopicResult.result.updatedOn){
+                        <div class="date">
+                            <span id="ddNum" class="num">{{TopicResult.result.createdOn | date}}</span>
+                        </div>                        }
+                        @else {
+                            <div class="date">
+                                <span> - - </span>
+                            </div> 
+                        }
+       
+
                 </div>
             </div>
 
