@@ -12,7 +12,7 @@ export class TopiclistService {
 
 
 
-  getAlllits(orderBy: number = 2, pageNumber: number = 1, pageSize: number = 50, orderBeforPagination: boolean = false, orderDirection: number = 1): Observable<any> {
+  getAlllits(orderBy: number = 2, pageNumber: number = 1, pageSize: number = 100, orderBeforPagination: boolean = false, orderDirection: number = 1): Observable<any> {
     return this._HttpClient.get(`${environment.baseUrl}${environment.pickup}topic/list?orderBy=${orderBy}&pageNumber=${pageNumber}&pageSize=${pageSize}&orderBeforPagination=${orderBeforPagination}&orderDirection=${orderDirection}`,
  )
   }
