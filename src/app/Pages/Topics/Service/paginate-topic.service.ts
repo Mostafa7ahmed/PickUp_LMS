@@ -18,7 +18,7 @@ export class PaginateTopicService {
 
 
 
-   getTopics(orderBy: number = 2, pageNumber: number = 1, pageSize: number = 5, orderBeforPagination: boolean = false, orderDirection: number = 1): Observable<IPaginationResponse<TopicResult>> {
+   getTopics(orderBy: number = 2, pageNumber: number = 1, pageSize: number = 100, orderBeforPagination: boolean = false, orderDirection: number = 1): Observable<IPaginationResponse<TopicResult>> {
   
     const params: any = {
       orderBy: orderBy.toString(),

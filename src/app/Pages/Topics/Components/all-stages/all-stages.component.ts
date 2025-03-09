@@ -21,6 +21,7 @@ export class AllStagesComponent  implements OnInit {
     }
   }
   
+  
 
   getBoxShadow(hex: string, opacity: number): string {
     hex = hex.replace(/^#/, '');

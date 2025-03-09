@@ -1,0 +1,37 @@
+// 
+
+.ShowPopup{
+    padding: 0;
+    border-radius: 8px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow-y: auto;
+    height: 575px;
+    width: 1200px;
+    z-index: 1000;
+    box-shadow: 1px 1px 5px #0000001f;
+    &::-webkit-scrollbar{
+      display: none;
+    }
+    transition: .5s opacity ease-in-out , .5s margin ease-in-out;
+    z-index: 800;
+    opacity: 2;
+    visibility: visible;
+    animation: grow 0.5s ease-out;
+    background-color: #D7D7D7;
+
+  }
+  
+@keyframes grow {
+  0% {
+    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}

@@ -1,7 +1,7 @@
     <div class="stages ">
         @for (stageone of Stage; track stageone.id ) {
             <div class="stage"    [ngStyle]="{
-                'box-shadow': getBoxShadow(stageone.color, 0.1), 
+                'box-shadow': getBoxShadow(stageone.color, 0.3), 
                 'border-color':  borderColors[$index]
               }">
                 <div class="stageName">

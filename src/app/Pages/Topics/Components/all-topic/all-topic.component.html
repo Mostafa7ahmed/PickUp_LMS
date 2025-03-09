@@ -1,9 +1,4 @@
-<div class="AllTopics"  
-    infiniteScroll 
-    [infiniteScrollContainer]="'.AllTopics'" 
-    [infiniteScrollDistance]="2" 
-    [infiniteScrollThrottle]="100"  
-    (scrolled)="loadTopics(0, true)">
+<div class="AllTopics"  >
     @for (topic of paginationTpoicsResponse.result; track topic.id) {
     <div class="topic mb-2  ">
         <div class="topTopic ">
@@ -30,8 +25,8 @@
                 <div class="icon" pTooltip="view topic kanban" tooltipPosition="top" [routerLink]="['/course', topic.id, '1']" >
                     <i class="fa-kit fa-apps-add-filled"></i>
                 </div>
-                <div class="icon">
-                    <i class="fa-solid fa-gear"  pTooltip="view topic" tooltipPosition="top"></i>
+                <div class="icon" (click)="openPopup()">
+                    <i class="fa-solid fa-gear"   pTooltip="view topic" tooltipPosition="top"></i>
                 </div>
                 <div class="setDefualt position-relative">
                     <div class="icon p-2" (click)="toggleShow(topic.id)">
