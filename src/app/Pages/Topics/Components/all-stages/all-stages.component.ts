@@ -27,14 +27,14 @@ export class AllStagesComponent  implements OnInit {
   
     if (hex.length !== 6) {
       console.warn('لون غير صالح:', hex);
-      return '0px 1px 3px rgba(0, 0, 0, 0.1)'; 
+      return ' 0 2px 6px #606c803d '; 
     }
   
     let r = parseInt(hex.substring(0, 2), 16);
     let g = parseInt(hex.substring(2, 4), 16);
     let b = parseInt(hex.substring(4, 6), 16);
   
-    return `0px 1px 4px rgba(${r}, ${g}, ${b}, ${opacity})`;
+    return `0px 0px 6px rgba(${r}, ${g}, ${b}, ${opacity})`;
   }
   convertHexToRgba(hex: string, opacity: number = 1): string {
     hex = hex.replace('#', '');

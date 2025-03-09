@@ -6,7 +6,7 @@
     overflow-x: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    padding: 0px 22px;
+    padding: 4px 22px;
     margin-bottom: 15px !important;
     z-index: 0 !important;
 
@@ -16,8 +16,8 @@
       border-radius: 8px;
       border: .75px solid rgba(246, 246, 246, .9);
       background: #fff;
-      box-shadow: 0 0 6px #606c801f;
-      padding: 6px 0 6px 8px;
+      box-shadow: 0 2px 10px #606c803d  !important; 
+    padding: 6px 0 6px 8px;
       position: relative;
       z-index: 1000;
       display: flex;
