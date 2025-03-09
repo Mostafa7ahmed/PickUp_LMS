@@ -246,7 +246,7 @@
   }
 
   .bottomTopic {
-    height: calc(100vh - 506px);
+    height: calc(750px - 437px);
 
     .bottomRight {
       flex: 22;
@@ -363,10 +363,11 @@
       width: 280px;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
       gap: 10px;
       .topLeftInfo{
-        height: calc(100vh - 580px);
         border-radius: 6px;
+        flex: 4;
 
       }
       .creator{
