@@ -68,7 +68,7 @@
 
       .text {
         color: #83899f;
-        font-family: var(--fontFamily);
+        font-family: var(--fontFamily-1);
         font-size: 13px;
         font-style: normal;
         font-weight: 500;
@@ -116,7 +116,7 @@
 
     .project-name h1 {
       color: var(--Font-style-Default, #1C1C28);
-      font-family: var(--fontFamily) !important;
+      font-family: var(--fontFamily-1) !important;
       font-size: 16px;
       font-style: normal;
       font-weight: 700;
@@ -146,7 +146,7 @@
 
     .project-name .defaultValue span {
       color: #83899f;
-      font-family: var(--fontFamily) !important;
+      font-family: var(--fontFamily-1) !important;
 
       font-size: 12px;
       font-weight: 500;
@@ -290,7 +290,7 @@
       font-style: normal;
       font-weight: 500;
       line-height: 17.172px;
-      font-family: Itim;
+      font-family: var(--font-family-1);
 
 
     }
@@ -332,7 +332,7 @@
     }
 
     span {
-      font-family: Itim;
+      font-family: var(--font-family-1);
       font-size: 13px;
       font-style: normal;
       font-weight: 500;
@@ -414,7 +414,7 @@
 
     .label {
       color: #575389;
-      font-family: var(--fontFamily) !important;
+      font-family: var(--fontFamily-1) !important;
       font-size: 12px;
       font-style: normal;
       font-weight: 500;
@@ -455,7 +455,7 @@
   border-radius: 4px !important; 
   box-shadow: 0 2px 20px #606c803d  !important; 
   font-size: 12px; 
-  font-family: Itim !important;
+  font-family: var(--font-family-1);
 }
 
 ::ng-deep .p-tooltip .p-tooltip-arrow {

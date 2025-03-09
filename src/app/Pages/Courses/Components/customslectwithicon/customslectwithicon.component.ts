@@ -2,6 +2,7 @@ import { FormControl } from '@angular/forms';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SplicTextPipe } from '../../Core/Pipes/splic-text.pipe';
+import { TooltipModule } from 'primeng/tooltip';
 interface DropdownItem {
   label: string;
   color: string;
@@ -9,7 +10,7 @@ interface DropdownItem {
 @Component({
   selector: 'app-customslectwithicon',
   standalone: true,
-  imports: [CommonModule, SplicTextPipe],
+  imports: [CommonModule,TooltipModule, SplicTextPipe],
   templateUrl: './customslectwithicon.component.html',
   styleUrl: './customslectwithicon.component.scss'
 })

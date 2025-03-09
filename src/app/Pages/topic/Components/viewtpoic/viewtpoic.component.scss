@@ -40,7 +40,7 @@
   
   }
   .viewTopic h3{
-    font-family: Itim;
+    font-family: var(--font-family-1);
     font-size: 22px;
     font-weight: 400;
     line-height: 9.6px;
@@ -67,7 +67,7 @@
   
   }
   .Description p{
-    font-family: Itim;
+    font-family: var(--font-family-1);
     font-size: 10px;
     font-weight: 400;
     color: #959494;
@@ -81,7 +81,7 @@
   .iconViewTopic p {
     padding: 2px 8px;
     border-radius: 3px;
-    font-family: Itim;
+    font-family: var(--font-family-1);
     background-color: var(--color_border);
     cursor: pointer;
   
@@ -107,7 +107,7 @@
   }
   .aboutInstructor {
     
-    font-family: Itim;
+    font-family: var(--font-family-1);
     font-size: 14px;
     line-height: 1.6;
     color: #C6D1DC;
@@ -134,7 +134,7 @@
   
   }
   .addStages p{
-    font-family: Itim;
+    font-family: var(--font-family-1);
     font-size: 17px;
     line-height: 1.6;
     color: #C6D1DC;

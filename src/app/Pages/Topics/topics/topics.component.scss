@@ -34,7 +34,7 @@
 
   .name {
     color: #293445;
-    font-family: Itim;
+    font-family: var(--font-family-1);
     font-size: 22px;
     font-style: normal;
     font-weight: 700;
@@ -44,7 +44,7 @@
 
 .description p {
   color: #83899f;
-  font-family: Itim;
+  font-family: var(--font-family-1);
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
@@ -118,7 +118,7 @@
 
     span {
       color: #fff;
-      font-family: var(--fontFamily);
+      font-family: var(--fontFamily-1);
       font-size: 12px;
       font-style: normal;
       font-weight: 500;

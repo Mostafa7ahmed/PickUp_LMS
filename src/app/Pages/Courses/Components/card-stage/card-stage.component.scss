@@ -53,7 +53,7 @@
   
   }
 .contentStage .medialContentStage p{
-    font-family: Itim;
+  font-family: var(--font-family-1);
     font-weight: 400;
     font-size: 13px;
     line-height: 19.23px;
@@ -72,7 +72,7 @@
   .stat {
     display: flex;
     align-items: center;
-    font-family: Itim;
+    font-family: var(--font-family-1);
     gap: 5px;
     font-size: 14px;
     color: #333;

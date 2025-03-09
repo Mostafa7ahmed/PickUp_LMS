@@ -159,7 +159,7 @@ nz-select {
   font-size: 15px;
   color: var(--color_border);
   cursor: pointer;
-  font-family: Itim;
+  font-family: var(--font-family-1);
 }
 
 
@@ -186,7 +186,7 @@ nz-select {
   padding: 18px !important;
 }
 .EditTopic .leftContant h3{
-  font-family: Itim;
+  font-family: var(--font-family-1);
   font-size: 25px;
   font-weight: 400;
 
@@ -195,7 +195,7 @@ nz-select {
 }
 
 .EditTopic .leftContant .content p{
-  font-family: Itim;
+  font-family: var(--font-family-1);
 font-size: 12px;
 font-weight: 400;
   line-height: 19.23px;
@@ -226,8 +226,8 @@ font-weight: 400;
     padding: 5px 10px;
     margin-bottom: 10px;
     cursor: pointer;
-    font-family: Itim;
-}
+    font-family: var(--font-family-1);
+  }
 
   .stage-row {
     display: flex;

@@ -139,7 +139,6 @@ export class AddCoursesComponent {
       this.router.navigate([{ outlets: { dialog: null } }]);
     }
   
-  openPopup() { this.router.navigate([{ outlets: { dialog: [ 'addTopic'] } }]);  }
 
 
   selectedImageName: string = '';

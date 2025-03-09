@@ -29,7 +29,7 @@ export class AllTopicComponent implements OnInit, OnDestroy {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
-        this.loadTopics();
+        this.getAllTopics();
       });
   }
 
@@ -59,64 +59,64 @@ export class AllTopicComponent implements OnInit, OnDestroy {
     this.selectedTopicId = this.selectedTopicId === topicId ? null : topicId;
   }
 
-  // getAllTopics() {
-  //   this.subscription = this._topicService.getTopics().subscribe({
-  //     next: (res) => {
-  //       this.paginationTpoicsResponse = res;
-  //       console.log('All Topics', this.paginationTpoicsResponse);
-  //     },
-  //     error: (error) => {
-  //       console.error('Error fetching topics', error);
-  //     },
-  //   });
-  // }
-
-  loadTopics(
-    pageIndex: number = 0,
-    isScroll: boolean = false,
-    _default: boolean = false
-  ): void {
-    if (this.loading || !this.hasMoreData) return;
-    this.loading = true;
-
-    if (isScroll) {
-      if (
-        this.paginationTpoicsResponse.totalPages > this.pageNumber &&
-        this.paginationTpoicsResponse.moveNext
-      ) {
-        this.pageNumber++;
-
-        this._topicService
-          .getTopics(
-            2,
-            pageIndex !== 0 ? pageIndex : this.pageNumber,
-            this.pageSize
-          )
-          .subscribe((response: any) => {
-            if (response.success) {
-              this.paginationTpoicsResponse.result = [
-                ...this.paginationTpoicsResponse.result,
-                ...response.result,
-              ];
-            } else {
-              this.hasMoreData = false;
-            }
-            this.loading = false;
-          });
-      }
-    } else {
-      this._topicService
-        .getTopics(2, pageIndex !== 0 ? pageIndex : 1, this.pageSize)
-        .subscribe((response: any) => {
-          if (response.success) {
-            this.paginationTpoicsResponse = response;
-          } else {
-            this.hasMoreData = false;
-          }
-          this.loading = false;
-        });
-    }
+  getAllTopics() {
+    this.subscription = this._topicService.getTopics().subscribe({
+      next: (res) => {
+        this.paginationTpoicsResponse = res;
+        console.log('All Topics', this.paginationTpoicsResponse);
+      },
+      error: (error) => {
+        console.error('Error fetching topics', error);
+      },
+    });
   }
+
+  // loadTopics(
+  //   pageIndex: number = 0,
+  //   isScroll: boolean = false,
+  //   _default: boolean = false
+  // ): void {
+  //   if (this.loading || !this.hasMoreData) return;
+  //   this.loading = true;
+
+  //   if (isScroll) {
+  //     if (
+  //       this.paginationTpoicsResponse.totalPages > this.pageNumber &&
+  //       this.paginationTpoicsResponse.moveNext
+  //     ) {
+  //       this.pageNumber++;
+
+  //       this._topicService
+  //         .getTopics(
+  //           2,
+  //           pageIndex !== 0 ? pageIndex : this.pageNumber,
+  //           this.pageSize
+  //         )
+  //         .subscribe((response: any) => {
+  //           if (response.success) {
+  //             this.paginationTpoicsResponse.result = [
+  //               ...this.paginationTpoicsResponse.result,
+  //               ...response.result,
+  //             ];
+  //           } else {
+  //             this.hasMoreData = false;
+  //           }
+  //           this.loading = false;
+  //         });
+  //     }
+  //   } else {
+  //     this._topicService
+  //       .getTopics(2, pageIndex !== 0 ? pageIndex : 1, this.pageSize)
+  //       .subscribe((response: any) => {
+  //         if (response.success) {
+  //           this.paginationTpoicsResponse = response;
+  //         } else {
+  //           this.hasMoreData = false;
+  //         }
+  //         this.loading = false;
+  //       });
+  //   }
+  // }
 
   setDefaultTopic(id: number): void {
     this._SetDefaultTopicService.setDefaultTopic(id).subscribe((res) => {
@@ -141,10 +141,15 @@ export class AllTopicComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loadTopics();
+    this.getAllTopics();
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+
+  openViewTopic(id: any) { 
+    this.router.navigate([{ outlets: { dialog: ['ViewTopic', id] } }]);
   }
 }

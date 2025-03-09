@@ -9,7 +9,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     overflow-y: auto;
-    height: 575px;
+    height: 540px;
     width: 800px;
     z-index: 1000;
     box-shadow: 1px 1px 5px #0000001f;
@@ -226,7 +226,7 @@
     padding: 2px 6px;
   }
   .selectOptionValue p {
-    font-family: Itim;
+    font-family: var(--font-family-1);
     font-weight: 400;
     font-size: 15px;
     line-height: 19.23px;
@@ -268,7 +268,7 @@
   .Course_name .input_Couser_container span{
     color: #7ad34c;
     font-size: 15px;
-    font-family: Itim  ;
+    font-family: var(--font-family-1);
     font-weight: 500;
     line-height: normal;
   }
@@ -539,7 +539,7 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
     font-size: 12px; 
     border: none; 
-    font-family: Itim !important;
+    font-family: var(--font-family-1) !important;
   }
   
  ::ng-deep .p-tooltip .p-tooltip-arrow {

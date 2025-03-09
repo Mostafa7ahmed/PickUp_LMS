@@ -1,81 +1,95 @@
-
-
 @use '@angular/material' as mat;
-@import url(https://ka-p.fontawesome.com/releases/v6.7.2/css/pro.min.css?token=dcf99332e3);@import url(https://ka-p.fontawesome.com/releases/v6.7.2/css/pro-v4-shims.min.css?token=dcf99332e3);@import url(https://ka-p.fontawesome.com/releases/v6.7.2/css/pro-v5-font-face.min.css?token=dcf99332e3);@import url(https://ka-p.fontawesome.com/releases/v6.7.2/css/pro-v4-font-face.min.css?token=dcf99332e3);@import url(https://ka-p.fontawesome.com/assets/dcf99332e3/132091212/custom-icons.css?token=dcf99332e3);
+@import url(https://ka-p.fontawesome.com/releases/v6.7.2/css/pro.min.css?token=dcf99332e3);
+@import url(https://ka-p.fontawesome.com/releases/v6.7.2/css/pro-v4-shims.min.css?token=dcf99332e3);
+@import url(https://ka-p.fontawesome.com/releases/v6.7.2/css/pro-v5-font-face.min.css?token=dcf99332e3);
+@import url(https://ka-p.fontawesome.com/releases/v6.7.2/css/pro-v4-font-face.min.css?token=dcf99332e3);
+@import url(https://ka-p.fontawesome.com/assets/dcf99332e3/132091212/custom-icons.css?token=dcf99332e3);
 @include mat.core();
-$Pickup-theme: mat.define-theme((
-  color: (
-    theme-type: light,
-    primary: mat.$azure-palette,
-    tertiary: mat.$blue-palette,
-  ),
-  density: (
-    scale: 0,
-  )
-));
+$Pickup-theme: mat.define-theme((color: (theme-type: light,
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      density: (scale: 0,
+      )));
+
+@font-face {
+  font-family: "Neo Sans Arabic";
+  src: url("../public/Fonts/NeoSansArabic.ttf") format("truetype");
+}
 
 :root {
   @include mat.all-component-themes($Pickup-theme);
 }
 
-html, body{
+html,
+body {
   overflow-x: hidden;
 }
 
 
-:root{
-     --bggreen:#f3f5f7;
-    --green1:#18c36e;
-    --green2:#76D750;
-    --bgHome:#F4F4F4;
-    --fwhite:#F8FBF7;
-    --success:#059529;
-    --error :#B90000;
-    --color_link :#000000;
-    --color_border:#C6D1DC;
-    --white: #FFFFFF;
-    --gray1:#C6D1DC;
-    --gray2: #1F28328F;
-    --label-color:#5f5d5dee;
-    --color-side:#D7EAD2;
-    --bg-btn:#7AD34C;
-    --bg-red : #FD00001A; ;
-    --red-icon-hover :#FD000080;
-    --typeFontAR :"Montserrat", sans-serif;
-    --typeFontEN :"Arial", sans-serif;
-    --fontFamily :Itim;
-
+:root {
+  --bggreen: #f3f5f7;
+  --green1: #18c36e;
+  --green2: #76D750;
+  --bgHome: #F4F4F4;
+  --fwhite: #F8FBF7;
+  --success: #059529;
+  --error: #B90000;
+  --color_link: #000000;
+  --color_border: #C6D1DC;
+  --white: #FFFFFF;
+  --gray1: #C6D1DC;
+  --gray2: #1F28328F;
+  --label-color: #5f5d5dee;
+  --color-side: #D7EAD2;
+  --bg-btn: #7AD34C;
+  --bg-red: #FD00001A;
+  ;
+  --red-icon-hover: #FD000080;
+  --font-family-1: "Neo Sans Arabic";
+  --font-family-2:  "Poppins", sans-serif;
+  ;
 
 }
+
 ul {
   list-style: none;
 }
-a, a:hover, a:active, a:visited {
-    text-decoration: none;
-    color: var(--color_link);
+
+a,
+a:hover,
+a:active,
+a:visited {
+  text-decoration: none;
+  color: var(--color_link);
 }
-.cr{
+
+.cr {
   cursor: pointer;
 }
-.form-control{
-    display: inline !important;
+
+.form-control {
+  display: inline !important;
 }
-.form-control{
-    display: inline !important;
-    box-shadow: none !important;
+
+.form-control {
+  display: inline !important;
+  box-shadow: none !important;
 
 }
-.form-control.is-invalid{
-    border-color:#B90000 !important;
+
+.form-control.is-invalid {
+  border-color: #B90000 !important;
 
 }
 
 
 
 body {
-  margin: 0; 
-  font-family: var(--typeFontEN); 
-  background-color:#f3f5f7 !important;
+  margin: 0;
+  font-family: var(--font-family-1) !important;
+  background-color: #f3f5f7 !important;
+
   &::-webkit-scrollbar {
     width: 3px;
     height: 8px;
@@ -89,80 +103,90 @@ body {
   &::-webkit-scrollbar-thumb {
     background: #888;
     border-radius: 10px;
-    
+
     &:hover {
       background: #555;
     }
   }
 }
 
-  
-  
-  @media screen and (max-width: 479px) {
-    .iti .iti__country-list {
-      width: 88.3vw;
-    }
-  }
-  .error-message{
-    color: var(--error);
-    font-size: 14px;
-    font-weight: 400;
-    font-family:  'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
-  }
-  ngx-intl-tel-input .custom {
-    transition: outline 0.2s ease;
-    font-size: 1rem;
-    outline-color: var(--button-text);
-    outline: unset;
-    border: 1px solid var(--gray1);
-    padding: 17px 10px 10px 17px;
-    width: 100%;
-  margin-bottom: 0;
-    border-radius: 8px ;
 
-  }
-  
-  ngx-intl-tel-input .success {
 
-    border: 1px solid var(--success);
-   
-
+@media screen and (max-width: 479px) {
+  .iti .iti__country-list {
+    width: 88.3vw;
   }
-  
-  ngx-intl-tel-input .invalid {
-
-    border: 1px solid var(--error);
-   
-
-  }
-  ngx-intl-tel-input input:focus {
-    outline: none !important;
-
-  }
-  
-  ngx-intl-tel-input input::-webkit-input-placeholder {
-    color: #bac2c7;
-  }
-  
-  ngx-intl-tel-input input:-ms-input-placeholder {
-    color: #bac2c7;
-  }
-  
-  ngx-intl-tel-input input::-ms-input-placeholder {
-    color: #bac2c7;
-  }
-  
-  ngx-intl-tel-input input::placeholder {
-    color: #bac2c7;
-  }
-  
-  ngx-intl-tel-input input[disabled] {
-    background-color: #e5eaf1;
-  }
-  
-  p, h1,h2,h3,h4,h5,h6{
-    margin: 0;
 }
+
+.error-message {
+  color: var(--error);
+  font-size: 14px;
+  font-weight: 400;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+ngx-intl-tel-input .custom {
+  transition: outline 0.2s ease;
+  font-size: 1rem;
+  outline-color: var(--button-text);
+  outline: unset;
+  border: 1px solid var(--gray1);
+  padding: 17px 10px 10px 17px;
+  width: 100%;
+  margin-bottom: 0;
+  border-radius: 8px;
+
+}
+
+ngx-intl-tel-input .success {
+
+  border: 1px solid var(--success);
+
+
+}
+
+ngx-intl-tel-input .invalid {
+
+  border: 1px solid var(--error);
+
+
+}
+
+ngx-intl-tel-input input:focus {
+  outline: none !important;
+
+}
+
+ngx-intl-tel-input input::-webkit-input-placeholder {
+  color: #bac2c7;
+}
+
+ngx-intl-tel-input input:-ms-input-placeholder {
+  color: #bac2c7;
+}
+
+ngx-intl-tel-input input::-ms-input-placeholder {
+  color: #bac2c7;
+}
+
+ngx-intl-tel-input input::placeholder {
+  color: #bac2c7;
+}
+
+ngx-intl-tel-input input[disabled] {
+  background-color: #e5eaf1;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -173,6 +197,7 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
 // view Topic 
 .overlay {
   position: fixed;
@@ -180,9 +205,10 @@ input[type="number"] {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.295); /* شفافية */
-  z-index: 800 - 1; /* أقل من الـ Popup */
+  background: #40444c1a;
+  /* شفافية */
+  z-index: 800 - 1;
+  /* أقل من الـ Popup */
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
 }
-

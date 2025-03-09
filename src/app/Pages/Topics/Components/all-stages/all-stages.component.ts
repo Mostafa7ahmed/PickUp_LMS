@@ -17,7 +17,6 @@ export class AllStagesComponent  implements OnInit {
   ngOnInit(): void {
     if (this.Stage.length > 0) {
       this.borderColors = this.Stage.map(stage => this.convertHexToRgba(stage.color, 0.1));
-      console.log(this.borderColors);
     }
   }
   
@@ -26,7 +25,6 @@ export class AllStagesComponent  implements OnInit {
     hex = hex.replace(/^#/, '');
   
     if (hex.length !== 6) {
-      console.warn('لون غير صالح:', hex);
       return ' 0 2px 6px #606c803d '; 
     }
   

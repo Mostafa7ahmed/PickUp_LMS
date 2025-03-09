@@ -1,1 +1,94 @@
-<p>view-topicand-stage works!</p>
+<div class="overlay"></div>
+
+<div class="shwowViewTopic">
+    <app-top-pop [NamePopup]="'View Topic'" (isVisibleChange)="closeViewTopic()" [bgColor]="'#effee8'"
+        [Color]="'#1e9e23'" [NameIcon]="'fa-solid fa-tachograph-digital'"></app-top-pop>
+
+    <div class="bodyView">
+        <div class="start">
+            <div class="leftViewTopic">
+                <div class="title d-flex justify-content-between align-items-center">
+                    <div class="IconTit mb-1 d-flex gap-2 align-items-center">
+                        <span class="color-indicator" [style.background]="'#76D750'">
+                            <i class="fas  fa-address-card" aria-hidden="true"></i>
+                        </span>
+                        <h5>Board {{topicId}}</h5>
+
+                    </div>
+                    <div class="more">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </div>
+                </div>
+                <p [pTooltip]="text" tooltipPosition="top">{{text | spliceDescreption}}</p>
+
+            </div>
+            <div class="invoice" style="width: 315px;">
+                <div class="ViewDealValue">
+                    <div class="boxContainer">
+                        <div class="box">
+                            <div class="content">
+                                <div class="dealValue"> Total Price</div>
+                                <div class="price">
+                                    <span class="no">3,100,000.00 </span>
+                                    <span class="currency">EGP</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="expectedProfits ">
+                            <div class="label">Courses :</div>
+                            <div class="value">
+                                <span class="expected">2,999,995.00 </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="widgets ">
+            <div class="box">
+                <div id="ddBoxIcon" class="icon">
+                    <i class="fa-kit fa-calender"></i>
+                </div>
+                <div id="ddContent" class="content">
+                    <div class="label">Creation Date</div>
+                    <div class="date"><span id="ddNum" class="num">2025/01/27</span></div>
+                </div>
+            </div>
+            <div class="box">
+                <div id="ddBoxIcon" class="icon">
+                    <img alt="" src="https://s3.dinarcrm.com/assets/img/board-mangement/Icon-Interface.svg">
+                
+                </div>
+                <div id="ddContent" class="content">
+                    <div class="label">Creator Name</div>
+                    <span>Mostafa Hamed</span>
+                </div>
+            </div>
+            <div class="box">
+                <div id="ddBoxIcon" class="icon">
+                    <img alt="" src="https://s3.dinarcrm.com/assets/img/board-mangement/Icon-Interface.svg">
+                
+                </div>
+                <div id="ddContent" class="content">
+                    <div class="label">Updater Name</div>
+                    <span>Mostafa Hamed</span>
+
+                </div>
+            </div>
+            <div class="box">
+                <div id="ddBoxIcon" class="icon">
+                    <i class="fa-kit fa-calender"></i>
+                </div>
+                <div id="ddContent" class="content">
+                    <div class="label">Updation Date</div>
+                    <div class="date"><span id="ddNum" class="num">2025/01/27</span></div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
