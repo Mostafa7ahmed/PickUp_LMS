@@ -1,8 +1,8 @@
 <div class="overlay"></div>
 
 <div class="shwowViewTopic">
-    <app-top-pop [NamePopup]="'View Topic'" (isVisibleChange)="closeViewTopic()" [bgColor]="'#effee8'"
-        [Color]="'#1e9e23'" [NameIcon]="'fa-solid fa-tachograph-digital'"></app-top-pop>
+    <app-top-pop [NamePopup]="'View Topic'" (isVisibleChange)="closeViewTopic()" [bgColor]="bgColor"
+        [Color]="TopicResult.result.color" [NameIcon]="'fa-solid fa-tachograph-digital'"></app-top-pop>
 
     <div class="bodyView">
         <div class="start">
@@ -16,17 +16,18 @@
                         <div class="defaultValue" *ngIf="TopicResult.result.default">
                             <div class="iconShow">
                                 <i class="fa fa-star" aria-hidden="true"></i>
-    
+
                             </div>
                         </div>
-            
+
 
                     </div>
                     <div class="more">
                         <i class="fa-solid fa-ellipsis-vertical"></i>
                     </div>
                 </div>
-                <p [pTooltip]="TopicResult.result.description" tooltipPosition="top">{{TopicResult.result.description | spliceDescreption}}</p>
+                <p [pTooltip]="TopicResult.result.description" tooltipPosition="top">{{TopicResult.result.description |
+                    spliceDescreption}}</p>
 
             </div>
             <div class="invoice" style="width: 315px;">
@@ -35,8 +36,9 @@
                         <div class="box">
                             <div class="content">
                                 <div class="dealValue"> Total Price</div>
-                                <div class="price" >
-                                    <span class="no" [style.color]="TopicResult.result.color">{{TopicResult.result.snapshot.totalPrice}}</span>
+                                <div class="price">
+                                    <span class="no"
+                                        [style.color]="TopicResult.result.color">{{TopicResult.result.snapshot.totalPrice}}</span>
                                     <span class="currency">EGP</span>
                                 </div>
                                 <div class="line" [style.background]="TopicResult.result.color"></div>
@@ -70,16 +72,16 @@
             <div class="box">
                 <div id="ddBoxIcon" class="icon">
                     <img alt="" src="https://s3.dinarcrm.com/assets/img/board-mangement/Icon-Interface.svg">
-                
+
                 </div>
                 <div id="ddContent" class="content">
                     <div class="label">Creator Name</div>
                     @if(TopicResult.result.creator){
-                        <span>{{TopicResult.result.creator.name}}</span>
+                    <span>{{TopicResult.result.creator.name}}</span>
 
                     }
                     @else {
-                        <span>--</span>
+                    <span> - -</span>
 
                     }
                 </div>
@@ -87,16 +89,16 @@
             <div class="box">
                 <div id="ddBoxIcon" class="icon">
                     <img alt="" src="https://s3.dinarcrm.com/assets/img/board-mangement/Icon-Interface.svg">
-                
+
                 </div>
                 <div id="ddContent" class="content">
                     <div class="label">Updater Name</div>
                     @if(TopicResult.result.updater){
-                        <span>{{TopicResult.result.updater.name}}</span>
+                    <span>{{TopicResult.result.updater.name}}</span>
 
                     }
                     @else {
-                        <span>--</span>
+                    <span> - -</span>
 
                     }
 
@@ -109,17 +111,93 @@
                 <div id="ddContent" class="content">
                     <div class="label">Updation Date</div>
                     @if(TopicResult.result.updatedOn){
-                        <div class="date">
-                            <span id="ddNum" class="num">{{TopicResult.result.createdOn | date}}</span>
-                        </div>                        }
-                        @else {
-                            <div class="date">
-                                <span> - - </span>
-                            </div> 
-                        }
-       
+                    <div class="date">
+                        <span id="ddNum" class="num">{{TopicResult.result.createdOn | date}}</span>
+                    </div> }
+                    @else {
+                    <div class="date">
+                        <span> - - </span>
+                    </div>
+                    }
+
 
                 </div>
+            </div>
+
+        </div>
+
+        <div class="bottomTopic d-flex gap-2">
+            <div class="bottomRight ">
+                <div class="headerStage p-2">
+                    <div class="Stage d-flex gap-2 align-items-center">
+                        <div class="progressBar" [ngStyle]="{'border-color':TopicResult.result.color}"></div>
+                        <h3>Stages</h3>
+
+                    </div>
+                    <div class="addStage">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </div>
+
+
+                </div>
+                <div class="line" [style.background]="TopicResult.result.color"></div>
+                <div class="stagesDrag">
+                    @for (stage of TopicResult.result.stages; track stage.id) {
+                    <div class="stageDrag d-flex justify-content-between align-items-center">
+
+                        <div class="Stage d-flex gap-2 align-items-center">
+                            <div class="drag ng-star-inserted ">
+                                <i class="fa-kit-duotone fa-move-fields"></i>
+                            </div>
+                            <div class="progressBar" [ngStyle]="{'border-color':stage.color}"></div>
+                            <h3>{{stage.name}}</h3>
+
+                        </div>
+                        <div class="more">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </div>
+                        @if(!$last){
+                        <div [style.background]="stage.color" class="bottomCricle"></div>
+                        <div [style.background]="stage.color" class="lineContact"></div>
+                        }
+                        @if(!$first){
+                        <div [style.background]="stage.color" class="TopCricle"></div>
+
+                        }
+
+
+
+                    </div>
+
+                    }
+
+                </div>
+
+            </div>
+            <div class="bottomLeft">
+                <div class="topLeftInfo d-flex justify-content-center align-items-center bg-white">
+                    <img alt="" width="150" src="https://s3.dinarcrm.com/assets/img/contacts/no-deals-empty-state-mini.svg">
+
+                </div>
+                <section class="creator">
+                    <div class="creatorInfo">
+                        <div class="image"><img
+                                src="https://s3.dinarcrm.com/sortech//fdcd55c7-71e3-45de-8660-7e16a3dbe0a2/Identity/4124e88f-ba05-4dbe-b224-de76790fe793.png">
+                        </div>
+                        <div class="info">
+                            <div class="by"> Created by </div>
+                            <div class="name"> {{TopicResult.result.creator.name}}</div>
+                        </div>
+                    </div>
+                    <div class="date">
+                        <div class="on">Created on</div>
+                        <div class="time">
+                            <div class="number"><span id="viewDealSpanN"> {{TopicResult.result.createdOn | date}} </span>
+                           <span><i class="fa-kit fa-info"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
 
         </div>
