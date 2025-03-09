@@ -13,7 +13,7 @@ import { TextHeaderComponent } from "../../../Courses/Components/text-header/tex
 @Component({
   selector: 'app-view-topicand-stage',
   standalone: true,
-  imports: [RouterModule, TopPopComponent, CommonModule, SpliceDescreptionPipe, DatePipe, TooltipModule, TextHeaderComponent],
+  imports: [RouterModule, TopPopComponent, CommonModule, SpliceDescreptionPipe, DatePipe, TooltipModule],
   templateUrl: './view-topicand-stage.component.html',
   styleUrls:[ './view-topicand-stage.component.scss']
 })
