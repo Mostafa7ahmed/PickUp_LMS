@@ -18,13 +18,7 @@ export class PaginateTopicService {
 
 
 
-   getTopics(
-    pageNumber: number = 1, 
-    pageSize: number = 100,
-    orderBy: number = 2, 
-    orderDirection: number = 1,
-
-  ): Observable<IPaginationResponse<TopicResult>> {
+   getTopics(orderBy: number = 2, pageNumber: number = 1, pageSize: number = 5, orderBeforPagination: boolean = false, orderDirection: number = 1): Observable<IPaginationResponse<TopicResult>> {
   
     const params: any = {
       orderBy: orderBy.toString(),
@@ -33,7 +27,7 @@ export class PaginateTopicService {
       orderBeforPagination: 'true',
       orderDirection: orderDirection.toString(),
     };
+    return this._HttpClient.get<IPaginationResponse<TopicResult>>(`${this.urlPagination}?orderBy=${orderBy}&pageNumber=${pageNumber}&pageSize=${pageSize}&orderBeforPagination=${orderBeforPagination}&orderDirection=${orderDirection}`)
 
 
-    return this._HttpClient.get<IPaginationResponse<TopicResult>>(`${this.urlPagination}`, { params });
   }}

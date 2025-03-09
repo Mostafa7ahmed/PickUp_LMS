@@ -1,48 +1,58 @@
 .icon{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    width: 23px;
-    height: 23px;
-    background-color: var(--color_border);
-    border-radius: 50%;
-    position: absolute;
-    top: 7px;
-    right: 9px;
-    transition:  0.2s  background-color ease-in-out;
-    z-index: 778855;
-    cursor: pointer;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: 7.222px;
+  background: #f4f4f4;
+  display: flex
+;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 .header{
   border-radius: 8px 8px 0px 0px;
 }
 .icon i{
-    color: var(--white);
+    color:#1c1c28c5;
     font-size: 17x;
     transition:  0.2s  all ease-in-out;
 
 
 }
-.icon:hover{
-  background-color:  var(--red-icon-hover) !important;
-  color: var(--white) !important;
+.icon:hover i{
+  color:  var(--red-icon-hover) !important;
 
 }
 .header{
   background-color: #ffffff;
 }
+.rightHeader{
+  display: flex;
+  align-items: center;
+  gap: 10px !important;
+}
+.rightHeader p{
+  color: #1c1c28;
+  font-family: var(--fontFamily);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin: 0;
+  padding: 0;
+}
 .rightHeader .iconRignt{
   width: 22px;
   height: 22px;
-  border-radius: 5.5px;
-  background: #06cc7a1a;
+  border-radius: 5.077px;
+  background-color: #3e97ff1a;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
 }
 .iconRignt i{
-  color: #06cc7a;
+  color: #3e98ffb7;
   font-size: 14px;
 }

@@ -30,7 +30,7 @@ export class TopicComponent implements OnInit {
 
   viewTopicData :ITpoic = {} as ITpoic;
   pageNumber = 1;
-  pageSize = 30;
+  pageSize = 5;
   loading = false;
   hasMoreData = true;
   isVisible = false;

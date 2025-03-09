@@ -28,11 +28,12 @@ import { TopPopComponent } from "../../../Components/top-pop/top-pop.component";
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { AddCoursesComponent } from "../Components/add-courses/add-courses.component";
 import { CustomslectwithiconComponent } from '../Components/customslectwithicon/customslectwithicon.component';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, NzSelectModule, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent, CustomslectwithiconComponent, AddCoursesComponent],
+  imports: [CommonModule,RouterModule, NzSelectModule, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent, CustomslectwithiconComponent, AddCoursesComponent],
   providers: [
     { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } }
 
@@ -48,6 +49,8 @@ export class CoursesComponent implements OnInit {
   private _PaginateCoursesService = inject(PaginateCoursesService);
   private _KanbanService = inject(KanbanService);
   private _MovecourseService = inject(MovecourseService);
+  private router = inject(Router);
+  private _ActivatedRoute = inject(ActivatedRoute);
 
 
 
@@ -62,16 +65,12 @@ export class CoursesComponent implements OnInit {
   
       console.log("📌 Formatted From:", fromDate);
       console.log("📌 Formatted To:", toDate);
-  
-      // ✅ استدعاء API فقط عند توفر القيمتين
-      this.fetchCourses({}, this.selectedTopicId, this.valueTable, fromDate, toDate);
+        this.fetchCourses({}, this.selectedTopicId, this.valueTable, fromDate, toDate);
     }
   }
   clearDateRange() {
     this.rangeDates = null;  
     this.fetchCourses({}, this.selectedTopicId, this.valueTable);
-
-    console.log("📌 تم مسح التواريخ");
   }
   formatDateToISO(date: Date | null): string {
     if (!date) return '';
@@ -99,6 +98,7 @@ export class CoursesComponent implements OnInit {
 
   showLeftScroll = false;
   showRightScroll = true;
+  activeTab :number =1;
 
 
   @ViewChild(TableCoursesComponent) TableCourses!: TableCoursesComponent;
@@ -137,27 +137,37 @@ export class CoursesComponent implements OnInit {
     this.collapsePagination = !this.collapsePagination;
   }
 
+  openPopup() {
+     this.router.navigate([{ outlets: { dialog: [ 'addcourse'] } }]); 
+     }
 
 
 
-  getListTopics(): void {
-    this._topiclistService.getAlllits().subscribe({
-      next: (topics) => {
-        this.topicsList = topics.result;
-        let defautlTopic = this.topicsList.filter((e: ITopiclist) => e.default)[0];
-        this.selectedValue = defautlTopic;
-        this.selectedTopicId = defautlTopic.id;
-        console.log(this.selectedTopicId)
-        if (topics.success) {
-          this.fetchCourses({}, defautlTopic.id);
-          this.getAllKanbans(this.selectedTopicId)
 
+     getListTopics(topicIdFromRoute: string | null = null): void {
+      this._topiclistService.getAlllits().subscribe({
+        next: (topics) => {
+          this.topicsList = topics.result;
+    
+          let defaultTopic = this.topicsList.find((e: ITopiclist) => e.default);
+          
+          if (!defaultTopic) {
+            return;
+          }
+    
+          this.selectedTopicId = topicIdFromRoute ? Number(topicIdFromRoute) : defaultTopic.id;
+          this.selectedValue = this.topicsList.find((e: ITopiclist) => e.id === this.selectedTopicId);
+    
+          console.log(this.selectedTopicId);
+    
+          if (topics.success) {
+            this.fetchCourses({}, this.selectedTopicId);
+            this.getAllKanbans(this.selectedTopicId);
+          }
         }
-        console.log(this.topicsList)
-      },
-
-    })
-  }
+      });
+    }
+    
   fetchCourses(eventData: { pageNumber?: number; pageSize?: number }, topicId: number, courseListViewType: number = 0 ,  from?: string, 
     to?: string): void {
     const { pageNumber = 1, pageSize = 5 } = eventData;
@@ -241,8 +251,15 @@ export class CoursesComponent implements OnInit {
 
 
   ngOnInit(): void {
-
-    this.getListTopics();
+    this._ActivatedRoute.paramMap.subscribe(params => {
+      const topicIdFromRoute = params.get('topicId');
+      const activeTabFromRoute = params.get('activeTab');
+      if (activeTabFromRoute === '1') {
+        this.valueheader = 1;
+      }
+  
+      this.getListTopics(topicIdFromRoute); 
+    });
 
   }
 

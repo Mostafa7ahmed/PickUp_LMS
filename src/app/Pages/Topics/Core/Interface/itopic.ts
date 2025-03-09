@@ -25,6 +25,8 @@ export interface ITopic {
   export interface Snapshot {
     totalPrice: number
     hasCourses: boolean
+    coursesCount: number
+
   }
   
   export interface Creator {

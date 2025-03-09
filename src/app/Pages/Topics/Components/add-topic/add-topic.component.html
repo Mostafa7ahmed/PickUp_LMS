@@ -77,7 +77,7 @@
               <button class="stage-trash ng-star-inserted opacity-0">
               <i class="fa-kit fa-delete"></i></button>
           </div>
-          <div class="stagesDynamic" formArrayName="stages">
+          <div class="stagesDynamic" formArrayName="newStages">
             <div *ngFor="let child of stages.controls; let i = index" [formGroupName]="i">
               <div class="cdk-drag stage ng-star-inserted">
                 <img src="https://s3.dinarcrm.com/assets/img/tasks-board/drag.svg" />

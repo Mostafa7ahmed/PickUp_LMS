@@ -1,7 +1,7 @@
-<div class="overlay" *ngIf="isAddPopupVisible"></div>
-<div class="ShowPopup" [class.showelement]="isAddPopupVisible">
+<div class="overlay"></div>
+<div class="ShowPopup" >
   <div class="add-Course">
-    <app-top-pop [NamePopup]="'Add Course'" (isVisibleChange)="handleCancel()"></app-top-pop>
+    <app-top-pop [NamePopup]="'Add Course'" (isVisibleChange)="closePopup()"></app-top-pop>
     <form class="bodyCourse" [formGroup]="courseForm">
       <div class="leftCourse">
         <div class="couseContentAdd">

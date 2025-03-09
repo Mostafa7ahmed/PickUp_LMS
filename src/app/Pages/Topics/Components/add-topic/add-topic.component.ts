@@ -117,19 +117,22 @@ export class AddTopicComponent implements OnInit {
   
   stageForm: FormGroup = new FormGroup({
     topicId: new FormControl(),
-    stages: new FormArray([])
+    newStages: new FormArray([]),
+    updatedStages: new FormArray([]),
+
+
   });
 
 
 
   createFormStage() {
     this.stageForm = new FormGroup({
-      stages: new FormArray([])
+      newStages: new FormArray([])
     });
   }
 
   get stages(): FormArray {
-    return this.stageForm?.get('stages') as FormArray || new FormArray([]);
+    return this.stageForm?.get('newStages') as FormArray || new FormArray([]);
   }
   addStage() {
     const index = this.stages.length;

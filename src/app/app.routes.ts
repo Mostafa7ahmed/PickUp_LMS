@@ -13,6 +13,7 @@ import { CoursesComponent } from './Pages/Courses/courses/courses.component';
 import { TopicsComponent } from './Pages/Topics/topics/topics.component';
 import { AddTopicComponent } from './Pages/Topics/Components/add-topic/add-topic.component';
 import { TopicComponent } from './Pages/topic/topic.component';
+import { AddCoursesComponent } from './Pages/Courses/Components/add-courses/add-courses.component';
 
 export const routes: Routes = [
     //  Auth Router
@@ -54,13 +55,11 @@ export const routes: Routes = [
             { path: "homeInstructor", title:"Home Instrctor",component: HomeinstructorComponent},
             { path: "porfile", title:"porfile",component: PorfileComponent },
             { path: "course", title:"Course",component: CoursesComponent },
+            { path: "course/:topicId/:activeTab", component: CoursesComponent, data: { defaultTab: "1" } },
             { path: "topics", title:"topic",component: TopicsComponent },
-            { path: 'new-project', component: AddTopicComponent, outlet: 'popup' } ,
-            {
+            {path: 'addTopic',   outlet: 'dialog',component: AddTopicComponent },
+            {path: 'addcourse',   outlet: 'dialog',component: AddCoursesComponent },
 
-                path: 'addTopic',   outlet: 'dialog',
-                component: AddTopicComponent
-            },
             { path: "topicod", title:"topic",component: TopicComponent },
 
 

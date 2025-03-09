@@ -1,4 +1,9 @@
-<div class="AllTopics">
+<div class="AllTopics"  
+    infiniteScroll 
+    [infiniteScrollContainer]="'.AllTopics'" 
+    [infiniteScrollDistance]="2" 
+    [infiniteScrollThrottle]="100"  
+    (scrolled)="loadTopics(0, true)">
     @for (topic of paginationTpoicsResponse.result; track topic.id) {
     <div class="topic mb-2  ">
         <div class="topTopic ">
@@ -13,30 +18,34 @@
 
                     <h1>{{topic.name}}</h1>
                     <div class="defaultValue" *ngIf="topic.default">
-                        <span>Default </span>
+                        <div class="iconShow">
+                            <i class="fa fa-star" aria-hidden="true"></i>
+
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="lefttopTopic d-flex align-items-center gap-3">
-                <div class="icon">
+                <div class="icon" pTooltip="view topic kanban" tooltipPosition="top" [routerLink]="['/course', topic.id, '1']" >
                     <i class="fa-kit fa-apps-add-filled"></i>
                 </div>
                 <div class="icon">
-                    <i class="fa-solid fa-gear"></i>
+                    <i class="fa-solid fa-gear"  pTooltip="view topic" tooltipPosition="top"></i>
                 </div>
                 <div class="setDefualt position-relative">
                     <div class="icon p-2" (click)="toggleShow(topic.id)">
                         <i class="fa-solid fa-ellipsis-vertical"></i>
                     </div>
+                    <div class="overlay" *ngIf="selectedTopicId === topic.id" (click)="toggleShow(null)"></div>
 
-                    <div class="show " [class.active]="selectedTopicId === topic.id">
-                        <button class="deafult ShowDeafult " *ngIf="!topic.default" (click)="toggleShow(topic.id)">
+                    <div class="show  " [class.active]="selectedTopicId === topic.id">
+                        <button class="deafult ShowDeafult " *ngIf="!topic.default" (click)="setDefaultTopic(topic.id)">
                             <div class="iconShow">
                                 <i class="fa fa-star" aria-hidden="true"></i>
 
                             </div>
-                            <div class="text">Set as deafult</div>
+                            <div class="text" >Set as deafult</div>
                         </button>
                         <button class="deafult ShowEdit " (click)="toggleShow(topic.id)">
                             <div class="iconShow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"
@@ -70,6 +79,7 @@
                             <div class="text">Delete</div>
                         </button>
                     </div>
+                    
 
 
                 </div>
@@ -86,7 +96,7 @@
                         src="https://s3.dinarcrm.com/assets/img/board-mangement/dollar-circle.svg"></div>
                 <div class="label"> Courses </div>
                 <div class="number">
-                    <div class="num">{{topic.snapshot.hasCourses}}</div>
+                    <div class="num">{{topic.snapshot.coursesCount}}</div>
                 </div>
             </div>
             <div class="number-deals">

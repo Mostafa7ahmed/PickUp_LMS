@@ -16,18 +16,26 @@
     &::-webkit-scrollbar{
       display: none;
     }
-    visibility: hidden;
-    opacity: 0 ;
     transition: .5s opacity ease-in-out , .5s margin ease-in-out;
-    overflow: hidden;
     z-index: 800;
-
-  }
-  .ShowPopup.showelement{
     opacity: 2;
     visibility: visible;
-    display: block;
+    animation: grow 0.5s ease-out;
+
   }
+  
+@keyframes grow {
+  0% {
+    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
   .ShowPopup .add-Course{
     overflow: hidden;
     margin: auto;

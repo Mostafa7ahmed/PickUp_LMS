@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
 import { TopPopComponent } from '../../../../Components/top-pop/top-pop.component';
 import { CustomSelectComponent } from '../../../../Components/custom-select/custom-select.component';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -10,6 +10,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { Router, RouterModule } from '@angular/router';
 function alphabet(): string[] {
   const children: string[] = [];
   for (let i = 10; i < 36; i++) {
@@ -20,7 +21,7 @@ function alphabet(): string[] {
 @Component({
   selector: 'app-add-courses',
   standalone: true,
-  imports: [TopPopComponent, SplicTextPipe, TooltipModule, NzDividerModule, NzIconModule, NzInputModule, NzSelectModule, FormsModule, TextHeaderComponent, CommonModule, ReactiveFormsModule, NzSelectModule, CustomSelectComponent],
+  imports: [TopPopComponent, SplicTextPipe, RouterModule, TooltipModule, NzDividerModule, NzIconModule, NzInputModule, NzSelectModule, FormsModule, TextHeaderComponent, CommonModule, ReactiveFormsModule, NzSelectModule, CustomSelectComponent],
   templateUrl: './add-courses.component.html',
   styleUrl: './add-courses.component.scss'
 })
@@ -29,6 +30,7 @@ export class AddCoursesComponent {
   @ViewChild('VideoInput') VideoInput!: ElementRef<HTMLInputElement>;
   @ViewChild('ImageInput') ImageInput!: ElementRef<HTMLInputElement>;
   @Input() isAddPopupVisible: boolean = false;
+ private router = inject(Router)
   selectedFiles: File[] = [];
 
   listOfTagOptions: string[] = [];
@@ -108,7 +110,6 @@ export class AddCoursesComponent {
     console.log('FormArray after removal:', this.courseForm.get('customFields')?.value);
   }
 
-  // Sync customFields with FormArray
   syncCustomFieldsWithFormArray() {
     const customFieldsArray = this.courseForm.get('customFields') as FormArray;
     this.customFields = customFieldsArray.controls.map((control: any) => ({
@@ -119,14 +120,12 @@ export class AddCoursesComponent {
     console.log('Synced customFields:', this.customFields);
   }
 
-  // Helper to get FormArray
   get customFieldsArray() {
     return this.courseForm.get('customFields') as FormArray;
   }
 
   onSubmit() {
-    console.log(this.courseForm.value);
-    this.handleCancel() ;
+    this.closePopup() ;
   }
 
   handleCancel() {
@@ -136,9 +135,12 @@ export class AddCoursesComponent {
 
     }
 
-  open() {
-    this.isAddPopupVisible = true;
-  }
+    closePopup() {
+      this.router.navigate([{ outlets: { dialog: null } }]);
+    }
+  
+  openPopup() { this.router.navigate([{ outlets: { dialog: [ 'addTopic'] } }]);  }
+
 
   selectedImageName: string = '';
   selectedImageUrl: string | null = null;

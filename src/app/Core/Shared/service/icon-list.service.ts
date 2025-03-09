@@ -9,7 +9,6 @@ export class IconListService {
 
    icons = [
     { icon: 'fa fa-file-pen' },      // إنشاء موضوع جديد
-    { icon: 'fa fa-pencil-alt' },    // الكتابة والتحرير
     { icon: 'fa fa-comments' },      // المناقشة وطرح المواضيع
     { icon: 'fa fa-plus-circle' },   // الإضافة
     { icon: 'fa fa-newspaper' },     // المقالات والمواضيع
@@ -24,7 +23,6 @@ export class IconListService {
     { icon: 'fa fa-book-open' },     // قراءة المحتوى
     { icon: 'fa fa-folder-open' },   // تنظيم المواضيع
     { icon: 'fa fa-comment-dots' },  // التعليقات والنقاشات
-    { icon: 'fa fa-paper-plane' },   // إرسال الموضوع
     { icon: 'fa fa-list-alt' },      // عرض المواضيع
     { icon: 'fa fa-inbox' },         // إدارة المواضيع المستلمة
     { icon: 'fa fa-globe' }          // موضوع عالمي أو عام
