@@ -23,12 +23,16 @@ export class ViewTopicandStageComponent {
   topicId: number = 0; 
   TopicResult: IResponseOf<TopicResult> = {} as IResponseOf<TopicResult>;
   bgColor:string ='';
+  showEdit:boolean = false;
   
   private _getoneTopicService = inject(GetoneTopicService)
   constructor(private _ActivatedRoute: ActivatedRoute, private _Router: Router) {}
   closeViewTopic(){
     this._Router.navigate([{ outlets: { dialog: null } }]);
 
+  }
+  toggleShow() {
+    this.showEdit = !this.showEdit;
   }
   getTopicById(topicId:number){
     this._getoneTopicService.getTopicById(topicId).subscribe({

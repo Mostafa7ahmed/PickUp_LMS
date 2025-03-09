@@ -61,7 +61,7 @@ export const routes: Routes = [
             {path: 'addTopic',   outlet: 'dialog',component: AddTopicComponent },
             {path: 'addcourse',   outlet: 'dialog',component: AddCoursesComponent },
             { path: 'ViewTopic/:id', outlet: 'dialog', component: ViewTopicandStageComponent },
-                        { path: "topicod", title:"topic",component: TopicComponent },
+            { path: "topicod", title:"topic",component: TopicComponent },
 
 
             { path: "**", title:"notFound",component: HomeinstructorComponent },
