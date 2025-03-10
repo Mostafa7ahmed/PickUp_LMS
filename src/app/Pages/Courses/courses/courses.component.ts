@@ -94,6 +94,7 @@ export class CoursesComponent implements OnInit {
   kanbanResponse: IResponseOf<IKanbanResponse> = {} as IResponseOf<IKanbanResponse>;
 
   selectedTopicId: number = 0;
+  topicIdFromRoute:string| null = ''
   valueheader: number = 0;
 
   showLeftScroll = false;
@@ -126,6 +127,9 @@ export class CoursesComponent implements OnInit {
     this.isOpen = false;
     console.log(option.id)
     this.selectedTopicId = option.id;
+    this.topicIdFromRoute = option.id;
+    this.router.navigate(['/course', option.id , this.valueheader]); 
+
     this.fetchCourses({}, option.id, this.valueTable);
     this.getAllKanbans(option.id)
 
@@ -252,13 +256,16 @@ export class CoursesComponent implements OnInit {
 
   ngOnInit(): void {
     this._ActivatedRoute.paramMap.subscribe(params => {
-      const topicIdFromRoute = params.get('topicId');
+      this.topicIdFromRoute = params.get('topicId');
       const activeTabFromRoute = params.get('activeTab');
       if (activeTabFromRoute === '1') {
         this.valueheader = 1;
       }
+      if (activeTabFromRoute === '0') {
+        this.valueheader = 0;
+      }
   
-      this.getListTopics(topicIdFromRoute); 
+      this.getListTopics(this.topicIdFromRoute); 
     });
 
   }

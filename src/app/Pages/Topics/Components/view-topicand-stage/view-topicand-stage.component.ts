@@ -29,8 +29,15 @@ export class ViewTopicandStageComponent {
 
   private _getoneTopicService = inject(GetoneTopicService);
   private _convertColorService = inject(ConvertColorService)
+  private routerSubscription!: Subscription; // متغير لتخزين الاشتراك
 
-  constructor(private _ActivatedRoute: ActivatedRoute, private _Router: Router) {}
+  constructor(private _ActivatedRoute: ActivatedRoute, private _Router: Router) {
+    this.routerSubscription = this._Router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.checkAndFetchTopic();
+      });
+  }
   closeViewTopic(){
     this._Router.navigate([{ outlets: { dialog: null } }]);
 
@@ -42,20 +49,25 @@ export class ViewTopicandStageComponent {
     this.selectedStaged = this.selectedStaged === stageId ? null : stageId;
   }
 
-  getTopicById(topicId:number){
-    this._getoneTopicService.getTopicById(topicId).subscribe({
+  getTopicById(topicId: number) {
+    if (!topicId || topicId === 0) {
+      console.warn('Invalid topicId:', topicId);
+      return; 
+    }
+  
+   this._getoneTopicService.getTopicById(topicId).subscribe({
       next: (response) => {
         if (response.success) {
-          this.TopicResult.result = response.result
+          this.TopicResult.result = response.result;
           this.bgColor = this._convertColorService.convertHexToRgba(this.TopicResult.result.color, 0.4);
-          console.log(this.bgColor)
         }
       },
       error: (error) => {
         console.error('Error:', error);
-          }
-    })  
+      }
+    });
   }
+  
   openPopup() {
 
     this._Router.navigate([
@@ -64,20 +76,28 @@ export class ViewTopicandStageComponent {
 
     }
   
+    checkAndFetchTopic() {
+      const hasDialogOutlet = this._ActivatedRoute.snapshot.outlet === 'dialog';
+  
+      if (hasDialogOutlet && this.topicId) {
+        this.getTopicById(this.topicId);
+      }
+    }
 
   
-  ngOnInit(): void {
-    this._ActivatedRoute.params.subscribe(params => {
-      this.topicId = params['id']; 
-      this.getTopicById(this.topicId)
-    });
-    this._Router.events
-        .pipe(filter((event) => event instanceof NavigationEnd))
-        .subscribe(() => {
-          this.getTopicById(this.topicId)
-        });
+    ngOnInit(): void {
+      this._ActivatedRoute.params.subscribe(params => {
+        if (params['id'] && params['id'] !== '0') {
+          this.topicId = +params['id'];
+          this.checkAndFetchTopic();
+        }
+      });
+    }
 
-
-
-  }
+    ngOnDestroy(): void {
+      if (this.routerSubscription) {
+        this.routerSubscription.unsubscribe(); // إلغاء الاشتراك عند تدمير الـ Component
+      }
+    }
+    
 }

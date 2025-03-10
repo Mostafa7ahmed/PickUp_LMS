@@ -1,4 +1,5 @@
-<div class="overlay"></div>
+@if(isVisble){
+  <div class="overlay"></div>
 <div class="addTopic">
   <app-top-pop [NamePopup]="'Add Topic'" (isVisibleChange)="closePopup()"></app-top-pop>
   <div class="bodyAdd d-flex">
@@ -166,3 +167,4 @@
 
   </footer>
 </div>
+}

@@ -33,6 +33,8 @@ export class AddTopicComponent implements OnInit {
   selectedColors: string[] = [];
   maxStages = 8;
   isLoad: boolean = false;
+  isVisble: boolean = true;
+  isAddTopicPopupOpened: boolean = false;
 
   selectedValue: any
   topicsList: ITopiclist[] = [];

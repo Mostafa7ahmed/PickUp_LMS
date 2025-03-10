@@ -27,10 +27,12 @@ export class AllTopicComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   constructor(private router: Router) {
     this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
+    .pipe(filter((event) => event instanceof NavigationEnd))
+    .subscribe((event: any) => {
+      if (event.url === '/topics') {
         this.getAllTopics();
-      });
+      }
+    });
   }
 
   //Values

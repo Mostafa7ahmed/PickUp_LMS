@@ -60,6 +60,7 @@ export const routes: Routes = [
             { path: "course/:topicId/:activeTab", component: CoursesComponent, data: { defaultTab: "1" } },
             { path: "topics", title:"topic",component: TopicsComponent },
             {path: 'addTopic',   outlet: 'dialog',component: AddTopicComponent },
+            
             {path: 'addcourse',   outlet: 'dialog',component: AddCoursesComponent },
             { path: 'ViewTopic/:id', outlet: 'dialog', component: ViewTopicandStageComponent },
             {path: 'addStage/:StageId',   outlet: 'dialog2',component: AddStageComponent },
