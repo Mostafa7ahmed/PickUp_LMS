@@ -9,6 +9,7 @@ import { GetoneTopicService } from '../../Service/getone-topic.service';
 import { IResponseOf } from '../../../../Core/Shared/Interface/irespose';
 import { CommonModule, DatePipe } from '@angular/common';
 import { TextHeaderComponent } from "../../../Courses/Components/text-header/text-header.component";
+import { ConvertColorService } from '../../../../Core/Shared/service/convert-color.service';
 
 @Component({
   selector: 'app-view-topicand-stage',
@@ -24,8 +25,11 @@ export class ViewTopicandStageComponent {
   TopicResult: IResponseOf<TopicResult> = {} as IResponseOf<TopicResult>;
   bgColor:string ='';
   showEdit:boolean = false;
-  
-  private _getoneTopicService = inject(GetoneTopicService)
+  selectedStaged: number | null = null;
+
+  private _getoneTopicService = inject(GetoneTopicService);
+  private _convertColorService = inject(ConvertColorService)
+
   constructor(private _ActivatedRoute: ActivatedRoute, private _Router: Router) {}
   closeViewTopic(){
     this._Router.navigate([{ outlets: { dialog: null } }]);
@@ -34,12 +38,16 @@ export class ViewTopicandStageComponent {
   toggleShow() {
     this.showEdit = !this.showEdit;
   }
+  toggleShowStage(stageId: number | null) {
+    this.selectedStaged = this.selectedStaged === stageId ? null : stageId;
+  }
+
   getTopicById(topicId:number){
     this._getoneTopicService.getTopicById(topicId).subscribe({
       next: (response) => {
         if (response.success) {
           this.TopicResult.result = response.result
-          this.bgColor = this.convertHexToRgba(this.TopicResult.result.color, 0.4);
+          this.bgColor = this._convertColorService.convertHexToRgba(this.TopicResult.result.color, 0.4);
           console.log(this.bgColor)
         }
       },
@@ -49,20 +57,8 @@ export class ViewTopicandStageComponent {
     })  
   }
   
-  convertHexToRgba(hex: string, opacity: number = 1): string {
-    hex = hex.replace('#', '');
 
-    if (hex.length !== 6) {
-      console.error('Invalid HEX color:', hex);
-      return '#3e97ff1a';
-    }
-
-    const r = parseInt(hex.substring(0, 2), 16);
-    const g = parseInt(hex.substring(2, 4), 16);
-    const b = parseInt(hex.substring(4, 6), 16);
-
-    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
-  }
+  
   ngOnInit(): void {
     this._ActivatedRoute.params.subscribe(params => {
       this.topicId = params['id']; 

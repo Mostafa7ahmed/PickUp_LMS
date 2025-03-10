@@ -17,7 +17,7 @@ export class TopPopComponent {
 
   @Input() NameIcon: string = 'fa-kit fa-apps-add-filled';  
   @Input() bgColor: string = '#3e97ff1a';  
-  @Input() Color: string = '#3e98ffb7';  
+  @Input() ColorIcon: string = '#3e98ffb7';  
 
 
   handleCancel() {
