@@ -1,7 +1,7 @@
 import { TopicResult } from './../../Core/Interface/itopic';
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Route, Router, RouterModule } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { ActivatedRoute, NavigationEnd, Route, Router, RouterModule } from '@angular/router';
+import { filter, Subscription } from 'rxjs';
 import { TopPopComponent } from "../../../../Components/top-pop/top-pop.component";
 import { SpliceDescreptionPipe } from '../../Core/Pipe/splice-descreption.pipe';
 import { TooltipModule } from 'primeng/tooltip';
@@ -56,6 +56,13 @@ export class ViewTopicandStageComponent {
           }
     })  
   }
+  openPopup() {
+
+    this._Router.navigate([
+      { outlets: { dialog: ['ViewTopic', this.topicId], dialog2: ['addStage', this.topicId] } }
+    ]);
+
+    }
   
 
   
@@ -64,6 +71,11 @@ export class ViewTopicandStageComponent {
       this.topicId = params['id']; 
       this.getTopicById(this.topicId)
     });
+    this._Router.events
+        .pipe(filter((event) => event instanceof NavigationEnd))
+        .subscribe(() => {
+          this.getTopicById(this.topicId)
+        });
 
 
 

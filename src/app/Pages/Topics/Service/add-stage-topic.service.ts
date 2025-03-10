@@ -11,10 +11,10 @@ import { TopicResult } from '../Core/Interface/itopic';
 })
 export class AddStageTopicService {
 
-  createStage:string = '';
-  constructor(private _HttpClient:HttpClient) { this.createStage = `${environment.baseUrl}${environment.pickup}topic/update-stages` }
-  
-  addStageFromTopic(Stage: IAddStage): Observable<IResponseOf<TopicResult>> {
-    return this._HttpClient.put<IResponseOf<TopicResult>>(`${this.createStage}`, Stage  )
-  }
+    createStage:string = '';
+    constructor(private _HttpClient:HttpClient) { this.createStage = `${environment.baseUrl}${environment.pickup}topic/update-stages` }
+    
+    addStageFromTopic(Stage: IAddStage): Observable<IResponseOf<TopicResult>> {
+      return this._HttpClient.put<IResponseOf<TopicResult>>(`${this.createStage}`, Stage  )
+    }
   }
