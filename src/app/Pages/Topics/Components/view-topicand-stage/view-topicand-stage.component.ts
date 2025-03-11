@@ -10,25 +10,30 @@ import { IResponseOf } from '../../../../Core/Shared/Interface/irespose';
 import { CommonModule, DatePipe } from '@angular/common';
 import { TextHeaderComponent } from "../../../Courses/Components/text-header/text-header.component";
 import { ConvertColorService } from '../../../../Core/Shared/service/convert-color.service';
+import { SetDefaultStageService } from '../../../Stages/Core/service/set-default-stage.service';
+import { SetDefaultTopicService } from '../../Service/set-default-topic.service';
 
 @Component({
   selector: 'app-view-topicand-stage',
   standalone: true,
   imports: [RouterModule, TopPopComponent, CommonModule, SpliceDescreptionPipe, DatePipe, TooltipModule],
   templateUrl: './view-topicand-stage.component.html',
-  styleUrls:[ './view-topicand-stage.component.scss']
+  styleUrls: ['./view-topicand-stage.component.scss']
 })
 export class ViewTopicandStageComponent {
 
 
-  topicId: number = 0; 
+  topicId: number = 0;
   TopicResult: IResponseOf<TopicResult> = {} as IResponseOf<TopicResult>;
-  bgColor:string ='';
-  showEdit:boolean = false;
+  bgColor: string = '';
+  showEdit: boolean = false;
   selectedStaged: number | null = null;
 
   private _getoneTopicService = inject(GetoneTopicService);
-  private _convertColorService = inject(ConvertColorService)
+  private _convertColorService = inject(ConvertColorService);
+  private _SetDefaultStageService = inject(SetDefaultStageService)
+  private _SetDefaultTopicService = inject(SetDefaultTopicService)
+
   private routerSubscription!: Subscription; // متغير لتخزين الاشتراك
 
   constructor(private _ActivatedRoute: ActivatedRoute, private _Router: Router) {
@@ -38,7 +43,7 @@ export class ViewTopicandStageComponent {
         this.checkAndFetchTopic();
       });
   }
-  closeViewTopic(){
+  closeViewTopic() {
     this._Router.navigate([{ outlets: { dialog: null } }]);
 
   }
@@ -52,10 +57,10 @@ export class ViewTopicandStageComponent {
   getTopicById(topicId: number) {
     if (!topicId || topicId === 0) {
       console.warn('Invalid topicId:', topicId);
-      return; 
+      return;
     }
-  
-   this._getoneTopicService.getTopicById(topicId).subscribe({
+
+    this._getoneTopicService.getTopicById(topicId).subscribe({
       next: (response) => {
         if (response.success) {
           this.TopicResult.result = response.result;
@@ -67,37 +72,88 @@ export class ViewTopicandStageComponent {
       }
     });
   }
+  setDefaultTopic(topicId: number): void {
+    this._SetDefaultTopicService.setDefaultTopic(topicId).subscribe({
+      next: (res) => {
+        if (res.success && res.result) {
+          const { newDefaultTopicId, oldDefaultTopicId } = res.result;
+          if (this.TopicResult?.result && Array.isArray(this.TopicResult.result)) {
+            let newDefaultStage = this.TopicResult.result.find(topic => topic.id === newDefaultTopicId);
+            if (newDefaultStage) newDefaultStage.default = true;
+            let oldDefaultStage = this.TopicResult.result.find(topic => topic.id === oldDefaultTopicId);
+            if (oldDefaultStage) oldDefaultStage.default = false;
+          }
+          this.toggleShowStage(null)
+        } else {
+          console.error('Failed to set default topic:', res);
+        }
+      },
+      error: (error) => {
+        console.error('Error:', error);
+      }
+    });
+}
+
+setDefaultStage(id: number, topicId: number): void {
+  this._SetDefaultStageService.setDefaultStage(topicId, id).subscribe({
+    next: (res) => {
+      if (res.success && res.result) {
+        const { newDefaultTopicId, oldDefaultTopicId } = res.result;
+        if (this.TopicResult?.result?.stages && Array.isArray(this.TopicResult.result.stages)) {
+          let newDefaultStage = this.TopicResult.result.stages.find(stage => stage.id === newDefaultTopicId);
+          if (newDefaultStage) newDefaultStage.default = true;
+          let oldDefaultStage = this.TopicResult.result.stages.find(stage => stage.id === oldDefaultTopicId);
+          if (oldDefaultStage) oldDefaultStage.default = false;
+        }
+        this.toggleShowStage(null)
+      } else {
+        console.error('Failed to set default topic:', res);
+      }
+    },
+    error: (error) => {
+      console.error('Error:', error);
+    }
+  });
+}
   
-  openPopup() {
+  openPopupAddStage() {
 
     this._Router.navigate([
       { outlets: { dialog: ['ViewTopic', this.topicId], dialog2: ['addStage', this.topicId] } }
     ]);
 
-    }
-  
-    checkAndFetchTopic() {
-      const hasDialogOutlet = this._ActivatedRoute.snapshot.outlet === 'dialog';
-  
-      if (hasDialogOutlet && this.topicId) {
-        this.getTopicById(this.topicId);
-      }
-    }
 
-  
-    ngOnInit(): void {
-      this._ActivatedRoute.params.subscribe(params => {
-        if (params['id'] && params['id'] !== '0') {
-          this.topicId = +params['id'];
-          this.checkAndFetchTopic();
-        }
-      });
-    }
+  }
+  openPopupEdittage(stageID: number) {
 
-    ngOnDestroy(): void {
-      if (this.routerSubscription) {
-        this.routerSubscription.unsubscribe(); // إلغاء الاشتراك عند تدمير الـ Component
-      }
+    this._Router.navigate([
+      { outlets: { dialog: ['ViewTopic', this.topicId], dialog2: ['editStage', stageID] } }
+    ]);
+    this.selectedStaged = null;
+
+  }
+
+  checkAndFetchTopic() {
+    const hasDialogOutlet = this._ActivatedRoute.snapshot.outlet === 'dialog';
+    if (hasDialogOutlet && this.topicId) {
+      this.getTopicById(this.topicId);
     }
-    
+  }
+
+
+  ngOnInit(): void {
+    this._ActivatedRoute.params.subscribe(params => {
+      if (params['id'] && params['id'] !== '0') {
+        this.topicId = +params['id'];
+        this.checkAndFetchTopic();
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
+    }
+  }
+
 }

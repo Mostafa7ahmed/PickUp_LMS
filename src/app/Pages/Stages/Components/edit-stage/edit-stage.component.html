@@ -1,1 +1,38 @@
-<p>edit-stage works!</p>
+<div class="overlay"></div>
+<div class="shwowAddStage d-flex flex-column justify-content-between">
+    <app-top-pop [NamePopup]="'Edit Stage '" [bgColor]="'#aff5b4'" [ColorIcon]="'#39c586'" (isVisibleChange)="closePopup()"></app-top-pop>
+
+    <div class="bodyaddSatge">
+        <div class="content">
+
+            <div class="stagesDynamic" >
+                <div class=" stage" [formGroup]="stageForm" >
+                    <div class="color-popup position-relative" (click)="showPackage()" >
+                        <div class="squareSelected circle" [ngStyle]="{'background-color': selectedColor}"></div>
+                        <img alt="" class="arrow_stage" src="https://s3.dinarcrm.com/assets/img/tasks-board/arrow-down.svg" />
+                    </div>
+                    <input maxlength="50" type="text" class=" dragged "
+                      placeholder="Enter Stage Name"  formControlName="name" />
+           
+                    <div class="packageColor" *ngIf="showPackageColor">
+                      @for (color of colors; track $index) {
+                         <div 
+                            class="colorBox rounded-1"
+                            (click)="selectColor(color)"
+                            [ngStyle]="{'background-color': color}">
+                        </div>
+                      }
+                    </div>
+                </div>
+
+        </div>
+        </div>
+   
+
+    
+    </div>
+
+    <div class="footerStage p-2" >
+        <button class="btn "  (click)="updateStage()">Edit</button>
+    </div>
+</div>

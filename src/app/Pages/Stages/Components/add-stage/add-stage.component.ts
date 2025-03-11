@@ -27,7 +27,7 @@ export class AddStageComponent implements OnInit{
     name: ['',[Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
     color: ['#778fe6cf'],  
     icon:["fa fa-folder-open"],
-    shadow:["778fe6c0"],
+    shadow:["#778fe6cf"],
     topicId:[null]
   })
   get selectedColor(): string {

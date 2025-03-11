@@ -13,7 +13,7 @@
                             <i [class]="TopicResult.result.icon" aria-hidden="true"></i>
                         </span>
                         <h5>{{TopicResult.result.name}}</h5>
-                        <div class="defaultValue" *ngIf="TopicResult.result.default">
+                        <div class="defaultValue" *ngIf="TopicResult.result.default" >
                             <div class="iconShow">
                                 <i class="fa fa-star" aria-hidden="true"></i>
 
@@ -30,7 +30,7 @@
                         <div class="overlay" *ngIf="showEdit" (click)="showEdit = false"></div>
 
                         <div class="setDefualt ">
-                            <div class="show  "  [class.active]="showEdit" >
+                            <div class="show  "  [class.active]="showEdit" (click)="setDefaultTopic(TopicResult.result.id)" >
                                 <button class="deafult ShowDeafult " *ngIf="!TopicResult.result.default">
                                     <div class="iconShow">
                                         <i class="fa fa-star" aria-hidden="true"></i>
@@ -38,7 +38,7 @@
                                     </div>
                                     <div class="text" >Set as deafult</div>
                                 </button>
-                                <button class="deafult ShowEdit " >
+                                <button class="deafult ShowEdit "  >
                                     <div class="iconShow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path 
@@ -182,11 +182,12 @@
                     <div class="Stage d-flex gap-2 align-items-center">
                         <div class="progressBar" [ngStyle]="{'border-color':TopicResult.result.color}"></div>
                         <h3>Stages</h3>
+                        
 
                     </div>
-                    <div class="addStage" (click)="openPopup()">
+                    <button class="addStage btn" [disabled]="TopicResult.result.stages.length == 10" (click)="openPopupAddStage()">
                         <i class="fa fa-plus" aria-hidden="true"></i>
-                    </div>
+                    </button>
 
 
                 </div>
@@ -196,11 +197,17 @@
                     <div class="stageDrag d-flex justify-content-between align-items-center position-relative">
 
                         <div class="Stage d-flex gap-2 align-items-center ">
-                            <div class="drag ng-star-inserted " [ngClass]="$last || $first ? 'opacity-0' : 'opacity-1'">
+                            <div class="drag ng-star-inserted " [ngClass]="stage.type == 0 ||stage.type == 2 ? ' opacity-0' : ''">
                                 <i class="fa-kit-duotone fa-move-fields"></i>
                             </div>
                             <div class="progressBar" [ngStyle]="{'border-color':stage.color}"></div>
                             <h3>{{stage.name}}</h3>
+                            <div class="defaultValue" *ngIf="stage.default">
+                                <div class="iconShow" >
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+    
+                                </div>
+                            </div>
 
                         </div>
                         @if(!$last){
@@ -212,7 +219,7 @@
                         <div class="overlay" *ngIf="selectedStaged === stage.id" (click)="toggleShowStage(null)"></div>
 
                         <div class="setDefualt position-absolute" >
-                            <div class="show  "  [class.active]="selectedStaged === stage.id"  >
+                            <div class="show  "  [class.active]="selectedStaged === stage.id"  (click)="setDefaultStage( TopicResult.result.id ,stage.id ) " >
                                 <button class="deafult ShowDeafult " *ngIf="!stage.default">
                                     <div class="iconShow">
                                         <i class="fa fa-star" aria-hidden="true"></i>
@@ -220,7 +227,7 @@
                                     </div>
                                     <div class="text" >Set as deafult</div>
                                 </button>
-                                <button class="deafult ShowEdit " >
+                                <button class="deafult ShowEdit "  (click)="openPopupEdittage(stage.id)">
                                     <div class="iconShow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path 

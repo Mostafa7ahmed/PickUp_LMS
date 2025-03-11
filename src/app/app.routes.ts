@@ -16,6 +16,7 @@ import { TopicComponent } from './Pages/topic/topic.component';
 import { AddCoursesComponent } from './Pages/Courses/Components/add-courses/add-courses.component';
 import { ViewTopicandStageComponent } from './Pages/Topics/Components/view-topicand-stage/view-topicand-stage.component';
 import { AddStageComponent } from './Pages/Stages/Components/add-stage/add-stage.component';
+import { EditStageComponent } from './Pages/Stages/Components/edit-stage/edit-stage.component';
 
 export const routes: Routes = [
     //  Auth Router
@@ -64,6 +65,7 @@ export const routes: Routes = [
             {path: 'addcourse',   outlet: 'dialog',component: AddCoursesComponent },
             { path: 'ViewTopic/:id', outlet: 'dialog', component: ViewTopicandStageComponent },
             {path: 'addStage/:StageId',   outlet: 'dialog2',component: AddStageComponent },
+            {path: 'editStage/:StageId',   outlet: 'dialog2',component: EditStageComponent },
 
             { path: "topicod", title:"topic",component: TopicComponent },
 

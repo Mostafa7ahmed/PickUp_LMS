@@ -171,6 +171,7 @@
         font-style: normal;
         font-weight: 500;
         line-height: 21px;
+        width: fit-content;
       }
     }
 
@@ -355,6 +356,29 @@
 
           
         }
+        
+      .defaultValue {
+        height: 20px !important;
+        width: 22px !important;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-inline-start: 0px !important;
+        background-color: #f4b74030;
+
+        .iconShow {
+
+          i {
+            color: #f4b740;
+            font-size: 14px !important;
+          }
+        }
+
+      }
+
+
+
       .progressBar {
         width: 13.623372845153039px;
         height: 13.623372845153039px;
@@ -376,10 +400,24 @@
         background-color: #DFEFE0;
         border-radius: 4px;
         text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
+        border: none;
+        outline: none;
+
         > i{
           color: #24C12B;
           font-size: 15px;
+        }
+        &:disabled{
+          background-color: #F2F2F2;
+          cursor: not-allowed !important;
+          > i{
+            color: #24c12c33;
+            font-size: 15px;
+          }
         }
       }
       .stagesDrag {
@@ -683,12 +721,13 @@
   border: none;
   font-family: var(--font-family-1) !important;
   max-width: 400px !important;
-  width: 350px !important;
 
 }
 
 ::ng-deep .p-tooltip .p-tooltip-arrow {
-  border-color: transparent !important;
+  border-color: #ffffff !important; 
+  border-radius: 7px  !important;
+  padding: 4px !important;
 }
 
 ::ng-deep .p-tooltip.p-tooltip-top {
