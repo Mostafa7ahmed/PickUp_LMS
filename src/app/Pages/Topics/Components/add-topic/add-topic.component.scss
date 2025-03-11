@@ -152,7 +152,7 @@
   .customSelect {
     width: 250px;
   }
-
+  
   .cardTabs {
     gap: 10px;
     padding: 10px;
@@ -160,19 +160,18 @@
     background-color: var(--white);
     box-shadow: 0px 3px 24px rgba(50, 56, 51, 0.236);
     position: absolute;
-    width: 306px;
+    width: 220px;
     opacity: 1;
     visibility: visible;
     overflow: hidden;
     padding: 10px;
     z-index: 900000000000000;
     transition: 0.2s allease-in;
-    bottom: 85px;
-    left: 84px;
+    bottom: 108px;
+    left: 170px;
     border: 0.75px solid #D3D6DC;
 
-  }
-
+}
   .cardTabs.showTabs {
     opacity: 0;
     visibility: hidden;

@@ -34,7 +34,9 @@
     transition: 0.2s all ease-in-out;
 
 }
-
+::ng-deep .ant-tabs-tab{
+    padding: 0px !important;
+}
 
 
 ::ng-deep .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
@@ -74,7 +76,7 @@
 
 
 ::ng-deep .ant-tabs-content-holder {
-    height: 80px !important;
+    max-height: 80px !important;
     overflow-y: scroll;
     scrollbar-width: none;
 }
@@ -84,9 +86,13 @@
 }
 .Colors{
     cursor: pointer;
+    gap: .5rem !important;
 }
 .colorBox{
-    padding: .8rem !important;
+    padding:.8rem !important;
+}
+.colorIocn{
+    padding: .5rem !important;
 }
 
 .overlaycard {
