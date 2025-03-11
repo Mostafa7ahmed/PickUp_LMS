@@ -10,7 +10,7 @@
       
           <div class="Colors pb-2 d-flex justify-content-center gap-1 flex-wrap">
             @for (color of colors; track $index) {
-            <div class=" p-3 rounded-1 shadow-sm" 
+            <div class=" p-3 rounded-1" 
             [ngStyle]="{'background-color': color}" 
             (click)="selectBg(color)"></div>
             }
