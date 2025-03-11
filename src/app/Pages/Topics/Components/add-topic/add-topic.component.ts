@@ -39,7 +39,7 @@ export class AddTopicComponent implements OnInit {
   selectedValue: any
   topicsList: ITopiclist[] = [];
   openIndex: number | null = null;
-  topicResult:IResponseOf<TopicResult> = {} as  IResponseOf<TopicResult>;
+  topicResult: IResponseOf<TopicResult> = {} as IResponseOf<TopicResult>;
 
   topicID: number = 0;
 
@@ -47,17 +47,17 @@ export class AddTopicComponent implements OnInit {
   private router = inject(Router);
   private colorlistService = inject(ColorlistService);
   private iconsService = inject(IconListService);
-   private _FormBuilder = inject(FormBuilder);
-   private _AddTopicService = inject(AddTopicService);
-   private _AddStageTopicService = inject(AddStageTopicService);
+  private _FormBuilder = inject(FormBuilder);
+  private _AddTopicService = inject(AddTopicService);
+  private _AddStageTopicService = inject(AddStageTopicService);
 
 
 
-    topicForm: FormGroup = this._FormBuilder.group({
-    name: ['',[Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-    color: ['#778fe6cf'],  
-    icon: ['fa fa-file-pen'], 
-    description: ['', [ Validators.maxLength(300)]],
+  topicForm: FormGroup = this._FormBuilder.group({
+    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+    color: ['#778fe6cf'],
+    icon: ['fa fa-file-pen'],
+    description: ['', [Validators.maxLength(300)]],
     isMain: [false],
     mainId: [null],
   });
@@ -69,7 +69,7 @@ export class AddTopicComponent implements OnInit {
 
   handleIconSelected(icon: string) {
     this.currentIcon = icon;
-    this.topicForm.controls['icon'].setValue(icon);  
+    this.topicForm.controls['icon'].setValue(icon);
 
   }
 
@@ -80,10 +80,10 @@ export class AddTopicComponent implements OnInit {
   }
   selectedTopicId: number | null = null;
 
-onTopicSelected(selectedId: number) {
-  this.selectedTopicId = selectedId;
-  console.log('Selected Topic ID:', selectedId);
-}
+  onTopicSelected(selectedId: number) {
+    this.selectedTopicId = selectedId;
+    console.log('Selected Topic ID:', selectedId);
+  }
 
 
   showTab() {
@@ -96,14 +96,20 @@ onTopicSelected(selectedId: number) {
 
   submitFormTopic() {
     this.isLoad = true;
-    
+
     if (this.topicForm.get('isMain')?.value) {
+      this.topicForm.get('mainId')?.enable();
+
       this.topicForm.patchValue({ mainId: null });
-    } else if (this.selectedTopicId) {
-      this.topicForm.patchValue({ mainId: this.selectedTopicId });
+    } else {
+      const mainIdValue = this.selectedTopicId ?? this.selectedValue?.id ?? null;
+      if (mainIdValue !== null) {
+        this.topicForm.patchValue({ mainId: mainIdValue });
+      }
     }
-  
-  
+
+
+
     this._AddTopicService.addTopic(this.topicForm.value).subscribe({
       next: (res) => {
         if (res.success) {
@@ -120,11 +126,11 @@ onTopicSelected(selectedId: number) {
       },
     });
   }
-  
+
 
   // Create Stage 
 
-  
+
   stageForm: FormGroup = new FormGroup({
     topicId: new FormControl(),
     newStages: new FormArray([]),
@@ -147,7 +153,7 @@ onTopicSelected(selectedId: number) {
   addStage() {
     const index = this.stages.length;
     const orderValue = index + 2;
-    const selectedColor = this.selectedColors[index] || this.colors[index % this.colors.length]; 
+    const selectedColor = this.selectedColors[index] || this.colors[index % this.colors.length];
 
     this.stages.push(new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
@@ -170,7 +176,7 @@ onTopicSelected(selectedId: number) {
   togglePackageColor(index: number) {
     this.openIndex = this.openIndex === index ? null : index;
   }
-  
+
   next() {
     console.log(this.stageForm.value)
 
@@ -180,11 +186,11 @@ onTopicSelected(selectedId: number) {
 
     this._AddStageTopicService.addStageFromTopic(this.stageForm.value).subscribe({
       next: (res) => {
-       if(res.success){
-        console.log(res);
-        this.isLoad = false;
-        this.closePopup()
-       }
+        if (res.success) {
+          console.log(res);
+          this.isLoad = false;
+          this.closePopup()
+        }
 
       },
       error: (err) => {
@@ -196,27 +202,27 @@ onTopicSelected(selectedId: number) {
 
   }
 
-getTopicList(){
-  this._topiclistService.getAlllits().subscribe(topics => {
-    this.topicsList = topics.result;
-    let defautlTopic = this.topicsList.filter((e: ITopiclist) => e.default)[0];
-    this.selectedValue = defautlTopic;
-  });
-}
+  getTopicList() {
+    this._topiclistService.getAlllits().subscribe(topics => {
+      this.topicsList = topics.result;
+      let defautlTopic = this.topicsList.filter((e: ITopiclist) => e.default)[0];
+      this.selectedValue = defautlTopic;
+    });
+  }
 
 
   ngOnInit(): void {
 
     this.topicForm.get('isMain')?.valueChanges.subscribe((isChecked) => {
       if (isChecked) {
-        this.topicForm.get('mainId')?.setValue(null, { emitEvent: false }); 
-        this.topicForm.get('mainId')?.disable({ emitEvent: false }); 
+        this.topicForm.get('mainId')?.setValue(null, { emitEvent: false });
+        this.topicForm.get('mainId')?.disable({ emitEvent: false });
       } else {
         this.topicForm.get('mainId')?.enable({ emitEvent: false });
       }
     });
     this.getTopicList()
-    
+
   }
 
 
