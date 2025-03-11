@@ -28,7 +28,7 @@ export class ViewTopicandStageComponent {
   bgColor: string = '';
   showEdit: boolean = false;
   selectedStaged: number | null = null;
-
+  isDefaultTopic: boolean = false;
   private _getoneTopicService = inject(GetoneTopicService);
   private _convertColorService = inject(ConvertColorService);
   private _SetDefaultStageService = inject(SetDefaultStageService)
@@ -64,6 +64,7 @@ export class ViewTopicandStageComponent {
       next: (response) => {
         if (response.success) {
           this.TopicResult.result = response.result;
+          this.isDefaultTopic = response.result.default;
           this.bgColor = this._convertColorService.convertHexToRgba(this.TopicResult.result.color, 0.4);
         }
       },
@@ -84,6 +85,8 @@ export class ViewTopicandStageComponent {
             if (oldDefaultStage) oldDefaultStage.default = false;
           }
           this.toggleShowStage(null)
+          this.isDefaultTopic = true;
+          this.showEdit = false;
         } else {
           console.error('Failed to set default topic:', res);
         }
@@ -92,30 +95,30 @@ export class ViewTopicandStageComponent {
         console.error('Error:', error);
       }
     });
-}
-
-setDefaultStage(id: number, topicId: number): void {
-  this._SetDefaultStageService.setDefaultStage(topicId, id).subscribe({
-    next: (res) => {
-      if (res.success && res.result) {
-        const { newDefaultTopicId, oldDefaultTopicId } = res.result;
-        if (this.TopicResult?.result?.stages && Array.isArray(this.TopicResult.result.stages)) {
-          let newDefaultStage = this.TopicResult.result.stages.find(stage => stage.id === newDefaultTopicId);
-          if (newDefaultStage) newDefaultStage.default = true;
-          let oldDefaultStage = this.TopicResult.result.stages.find(stage => stage.id === oldDefaultTopicId);
-          if (oldDefaultStage) oldDefaultStage.default = false;
+  }
+  setDefaultStage(id: number, topicId: number): void {
+    this._SetDefaultStageService.setDefaultStage(topicId, id).subscribe({
+      next: (res) => {
+        if (res.success && res.result) {
+          this.isDefaultTopic = true;
+          const { newDefaultTopicId, oldDefaultTopicId } = res.result;
+          if (this.TopicResult?.result?.stages && Array.isArray(this.TopicResult.result.stages)) {
+            let newDefaultStage = this.TopicResult.result.stages.find(stage => stage.id === newDefaultTopicId);
+            if (newDefaultStage) newDefaultStage.default = true;
+            let oldDefaultStage = this.TopicResult.result.stages.find(stage => stage.id === oldDefaultTopicId);
+            if (oldDefaultStage) oldDefaultStage.default = false;
+          }
+          this.toggleShowStage(null)
+        } else {
+          console.error('Failed to set default topic:', res);
         }
-        this.toggleShowStage(null)
-      } else {
-        console.error('Failed to set default topic:', res);
+      },
+      error: (error) => {
+        console.error('Error:', error);
       }
-    },
-    error: (error) => {
-      console.error('Error:', error);
-    }
-  });
-}
-  
+    });
+  }
+
   openPopupAddStage() {
 
     this._Router.navigate([
