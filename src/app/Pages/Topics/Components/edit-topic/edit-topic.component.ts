@@ -2,10 +2,8 @@ import { ITopic, TopicResult } from './../../Core/Interface/itopic';
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule, RouterOutlet } from '@angular/router';
-import { AllTopicComponent } from '../all-topic/all-topic.component';
 import { TopPopComponent } from '../../../../Components/top-pop/top-pop.component';
 import { CustomslectwithiconComponent } from '../../../Courses/Components/customslectwithicon/customslectwithicon.component';
-import { CustomSelectComponent } from '../../../../Components/custom-select/custom-select.component';
 import { IconListService } from '../../../../Core/Shared/service/icon-list.service';
 import { ColorlistService } from '../../../../Core/Shared/service/colorlist.service';
 import { SelectIconComponent } from '../../../../Components/select-icon/select-icon.component';
@@ -15,15 +13,15 @@ import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Va
 import { AddTopicService } from '../../Service/add-topic.service';
 import { IResponseOf } from '../../../../Core/Shared/Interface/irespose';
 import { AddStageTopicService } from '../../Service/add-stage-topic.service';
-
+import { GetoneTopicService } from '../../Service/getone-topic.service';
 @Component({
-  selector: 'app-add-topic',
+  selector: 'app-edit-topic',
   standalone: true,
   imports: [TopPopComponent, CommonModule, SelectIconComponent, ReactiveFormsModule, CustomslectwithiconComponent, RouterModule],
-  templateUrl: './add-topic.component.html',
-  styleUrl: './add-topic.component.scss'
+  templateUrl: './edit-topic.component.html',
+  styleUrl: './edit-topic.component.scss'
 })
-export class AddTopicComponent implements OnInit {
+export class EditTopicComponent {
   icons: string[] = [];
   colors: string[] = [];
   currentIcon: string = 'fa fa-file-pen';
@@ -51,6 +49,9 @@ export class AddTopicComponent implements OnInit {
    private _AddTopicService = inject(AddTopicService);
    private _AddStageTopicService = inject(AddStageTopicService);
 
+   private _getoneTopicService = inject(GetoneTopicService);
+   TopicResult: IResponseOf<TopicResult> = {} as IResponseOf<TopicResult>;
+
 
 
     topicForm: FormGroup = this._FormBuilder.group({
@@ -62,7 +63,7 @@ export class AddTopicComponent implements OnInit {
     mainId: [null],
   });
 
-  constructor() {
+  constructor(private _ActivatedRoute: ActivatedRoute, private _Router: Router) {
     this.icons = this.iconsService.getIcons();
     this.colors = this.colorlistService.getColors();
   }
@@ -78,12 +79,6 @@ export class AddTopicComponent implements OnInit {
     this.topicForm.controls['color'].setValue(color);
 
   }
-  selectedTopicId: number | null = null;
-
-onTopicSelected(selectedId: number) {
-  this.selectedTopicId = selectedId;
-  console.log('Selected Topic ID:', selectedId);
-}
 
 
   showTab() {
@@ -96,13 +91,11 @@ onTopicSelected(selectedId: number) {
 
   submitFormTopic() {
     this.isLoad = true;
-    
-    if (this.topicForm.get('isMain')?.value) {
-      this.topicForm.patchValue({ mainId: null });
-    } else if (this.selectedTopicId) {
-      this.topicForm.patchValue({ mainId: this.selectedTopicId });
-    }
   
+    if (this.topicForm.get('isMain')?.value) {
+      this.topicForm.get('mainId')?.enable();
+      this.topicForm.patchValue({ mainId: null });
+    }
   
     this._AddTopicService.addTopic(this.topicForm.value).subscribe({
       next: (res) => {
@@ -204,6 +197,15 @@ getTopicList(){
   });
 }
 
+getTopicById(topicID:number){
+  this._getoneTopicService.getTopicById(this.topicID).subscribe(topic => {
+    this.topicResult = topic;
+    this.topicForm.patchValue(this.topicResult.result);
+    this.getTopicList();
+  });
+ 
+}
+
 
   ngOnInit(): void {
 
@@ -215,10 +217,15 @@ getTopicList(){
         this.topicForm.get('mainId')?.enable({ emitEvent: false });
       }
     });
-    this.getTopicList()
+    this._ActivatedRoute.params.subscribe(params => {
+      if (params['topicId'] && params['topicId'] !== '0') {
+        this.topicID = +params['topicId'];
+        this.getTopicById(this.topicID);
+      }
+    });
+  
+    
     
   }
-
-
 
 }

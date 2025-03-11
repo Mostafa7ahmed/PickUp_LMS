@@ -3,8 +3,8 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    width: 23px;
-    height: 23px;
+    width: 15px;
+    height: 15px;
     background-color: var(--color_border);
     border-radius: 4px;
     position: absolute;
@@ -18,7 +18,7 @@
 
 .icon i {
     color: var(--white);
-    font-size: 17x;
+    font-size: 12x;
     transition: 0.2s color ease-in-out;
 
 
@@ -34,7 +34,9 @@
     transition: 0.2s all ease-in-out;
 
 }
-
+::ng-deep .ant-tabs-tab{
+    padding: 0px !important;
+}
 
 
 ::ng-deep .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
@@ -74,7 +76,7 @@
 
 
 ::ng-deep .ant-tabs-content-holder {
-    height: 80px !important;
+    max-height: 80px !important;
     overflow-y: scroll;
     scrollbar-width: none;
 }
@@ -84,9 +86,13 @@
 }
 .Colors{
     cursor: pointer;
+    gap: .5rem !important;
 }
 .colorBox{
-    padding: .8rem !important;
+    padding:.8rem !important;
+}
+.colorIocn{
+    padding: .5rem !important;
 }
 
 .overlaycard {

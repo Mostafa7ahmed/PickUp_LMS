@@ -206,9 +206,9 @@ input[type="number"] {
   width: 100%;
   height: 100%;
   background: #40444c1a;
-  /* شفافية */
   z-index: 800 - 1;
-  /* أقل من الـ Popup */
   opacity: 1;
+  overflow-y: auto !important; 
+
   transition: opacity 0.5s ease-in-out;
 }

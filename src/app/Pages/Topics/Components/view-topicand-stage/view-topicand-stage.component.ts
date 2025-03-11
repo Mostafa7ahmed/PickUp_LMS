@@ -1,5 +1,5 @@
 import { TopicResult } from './../../Core/Interface/itopic';
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Route, Router, RouterModule } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { TopPopComponent } from "../../../../Components/top-pop/top-pop.component";
@@ -140,6 +140,12 @@ export class ViewTopicandStageComponent {
     const hasDialogOutlet = this._ActivatedRoute.snapshot.outlet === 'dialog';
     if (hasDialogOutlet && this.topicId) {
       this.getTopicById(this.topicId);
+    }
+  }
+  @HostListener('window:scroll', [])
+  onScroll(): void {
+    if (this.selectedStaged !== null) {
+      this.toggleShowStage(null);
     }
   }
 
