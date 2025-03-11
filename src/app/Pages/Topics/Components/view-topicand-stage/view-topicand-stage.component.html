@@ -1,312 +1,312 @@
 <div class="overlay"></div>
 
 <div class="shwowViewTopic">
-    <app-top-pop [NamePopup]="'View Topic'" (isVisibleChange)="closeViewTopic()" [bgColor]="bgColor"
-        [ColorIcon]="TopicResult.result.color" [NameIcon]="'fa-solid fa-tachograph-digital'"></app-top-pop>
+  <app-top-pop [NamePopup]="'View Topic'" (isVisibleChange)="closeViewTopic()" [bgColor]="bgColor"
+    [ColorIcon]="TopicResult.result.color" [NameIcon]="'fa-solid fa-tachograph-digital'"></app-top-pop>
 
-    <div class="bodyView">
-        <div class="start">
-            <div class="leftViewTopic">
-                <div class="title d-flex justify-content-between align-items-center">
-                    <div class="IconTit mb-1 d-flex gap-2 align-items-center">
-                        <span class="color-indicator" [style.background]="TopicResult.result.color">
-                            <i [class]="TopicResult.result.icon" aria-hidden="true"></i>
-                        </span>
-                        <h5>{{TopicResult.result.name}}</h5>
-                        <div class="defaultValue" *ngIf="TopicResult.result.default" >
-                            <div class="iconShow">
-                                <i class="fa fa-star" aria-hidden="true"></i>
+  <div class="bodyView">
+    <div class="start">
+      <div class="leftViewTopic">
+        <div class="title d-flex justify-content-between align-items-center">
+          <div class="IconTit mb-1 d-flex gap-2 align-items-center">
+            <span class="color-indicator" [style.background]="TopicResult.result.color">
+              <i [class]="TopicResult.result.icon" aria-hidden="true"></i>
+            </span>
+            <h5>{{TopicResult.result.name}}</h5>
+            <div class="defaultValue" *ngIf="this.isDefaultTopic">
+              <div class="iconShow">
+                <i class="fa fa-star" aria-hidden="true"></i>
 
-                            </div>
-                        </div>
+              </div>
+            </div>
 
 
-                    </div>
-                    <div class="more position-relative" >
-                        <div class="listMore p-1" (click)="toggleShow()" >
-                            <i class="fa-solid fa-ellipsis-vertical"></i>
+          </div>
+          <div class="more position-relative">
+            <div class="listMore p-1" (click)="toggleShow()">
+              <i class="fa-solid fa-ellipsis-vertical"></i>
 
-                        </div>
-                        <div class="overlay" *ngIf="showEdit" (click)="showEdit = false"></div>
+            </div>
+            <div class="overlay" *ngIf="showEdit" (click)="showEdit = false"></div>
 
-                        <div class="setDefualt ">
-                            <div class="show  "  [class.active]="showEdit" (click)="setDefaultTopic(TopicResult.result.id)" >
-                                <button class="deafult ShowDeafult " *ngIf="!TopicResult.result.default">
-                                    <div class="iconShow">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-        
-                                    </div>
-                                    <div class="text" >Set as deafult</div>
-                                </button>
-                                <button class="deafult ShowEdit "  >
-                                    <div class="iconShow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path 
-                                                d="M10.125 4.49786L12 6.37286M8.875 13.2479H13.875M3.875 10.7479L3.25 13.2479L5.75 12.6229L12.9913 5.38161C13.2256 5.1472 13.3572 4.82931 13.3572 4.49786C13.3572 4.1664 13.2256 3.84852 12.9913 3.61411L12.8837 3.50661C12.6493 3.27227 12.3315 3.14062 12 3.14062C11.6685 3.14063 11.3507 3.27227 11.1163 3.50661L3.875 10.7479Z"
-                                                stroke="#83899F" stroke-width="0.9375" stroke-linecap="round"
-                                                stroke-linejoin="round"></path>
-                                        </svg></div>
-                                    <div class="text">Edit</div>
-                                </button>
-                                <button class="deafult ShowDelete " >
-                                    <div class="iconShow"><svg  width="14" height="14"
-                                            viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path 
-                                                d="M12.25 3.92584C12.2383 3.92584 12.2208 3.92584 12.2033 3.92584C9.11751 3.61667 6.03751 3.50001 2.98668 3.80917L1.79668 3.92584C1.55168 3.94917 1.33585 3.77417 1.31251 3.52917C1.28918 3.28417 1.46418 3.07417 1.70335 3.05084L2.89335 2.93417C5.99668 2.61917 9.14085 2.74167 12.2908 3.05084C12.53 3.07417 12.705 3.29001 12.6817 3.52917C12.6642 3.75667 12.4717 3.92584 12.25 3.92584Z"
-                                                fill="#83899F"></path>
-                                            <path 
-                                                d="M4.95832 3.33669C4.93499 3.33669 4.91165 3.33669 4.88249 3.33085C4.64915 3.29002 4.48582 3.06252 4.52665 2.82919L4.65499 2.06502C4.74832 1.50502 4.87665 0.729187 6.23582 0.729187H7.76415C9.12915 0.729187 9.25749 1.53419 9.34499 2.07085L9.47332 2.82919C9.51415 3.06835 9.35082 3.29585 9.11749 3.33085C8.87832 3.37169 8.65082 3.20835 8.61582 2.97502L8.48749 2.21669C8.40582 1.70919 8.38832 1.61002 7.76998 1.61002H6.24165C5.62332 1.61002 5.61165 1.69169 5.52415 2.21085L5.38999 2.96919C5.35499 3.18502 5.16832 3.33669 4.95832 3.33669Z"
-                                                fill="#83899F"></path>
-                                            <path 
-                                                d="M8.87252 13.2708H5.12752C3.09169 13.2708 3.01002 12.145 2.94586 11.235L2.56669 5.36082C2.54919 5.12165 2.73586 4.91165 2.97502 4.89415C3.22002 4.88248 3.42419 5.06332 3.44169 5.30248L3.82086 11.1767C3.88502 12.0633 3.90836 12.3958 5.12752 12.3958H8.87252C10.0975 12.3958 10.1209 12.0633 10.1792 11.1767L10.5584 5.30248C10.5759 5.06332 10.7859 4.88248 11.025 4.89415C11.2642 4.91165 11.4509 5.11582 11.4334 5.36082L11.0542 11.235C10.99 12.145 10.9084 13.2708 8.87252 13.2708Z"
-                                                fill="#83899F"></path>
-                                            <path 
-                                                d="M7.96838 10.0625H6.02588C5.78671 10.0625 5.58838 9.86417 5.58838 9.625C5.58838 9.38583 5.78671 9.1875 6.02588 9.1875H7.96838C8.20755 9.1875 8.40588 9.38583 8.40588 9.625C8.40588 9.86417 8.20755 10.0625 7.96838 10.0625Z"
-                                                fill="#83899F"></path>
-                                            <path 
-                                                d="M8.45829 7.72919H5.54163C5.30246 7.72919 5.10413 7.53085 5.10413 7.29169C5.10413 7.05252 5.30246 6.85419 5.54163 6.85419H8.45829C8.69746 6.85419 8.89579 7.05252 8.89579 7.29169C8.89579 7.53085 8.69746 7.72919 8.45829 7.72919Z"
-                                                fill="#83899F"></path>
-                                        </svg></div>
-                                    <div class="text">Delete</div>
-                                </button>
-                            </div>
-                        </div>
-          
-        
-                    </div>
-         
-                </div>
-                <p [pTooltip]="TopicResult.result.description" tooltipPosition="top">{{TopicResult.result.description |
+            <div class="setDefualt ">
+              <div class="show  " [class.active]="showEdit" (click)="setDefaultTopic(TopicResult.result.id)">
+                <button class="deafult ShowDeafult " *ngIf="!TopicResult.result.default">
+                  <div class="iconShow">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+
+                  </div>
+                  <div class="text">Set as deafult</div>
+                </button>
+                <button class="deafult ShowEdit ">
+                  <div class="iconShow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M10.125 4.49786L12 6.37286M8.875 13.2479H13.875M3.875 10.7479L3.25 13.2479L5.75 12.6229L12.9913 5.38161C13.2256 5.1472 13.3572 4.82931 13.3572 4.49786C13.3572 4.1664 13.2256 3.84852 12.9913 3.61411L12.8837 3.50661C12.6493 3.27227 12.3315 3.14062 12 3.14062C11.6685 3.14063 11.3507 3.27227 11.1163 3.50661L3.875 10.7479Z"
+                        stroke="#83899F" stroke-width="0.9375" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg></div>
+                  <div class="text">Edit</div>
+                </button>
+                <button class="deafult ShowDelete ">
+                  <div class="iconShow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M12.25 3.92584C12.2383 3.92584 12.2208 3.92584 12.2033 3.92584C9.11751 3.61667 6.03751 3.50001 2.98668 3.80917L1.79668 3.92584C1.55168 3.94917 1.33585 3.77417 1.31251 3.52917C1.28918 3.28417 1.46418 3.07417 1.70335 3.05084L2.89335 2.93417C5.99668 2.61917 9.14085 2.74167 12.2908 3.05084C12.53 3.07417 12.705 3.29001 12.6817 3.52917C12.6642 3.75667 12.4717 3.92584 12.25 3.92584Z"
+                        fill="#83899F"></path>
+                      <path
+                        d="M4.95832 3.33669C4.93499 3.33669 4.91165 3.33669 4.88249 3.33085C4.64915 3.29002 4.48582 3.06252 4.52665 2.82919L4.65499 2.06502C4.74832 1.50502 4.87665 0.729187 6.23582 0.729187H7.76415C9.12915 0.729187 9.25749 1.53419 9.34499 2.07085L9.47332 2.82919C9.51415 3.06835 9.35082 3.29585 9.11749 3.33085C8.87832 3.37169 8.65082 3.20835 8.61582 2.97502L8.48749 2.21669C8.40582 1.70919 8.38832 1.61002 7.76998 1.61002H6.24165C5.62332 1.61002 5.61165 1.69169 5.52415 2.21085L5.38999 2.96919C5.35499 3.18502 5.16832 3.33669 4.95832 3.33669Z"
+                        fill="#83899F"></path>
+                      <path
+                        d="M8.87252 13.2708H5.12752C3.09169 13.2708 3.01002 12.145 2.94586 11.235L2.56669 5.36082C2.54919 5.12165 2.73586 4.91165 2.97502 4.89415C3.22002 4.88248 3.42419 5.06332 3.44169 5.30248L3.82086 11.1767C3.88502 12.0633 3.90836 12.3958 5.12752 12.3958H8.87252C10.0975 12.3958 10.1209 12.0633 10.1792 11.1767L10.5584 5.30248C10.5759 5.06332 10.7859 4.88248 11.025 4.89415C11.2642 4.91165 11.4509 5.11582 11.4334 5.36082L11.0542 11.235C10.99 12.145 10.9084 13.2708 8.87252 13.2708Z"
+                        fill="#83899F"></path>
+                      <path
+                        d="M7.96838 10.0625H6.02588C5.78671 10.0625 5.58838 9.86417 5.58838 9.625C5.58838 9.38583 5.78671 9.1875 6.02588 9.1875H7.96838C8.20755 9.1875 8.40588 9.38583 8.40588 9.625C8.40588 9.86417 8.20755 10.0625 7.96838 10.0625Z"
+                        fill="#83899F"></path>
+                      <path
+                        d="M8.45829 7.72919H5.54163C5.30246 7.72919 5.10413 7.53085 5.10413 7.29169C5.10413 7.05252 5.30246 6.85419 5.54163 6.85419H8.45829C8.69746 6.85419 8.89579 7.05252 8.89579 7.29169C8.89579 7.53085 8.69746 7.72919 8.45829 7.72919Z"
+                        fill="#83899F"></path>
+                    </svg></div>
+                  <div class="text">Delete</div>
+                </button>
+              </div>
+            </div>
+
+
+          </div>
+
+        </div>
+        <p [pTooltip]="TopicResult.result.description" tooltipPosition="top">{{TopicResult.result.description |
                     spliceDescreption}}</p>
 
-            </div>
-            <div class="invoice" style="width: 315px;">
-                <div class="ViewDealValue">
-                    <div class="boxContainer">
-                        <div class="box">
-                            <div class="content">
-                                <div class="dealValue"> Total Price</div>
-                                <div class="price">
-                                    <span class="no"
-                                        [style.color]="TopicResult.result.color">{{TopicResult.result.snapshot.totalPrice}}</span>
-                                    <span class="currency">EGP</span>
-                                </div>
-                                <div class="line" [style.background]="TopicResult.result.color"></div>
-                            </div>
-
-                        </div>
-                        <div class="expectedProfits ">
-                            <div class="label">Courses :</div>
-                            <div class="value">
-                                <span class="expected">{{TopicResult.result.snapshot.coursesCount}}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-        <div class="widgets ">
+      </div>
+      <div class="invoice" style="width: 315px;">
+        <div class="ViewDealValue">
+          <div class="boxContainer">
             <div class="box">
-                <div id="ddBoxIcon" class="icon">
-                    <i class="fa-kit fa-calender"></i>
-                </div>
-                <div id="ddContent" class="content">
-                    <div class="label">Creation Date</div>
-                    <div class="date"><span id="ddNum" class="num">{{TopicResult.result.createdOn |date}}</span></div>
-
-
-                </div>
-            </div>
-            <div class="box">
-                <div id="ddBoxIcon" class="icon">
-                    <img alt="" src="https://s3.dinarcrm.com/assets/img/board-mangement/Icon-Interface.svg">
-
-                </div>
-                <div id="ddContent" class="content">
-                    <div class="label">Creator Name</div>
-                    @if(TopicResult.result.creator){
-                    <span>{{TopicResult.result.creator.name}}</span>
-
-                    }
-                    @else {
-                    <span> - -</span>
-
-                    }
-                </div>
-            </div>
-            <div class="box">
-                <div id="ddBoxIcon" class="icon">
-                    <img alt="" src="https://s3.dinarcrm.com/assets/img/board-mangement/Icon-Interface.svg">
-
-                </div>
-                <div id="ddContent" class="content">
-                    <div class="label">Updater Name</div>
-                    @if(TopicResult.result.updater){
-                    <span>{{TopicResult.result.updater.name}}</span>
-
-                    }
-                    @else {
-                    <span> - -</span>
-
-                    }
-
-                </div>
-            </div>
-            <div class="box">
-                <div id="ddBoxIcon" class="icon">
-                    <i class="fa-kit fa-calender"></i>
-                </div>
-                <div id="ddContent" class="content">
-                    <div class="label">Updation Date</div>
-                    @if(TopicResult.result.updatedOn){
-                    <div class="date">
-                        <span id="ddNum" class="num">{{TopicResult.result.createdOn | date}}</span>
-                    </div> }
-                    @else {
-                    <div class="date">
-                        <span> - - </span>
-                    </div>
-                    }
-
-
-                </div>
-            </div>
-
-        </div>
-
-        <div class="bottomTopic d-flex gap-2">
-            <div class="bottomRight ">
-                <div class="headerStage p-2">
-                    <div class="Stage d-flex gap-2 align-items-center">
-                        <div class="progressBar" [ngStyle]="{'border-color':TopicResult.result.color}"></div>
-                        <h3>Stages</h3>
-                        
-
-                    </div>
-                    <button class="addStage btn" [disabled]="TopicResult.result.stages.length == 10" (click)="openPopupAddStage()">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                    </button>
-
-
+              <div class="content">
+                <div class="dealValue"> Total Price</div>
+                <div class="price">
+                  <span class="no"
+                    [style.color]="TopicResult.result.color">{{TopicResult.result.snapshot.totalPrice}}</span>
+                  <span class="currency">EGP</span>
                 </div>
                 <div class="line" [style.background]="TopicResult.result.color"></div>
-                <div class="stagesDrag">
-                    @for (stage of TopicResult.result.stages; track stage.id) {
-                    <div class="stageDrag d-flex justify-content-between align-items-center position-relative">
-
-                        <div class="Stage d-flex gap-2 align-items-center ">
-                            <div class="drag ng-star-inserted " [ngClass]="stage.type == 0 ||stage.type == 2 ? ' opacity-0' : ''">
-                                <i class="fa-kit-duotone fa-move-fields"></i>
-                            </div>
-                            <div class="progressBar" [ngStyle]="{'border-color':stage.color}"></div>
-                            <h3>{{stage.name}}</h3>
-                            <div class="defaultValue" *ngIf="stage.default">
-                                <div class="iconShow" >
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-    
-                                </div>
-                            </div>
-
-                        </div>
-                        @if(!$last){
-                            <div class="more cr px-2"  *ngIf="!stage.default"    (click)="toggleShowStage(stage.id)">
-                                <i class="fa-solid fa-ellipsis-vertical"></i>
-                            </div>
-                        }
-                  
-                        <div class="overlay" *ngIf="selectedStaged === stage.id" (click)="toggleShowStage(null)"></div>
-
-                        <div class="setDefualt position-absolute" >
-                            <div class="show  "  [class.active]="selectedStaged === stage.id"  (click)="setDefaultStage( TopicResult.result.id ,stage.id ) " >
-                                <button class="deafult ShowDeafult " *ngIf="!stage.default">
-                                    <div class="iconShow">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-        
-                                    </div>
-                                    <div class="text" >Set as deafult</div>
-                                </button>
-                                <button class="deafult ShowEdit "  (click)="openPopupEdittage(stage.id)">
-                                    <div class="iconShow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path 
-                                                d="M10.125 4.49786L12 6.37286M8.875 13.2479H13.875M3.875 10.7479L3.25 13.2479L5.75 12.6229L12.9913 5.38161C13.2256 5.1472 13.3572 4.82931 13.3572 4.49786C13.3572 4.1664 13.2256 3.84852 12.9913 3.61411L12.8837 3.50661C12.6493 3.27227 12.3315 3.14062 12 3.14062C11.6685 3.14063 11.3507 3.27227 11.1163 3.50661L3.875 10.7479Z"
-                                                stroke="#83899F" stroke-width="0.9375" stroke-linecap="round"
-                                                stroke-linejoin="round"></path>
-                                        </svg></div>
-                                    <div class="text">Edit</div>
-                                </button>
-                                <button class="deafult ShowDelete " >
-                                    <div class="iconShow"><svg  width="14" height="14"
-                                            viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path 
-                                                d="M12.25 3.92584C12.2383 3.92584 12.2208 3.92584 12.2033 3.92584C9.11751 3.61667 6.03751 3.50001 2.98668 3.80917L1.79668 3.92584C1.55168 3.94917 1.33585 3.77417 1.31251 3.52917C1.28918 3.28417 1.46418 3.07417 1.70335 3.05084L2.89335 2.93417C5.99668 2.61917 9.14085 2.74167 12.2908 3.05084C12.53 3.07417 12.705 3.29001 12.6817 3.52917C12.6642 3.75667 12.4717 3.92584 12.25 3.92584Z"
-                                                fill="#83899F"></path>
-                                            <path 
-                                                d="M4.95832 3.33669C4.93499 3.33669 4.91165 3.33669 4.88249 3.33085C4.64915 3.29002 4.48582 3.06252 4.52665 2.82919L4.65499 2.06502C4.74832 1.50502 4.87665 0.729187 6.23582 0.729187H7.76415C9.12915 0.729187 9.25749 1.53419 9.34499 2.07085L9.47332 2.82919C9.51415 3.06835 9.35082 3.29585 9.11749 3.33085C8.87832 3.37169 8.65082 3.20835 8.61582 2.97502L8.48749 2.21669C8.40582 1.70919 8.38832 1.61002 7.76998 1.61002H6.24165C5.62332 1.61002 5.61165 1.69169 5.52415 2.21085L5.38999 2.96919C5.35499 3.18502 5.16832 3.33669 4.95832 3.33669Z"
-                                                fill="#83899F"></path>
-                                            <path 
-                                                d="M8.87252 13.2708H5.12752C3.09169 13.2708 3.01002 12.145 2.94586 11.235L2.56669 5.36082C2.54919 5.12165 2.73586 4.91165 2.97502 4.89415C3.22002 4.88248 3.42419 5.06332 3.44169 5.30248L3.82086 11.1767C3.88502 12.0633 3.90836 12.3958 5.12752 12.3958H8.87252C10.0975 12.3958 10.1209 12.0633 10.1792 11.1767L10.5584 5.30248C10.5759 5.06332 10.7859 4.88248 11.025 4.89415C11.2642 4.91165 11.4509 5.11582 11.4334 5.36082L11.0542 11.235C10.99 12.145 10.9084 13.2708 8.87252 13.2708Z"
-                                                fill="#83899F"></path>
-                                            <path 
-                                                d="M7.96838 10.0625H6.02588C5.78671 10.0625 5.58838 9.86417 5.58838 9.625C5.58838 9.38583 5.78671 9.1875 6.02588 9.1875H7.96838C8.20755 9.1875 8.40588 9.38583 8.40588 9.625C8.40588 9.86417 8.20755 10.0625 7.96838 10.0625Z"
-                                                fill="#83899F"></path>
-                                            <path 
-                                                d="M8.45829 7.72919H5.54163C5.30246 7.72919 5.10413 7.53085 5.10413 7.29169C5.10413 7.05252 5.30246 6.85419 5.54163 6.85419H8.45829C8.69746 6.85419 8.89579 7.05252 8.89579 7.29169C8.89579 7.53085 8.69746 7.72919 8.45829 7.72919Z"
-                                                fill="#83899F"></path>
-                                        </svg></div>
-                                    <div class="text">Delete</div>
-                                </button>
-                            </div>
-                        </div>
-              
-          
-                        @if(!$last){
-                        <div [style.background]="stage.color" class="bottomCricle"></div>
-                        <div [style.background]="stage.color" class="lineContact"></div>
-                        }
-                        @if(!$first){
-                        <div [style.background]="stage.color" class="TopCricle"></div>
-
-                        }
-
-
-
-                    </div>
-
-                    }
-
-                </div>
+              </div>
 
             </div>
-            <div class="bottomLeft">
-                <div class="topLeftInfo d-flex justify-content-center align-items-center bg-white">
-                    <img alt="" width="150" src="https://s3.dinarcrm.com/assets/img/contacts/no-deals-empty-state-mini.svg">
+            <div class="expectedProfits ">
+              <div class="label">Courses :</div>
+              <div class="value">
+                <span class="expected">{{TopicResult.result.snapshot.coursesCount}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="widgets ">
+      <div class="box">
+        <div id="ddBoxIcon" class="icon">
+          <i class="fa-kit fa-calender"></i>
+        </div>
+        <div id="ddContent" class="content">
+          <div class="label">Creation Date</div>
+          <div class="date"><span id="ddNum" class="num">{{TopicResult.result.createdOn |date}}</span></div>
+
+
+        </div>
+      </div>
+      <div class="box">
+        <div id="ddBoxIcon" class="icon">
+          <img alt="" src="https://s3.dinarcrm.com/assets/img/board-mangement/Icon-Interface.svg">
+
+        </div>
+        <div id="ddContent" class="content">
+          <div class="label">Creator Name</div>
+          @if(TopicResult.result.creator){
+          <span>{{TopicResult.result.creator.name}}</span>
+
+          }
+          @else {
+          <span> - -</span>
+
+          }
+        </div>
+      </div>
+      <div class="box">
+        <div id="ddBoxIcon" class="icon">
+          <img alt="" src="https://s3.dinarcrm.com/assets/img/board-mangement/Icon-Interface.svg">
+
+        </div>
+        <div id="ddContent" class="content">
+          <div class="label">Updater Name</div>
+          @if(TopicResult.result.updater){
+          <span>{{TopicResult.result.updater.name}}</span>
+
+          }
+          @else {
+          <span> - -</span>
+
+          }
+
+        </div>
+      </div>
+      <div class="box">
+        <div id="ddBoxIcon" class="icon">
+          <i class="fa-kit fa-calender"></i>
+        </div>
+        <div id="ddContent" class="content">
+          <div class="label">Updation Date</div>
+          @if(TopicResult.result.updatedOn){
+          <div class="date">
+            <span id="ddNum" class="num">{{TopicResult.result.createdOn | date}}</span>
+          </div> }
+          @else {
+          <div class="date">
+            <span> - - </span>
+          </div>
+          }
+
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="bottomTopic d-flex gap-2">
+      <div class="bottomRight ">
+        <div class="headerStage p-2">
+          <div class="Stage d-flex gap-2 align-items-center">
+            <div class="progressBar" [ngStyle]="{'border-color':TopicResult.result.color}"></div>
+            <h3>Stages</h3>
+
+
+          </div>
+          <button class="addStage btn" [disabled]="TopicResult.result.stages.length == 10"
+            (click)="openPopupAddStage()">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </button>
+
+
+        </div>
+        <div class="line" [style.background]="TopicResult.result.color"></div>
+        <div class="stagesDrag">
+          @for (stage of TopicResult.result.stages; track stage.id) {
+          <div class="stageDrag d-flex justify-content-between align-items-center position-relative">
+
+            <div class="Stage d-flex gap-2 align-items-center ">
+              <div class="drag ng-star-inserted " [ngClass]="stage.type == 0 ||stage.type == 2 ? ' opacity-0' : ''">
+                <i class="fa-kit-duotone fa-move-fields"></i>
+              </div>
+              <div class="progressBar" [ngStyle]="{'border-color':stage.color}"></div>
+              <h3>{{stage.name}}</h3>
+              <div class="defaultValue" *ngIf="stage.default">
+                <div class="iconShow">
+                  <i class="fa fa-star" aria-hidden="true"></i>
 
                 </div>
-                <section class="creator">
-                    <div class="creatorInfo">
-                        <div class="image"><img
-                                src="https://s3.dinarcrm.com/sortech//fdcd55c7-71e3-45de-8660-7e16a3dbe0a2/Identity/4124e88f-ba05-4dbe-b224-de76790fe793.png">
-                        </div>
-                        <div class="info">
-                            <div class="by"> Created by </div>
-                            <div class="name"> {{TopicResult.result.creator.name}}</div>
-                        </div>
-                    </div>
-                    <div class="date">
-                        <div class="on">Created on</div>
-                        <div class="time">
-                            <div class="number"><span id="viewDealSpanN"> {{TopicResult.result.createdOn | date}} </span>
-                           <span><i class="fa-kit fa-info"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+              </div>
+
             </div>
+            @if(!$last){
+            <div class="more cr px-2" *ngIf="!stage.default" (click)="toggleShowStage(stage.id)">
+              <i class="fa-solid fa-ellipsis-vertical"></i>
+            </div>
+            }
+
+            <div class="overlay" *ngIf="selectedStaged === stage.id" (click)="toggleShowStage(null)"></div>
+
+            <div class="setDefualt position-absolute">
+              <div class="show  " [class.active]="selectedStaged === stage.id"
+                (click)="setDefaultStage( TopicResult.result.id ,stage.id ) ">
+                <button class="deafult ShowDeafult " *ngIf="!stage.default">
+                  <div class="iconShow">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+
+                  </div>
+                  <div class="text">Set as deafult</div>
+                </button>
+                <button class="deafult ShowEdit " (click)="openPopupEdittage(stage.id)">
+                  <div class="iconShow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M10.125 4.49786L12 6.37286M8.875 13.2479H13.875M3.875 10.7479L3.25 13.2479L5.75 12.6229L12.9913 5.38161C13.2256 5.1472 13.3572 4.82931 13.3572 4.49786C13.3572 4.1664 13.2256 3.84852 12.9913 3.61411L12.8837 3.50661C12.6493 3.27227 12.3315 3.14062 12 3.14062C11.6685 3.14063 11.3507 3.27227 11.1163 3.50661L3.875 10.7479Z"
+                        stroke="#83899F" stroke-width="0.9375" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg></div>
+                  <div class="text">Edit</div>
+                </button>
+                <button class="deafult ShowDelete ">
+                  <div class="iconShow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M12.25 3.92584C12.2383 3.92584 12.2208 3.92584 12.2033 3.92584C9.11751 3.61667 6.03751 3.50001 2.98668 3.80917L1.79668 3.92584C1.55168 3.94917 1.33585 3.77417 1.31251 3.52917C1.28918 3.28417 1.46418 3.07417 1.70335 3.05084L2.89335 2.93417C5.99668 2.61917 9.14085 2.74167 12.2908 3.05084C12.53 3.07417 12.705 3.29001 12.6817 3.52917C12.6642 3.75667 12.4717 3.92584 12.25 3.92584Z"
+                        fill="#83899F"></path>
+                      <path
+                        d="M4.95832 3.33669C4.93499 3.33669 4.91165 3.33669 4.88249 3.33085C4.64915 3.29002 4.48582 3.06252 4.52665 2.82919L4.65499 2.06502C4.74832 1.50502 4.87665 0.729187 6.23582 0.729187H7.76415C9.12915 0.729187 9.25749 1.53419 9.34499 2.07085L9.47332 2.82919C9.51415 3.06835 9.35082 3.29585 9.11749 3.33085C8.87832 3.37169 8.65082 3.20835 8.61582 2.97502L8.48749 2.21669C8.40582 1.70919 8.38832 1.61002 7.76998 1.61002H6.24165C5.62332 1.61002 5.61165 1.69169 5.52415 2.21085L5.38999 2.96919C5.35499 3.18502 5.16832 3.33669 4.95832 3.33669Z"
+                        fill="#83899F"></path>
+                      <path
+                        d="M8.87252 13.2708H5.12752C3.09169 13.2708 3.01002 12.145 2.94586 11.235L2.56669 5.36082C2.54919 5.12165 2.73586 4.91165 2.97502 4.89415C3.22002 4.88248 3.42419 5.06332 3.44169 5.30248L3.82086 11.1767C3.88502 12.0633 3.90836 12.3958 5.12752 12.3958H8.87252C10.0975 12.3958 10.1209 12.0633 10.1792 11.1767L10.5584 5.30248C10.5759 5.06332 10.7859 4.88248 11.025 4.89415C11.2642 4.91165 11.4509 5.11582 11.4334 5.36082L11.0542 11.235C10.99 12.145 10.9084 13.2708 8.87252 13.2708Z"
+                        fill="#83899F"></path>
+                      <path
+                        d="M7.96838 10.0625H6.02588C5.78671 10.0625 5.58838 9.86417 5.58838 9.625C5.58838 9.38583 5.78671 9.1875 6.02588 9.1875H7.96838C8.20755 9.1875 8.40588 9.38583 8.40588 9.625C8.40588 9.86417 8.20755 10.0625 7.96838 10.0625Z"
+                        fill="#83899F"></path>
+                      <path
+                        d="M8.45829 7.72919H5.54163C5.30246 7.72919 5.10413 7.53085 5.10413 7.29169C5.10413 7.05252 5.30246 6.85419 5.54163 6.85419H8.45829C8.69746 6.85419 8.89579 7.05252 8.89579 7.29169C8.89579 7.53085 8.69746 7.72919 8.45829 7.72919Z"
+                        fill="#83899F"></path>
+                    </svg></div>
+                  <div class="text">Delete</div>
+                </button>
+              </div>
+            </div>
+
+
+            @if(!$last){
+            <div [style.background]="stage.color" class="bottomCricle"></div>
+            <div [style.background]="stage.color" class="lineContact"></div>
+            }
+            @if(!$first){
+            <div [style.background]="stage.color" class="TopCricle"></div>
+
+            }
+
+
+
+          </div>
+
+          }
 
         </div>
 
+      </div>
+      <div class="bottomLeft">
+        <div class="topLeftInfo d-flex justify-content-center align-items-center bg-white">
+          <img alt="" width="150" src="https://s3.dinarcrm.com/assets/img/contacts/no-deals-empty-state-mini.svg">
+
+        </div>
+        <section class="creator">
+          <div class="creatorInfo">
+            <div class="image"><img
+                src="https://s3.dinarcrm.com/sortech//fdcd55c7-71e3-45de-8660-7e16a3dbe0a2/Identity/4124e88f-ba05-4dbe-b224-de76790fe793.png">
+            </div>
+            <div class="info">
+              <div class="by"> Created by </div>
+              <div class="name"> {{TopicResult.result.creator.name}}</div>
+            </div>
+          </div>
+          <div class="date">
+            <div class="on">Created on</div>
+            <div class="time">
+              <div class="number"><span id="viewDealSpanN"> {{TopicResult.result.createdOn | date}} </span>
+                <span><i class="fa-kit fa-info"></i></span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
 
     </div>
+
+
+  </div>
