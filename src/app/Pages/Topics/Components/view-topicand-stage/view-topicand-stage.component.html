@@ -30,9 +30,9 @@
             <div class="overlay" *ngIf="showEdit" (click)="showEdit = false"></div>
 
             <div class="setDefualt ">
-              <div class="show  " [class.active]="showEdit" (click)="setDefaultTopic(TopicResult.result.id)">
-                <button class="deafult ShowDeafult " *ngIf="!TopicResult.result.default">
-                  <div class="iconShow">
+              <div class="show  " [class.active]="showEdit" >
+                <button class="deafult ShowDeafult " *ngIf="!this.isDefaultTopic" (click)="setDefaultTopic(TopicResult.result.id)" >
+                  <div class="iconShow" >
                     <i class="fa fa-star" aria-hidden="true"></i>
 
                   </div>

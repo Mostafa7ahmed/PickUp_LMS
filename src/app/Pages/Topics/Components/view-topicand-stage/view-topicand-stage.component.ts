@@ -79,14 +79,8 @@ export class ViewTopicandStageComponent {
       next: (res) => {
         if (res.success && res.result) {
           this.isDefaultTopic = true;
-          const { newDefaultTopicId, oldDefaultTopicId } = res.result;
-          if (this.TopicResult?.result && Array.isArray(this.TopicResult.result)) {
-            let newDefaultStage = this.TopicResult.result.find(topic => topic.id === newDefaultTopicId);
-            if (newDefaultStage) newDefaultStage.default = true;
-            let oldDefaultStage = this.TopicResult.result.find(topic => topic.id === oldDefaultTopicId);
-            if (oldDefaultStage) oldDefaultStage.default = false;
-          }
-          this.toggleShowStage(null)
+        
+          this.showEdit = false;  
         } else {
           console.error('Failed to set default topic:', res);
         }
