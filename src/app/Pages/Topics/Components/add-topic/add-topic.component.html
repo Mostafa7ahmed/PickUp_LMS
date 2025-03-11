@@ -24,7 +24,7 @@
             <input maxlength="50" type="text"   formControlName="name" />
             <div class="dropdownColor">
               <div class="btn dropdownColor-toggle" (click)="showTab()">
-                <div class="squareSelected" [ngStyle]="{ 'background-color': colorDefault }">
+                <div class="squareSelected " [ngStyle]="{ 'background-color': colorDefault }">
                   <i [class]="currentIcon"></i>
                 </div>
                 <i class="fa-solid fa-chevron-down"></i>
@@ -40,7 +40,7 @@
           </div>
           <label>Topic Description</label>
           <div class="board-group mb-2">
-            <textarea rows="2" cols="30" pinputtextarea="" maxlength="300" formControlName="description"></textarea>
+            <textarea rows="2" cols="30" pinputtextarea="" maxlength="500" formControlName="description"></textarea>
           </div>
           <div class="SelectTopic d-flex gap-3 align-items-start justify-content-between">
             <div class="customSelect">

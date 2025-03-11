@@ -162,7 +162,7 @@
           <div class="label">Updation Date</div>
           @if(TopicResult.result.updatedOn){
           <div class="date">
-            <span id="ddNum" class="num">{{TopicResult.result.createdOn | date}}</span>
+            <span id="ddNum" class="num">{{TopicResult.result.updatedOn | date}}</span>
           </div> }
           @else {
           <div class="date">
@@ -193,9 +193,9 @@
 
         </div>
         <div class="line" [style.background]="TopicResult.result.color"></div>
-        <div class="stagesDrag">
+        <div class="stagesDrag position-relative">
           @for (stage of TopicResult.result.stages; track stage.id) {
-          <div class="stageDrag d-flex justify-content-between align-items-center position-relative">
+          <div class="stageDrag d-flex justify-content-between align-items-center ">
 
             <div class="Stage d-flex gap-2 align-items-center ">
               <div class="drag ng-star-inserted " [ngClass]="stage.type == 0 ||stage.type == 2 ? ' opacity-0' : ''">
@@ -211,13 +211,11 @@
               </div>
 
             </div>
-            @if(!$last){
-            <div class="more cr px-2" *ngIf="!stage.default" (click)="toggleShowStage(stage.id)">
+            <div class="more cr px-2" (click)="toggleShowStage(stage.id)">
               <i class="fa-solid fa-ellipsis-vertical"></i>
             </div>
-            }
 
-            <div class="overlay" *ngIf="selectedStaged === stage.id" (click)="toggleShowStage(null)"></div>
+            <div class="overlay"  (window:scroll)="toggleShowStage(null)" *ngIf="selectedStaged === stage.id" (click)="toggleShowStage(null)"></div>
 
             <div class="setDefualt position-absolute">
               <div class="show  " [class.active]="selectedStaged === stage.id"
@@ -229,7 +227,7 @@
                   </div>
                   <div class="text">Set as deafult</div>
                 </button>
-                <button class="deafult ShowEdit " (click)="openPopupEdittage(stage.id)">
+                <button class="deafult ShowEdit " (click)="openPopupEdittage(stage.id)" [ngClass]="stage.type == 0 ||stage.type == 2 ? 'd-none' : ''">
                   <div class="iconShow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -238,7 +236,7 @@
                     </svg></div>
                   <div class="text">Edit</div>
                 </button>
-                <button class="deafult ShowDelete ">
+                <button class="deafult ShowDelete " [ngClass]="stage.type == 0 ||stage.type == 2 ? 'd-none ' : ''">
                   <div class="iconShow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
                       <path
