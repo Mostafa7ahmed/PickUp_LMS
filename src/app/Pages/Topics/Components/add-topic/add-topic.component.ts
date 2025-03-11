@@ -78,6 +78,12 @@ export class AddTopicComponent implements OnInit {
     this.topicForm.controls['color'].setValue(color);
 
   }
+  selectedTopicId: number | null = null;
+
+onTopicSelected(selectedId: number) {
+  this.selectedTopicId = selectedId;
+  console.log('Selected Topic ID:', selectedId);
+}
 
 
   showTab() {
@@ -90,11 +96,13 @@ export class AddTopicComponent implements OnInit {
 
   submitFormTopic() {
     this.isLoad = true;
-  
+    
     if (this.topicForm.get('isMain')?.value) {
-      this.topicForm.get('mainId')?.enable();
       this.topicForm.patchValue({ mainId: null });
+    } else if (this.selectedTopicId) {
+      this.topicForm.patchValue({ mainId: this.selectedTopicId });
     }
+  
   
     this._AddTopicService.addTopic(this.topicForm.value).subscribe({
       next: (res) => {

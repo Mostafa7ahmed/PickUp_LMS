@@ -29,14 +29,12 @@ export class CustomslectwithiconComponent {
 
   toggleDropdown() {
     this.isOpen = !this.isOpen;
-    console.log(this.selectedItem)
-    console.log(this.selectionChange)
-    console.log(this.items)
+
   }
 
   selectOption(option: any) {
     this.selectedItem = option;
-    this.selectionChange.emit(option);
+    this.selectionChange.emit(option.id);
     this.isOpen = false;
     this.isSelected = true;
   }
