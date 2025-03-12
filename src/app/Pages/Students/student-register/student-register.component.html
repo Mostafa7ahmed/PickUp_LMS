@@ -41,7 +41,7 @@
       </div>
 
       <div
-        class="position-relative my-3"
+        class="position-relative mt-4"
         [class.my-3]="!isFieldInvalid('userName')"
       >
         <input
@@ -66,7 +66,7 @@
       }
 
       <div
-        class="position-relative my-3"
+        class="position-relative mt-4"
         [class.my-3]="!isFieldInvalid('email')"
       >
         <input
@@ -85,36 +85,10 @@
 
      
       </div>
-      @if(isFieldInvalid('email')){
-        <p class="error-message m">{{MessageEmail}}</p>
 
-      }
 
-      <div class="position-relative">
-        <!-- <ngx-intl-tel-input
-          [cssClass]="getCssClass('phoneNumber')"
-          [preferredCountries]="preferredCountries"
-          [searchCountryFlag]="true"
-          [searchCountryField]="[
-            SearchCountryField.Iso2,
-            SearchCountryField.Name
-          ]"
-          [selectFirstCountry]="true"
-          [selectedCountryISO]="CountryISO.Egypt"
-          [phoneValidation]="true"
-          [numberFormat]="PhoneNumberFormat.National"
-          name="phoneNumber"
-          formControlName="phoneNumber"
-          (focusout)="validPhone('phoneNumber', 2)"
+      <div class="position-relative mt-4">
 
-        ></ngx-intl-tel-input> -->
-
-        <!-- @if(registerFrom.get("phoneNumber")?.errors &&
-        registerFrom.get("phoneNumber")?.touched){
-        <p class="error-message m-0">{{MessagePhone}}</p>
-
-        } -->
-      
         <input
         class="input-cal input-base inputFloating"
         placeholder=""
@@ -183,6 +157,7 @@
       </div>
 
 
+
       } 
       
       @case (2) {
@@ -232,7 +207,11 @@
         >
         </i>
 
-
+        @if(registerFrom.get("mismatch")?.errors &&
+        registerFrom.get("confirmedPassword")?.touched){
+        <p class="error-message m">asdasdasd</p>
+  
+        } 
       </div>
 
 

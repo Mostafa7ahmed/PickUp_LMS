@@ -6,7 +6,7 @@ import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModu
 import { RegisterService } from '../../../Core/Services/register.service';
 import { NgClass } from '@angular/common';
 import { CountryService } from '../../../Core/Services/country.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, lastValueFrom } from 'rxjs';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { LanguageService } from '../../../Core/Services/language.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -62,12 +62,13 @@ export class InstructorRegisterComponent implements OnInit {
     this.current -= 1;
     this.changeContent();
   }
-  nextFristPage() {
+  async  nextFristPage() {
 
-    
-    
-
-    if (this.validPhone(this.registerFrom.get("phoneNumber")?.value, 2 )&& this.validPhone(this.registerFrom.get("userName")?.value, 0) && this.validPhone(this.registerFrom.get("email")?.value, 1)) {
+    const isPhoneValid = await this.validPhone("phoneNumber", 2);
+    const isUserNameValid = await this.validUseName("userName", 0);
+    const isEmailValid = await this.validEmail("email", 1);
+  
+    if (isPhoneValid && isUserNameValid && isEmailValid) {
       this.current += 1;
       this.changeContent();
     }
@@ -133,53 +134,45 @@ export class InstructorRegisterComponent implements OnInit {
   )
 
 
-  validUseName(value: string, Type: number) : any{
+  validUseName(value: string, Type: number): Promise<boolean> {
     const userName = this.registerFrom.get(value)?.value;
-    this.showIconsUserName = false
+    this.showIconsUserName = false;
     if (this.registerFrom.get(value)?.valid) {
-      this._RegisterService.validateRegistration(Type, userName).subscribe({
-        next: (res) => {
-          console.log(res)
-          return res.success
-        },
-        error: (error) => {
-          return false
-        }
-      })
+      return lastValueFrom(
+        this._RegisterService.validateRegistration(Type, userName)
+      )
+        .then((res) => res.success)
+        .catch(() => false);
     }
+    return Promise.resolve(false);
   }
-  validEmail(value: string, Type: number) : any{
+  validEmail(value: string, Type: number): Promise<boolean> {
     const userEmail = this.registerFrom.get(value)?.value;
-    this.showIconsEmail = false
+    this.showIconsEmail = false;
     if (this.registerFrom.get(value)?.valid) {
-      this._RegisterService.validateRegistration(Type, userEmail).subscribe({
-        next: (res) => {
-          return res.success
-        },
-        error: (error) => {
-          return false
-        }
-      })
+      return lastValueFrom(
+        this._RegisterService.validateRegistration(Type, userEmail)
+      )
+        .then((res) => res.success)
+        .catch(() => false);
     }
+    return Promise.resolve(false);
   }
-
-
-  validPhone(value: string, Type: number): any {
-    const userName = this.registerFrom.get(value)?.value;
+  
+  validPhone(value: string, Type: number): Promise<boolean> {
+    const phoneNumber = this.registerFrom.get(value)?.value;
     this.showIconsPhone = false;
     if (this.registerFrom.get(value)?.valid) {
-
-      this._RegisterService.validateRegistration(Type, userName).subscribe({
-        next: (res) => {
-          return res.success
-        },
-        error: (error) => {
+      return lastValueFrom(
+        this._RegisterService.validateRegistration(Type, phoneNumber)
+      )
+        .then((res) => res.success)
+        .catch((error) => {
           this.MessagePhone = error.error.message;
-          return false
-
-        }
-      })
+          return false;
+        });
     }
+    return Promise.resolve(false);
   }
   submitForm() {
     this.loading = true;

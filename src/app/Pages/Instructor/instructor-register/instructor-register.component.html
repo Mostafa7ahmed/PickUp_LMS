@@ -49,6 +49,7 @@
           placeholder=""
           type="text"
           formControlName="userName"
+          (blur)="validUseName('userName', 0)"
 
           [ngClass]="{
             invalid: !showIconsUserName && isFieldInvalid('userName'),
@@ -73,6 +74,7 @@
           placeholder=""
           type="text"
           formControlName="email"
+          (blur)="validEmail('email', 1)"
 
           [ngClass]="{
             invalid: !showIconsEmail && isFieldInvalid('email'),
@@ -92,6 +94,7 @@
         placeholder=""
         type="text"
         formControlName="phoneNumber"
+        (blur)="validEmail('phoneNumber',2)"
 
         [ngClass]="{
           invalid: !showIconsUserName && isFieldInvalid('phoneNumber'),
@@ -240,7 +243,7 @@
         <button class="btn" type="submit" routerLink="/startregister">
           <span>Back</span>
         </button>
-        <button class="btn btnAcrive" [disabled]="!(showIconsUserName && showIconsEmail && showIconsPhone)" (click)="nextFristPage()">
+        <button class="btn btnAcrive" (click)="next()">
           <span>Next</span>
         </button>
       </div>
