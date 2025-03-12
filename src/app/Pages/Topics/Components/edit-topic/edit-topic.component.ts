@@ -14,6 +14,7 @@ import { AddTopicService } from '../../Service/add-topic.service';
 import { IResponseOf } from '../../../../Core/Shared/Interface/irespose';
 import { AddStageTopicService } from '../../Service/add-stage-topic.service';
 import { GetoneTopicService } from '../../Service/getone-topic.service';
+import { UpdateTopicService } from '../../Service/update-topic.service';
 @Component({
   selector: 'app-edit-topic',
   standalone: true,
@@ -33,7 +34,7 @@ export class EditTopicComponent {
   isLoad: boolean = false;
   isVisble: boolean = true;
   isAddTopicPopupOpened: boolean = false;
-
+  selectedTopicId: number | null = null;
   selectedValue: any
   topicsList: ITopiclist[] = [];
   openIndex: number | null = null;
@@ -46,14 +47,11 @@ export class EditTopicComponent {
   private colorlistService = inject(ColorlistService);
   private iconsService = inject(IconListService);
    private _FormBuilder = inject(FormBuilder);
-   private _AddTopicService = inject(AddTopicService);
+   private _UpdateTopicService = inject(UpdateTopicService);
    private _AddStageTopicService = inject(AddStageTopicService);
 
    private _getoneTopicService = inject(GetoneTopicService);
    TopicResult: IResponseOf<TopicResult> = {} as IResponseOf<TopicResult>;
-
-
-
     topicForm: FormGroup = this._FormBuilder.group({
     name: ['',[Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
     color: ['#778fe6cf'],  
@@ -61,6 +59,7 @@ export class EditTopicComponent {
     description: ['', [ Validators.maxLength(300)]],
     isMain: [false],
     mainId: [null],
+    id:[null]
   });
 
   constructor(private _ActivatedRoute: ActivatedRoute, private _Router: Router) {
@@ -92,17 +91,23 @@ export class EditTopicComponent {
   submitFormTopic() {
     this.isLoad = true;
   
+
     if (this.topicForm.get('isMain')?.value) {
       this.topicForm.get('mainId')?.enable();
+
       this.topicForm.patchValue({ mainId: null });
+    } else {
+      const mainIdValue = this.selectedTopicId ?? this.selectedValue?.id ?? null;
+      if (mainIdValue !== null) {
+        this.topicForm.patchValue({ mainId: mainIdValue });
+      }
     }
-  
-    this._AddTopicService.addTopic(this.topicForm.value).subscribe({
+    this._UpdateTopicService.updateTopic(this.topicForm.value).subscribe({
       next: (res) => {
         if (res.success) {
           this.topicResult.result = res.result;
           this.topicID = this.topicResult.result.id;
-          this.stageForm.patchValue({ topicId: this.topicID });
+          this.stageForm.patchValue({ id: this.topicID });
 
           this.isnext = false;
         }
@@ -112,8 +117,17 @@ export class EditTopicComponent {
         this.isLoad = false;
       },
     });
+
+    console.log(this.topicForm.value)
+
+
   }
-  
+
+  onTopicSelected(selectedId: number) {
+    this.selectedTopicId = selectedId;
+    console.log('Selected Topic ID:', selectedId);
+  }
+
 
   // Create Stage 
 
@@ -149,8 +163,8 @@ export class EditTopicComponent {
       order: new FormControl(orderValue)
     }));
 
-    this.selectedColors.push(selectedColor); // تخزين اللون المحدد
-  }
+    this.selectedColors.push(selectedColor);
+    }
 
   selectColor(index: number, color: string) {
 
@@ -192,15 +206,25 @@ export class EditTopicComponent {
 getTopicList(){
   this._topiclistService.getAlllits().subscribe(topics => {
     this.topicsList = topics.result;
-    let defautlTopic = this.topicsList.filter((e: ITopiclist) => e.default)[0];
-    this.selectedValue = defautlTopic;
+    let defaultTopic = this.topicsList.find((e: ITopiclist) => e.id === this.topicResult.result.mainId);
+    if (!defaultTopic) {
+      defaultTopic = this.topicsList.find((e: ITopiclist) => e.default);
+    }
+    if (!defaultTopic && this.topicsList.length > 0) {
+      defaultTopic = this.topicsList[0];
+    }
+    this.selectedValue = defaultTopic;
   });
 }
 
 getTopicById(topicID:number){
-  this._getoneTopicService.getTopicById(this.topicID).subscribe(topic => {
+  this._getoneTopicService.getTopicById(topicID).subscribe(topic => {
     this.topicResult = topic;
     this.topicForm.patchValue(this.topicResult.result);
+    this.stageForm.patchValue({ topicId: this.topicResult.result.id });
+    this.stageForm.patchValue(this.topicResult.result.stages)
+
+
     this.getTopicList();
   });
  

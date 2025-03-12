@@ -12,16 +12,17 @@
                     </span>
 
                     <h1>{{topic.name}}</h1>
-                    <div class="defaultValue" *ngIf="topic.default">
-                        <div class="iconShow">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-
-                        </div>
-                    </div>
+         
                 </div>
             </div>
 
             <div class="lefttopTopic d-flex align-items-center gap-3">
+                <div class="defaultValue" *ngIf="topic.default">
+                    <div class="iconShow">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+
+                    </div>
+                </div>
                 <div class="icon" pTooltip="view topic kanban" tooltipPosition="top" [routerLink]="['/course', topic.id, '1']" >
                     <i class="fa-kit fa-apps-add-filled"></i>
                 </div>

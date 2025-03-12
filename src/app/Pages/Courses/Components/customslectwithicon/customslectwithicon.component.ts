@@ -17,7 +17,9 @@ interface DropdownItem {
 export class CustomslectwithiconComponent {
   @Input() items: any[] = [];
   @Input() selectedItem: any | null = null;
-  @Output() selectionChange = new EventEmitter<any>(); //
+  @Output() selectionChange = new EventEmitter<any>(); 
+  @Output() selectionChangeTopic = new EventEmitter<any>();
+
   @Input() isSelected: boolean = false;
   @Input() disabled: boolean = false;
 
@@ -34,7 +36,9 @@ export class CustomslectwithiconComponent {
 
   selectOption(option: any) {
     this.selectedItem = option;
-    this.selectionChange.emit(option.id);
+    this.selectionChange.emit(option);
+    this.selectionChangeTopic.emit(option.id);
+
     this.isOpen = false;
     this.isSelected = true;
   }
