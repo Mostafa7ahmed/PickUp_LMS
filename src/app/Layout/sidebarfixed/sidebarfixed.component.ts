@@ -54,7 +54,7 @@ export class SidebarfixedComponent {
       name: 'Courses',  
       Icon: 'fa-solid fa-chalkboard-user', 
       list: ["Board", "course List", "Dashboard"], 
-      routes: ["topics", "course", "topics"]
+      routes: ["topics", "course", "Dashboard"]
     }
     ,
     { 
@@ -73,7 +73,7 @@ export class SidebarfixedComponent {
     { 
       name: 'Setting',  
       Icon: 'fa-solid fa-gear', 
-      list: ["Message", "Log Up"], 
+      list: ["Message", "Log Out"], 
       routes: ["Message", "login"]
     }
   ];
@@ -82,7 +82,7 @@ export class SidebarfixedComponent {
   isRotated: boolean = false; 
 
   toggleCard(index: number) {
-    this.isRotated = !this.isRotated; // تبديل الحالة
+    this.isRotated = !this.isRotated; 
     this.openIndex = this.openIndex === index ? null : index;
   }
 
