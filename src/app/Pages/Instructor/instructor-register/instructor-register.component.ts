@@ -10,24 +10,25 @@ import { BehaviorSubject } from 'rxjs';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { LanguageService } from '../../../Core/Services/language.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-instructor-register',
   standalone: true,
-  imports: [NzStepsModule , RouterLink  ,ReactiveFormsModule,FormsModule  , NgClass , NzSelectModule],
+  imports: [NzStepsModule, RouterLink, ReactiveFormsModule, FormsModule, NgClass, NzSelectModule],
   templateUrl: './instructor-register.component.html',
-  styleUrls:[  '../../../Core/Shared/CSS/Stepper.scss' ,'./instructor-register.component.scss','../../../Core/Shared/CSS/input.scss'],
+  styleUrls: ['../../../Core/Shared/CSS/Stepper.scss', './instructor-register.component.scss', '../../../Core/Shared/CSS/input.scss'],
 
 })
 export class InstructorRegisterComponent implements OnInit {
   current = 0;
-  stepone:boolean =true;
-  passwordFieldType:boolean = true;
-  repasswordFieldType:boolean = true;
+  stepone: boolean = true;
+  passwordFieldType: boolean = true;
+  repasswordFieldType: boolean = true;
 
-  stepTwo:boolean =false;
+  stepTwo: boolean = false;
 
-  stepThree:boolean =false;
+  stepThree: boolean = false;
 
   private readonly _RegisterService = inject(RegisterService);
   private readonly _CountryService = inject(CountryService);
@@ -37,7 +38,7 @@ export class InstructorRegisterComponent implements OnInit {
 
 
   private _FormBuilder = inject(FormBuilder);
-  private Router  = inject(Router)
+  private Router = inject(Router)
   allCountry: any[] = [];
   allLangauge: any[] = [];
 
@@ -49,21 +50,26 @@ export class InstructorRegisterComponent implements OnInit {
     this.getAllLanguage()
   }
 
-  MessageUseName:string = '';
-  MessageEmail:string = '';
+  MessageUseName: string = '';
+  MessageEmail: string = '';
 
-  MessagePhone:string = '';
+  MessagePhone: string = '';
 
-  showIconsUserName :boolean = true;
-  showIconsEmail :boolean = true;
-  showIconsPhone :boolean = true;
+  showIconsUserName: boolean = true;
+  showIconsEmail: boolean = true;
+  showIconsPhone: boolean = true;
 
   pre(): void {
     this.current -= 1;
     this.changeContent();
   }
+  nextFristPage() {
+    this.current += 1;
+    this.changeContent();
+  }
 
   next(): void {
+
     this.current += 1;
     this.changeContent();
   }
@@ -75,136 +81,114 @@ export class InstructorRegisterComponent implements OnInit {
   changeContent(): void {
     switch (this.current) {
       case 0: {
-        this.stepone=true;
+        this.stepone = true;
 
         break;
       }
       case 1: {
-        this.stepTwo= true;
-        this.stepone=false;
-    
+        this.stepTwo = true;
+        this.stepone = false;
+
         break;
       }
       case 2: {
-        this.stepTwo= false;
-        this.stepone=false;    
-        this.stepThree=true  
-        
+        this.stepTwo = false;
+        this.stepone = false;
+        this.stepThree = true
+
         break;
       }
-    
+
     }
   }
   // preferredCountries: CountryISO[] = [CountryISO.Egypt, CountryISO.SaudiArabia, CountryISO.UnitedArabEmirates]; // الدول المفضلة
-  // separateDialCode = true; 
-  // SearchCountryField = SearchCountryField; 
-  // CountryISO = CountryISO; 
+  // separateDialCode = true;
+  // SearchCountryField = SearchCountryField;
+  // CountryISO = CountryISO;
   // PhoneNumberFormat = PhoneNumberFormat;
-  id: string ="";
-  inputId: string="";
+  id: string = "";
+  inputId: string = "";
 
-  registerFrom:FormGroup = this._FormBuilder.group({
-    name:[null, [Validators.required  ,Validators.minLength(3),Validators.maxLength(30)]],
-    userName:[null, [Validators.required ,Validators.minLength(6),Validators.maxLength(30)]],
-    phoneNumber:[null, [Validators.required]],
-    type:1,
-    email:[null, [Validators.required , Validators.email]],
-    preferredLanguge:[null, [Validators.required]],
-    countryId:[null, [Validators.required]],
-    languageId:[null, [Validators.required]],
-    password:[null, [Validators.pattern(/^[A-Z][a-zA-Z0-9@#$%^&+=]{7,}$/), Validators.required]],
-    confirmedPassword:[null],
-
-
-    
-  },    {validators : this.ConfirmPasswordCustom}
-)
+  registerFrom: FormGroup = this._FormBuilder.group({
+    name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
+    userName: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(30)]],
+    phoneNumber: [null, [Validators.required]],
+    type: 1,
+    email: [null, [Validators.required, Validators.email]],
+    preferredLanguge: [null, [Validators.required]],
+    countryId: [null, [Validators.required]],
+    languageId: [null, [Validators.required]],
+    password: [null, [Validators.pattern(/^[A-Z][a-zA-Z0-9@#$%^&+=]{7,}$/), Validators.required]],
+    confirmedPassword: [null],
 
 
-validUseName(value:string , Type:number){
-  const userName = this.registerFrom.get(value)?.value;
-  this.showIconsUserName = false
-  if(this.registerFrom.get(value)?.valid){
-    this._RegisterService.validateRegistration(Type ,userName).subscribe({
-      next:(res)=>{
-        this.showIconsUserName = res.success
-        console.log(res)
-      } ,
-      error:(error)=>{
-        this.MessageUseName = error.error.message;
-      }
-    })
-  }
-}
-validEmail(value:string , Type:number){
-  const userEmail = this.registerFrom.get(value)?.value;
-  this.showIconsEmail = false
-  if(this.registerFrom.get(value)?.valid){
-    this._RegisterService.validateRegistration(Type ,userEmail).subscribe({
-      next:(res)=>{
-        this.showIconsEmail = res.success
-        console.log(res)
-      } ,
-      error:(error)=>{
-        this.MessageEmail = error.error.message;
-      }
-    })
-  }
-}
+
+  }, { validators: this.ConfirmPasswordCustom }
+  )
 
 
-validPhone(value:string , Type:number){
-  const userName = this.registerFrom.get(value)?.value;
-  this.showIconsPhone = false;
-  if(this.registerFrom.get(value)?.valid){
+  ensureFirstStepData() {
+    const userNamekey = "userName";
+    const emailKey = "email";
+    const phoneNumberKey = "phoneNumber";
+    const userNameValue = this.registerFrom.get(userNamekey)?.value;
+    const emailValue = this.registerFrom.get(emailKey)?.value;
+    const phoneNumberValue = this.registerFrom.get(phoneNumberKey)?.value;
 
-  this._RegisterService.validateRegistration(Type ,userName).subscribe({
-    next:(res)=>{
-      this.showIconsPhone = res.success
-      console.log(res)
-    } ,
-    error:(error)=>{
-      this.MessagePhone = error.error.message;
-      console.log(error)
+    if (this.registerFrom.get(userNamekey)?.valid && this.registerFrom.get(emailKey)?.valid && this.registerFrom.get(phoneNumberKey)?.valid) {
+      const phoneValidation$ = this._RegisterService.validateRegistration(2, phoneNumberValue);
+      const userNameValidation$ = this._RegisterService.validateRegistration(0, userNameValue);
+      const emailValidation$ = this._RegisterService.validateRegistration(1, emailValue);
+
+      forkJoin({
+        phone: phoneValidation$,
+        userName: userNameValidation$,
+        email: emailValidation$
+      }).subscribe({
+        next: (res) => {
+          this.nextFristPage();
+        },
+        error: (err) => {
+          console.log("Error whil ensureFirstStepData ");
+        }
+      });
 
     }
-  })
-}
-}
-submitForm() {
-  this.loading = true;
-
-  if (this.registerFrom.valid) {
-    const phoneNumberObject = this.registerFrom.get('phoneNumber')?.value;
-    const countryId = +this.registerFrom.get('countryId')?.value;
-    const preferredLanguge = +this.registerFrom.get('preferredLanguge')?.value;
-
-
-    const e164Number = phoneNumberObject.e164Number;
-
-    const updatedFormValue = {
-      ...this.registerFrom.value, 
-      preferredLanguge:preferredLanguge,
-      countryId:countryId
-    };
-
-    this._RegisterService.setRegiterForm(updatedFormValue).subscribe({
-      next: (res) => {
-        console.log(res);
-        this.loading = false;
-        if(res.success){
-          this._Router.navigate(['/ConfirmEmail']);
-
-        }
-    
-      },
-
-    });
-  } else {
-    this.loading = false;
-    console.log('Form is invalid');
   }
-}
+
+  submitForm() {
+    this.loading = true;
+
+    if (this.registerFrom.valid) {
+      const phoneNumberObject = this.registerFrom.get('phoneNumber')?.value;
+      const countryId = +this.registerFrom.get('countryId')?.value;
+      const preferredLanguge = +this.registerFrom.get('preferredLanguge')?.value;
+
+
+
+      const updatedFormValue = {
+        ...this.registerFrom.value,
+        preferredLanguge: preferredLanguge,
+        countryId: countryId
+      };
+
+      this._RegisterService.setRegiterForm(updatedFormValue).subscribe({
+        next: (res) => {
+          console.log(res);
+          this.loading = false;
+          if (res.success) {
+            this._Router.navigate(['/ConfirmEmail']);
+
+          }
+
+        },
+
+      });
+    } else {
+      this.loading = false;
+      console.log('Form is invalid');
+    }
+  }
 
 
   isFieldInvalid(fieldName: string): boolean {
@@ -219,40 +203,40 @@ submitForm() {
 
   getCssClass(fieldName: string): string {
     const control = this.registerFrom.get(fieldName);
-    const classes = ['custom']; 
+    const classes = ['custom'];
 
-    if (  !this.showIconsPhone  &&  control?.invalid && control.touched ) {
-      classes.push('invalid'); 
+    if (!this.showIconsPhone && control?.invalid && control.touched) {
+      classes.push('invalid');
     }
 
-    if (  this.showIconsPhone  && control?.valid && (control.touched || control.dirty)) {
-      classes.push('success'); 
+    if (this.showIconsPhone && control?.valid && (control.touched || control.dirty)) {
+      classes.push('success');
     }
 
-    return classes.join(' '); 
+    return classes.join(' ');
   }
 
 
-  getAllCountry(){
+  getAllCountry() {
     this._CountryService.getAllCountry().subscribe(
-      (res)=>{
+      (res) => {
         this.allCountry = res.result;
 
         console.log(res.result)
       }
     );
   }
- 
-  getAllLanguage(){
+
+  getAllLanguage() {
     this._LanguageService.getAllLanguage().subscribe({
-      next :(res)=>{
+      next: (res) => {
         console.log(res.result);
         this.allLangauge = res.result;
 
       }
     })
   }
- 
+
 
 
   ConfirmPasswordCustom(confirmPass: AbstractControl): any {
