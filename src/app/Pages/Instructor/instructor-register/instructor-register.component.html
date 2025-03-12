@@ -41,7 +41,7 @@
       </div>
 
       <div
-        class="position-relative my-3"
+        class="position-relative mt-4"
         [class.my-3]="!isFieldInvalid('userName')"
       >
         <input
@@ -49,7 +49,6 @@
           placeholder=""
           type="text"
           formControlName="userName"
-          (blur)="validUseName('userName', 0)"
 
           [ngClass]="{
             invalid: !showIconsUserName && isFieldInvalid('userName'),
@@ -66,7 +65,7 @@
       }
 
       <div
-        class="position-relative my-3"
+        class="position-relative mt-4"
         [class.my-3]="!isFieldInvalid('email')"
       >
         <input
@@ -74,7 +73,6 @@
           placeholder=""
           type="text"
           formControlName="email"
-          (blur)="validEmail('email', 1)"
 
           [ngClass]="{
             invalid: !showIconsEmail && isFieldInvalid('email'),
@@ -85,42 +83,15 @@
 
      
       </div>
-      @if(isFieldInvalid('email')){
-        <p class="error-message m">{{MessageEmail}}</p>
 
-      }
 
-      <div class="position-relative">
-        <!-- <ngx-intl-tel-input
-          [cssClass]="getCssClass('phoneNumber')"
-          [preferredCountries]="preferredCountries"
-          [searchCountryFlag]="true"
-          [searchCountryField]="[
-            SearchCountryField.Iso2,
-            SearchCountryField.Name
-          ]"
-          [selectFirstCountry]="true"
-          [selectedCountryISO]="CountryISO.Egypt"
-          [phoneValidation]="true"
-          [numberFormat]="PhoneNumberFormat.National"
-          name="phoneNumber"
-          formControlName="phoneNumber"
-          (focusout)="validPhone('phoneNumber', 2)"
+      <div class="position-relative mt-4">
 
-        ></ngx-intl-tel-input> -->
-
-        <!-- @if(registerFrom.get("phoneNumber")?.errors &&
-        registerFrom.get("phoneNumber")?.touched){
-        <p class="error-message m-0">{{MessagePhone}}</p>
-
-        } -->
-      
         <input
         class="input-cal input-base inputFloating"
         placeholder=""
         type="text"
         formControlName="phoneNumber"
-        (blur)="validEmail('phoneNumber',2)"
 
         [ngClass]="{
           invalid: !showIconsUserName && isFieldInvalid('phoneNumber'),
@@ -269,7 +240,7 @@
         <button class="btn" type="submit" routerLink="/startregister">
           <span>Back</span>
         </button>
-        <button class="btn btnAcrive" (click)="next()">
+        <button class="btn btnAcrive" [disabled]="!(showIconsUserName && showIconsEmail && showIconsPhone)" (click)="nextFristPage()">
           <span>Next</span>
         </button>
       </div>
