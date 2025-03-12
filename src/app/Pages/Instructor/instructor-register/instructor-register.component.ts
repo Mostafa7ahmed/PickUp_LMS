@@ -10,6 +10,7 @@ import { BehaviorSubject } from 'rxjs';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { LanguageService } from '../../../Core/Services/language.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-instructor-register',
@@ -24,9 +25,6 @@ export class InstructorRegisterComponent implements OnInit {
   stepone: boolean = true;
   passwordFieldType: boolean = true;
   repasswordFieldType: boolean = true;
-  isValidEmail: boolean = false;
-  isValidUserName: boolean = false;
-  isValidPhoneNumber: boolean = false;
 
   stepTwo: boolean = false;
 
@@ -66,20 +64,8 @@ export class InstructorRegisterComponent implements OnInit {
     this.changeContent();
   }
   nextFristPage() {
-
-    console.log("sasasakshakjhdjkdhskjdhskjhdkjhdjkshsdkjh");
-    this.validPhone();
-    this.validUseName();
-    this.validEmail();
-
-    setTimeout(() => {
-      console.log(`username: ${this.isValidUserName}, email: ${this.isValidEmail}, phonenumber: ${this.isValidPhoneNumber}`);
-      if (this.isValidEmail && this.isValidPhoneNumber && this.isValidUserName) {
-        this.current += 1;
-        this.changeContent();
-      }
-    }, 500);
-
+    this.current += 1;
+    this.changeContent();
   }
 
   next(): void {
@@ -140,60 +126,34 @@ export class InstructorRegisterComponent implements OnInit {
   }, { validators: this.ConfirmPasswordCustom }
   )
 
-  validUseName() {
-    console.log("Enter Valid UserName Stage");
-    const key = "userName";
-    const userName = this.registerFrom.get(key)?.value;
-    this.showIconsUserName = false;
-    console.log("from validUseName ", `${this.registerFrom.get(key)?.valid}`);
-    if (this.registerFrom.get(key)?.valid) {
-      this._RegisterService.validateRegistration(0, userName).subscribe({
-        next: (res) => {
-          console.log(res)
-          this.isValidUserName = true;
-        },
-        error: (error) => {
-          this.isValidUserName = false;
-        }
-      })
-    }
-  }
 
-  validEmail() {
-    console.log("Enter Valid Email Stage");
-    this.showIconsEmail = false;
-    const key = "email";
-    const email = this.registerFrom.get(key)?.value;
-    console.log("from validEmail ", `${this.registerFrom.get(key)?.valid}`);
-    if (this.registerFrom.get(key)?.valid) {
-      this._RegisterService.validateRegistration(1, email).subscribe({
-        next: (res) => {
-          this.isValidEmail = true;
-        },
-        error: (error) => {
-          this.isValidEmail = false;
-        }
-      })
-    }
-  }
+  ensureFirstStepData() {
+    const userNamekey = "userName";
+    const emailKey = "email";
+    const phoneNumberKey = "phoneNumber";
+    const userNameValue = this.registerFrom.get(userNamekey)?.value;
+    const emailValue = this.registerFrom.get(emailKey)?.value;
+    const phoneNumberValue = this.registerFrom.get(phoneNumberKey)?.value;
 
+    if (this.registerFrom.get(userNamekey)?.valid && this.registerFrom.get(emailKey)?.valid && this.registerFrom.get(phoneNumberKey)?.valid) {
+      const phoneValidation$ = this._RegisterService.validateRegistration(2, phoneNumberValue);
+      const userNameValidation$ = this._RegisterService.validateRegistration(0, userNameValue);
+      const emailValidation$ = this._RegisterService.validateRegistration(1, emailValue);
 
-  validPhone() {
-    console.log("Enter Valid Phone Stage");
-    const key = "phoneNumber";
-    const phoneNumber = this.registerFrom.get(key)?.value;
-    this.showIconsPhone = false;
-    console.log("from validPhone ", `${this.registerFrom.get(key)?.valid}`);
-    if (this.registerFrom.get(key)?.valid) {
-      this._RegisterService.validateRegistration(2, phoneNumber).subscribe({
+      forkJoin({
+        phone: phoneValidation$,
+        userName: userNameValidation$,
+        email: emailValidation$
+      }).subscribe({
         next: (res) => {
-          this.isValidPhoneNumber = true;
+          console.log("successssssssssssssssssssssssssssssssssssssssssssssssssssssssssss")
+          this.nextFristPage();
         },
-        error: (error) => {
-          this.MessagePhone = error.error.message;
-          this.isValidPhoneNumber = false;
+        error: (err) => {
+          console.log("Error whil ensureFirstStepData ");
         }
-      })
+      });
+
     }
   }
 
