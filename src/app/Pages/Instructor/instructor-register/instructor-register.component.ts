@@ -24,6 +24,9 @@ export class InstructorRegisterComponent implements OnInit {
   stepone: boolean = true;
   passwordFieldType: boolean = true;
   repasswordFieldType: boolean = true;
+  isValidEmail: boolean = false;
+  isValidUserName: boolean = false;
+  isValidPhoneNumber: boolean = false;
 
   stepTwo: boolean = false;
 
@@ -64,13 +67,18 @@ export class InstructorRegisterComponent implements OnInit {
   }
   nextFristPage() {
 
-    
-    
+    console.log("sasasakshakjhdjkdhskjdhskjhdkjhdjkshsdkjh");
+    this.validPhone();
+    this.validUseName();
+    this.validEmail();
 
-    if (this.validPhone(this.registerFrom.get("phoneNumber")?.value, 2 )&& this.validPhone(this.registerFrom.get("userName")?.value, 0) && this.validPhone(this.registerFrom.get("email")?.value, 1)) {
-      this.current += 1;
-      this.changeContent();
-    }
+    setTimeout(() => {
+      console.log(`username: ${this.isValidUserName}, email: ${this.isValidEmail}, phonenumber: ${this.isValidPhoneNumber}`);
+      if (this.isValidEmail && this.isValidPhoneNumber && this.isValidUserName) {
+        this.current += 1;
+        this.changeContent();
+      }
+    }, 500);
 
   }
 
@@ -108,9 +116,9 @@ export class InstructorRegisterComponent implements OnInit {
     }
   }
   // preferredCountries: CountryISO[] = [CountryISO.Egypt, CountryISO.SaudiArabia, CountryISO.UnitedArabEmirates]; // الدول المفضلة
-  // separateDialCode = true; 
-  // SearchCountryField = SearchCountryField; 
-  // CountryISO = CountryISO; 
+  // separateDialCode = true;
+  // SearchCountryField = SearchCountryField;
+  // CountryISO = CountryISO;
   // PhoneNumberFormat = PhoneNumberFormat;
   id: string = "";
   inputId: string = "";
@@ -132,55 +140,63 @@ export class InstructorRegisterComponent implements OnInit {
   }, { validators: this.ConfirmPasswordCustom }
   )
 
-
-  validUseName(value: string, Type: number) : any{
-    const userName = this.registerFrom.get(value)?.value;
-    this.showIconsUserName = false
-    if (this.registerFrom.get(value)?.valid) {
-      this._RegisterService.validateRegistration(Type, userName).subscribe({
+  validUseName() {
+    console.log("Enter Valid UserName Stage");
+    const key = "userName";
+    const userName = this.registerFrom.get(key)?.value;
+    this.showIconsUserName = false;
+    console.log("from validUseName ", `${this.registerFrom.get(key)?.valid}`);
+    if (this.registerFrom.get(key)?.valid) {
+      this._RegisterService.validateRegistration(0, userName).subscribe({
         next: (res) => {
           console.log(res)
-          return res.success
+          this.isValidUserName = true;
         },
         error: (error) => {
-          return false
+          this.isValidUserName = false;
         }
       })
     }
   }
-  validEmail(value: string, Type: number) : any{
-    const userEmail = this.registerFrom.get(value)?.value;
-    this.showIconsEmail = false
-    if (this.registerFrom.get(value)?.valid) {
-      this._RegisterService.validateRegistration(Type, userEmail).subscribe({
+
+  validEmail() {
+    console.log("Enter Valid Email Stage");
+    this.showIconsEmail = false;
+    const key = "email";
+    const email = this.registerFrom.get(key)?.value;
+    console.log("from validEmail ", `${this.registerFrom.get(key)?.valid}`);
+    if (this.registerFrom.get(key)?.valid) {
+      this._RegisterService.validateRegistration(1, email).subscribe({
         next: (res) => {
-          return res.success
+          this.isValidEmail = true;
         },
         error: (error) => {
-          return false
+          this.isValidEmail = false;
         }
       })
     }
   }
 
 
-  validPhone(value: string, Type: number): any {
-    const userName = this.registerFrom.get(value)?.value;
+  validPhone() {
+    console.log("Enter Valid Phone Stage");
+    const key = "phoneNumber";
+    const phoneNumber = this.registerFrom.get(key)?.value;
     this.showIconsPhone = false;
-    if (this.registerFrom.get(value)?.valid) {
-
-      this._RegisterService.validateRegistration(Type, userName).subscribe({
+    console.log("from validPhone ", `${this.registerFrom.get(key)?.valid}`);
+    if (this.registerFrom.get(key)?.valid) {
+      this._RegisterService.validateRegistration(2, phoneNumber).subscribe({
         next: (res) => {
-          return res.success
+          this.isValidPhoneNumber = true;
         },
         error: (error) => {
           this.MessagePhone = error.error.message;
-          return false
-
+          this.isValidPhoneNumber = false;
         }
       })
     }
   }
+
   submitForm() {
     this.loading = true;
 

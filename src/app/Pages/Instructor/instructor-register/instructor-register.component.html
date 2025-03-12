@@ -19,217 +19,141 @@
 
     <form class="p-3" [formGroup]="registerFrom">
       @switch (current) {
-         @case (0) {
+      @case (0) {
       <!-- Lable Input -->
       <div class="position-relative mb-3">
         <!-- Input Field -->
-        <input
-          class="input-cal input-base inputFloating"
-          placeholder=""
-          type="text"
-          formControlName="name"
-          [ngClass]="{
+        <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="name" [ngClass]="{
             invalid: isFieldInvalid('name'),
             success: isFieldValid('name')
-          }"
-        />
+          }" />
 
         <!-- Label -->
         <label id="label-input">Name</label>
 
-      
+
       </div>
 
-      <div
-        class="position-relative mt-4"
-        [class.my-3]="!isFieldInvalid('userName')"
-      >
-        <input
-          class="input-cal input-base inputFloating"
-          placeholder=""
-          type="text"
-          formControlName="userName"
-
+      <div class="position-relative mt-4" [class.my-3]="!isFieldInvalid('userName')">
+        <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="userName"
           [ngClass]="{
             invalid: !showIconsUserName && isFieldInvalid('userName'),
             success: showIconsUserName && isFieldValid('userName')
-          }"
-        />
+          }" />
         <label id="label-input">User name</label>
 
-    
+
       </div>
       @if(isFieldInvalid('userName')){
       <p class="error-message m">{{MessageUseName}}</p>
 
       }
 
-      <div
-        class="position-relative mt-4"
-        [class.my-3]="!isFieldInvalid('email')"
-      >
-        <input
-          class="input-cal input-base inputFloating"
-          placeholder=""
-          type="text"
-          formControlName="email"
-
-          [ngClass]="{
+      <div class="position-relative mt-4" [class.my-3]="!isFieldInvalid('email')">
+        <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="email" [ngClass]="{
             invalid: !showIconsEmail && isFieldInvalid('email'),
             success: showIconsEmail && isFieldValid('email')
-          }"
-        />
+          }" />
         <label id="label-input">Email</label>
 
-     
+
       </div>
 
 
       <div class="position-relative mt-4">
 
-        <input
-        class="input-cal input-base inputFloating"
-        placeholder=""
-        type="text"
-        formControlName="phoneNumber"
-
-        [ngClass]="{
+        <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="phoneNumber"
+          [ngClass]="{
           invalid: !showIconsUserName && isFieldInvalid('phoneNumber'),
           success: showIconsUserName && isFieldValid('phoneNumber')
-        }"
-      />
-      <label id="label-input">PhoneNumber</label>
+        }" />
+        <label id="label-input">PhoneNumber</label>
 
 
 
-        
+
       </div>
-        @if(registerFrom.get("phoneNumber")?.errors &&
-        registerFrom.get("phoneNumber")?.touched){
-        <p class="error-message m-0">{{MessagePhone}}</p>
+      @if(registerFrom.get("phoneNumber")?.errors &&
+      registerFrom.get("phoneNumber")?.touched){
+      <p class="error-message m-0">{{MessagePhone}}</p>
 
-        }
       }
-       @case (1) {
+      }
+      @case (1) {
       <div class="position-relative mb-4">
-        <nz-select
-          nzMode="default"
-          nzPlaceHolder="Select Country"
-          nzAllowClear
-          nzServerSearch
-          class="input-cal input-base inputFloating"
-          [ngClass]="{
+        <nz-select nzMode="default" nzPlaceHolder="Select Country" nzAllowClear nzServerSearch
+          class="input-cal input-base inputFloating" [ngClass]="{
             invalid: isFieldInvalid('countryId'),
             success: isFieldValid('countryId')
-          }"
-          formControlName="countryId"
-        >
+          }" formControlName="countryId">
           @for (country of allCountry; track country.id) {
-          <nz-option
-            [nzValue]="country.id"
-            [nzLabel]="country.name"
-          ></nz-option>
+          <nz-option [nzValue]="country.id" [nzLabel]="country.name"></nz-option>
           }
         </nz-select>
         <label id="label-input">country </label>
       </div>
 
       <div class="position-relative mb-3">
-        <nz-select
-          nzMode="default"
-          nzPlaceHolder="Select Preferred language"
-          nzAllowClear
-          nzServerSearch
-          class="input-cal input-base inputFloating"
-          [ngClass]="{
+        <nz-select nzMode="default" nzPlaceHolder="Select Preferred language" nzAllowClear nzServerSearch
+          class="input-cal input-base inputFloating" [ngClass]="{
             invalid: isFieldInvalid('preferredLanguge'),
             success: isFieldValid('preferredLanguge')
-          }"
-          formControlName="preferredLanguge"
-        >
+          }" formControlName="preferredLanguge">
           <nz-option nzValue="0" nzLabel="Arabic"></nz-option>
           <nz-option nzValue="1" nzLabel="English"></nz-option>
         </nz-select>
         <label id="label-input">Preferred language </label>
       </div>
 
-      <select
-        formControlName="languageId"
-        name=""
-        id=""
-        class="p-2 selected w-25"
-        [ngClass]="{
+      <select formControlName="languageId" name="" id="" class="p-2 selected w-25" [ngClass]="{
           invalid: isFieldInvalid('languageId'),
           success: isFieldValid('languageId')
-        }"
-      >
+        }">
         @for (language of allLangauge; track language.id) {
 
         <option [value]="language.id">{{ language.name }}</option>
         }
       </select>
 
-      } 
-      
+      }
+
       @case (2) {
       <!-- Lable Input -->
       <div class="position-relative mb-3">
-        <input
-          class="input-cal input-base inputFloating"
-          placeholder=""
-          [type]="passwordFieldType ? 'password' : 'text'"
-          formControlName="password"
-          [ngClass]="{
+        <input class="input-cal input-base inputFloating" placeholder=""
+          [type]="passwordFieldType ? 'password' : 'text'" formControlName="password" [ngClass]="{
             'invalid': isFieldInvalid('password'),
             'success': isFieldValid('password')
-          }"
-        />
+          }" />
         <label id="label-input">Password</label>
-        <i
-          (click)="togglePasswordVisibility()"
-          role="button"
-          class="fa-solid position-absolute passicon"
-          [class.fa-eye]="passwordFieldType"
-          [class.fa-eye-slash]="!passwordFieldType"
-        >
+        <i (click)="togglePasswordVisibility()" role="button" class="fa-solid position-absolute passicon"
+          [class.fa-eye]="passwordFieldType" [class.fa-eye-slash]="!passwordFieldType">
         </i>
       </div>
 
       <div class="position-relative mb-3">
-        <input
-          class="input-cal input-base inputFloating"
-          placeholder=""
-          [type]="repasswordFieldType ? 'password' : 'text'"
-          formControlName="confirmedPassword"
-          [ngClass]="{
+        <input class="input-cal input-base inputFloating" placeholder=""
+          [type]="repasswordFieldType ? 'password' : 'text'" formControlName="confirmedPassword" [ngClass]="{
             'invalid': !registerFrom.get('rePassword')?.touched && (registerFrom.getError('mismatch') &&  registerFrom.get('confirmedPassword')?.dirty) ,
             'success': isFieldValid('confirmedPassword') && (!registerFrom.getError('mismatch') && registerFrom.get('confirmedPassword')?.dirty)
-          }"
-
-        />
+          }" />
         <label id="label-input">Repassword</label>
-        <i
-          (click)="toggleRePasswordVisibility()"
-          role="button"
-          class="fa-solid position-absolute passicon"
-          [class.fa-eye]="repasswordFieldType"
-          [class.fa-eye-slash]="!repasswordFieldType"
-
-        >
+        <i (click)="toggleRePasswordVisibility()" role="button" class="fa-solid position-absolute passicon"
+          [class.fa-eye]="repasswordFieldType" [class.fa-eye-slash]="!repasswordFieldType">
         </i>
 
         @if(registerFrom.get("mismatch")?.errors &&
         registerFrom.get("confirmedPassword")?.touched){
         <p class="error-message m">asdasdasd</p>
-  
-        } 
+
+        }
       </div>
 
 
 
 
-        } 
-    }
+      }
+      }
 
     </form>
 
@@ -240,7 +164,8 @@
         <button class="btn" type="submit" routerLink="/startregister">
           <span>Back</span>
         </button>
-        <button class="btn btnAcrive" [disabled]="!(showIconsUserName && showIconsEmail && showIconsPhone)" (click)="nextFristPage()">
+        <button class="btn btnAcrive" [disabled]="!(showIconsUserName && showIconsEmail && showIconsPhone)"
+          (click)="nextFristPage()">
           <span>Next</span>
         </button>
       </div>
@@ -260,11 +185,7 @@
         <button class="btn" (click)="pre()">
           <span>Back</span>
         </button>
-        <button
-          class="btn btnAcrive"
-          (click)="submitForm()"
-          [disabled]="registerFrom.invalid"
-        >
+        <button class="btn btnAcrive" (click)="submitForm()" [disabled]="registerFrom.invalid">
           <span>Done</span>
         </button>
       </div>
