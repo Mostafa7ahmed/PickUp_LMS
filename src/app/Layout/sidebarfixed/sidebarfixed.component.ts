@@ -45,10 +45,10 @@ export class SidebarfixedComponent {
 
   ListSidebarOpen = [
     { 
-      name: 'Transaction 1', 
+      name: 'Transaction ', 
       Icon: 'fa-solid fa-money-bill-transfer', 
-      list: ["course List", "course"], 
-      routes: ["courseList", "course"]
+      list: ["Transaction List", "Transaction "], 
+      routes: ["Transactionlist", "Dashboard"]
     },
     { 
       name: 'Courses',  

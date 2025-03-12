@@ -109,22 +109,29 @@ export class AddTopicComponent implements OnInit {
     }
 
 
+        if(this.topicForm.valid){ 
+          this._AddTopicService.addTopic(this.topicForm.value).subscribe({
+            next: (res) => {
+              if (res.success) {
+                this.topicResult.result = res.result;
+                this.topicID = this.topicResult.result.id;
+                this.stageForm.patchValue({ topicId: this.topicID });
 
-    this._AddTopicService.addTopic(this.topicForm.value).subscribe({
-      next: (res) => {
-        if (res.success) {
-          this.topicResult.result = res.result;
-          this.topicID = this.topicResult.result.id;
-          this.stageForm.patchValue({ topicId: this.topicID });
-
-          this.isnext = false;
+                this.isnext = false;
+              }
+              this.isLoad = false;
+            },
+            error: (err) => {
+              this.isLoad = false;
+            },
+          });
         }
-        this.isLoad = false;
-      },
-      error: (err) => {
-        this.isLoad = false;
-      },
-    });
+        else{
+          this.isLoad = false;
+
+          console.log('Form is invalid');
+        }
+
   }
 
 
