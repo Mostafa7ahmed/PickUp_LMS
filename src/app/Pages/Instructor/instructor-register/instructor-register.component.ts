@@ -146,7 +146,6 @@ export class InstructorRegisterComponent implements OnInit {
         email: emailValidation$
       }).subscribe({
         next: (res) => {
-          console.log("successssssssssssssssssssssssssssssssssssssssssssssssssssssssssss")
           this.nextFristPage();
         },
         error: (err) => {
