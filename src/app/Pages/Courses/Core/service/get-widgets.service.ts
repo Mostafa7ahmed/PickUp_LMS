@@ -9,20 +9,13 @@ import { HttpClient } from '@angular/common/http';
 export class GetWidgetsService {
 
   private urlWidgets: string;
-  private UserAuth = localStorage.getItem('UserAuth');
 
   constructor( private http: HttpClient  ){ 
     this.urlWidgets = `${environment.baseUrl}${environment.pickup}course/get-widgets`
   }
 
   getWidgets(): Observable<any>{
-    return this.http.get(this.urlWidgets,
-      {
-        headers: {
-          'Authorization': `Bearer ${this.UserAuth}`
-        }
-
-      }
-    )
+    return this.http.get(this.urlWidgets
+)
   }
 }

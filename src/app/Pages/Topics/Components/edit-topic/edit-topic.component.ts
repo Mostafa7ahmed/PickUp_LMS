@@ -14,6 +14,7 @@ import { AddTopicService } from '../../Service/add-topic.service';
 import { IResponseOf } from '../../../../Core/Shared/Interface/irespose';
 import { AddStageTopicService } from '../../Service/add-stage-topic.service';
 import { GetoneTopicService } from '../../Service/getone-topic.service';
+import { UpdateTopicService } from '../../Service/update-topic.service';
 @Component({
   selector: 'app-edit-topic',
   standalone: true,
@@ -33,11 +34,11 @@ export class EditTopicComponent {
   isLoad: boolean = false;
   isVisble: boolean = true;
   isAddTopicPopupOpened: boolean = false;
-
+  selectedTopicId: number | null = null;
   selectedValue: any
   topicsList: ITopiclist[] = [];
   openIndex: number | null = null;
-  topicResult:IResponseOf<TopicResult> = {} as  IResponseOf<TopicResult>;
+  topicResult: IResponseOf<TopicResult> = {} as IResponseOf<TopicResult>;
 
   topicID: number = 0;
 
@@ -45,22 +46,20 @@ export class EditTopicComponent {
   private router = inject(Router);
   private colorlistService = inject(ColorlistService);
   private iconsService = inject(IconListService);
-   private _FormBuilder = inject(FormBuilder);
-   private _AddTopicService = inject(AddTopicService);
-   private _AddStageTopicService = inject(AddStageTopicService);
+  private _FormBuilder = inject(FormBuilder);
+  private _UpdateTopicService = inject(UpdateTopicService);
+  private _AddStageTopicService = inject(AddStageTopicService);
 
-   private _getoneTopicService = inject(GetoneTopicService);
-   TopicResult: IResponseOf<TopicResult> = {} as IResponseOf<TopicResult>;
-
-
-
-    topicForm: FormGroup = this._FormBuilder.group({
-    name: ['',[Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-    color: ['#778fe6cf'],  
-    icon: ['fa fa-file-pen'], 
-    description: ['', [ Validators.maxLength(300)]],
+  private _getoneTopicService = inject(GetoneTopicService);
+  TopicResult: IResponseOf<TopicResult> = {} as IResponseOf<TopicResult>;
+  topicForm: FormGroup = this._FormBuilder.group({
+    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+    color: ['#778fe6cf'],
+    icon: ['fa fa-file-pen'],
+    description: ['', [Validators.maxLength(300)]],
     isMain: [false],
     mainId: [null],
+    id: [null]
   });
 
   constructor(private _ActivatedRoute: ActivatedRoute, private _Router: Router) {
@@ -70,7 +69,7 @@ export class EditTopicComponent {
 
   handleIconSelected(icon: string) {
     this.currentIcon = icon;
-    this.topicForm.controls['icon'].setValue(icon);  
+    this.topicForm.controls['icon'].setValue(icon);
 
   }
 
@@ -91,18 +90,24 @@ export class EditTopicComponent {
 
   submitFormTopic() {
     this.isLoad = true;
-  
+
+
     if (this.topicForm.get('isMain')?.value) {
       this.topicForm.get('mainId')?.enable();
+
       this.topicForm.patchValue({ mainId: null });
+    } else {
+      const mainIdValue = this.selectedTopicId ?? this.selectedValue?.id ?? null;
+      if (mainIdValue !== null) {
+        this.topicForm.patchValue({ mainId: mainIdValue });
+      }
     }
-  
-    this._AddTopicService.addTopic(this.topicForm.value).subscribe({
+    this._UpdateTopicService.updateTopic(this.topicForm.value).subscribe({
       next: (res) => {
         if (res.success) {
           this.topicResult.result = res.result;
           this.topicID = this.topicResult.result.id;
-          this.stageForm.patchValue({ topicId: this.topicID });
+          this.stageForm.patchValue({ id: this.topicID });
 
           this.isnext = false;
         }
@@ -112,12 +117,21 @@ export class EditTopicComponent {
         this.isLoad = false;
       },
     });
+
+    console.log(this.topicForm.value)
+
+
   }
-  
 
-  // Create Stage 
+  onTopicSelected(selectedId: number) {
+    this.selectedTopicId = selectedId;
+    console.log('Selected Topic ID:', selectedId);
+  }
 
-  
+
+  // Create Stage
+
+
   stageForm: FormGroup = new FormGroup({
     topicId: new FormControl(),
     newStages: new FormArray([]),
@@ -140,7 +154,7 @@ export class EditTopicComponent {
   addStage() {
     const index = this.stages.length;
     const orderValue = index + 2;
-    const selectedColor = this.selectedColors[index] || this.colors[index % this.colors.length]; 
+    const selectedColor = this.selectedColors[index] || this.colors[index % this.colors.length];
 
     this.stages.push(new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
@@ -149,7 +163,7 @@ export class EditTopicComponent {
       order: new FormControl(orderValue)
     }));
 
-    this.selectedColors.push(selectedColor); // تخزين اللون المحدد
+    this.selectedColors.push(selectedColor);
   }
 
   selectColor(index: number, color: string) {
@@ -163,7 +177,6 @@ export class EditTopicComponent {
   togglePackageColor(index: number) {
     this.openIndex = this.openIndex === index ? null : index;
   }
-  
   next() {
     console.log(this.stageForm.value)
 
@@ -173,11 +186,11 @@ export class EditTopicComponent {
 
     this._AddStageTopicService.addStageFromTopic(this.stageForm.value).subscribe({
       next: (res) => {
-       if(res.success){
-        console.log(res);
-        this.isLoad = false;
-        this.closePopup()
-       }
+        if (res.success) {
+          console.log(res);
+          this.isLoad = false;
+          this.closePopup()
+        }
 
       },
       error: (err) => {
@@ -189,30 +202,40 @@ export class EditTopicComponent {
 
   }
 
-getTopicList(){
-  this._topiclistService.getAlllits().subscribe(topics => {
-    this.topicsList = topics.result;
-    let defautlTopic = this.topicsList.filter((e: ITopiclist) => e.default)[0];
-    this.selectedValue = defautlTopic;
-  });
-}
+  getTopicList() {
+    this._topiclistService.getAlllits().subscribe(topics => {
+      this.topicsList = topics.result;
+      let defaultTopic = this.topicsList.find((e: ITopiclist) => e.id === this.topicResult.result.mainId);
+      if (!defaultTopic) {
+        defaultTopic = this.topicsList.find((e: ITopiclist) => e.default);
+      }
+      if (!defaultTopic && this.topicsList.length > 0) {
+        defaultTopic = this.topicsList[0];
+      }
+      this.selectedValue = defaultTopic;
+    });
+  }
 
-getTopicById(topicID:number){
-  this._getoneTopicService.getTopicById(this.topicID).subscribe(topic => {
-    this.topicResult = topic;
-    this.topicForm.patchValue(this.topicResult.result);
-    this.getTopicList();
-  });
- 
-}
+  getTopicById(topicID: number) {
+    this._getoneTopicService.getTopicById(topicID).subscribe(topic => {
+      this.topicResult = topic;
+      this.topicForm.patchValue(this.topicResult.result);
+      this.stageForm.patchValue({ topicId: this.topicResult.result.id });
+      this.stageForm.patchValue(this.topicResult.result.stages)
+
+
+      this.getTopicList();
+    });
+
+  }
 
 
   ngOnInit(): void {
 
     this.topicForm.get('isMain')?.valueChanges.subscribe((isChecked) => {
       if (isChecked) {
-        this.topicForm.get('mainId')?.setValue(null, { emitEvent: false }); 
-        this.topicForm.get('mainId')?.disable({ emitEvent: false }); 
+        this.topicForm.get('mainId')?.setValue(null, { emitEvent: false });
+        this.topicForm.get('mainId')?.disable({ emitEvent: false });
       } else {
         this.topicForm.get('mainId')?.enable({ emitEvent: false });
       }
@@ -223,9 +246,9 @@ getTopicById(topicID:number){
         this.getTopicById(this.topicID);
       }
     });
-  
-    
-    
+
+
+
   }
 
 }

@@ -139,7 +139,7 @@
           <input type="file" accept="image/*" #ImageInput class="hidenInput" (change)="onFileSelected($event, 'image')">
           <div *ngIf="selectedImageUrl" class="image-preview-container">
             <img [src]="selectedImageUrl" alt="Selected Image" class="preview-image w-100 rounded-1">
-            <button class="delete-btn_image" (click)="removeImage()"> 
+            <button class="delete-btn_image" > 
               <i class="fa-regular fa-trash-can"></i>
             </button>
           </div>
@@ -153,7 +153,7 @@
           <input type="file" accept="video/*" #VideoInput class="hidenInput" (change)="onFileSelected($event, 'video')">
           <div *ngIf="selectedVideoUrl" class="image-preview-container">
             <video [src]="selectedVideoUrl" autoplay controls muted class="preview-video w-100 h-50 rounded-1"></video>
-            <button class="delete-btn_image" (click)="removeVideo()"> 
+            <button class="delete-btn_image" > 
               <i class="fa-regular fa-trash-can"></i>
             </button>
           </div>
@@ -164,14 +164,14 @@
             <label class="upload-box" (click)="triggerFileInput('file')">
               <i class="fa-solid fa-paperclip mx-1"></i> Add File
             </label>
-            <input type="file" multiple accept=".pdf, .doc, .docx, .xls, .xlsx, .txt" #fileInput 
+            <input type="file" multiple accept=".pdf, .doc, .docx, .xls, .xlsx, .txt , .pptx , .ppt , .csv" #fileInput 
               class="hidden-input" (change)="onFileSelectedFile($event)">
             <div class="file-list" *ngIf="selectedFiles.length > 0">
               <div class="file-item" *ngFor="let file of selectedFiles; let i = index">
                 <i class="fa-solid fa-file"></i>
                 <span class="file-name">{{ file.name | splicText }}</span>
-                <span class="file-size">{{ getFileSize(file.size) }}</span>
-                <a [href]="getFileUrl(file)" download class="download-btn">
+                <span class="file-size"></span>
+                <a [href]="''" download class="download-btn">
                   <i class="fa-solid fa-download"></i>
                 </a>
                 <button class="delete-btn" (click)="removeFile(i)">
@@ -275,7 +275,7 @@
       </div>
     </form>
     <div class="footerCourse bg-white rounded-1">
-      <div class="btnsCourse" (click)="onSubmit()">
+      <div class="btnsCourse" >
         <button class="">Create</button>
       </div>
     </div>

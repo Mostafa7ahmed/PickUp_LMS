@@ -45,16 +45,16 @@ export class SidebarfixedComponent {
 
   ListSidebarOpen = [
     { 
-      name: 'Transaction 1', 
+      name: 'Transaction ', 
       Icon: 'fa-solid fa-money-bill-transfer', 
-      list: ["course List", "course"], 
-      routes: ["courseList", "course"]
+      list: ["Transaction List", "Transaction "], 
+      routes: ["Transactionlist", "Dashboard"]
     },
     { 
       name: 'Courses',  
       Icon: 'fa-solid fa-chalkboard-user', 
       list: ["Board", "course List", "Dashboard"], 
-      routes: ["topic", "course", "topics"]
+      routes: ["topics", "course", "Dashboard"]
     }
     ,
     { 
@@ -73,7 +73,7 @@ export class SidebarfixedComponent {
     { 
       name: 'Setting',  
       Icon: 'fa-solid fa-gear', 
-      list: ["Message", "Log Up"], 
+      list: ["Message", "Log Out"], 
       routes: ["Message", "login"]
     }
   ];
@@ -82,7 +82,7 @@ export class SidebarfixedComponent {
   isRotated: boolean = false; 
 
   toggleCard(index: number) {
-    this.isRotated = !this.isRotated; // تبديل الحالة
+    this.isRotated = !this.isRotated; 
     this.openIndex = this.openIndex === index ? null : index;
   }
 

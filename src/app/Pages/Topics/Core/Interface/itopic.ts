@@ -11,6 +11,9 @@ export interface ITopic {
     description: string
     color: string
     icon: string
+    isMain: boolean
+    mainId : number
+
     order: number
     default: boolean
     snapshot: Snapshot

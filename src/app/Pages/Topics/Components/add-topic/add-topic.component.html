@@ -44,13 +44,13 @@
           </div>
           <div class="SelectTopic d-flex gap-3 align-items-start justify-content-between">
             <div class="customSelect">
-              <app-customslectwithicon 
-              [items]="topicsList" 
-              [isSelected]="true" 
+              <app-customslectwithicon
+              [items]="topicsList"
+              [isSelected]="true"
               [selectedItem]="selectedValue"
               [disabled]="topicForm.get('isMain')?.value"
-              (selectionChange)="onTopicSelected($event)">
-            </app-customslectwithicon>  
+              (selectionChangeTopic)="onTopicSelected($event)">
+            </app-customslectwithicon>
             </div>
 
             <div class="d-flex gap-2 align-items-center checkedCard">
