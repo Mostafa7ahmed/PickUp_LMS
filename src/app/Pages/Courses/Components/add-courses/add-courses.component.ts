@@ -29,55 +29,44 @@ export class AddCoursesComponent {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   @ViewChild('VideoInput') VideoInput!: ElementRef<HTMLInputElement>;
   @ViewChild('ImageInput') ImageInput!: ElementRef<HTMLInputElement>;
-  selectedImageName: string = '';
-  selectedImageUrl: string | null = null;
-  selectedVideoName: string = '';
-  selectedVideoUrl: string | null = null;
-  selectedFileName: string = '';
+  @Input() isAddPopupVisible: boolean = false;
+ private router = inject(Router)
   selectedFiles: File[] = [];
+
+  listOfTagOptions: string[] = [];
   showDescription: boolean = false;
-  discountSymbol: string = "EGP";
-  isPercentage: boolean = false;
+  @Output() isAddPopupVisibleChange = new EventEmitter<boolean>();
   listOfTags = ['jack', 'lucy' ];
-  keyOptions: string[] = []; 
-  customFields: { key: string; value: string; checked: boolean }[] = [];
-  newField = { key: '', value: '' };
 
-
-  private router = inject(Router)
-
-
+  keyOptions: string[] = ['Option 1', 'Option 2', 'Option 3','Option 1', 'Option 2', 'Option 3','Option 1', 'Option 2', 'Option 3','Option 1', 'Option 2', 'Option 3'];  // قائمة الخيارات المتاحة
   
 
   addTags(input: HTMLInputElement): void {
-    const value = input.value.trim(); 
+    const value = input.value.trim(); // إزالة المسافات الفارغة
     if (value && this.listOfTags.indexOf(value) === -1) {
-      this.listOfTags = [value, ...this.listOfTags]; 
+      this.listOfTags = [value, ...this.listOfTags]; // إضافة في البداية
     }
-    input.value = ''; 
+    input.value = ''; // تفريغ الحقل بعد الإضافة
   }
 
   private fb = new FormBuilder();
 
   courseForm: FormGroup = this.fb.group({
-    name: ['', Validators.required],
-    description: [''],
-    free: [false, Validators.required],
-    price: [null, Validators.required],
-    stageId: [null, Validators.required], 
-    languageId: [null, Validators.required],
-    photoUrl: [''],
-    introductionVideoUrl: [''],
-    fileUrls: [[], Validators.required],
-    tags: this.fb.array([]),
-    customFields: this.fb.array([]), 
-    discount: this.fb.group({
-      type: [0],
-      amount: [null, Validators.required] 
-    })
+    courseName: ['', Validators.required],
+    courseDescription: [''],
+    courseAccess: ['Paid', Validators.required],
+    coursePrice: [null, Validators.required],
+    topic: ['', Validators.required],
+    stage: ['', Validators.required],
+    courseLanguage: ['', Validators.required],
+    discountType: ['0'], // Default is Value (EGP)
+    discountValue: ['', [Validators.required]],
+    tags: [[]],
+    customFields: this.fb.array([]) 
   });
 
-
+  customFields: { key: string; value: string; checked: boolean }[] = [];
+  newField = { key: '', value: '' };
 
   ngOnInit() {
     this.syncCustomFieldsWithFormArray(); 
@@ -114,10 +103,10 @@ export class AddCoursesComponent {
   }
   
   removeField(index: number) {
-    this.customFields.splice(index, 1); 
+    this.customFields.splice(index, 1); // Remove from UI array
     const customFields = this.courseForm.get('customFields') as FormArray;
-    customFields.removeAt(index); 
-    this.syncCustomFieldsWithFormArray(); 
+    customFields.removeAt(index); // Remove from FormArray
+    this.syncCustomFieldsWithFormArray(); // Resync after removal to ensure consistency
     console.log('FormArray after removal:', this.courseForm.get('customFields')?.value);
   }
 
@@ -135,9 +124,16 @@ export class AddCoursesComponent {
     return this.courseForm.get('customFields') as FormArray;
   }
 
+  onSubmit() {
+    this.closePopup() ;
+  }
 
+  handleCancel() {
+    this.isAddPopupVisible = false;
+    this.isAddPopupVisibleChange.emit(false);
+    this.courseForm.reset();
 
-
+    }
 
     closePopup() {
       this.router.navigate([{ outlets: { dialog: null } }]);
@@ -145,6 +141,13 @@ export class AddCoursesComponent {
   
 
 
+  selectedImageName: string = '';
+  selectedImageUrl: string | null = null;
+
+  selectedVideoName: string = '';
+  selectedVideoUrl: string | null = null;
+
+  selectedFileName: string = '';
 
   triggerFileInput(inputType: string) {
     if (inputType === 'image' && this.ImageInput) {
@@ -184,7 +187,8 @@ export class AddCoursesComponent {
   onSelectChange(selectedValue: string) {
     console.log('Selected Option:', selectedValue);
   }
-
+  discountSymbol: string = "EGP";
+  isPercentage: boolean = false;
 
   onDiscountTypeChange(event: any) {
     const selectedValue = event.target.value;
@@ -217,5 +221,25 @@ export class AddCoursesComponent {
     this.isOpen = !this.isOpen;
   }
 
+  removeImage() {
+    this.selectedImageUrl = null;
+    this.selectedImageName = '';
+    this.ImageInput.nativeElement.value = ''; // Reset the input
+  }
+  
+  removeVideo() {
+    this.selectedVideoUrl = null;
+    this.selectedVideoName = '';
+    this.VideoInput.nativeElement.value = ''; // Reset the input
+  }
 
+  getFileSize(size: number): string {
+    return size < 1024 * 1024
+      ? (size / 1024).toFixed(2) + ' KB'
+      : (size / (1024 * 1024)).toFixed(2) + ' MB';
+  }
+
+  getFileUrl(file: File): string {
+    return URL.createObjectURL(file);
+  }
 }
