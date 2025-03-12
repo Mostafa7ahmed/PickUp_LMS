@@ -174,7 +174,7 @@
   background-color: var(--color_border);
   width: 2px;
   height: 20px;
-  border-radius: 2px;
+  border-radius: 2px  0 2px 0px;
 }
 
 .rightFooter span {
@@ -244,7 +244,7 @@
   bottom: -10px;
   width: 100%;
   background: var(--green1);
-  border-radius: 2px;
+  border-radius: 2px  2px  0px 0px;
 }
 
 .showContent {
