@@ -204,7 +204,7 @@
               </div>
               <div class="progressBar" [ngStyle]="{'border-color':stage.color}"></div>
               <h3>{{stage.name}}</h3>
- 
+
             </div>
             <div class="moreList d-flex  align-items-center ">
               <div class="defaultValue" *ngIf="stage.default ">
@@ -216,10 +216,10 @@
               <div class="more cr px-2" (click)="toggleShowStage(stage.id)" [ngClass]="stage.type == 0 && stage.default  ||stage.type == 2 && stage.default ? ' opacity-25' : ''" >
                 <i class="fa-solid fa-ellipsis-vertical"></i>
               </div>
-  
+
 
             </div>
-    
+
 
             <div class="overlay"  (window:scroll)="toggleShowStage(null)" *ngIf="selectedStaged === stage.id" (click)="toggleShowStage(null)"></div>
 

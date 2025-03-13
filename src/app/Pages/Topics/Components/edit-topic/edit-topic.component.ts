@@ -177,7 +177,6 @@ export class EditTopicComponent {
   togglePackageColor(index: number) {
     this.openIndex = this.openIndex === index ? null : index;
   }
-
   next() {
     console.log(this.stageForm.value)
 
