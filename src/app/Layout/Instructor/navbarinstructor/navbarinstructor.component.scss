@@ -91,7 +91,6 @@
 
 .add-menu{
     right: 100px  !important;
-    top: 60px !important;
 
 }
 .dropdown-menu {
@@ -108,8 +107,8 @@
     transition: all .3s ease-in-out;
     overflow: hidden;
     position: absolute;
-    top: 40px;
-    right: -5px;
+    top: 60px !important;
+    right: 20px;
     display: none;
     padding: 0px !important;
 
