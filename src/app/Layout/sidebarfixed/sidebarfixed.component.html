@@ -1,7 +1,7 @@
 
 <div  [ngClass]="!isCollapsed ? 'fixed-sidebar-collapsed':  'fixedSidebar'">
   <div class="sidebar "  [class.collapsed]="isCollapsed">
-    <div class="logo" >
+    <div class="logo " >
       <div class="logoImages pos "> 
       <div class="  d-flex align-items-center " routerLink="homeInstructor">
         <img src="Images/logoPickup.png" alt="logo" width="50" />
@@ -10,9 +10,8 @@
 
       </div>
 
-      <div class=" icon_collaped" (click)="toggleSidebar()"  [class.right]="isCollapsed"  [class.center]="!isCollapsed" >
-        <i class="fa-solid fa-right-left "></i>
-
+      <div class=" icon_collaped d-flex align-content-center justify-content-center" (click)="toggleSidebar()"  [class.right]="isCollapsed"  [class.center]="!isCollapsed" >
+        <svg  xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 22" fill="none" class="ng-tns-c3500418680-0 ng-star-inserted" style=""><g _ngcontent-ng-c3500418680="" transform="scale(-1, 1) translate(-36, 0)" class="ng-tns-c3500418680-0"><path _ngcontent-ng-c3500418680="" fill-rule="evenodd" clip-rule="evenodd" d="M11.6242 10.1176C11.5022 10.1176 11.4386 9.97253 11.5212 9.88281L13.5356 7.69553C13.8136 7.39365 13.8133 6.92893 13.535 6.62736C13.223 6.28931 12.689 6.28931 12.377 6.62735L9.43942 9.81012C8.85353 10.4449 8.85353 11.4374 9.43942 12.0722L12.377 15.255C12.689 15.593 13.223 15.593 13.535 15.255C13.8133 14.9534 13.8136 14.4887 13.5356 14.1868L11.5212 11.9995C11.4386 11.9098 11.5022 11.7647 11.6242 11.7647H23.4177C23.8725 11.7647 24.2412 11.396 24.2412 10.9412C24.2412 10.4864 23.8725 10.1176 23.4177 10.1176H11.6242ZM26.2412 15.0588C26.2412 15.5136 25.8725 15.8824 25.4177 15.8824H16.2602C15.8054 15.8824 15.4367 15.5136 15.4367 15.0588C15.4367 14.604 15.8054 14.2353 16.2602 14.2353H25.4177C25.8725 14.2353 26.2412 14.604 26.2412 15.0588Z" fill="white" class="ng-tns-c3500418680-0"></path></g></svg>
       </div>
       </div>
 
@@ -22,7 +21,7 @@
           </div>
         }
 
-     <div   [class.line]="isCollapsed"></div>
+     <div   [class.line]="true"></div>
     </div>
 
 
@@ -74,6 +73,10 @@
             <li class="home" [class.show]="activeIndex === $index" >
               <i [class]="menuItem.Icon" (click)="togglesidebarCollaped($index)"></i>
               <div [class.showRouters]="!isCollapsed" [ngClass]="!isCollapsed ? '' : 'd-none'"  >
+                <p class="TextRouter d-flex gap-1">
+                  <span></span>
+                  {{menuItem.name}}
+                </p>
                 @for (router of menuItem.routes; track $index) {
                   <a [routerLink]="'/'+router" routerLinkActive="active" (click)="toggleRoute()">{{ menuItem.list[$index] }}</a>
                   
@@ -83,7 +86,9 @@
           }
         </ul>
       </nav>
+
     }
+
 
 
 
@@ -96,5 +101,6 @@
    
 
   </div>
-  
+  <div class="overlayisCollapsed" *ngIf="activeIndex !== null"  (click)="toggleRoute()"></div>
+
 </div>

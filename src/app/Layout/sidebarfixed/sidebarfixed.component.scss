@@ -16,8 +16,7 @@
   width: 60px;
   box-shadow: 0 13.5px 30px #7090b01f  ;
   background-color: #28ab5d ;
-  
-
+ 
 }
 
 .sidebar.collapsed {
@@ -53,22 +52,25 @@
 }
 
 .logoImages h3 {
-  color: rgba(40, 41, 38, 1);
-  font-size: 20px;
+  color: rgb(40, 41, 38);
+  font-size: 23px;
   font-weight: 600;
-  font-family: var(--font-family-1);
+  font-family: Itim;
   opacity: 0;
   transition: 0.4s opacity ease-in-out;
+  margin-top: 5px !important;
 }
+
 
 .logoImages .logoName {
   opacity: 1;
   transition: 0.4s opacity ease-in-out;
 }
 
-.sidebar.collapsed   .icon_collaped i {
+.sidebar.collapsed   .icon_collaped path{
   color: var(--color_border);
   font-size: 20px;
+  fill:  #28ab5d;
 }
 .icon_collaped i {
   color: var(--white);
@@ -78,19 +80,18 @@
 .logo .right {
   position: absolute;
   cursor: pointer;
-  transition: 0.8s all ease-in;
+  transition: 0.4s all ease-in;
   overflow: hidden;
   top: 30px;
   right: 20px;
+  transform: rotate(180deg) ;
 }
 
 .logo .center {
-  position: absolute;
   cursor: pointer;
-  transition: 0.8s all ease-out;
+  transition: 0.4s all ease-out;
   overflow: hidden;
-  top: 80px;
-  left: 20px;
+
 }
 
 .line {
@@ -144,12 +145,11 @@
 }
 
 .navSide ul .list-item .nav-link p {
-  font-family: var(--font-family-1);
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 20px;
-  color: var(--color_border);
-  white-space: nowrap;
+  color: #6b6d6c;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 }
 
 .navSide ul .list-item .nav-click p {
@@ -157,8 +157,9 @@
 }
 
 .navSide ul .list-item i {
-  font-size: 15px;
-  color: var(--color_border);
+  font-size: 13px !important;
+  color: #6b6d6c;
+
 }
 
 .navSide ul .list-item .nav-click i {
@@ -205,12 +206,16 @@
 }
 
 .submenu li a {
-  padding: 10px 20px;
+  padding: 10px 12px;
   border-radius:6px;
+  color: #6b6d6c;
+
 }
 
 .active {
   background-color: #24c12b2b !important;
+  color: #000 !important;
+
 }
 
 .submenu li::before {
@@ -284,6 +289,23 @@
   color: var(--white);
   transition: 0.4s color ease-in-out;
   cursor: pointer;
+  padding: 4px;
+
+}
+.nav ul li .showRouters .TextRouter{
+  height: 34px; 
+  width: 100%;
+  color: #000000 !important;
+  font-size: 14px;
+  font-weight: 500;
+}
+.nav ul li .showRouters .TextRouter span{
+  display: block;
+  width: 4px;
+  height: 16px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: #28ab5d;
 }
 .nav ul li .showRouters {
   background: var(--color_border);
@@ -296,12 +318,21 @@
   width: 180px;
   opacity: 0;
   position: absolute;
-  left: 50px;
-  top: 50%;
   transform: translateY(-50%);
   pointer-events: painted;
 
   visibility: hidden;
+  border-radius: 16px;
+  background: var(--Background-White, #fff);
+  box-shadow: 0 4px 16px #0000000f;
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+  width: 176px;
+  height: -moz-fit-content;
+  height: fit-content;
+  inset-inline-start: 55px;
+  padding: 8px 8px 5px;
+  z-index: 101;
 }
 
 .nav ul li .showRouters a {
@@ -310,22 +341,23 @@
   font-family: var(--font-family-1);
   display: block;
   padding: 8px 14px;
-  transition: 0.4s background-color ease-in-out;
   gap: 10px;
-  border-radius: 12px;
+  border-radius: 6px;
   margin-bottom: 15px;
   font-size: 12px;
   font-weight: 400;
   line-height: 20px;
+  color: #6b6d6c;
+
 }
 
 .nav ul li .showRouters a:hover {
   background-color: var(--color-side);
+  color: #000000 !important;
 }
 
 .nav ul li.show i {
-  padding: 4px;
-  background-color: var(--white);
+  background-color: var(--color-side);
   color: #28ab5d;
   border-radius: 4px;
 
@@ -346,3 +378,12 @@
   z-index: 2; /* رفع العنصر أثناء التمرير */
 }
 
+.overlayisCollapsed{
+  background-color: rgba(0, 0, 0, 0);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100%;
+  z-index: 1;
+}
