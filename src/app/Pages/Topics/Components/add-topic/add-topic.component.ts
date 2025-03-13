@@ -109,7 +109,7 @@ export class AddTopicComponent implements OnInit {
     }
 
 
-    if (!this.topicForm.valid) {
+    if (this.topicForm.valid) {
       this._AddTopicService.addTopic(this.topicForm.value).subscribe({
         next: (res) => {
           if (res.success) {
