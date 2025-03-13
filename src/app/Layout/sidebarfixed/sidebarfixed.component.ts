@@ -1,15 +1,13 @@
 import { CommonModule ,} from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { AccountBookFill, AlertFill, AlertOutline } from '@ant-design/icons-angular/icons';
+
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-sidebarfixed',
   standalone: true,
-  imports: [NzButtonModule, NzMenuModule, NzToolTipModule , RouterLinkActive  ,CommonModule, RouterLink],
+  imports: [ TooltipModule, RouterLinkActive  ,CommonModule, RouterLink],
   templateUrl: './sidebarfixed.component.html',
   styleUrl: './sidebarfixed.component.scss',
   
@@ -48,26 +46,27 @@ export class SidebarfixedComponent {
   ListSidebarOpen = [
     { 
       name: 'Transaction ', 
-      Icon: 'fa-solid fa-money-bill-transfer', 
+      Icon: 'fa-solid fa-wallet', 
       list: ["Transaction List", "Transaction "], 
       routes: ["Transactionlist", "Dashboard"]
     },
     { 
       name: 'Courses',  
-      Icon: 'fa-solid fa-chalkboard-user', 
+      Icon: 'fa-solid fa-person-chalkboard', 
+      
       list: ["Board", "course List", "Dashboard"], 
       routes: ["topics", "course", "Dashboard"]
     }
     ,
     { 
       name: 'Follower',  
-      Icon: 'fa-solid fa-user-check', 
+      Icon: 'fa-kit fa-213-frame', 
       list: ["Users", "Students"], 
       routes: ["Users", "Students"]
     },
     { 
       name: 'Notification',  
-      Icon: 'fa-regular fa-bell', 
+      Icon: 'fa-solid fa-bell', 
       list: ["Message", "Notification"], 
       routes: ["Message", "Notification"]
     }

@@ -50,7 +50,7 @@
               <li class="parent">
                 <ul class="submenu">
                   <li *ngFor="let course of item.list; let j = index">
-                    <a  routerLinkActive="active" [routerLink]="item.routes[j]"> {{ course }}</a>
+                    <a   routerLinkActive="active" [routerLink]="item.routes[j]"> {{ course }}</a>
                   </li>
                 </ul>
               </li>
@@ -71,14 +71,14 @@
         <ul>
           @for (menuItem of ListSidebarOpen; track $index) {
             <li class="home" [class.show]="activeIndex === $index" >
-              <i [class]="menuItem.Icon" (click)="togglesidebarCollaped($index)"></i>
+              <i [class]="menuItem.Icon"  [pTooltip]="menuItem.name" tooltipPosition="right"  (click)="togglesidebarCollaped($index)"></i>
               <div [class.showRouters]="!isCollapsed" [ngClass]="!isCollapsed ? '' : 'd-none'"  >
                 <p class="TextRouter d-flex gap-1">
                   <span></span>
                   {{menuItem.name}}
                 </p>
                 @for (router of menuItem.routes; track $index) {
-                  <a [routerLink]="'/'+router" routerLinkActive="active" (click)="toggleRoute()">{{ menuItem.list[$index] }}</a>
+                  <a [routerLink]="'/'+router"routerLinkActive="active" (click)="toggleRoute()">{{ menuItem.list[$index] }}</a>
                   
                 }
               </div>
