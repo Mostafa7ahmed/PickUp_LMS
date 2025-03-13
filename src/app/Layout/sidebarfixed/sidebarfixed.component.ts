@@ -28,6 +28,8 @@ export class SidebarfixedComponent {
 
   toggleSidebar() {
     this.isCollapsed = !this.isCollapsed;
+    this.activeIndex = null;
+
   }
 
 
