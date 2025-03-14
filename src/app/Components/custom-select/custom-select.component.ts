@@ -57,6 +57,7 @@ export class CustomSelectComponent implements ControlValueAccessor {
     this.value = value;
   }
 
+
   /** Implementing ControlValueAccessor methods */
   writeValue(value: string): void {
     this.value = value;

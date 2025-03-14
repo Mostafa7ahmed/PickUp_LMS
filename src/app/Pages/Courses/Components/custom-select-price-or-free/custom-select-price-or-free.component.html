@@ -1,0 +1,19 @@
+
+
+  <div class="selectAccess" (click)="toggleSelect()" [class.open]="isOpen">
+    <div class="selectOptionValue">
+  
+      <p>{{ value ? 'Free' : 'Paid' }}</p>
+
+      <div class="icon">
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+    </div>
+  
+    <div class="customSelect"  *ngIf="isOpen">
+      <div class="d-flex gap-2 align-items-center" *ngFor="let option of options" (click)="selectOption(option)">  
+        {{ option }}
+  
+      </div>
+    </div>
+  </div>

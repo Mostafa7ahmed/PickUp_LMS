@@ -5,7 +5,7 @@
   }
   
   .select-button {
-    width: 100%;
+    width: 120%;
     padding: 10px 5px;
     border: 1px solid #ccc;
     background: white;
@@ -15,6 +15,7 @@
     border-radius: 4px;
     padding: 10px 10px;
     cursor: pointer;
+    height: 32px;
     transition: all 0.3s ease;
     border: .75px solid rgba(211, 214, 220, 0.326) !important;
     height: 34px;
@@ -60,16 +61,15 @@
   
   .select-dropdown {
     position: absolute;
-    width: 100%;
+    width: 110%;
     background: white;
     border: 1px solid #ccc;
     margin-top: 5px;
     list-style: none;
     padding: 0;
     border-radius: 8px;
-    max-height: 200px;
+    max-height: 120px;
     background: white;
-    height: 200px;
     overflow-y: auto;
     &::-webkit-scrollbar{
         display: none;
@@ -114,7 +114,8 @@
   }
   
  ::ng-deep .p-tooltip .p-tooltip-arrow {
-    border-color: #ffffff00 !important; 
+    border-color: transparent !important; 
+    border:  none !important;
   }
 ::ng-deep .p-tooltip.p-tooltip-top {
     transform: translateY(-7px); 

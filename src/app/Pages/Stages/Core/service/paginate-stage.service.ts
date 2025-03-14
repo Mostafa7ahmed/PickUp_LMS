@@ -13,6 +13,8 @@ export class PaginateStageService {
     this.urlStages = `${environment.baseUrl}${environment.pickup}stage/paginate?`;
    }
 
+   
+
 
 
 

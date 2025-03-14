@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
 import { TopPopComponent } from '../../../../Components/top-pop/top-pop.component';
 import { CustomSelectComponent } from '../../../../Components/custom-select/custom-select.component';
-import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, SlicePipe } from '@angular/common';
 import { TextHeaderComponent } from '../text-header/text-header.component';
 import { TooltipModule } from 'primeng/tooltip';
@@ -11,6 +11,16 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { Router, RouterModule } from '@angular/router';
+import { StreamType } from '../../../../Core/Interface/stream-type';
+import { DiscountType } from '../../../../Core/Interface/discount-type';
+import { StreamService } from '../../../../Core/Services/stream.service';
+import { PaginateStageService } from '../../../Stages/Core/service/paginate-stage.service';
+import { PaginateTopicService } from '../../../Topics/Service/paginate-topic.service';
+import { LanguageService } from '../../../../Core/Services/language.service';
+import { CustomSelectPriceOrFreeComponent } from "../custom-select-price-or-free/custom-select-price-or-free.component";
+import { ITopiclist } from '../../Core/interface/itopiclist';
+import { CustomslectwithiconComponent } from "../customslectwithicon/customslectwithicon.component";
+import { TopiclistService } from '../../../Topics/Service/topiclist.service';
 function alphabet(): string[] {
   const children: string[] = [];
   for (let i = 10; i < 36; i++) {
@@ -21,168 +31,207 @@ function alphabet(): string[] {
 @Component({
   selector: 'app-add-courses',
   standalone: true,
-  imports: [TopPopComponent, SplicTextPipe, RouterModule, TooltipModule, NzDividerModule, NzIconModule, NzInputModule, NzSelectModule, FormsModule, TextHeaderComponent, CommonModule, ReactiveFormsModule, NzSelectModule, CustomSelectComponent],
+  imports: [TopPopComponent, RouterModule, TooltipModule, NzDividerModule, NzIconModule, NzInputModule, NzSelectModule, FormsModule, TextHeaderComponent, CommonModule, ReactiveFormsModule, NzSelectModule, CustomSelectComponent, CustomSelectPriceOrFreeComponent, CustomslectwithiconComponent],
   templateUrl: './add-courses.component.html',
   styleUrl: './add-courses.component.scss'
 })
 export class AddCoursesComponent {
-  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('VideoInput') VideoInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('ImageInput') ImageInput!: ElementRef<HTMLInputElement>;
-  @Input() isAddPopupVisible: boolean = false;
- private router = inject(Router)
-  selectedFiles: File[] = [];
+  //Injects
+  private router = inject(Router);
+  private _StreamService = inject(StreamService);
+  private _PaginateStageService = inject(PaginateStageService);
+  private _paginateTopicService = inject(PaginateTopicService);
+  private _languageService = inject(LanguageService);
+  private _FormBuilder = inject(FormBuilder);
+  private _topiclistService = inject(TopiclistService);
 
-  listOfTagOptions: string[] = [];
-  showDescription: boolean = false;
-  @Output() isAddPopupVisibleChange = new EventEmitter<boolean>();
-  listOfTags = ['jack', 'lucy' ];
 
-  keyOptions: string[] = ['Option 1', 'Option 2', 'Option 3','Option 1', 'Option 2', 'Option 3','Option 1', 'Option 2', 'Option 3','Option 1', 'Option 2', 'Option 3'];  // قائمة الخيارات المتاحة
-  
 
-  addTags(input: HTMLInputElement): void {
-    const value = input.value.trim(); // إزالة المسافات الفارغة
-    if (value && this.listOfTags.indexOf(value) === -1) {
-      this.listOfTags = [value, ...this.listOfTags]; // إضافة في البداية
-    }
-    input.value = ''; // تفريغ الحقل بعد الإضافة
-  }
 
-  private fb = new FormBuilder();
+//  selectedFiles: File[] = [];
+//  selectedImageName: string = '';
+//  selectedImageUrl: string | null = null;
 
-  courseForm: FormGroup = this.fb.group({
-    courseName: ['', Validators.required],
-    courseDescription: [''],
-    courseAccess: ['Paid', Validators.required],
-    coursePrice: [null, Validators.required],
-    topic: ['', Validators.required],
-    stage: ['', Validators.required],
-    courseLanguage: ['', Validators.required],
-    discountType: ['0'], // Default is Value (EGP)
-    discountValue: ['', [Validators.required]],
-    tags: [[]],
-    customFields: this.fb.array([]) 
+//  selectedVideoName: string = '';
+//  selectedVideoUrl: string | null = null;
+
+//  selectedFileName: string = '';
+
+
+
+
+  // addTags(input: HTMLInputElement): void {
+  //   const value = input.value.trim(); 
+  //   if (value && this.listOfTags.indexOf(value) === -1) {
+  //     this.listOfTags = [value, ...this.listOfTags]; 
+  //   }
+  //   input.value = ''; 
+  // }
+
+  courseForm: FormGroup = this._FormBuilder.group({
+    topicId: [0, Validators.required],
+    stageId: [0, Validators.required],
+    LanguageId: [0, Validators.required],
+    name: ['', Validators.required],
+    free: [false], // ✅ يظل `boolean`
+    price: this._FormBuilder.control({ value: 0, disabled: false }, [Validators.required, Validators.min(0)]),
+    description: ['', Validators.required],
   });
+  handleValueChange(event: { free: boolean; price: number }) { 
+    console.log('القيمة المستلمة:', event);
+  
+    this.courseForm.patchValue({
+      free: event.free,
+      price: event.free ? 0 : event.price
+    });
+  
+    if (event.free) {
+      this.courseForm.get('price')?.disable({ onlySelf: true, emitEvent: false }); // تعطيل بدون التأثير على النموذج بالكامل
+    } else {
+      this.courseForm.get('price')?.enable({ onlySelf: true, emitEvent: false });
+    }
+  }
+  
 
   customFields: { key: string; value: string; checked: boolean }[] = [];
   newField = { key: '', value: '' };
 
+  print(){
+
+    console.log(this.courseForm.value);
+  }
+
   ngOnInit() {
-    this.syncCustomFieldsWithFormArray(); 
+    // this.syncCustomFieldsWithFormArray(); 
+    this.getTopicList()
   }
+  onSelectChangeFree(value: string) {
 
-  addField() {
-    if (this.newField.key.trim() && this.newField.value.trim()) {
-      const newFieldData = { key: this.newField.key, value: this.newField.value, checked: false };
-      console.log('Adding field to customFields:', newFieldData);
-      this.customFields.push(newFieldData);
-      this.addCustomFieldControl(newFieldData.key, newFieldData.value, newFieldData.checked);
-      console.log('FormArray after adding:', this.courseForm.get('customFields')?.value);
-      this.newField = { key: '', value: '' };
-      this.syncCustomFieldsWithFormArray(); 
+  }
+  topicsList: ITopiclist[] = [];
+  selectedValue: any
+  selectedTopicId: number | null = null;
+
+
+    getTopicList() {
+      this._topiclistService.getAlllits().subscribe(topics => {
+        this.topicsList = topics.result;
+        let defautlTopic = this.topicsList.filter((e: ITopiclist) => e.default)[0];
+        this.selectedValue = defautlTopic;
+      });
     }
-  }
+    onTopicSelected(selectedId: number) {
+      this.selectedTopicId = selectedId;
+      console.log('Selected Topic ID:', selectedId);
+      const mainIdValue = this.selectedTopicId ?? this.selectedValue?.id ?? null;
+      this.courseForm.patchValue({ topicId: selectedId });
 
-  addCustomFieldControl(key: string, value: string, checked: boolean) {
-    console.log('Adding FormGroup for:', { key, value, checked });
-    const customFields = this.courseForm.get('customFields') as FormArray;
-    customFields.push(
-      this.fb.group({
-        key: [key],
-        value: [value],
-        checked: [checked]
-      })
-    );
-  }
+    }
+  
+  // addField() {
+  //   if (this.newField.key.trim() && this.newField.value.trim()) {
+  //     const newFieldData = { key: this.newField.key, value: this.newField.value, checked: false };
+  //     console.log('Adding field to customFields:', newFieldData);
+  //     this.customFields.push(newFieldData);
+  //     this.addCustomFieldControl(newFieldData.key, newFieldData.value, newFieldData.checked);
+  //     console.log('FormArray after adding:', this.courseForm.get('customFields')?.value);
+  //     this.newField = { key: '', value: '' };
+  //     this.syncCustomFieldsWithFormArray(); 
+  //   }
+  // }
+
+  // addCustomFieldControl(key: string, value: string, checked: boolean) {
+  //   console.log('Adding FormGroup for:', { key, value, checked });
+  //   const customFields = this.courseForm.get('customFields') as FormArray;
+  //   customFields.push(
+  //     this.fb.group({
+  //       key: [key],
+  //       value: [value],
+  //       checked: [checked]
+  //     })
+  //   );
+  // }
 
   isChecked: boolean = false;
 
   toggleVisibility(event: Event) {
     this.isChecked = (event.target as HTMLInputElement).checked;
   }
+
   
-  removeField(index: number) {
-    this.customFields.splice(index, 1); // Remove from UI array
-    const customFields = this.courseForm.get('customFields') as FormArray;
-    customFields.removeAt(index); // Remove from FormArray
-    this.syncCustomFieldsWithFormArray(); // Resync after removal to ensure consistency
-    console.log('FormArray after removal:', this.courseForm.get('customFields')?.value);
+  closePopup() {
+    this.router.navigate([{ outlets: { dialog: null } }]);
   }
 
-  syncCustomFieldsWithFormArray() {
-    const customFieldsArray = this.courseForm.get('customFields') as FormArray;
-    this.customFields = customFieldsArray.controls.map((control: any) => ({
-      key: control.get('key')?.value || '',
-      value: control.get('value')?.value || '',
-      checked: control.get('checked')?.value || false
-    }));
-    console.log('Synced customFields:', this.customFields);
-  }
+  listOfTagOptions: string[] = [];
+  showDescription: boolean = false;
+  listOfTags:any[] = [];
 
-  get customFieldsArray() {
-    return this.courseForm.get('customFields') as FormArray;
-  }
-
-  onSubmit() {
-    this.closePopup() ;
-  }
-
-  handleCancel() {
-    this.isAddPopupVisible = false;
-    this.isAddPopupVisibleChange.emit(false);
-    this.courseForm.reset();
-
-    }
-
-    closePopup() {
-      this.router.navigate([{ outlets: { dialog: null } }]);
-    }
+  keyOptions: string[] = ['Option 1', 'Option 2', 'Option 3','Option 1', 'Option 2', 'Option 3','Option 1', 'Option 2', 'Option 3','Option 1', 'Option 2', 'Option 3'];  
   
+  // @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  // @ViewChild('VideoInput') VideoInput!: ElementRef<HTMLInputElement>;
+  // @ViewChild('ImageInput') ImageInput!: ElementRef<HTMLInputElement>;
+  // triggerFileInput(inputType: string) {
+  //   if (inputType === 'image' && this.ImageInput) {
+  //     this.ImageInput.nativeElement.click();
+
+  //   } else if (inputType === 'video' && this.VideoInput) {
+  //     this.VideoInput.nativeElement.click();
+  //   } else if (inputType === 'file' && this.fileInput) {
+  //     this.fileInput.nativeElement.click();
+  //   }
+  // }
+
+  
+  
+  // removeField(index: number) {
+  //   this.customFields.splice(index, 1); // Remove from UI array
+  //   const customFields = this.courseForm.get('customFields') as FormArray;
+  //   customFields.removeAt(index); // Remove from FormArray
+  //   this.syncCustomFieldsWithFormArray(); // Resync after removal to ensure consistency
+  //   console.log('FormArray after removal:', this.courseForm.get('customFields')?.value);
+  // }
+
+  // syncCustomFieldsWithFormArray() {
+  //   const customFieldsArray = this.courseForm.get('customFields') as FormArray;
+  //   this.customFields = customFieldsArray.controls.map((control: any) => ({
+  //     key: control.get('key')?.value || '',
+  //     value: control.get('value')?.value || '',
+  //     checked: control.get('checked')?.value || false
+  //   }));
+  //   console.log('Synced customFields:', this.customFields);
+  // }
+
+  // get customFieldsArray() {
+  //   return this.courseForm.get('customFields') as FormArray;
+  // }
 
 
-  selectedImageName: string = '';
-  selectedImageUrl: string | null = null;
+  // onFileSelected(event: Event, type: string) {
+  //   const input = event.target as HTMLInputElement;
+  //   if (input.files && input.files.length > 0) {
+  //     const file = input.files[0];
+  //     const fileName = file.name;
 
-  selectedVideoName: string = '';
-  selectedVideoUrl: string | null = null;
-
-  selectedFileName: string = '';
-
-  triggerFileInput(inputType: string) {
-    if (inputType === 'image' && this.ImageInput) {
-      this.ImageInput.nativeElement.click();
-    } else if (inputType === 'video' && this.VideoInput) {
-      this.VideoInput.nativeElement.click();
-    } else if (inputType === 'file' && this.fileInput) {
-      this.fileInput.nativeElement.click();
-    }
-  }
-
-  onFileSelected(event: Event, type: string) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-      const fileName = file.name;
-
-      if (type === 'image') {
-        this.selectedImageName = fileName;
-        this.selectedImageUrl = URL.createObjectURL(file);
-      } else if (type === 'video') {
-        this.selectedVideoName = fileName;
-        this.selectedVideoUrl = URL.createObjectURL(file);
+  //     if (type === 'image') {
+  //       this.selectedImageName = fileName;
+  //       this.selectedImageUrl = URL.createObjectURL(file);
+  //     } else if (type === 'video') {
+  //       this.selectedVideoName = fileName;
+  //       this.selectedVideoUrl = URL.createObjectURL(file);
         
-        setTimeout(() => {
-          const videoElement = document.querySelector('video');
-          if (videoElement) {
-            videoElement.muted = true; // Mute the video
-          }
-        }, 100);
-      } else if (type === 'file') {
-        this.selectedFileName = fileName;
-      }
-    }
-  }
+  //       setTimeout(() => {
+  //         const videoElement = document.querySelector('video');
+  //         if (videoElement) {
+  //           videoElement.muted = true; // Mute the video
+  //         }
+  //       }, 100);
+  //     } else if (type === 'file') {
+  //       this.selectedFileName = fileName;
+  //     }
+  //   }
+  // }
 
   onSelectChange(selectedValue: string) {
     console.log('Selected Option:', selectedValue);
@@ -196,50 +245,49 @@ export class AddCoursesComponent {
     this.discountSymbol = this.isPercentage ? "%" : "EGP";
 
   }
+  // onFileSelectedFile(event: Event) {
+  //   const input = event.target as HTMLInputElement;
+  //   if (input.files && input.files.length > 0) {
+  //     const filesArray = this.courseForm.get('fileUrls') as FormArray;
+  
+  //     Array.from(input.files).forEach(file => {
+  //       filesArray.push(new FormControl(file));
+  //     });
+  
+  //     this.selectedFiles = [...this.selectedFiles, ...Array.from(input.files)];
+  //   }
+  // }
+  
+  // onFileSelectedImage(event: Event) {
+  //   const input = event.target as HTMLInputElement;
+  //   if (input.files && input.files.length > 0) {
+  //     const file = input.files[0];
+  
+  //     this._StreamService.upload(file, StreamType.video).subscribe({
+  //       next: (response) => {
+  //         console.log('✅ استجابة السيرفر:', response);
+  
+  //         const result = response?.body?.result; 
+  //         if (result) {
+  //           const fileName = result.name; // ✅ استخراج الاسم
+  //           console.log('📄 اسم الملف:', fileName);
+  //         }
+  //       },
+  //       error: (err) => console.error('❌ خطأ أثناء رفع الصورة:', err)
+  //     });
+  //   }
+  // }
+  
+  
 
-  onFileSelectedFile(event: any) {
-    const files: FileList = event.target.files;
-    if (files.length > 0) {
-      for (let i = 0; i < files.length; i++) {
-        this.selectedFiles.push(files[i]);
-      }
-    }
-    this.fileInput.nativeElement.value = '';
-  }
-
-  removeFile(index: number) {
-    this.selectedFiles.splice(index, 1);
-  }
+  // removeFile(index: number) {
+  //   this.selectedFiles.splice(index, 1);
+  // }
 
   ShowDescription() {
     this.showDescription = !this.showDescription;
   }
 
-  isOpen = false;
 
-  toggleOpen() {
-    this.isOpen = !this.isOpen;
-  }
 
-  removeImage() {
-    this.selectedImageUrl = null;
-    this.selectedImageName = '';
-    this.ImageInput.nativeElement.value = ''; // Reset the input
-  }
-  
-  removeVideo() {
-    this.selectedVideoUrl = null;
-    this.selectedVideoName = '';
-    this.VideoInput.nativeElement.value = ''; // Reset the input
-  }
-
-  getFileSize(size: number): string {
-    return size < 1024 * 1024
-      ? (size / 1024).toFixed(2) + ' KB'
-      : (size / (1024 * 1024)).toFixed(2) + ' MB';
-  }
-
-  getFileUrl(file: File): string {
-    return URL.createObjectURL(file);
-  }
 }
