@@ -22,8 +22,9 @@ import { CustomSelectPriceOrFreeComponent } from "../custom-select-price-or-free
 import { ITopiclist } from '../../Core/interface/itopiclist';
 import { CustomslectwithiconComponent } from "../customslectwithicon/customslectwithicon.component";
 import { TopiclistService } from '../../../Topics/Service/topiclist.service';
-import { IResponseOf } from '../../../../Core/Shared/Interface/irespose';
+import { IPaginationResponse, IResponseOf } from '../../../../Core/Shared/Interface/irespose';
 import { CustomSelectLanguageComponent } from "../custom-select-language/custom-select-language.component";
+import { ItopicList, ITopicListResult, Stage } from '../../../Topics/Core/Interface/itopic-list-result';
 function alphabet(): string[] {
   const children: string[] = [];
   for (let i = 10; i < 36; i++) {
@@ -85,18 +86,11 @@ export class AddCoursesComponent {
   
     this.courseForm.patchValue({
       free: event.free,
-      price:  0 
+      price:  event.price 
     });
     console.log(this.courseForm.value);
 
-    if (event.free) {
-      this.courseForm.get('price')?.disable({ onlySelf: false, emitEvent: false }); 
-      console.log(this.courseForm.value);
-
-
-    } else {
-      this.courseForm.get('price')?.enable({ onlySelf: true, emitEvent: true });
-    }
+   
   }
   
 
@@ -117,17 +111,23 @@ export class AddCoursesComponent {
   onSelectChangeFree(value: string) {
 
   }
-  topicsList: ITopiclist[] = [];
+  topicsList:ItopicList[]=[];
+  stageList : Stage[]=[];
   LanguageResultList: any[] = []
-  selectedValue: any
+  selectStageDefault: any
+  selectTopicDefault :any
   selectedTopicId: number | null = null;
 
 
     getTopicList() {
       this._topiclistService.getAlllits().subscribe(topics => {
-        this.topicsList = topics.result;
+        this.topicsList= topics.result;
+        this.stageList = topics.result[0].stages
         let defautlTopic = this.topicsList.filter((e: ITopiclist) => e.default)[0];
-        this.selectedValue = defautlTopic;
+        let defautlStage = this.stageList.filter((e: Stage) => e.type == 0)[0];
+
+        this.selectStageDefault = defautlStage;
+        this.selectTopicDefault = defautlTopic;
       });
     }
     getLanguageList() {
@@ -140,8 +140,11 @@ export class AddCoursesComponent {
     onTopicSelected(selectedId: number) {
       this.selectedTopicId = selectedId;
       console.log('Selected Topic ID:', selectedId);
-      const mainIdValue = this.selectedTopicId ?? this.selectedValue?.id ?? null;
+      const mainIdValue = this.selectedTopicId ?? this.selectTopicDefault?.id ?? null;
       this.courseForm.patchValue({ topicId: selectedId });
+      this.stageList = this.topicsList.find((topic: ITopiclist) => topic.id === selectedId)?.stages?? [];
+      let defautlStage = this.stageList.filter((e: Stage) => e.type == 0)[0];
+      this.selectStageDefault = defautlStage;
 
     }
   

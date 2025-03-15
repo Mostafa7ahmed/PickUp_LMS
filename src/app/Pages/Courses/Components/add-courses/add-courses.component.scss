@@ -249,6 +249,7 @@
     display: flex;
     align-items: center;
     gap: 5px;
+
   }
   
   .Course_name .input_Couser_container input{
@@ -259,6 +260,9 @@
     &::placeholder{
       color: #D3D6DC;
       font-size: 12px;
+    }
+    &:read-only{
+      background-color: #b0b1b337;
     }
     &::-webkit-scrollbar{
   

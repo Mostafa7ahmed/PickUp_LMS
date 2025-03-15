@@ -70,7 +70,7 @@
                 <app-customslectwithicon 
                 [items]="topicsList" 
                 [isSelected]="true" 
-                [selectedItem]="selectedValue"
+                [selectedItem]="selectTopicDefault"
                 (selectionChangeTopic)="onTopicSelected($event)">
               </app-customslectwithicon>  
               </div>
@@ -79,9 +79,12 @@
               <div class="titleAccess d-flex justify-content-between gap-2 align-items-center">
                 <p>Stage</p>
               </div>
-              <app-custom-select  [iStage]="true" [selectedValue]="'sdsad'" [options]="['sdsad','sdsad', 'sdsad']" 
-              (valueChange)="onSelectChange($event)">
-            </app-custom-select>
+              <app-customslectwithicon 
+              [items]="stageList" 
+              [isSelected]="true" 
+              [selectedItem]="selectStageDefault"
+              (selectionChangeTopic)="onTopicSelected($event)">
+            </app-customslectwithicon>  
             </div>
           </div>
 
