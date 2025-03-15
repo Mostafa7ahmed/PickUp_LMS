@@ -19,6 +19,8 @@ export interface Stage {
     color: string
     icon: string
     shadow: string
+    default: boolean
+
     type: number
   }
   

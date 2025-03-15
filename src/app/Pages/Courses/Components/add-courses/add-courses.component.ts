@@ -124,7 +124,7 @@ export class AddCoursesComponent {
         this.topicsList= topics.result;
         this.stageList = topics.result[0].stages
         let defautlTopic = this.topicsList.filter((e: ITopiclist) => e.default)[0];
-        let defautlStage = this.stageList.filter((e: Stage) => e.type == 0)[0];
+        let defautlStage = this.stageList.filter((e: Stage) => e.default)[0];
 
         this.selectStageDefault = defautlStage;
         this.selectTopicDefault = defautlTopic;
@@ -139,12 +139,17 @@ export class AddCoursesComponent {
     }
     onTopicSelected(selectedId: number) {
       this.selectedTopicId = selectedId;
+      this.stageList = this.topicsList.find((topic: ITopiclist) => topic.id === selectedId)?.stages?? [];
+      let defautlStage = this.stageList.filter((e: Stage) => e.default)[0];
+      this.selectStageDefault = defautlStage;
+
       console.log('Selected Topic ID:', selectedId);
       const mainIdValue = this.selectedTopicId ?? this.selectTopicDefault?.id ?? null;
-      this.courseForm.patchValue({ topicId: selectedId });
-      this.stageList = this.topicsList.find((topic: ITopiclist) => topic.id === selectedId)?.stages?? [];
-      let defautlStage = this.stageList.filter((e: Stage) => e.type == 0)[0];
-      this.selectStageDefault = defautlStage;
+      this.courseForm.patchValue({ 
+        topicId: selectedId,
+        stageId:this.selectStageDefault.id,
+       });
+
 
     }
   
