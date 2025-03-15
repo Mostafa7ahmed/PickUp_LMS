@@ -81,20 +81,22 @@ export class AddCoursesComponent {
     description: ['', Validators.required],
   });
   handleValueChange(event: { free: boolean; price: number }) { 
+    console.log('القيمة المستلمة:', event);
+  
     this.courseForm.patchValue({
       free: event.free,
-      price: event.price
+      price:  0 
     });
-  
     console.log(this.courseForm.value);
-  
+
     if (event.free) {
-      this.courseForm.get('price')?.setValue(0); 
-      this.courseForm.get('price')?.disable({ onlySelf: true, emitEvent: false }); 
+      this.courseForm.get('price')?.disable({ onlySelf: false, emitEvent: false }); 
+      console.log(this.courseForm.value);
+
+
     } else {
       this.courseForm.get('price')?.enable({ onlySelf: true, emitEvent: true });
     }
-  
   }
   
 
