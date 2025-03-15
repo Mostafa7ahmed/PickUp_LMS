@@ -18,7 +18,7 @@ export class CustomSelectPriceOrFreeComponent {
 
   isOpen = false;
   disabled = false;
-  private _value: boolean = false; // التخزين الداخلي للقيمة
+  private _value: boolean = false; 
   
   private onChange: (value: boolean) => void = () => {};
   private onTouched: () => void = () => {};
@@ -32,10 +32,6 @@ export class CustomSelectPriceOrFreeComponent {
       this._value = val;
       this.onChange(val); 
 
-      this.valueChange.emit({
-        free: val, 
-        price: val ? 0 : this.coursePrice // ✅ تأكيد إرسال 0 عند Free
-      });
     }
   }
 
@@ -47,6 +43,11 @@ export class CustomSelectPriceOrFreeComponent {
 
   selectOption(option: string) {
     this.value = option === 'Free';
+  
+    this.valueChange.emit({
+      free: this.value,
+      price: this.value ? 0 : this.coursePrice 
+    });
   }
   writeValue(value: boolean): void {
     this._value = value;

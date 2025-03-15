@@ -1,0 +1,25 @@
+<div class="custom-select">
+    <button class="select-button" type="button"  (click)="toggleSelect()" [class.selected]="isOpen" [attr.aria-expanded]="isOpen">
+        <div class="d-flex align-items-center gap-1" >
+
+
+            <span class="selected-value">{{ selectedValue   }}</span>
+        </div>
+
+        <div class="icon" [ngClass]="{ 'rotate': isOpen }">
+            <i class="fa-solid fa-chevron-down" ></i>
+        </div>
+    </button>
+
+    <ul class="select-dropdown" [ngClass]="{ 'hidden': !isOpen }">
+        <li *ngFor="let option of options" (click)="selectOption(option)">
+            <div class="d-flex justify-content-between align-items-center">
+                <p class="m-0" >{{ option.name   }}</p>
+                
+
+            </div>
+        </li>
+    </ul>
+
+</div>
+

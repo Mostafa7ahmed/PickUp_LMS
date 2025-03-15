@@ -30,8 +30,8 @@
           <div class="Course_Price d-flex gap-3 align-items-start mt-2">
             <div class="leftCoursePirce">
               <div class="couresAccess">
-                <div class="titleAccess d-flex justify-content-between gap-2 align-items-center">
-                  <p class="mb-2">Course Access</p>
+                <div class="titleAccess mb-2 d-flex justify-content-between gap-2 align-items-center">
+                  <p class="">Course Access</p>
                   <div class="Icon">
                     <i class="fa-solid fa-exclamation"></i>
                   </div>
@@ -52,6 +52,7 @@
                   class="px-2 rounded-2"
                   type="number" 
                   min="0" 
+                  [readonly]="courseForm.get('free')?.value"
                   placeholder="Enter course price">
                   <span>EGP</span>
                 </div>
@@ -89,9 +90,14 @@
               <div class="titleAccess d-flex justify-content-between gap-2 align-items-center">
                 <p>Course language</p>
               </div>
-              <app-custom-select [options]="['En', 'Ar']" 
-                [selectedValue]="'En'" (valueChange)="onSelectChange($event)">
-              </app-custom-select>
+            
+            <app-custom-select-language 
+            
+            [options]="LanguageResultList"
+            [selectedValue]="'English'" 
+            (valueChange)="onSelectChange($event)">
+          
+          </app-custom-select-language>  
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, forwardRef } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -44,8 +44,13 @@ export class CustomSelectComponent implements ControlValueAccessor {
     }
   }
 
-  constructor() {}
-
+    @HostListener('document:click', ['$event'])
+    onClickOutside(event: Event) {
+      if (!this.eRef.nativeElement.contains(event.target)) {
+        this.isOpen = false;
+      }
+    }
+    constructor(private eRef: ElementRef) {}
   toggleSelect() {
     if (this.disabled) return;
     this.isOpen = !this.isOpen;

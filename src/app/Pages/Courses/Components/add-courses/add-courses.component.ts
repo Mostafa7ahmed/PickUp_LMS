@@ -1,4 +1,5 @@
-import { Component, ElementRef, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
+import { LanguageResult } from './../../../../Core/Interface/ilanguage';
+import { Component, ElementRef, EventEmitter, inject, Input, Output, viewChild, ViewChild } from '@angular/core';
 import { TopPopComponent } from '../../../../Components/top-pop/top-pop.component';
 import { CustomSelectComponent } from '../../../../Components/custom-select/custom-select.component';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -21,6 +22,8 @@ import { CustomSelectPriceOrFreeComponent } from "../custom-select-price-or-free
 import { ITopiclist } from '../../Core/interface/itopiclist';
 import { CustomslectwithiconComponent } from "../customslectwithicon/customslectwithicon.component";
 import { TopiclistService } from '../../../Topics/Service/topiclist.service';
+import { IResponseOf } from '../../../../Core/Shared/Interface/irespose';
+import { CustomSelectLanguageComponent } from "../custom-select-language/custom-select-language.component";
 function alphabet(): string[] {
   const children: string[] = [];
   for (let i = 10; i < 36; i++) {
@@ -31,7 +34,7 @@ function alphabet(): string[] {
 @Component({
   selector: 'app-add-courses',
   standalone: true,
-  imports: [TopPopComponent, RouterModule, TooltipModule, NzDividerModule, NzIconModule, NzInputModule, NzSelectModule, FormsModule, TextHeaderComponent, CommonModule, ReactiveFormsModule, NzSelectModule, CustomSelectComponent, CustomSelectPriceOrFreeComponent, CustomslectwithiconComponent],
+  imports: [TopPopComponent, RouterModule, TooltipModule, NzDividerModule, NzIconModule, NzInputModule, NzSelectModule, FormsModule, TextHeaderComponent, CommonModule, ReactiveFormsModule, NzSelectModule, CustomSelectComponent, CustomSelectPriceOrFreeComponent, CustomslectwithiconComponent, CustomSelectLanguageComponent],
   templateUrl: './add-courses.component.html',
   styleUrl: './add-courses.component.scss'
 })
@@ -73,23 +76,25 @@ export class AddCoursesComponent {
     stageId: [0, Validators.required],
     LanguageId: [0, Validators.required],
     name: ['', Validators.required],
-    free: [false], // ✅ يظل `boolean`
-    price: this._FormBuilder.control({ value: 0, disabled: false }, [Validators.required, Validators.min(0)]),
+    free: [false],
+    price: this._FormBuilder.control({ value: 0, disabled: false }, [ Validators.min(0)]),
     description: ['', Validators.required],
   });
   handleValueChange(event: { free: boolean; price: number }) { 
-    console.log('القيمة المستلمة:', event);
-  
     this.courseForm.patchValue({
       free: event.free,
-      price: event.free ? 0 : event.price
+      price: event.price
     });
   
+    console.log(this.courseForm.value);
+  
     if (event.free) {
-      this.courseForm.get('price')?.disable({ onlySelf: true, emitEvent: false }); // تعطيل بدون التأثير على النموذج بالكامل
+      this.courseForm.get('price')?.setValue(0); 
+      this.courseForm.get('price')?.disable({ onlySelf: true, emitEvent: false }); 
     } else {
-      this.courseForm.get('price')?.enable({ onlySelf: true, emitEvent: false });
+      this.courseForm.get('price')?.enable({ onlySelf: true, emitEvent: true });
     }
+  
   }
   
 
@@ -99,16 +104,19 @@ export class AddCoursesComponent {
   print(){
 
     console.log(this.courseForm.value);
+
+
   }
 
   ngOnInit() {
-    // this.syncCustomFieldsWithFormArray(); 
-    this.getTopicList()
+    this.getTopicList();
+    this.getLanguageList()
   }
   onSelectChangeFree(value: string) {
 
   }
   topicsList: ITopiclist[] = [];
+  LanguageResultList: any[] = []
   selectedValue: any
   selectedTopicId: number | null = null;
 
@@ -118,6 +126,13 @@ export class AddCoursesComponent {
         this.topicsList = topics.result;
         let defautlTopic = this.topicsList.filter((e: ITopiclist) => e.default)[0];
         this.selectedValue = defautlTopic;
+      });
+    }
+    getLanguageList() {
+      this._languageService.getAllLanguage().subscribe(Language => {
+        this.LanguageResultList = Language.result;
+        console.log( this.LanguageResultList[0])
+
       });
     }
     onTopicSelected(selectedId: number) {
@@ -169,7 +184,6 @@ export class AddCoursesComponent {
 
   keyOptions: string[] = ['Option 1', 'Option 2', 'Option 3','Option 1', 'Option 2', 'Option 3','Option 1', 'Option 2', 'Option 3','Option 1', 'Option 2', 'Option 3'];  
   
-  // @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   // @ViewChild('VideoInput') VideoInput!: ElementRef<HTMLInputElement>;
   // @ViewChild('ImageInput') ImageInput!: ElementRef<HTMLInputElement>;
   // triggerFileInput(inputType: string) {
@@ -184,7 +198,11 @@ export class AddCoursesComponent {
   // }
 
   
-  
+    @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>; //18 <
+
+    divEl = viewChild<ElementRef>('fileInput');   //19
+
+   
   // removeField(index: number) {
   //   this.customFields.splice(index, 1); // Remove from UI array
   //   const customFields = this.courseForm.get('customFields') as FormArray;
@@ -233,8 +251,10 @@ export class AddCoursesComponent {
   //   }
   // }
 
-  onSelectChange(selectedValue: string) {
+  onSelectChange(selectedValue: any) {
     console.log('Selected Option:', selectedValue);
+    this.courseForm.patchValue({ LanguageId: selectedValue });
+
   }
   discountSymbol: string = "EGP";
   isPercentage: boolean = false;
@@ -245,6 +265,9 @@ export class AddCoursesComponent {
     this.discountSymbol = this.isPercentage ? "%" : "EGP";
 
   }
+
+
+ 
   // onFileSelectedFile(event: Event) {
   //   const input = event.target as HTMLInputElement;
   //   if (input.files && input.files.length > 0) {

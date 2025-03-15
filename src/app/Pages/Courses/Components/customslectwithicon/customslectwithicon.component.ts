@@ -1,5 +1,5 @@
 import { FormControl } from '@angular/forms';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SplicTextPipe } from '../../Core/Pipes/splic-text.pipe';
 import { TooltipModule } from 'primeng/tooltip';
@@ -33,6 +33,14 @@ export class CustomslectwithiconComponent {
     this.isOpen = !this.isOpen;
 
   }
+    @HostListener('document:click', ['$event'])
+    onClickOutside(event: Event) {
+      if (!this.eRef.nativeElement.contains(event.target)) {
+        this.isOpen = false;
+      }
+    }
+    constructor(private eRef: ElementRef) {}
+  
 
   selectOption(option: any) {
     this.selectedItem = option;
