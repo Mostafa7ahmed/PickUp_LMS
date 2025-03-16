@@ -49,8 +49,8 @@ export class SidebarfixedComponent {
     { 
       name: 'Transaction ', 
       Icon: 'fa-solid fa-money-bill-transfer', 
-      list: ["Transaction List", "Transaction "], 
-      routes: ["Transactionlist", "Dashboard"]
+      list: ["Transaction List", "Transaction  " ], 
+      routes: ["Transactionlist", "Dashboard "]
     },
     { 
       name: 'Courses',  

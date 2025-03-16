@@ -1,0 +1,29 @@
+<div class="custom-select">
+    <button class="select-button" type="button" [disabled]="disabled" (click)="toggleDropdown()" [class.selected]="isOpen" [attr.aria-expanded]="isOpen">
+        <div class="d-flex align-items-center gap-1" >
+            <span class="color-indicator"
+                [style.background]="isValidColor(selectedItem?.color) ? selectedItem?.color : '#6d9ef4'">
+                <i class="fas {{ selectedItem?.icon }}" aria-hidden="true"></i>
+            </span>
+
+            <span class="selected-value">{{ selectedItem.name  | splicText  }}</span>
+        </div>
+
+        <div class="icon" [ngClass]="{ 'rotate': isOpen }">
+            <i class="fa-solid fa-chevron-down" ></i>
+        </div>
+    </button>
+
+    <ul class="select-dropdown" [ngClass]="{ 'hidden': !isOpen }">
+        <li *ngFor="let option of items" (click)="selectOption(option)">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center" [pTooltip]="option.name" tooltipPosition="left">
+                    <div class="progressBar" ></div>
+
+                    <p class="m-0" >{{ option.name  | splicText  }}</p>
+                </div>
+
+            </div>
+        </li>
+    </ul>
+</div>
