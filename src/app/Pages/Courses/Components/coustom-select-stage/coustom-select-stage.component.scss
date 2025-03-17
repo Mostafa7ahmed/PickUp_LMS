@@ -5,7 +5,7 @@
   }
   
   .select-button {
-    width: 120%;
+    width: 100%;
     padding: 10px 5px;
     border: 1px solid #ccc;
     background: white;
@@ -30,11 +30,12 @@
     border: .75px solid rgba(211, 214, 220, .8) !important;
   }
   .progressBar {
-    width: 10px;
-    height: 10px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     background: #fff;
     border: 4px solid #778fe6cf;
+    margin-right: 5px;
   }
   
   .color-indicator {
@@ -68,7 +69,7 @@
   
   .select-dropdown {
     position: absolute;
-    width: 110%;
+    width: 100%;
     background: white;
     border: 1px solid #ccc;
     margin-top: 5px;

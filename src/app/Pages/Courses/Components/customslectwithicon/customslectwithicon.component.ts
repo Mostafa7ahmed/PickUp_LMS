@@ -23,6 +23,7 @@ export class CustomslectwithiconComponent {
   @Input() isSelected: boolean = false;
   @Input() disabled: boolean = false;
 
+  @Input() isLoadTopic: boolean = false;
 
   isOpen = false;
   isValidColor(color: string | undefined | null): boolean {

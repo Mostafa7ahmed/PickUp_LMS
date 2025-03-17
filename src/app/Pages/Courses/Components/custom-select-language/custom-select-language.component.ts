@@ -2,11 +2,13 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input
 import { IResponse, IResponseOf } from '../../../../Core/Shared/Interface/irespose';
 import { LanguageResult } from '../../../../Core/Interface/ilanguage';
 import { CommonModule } from '@angular/common';
+import { SplicTextPipe } from '../../Core/Pipes/splic-text.pipe';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-custom-select-language',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,SplicTextPipe, TooltipModule],
   templateUrl: './custom-select-language.component.html',
   styleUrl: './custom-select-language.component.scss'
 })

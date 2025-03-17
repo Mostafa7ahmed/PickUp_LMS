@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-custom-select-price-or-free',
@@ -64,4 +64,12 @@ export class CustomSelectPriceOrFreeComponent {
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: Event) {
+    if (!this.eRef.nativeElement.contains(event.target)) {
+      this.isOpen = false;
+    }
+  }
+  constructor(private eRef: ElementRef) {}
 }

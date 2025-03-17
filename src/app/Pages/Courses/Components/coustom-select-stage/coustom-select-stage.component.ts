@@ -13,11 +13,12 @@ export class CoustomSelectStageComponent {
   @Input() items: any[] = [];
   @Input() selectedItem: any | null = null;
   @Output() selectionChange = new EventEmitter<any>(); 
-  @Output() selectionChangeTopic = new EventEmitter<any>();
+  @Output() selectionChangeStage = new EventEmitter<any>();
 
   @Input() isSelected: boolean = false;
   @Input() disabled: boolean = false;
 
+  @Input() isLoadTopic: boolean = false;
 
   isOpen = false;
   isValidColor(color: string | undefined | null): boolean {
@@ -40,7 +41,7 @@ export class CoustomSelectStageComponent {
   selectOption(option: any) {
     this.selectedItem = option;
     this.selectionChange.emit(option);
-    this.selectionChangeTopic.emit(option.id);
+    this.selectionChangeStage.emit(option.id);
 
     this.isOpen = false;
     this.isSelected = true;

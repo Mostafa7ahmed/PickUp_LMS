@@ -3,7 +3,7 @@
         <div class="d-flex align-items-center gap-1" >
 
 
-            <span class="selected-value">{{ selectedValue   }}</span>
+            <span class="selected-value">{{ selectedValue |splicText   }}</span>
         </div>
 
         <div class="icon" [ngClass]="{ 'rotate': isOpen }">
@@ -13,8 +13,8 @@
 
     <ul class="select-dropdown" [ngClass]="{ 'hidden': !isOpen }">
         <li *ngFor="let option of options" (click)="selectOption(option)">
-            <div class="d-flex justify-content-between align-items-center">
-                <p class="m-0" >{{ option.name   }}</p>
+            <div class="d-flex justify-content-between align-items-center" [pTooltip]="option.name" tooltipPosition="left">
+                <p class="m-0" >{{ option.name   |splicText   }}</p>
                 
 
             </div>

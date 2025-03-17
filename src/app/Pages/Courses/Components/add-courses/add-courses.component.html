@@ -70,6 +70,7 @@
                 <app-customslectwithicon 
                 [items]="topicsList" 
                 [isSelected]="true" 
+                [isLoadTopic]="isLoadTopic"
                 [selectedItem]="selectTopicDefault"
                 (selectionChangeTopic)="onTopicSelected($event)">
               </app-customslectwithicon>  
@@ -79,6 +80,16 @@
               <div class="titleAccess d-flex justify-content-between gap-2 align-items-center">
                 <p>Stage</p>
               </div>
+              <app-coustom-select-stage
+              [items]="stageList" 
+              [isSelected]="true" 
+              [isLoadTopic]="isLoadTopic"
+
+              [selectedItem]="selectStageDefault"
+              (selectionChangeStage)="onStageSelected($event)"
+              >
+
+              </app-coustom-select-stage>
    
             
 
@@ -95,7 +106,6 @@
             <app-custom-select-language 
             
             [options]="LanguageResultList"
-            [selectedValue]="'English'" 
             (valueChange)="onSelectChange($event)">
           
           </app-custom-select-language>  
@@ -119,15 +129,15 @@
           </div>
           
 
-          <div class="coursecustom  d-flex gap-3 align-items-start" [class.show]="isChecked" >
+          <div formGroupName="discount" class="coursecustom  d-flex gap-3 align-items-start" [class.show]="isChecked" >
             <div class="leftStage w-50">
               <div class="titleAccess d-flex justify-content-between gap-2 align-items-center">
                 <p>Type</p>
               </div>
               <div class="custom-select">
-                <select  (change)="onDiscountTypeChange($event)">
-                  <option value="1">Percentage</option>
-                  <option value="0">Value</option>
+                <select formControlName="type" (change)="onDiscountTypeChange($event)">
+                  <option [ngValue]="1">Percentage</option>
+                  <option [ngValue]="0">Value</option>
                 </select>
               </div>
             </div>
@@ -136,7 +146,7 @@
                 <div class="Course_name d-flex flex-column">
                   <p class="mb-2">Value</p>
                   <div class="input_Couser_container flex-grow-1">
-                    <input    type="number" placeholder="Enter course Value">
+                    <input  formControlName="amount"    type="number" placeholder="Enter course Value">
                     <span>{{discountSymbol }}</span>
                   </div>
                 </div>
@@ -147,10 +157,10 @@
       </div>
 
       <div class="rightCourse">
-        <!-- <div class="UploadCover">
+        <div class="UploadCover">
           <div class="inputImage" *ngIf="!selectedImageUrl" (click)="triggerFileInput('image')" >
             <i class="fa-solid fa-images mx-2"></i>
-            <p>{{ selectedImageName || 'Upload course photo' }}</p>
+            <p>{{ selectedImageName || 'Upload course photo'  }}</p>
           </div>
           <input type="file" accept="image/*" #ImageInput class="hidenInput" 
           formControlName="photoUrl" (change)="onFileSelectedImage($event)">
@@ -160,44 +170,42 @@
               <i class="fa-regular fa-trash-can"></i>
             </button>
           </div>
-        </div> -->
+        </div>
 
-        <!-- <div class="UploadCover mt-2">
+        <div class="UploadCover mt-2">
           <div class="inputImage" *ngIf="!selectedVideoUrl"  (click)="triggerFileInput('video')" >
             <i class="fa-solid fa-video mx-2"></i>
             <p>{{ selectedVideoName || 'Upload course introduction video' }}</p>
           </div>
-          <input type="file" accept="video/*" (change)="onFileSelectedImage($event)" #VideoInput class="hidenInput" formControlName="introductionVideoUrl" >
+          <input type="file" accept="video/*" (change)="onFileSelectedVideo($event)" #VideoInput class="hidenInput" formControlName="introductionVideoUrl" >
           <div *ngIf="selectedVideoUrl" class="image-preview-container">
             <video [src]="selectedVideoUrl" autoplay controls muted class="preview-video w-100 h-50 rounded-1"></video>
             <button class="delete-btn_image" > 
               <i class="fa-regular fa-trash-can"></i>
             </button>
           </div>
-        </div> -->
-<!-- 
+        </div>
+
         <div class="UploadCover mt-2">
           <div class="upload-container">
             <label class="upload-box" (click)="triggerFileInput('file')" >
               <i class="fa-solid fa-paperclip mx-1"></i> Add File
             </label>
             <input type="file" multiple accept=".pdf, .doc, .docx, .xls, .xlsx, .txt , .pptx , .ppt , .csv" #fileInput 
-              class="hidden-input"  formControlName="fileUrls">
-            <div class="file-list" *ngIf="selectedFiles.length > 0">
-              <div class="file-item" *ngFor="let file of selectedFiles; let i = index">
+              class="hidden-input"  formControlName="fileUrls" (change)="onFileSelectedFile($event)">
+            <div class="file-list" *ngIf="uploadedFiles.length > 0" >
+              <div class="file-item" *ngFor="let file of uploadedFiles; let i = index">
                 <i class="fa-solid fa-file"></i>
-                <span class="file-name">{{ file.name | splicText }}</span>
+                <span class="file-name">{{ file.name }}</span>
                 <span class="file-size"></span>
-                <a [href]="''" download class="download-btn">
-                  <i class="fa-solid fa-download"></i>
-                </a>
+
                 <button class="delete-btn" (click)="removeFile(i)">
                   <i class="fa-regular fa-trash-can"></i>
                 </button>
               </div>
             </div>
           </div>
-        </div> -->
+        </div>
 
         <!-- <div class="CourseTags UploadCover mt-2">
           <div class="tags">
