@@ -1,3 +1,4 @@
+import { DeleteStreamService } from './../../Core/service/delete-stream.service';
 import { LanguageResult } from './../../../../Core/Interface/ilanguage';
 import { Component, ElementRef, EventEmitter, inject, Input, Output, viewChild, ViewChild } from '@angular/core';
 import { TopPopComponent } from '../../../../Components/top-pop/top-pop.component';
@@ -30,7 +31,6 @@ import { environment } from '../../../../Environments/environment';
 import { TagesService } from '../../Core/service/tages.service';
 import { IUpload } from '../../../../Core/Interface/iupload';
 import { ITags } from '../../Core/interface/itags';
-import { DeleteStreamService } from '../../Core/service/delete-stream.service';
 function alphabet(): string[] {
   const children: string[] = [];
   for (let i = 10; i < 36; i++) {
@@ -52,7 +52,7 @@ export class AddCoursesComponent {
   private _languageService = inject(LanguageService);
   private _FormBuilder = inject(FormBuilder);
   private _topiclistService = inject(TopiclistService);
-  private DeleteStreamService = inject(DeleteStreamService);
+  private _deleteStreamService = inject(DeleteStreamService);
 
 
   private _TagesService = inject(TagesService);
@@ -218,10 +218,16 @@ export class AddCoursesComponent {
       });
     }
   }
-  removeFile(index: number) {
+  removeFile(index: number ,fileUrls:string) {
     const fileUrlsArray = this.courseForm.get('fileUrls') as FormArray;
       this.uploadedFiles.splice(index, 1);
       fileUrlsArray.removeAt(index);
+      this._deleteStreamService.deleteFile(fileUrls).subscribe({
+        next: (response) => {
+          console.log(' املف:', response?.body?.message);
+        },
+        error: (err) => console.error('�� خطأ أثنا�� حذف الملف:', err)
+      })
   }
   
 

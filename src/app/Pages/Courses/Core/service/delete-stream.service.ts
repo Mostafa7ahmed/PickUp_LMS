@@ -13,7 +13,7 @@ export class DeleteStreamService {
   constructor( private http: HttpClient  ){ 
     this.urlDelete= `${environment.baseUrl}${environment.pickup}stream/delete-by-uri`
   }
-  uploadFile(fileUrl :string): Observable<any> {
+  deleteFile(fileUrl :string): Observable<any> {
 
   
     return this.http.post(this.urlDelete, fileUrl);
