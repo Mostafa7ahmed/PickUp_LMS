@@ -199,7 +199,7 @@
                 <span class="file-name">{{ file.name }}</span>
                 <span class="file-size"></span>
 
-                <button class="delete-btn" (click)="removeFile(i)">
+                <button class="delete-btn" (click)="removeFile(i , file.url)">
                   <i class="fa-regular fa-trash-can"></i>
                 </button>
               </div>
