@@ -146,7 +146,7 @@
                 <div class="Course_name d-flex flex-column">
                   <p class="mb-2">Value</p>
                   <div class="input_Couser_container flex-grow-1">
-                    <input  formControlName="amount"    type="number" placeholder="Enter course Value">
+                    <input formControlName="amount" type="number" placeholder="Enter course Value" min="0" max="100">
                     <span>{{discountSymbol }}</span>
                   </div>
                 </div>
@@ -207,7 +207,7 @@
           </div>
         </div>
 
-        <!-- <div class="CourseTags UploadCover mt-2">
+        <div class="CourseTags UploadCover mt-2">
           <div class="tags">
             <app-text-header   [bgColor]="'#659DFFBF'"
               [Icon]="'fa-solid fa-exclamation'" [title]="'Course Tags'"></app-text-header>
@@ -219,16 +219,11 @@
               [nzMaxTagPlaceholder]="tagPlaceHolder"
               [nzDropdownMatchSelectWidth]="false"
               nzPlaceHolder="Course tags"
-              
-            >
-            @for (item of listOfTags; track item) {
-              <nz-option [nzLabel]="item" [nzValue]="item"></nz-option>
+              [(ngModel)]="selectedTags" 
 
-            }
-            
-            
+            >
+              <nz-option *ngFor="let item of listOfTags" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
             </nz-select>
-            
             <ng-template #tagPlaceHolder let-selectedList>
               and {{ selectedList.length }} more selected
             </ng-template>
@@ -247,55 +242,51 @@
             
             </div>
           </div>
-        </div> -->
-
-        <!-- <div class="CourseTags UploadCover mt-2">
+        </div>     
+        
+        <div class="CourseTags UploadCover mt-2">
           <div class="tags custom-fields-container">
-            <app-text-header  [bgColor]="'#659DFFBF'"
-              [Icon]="'fa-solid fa-exclamation'" [title]="'Course custom Fields'"></app-text-header>
+            <app-text-header [bgColor]="'#659DFFBF'" [Icon]="'fa-solid fa-exclamation'" [title]="'Course custom Fields'">
+            </app-text-header>
         
             <div class="input-row mt-4">
-    
-      
-            <input list="keyOptionsList"
-            type="text" placeholder="Key" size="5" [(ngModel)]="newField.key" [ngModelOptions]="{ standalone: true }">
-
-            <datalist id="keyOptionsList">
-              <option *ngFor="let key of keyOptions" [value]="key" ></option>
-            </datalist>       
-            
-            <input type="text" placeholder="Value" [(ngModel)]="newField.value" [ngModelOptions]="{ standalone: true }">
+              <input list="keyOptionsList" type="text" placeholder="Key" [(ngModel)]="newField.key" size="5" [ngModelOptions]="{ standalone: true }">
+        
+              <datalist id="keyOptionsList">
+                <option *ngFor="let key of keyOptions" [value]="key"></option>
+              </datalist>
+        
+              <input type="text" placeholder="Value" [(ngModel)]="newField.value" [ngModelOptions]="{ standalone: true }">
+        
               <button (click)="addField()" class="add-btn" pTooltip="Add Fields" tooltipPosition="top">
                 <i class="fa-solid fa-plus"></i>
               </button>
             </div>
-        
-         
           </div>
-        </div> -->
-
-        <!-- <div class="CourseTags UploadCover mt-2" *ngIf="customFields.length > 0" >
-          <div class="tags custom-fields-container">
-            <app-text-header pTooltip="Add Fields" tooltipPosition="top" [bgColor]="'#659DFFBF'"
-              [Icon]="'fa-solid fa-exclamation'" [title]="'Course custom Fields'"></app-text-header>
+        </div>
         
-            <div class="fields-list mt-2" [ngClass]="{ 'active': customFields.length > 0 }">
+        <div class="CourseTags UploadCover mt-2" *ngIf="customFields.length > 0">
+          <div class="tags custom-fields-container">
+            <app-text-header [bgColor]="'#659DFFBF'" [Icon]="'fa-solid fa-exclamation'" [title]="'Course custom Fields'">
+            </app-text-header>
+        
+            <div class="fields-list mt-2">
               <div *ngFor="let field of customFields; let i = index" class="field-item">
-                <input type="text" [value]="field.key"  readonly class="field-key" placeholder="Key">
-                <input type="text" [value]="field.value" readonly  class="field-value" placeholder="Value">
+                <input type="text" [value]="field.key" readonly class="field-key" placeholder="Key">
+                <input type="text" [value]="field.value" readonly class="field-value" placeholder="Value">
+                
                 <label class="containerCheck">
-                  <input  type="checkbox" id="invalidCheck" >
-                  <div class="checkmark">
-                      
-                  </div>
-              </label>          
+                  <input type="checkbox" [(ngModel)]="field.visible">
+                  <div class="checkmark"></div>
+                </label>
+        
                 <button (click)="removeField(i)" class="delete-btn" pTooltip="Delete Fields" tooltipPosition="top">
                   <i class="fa-regular fa-trash-can"></i>
                 </button>
               </div>
             </div>
           </div>
-        </div> -->
+        </div>
       </div>
     </form>
     <div class="footerCourse bg-white rounded-1">
