@@ -5,7 +5,7 @@ import { CourseResult } from '../Core/interface/icourses';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from 'ngx-echarts';
 import * as echarts from 'echarts';
-import { Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
@@ -28,7 +28,7 @@ import { TopPopComponent } from "../../../Components/top-pop/top-pop.component";
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { AddCoursesComponent } from "../Components/add-courses/add-courses.component";
 import { CustomslectwithiconComponent } from '../Components/customslectwithicon/customslectwithicon.component';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-courses',
@@ -51,6 +51,15 @@ export class CoursesComponent implements OnInit {
   private _MovecourseService = inject(MovecourseService);
   private router = inject(Router);
   private _ActivatedRoute = inject(ActivatedRoute);
+    constructor() {
+      this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        if (event.url === '/course') {
+          this.getListTopics(this.topicIdFromRoute); 
+        }
+      });
+    }
 
 
 
