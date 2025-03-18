@@ -257,14 +257,14 @@
               [title]="'Course custom Fields'">
             </app-text-header>
 
-            <div class="fields-list mt-2">
+            <div    class="fields-list mt-2">
               <div *ngFor="let field of newCustomFieldList; let i = index" class="field-item">
                 
                 <input type="text" [value]="field.key" readonly class="field-key" placeholder="Key">
                 <input type="text" [value]="field.usage" readonly class="field-value" placeholder="Value">
             
                 <label class="containerCheck">
-                  <input type="checkbox" [(ngModel)]="field.visible" (change)="onVisibleChange(field)">
+                  <input type="checkbox" formControlName="visible" (change)="onVisibleChange(i)">
                   <div class="checkmark"></div>
                 </label>
             

@@ -335,8 +335,10 @@ export class AddCoursesComponent {
     key: [null],
     usage: ['']
   });
-  onVisibleChange(field: NewCustomFieldRequest) {
-    console.log('Visible Changed:', field);
+  onVisibleChange(index: number) {
+    const field = this.customFieldsArray.at(index);
+    const current = field.get('visible')?.value;
+    field.get('visible')?.setValue(!current);    
   }
   
   editIndex: number | null = null
@@ -368,7 +370,7 @@ export class AddCoursesComponent {
     const newFieldEntry = this._FormBuilder.group({
       id: [id],
       key: [key],
-      value: [valueControl.trim()],
+      usage: [valueControl.trim()],
       visible: [true]
     });
   
@@ -452,7 +454,7 @@ export class AddCoursesComponent {
     createCourseRequest.customFields = this.customFieldsArray.value.map((field: any) => ({
       id: field.id,
       key: field.key,
-      value: field.value,
+      usage: field.usage,
       visible: field.visible
     }));
     return createCourseRequest;
@@ -461,12 +463,13 @@ export class AddCoursesComponent {
   createCourse() {
     let request = this.collectCreateCourseRequest();
     console.log(request)
-  //   this._createCourseService.addCourse(request).subscribe({
-  //     next: (response) => {
-  //       console.log("course created successfully !", response);
-  //     },
-  //     error: (err) => console.log("fault happen while course created")
-  //   });
-  // }
+    this._createCourseService.addCourse(request).subscribe({
+      next: (response) => {
+        console.log("course created successfully !", response);
+        this.closePopup();
+      },
+      error: (err) => console.log("fault happen while course created")
+    });
   }
+  
 }
