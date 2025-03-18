@@ -121,6 +121,8 @@ export class CoursesComponent implements OnInit {
 
   changeTab(value: number): void {
     this.valueheader = value;
+    this.router.navigate(['/course', this.topicIdFromRoute, this.valueheader]);
+
   }
   changeInnerTab(value: number): void {
     this.valueTable = value;
