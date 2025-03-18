@@ -1,24 +1,17 @@
-import { resolve } from 'node:path';
 import { DeleteStreamService } from './../../Core/service/delete-stream.service';
-import { LanguageResult } from './../../../../Core/Interface/ilanguage';
 import { Component, ElementRef, EventEmitter, inject, Input, Output, viewChild, ViewChild } from '@angular/core';
 import { TopPopComponent } from '../../../../Components/top-pop/top-pop.component';
-import { CustomSelectComponent } from '../../../../Components/custom-select/custom-select.component';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, SlicePipe } from '@angular/common';
 import { TextHeaderComponent } from '../text-header/text-header.component';
 import { TooltipModule } from 'primeng/tooltip';
-import { SplicTextPipe } from '../../Core/Pipes/splic-text.pipe';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { Router, RouterModule } from '@angular/router';
 import { StreamType } from '../../../../Core/Interface/stream-type';
-import { DiscountType } from '../../../../Core/Interface/discount-type';
 import { StreamService } from '../../../../Core/Services/stream.service';
-import { PaginateStageService } from '../../../Stages/Core/service/paginate-stage.service';
-import { PaginateTopicService } from '../../../Topics/Service/paginate-topic.service';
 import { LanguageService } from '../../../../Core/Services/language.service';
 import { CustomSelectPriceOrFreeComponent } from "../custom-select-price-or-free/custom-select-price-or-free.component";
 import { ITopiclist } from '../../Core/interface/itopiclist';
@@ -32,21 +25,24 @@ import { environment } from '../../../../Environments/environment';
 import { TagesService } from '../../Core/service/tages.service';
 import { IUploadResponse } from '../../../../Core/Interface/iupload';
 import { ITag } from '../../Core/interface/itags';
-import { ICreateCourseRequest, NewTagRequest } from '../../Core/interface/icreate-course';
+import { ICreateCourseRequest, NewCustomFieldRequest, NewTagRequest } from '../../Core/interface/icreate-course';
 import { AddCoursesService } from '../../Core/service/add-courses.service';
 import { StringExtensionsService } from '../../../../Core/Shared/service/string-extensions.service';
-import { coerceStringArray } from '@angular/cdk/coercion';
-function alphabet(): string[] {
-  const children: string[] = [];
-  for (let i = 10; i < 36; i++) {
-    children.push(i.toString(36) + i);
-  }
-  return children;
+import { MultiSelectModule } from 'primeng/multiselect';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { ICustomField } from '../../Core/interface/icustom-field';
+import { CustomFildsService } from '../../Core/service/custom-filds.service';
+import { Select } from 'primeng/select';
+
+interface City {
+  name: string,
+  code: string
 }
 @Component({
   selector: 'app-add-courses',
   standalone: true,
-  imports: [TopPopComponent, RouterModule, TooltipModule, ReactiveFormsModule, NzDividerModule, NzIconModule, NzInputModule, NzSelectModule, FormsModule, TextHeaderComponent, CommonModule, ReactiveFormsModule, NzSelectModule, CustomSelectComponent, CustomSelectPriceOrFreeComponent, CustomslectwithiconComponent, CustomSelectLanguageComponent, CoustomSelectStageComponent],
+  imports: [TopPopComponent, Select,InputTextModule,MultiSelectModule, ButtonModule,RouterModule, TooltipModule, ReactiveFormsModule, NzDividerModule, NzIconModule, NzInputModule, NzSelectModule, FormsModule, TextHeaderComponent, CommonModule, ReactiveFormsModule, NzSelectModule, CustomSelectPriceOrFreeComponent, CustomslectwithiconComponent, CustomSelectLanguageComponent, CoustomSelectStageComponent],
   templateUrl: './add-courses.component.html',
   styleUrl: './add-courses.component.scss'
 })
@@ -66,9 +62,11 @@ export class AddCoursesComponent {
 
   private _TagesService = inject(TagesService);
 
+  private _CustomFildsService = inject(CustomFildsService);
 
 
-  //  selectedFiles: File[] = [];
+
+
 
 
 
@@ -83,13 +81,20 @@ export class AddCoursesComponent {
     price: this._FormBuilder.control({ value: 0, disabled: false }, [Validators.min(0)]),
     description: [''],
     photoUrl: [''],
-    introductionVideoUrl: [''],
+    tags: this._FormBuilder.control([], Validators.required), 
     fileUrls: this._FormBuilder.array([]),
     discount: this._FormBuilder.group({
       type: [0, Validators.required],
       amount: [0, [Validators.min(0), Validators.max(100)]],
-    })
+    }),
+    customFields: this._FormBuilder.array([])  
+
   });
+
+
+  get customFieldsArray(): FormArray {
+    return this.courseForm.get('customFields') as FormArray;
+  }
   handleValueChange(event: { free: boolean; price: number }) {
     this.courseForm.patchValue({
       free: event.free,
@@ -120,6 +125,8 @@ export class AddCoursesComponent {
   isChecked: boolean = false;
   tagsListResponse: IPaginationResponse<ITag> = {} as IPaginationResponse<ITag>;
   newCourseTagsList: NewTagRequest[] = [];
+  customFieldListResponse: IPaginationResponse<ICustomField> = {} as IPaginationResponse<ICustomField>;
+  newCustomFieldList: NewCustomFieldRequest[] = [];
 
 
 
@@ -142,14 +149,23 @@ export class AddCoursesComponent {
       this.courseForm.get("stageId")?.setValue(defautlStage.id);
     });
   }
-
   getTagsList() {
     this._TagesService.getTags().subscribe(response => {
-      if (response?.result) {
+      if (response.success) {
         this.tagsListResponse = response;
+
       }
     });
   }
+  getICustomField() {
+    this._CustomFildsService.getCustomField().subscribe(response => {
+      if (response.success) {
+        this.customFieldListResponse = response;
+
+      }
+    });
+  }
+  
 
   getLanguageList() {
     this._languageService.getAllLanguage().subscribe(Language => {
@@ -165,7 +181,6 @@ export class AddCoursesComponent {
     let defautlStage = this.stageList.filter((e: Stage) => e.default)[0];
     this.selectStageDefault = defautlStage;
     console.log('Selected Topic ID:', selectedId);
-    const mainIdValue = this.selectedTopicId ?? this.selectTopicDefault?.id ?? null;
     this.courseForm.patchValue({
       topicId: selectedId,
       stageId: this.selectStageDefault.id,
@@ -303,7 +318,11 @@ export class AddCoursesComponent {
   ngOnInit() {
     this.getTopicList();
     this.getLanguageList();
-    this.getTagsList()
+    this.getTagsList();
+    this.getICustomField()
+
+
+
   }
 
 
@@ -312,65 +331,114 @@ export class AddCoursesComponent {
   }
 
 
-  customFields: { id: number; key: string; value: string; visible: boolean }[] = [];
-  newField: { key: string; value: string } = { key: '', value: '' };
-  keyOptions: string[] = ['Option 1', 'Option 2', 'Option 3']; // خيارات للقائمة المنسدلة
-
+  fieldForm: FormGroup = this._FormBuilder.group({
+    key: [null],
+    usage: ['']
+  });
+  onVisibleChange(field: NewCustomFieldRequest) {
+    console.log('Visible Changed:', field);
+  }
+  
+  editIndex: number | null = null
   addField() {
-    if (!this.newField.key.trim() || !this.newField.value.trim()) {
-      return; // التحقق من عدم إضافة حقول فارغة
+    console.log('Clicked');
+    const keyControl = this.fieldForm.get('key')?.value;
+    const valueControl = this.fieldForm.get('usage')?.value;
+  
+    if ((!keyControl && keyControl !== 0) || !valueControl?.trim()) {
+      return;
     }
+  
+    let key: string;
+    let id: number | null;
+  
+    if (typeof keyControl === 'object' && keyControl !== null) {
+      key = keyControl.key;
+      id = keyControl.id;
+    } else {
+      key = keyControl.trim();
+      id = null;
+    }
+  
+    const isInSelectOptions = this.customFieldListResponse.result.some((option) => option.key === key);
+    if (id === null && isInSelectOptions) return;
+      const isExist = this.customFieldsArray.value.some((field: any) => field.key === key);
+    if (isExist && this.editIndex === null) return;
+  
+    const newFieldEntry = this._FormBuilder.group({
+      id: [id],
+      key: [key],
+      value: [valueControl.trim()],
+      visible: [true]
+    });
+  
+    if (this.editIndex !== null) {
+      this.customFieldsArray.setControl(this.editIndex, newFieldEntry);
+      this.editIndex = null;
+    } else {
+      this.customFieldsArray.push(newFieldEntry);
+    }
+  
+    if (id === null && !isInSelectOptions) {
+      this.customFieldListResponse.result.push({
+        id: null,
+        key: key,
+        usage: 0,
+        createdOn: null
+      });
+    }
+    this.newCustomFieldList = this.customFieldsArray.value;
 
-    const newFieldEntry = {
-      id: this.customFields.length + 1,
-      key: this.newField.key.trim(),
-      value: this.newField.value.trim(),
-      visible: true
-    };
-
-    this.customFields.push(newFieldEntry); // إضافة الحقل الجديد إلى المصفوفة
-    this.newField = { key: '', value: '' }; // إعادة تعيين المدخلات
+      this.fieldForm.get('key')?.reset();
+    this.fieldForm.get('usage')?.reset();
+  
+    this.consoleLogFields();
+  }
+  
+  
+  
+  
+  consoleLogFields() {
+    console.log(this.customFieldsArray.value);
   }
 
   removeField(index: number) {
-    this.customFields.splice(index, 1); // حذف الحقل بناءً على الفهرس
+    this.newCustomFieldList.splice(index, 1);
   }
 
 
 
 
-  onTagChange(tags: any[]) {
-    console.log("tags On List Changed");
-  }
 
   addTags(input: HTMLInputElement): void {
     const value = input.value.trim();
-    if (!value || this.newCourseTagsList.some(tag => tag.name === value)) {
+    if (!value || this.tagsListResponse.result.some((tag: any) => tag.name === value)) {
       return;
     }
-
-    const newTag: NewTagRequest = {
+  
+    const newTag = {
       id: null,
-      name: value
-    };
-
-    this.newCourseTagsList.push(newTag);
-    this.tagsListResponse.result.push({
-      id: 1, createdOn: null,
       instructorId: 1,
-      name: value
-    });
-
+      name: value,
+      createdOn: null
+    };
+  
+    this.tagsListResponse.result.unshift(newTag);
+    input.value = ''; 
   }
+  
 
   collectCreateCourseRequest(): ICreateCourseRequest {
+    const tags = this.courseForm.value.tags?.map((tag: any) => ({
+      id: tag.id,
+      name: tag.name
+    })) || [];
     let fileUrls = this.uploadedFiles.filter(file => this._stringExtensionsService.HasValue(file.url)).map(file => file.url);
-
     let createCourseRequest: ICreateCourseRequest = {
       name: this.courseForm.get("name")?.value,
       free: this.courseForm.get("free")?.value,
       description: this._stringExtensionsService.resolveEmptyStringToNull(this.courseForm.get("description")?.value),
-      languageId: this.courseForm.get("languageId")?.value,
+      languageId: this.courseForm.get("LanguageId")?.value ,
       price: this.courseForm.get("price")?.value,
       topicId: this.courseForm.get("topicId")?.value,
       stageId: this.courseForm.get("stageId")?.value,
@@ -378,20 +446,27 @@ export class AddCoursesComponent {
       introductionVideoUrl: this._stringExtensionsService.resolveEmptyStringToNull(this.courseForm.get("introductionVideoUrl")?.value),
       discount: this.isChecked ? this.courseForm.get("discount")?.value : null,
       fileUrls: fileUrls,
-      tags: [],
+      tags: tags,
       customFields: [],
     };
+    createCourseRequest.customFields = this.customFieldsArray.value.map((field: any) => ({
+      id: field.id,
+      key: field.key,
+      value: field.value,
+      visible: field.visible
+    }));
     return createCourseRequest;
   }
 
   createCourse() {
     let request = this.collectCreateCourseRequest();
-    this._createCourseService.addCourse(request).subscribe({
-      next: (response) => {
-        console.log("course created successfully !", response);
-        // close popup
-      },
-      error: (err) => console.log("fault happen while course created")
-    });
+    console.log(request)
+  //   this._createCourseService.addCourse(request).subscribe({
+  //     next: (response) => {
+  //       console.log("course created successfully !", response);
+  //     },
+  //     error: (err) => console.log("fault happen while course created")
+  //   });
+  // }
   }
 }

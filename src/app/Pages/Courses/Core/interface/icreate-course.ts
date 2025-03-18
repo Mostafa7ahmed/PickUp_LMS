@@ -24,7 +24,8 @@ export interface NewTagRequest {
 export interface NewCustomFieldRequest {
   id?: number | null
   key: string
-  value: string
+  value?: string
+  usage?:any | null
   visible: boolean
 }
 

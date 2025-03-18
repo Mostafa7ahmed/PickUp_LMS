@@ -47,6 +47,7 @@
               <app-customslectwithicon 
               [items]="topicsList" 
               [isSelected]="true" 
+              [isLoadTopic]="true" 
               [selectedItem]="selectedValue"
               [disabled]="topicForm.get('isMain')?.value"
               (selectionChangeTopic)="onTopicSelected($event)">
