@@ -1,4 +1,4 @@
-export interface IUpload {
+export interface IUploadResponse {
     id: number
     url: string
     name: string

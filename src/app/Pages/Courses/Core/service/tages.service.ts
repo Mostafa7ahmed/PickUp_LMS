@@ -1,9 +1,9 @@
+import { ITag } from './../interface/itags';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../Environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IPaginationResponse, IResponseOf } from '../../../../Core/Shared/Interface/irespose';
-import { ITags, TagsResult } from '../interface/itags';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,7 @@ export class TagesService {
   }
 
 
-  getTags(  pageNumber: number = 1,   pageSize: number = 100,orderBy: number = 2,orderDirection: number = 1,): Observable<IPaginationResponse<TagsResult>> {
+  getTags(pageNumber: number = 1, pageSize: number = 100, orderBy: number = 2, orderDirection: number = 1,): Observable<IPaginationResponse<ITag>> {
     const params: any = {
       orderBy: orderBy.toString(),
       pageNumber: pageNumber.toString(),
@@ -32,17 +32,14 @@ export class TagesService {
     };
 
 
-    return this._HttpClient.get<IPaginationResponse<TagsResult>>(`${this.urlPagination}`, { params });
+    return this._HttpClient.get<IPaginationResponse<ITag>>(`${this.urlPagination}`, { params });
   }
 
 
-  createTag(name: string): Observable<IResponseOf<TagsResult>> {
+  createTag(name: string): Observable<IResponseOf<ITag>> {
     const url = `${this.urlCreate}`;
-
-
     const body = { name };
-
-    return this._HttpClient.post<IResponseOf<TagsResult>>(url, body);
+    return this._HttpClient.post<IResponseOf<ITag>>(url, body);
   }
 
 

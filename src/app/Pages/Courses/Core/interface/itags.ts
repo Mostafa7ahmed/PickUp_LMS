@@ -1,17 +1,8 @@
-export interface ITags {
-    result: TagsResult[]
-
+export interface ITag {
+  id?: number | null
+  instructorId: number
+  name: string
+  createdOn?: string | null
 }
 
 
-
-  
-  export interface TagsResult {
-    id: number
-    instructorId: number
-    name: string
-    createdOn: string
-
-
-  }
-  

@@ -1,3 +1,4 @@
+import { resolve } from 'node:path';
 import { DeleteStreamService } from './../../Core/service/delete-stream.service';
 import { LanguageResult } from './../../../../Core/Interface/ilanguage';
 import { Component, ElementRef, EventEmitter, inject, Input, Output, viewChild, ViewChild } from '@angular/core';
@@ -29,8 +30,12 @@ import { ItopicList, ITopicListResult, Stage } from '../../../Topics/Core/Interf
 import { CoustomSelectStageComponent } from "../coustom-select-stage/coustom-select-stage.component";
 import { environment } from '../../../../Environments/environment';
 import { TagesService } from '../../Core/service/tages.service';
-import { IUpload } from '../../../../Core/Interface/iupload';
-import { ITags } from '../../Core/interface/itags';
+import { IUploadResponse } from '../../../../Core/Interface/iupload';
+import { ITag } from '../../Core/interface/itags';
+import { ICreateCourseRequest, NewTagRequest } from '../../Core/interface/icreate-course';
+import { AddCoursesService } from '../../Core/service/add-courses.service';
+import { StringExtensionsService } from '../../../../Core/Shared/service/string-extensions.service';
+import { coerceStringArray } from '@angular/cdk/coercion';
 function alphabet(): string[] {
   const children: string[] = [];
   for (let i = 10; i < 36; i++) {
@@ -41,7 +46,7 @@ function alphabet(): string[] {
 @Component({
   selector: 'app-add-courses',
   standalone: true,
-  imports: [TopPopComponent, RouterModule, TooltipModule, ReactiveFormsModule,NzDividerModule, NzIconModule, NzInputModule, NzSelectModule, FormsModule, TextHeaderComponent, CommonModule, ReactiveFormsModule, NzSelectModule, CustomSelectComponent, CustomSelectPriceOrFreeComponent, CustomslectwithiconComponent, CustomSelectLanguageComponent, CoustomSelectStageComponent],
+  imports: [TopPopComponent, RouterModule, TooltipModule, ReactiveFormsModule, NzDividerModule, NzIconModule, NzInputModule, NzSelectModule, FormsModule, TextHeaderComponent, CommonModule, ReactiveFormsModule, NzSelectModule, CustomSelectComponent, CustomSelectPriceOrFreeComponent, CustomslectwithiconComponent, CustomSelectLanguageComponent, CoustomSelectStageComponent],
   templateUrl: './add-courses.component.html',
   styleUrl: './add-courses.component.scss'
 })
@@ -53,6 +58,10 @@ export class AddCoursesComponent {
   private _FormBuilder = inject(FormBuilder);
   private _topiclistService = inject(TopiclistService);
   private _deleteStreamService = inject(DeleteStreamService);
+  private _createCourseService = inject(AddCoursesService);
+  private _stringExtensionsService = inject(StringExtensionsService);
+
+
 
 
   private _TagesService = inject(TagesService);
@@ -102,18 +111,23 @@ export class AddCoursesComponent {
   isLoadTopic: boolean = false
   isLoadStage: boolean = false
   showDescription: boolean = false;
-  uploadedFiles:IUpload[] = [];
+  uploadedFiles: IUploadResponse[] = [];
   selectedImageName: string = '';
   selectedImageUrl: any;
   selectedVideoName: string = '';
   selectedVideoUrl: string | null = null;
- selectedFileName: string = '';
- isChecked: boolean = false;
- Tags:IResponseOf<ITags> = {} as IResponseOf<ITags> ;
+  selectedFileName: string = '';
+  isChecked: boolean = false;
+  tagsListResponse: IPaginationResponse<ITag> = {} as IPaginationResponse<ITag>;
+  newCourseTagsList: NewTagRequest[] = [];
 
- @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>; 
- @ViewChild('VideoInput') VideoInput!: ElementRef<HTMLInputElement>;
- @ViewChild('ImageInput') ImageInput!: ElementRef<HTMLInputElement>;
+
+
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('VideoInput') VideoInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('ImageInput') ImageInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('tagPlaceHolder') tagPlaceHolder!: ElementRef<any>;
+
 
   getTopicList() {
     this._topiclistService.getAlllits().subscribe(topics => {
@@ -124,23 +138,27 @@ export class AddCoursesComponent {
       let defautlStage = this.stageList.filter((e: Stage) => e.default)[0];
       this.selectStageDefault = defautlStage;
       this.selectTopicDefault = defautlTopic;
+      this.courseForm.get("topicId")?.setValue(defautlTopic.id);
+      this.courseForm.get("stageId")?.setValue(defautlStage.id);
     });
   }
-  
+
   getTagsList() {
     this._TagesService.getTags().subscribe(response => {
       if (response?.result) {
-        this.listOfTags = response.result.map(tag => ({ id: tag.id, name: tag.name })); 
+        this.tagsListResponse = response;
       }
     });
   }
+
   getLanguageList() {
     this._languageService.getAllLanguage().subscribe(Language => {
       this.LanguageResultList = Language.result;
-      this.isLoadStage= true;
+      this.isLoadStage = true;
       console.log(this.LanguageResultList[0])
     });
   }
+
   onTopicSelected(selectedId: number) {
     this.selectedTopicId = selectedId;
     this.stageList = this.topicsList.find((topic: ITopiclist) => topic.id === selectedId)?.stages ?? [];
@@ -152,9 +170,8 @@ export class AddCoursesComponent {
       topicId: selectedId,
       stageId: this.selectStageDefault.id,
     });
-
-
   }
+
   onStageSelected(selectedId: number) {
     this.courseForm.patchValue({ stageId: selectedId });
     console.log('Selected Stage ID:', selectedId);
@@ -163,6 +180,7 @@ export class AddCoursesComponent {
     this.courseForm.patchValue({ LanguageId: selectedLanguageId });
 
   }
+
   triggerFileInput(inputType: string) {
     if (inputType === 'image' && this.ImageInput) {
       this.ImageInput.nativeElement.click();
@@ -186,30 +204,31 @@ export class AddCoursesComponent {
     }
     amountControl?.updateValueAndValidity()
   }
+
   toggleVisibility(event: Event) {
     this.isChecked = (event.target as HTMLInputElement).checked;
     if (this.isChecked) {
-      this.courseForm.get("discount")?.setValue({ type: 0, amount: 0 }); 
+      this.courseForm.get("discount")?.setValue({ type: 0, amount: 0 });
     }
   }
-  
+
   onFileSelectedFile(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const files: FileList = input.files;
       const fileUrlsArray = this.courseForm.get('fileUrls') as FormArray;
-  
+
       Array.from(files).forEach((file) => {
         this._StreamService.upload(file, StreamType.file).subscribe({
           next: (response) => {
             const result = response?.body?.result;
             if (result) {
               const fileUrl = environment.baseUrlFiles + result.url;
-              
+
               this.uploadedFiles.push(result);
-  
+
               fileUrlsArray.push(new FormControl(fileUrl));
-  
+
               console.log(' الملفات المرفوعة:', result);
             }
           },
@@ -218,18 +237,19 @@ export class AddCoursesComponent {
       });
     }
   }
-  removeFile(index: number ,fileUrls:string) {
+
+  removeFile(index: number, fileUrls: string) {
     const fileUrlsArray = this.courseForm.get('fileUrls') as FormArray;
-      this.uploadedFiles.splice(index, 1);
-      fileUrlsArray.removeAt(index);
-      this._deleteStreamService.deleteFile(fileUrls).subscribe({
-        next: (response) => {
-          console.log(' املف:', response?.body?.message);
-        },
-        error: (err) => console.error('�� خطأ أثنا�� حذف الملف:', err)
-      })
+    this.uploadedFiles.splice(index, 1);
+    fileUrlsArray.removeAt(index);
+    this._deleteStreamService.deleteFile(fileUrls).subscribe({
+      next: (response) => {
+        console.log(' املف:', response?.body?.message);
+      },
+      error: (err) => console.error('�� خطأ أثنا�� حذف الملف:', err)
+    })
   }
-  
+
 
   onFileSelectedImage(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -237,12 +257,12 @@ export class AddCoursesComponent {
       const file = input.files[0];
       this._StreamService.upload(file, StreamType.photo).subscribe({
         next: (response) => {
-          const result = response?.body?.result; 
+          const result = response?.body?.result;
           if (result) {
             const fileName = result.name;
             this.selectedImageName = fileName;
             this.selectedImageUrl = environment.baseUrlFiles + result.url;
-            const selectedFile : string =  result.url
+            const selectedFile: string = result.url
             this.courseForm.get('photoUrl')?.setValue(selectedFile);
             console.log('📄 اسم الملف:', result.url);
           }
@@ -251,19 +271,19 @@ export class AddCoursesComponent {
       });
     }
   }
-  
+
   onFileSelectedVideo(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
       this._StreamService.upload(file, StreamType.video).subscribe({
         next: (response) => {
-          const result = response?.body?.result; 
+          const result = response?.body?.result;
           if (result) {
             const fileName = result.name;
             this.selectedVideoName = fileName;
             this.selectedVideoUrl = environment.baseUrlFiles + result.url;
-            const selectedFile : string =  result.url
+            const selectedFile: string = result.url
             this.courseForm.get('introductionVideoUrl')?.setValue(selectedFile);
             console.log('📄 اسم الملف:', result.url);
           }
@@ -273,14 +293,9 @@ export class AddCoursesComponent {
     }
   }
 
-  
-
-  listOfTags: any[] = [];
 
 
 
- 
-  
   closePopup() {
     this.router.navigate([{ outlets: { dialog: null } }]);
   }
@@ -290,31 +305,6 @@ export class AddCoursesComponent {
     this.getLanguageList();
     this.getTagsList()
   }
-  print() {
-
-
-    if (!this.isChecked) {
-      this.courseForm.get("discount")?.setValue({ type: null, amount: null });
-    }
-  
-
-
-
-
-    console.log(this.selectedTagsData);
-
-
-
-  }
-
-
-
-
-
-
-
-
-
 
 
   ShowDescription() {
@@ -323,54 +313,85 @@ export class AddCoursesComponent {
 
 
   customFields: { id: number; key: string; value: string; visible: boolean }[] = [];
-newField: { key: string; value: string } = { key: '', value: '' };
-keyOptions: string[] = ['Option 1', 'Option 2', 'Option 3']; // خيارات للقائمة المنسدلة
+  newField: { key: string; value: string } = { key: '', value: '' };
+  keyOptions: string[] = ['Option 1', 'Option 2', 'Option 3']; // خيارات للقائمة المنسدلة
 
-addField() {
-  if (!this.newField.key.trim() || !this.newField.value.trim()) {
-    return; // التحقق من عدم إضافة حقول فارغة
+  addField() {
+    if (!this.newField.key.trim() || !this.newField.value.trim()) {
+      return; // التحقق من عدم إضافة حقول فارغة
+    }
+
+    const newFieldEntry = {
+      id: this.customFields.length + 1,
+      key: this.newField.key.trim(),
+      value: this.newField.value.trim(),
+      visible: true
+    };
+
+    this.customFields.push(newFieldEntry); // إضافة الحقل الجديد إلى المصفوفة
+    this.newField = { key: '', value: '' }; // إعادة تعيين المدخلات
   }
 
-  const newFieldEntry = {
-    id: this.customFields.length + 1,
-    key: this.newField.key.trim(),
-    value: this.newField.value.trim(),
-    visible: true
-  };
-
-  this.customFields.push(newFieldEntry); // إضافة الحقل الجديد إلى المصفوفة
-  this.newField = { key: '', value: '' }; // إعادة تعيين المدخلات
-}
-
-removeField(index: number) {
-  this.customFields.splice(index, 1); // حذف الحقل بناءً على الفهرس
-}
-  selectedTags: number[] = [];
-  get selectedTagsData() {
-    return this.listOfTags.filter(tag => this.selectedTags.includes(tag.id));
+  removeField(index: number) {
+    this.customFields.splice(index, 1); // حذف الحقل بناءً على الفهرس
   }
-  
+
+
+
+
+  onTagChange(tags: any[]) {
+    console.log("tags On List Changed");
+  }
 
   addTags(input: HTMLInputElement): void {
     const value = input.value.trim();
-    if (!value || this.listOfTags.some(tag => tag.name === value)) {
+    if (!value || this.newCourseTagsList.some(tag => tag.name === value)) {
       return;
     }
-  
-    this._TagesService.createTag(value).subscribe({
-      next: (response) => {
-        if (response?.result) {
-          const newTag = { id: response.result.id, name: response.result.name };
-          this.listOfTags = [newTag, ...this.listOfTags];
-          this.selectedTags.push(newTag.id);
-          input.value = '';
-        }
-      },
-      error: (error) => {
-        console.error('Error adding tag:', error);
-      }
+
+    const newTag: NewTagRequest = {
+      id: null,
+      name: value
+    };
+
+    this.newCourseTagsList.push(newTag);
+    this.tagsListResponse.result.push({
+      id: 1, createdOn: null,
+      instructorId: 1,
+      name: value
     });
+
   }
 
+  collectCreateCourseRequest(): ICreateCourseRequest {
+    let fileUrls = this.uploadedFiles.filter(file => this._stringExtensionsService.HasValue(file.url)).map(file => file.url);
 
+    let createCourseRequest: ICreateCourseRequest = {
+      name: this.courseForm.get("name")?.value,
+      free: this.courseForm.get("free")?.value,
+      description: this._stringExtensionsService.resolveEmptyStringToNull(this.courseForm.get("description")?.value),
+      languageId: this.courseForm.get("languageId")?.value,
+      price: this.courseForm.get("price")?.value,
+      topicId: this.courseForm.get("topicId")?.value,
+      stageId: this.courseForm.get("stageId")?.value,
+      photoUrl: this._stringExtensionsService.resolveEmptyStringToNull(this.courseForm.get("photoUrl")?.value),
+      introductionVideoUrl: this._stringExtensionsService.resolveEmptyStringToNull(this.courseForm.get("introductionVideoUrl")?.value),
+      discount: this.isChecked ? this.courseForm.get("discount")?.value : null,
+      fileUrls: fileUrls,
+      tags: [],
+      customFields: [],
+    };
+    return createCourseRequest;
+  }
+
+  createCourse() {
+    let request = this.collectCreateCourseRequest();
+    this._createCourseService.addCourse(request).subscribe({
+      next: (response) => {
+        console.log("course created successfully !", response);
+        // close popup
+      },
+      error: (err) => console.log("fault happen while course created")
+    });
+  }
 }
