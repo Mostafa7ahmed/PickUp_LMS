@@ -163,3 +163,13 @@
 ::ng-deep .p-tooltip.p-tooltip-top {
   transform: translateY(-7px); 
 }
+
+
+.progressBar {
+  width:15px;
+  height:15px;
+  border-radius: 50%;
+  background: #fff;
+  margin-right: 5px;
+  border: 4px solid rgba(119, 143, 230, 0.8117647059);
+}
