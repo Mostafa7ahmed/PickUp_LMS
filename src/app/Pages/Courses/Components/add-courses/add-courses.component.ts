@@ -31,10 +31,13 @@ import { ICustomField } from '../../Core/interface/icustom-field';
 import { CustomFildsService } from '../../Core/service/custom-filds.service';
 import { Select } from 'primeng/select';
 import { ReativeFormModule } from '../../../../Core/Shared/Modules/reative-form/reative-form.module';
+import { KeyFilterModule } from 'primeng/keyfilter';
+import { DropdownModule } from 'primeng/dropdown';
+
 @Component({
   selector: 'app-add-courses',
   standalone: true,
-  imports: [TopPopComponent, Select,InputTextModule,MultiSelectModule, ButtonModule,RouterModule, TooltipModule, ReactiveFormsModule, ReativeFormModule, TextHeaderComponent, CustomSelectPriceOrFreeComponent, CustomslectwithiconComponent, CustomSelectLanguageComponent, CoustomSelectStageComponent],
+  imports: [TopPopComponent, Select,InputTextModule,MultiSelectModule,KeyFilterModule,DropdownModule, ButtonModule,RouterModule, TooltipModule, ReactiveFormsModule, ReativeFormModule, TextHeaderComponent, CustomSelectPriceOrFreeComponent, CustomslectwithiconComponent, CustomSelectLanguageComponent, CoustomSelectStageComponent],
   templateUrl: './add-courses.component.html',
   styleUrl: './add-courses.component.scss'
 })
@@ -65,10 +68,10 @@ export class AddCoursesComponent {
     LanguageId: [0, Validators.required],
     name: ['', Validators.required],
     free: [false],
-    price: this._FormBuilder.control({ value: 0, disabled: false }, [Validators.min(0)]),
+    price: this._FormBuilder.control({ value: 1, disabled: false }, [Validators.min(1)]),
     description: [''],
     photoUrl: [''],
-    tags: this._FormBuilder.control([], Validators.required), 
+    tags: this._FormBuilder.control([]), 
     fileUrls: this._FormBuilder.array([]),
     discount: this._FormBuilder.group({
       type: [0, Validators.required],
@@ -123,12 +126,19 @@ export class AddCoursesComponent {
   isUploadingVideo: boolean = false;
   isUploadingFile: boolean = false;
   isAddedFail: boolean = false;
+  discountTypes = [
+    { label: 'Percentage', value: 1 },
+    { label: 'Value', value: 0 }
+  ];
 
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   @ViewChild('VideoInput') VideoInput!: ElementRef<HTMLInputElement>;
   @ViewChild('ImageInput') ImageInput!: ElementRef<HTMLInputElement>;
   @ViewChild('tagPlaceHolder') tagPlaceHolder!: ElementRef<any>;
+  @ViewChild('priceInput') priceInput!: ElementRef;
+
+
 
 
   getTopicList() {
@@ -214,18 +224,28 @@ export class AddCoursesComponent {
     }
   }
 
-  onDiscountTypeChange(event: any) {
-    const selectedValue = this.courseForm.get('discount.type')?.value; // القيمة مباشرة كـ number
-    console.log(selectedValue);
+  onDiscountTypeChange() {
+    const selectedValue = +this.courseForm.get('discount.type')?.value; 
+    console.log('Selected Type:', selectedValue);
+  
     this.isPercentage = selectedValue === 1;
     this.discountSymbol = this.isPercentage ? "%" : "EGP";
+  
     const amountControl = this.courseForm.get('discount.amount');
     if (this.isPercentage) {
-      amountControl?.setValidators([Validators.min(0), Validators.max(100)]);
+      amountControl?.setValidators([
+        Validators.required,
+        Validators.min(1),
+        Validators.max(100)
+      ]);
     } else {
-      amountControl?.setValidators([Validators.min(0)]);
+      amountControl?.setValidators([
+        Validators.required,
+        Validators.min(1)
+      ]);
     }
-    amountControl?.updateValueAndValidity()
+  
+    amountControl?.updateValueAndValidity();
   }
   toggleVisibility(event: Event) {
     this.isChecked = (event.target as HTMLInputElement).checked;
@@ -477,7 +497,7 @@ export class AddCoursesComponent {
       stageId: this.courseForm.get("stageId")?.value,
       photoUrl: this._stringExtensionsService.resolveEmptyStringToNull(this.courseForm.get("photoUrl")?.value),
       introductionVideoUrl: this._stringExtensionsService.resolveEmptyStringToNull(this.courseForm.get("introductionVideoUrl")?.value),
-      discount: this.isChecked ? this.courseForm.get("discount")?.value : null,
+      discount: this.isChecked && !this.courseForm.get("free")?.value  ? this.courseForm.get("discount")?.value : null,
       fileUrls: fileUrls,
       tags: tags,
       customFields: [],

@@ -847,6 +847,8 @@
 .coursecustom.show {
   max-height: 300px;
   /* أو أي ارتفاع مناسب */
+  overflow: visible;
+
   opacity: 1;
   margin-top: 8px;
 
@@ -859,7 +861,6 @@
 .nz-select-dropdown {
   position: absolute !important;
   top: 100% !important;
-  /* يجعلها تظهر تحت الـ select */
   left: 0 !important;
   width: 100% !important;
 }
@@ -1096,4 +1097,26 @@
 ::ng-deep .p-multiselect.p-inputwrapper-focus .p-multiselect-dropdown .p-icon,
 ::ng-deep .p-multiselect.p-multiselect-open .p-multiselect-dropdown .p-icon {
   transform: rotate(180deg) !important;
+}
+
+::ng-deep .p-inputtext {
+  all: unset;
+}
+
+::ng-deep .custom-select .p-overlay{
+  top : -90px !important
+}
+::ng-deep  .custom-select  .p-select{
+  height: 32px !important;
+  border-radius: 4px !important;
+  border: 1px solid #6c757d38 !important;
+
+  border-radius: 4px !important;
+  width: 100% !important;
+  margin-top: 8px ;
+  box-shadow: none !important;
+  .p-select-label{
+    padding: 5px 10px !important;
+
+  }
 }

@@ -48,8 +48,11 @@
               <div class="Course_name d-flex flex-column">
                 <p class="mb-2">Course price</p>
                 <div class="input_Couser_container flex-grow-1">
-                  <input formControlName="price" class="px-2 rounded-2" type="number" min="0"
-                    [readonly]="courseForm.get('free')?.value" placeholder="Enter course price">
+      
+                  <input  id="integer" pKeyFilter="int" class="px-2 rounded-2"
+                  type="number" min="1"  [readonly]="courseForm.get('free')?.value"
+                  placeholder="Enter course price" formControlName="price" />
+
                   <span>EGP</span>
                 </div>
               </div>
@@ -103,7 +106,7 @@
 
             <div class="d-flex gap-2 checkedCard">
               <label class="containerCheck">
-                <input type="checkbox" id="invalidCheck" checked (change)="isChecked = !isChecked">
+                <input type="checkbox" id="invalidCheck" [checked]="!courseForm.get('free')?.value" (change)="isChecked = !isChecked">
                 <div class="checkmark">
 
                 </div>
@@ -112,25 +115,37 @@
           </div>
 
 
-          <div formGroupName="discount" class="coursecustom  d-flex gap-3 align-items-start" [class.show]="isChecked">
+          <div formGroupName="discount" class="coursecustom  d-flex gap-3 align-items-start" [class.show]="isChecked && !courseForm.get('free')?.value">
             <div class="leftStage w-50">
               <div class="titleAccess d-flex justify-content-between gap-2 align-items-center">
                 <p>Type</p>
               </div>
               <div class="custom-select">
-                <select formControlName="type" (change)="onDiscountTypeChange($event)">
-                  <option [ngValue]="1">Percentage</option>
-                  <option [ngValue]="0">Value</option>
-                </select>
+                <p-dropdown 
+                [options]="discountTypes" 
+                formControlName="type" 
+                optionLabel="label" 
+                optionValue="value" 
+                placeholder="Select Type" 
+                (onChange)="onDiscountTypeChange()"
+                class="w-full md:w-56">
+              </p-dropdown>
               </div>
             </div>
             <div class="right w-50">
               <div class="rightCoursePirce flex-grow-1">
                 <div class="Course_name d-flex flex-column">
                   <p class="mb-2">Value</p>
-                  <div class="input_Couser_container flex-grow-1">
-                    <input formControlName="amount" type="number" placeholder="Enter course Value" min="0" max="100">
-                    <span>{{discountSymbol }}</span>
+                  <div class="input_Couser_container flex-grow-1" 
+                   [ngClass]="{'border-danger': courseForm.get('discount.amount')?.invalid && courseForm.get('discount.amount')?.touched}"
+                   >
+
+                    <input #priceInput id="integer" pKeyFilter="int" 
+                    class="px-2 rounded-2" type="number" min="1" 
+                    [attr.max]="isPercentage ? 100 : null" 
+                    
+                    placeholder="Enter course Value" formControlName="amount" />
+                  <span>{{ discountSymbol }}</span>
                   </div>
                 </div>
               </div>
