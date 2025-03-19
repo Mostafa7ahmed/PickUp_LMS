@@ -86,6 +86,9 @@ export class AddCoursesComponent {
     return this.courseForm.get('customFields') as FormArray;
   }
 
+  get customFieldsControls(): FormGroup[] {
+    return this.customFieldsArray.controls as FormGroup[];
+  }
 
 
   topicsList: ItopicList[] = [];
@@ -365,6 +368,9 @@ export class AddCoursesComponent {
   addField() {
     const keyControl = this.fieldForm.get('key')?.value;
     const valueControl = this.fieldForm.get('usage')?.value;
+    this.customFieldsArray.controls.forEach((field, index) => {
+      console.log(`Field ${index} visible: `, field.get('visible')?.value);
+    });
     if ((!keyControl && keyControl !== 0) || !valueControl?.trim()) {
       return;
     }
@@ -440,8 +446,7 @@ export class AddCoursesComponent {
   }
   onVisibleChange(index: number) {
     const field = this.customFieldsArray.at(index);
-    const current = field.get('visible')?.value;
-    field.get('visible')?.setValue(!current);    
+    console.log('Visible Now:', field.get('visible')?.value);
   }
   closePopup() {
     this.router.navigate([{ outlets: { dialog: null } }]);

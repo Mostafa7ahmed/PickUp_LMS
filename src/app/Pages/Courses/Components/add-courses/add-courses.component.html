@@ -222,19 +222,20 @@
               </app-text-header>
   
               <div    class="fields-list mt-2">
-                <div *ngFor="let field of newCustomFieldList; let i = index" class="field-item">
+                <div *ngFor="let field of customFieldsControls; let i = index" [formGroup]="field" class="field-item">
                   
-                  <input type="text" [value]="field.key" readonly class="field-key" placeholder="Key">
-                  <input type="text" [value]="field.usage" readonly class="field-value" placeholder="Value">
-              
-                  <label class="containerCheck">
-                    <input type="checkbox" formControlName="visible" (change)="onVisibleChange(i)">
-                    <div class="checkmark"></div>
-                  </label>
-              
-                  <button (click)="removeField(i)" class="delete-btn" pTooltip="Delete Field" tooltipPosition="top">
-                    <i class="fa-regular fa-trash-can"></i>
-                  </button>
+                            
+                <input type="text" formControlName="key" readonly class="field-key" placeholder="Key">
+                <input type="text" formControlName="usage" readonly class="field-value" placeholder="Value">
+
+                <label class="containerCheck">
+                  <input type="checkbox" formControlName="visible" (change)="onVisibleChange(i)">
+                  <div class="checkmark"></div>
+                </label>
+
+                <button (click)="removeField(i)" class="delete-btn" pTooltip="Delete Field" tooltipPosition="top">
+                  <i class="fa-regular fa-trash-can"></i>
+                </button>
               
                 </div>
               </div>
@@ -295,7 +296,7 @@
         <div class="UploadCover mt-2">
           <div class="upload-container">
             <label class="upload-box" (click)="triggerFileInput('file')">
-              <i class="fa-solid fa-paperclip mx-1"></i> Add File
+              <i class="fa-solid fa-paperclip mx-1"></i> Upload References
             </label>
             <input type="file" multiple accept=".pdf, .doc, .docx, .xls, .xlsx, .txt , .pptx , .ppt , .csv" #fileInput
               class="hidden-input" formControlName="fileUrls" (change)="onFileSelectedFile($event)">
@@ -304,7 +305,7 @@
                 
               <div class="file-item uploading" *ngIf="isUploadingFile">
                 <i class="fa-solid fa-spinner fa-spin"></i>
-                <span class="file-name">جاري رفع الملف...</span>
+                <span class="file-name">جاري رفع الملف</span>
               </div>
               </div>
 
