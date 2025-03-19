@@ -359,6 +359,7 @@
   border-radius: 8px;
   color: #6c757d;
   cursor: pointer;
+  padding-left: 40px;
 
 }
 
@@ -688,7 +689,6 @@
 .upload-box {
   display: flex;
   align-items: center;
-  justify-content: center;
   width: 100%;
   padding: 12px;
   background: #f8f9fa;
@@ -698,6 +698,8 @@
   font-size: 14px;
   color: #6c757d;
   transition: 0.3s;
+  padding-left: 40px;
+
 }
 
 .upload-box:hover {
