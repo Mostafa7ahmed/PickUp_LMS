@@ -140,11 +140,17 @@
                    [ngClass]="{'border-danger': courseForm.get('discount.amount')?.invalid && courseForm.get('discount.amount')?.touched}"
                    >
 
-                    <input #priceInput id="integer" pKeyFilter="int" 
-                    class="px-2 rounded-2" type="number" min="1" 
-                    [attr.max]="isPercentage ? 100 : null" 
-                    
-                    placeholder="Enter course Value" formControlName="amount" />
+                   <input #priceInput id="integer" 
+                   pKeyFilter="int" 
+                   class="px-2 rounded-2" 
+                   type="number" 
+                   min="1" 
+                   [attr.max]="isPercentage ? 100 : null" 
+                   [attr.step]="1"
+                   placeholder="Enter course Value" 
+                   formControlName="amount" 
+                   (input)="onAmountInput()" 
+                 />
                   <span>{{ discountSymbol }}</span>
                   </div>
                 </div>

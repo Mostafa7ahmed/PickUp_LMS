@@ -12,7 +12,7 @@ export interface Icourses {
     updaterId: number
     name: string
     description: string
-    photo: string
+    photoUrl: string
     quizzesCount: number
     studentsCount: number
     lessonssCount: number

@@ -74,7 +74,7 @@ export class AddCoursesComponent {
     tags: this._FormBuilder.control([]), 
     fileUrls: this._FormBuilder.array([]),
     discount: this._FormBuilder.group({
-      type: [0, Validators.required],
+      type: [1, Validators.required],
       amount: [0, [Validators.min(0), Validators.max(100)]],
     }),
     customFields: this._FormBuilder.array([])  
@@ -225,12 +225,10 @@ export class AddCoursesComponent {
   }
 
   onDiscountTypeChange() {
-    const selectedValue = +this.courseForm.get('discount.type')?.value; 
+    const selectedValue = +this.courseForm.get('discount.type')?.value;
     console.log('Selected Type:', selectedValue);
-  
     this.isPercentage = selectedValue === 1;
     this.discountSymbol = this.isPercentage ? "%" : "EGP";
-  
     const amountControl = this.courseForm.get('discount.amount');
     if (this.isPercentage) {
       amountControl?.setValidators([
@@ -246,6 +244,17 @@ export class AddCoursesComponent {
     }
   
     amountControl?.updateValueAndValidity();
+  }
+  
+  onAmountInput() {
+    const amountControl = this.courseForm.get('discount.amount');
+    const value = +amountControl?.value;
+  
+    if (this.isPercentage && value > 100) {
+      amountControl?.setValue(100);
+    } else if (value < 1) {
+      amountControl?.setValue(1);
+    }
   }
   toggleVisibility(event: Event) {
     this.isChecked = (event.target as HTMLInputElement).checked;
