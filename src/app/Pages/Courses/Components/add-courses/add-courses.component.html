@@ -154,7 +154,7 @@
                   optionLabel="name" 
                   placeholder="Select Cities" 
                   [maxSelectedLabels]="3" 
-                  [filter]="true"
+                  [filter]="false" 
                   appendTo="self"
                   styleClass="w-full md:w-80 btnScrollInput">
               
@@ -183,7 +183,7 @@
           </div>
         </div>
 
-        <div  [formGroup]="fieldForm" class="CourseTags UploadCover mt-2">
+        <div  [formGroup]="fieldForm" class="CourseTags UploadCover pb-1 mt-2">
           <div class="tags custom-fields-container">
             <app-text-header [bgColor]="'#659DFFBF'" [Icon]="'fa-solid fa-exclamation'"
               [title]="'Course custom Fields'">
@@ -214,33 +214,36 @@
             </div>
           </div>
         </div>
-
-        <div class="CourseTags UploadCover mt-2" *ngIf="newCustomFieldList.length > 0">
-          <div class="tags custom-fields-container">
-            <app-text-header [bgColor]="'#659DFFBF'" [Icon]="'fa-solid fa-exclamation'"
-              [title]="'Course custom Fields'">
-            </app-text-header>
-
-            <div    class="fields-list mt-2">
-              <div *ngFor="let field of newCustomFieldList; let i = index" class="field-item">
-                
-                <input type="text" [value]="field.key" readonly class="field-key" placeholder="Key">
-                <input type="text" [value]="field.usage" readonly class="field-value" placeholder="Value">
-            
-                <label class="containerCheck">
-                  <input type="checkbox" formControlName="visible" (change)="onVisibleChange(i)">
-                  <div class="checkmark"></div>
-                </label>
-            
-                <button (click)="removeField(i)" class="delete-btn" pTooltip="Delete Field" tooltipPosition="top">
-                  <i class="fa-regular fa-trash-can"></i>
-                </button>
-            
+        <div class="Course " *ngIf="newCustomFieldList.length > 0" >
+          <div class="CourseTags UploadCover mt-2" >
+            <div class="tags custom-fields-container">
+              <app-text-header [bgColor]="'#659DFFBF'" [Icon]="'fa-solid fa-exclamation'"
+                [title]="'Course  Fields'">
+              </app-text-header>
+  
+              <div    class="fields-list mt-2">
+                <div *ngFor="let field of newCustomFieldList; let i = index" class="field-item">
+                  
+                  <input type="text" [value]="field.key" readonly class="field-key" placeholder="Key">
+                  <input type="text" [value]="field.usage" readonly class="field-value" placeholder="Value">
+              
+                  <label class="containerCheck">
+                    <input type="checkbox" formControlName="visible" (change)="onVisibleChange(i)">
+                    <div class="checkmark"></div>
+                  </label>
+              
+                  <button (click)="removeField(i)" class="delete-btn" pTooltip="Delete Field" tooltipPosition="top">
+                    <i class="fa-regular fa-trash-can"></i>
+                  </button>
+              
+                </div>
               </div>
+              
             </div>
-            
           </div>
         </div>
+
+     
         <div class="UploadCover mt-2">
           <div class="inputImage" *ngIf="!selectedImageUrl && !isUploadingImage" (click)="triggerFileInput('image')">
             <i class="fa-solid fa-images mx-2"></i>

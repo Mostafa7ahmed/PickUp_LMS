@@ -119,6 +119,7 @@ export class AddCoursesComponent {
   isUploadingImage: boolean = false;
   isUploadingVideo: boolean = false;
   isUploadingFile: boolean = false;
+  isAddedFail: boolean = false;
 
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
@@ -265,7 +266,7 @@ export class AddCoursesComponent {
   removeFile(index: number, fileUrls: string) {
     const fileUrlsArray = this.courseForm.get('fileUrls') as FormArray;
 
-    const UrlFile =  environment.baseUrlFiles  + fileUrls
+    const UrlFile =   fileUrls
     this._deleteStreamService.deleteFile(UrlFile).subscribe({
       next: (response) => {
         console.log('تم مسحه:', response?.body?.message);
@@ -306,7 +307,7 @@ export class AddCoursesComponent {
   removeImage() {
     const photoUrl = this.courseForm.get('photoUrl')?.value;
     if (photoUrl) {
-      const UrlFile = environment.baseUrlFiles + photoUrl;
+      const UrlFile = photoUrl;
       this._deleteStreamService.deleteFile(UrlFile).subscribe({
         next: (response) => {
           console.log('✅ تم حذف الصورة:', response?.body?.message);
@@ -349,7 +350,7 @@ export class AddCoursesComponent {
   removeVideo() {
     const videoUrl = this.courseForm.get('introductionVideoUrl')?.value;
     if (videoUrl) {
-      const UrlFile = environment.baseUrlFiles + videoUrl;
+      const UrlFile =  videoUrl;
       this._deleteStreamService.deleteFile(UrlFile).subscribe({
         next: (response) => {
           console.log('✅ تم حذف الفيديو:', response?.body?.message);

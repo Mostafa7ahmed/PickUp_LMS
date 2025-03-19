@@ -453,7 +453,8 @@
       gap: 10px;
       margin-bottom: 10px;
       width: 100%;
-      margin-top: 10px;
+      align-items: center;
+
   
       input {
         padding: 8px;
@@ -466,8 +467,8 @@
       }
   
       .add-btn {
-        width: 30px;
-        height: 32px;
+        width: 28px;
+        height: 28px;
         border-radius: 4px;
         border: none;
  
@@ -529,10 +530,10 @@
         }
   
         .delete-btn {
-          color: #FD0000 !important;
+          color: #FD0000B2 !important;
           border: none;
           background: transparent;
-          background-color: #fd000042;
+          background: #FD00001A;
           padding: 4px 8px;
           border-radius: 4px;
      
