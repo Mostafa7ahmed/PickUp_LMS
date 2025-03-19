@@ -59,8 +59,23 @@ export interface Icourses {
     createdOn: string
     default: boolean
     snapshot: Snapshot
-  }
-  
+  courses: Course[]
+}
+
+export interface Course {
+  id: number
+  instructorId: number
+  name: string
+  description: any
+  createdOn: string
+  photoUrl: string
+  free: boolean
+  price: number
+  introductionVideoUrl: any
+  discount: any
+  fileIds: any[]
+}
+
   export interface Snapshot {
     id: number
     totalPrice: number
