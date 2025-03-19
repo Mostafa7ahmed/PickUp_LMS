@@ -409,7 +409,8 @@ export class AddCoursesComponent {
   
   }
   removeField(index: number) {
-    this.newCustomFieldList.splice(index, 1);
+    this.customFieldsArray.removeAt(index);
+    this.newCustomFieldList = this.customFieldsArray.value;
   }
   addTags(input: HTMLInputElement): void {
     const value = input.value.trim();
