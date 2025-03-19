@@ -5,6 +5,7 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
 
 bootstrapApplication(AppComponent, {
-  ...appConfig, 
+  ...appConfig,
   providers: [...(appConfig.providers || []), provideRouter(routes)], // Merge router providers
 }).catch((err) => console.error(err));
+
