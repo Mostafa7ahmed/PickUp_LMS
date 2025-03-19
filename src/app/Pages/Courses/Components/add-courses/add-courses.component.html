@@ -2,7 +2,7 @@
 <div class="ShowPopup">
   <div class="add-Course">
     <app-top-pop [NamePopup]="'Add Course'" (isVisibleChange)="closePopup()"></app-top-pop>
-    <form class="bodyCourse" [formGroup]="courseForm"  *ngIf="isLoadTopic && isLoadCustomFild && isLoadTags && isLoadlanguage">
+    <form class="bodyCourse" [formGroup]="courseForm"  *ngIf="isLoadTopic">
       <div class="leftCourse">
         <div class="couseContentAdd">
           <div class="titleCouser">
@@ -322,7 +322,7 @@
 
       
     </form>
-    <div class="course-skeleton"  *ngIf="!isLoadTopic && !isLoadCustomFild && !isLoadTags && !isLoadlanguage">
+    <div class="course-skeleton"  *ngIf="!isLoadTopic && !isLoadCustomFild ">
       <div class="leftParts">
         <div class="left-section ">
           <div class="card-skeleton mb-3">
