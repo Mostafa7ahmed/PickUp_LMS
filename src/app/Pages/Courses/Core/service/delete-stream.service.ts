@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../Environments/environment';
 import { Observable } from 'rxjs';
@@ -13,8 +13,11 @@ export class DeleteStreamService {
   constructor( private http: HttpClient  ){ 
     this.urlDelete= `${environment.baseUrl}${environment.pickup}stream/delete-by-uri`
   }
-  deleteFile(fileUrl :string): Observable<any> {
-
-  
-    return this.http.post(this.urlDelete, fileUrl);
-  }}
+  deleteFile(fileUrl: string): Observable<any> {
+    return this.http.delete(this.urlDelete, {
+      headers: new HttpHeaders({
+        url: fileUrl
+      })
+    });
+  }
+}

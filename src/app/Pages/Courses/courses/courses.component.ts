@@ -1,5 +1,3 @@
-import { CustomSelectComponent } from './../../../Components/custom-select/custom-select.component';
-import { TableHeader } from './../Components/tablereused/tablereused.component';
 import { Component, ElementRef, EventEmitter, HostListener, inject, Input, OnInit, Output, viewChild, ViewChild } from '@angular/core';
 import { CourseResult } from '../Core/interface/icourses';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -23,7 +21,6 @@ import { ICourseKanban, IKanbanResponse, ITopicKanbaResult } from '../Core/inter
 import { MovecourseService } from '../Core/service/movecourse.service';
 import { FormsModule } from '@angular/forms';
 import { DatePicker } from 'primeng/datepicker';
-import { TopPopComponent } from "../../../Components/top-pop/top-pop.component";
 
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { AddCoursesComponent } from "../Components/add-courses/add-courses.component";
@@ -33,7 +30,7 @@ import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/ro
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule,RouterModule, NzSelectModule, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent, CustomslectwithiconComponent, AddCoursesComponent],
+  imports: [CommonModule,RouterModule, NzSelectModule, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent, CustomslectwithiconComponent],
   providers: [
     { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } }
 

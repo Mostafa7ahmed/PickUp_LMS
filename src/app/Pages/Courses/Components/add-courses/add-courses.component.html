@@ -2,7 +2,7 @@
 <div class="ShowPopup">
   <div class="add-Course">
     <app-top-pop [NamePopup]="'Add Course'" (isVisibleChange)="closePopup()"></app-top-pop>
-    <form class="bodyCourse" [formGroup]="courseForm">
+    <form class="bodyCourse" [formGroup]="courseForm"  *ngIf="isLoadTopic && isLoadCustomFild && isLoadTags && isLoadlanguage">
       <div class="leftCourse">
         <div class="couseContentAdd">
           <div class="titleCouser">
@@ -177,43 +177,7 @@
               
                 </p-multiselect>
               </div>
-              
 
-
-      
-
-
-
-
-
-
-
-
-
-
-              <!-- <nz-select nzMode="multiple" [nzDropdownRender]="renderTemplate" [nzMaxTagCount]="1"
-                [nzMaxTagPlaceholder]="tagPlaceHolder" [nzDropdownMatchSelectWidth]="false" nzPlaceHolder="Course tags"
-                [(ngModel)]="tagsListResponse.result">
-                @if(tagsListResponse.success) {
-                <nz-option *ngFor=" let item of tagsListResponse.result" [nzLabel]="item.name"
-                  [nzValue]="item.id"></nz-option>
-                }
-              </nz-select>
-              <ng-template #tagPlaceHolder let-selectedList>
-                and {{ selectedList.length }} more selected
-              </ng-template>
-
-              <ng-template #renderTemplate>
-                <div class="container addTags d-flex justify-content-between align-content-center p-2">
-                  <input type="text" #inputElement />
-                  <div class="">
-                    <a class="add-item" (click)="addTags(inputElement)">
-                      <i class="fa-solid fa-plus mx-2"></i>
-                    </a>
-                  </div>
-
-                </div>
-              </ng-template> -->
 
             </div>
           </div>
@@ -277,35 +241,53 @@
             
           </div>
         </div>
-        <div class="UploadCover  mt-2">
-          <div class="inputImage" *ngIf="!selectedImageUrl" (click)="triggerFileInput('image')">
+        <div class="UploadCover mt-2">
+          <div class="inputImage" *ngIf="!selectedImageUrl && !isUploadingImage" (click)="triggerFileInput('image')">
             <i class="fa-solid fa-images mx-2"></i>
-            <p>{{ selectedImageName || 'Upload course photo'  }}</p>
+            <p>{{ selectedImageName || 'Upload course photo' }}</p>
           </div>
+        
+          <div *ngIf="isUploadingImage" class="uploading-spinner d-flex flex-column justify-content-center gap-3  align-content-between align-items-center w-100">
+            <div class="">
+              <i class="fa-solid fa-spinner fa-spin"></i>
+            </div>
+            <p>جاري رفع الصوره</p>
+          </div>
+        
           <input type="file" accept="image/*" #ImageInput class="hidenInput" formControlName="photoUrl"
             (change)="onFileSelectedImage($event)">
+        
           <div *ngIf="selectedImageUrl" class="image-preview-container">
-            <img [src]="selectedImageUrl" alt="Selected Image" class="preview-image w-100 rounded-1">
-            <button class="delete-btn_image">
+            <img [src]="selectedImageUrl" (load)="onImageLoad()"  alt="Selected Image" class="preview-image w-100 rounded-1">
+            <button class="delete-btn_image" (click)="removeImage()">
               <i class="fa-regular fa-trash-can"></i>
             </button>
           </div>
         </div>
 
         <div class="UploadCover mt-2">
-          <div class="inputImage" *ngIf="!selectedVideoUrl" (click)="triggerFileInput('video')">
+          <div class="inputImage" *ngIf="!selectedVideoUrl && !isUploadingVideo" (click)="triggerFileInput('video')">
             <i class="fa-solid fa-video mx-2"></i>
             <p>{{ selectedVideoName || 'Upload course introduction video' }}</p>
           </div>
-          <input type="file" accept="video/*" (change)="onFileSelectedVideo($event)" #VideoInput class="hidenInput"
-            formControlName="introductionVideoUrl">
+        
+          <div *ngIf="isUploadingVideo" class="uploading-spinner d-flex flex-column justify-content-center gap-3  align-content-between align-items-center w-100">
+            <div class="">
+              <i class="fa-solid fa-spinner fa-spin"></i>
+            </div>
+            <p>جاري رفع الفديو</p>
+          </div>
+          <input type="file" accept="video/*" (change)="onFileSelectedVideo($event)" #VideoInput 
+                 class="hidenInput" formControlName="introductionVideoUrl">
+        
           <div *ngIf="selectedVideoUrl" class="image-preview-container">
             <video [src]="selectedVideoUrl" autoplay controls muted class="preview-video w-100 h-50 rounded-1"></video>
-            <button class="delete-btn_image">
+            <button class="delete-btn_image" (click)="removeVideo()">
               <i class="fa-regular fa-trash-can"></i>
             </button>
           </div>
         </div>
+        
 
         <div class="UploadCover mt-2">
           <div class="upload-container">
@@ -315,6 +297,14 @@
             <input type="file" multiple accept=".pdf, .doc, .docx, .xls, .xlsx, .txt , .pptx , .ppt , .csv" #fileInput
               class="hidden-input" formControlName="fileUrls" (change)="onFileSelectedFile($event)">
             <div class="file-list" *ngIf="uploadedFiles.length > 0">
+              <div class="reloadFile">
+                
+              <div class="file-item uploading" *ngIf="isUploadingFile">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                <span class="file-name">جاري رفع الملف...</span>
+              </div>
+              </div>
+
               <div class="file-item" *ngFor="let file of uploadedFiles; let i = index">
                 <i class="fa-solid fa-file"></i>
                 <span class="file-name">{{ file.name }}</span>
@@ -329,10 +319,40 @@
         </div>
 
       </div>
+
+      
     </form>
+    <div class="course-skeleton"  *ngIf="!isLoadTopic && !isLoadCustomFild && !isLoadTags && !isLoadlanguage">
+      <div class="leftParts">
+        <div class="left-section ">
+          <div class="card-skeleton mb-3">
+            <div class="input-skeleton"></div>
+            <div class="input-skeleton"></div>
+  
+          </div>
+          <div class="card-skeleton skeletonBottom">
+            <div class="input-skeleton"></div>
+  
+          </div>
+        </div>
+      </div>
+    
+      <div class="right-section">
+        <div class="input-skeleton"></div>
+        <div class="input-skeleton"></div>
+        <div class="photo-skeleton"></div>
+        <div class="photo-skeleton video"></div>
+        <div class="photo-skeleton video"></div>
+
+      </div>
+    </div>
+    
     <div class="footerCourse bg-white rounded-1">
       <div class="btnsCourse">
-        <button class="" (click)="createCourse()">Create</button>
+        <button (click)="createCourse()" [disabled]="isLoad">
+          <span *ngIf="isLoad" class="spinner"></span>
+          <span *ngIf="!isLoad">Create</span>
+        </button>
       </div>
     </div>
   </div>

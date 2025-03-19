@@ -1,14 +1,10 @@
 import { DeleteStreamService } from './../../Core/service/delete-stream.service';
-import { Component, ElementRef, EventEmitter, inject, Input, Output, viewChild, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { TopPopComponent } from '../../../../Components/top-pop/top-pop.component';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule, SlicePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { TextHeaderComponent } from '../text-header/text-header.component';
 import { TooltipModule } from 'primeng/tooltip';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzSelectModule } from 'ng-zorro-antd/select';
 import { Router, RouterModule } from '@angular/router';
 import { StreamType } from '../../../../Core/Interface/stream-type';
 import { StreamService } from '../../../../Core/Services/stream.service';
@@ -17,9 +13,9 @@ import { CustomSelectPriceOrFreeComponent } from "../custom-select-price-or-free
 import { ITopiclist } from '../../Core/interface/itopiclist';
 import { CustomslectwithiconComponent } from "../customslectwithicon/customslectwithicon.component";
 import { TopiclistService } from '../../../Topics/Service/topiclist.service';
-import { IPaginationResponse, IResponseOf } from '../../../../Core/Shared/Interface/irespose';
+import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose';
 import { CustomSelectLanguageComponent } from "../custom-select-language/custom-select-language.component";
-import { ItopicList, ITopicListResult, Stage } from '../../../Topics/Core/Interface/itopic-list-result';
+import { ItopicList, Stage } from '../../../Topics/Core/Interface/itopic-list-result';
 import { CoustomSelectStageComponent } from "../coustom-select-stage/coustom-select-stage.component";
 import { environment } from '../../../../Environments/environment';
 import { TagesService } from '../../Core/service/tages.service';
@@ -34,20 +30,16 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ICustomField } from '../../Core/interface/icustom-field';
 import { CustomFildsService } from '../../Core/service/custom-filds.service';
 import { Select } from 'primeng/select';
-
-interface City {
-  name: string,
-  code: string
-}
+import { ReativeFormModule } from '../../../../Core/Shared/Modules/reative-form/reative-form.module';
 @Component({
   selector: 'app-add-courses',
   standalone: true,
-  imports: [TopPopComponent, Select,InputTextModule,MultiSelectModule, ButtonModule,RouterModule, TooltipModule, ReactiveFormsModule, NzDividerModule, NzIconModule, NzInputModule, NzSelectModule, FormsModule, TextHeaderComponent, CommonModule, ReactiveFormsModule, NzSelectModule, CustomSelectPriceOrFreeComponent, CustomslectwithiconComponent, CustomSelectLanguageComponent, CoustomSelectStageComponent],
+  imports: [TopPopComponent, Select,InputTextModule,MultiSelectModule, ButtonModule,RouterModule, TooltipModule, ReactiveFormsModule, ReativeFormModule, TextHeaderComponent, CustomSelectPriceOrFreeComponent, CustomslectwithiconComponent, CustomSelectLanguageComponent, CoustomSelectStageComponent],
   templateUrl: './add-courses.component.html',
   styleUrl: './add-courses.component.scss'
 })
 export class AddCoursesComponent {
-  //Injects
+  //Injects Or Call Service
   private router = inject(Router);
   private _StreamService = inject(StreamService);
   private _languageService = inject(LanguageService);
@@ -56,12 +48,7 @@ export class AddCoursesComponent {
   private _deleteStreamService = inject(DeleteStreamService);
   private _createCourseService = inject(AddCoursesService);
   private _stringExtensionsService = inject(StringExtensionsService);
-
-
-
-
   private _TagesService = inject(TagesService);
-
   private _CustomFildsService = inject(CustomFildsService);
 
 
@@ -90,18 +77,15 @@ export class AddCoursesComponent {
     customFields: this._FormBuilder.array([])  
 
   });
-
+  fieldForm: FormGroup = this._FormBuilder.group({
+    key: [null],
+    usage: ['']
+  });
 
   get customFieldsArray(): FormArray {
     return this.courseForm.get('customFields') as FormArray;
   }
-  handleValueChange(event: { free: boolean; price: number }) {
-    this.courseForm.patchValue({
-      free: event.free,
-      price: event.price
-    });
 
-  }
 
 
   topicsList: ItopicList[] = [];
@@ -114,7 +98,10 @@ export class AddCoursesComponent {
   discountSymbol: string = "EGP";
   isPercentage: boolean = false;
   isLoadTopic: boolean = false
-  isLoadStage: boolean = false
+  isLoadTags: boolean = false
+  isLoadCustomFild: boolean = false
+  isLoadlanguage: boolean = false
+
   showDescription: boolean = false;
   uploadedFiles: IUploadResponse[] = [];
   selectedImageName: string = '';
@@ -127,7 +114,11 @@ export class AddCoursesComponent {
   newCourseTagsList: NewTagRequest[] = [];
   customFieldListResponse: IPaginationResponse<ICustomField> = {} as IPaginationResponse<ICustomField>;
   newCustomFieldList: NewCustomFieldRequest[] = [];
-
+  editIndex: number | null = null ;
+  isLoad: boolean = false ;
+  isUploadingImage: boolean = false;
+  isUploadingVideo: boolean = false;
+  isUploadingFile: boolean = false;
 
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
@@ -139,19 +130,29 @@ export class AddCoursesComponent {
   getTopicList() {
     this._topiclistService.getAlllits().subscribe(topics => {
       this.topicsList = topics.result;
-      this.isLoadTopic = true
-      this.stageList = topics.result[0].stages
-      let defautlTopic = this.topicsList.filter((e: ITopiclist) => e.default)[0];
-      let defautlStage = this.stageList.filter((e: Stage) => e.default)[0];
-      this.selectStageDefault = defautlStage;
+      this.isLoadTopic = true;
+  
+      let defautlTopic = this.topicsList.find((e: ITopiclist) => e.default);
+      console.log("Default Topic: ", defautlTopic);
+        if (!defautlTopic) defautlTopic = this.topicsList[0];
+        this.stageList = defautlTopic.stages.filter((stage: Stage) => stage.type !== 2);
+      console.log("Filtered Stages: ", this.stageList);
+        let defautlStage = this.stageList.find((stage: Stage) => stage.default);
+      console.log("Default Stage: ", defautlStage);
+        if (!defautlStage) defautlStage = this.stageList[0];
       this.selectTopicDefault = defautlTopic;
+      this.selectStageDefault = defautlStage;
+  
+      // نحدث الفورم
       this.courseForm.get("topicId")?.setValue(defautlTopic.id);
-      this.courseForm.get("stageId")?.setValue(defautlStage.id);
+      this.courseForm.get("stageId")?.setValue(defautlStage?.id);
     });
+  
   }
   getTagsList() {
     this._TagesService.getTags().subscribe(response => {
       if (response.success) {
+        this.isLoadTags = true;
         this.tagsListResponse = response;
 
       }
@@ -160,33 +161,36 @@ export class AddCoursesComponent {
   getICustomField() {
     this._CustomFildsService.getCustomField().subscribe(response => {
       if (response.success) {
+        this.isLoadCustomFild = true;
         this.customFieldListResponse = response;
 
       }
     });
   }
-  
-
-  getLanguageList() {
+    getLanguageList() {
     this._languageService.getAllLanguage().subscribe(Language => {
       this.LanguageResultList = Language.result;
-      this.isLoadStage = true;
+      this.isLoadlanguage = true;
       console.log(this.LanguageResultList[0])
     });
   }
 
   onTopicSelected(selectedId: number) {
     this.selectedTopicId = selectedId;
-    this.stageList = this.topicsList.find((topic: ITopiclist) => topic.id === selectedId)?.stages ?? [];
-    let defautlStage = this.stageList.filter((e: Stage) => e.default)[0];
+    const selectedTopic = this.topicsList.find((topic: ITopiclist) => topic.id === selectedId);
+      this.stageList = selectedTopic?.stages.filter((stage: Stage) => stage.type !== 2) ?? [];
+  
+    let defautlStage = this.stageList.find((e: Stage) => e.default);
     this.selectStageDefault = defautlStage;
-    console.log('Selected Topic ID:', selectedId);
+  
+    console.log('Selected Topic ID:', defautlStage);
+  
     this.courseForm.patchValue({
       topicId: selectedId,
-      stageId: this.selectStageDefault.id,
+      stageId: this.selectStageDefault?.id,
     });
   }
-
+  
   onStageSelected(selectedId: number) {
     this.courseForm.patchValue({ stageId: selectedId });
     console.log('Selected Stage ID:', selectedId);
@@ -219,57 +223,63 @@ export class AddCoursesComponent {
     }
     amountControl?.updateValueAndValidity()
   }
-
   toggleVisibility(event: Event) {
     this.isChecked = (event.target as HTMLInputElement).checked;
     if (this.isChecked) {
       this.courseForm.get("discount")?.setValue({ type: 0, amount: 0 });
     }
   }
-
   onFileSelectedFile(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
+      this.isUploadingFile = true; 
+  
       const files: FileList = input.files;
       const fileUrlsArray = this.courseForm.get('fileUrls') as FormArray;
-
-      Array.from(files).forEach((file) => {
+        Array.from(files).forEach((file, index) => {
         this._StreamService.upload(file, StreamType.file).subscribe({
           next: (response) => {
             const result = response?.body?.result;
             if (result) {
               const fileUrl = environment.baseUrlFiles + result.url;
-
-              this.uploadedFiles.push(result);
-
+  
+              this.uploadedFiles.push(result); 
               fileUrlsArray.push(new FormControl(fileUrl));
-
-              console.log(' الملفات المرفوعة:', result);
+  
+              console.log('✅ ملف مرفوع:', result);
+            }
+            if (index === files.length - 1) {
+              this.isUploadingFile = false;
             }
           },
-          error: (err) => console.error(' خطأ أثناء رفع الملف:', err)
+          error: (err) => {
+            console.error('❌ خطأ أثناء رفع الملف:', err);
+            if (index === files.length - 1) {
+              this.isUploadingFile = false;
+            }
+          }
         });
       });
     }
   }
-
   removeFile(index: number, fileUrls: string) {
     const fileUrlsArray = this.courseForm.get('fileUrls') as FormArray;
-    this.uploadedFiles.splice(index, 1);
-    fileUrlsArray.removeAt(index);
-    this._deleteStreamService.deleteFile(fileUrls).subscribe({
+
+    const UrlFile =  environment.baseUrlFiles  + fileUrls
+    this._deleteStreamService.deleteFile(UrlFile).subscribe({
       next: (response) => {
-        console.log(' املف:', response?.body?.message);
+        console.log('تم مسحه:', response?.body?.message);
+        this.uploadedFiles.splice(index, 1);
+        fileUrlsArray.removeAt(index);
       },
-      error: (err) => console.error('�� خطأ أثنا�� حذف الملف:', err)
+      error: (err) => console.error(' خطأ حذف الملف:', err)
     })
   }
-
-
   onFileSelectedImage(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
+      this.isUploadingImage = true; // إظهار اللودر
       this._StreamService.upload(file, StreamType.photo).subscribe({
         next: (response) => {
           const result = response?.body?.result;
@@ -277,20 +287,45 @@ export class AddCoursesComponent {
             const fileName = result.name;
             this.selectedImageName = fileName;
             this.selectedImageUrl = environment.baseUrlFiles + result.url;
-            const selectedFile: string = result.url
+            const selectedFile: string = result.url;
             this.courseForm.get('photoUrl')?.setValue(selectedFile);
             console.log('📄 اسم الملف:', result.url);
           }
+          this.isUploadingImage = false;
         },
-        error: (err) => console.error('❌ خطأ أثناء رفع الصورة:', err)
+        error: (err) => {
+          console.error('❌ خطأ أثناء رفع الصورة:', err);
+          this.isUploadingImage = false; 
+        }
       });
     }
   }
-
+  onImageLoad() {
+    this.isUploadingImage = false; 
+  }
+  removeImage() {
+    const photoUrl = this.courseForm.get('photoUrl')?.value;
+    if (photoUrl) {
+      const UrlFile = environment.baseUrlFiles + photoUrl;
+      this._deleteStreamService.deleteFile(UrlFile).subscribe({
+        next: (response) => {
+          console.log('✅ تم حذف الصورة:', response?.body?.message);
+          this.courseForm.get('photoUrl')?.setValue('');
+          this.selectedImageName = '';
+          this.selectedImageUrl = '';
+        },
+        error: (err) => console.error(' خطأ  حذف الصورة:', err)
+      });
+    }
+  }
+  isAllLoaded(): boolean {
+    return this.isLoadTopic && this.isLoadCustomFild && this.isLoadTags && this.isLoadlanguage;
+  }
   onFileSelectedVideo(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
+      this.isUploadingVideo = true;
       this._StreamService.upload(file, StreamType.video).subscribe({
         next: (response) => {
           const result = response?.body?.result;
@@ -298,62 +333,42 @@ export class AddCoursesComponent {
             const fileName = result.name;
             this.selectedVideoName = fileName;
             this.selectedVideoUrl = environment.baseUrlFiles + result.url;
-            const selectedFile: string = result.url
+            const selectedFile: string = result.url;
             this.courseForm.get('introductionVideoUrl')?.setValue(selectedFile);
-            console.log('📄 اسم الملف:', result.url);
+            console.log('📄 اسم الفيديو:', result.url);
           }
+          this.isUploadingVideo = false;
         },
-        error: (err) => console.error('❌ خطأ أثناء رفع الصورة:', err)
+        error: (err) => {
+          console.error('❌ خطأ أثناء رفع الفيديو:', err);
+          this.isUploadingVideo = false;
+        }
       });
     }
   }
-
-
-
-
-  closePopup() {
-    this.router.navigate([{ outlets: { dialog: null } }]);
+  removeVideo() {
+    const videoUrl = this.courseForm.get('introductionVideoUrl')?.value;
+    if (videoUrl) {
+      const UrlFile = environment.baseUrlFiles + videoUrl;
+      this._deleteStreamService.deleteFile(UrlFile).subscribe({
+        next: (response) => {
+          console.log('✅ تم حذف الفيديو:', response?.body?.message);
+          this.courseForm.get('introductionVideoUrl')?.setValue('');
+          this.selectedVideoName = '';
+          this.selectedVideoUrl = '';
+        },
+        error: (err) => console.error('❌ خطأ أثناء حذف الفيديو:', err)
+      });
+    }
   }
-
-  ngOnInit() {
-    this.getTopicList();
-    this.getLanguageList();
-    this.getTagsList();
-    this.getICustomField()
-
-
-
-  }
-
-
-  ShowDescription() {
-    this.showDescription = !this.showDescription;
-  }
-
-
-  fieldForm: FormGroup = this._FormBuilder.group({
-    key: [null],
-    usage: ['']
-  });
-  onVisibleChange(index: number) {
-    const field = this.customFieldsArray.at(index);
-    const current = field.get('visible')?.value;
-    field.get('visible')?.setValue(!current);    
-  }
-  
-  editIndex: number | null = null
   addField() {
-    console.log('Clicked');
     const keyControl = this.fieldForm.get('key')?.value;
     const valueControl = this.fieldForm.get('usage')?.value;
-  
     if ((!keyControl && keyControl !== 0) || !valueControl?.trim()) {
       return;
     }
-  
     let key: string;
     let id: number | null;
-  
     if (typeof keyControl === 'object' && keyControl !== null) {
       key = keyControl.key;
       id = keyControl.id;
@@ -361,12 +376,10 @@ export class AddCoursesComponent {
       key = keyControl.trim();
       id = null;
     }
-  
     const isInSelectOptions = this.customFieldListResponse.result.some((option) => option.key === key);
     if (id === null && isInSelectOptions) return;
       const isExist = this.customFieldsArray.value.some((field: any) => field.key === key);
     if (isExist && this.editIndex === null) return;
-  
     const newFieldEntry = this._FormBuilder.group({
       id: [id],
       key: [key],
@@ -394,24 +407,10 @@ export class AddCoursesComponent {
       this.fieldForm.get('key')?.reset();
     this.fieldForm.get('usage')?.reset();
   
-    this.consoleLogFields();
   }
-  
-  
-  
-  
-  consoleLogFields() {
-    console.log(this.customFieldsArray.value);
-  }
-
   removeField(index: number) {
     this.newCustomFieldList.splice(index, 1);
   }
-
-
-
-
-
   addTags(input: HTMLInputElement): void {
     const value = input.value.trim();
     if (!value || this.tagsListResponse.result.some((tag: any) => tag.name === value)) {
@@ -430,6 +429,31 @@ export class AddCoursesComponent {
   }
   
 
+  handleValueChange(event: { free: boolean; price: number }) {
+    this.courseForm.patchValue({
+      free: event.free,
+      price: event.price
+    });
+
+  }
+  onVisibleChange(index: number) {
+    const field = this.customFieldsArray.at(index);
+    const current = field.get('visible')?.value;
+    field.get('visible')?.setValue(!current);    
+  }
+  closePopup() {
+    this.router.navigate([{ outlets: { dialog: null } }]);
+  }
+  
+  ShowDescription() {
+      this.showDescription = !this.showDescription;
+  }
+  ngOnInit() {
+    this.getTopicList();
+    this.getLanguageList();
+    this.getTagsList();
+    this.getICustomField()
+  }
   collectCreateCourseRequest(): ICreateCourseRequest {
     const tags = this.courseForm.value.tags?.map((tag: any) => ({
       id: tag.id,
@@ -462,14 +486,28 @@ export class AddCoursesComponent {
 
   createCourse() {
     let request = this.collectCreateCourseRequest();
+    this.isLoad = true;
     console.log(request)
-    this._createCourseService.addCourse(request).subscribe({
-      next: (response) => {
-        console.log("course created successfully !", response);
-        this.closePopup();
-      },
-      error: (err) => console.log("fault happen while course created")
-    });
+
+    if(this.courseForm.valid) {
+      this._createCourseService.addCourse(request).subscribe({
+        next: (response) => {
+          this.isLoad = false;
+          console.log("course created successfully !", response);
+          this.closePopup();
+        },
+        error: (err) => {
+          this.isLoad = false;
+          console.log("fault happen while course created")
+        }
+      });
+    }
+    else{
+      this.isLoad = false;
+
+    }
+
+  
   }
   
 }
