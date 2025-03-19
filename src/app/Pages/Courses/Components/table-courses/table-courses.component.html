@@ -33,8 +33,8 @@
                 <td>{{course.rating  }} ⭐</td>
                 <td>{{course.quizzesCount }}</td>
                 <td>{{course.lessonssCount }}</td>
-                <td [matTooltip]="course.stage.name">
-                  <div class="stageName d-flex gap-1 align-items-center">
+                <td [matTooltip]="course.stage.name" class="stageNameText">
+                  <div class="stageName d-flex gap-1 align-items-center ">
                     <div class="progressBar" [style.border-color]="course.stage.color"></div>
                     {{course.stage.name| splicText }}
                   </div>
