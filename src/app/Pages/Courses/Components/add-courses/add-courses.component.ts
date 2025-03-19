@@ -74,8 +74,8 @@ export class AddCoursesComponent {
     tags: this._FormBuilder.control([]), 
     fileUrls: this._FormBuilder.array([]),
     discount: this._FormBuilder.group({
-      type: [1, Validators.required],
-      amount: [0, [Validators.min(0), Validators.max(100)]],
+      type: [1],
+      amount: [1, [Validators.min(0), Validators.max(100)]],
     }),
     customFields: this._FormBuilder.array([])  
 
