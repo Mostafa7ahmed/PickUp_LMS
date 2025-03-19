@@ -103,7 +103,7 @@
 
             <div class="d-flex gap-2 checkedCard">
               <label class="containerCheck">
-                <input type="checkbox" id="invalidCheck" (change)="isChecked = !isChecked">
+                <input type="checkbox" id="invalidCheck" checked (change)="isChecked = !isChecked">
                 <div class="checkmark">
 
                 </div>
@@ -186,7 +186,7 @@
         <div  [formGroup]="fieldForm" class="CourseTags UploadCover pb-1 mt-2">
           <div class="tags custom-fields-container">
             <app-text-header [bgColor]="'#659DFFBF'" [Icon]="'fa-solid fa-exclamation'"
-              [title]="'Course custom Fields'">
+              [title]="'Custom fields'">
             </app-text-header>
 
             <div class="input-row mt-4">
@@ -218,7 +218,7 @@
           <div class="CourseTags UploadCover mt-2" >
             <div class="tags custom-fields-container">
               <app-text-header [bgColor]="'#659DFFBF'" [Icon]="'fa-solid fa-exclamation'"
-                [title]="'Course  Fields'">
+                [title]="'Course  fields'">
               </app-text-header>
   
               <div    class="fields-list mt-2">

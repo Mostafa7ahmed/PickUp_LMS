@@ -109,7 +109,7 @@ export class AddCoursesComponent {
   selectedVideoName: string = '';
   selectedVideoUrl: string | null = null;
   selectedFileName: string = '';
-  isChecked: boolean = false;
+  isChecked: boolean = true;
   tagsListResponse: IPaginationResponse<ITag> = {} as IPaginationResponse<ITag>;
   newCourseTagsList: NewTagRequest[] = [];
   customFieldListResponse: IPaginationResponse<ICustomField> = {} as IPaginationResponse<ICustomField>;
