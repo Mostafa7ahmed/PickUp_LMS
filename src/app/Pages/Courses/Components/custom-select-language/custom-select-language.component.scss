@@ -1,11 +1,10 @@
 .custom-select {
     position: relative;
     width: 100%;
-    font-family: 'Arial', sans-serif;
   }
   
   .select-button {
-    width: 120%;
+    width: 95%;
     padding: 10px 5px;
     border: 1px solid #ccc;
     background: white;
@@ -61,7 +60,7 @@
   
   .select-dropdown {
     position: absolute;
-    width: 120%;
+    width: 95%;
     background: white;
     border: 1px solid #ccc;
     margin-top: 5px;
@@ -85,7 +84,7 @@
   }
   
   .select-dropdown li {
-    padding: 10px 8px;
+    padding: 10px 15px;
     cursor: pointer;
     display: flex;
     align-items: center;

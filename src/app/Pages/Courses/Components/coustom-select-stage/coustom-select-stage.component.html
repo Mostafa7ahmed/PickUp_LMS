@@ -2,10 +2,9 @@
     <div class="custom-select">
         <button class="select-button" type="button" [disabled]="disabled" (click)="toggleDropdown()" [class.selected]="isOpen" [attr.aria-expanded]="isOpen">
             <div class="d-flex align-items-center gap-1" >
-                <span class="color-indicator"
-                    [style.background]="isValidColor(selectedItem?.color) ? selectedItem?.color : '#6d9ef4'">
-                    <i class="fas {{ selectedItem?.icon }}" aria-hidden="true"></i>
-                </span>
+      
+                <div class="progressBar"   [style.border-color]="selectedItem.color"></div>
+    
     
                 <span class="selected-value">{{ selectedItem.name  | splicText  }}</span>
             </div>
@@ -19,11 +18,8 @@
             <li *ngFor="let option of items" (click)="selectOption(option)">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center" [pTooltip]="option.name" tooltipPosition="left">
-                        <span class="color-indicator"  [style.background]="isValidColor(option?.color) ? option?.color : '#6d9ef4'">
+                        <div class="progressBar"   [style.border-color]="option.color"></div>
     
-                            <i class="fas {{ option.icon }}" aria-hidden="true"></i>
-    
-                        </span>
                         <p class="m-0" >{{ option.name  | splicText  }}</p>
                     </div>
     

@@ -11,7 +11,6 @@
           <th>Quizzes</th>
           <th>Lessons</th>
           <th>Status</th>
-          <th>Topics</th>
           <th>Profit</th>
           <th>Discount</th>
           <th>Createded on </th>
@@ -22,7 +21,7 @@
             <tr >
                 <td>
                   <div class="course-name">
-                    <div class="circle p-3"></div>
+                    <img [src]="baseUrl + course.photoUrl" class="circle " alt="">
                     <p class="m-0" [pTooltip]="course.name"  tooltipPosition="top"> {{course.name | splicText }}</p>
 
                   </div>
@@ -34,8 +33,13 @@
                 <td>{{course.rating  }} ⭐</td>
                 <td>{{course.quizzesCount }}</td>
                 <td>{{course.lessonssCount }}</td>
-                <td [matTooltip]="course.stage.name">  {{course.stage.name| splicText }}</td>
-                <td [matTooltip]="course.name">{{ course.name  | splicText  }}</td>
+                <td [matTooltip]="course.stage.name" class="stageNameText">
+                  <div class="stageName d-flex gap-1 align-items-center ">
+                    <div class="progressBar" [style.border-color]="course.stage.color"></div>
+                    {{course.stage.name| splicText }}
+                  </div>
+        
+                  </td>
 
                 <td>{{ course.profit  }}</td>
                     @if(course.discount){

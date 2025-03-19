@@ -5,6 +5,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SplicTextPipe } from '../../Core/Pipes/splic-text.pipe';
 import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose';
 import { TooltipModule } from 'primeng/tooltip';
+import { environment } from '../../../../Environments/environment';
 
 @Component({
   selector: 'app-table-courses',
@@ -15,7 +16,7 @@ import { TooltipModule } from 'primeng/tooltip';
 })
 export class TableCoursesComponent {
   pageSize: number = 5; 
-
+ baseUrl =environment.baseUrlFiles
 
   @Input()paginationCoursesResponse: IPaginationResponse<CourseResult>  = {} as IPaginationResponse<CourseResult> ;
     @ViewChild('scrollContainer') scrollContainer!: ElementRef;

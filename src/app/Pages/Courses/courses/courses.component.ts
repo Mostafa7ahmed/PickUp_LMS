@@ -1,11 +1,9 @@
-import { CustomSelectComponent } from './../../../Components/custom-select/custom-select.component';
-import { TableHeader } from './../Components/tablereused/tablereused.component';
 import { Component, ElementRef, EventEmitter, HostListener, inject, Input, OnInit, Output, viewChild, ViewChild } from '@angular/core';
 import { CourseResult } from '../Core/interface/icourses';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from 'ngx-echarts';
 import * as echarts from 'echarts';
-import { Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
@@ -23,17 +21,16 @@ import { ICourseKanban, IKanbanResponse, ITopicKanbaResult } from '../Core/inter
 import { MovecourseService } from '../Core/service/movecourse.service';
 import { FormsModule } from '@angular/forms';
 import { DatePicker } from 'primeng/datepicker';
-import { TopPopComponent } from "../../../Components/top-pop/top-pop.component";
 
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { AddCoursesComponent } from "../Components/add-courses/add-courses.component";
 import { CustomslectwithiconComponent } from '../Components/customslectwithicon/customslectwithicon.component';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule,RouterModule, NzSelectModule, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent, CustomslectwithiconComponent, AddCoursesComponent],
+  imports: [CommonModule,RouterModule, NzSelectModule, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent, CustomslectwithiconComponent],
   providers: [
     { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } }
 
@@ -51,6 +48,15 @@ export class CoursesComponent implements OnInit {
   private _MovecourseService = inject(MovecourseService);
   private router = inject(Router);
   private _ActivatedRoute = inject(ActivatedRoute);
+    constructor() {
+      this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        if (event.url === '/course') {
+          this.getListTopics(this.topicIdFromRoute); 
+        }
+      });
+    }
 
 
 
@@ -112,6 +118,8 @@ export class CoursesComponent implements OnInit {
 
   changeTab(value: number): void {
     this.valueheader = value;
+    this.router.navigate(['/course', this.topicIdFromRoute, this.valueheader]);
+
   }
   changeInnerTab(value: number): void {
     this.valueTable = value;

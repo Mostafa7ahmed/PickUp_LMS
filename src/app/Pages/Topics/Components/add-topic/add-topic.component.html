@@ -1,5 +1,5 @@
 @if(isVisble){
-  <div class="overlay"></div>
+<div class="overlay"></div>
 <div class="addTopic">
   <app-top-pop [NamePopup]="'Add Topic'" (isVisibleChange)="closePopup()"></app-top-pop>
   <div class="bodyAdd d-flex">
@@ -21,7 +21,7 @@
         <div class="formGroupInput" [formGroup]="topicForm">
           <label>Topic Name</label>
           <div class="input-info-group mb-2">
-            <input maxlength="50" type="text"   formControlName="name" />
+            <input maxlength="50" type="text" formControlName="name" />
             <div class="dropdownColor">
               <div class="btn dropdownColor-toggle" (click)="showTab()">
                 <div class="squareSelected " [ngStyle]="{ 'background-color': colorDefault }">
@@ -44,13 +44,10 @@
           </div>
           <div class="SelectTopic d-flex gap-3 align-items-start justify-content-between">
             <div class="customSelect">
-              <app-customslectwithicon
-              [items]="topicsList"
-              [isSelected]="true"
-              [selectedItem]="selectedValue"
-              [disabled]="topicForm.get('isMain')?.value"
-              (selectionChangeTopic)="onTopicSelected($event)">
-            </app-customslectwithicon>
+              <app-customslectwithicon [items]="topicsList" [isSelected]="true" [selectedItem]="selectedValue"
+                [isLoadTopic]="true" [disabled]="topicForm.get('isMain')?.value"
+                (selectionChangeTopic)="onTopicSelected($event)">
+              </app-customslectwithicon>
             </div>
 
             <div class="d-flex gap-2 align-items-center checkedCard">
@@ -76,10 +73,9 @@
               </div>
 
             </div>
-            <input maxlength="50" type="text" [value]="topicResult.result.stages[0].name" readonly
-              class=" dragged "
+            <input maxlength="50" type="text" [value]="topicResult.result.stages[0].name" readonly class=" dragged "
               placeholder="Enter Stage Name" />
-              <button class="stage-trash ng-star-inserted opacity-0">
+            <button class="stage-trash ng-star-inserted opacity-0">
               <i class="fa-kit fa-delete"></i></button>
           </div>
           <div class="stagesDynamic" formArrayName="newStages">
@@ -113,9 +109,8 @@
               </div>
             </div>
             <input maxlength="50" type="text" pinputtext="" [value]="topicResult.result.stages[1].name" readonly
-              class=" dragged "
-              placeholder="Enter Stage Name" />
-              <button class="stage-trash ng-star-inserted opacity-0">
+              class=" dragged " placeholder="Enter Stage Name" />
+            <button class="stage-trash ng-star-inserted opacity-0">
               <i class="fa-kit fa-delete"></i>
             </button>
           </div>

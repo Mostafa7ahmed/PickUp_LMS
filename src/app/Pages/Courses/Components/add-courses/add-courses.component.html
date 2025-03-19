@@ -1,18 +1,18 @@
 <div class="overlay"></div>
-<div class="ShowPopup" >
+<div class="ShowPopup">
   <div class="add-Course">
     <app-top-pop [NamePopup]="'Add Course'" (isVisibleChange)="closePopup()"></app-top-pop>
-    <form class="bodyCourse" [formGroup]="courseForm">
+    <form class="bodyCourse" [formGroup]="courseForm"  *ngIf="isLoadTopic">
       <div class="leftCourse">
         <div class="couseContentAdd">
           <div class="titleCouser">
             <app-text-header [title]="'Main course informations'"></app-text-header>
-
-            <div class="addData_course my-4">
+            <div class="addData_course mt-4">
               <div class="courseDynamic d-flex gap-3 align-items-end mb-2">
                 <div class="Course_name">
                   <label for="Course_name">Course name</label>
-                  <input formControlName="courseName" type="text" class="input_Couser" id="Course_name" placeholder="Enter course name">
+                  <input formControlName="name" type="text" class="input_Couser" id="Course_name"
+                    placeholder="Enter course name">
                 </div>
                 <div class="deal-desc-btn" [class.active]="showDescription"
                   [pTooltip]=" !showDescription ? 'Add Description' : 'Hide Description'" tooltipPosition="top"
@@ -21,32 +21,38 @@
                 </div>
               </div>
 
-              <div class="desCourse_name Course_name" [class.active]="showDescription">
+              <div class="desCourse_name Course_name mt-2 mb-3" [class.active]="showDescription">
                 <label for="Course_description">Course description</label>
-                <textarea formControlName="courseDescription" class="input_Couser textarea_course" id="Course_description"></textarea>
+                <textarea formControlName="description" class="input_Couser textarea_course"
+                  id="Course_description"></textarea>
               </div>
             </div>
           </div>
 
-          <div class="Course_Price d-flex gap-3 align-items-start">
+          <div class="Course_Price d-flex gap-3 align-items-start mt-2">
             <div class="leftCoursePirce">
               <div class="couresAccess">
-                <div class="titleAccess d-flex justify-content-between gap-2 align-items-center">
-                  <p>Course Access</p>
+                <div class="titleAccess mb-2 d-flex justify-content-between gap-2 align-items-center">
+                  <p class="">Course Access</p>
                   <div class="Icon">
                     <i class="fa-solid fa-exclamation"></i>
                   </div>
                 </div>
-                <app-custom-select formControlName="courseAccess" [options]="['Paid', 'Free']"
-                  [selectedValue]="'Paid'" (valueChange)="onSelectChange($event)">
-                </app-custom-select>
+                <app-custom-select-price-or-free [coursePrice]="courseForm.get('price')?.value"
+                  (valueChange)="handleValueChange($event)">
+                </app-custom-select-price-or-free>
+
               </div>
             </div>
             <div class="rightCoursePirce flex-grow-1">
               <div class="Course_name d-flex flex-column">
                 <p class="mb-2">Course price</p>
                 <div class="input_Couser_container flex-grow-1">
-                  <input formControlName="coursePrice" type="number" maxlength="200" placeholder="Enter course price">
+      
+                  <input  id="integer" pKeyFilter="int" class="px-2 rounded-2"
+                  type="number" min="1"  [readonly]="courseForm.get('free')?.value"
+                  placeholder="Enter course price" formControlName="price" />
+
                   <span>EGP</span>
                 </div>
               </div>
@@ -55,23 +61,28 @@
 
           <div class="courseStage mt-3 d-flex gap-3 align-items-start">
             <div class="leftCoursePirce w-50">
-              <div class="couresAccess w-100">
+              <div class="couresAccess w-100 customslectwithicon ">
                 <div class="titleAccess d-flex justify-content-between gap-2 align-items-center">
                   <p>Topic </p>
-         
+
                 </div>
-                <app-custom-select formControlName="topic" [isTopic]="true"  [selectedValue]="'sss'" [options]="['sss','dddd', 'JS']" 
-                (valueChange)="onSelectChange($event)">
-              </app-custom-select>
+                <app-customslectwithicon [items]="topicsList" [isSelected]="true" [isLoadTopic]="isLoadTopic"
+                  [selectedItem]="selectTopicDefault" (selectionChangeTopic)="onTopicSelected($event)">
+                </app-customslectwithicon>
               </div>
             </div>
             <div class="right w-50">
               <div class="titleAccess d-flex justify-content-between gap-2 align-items-center">
                 <p>Stage</p>
               </div>
-              <app-custom-select formControlName="stage"  [iStage]="true" [selectedValue]="'sdsad'" [options]="['sdsad','sdsad', 'sdsad']" 
-              (valueChange)="onSelectChange($event)">
-            </app-custom-select>
+              <app-coustom-select-stage [items]="stageList" [isSelected]="true" [isLoadTopic]="isLoadTopic"
+                [selectedItem]="selectStageDefault" (selectionChangeStage)="onStageSelected($event)">
+
+              </app-coustom-select-stage>
+
+
+
+
             </div>
           </div>
 
@@ -80,9 +91,10 @@
               <div class="titleAccess d-flex justify-content-between gap-2 align-items-center">
                 <p>Course language</p>
               </div>
-              <app-custom-select formControlName="courseLanguage" [options]="['En', 'Ar']" 
-                [selectedValue]="'En'" (valueChange)="onSelectChange($event)">
-              </app-custom-select>
+
+              <app-custom-select-language [options]="LanguageResultList" (valueChange)="onSelectChange($event)">
+
+              </app-custom-select-language>
             </div>
           </div>
         </div>
@@ -92,36 +104,54 @@
 
             <app-text-header [bgColor]="'#FF6584BF'" [title]="'Discount'"></app-text-header>
 
-                <div class="d-flex gap-2 checkedCard">
-                  <label class="containerCheck">
-                      <input  type="checkbox" id="invalidCheck" (change)="isChecked = !isChecked">
-                      <div class="checkmark">
-                          
-                      </div>
-                  </label>
-              </div>
-          </div>
-          
+            <div class="d-flex gap-2 checkedCard">
+              <label class="containerCheck">
+                <input type="checkbox" id="invalidCheck" [disabled]="courseForm.get('free')?.value" [checked]="!courseForm.get('free')?.value" (change)="isChecked = !isChecked">
+                <div class="checkmark">
 
-          <div class="coursecustom  d-flex gap-3 align-items-start" [class.show]="isChecked" >
+                </div>
+              </label>
+            </div>
+          </div>
+
+
+          <div formGroupName="discount" class="coursecustom  d-flex gap-3 align-items-start" [class.show]="isChecked && !courseForm.get('free')?.value">
             <div class="leftStage w-50">
               <div class="titleAccess d-flex justify-content-between gap-2 align-items-center">
                 <p>Type</p>
               </div>
               <div class="custom-select">
-                <select formControlName="discountType" (change)="onDiscountTypeChange($event)">
-                  <option value="1">Percentage</option>
-                  <option value="0">Value</option>
-                </select>
+                <p-dropdown 
+                [options]="discountTypes" 
+                formControlName="type" 
+                optionLabel="label" 
+                optionValue="value" 
+                placeholder="Select Type" 
+                (onChange)="onDiscountTypeChange()"
+                class="w-full md:w-56">
+              </p-dropdown>
               </div>
             </div>
             <div class="right w-50">
               <div class="rightCoursePirce flex-grow-1">
                 <div class="Course_name d-flex flex-column">
                   <p class="mb-2">Value</p>
-                  <div class="input_Couser_container flex-grow-1">
-                    <input formControlName="discountValue"    type="number" placeholder="Enter course Value">
-                    <span>{{discountSymbol }}</span>
+                  <div class="input_Couser_container flex-grow-1" 
+                   [ngClass]="{'border-danger': courseForm.get('discount.amount')?.invalid && courseForm.get('discount.amount')?.touched}"
+                   >
+
+                   <input #priceInput id="integer" 
+                   pKeyFilter="int" 
+                   class="px-2 rounded-2" 
+                   type="number" 
+                   min="1" 
+                   [attr.max]="isPercentage ? 100 : null" 
+                   [attr.step]="1"
+                   placeholder="Enter course Value" 
+                   formControlName="amount" 
+                   (input)="onAmountInput()" 
+                 />
+                  <span>{{ discountSymbol }}</span>
                   </div>
                 </div>
               </div>
@@ -131,152 +161,223 @@
       </div>
 
       <div class="rightCourse">
-        <div class="UploadCover">
-          <div class="inputImage" *ngIf="!selectedImageUrl" (click)="triggerFileInput('image')">
-            <i class="fa-solid fa-images mx-2"></i>
-            <p>{{ selectedImageName || 'Upload course photo' }}</p>
-          </div>
-          <input type="file" accept="image/*" #ImageInput class="hidenInput" (change)="onFileSelected($event, 'image')">
-          <div *ngIf="selectedImageUrl" class="image-preview-container">
-            <img [src]="selectedImageUrl" alt="Selected Image" class="preview-image w-100 rounded-1">
-            <button class="delete-btn_image" > 
-              <i class="fa-regular fa-trash-can"></i>
-            </button>
-          </div>
-        </div>
-
-        <div class="UploadCover mt-2">
-          <div class="inputImage" *ngIf="!selectedVideoUrl" (click)="triggerFileInput('video')">
-            <i class="fa-solid fa-video mx-2"></i>
-            <p>{{ selectedVideoName || 'Upload course introduction video' }}</p>
-          </div>
-          <input type="file" accept="video/*" #VideoInput class="hidenInput" (change)="onFileSelected($event, 'video')">
-          <div *ngIf="selectedVideoUrl" class="image-preview-container">
-            <video [src]="selectedVideoUrl" autoplay controls muted class="preview-video w-100 h-50 rounded-1"></video>
-            <button class="delete-btn_image" > 
-              <i class="fa-regular fa-trash-can"></i>
-            </button>
-          </div>
-        </div>
-
-        <div class="UploadCover mt-2">
-          <div class="upload-container">
-            <label class="upload-box" (click)="triggerFileInput('file')">
-              <i class="fa-solid fa-paperclip mx-1"></i> Add File
-            </label>
-            <input type="file" multiple accept=".pdf, .doc, .docx, .xls, .xlsx, .txt , .pptx , .ppt , .csv" #fileInput 
-              class="hidden-input" (change)="onFileSelectedFile($event)">
-            <div class="file-list" *ngIf="selectedFiles.length > 0">
-              <div class="file-item" *ngFor="let file of selectedFiles; let i = index">
-                <i class="fa-solid fa-file"></i>
-                <span class="file-name">{{ file.name | splicText }}</span>
-                <span class="file-size"></span>
-                <a [href]="''" download class="download-btn">
-                  <i class="fa-solid fa-download"></i>
-                </a>
-                <button class="delete-btn" (click)="removeFile(i)">
-                  <i class="fa-regular fa-trash-can"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="CourseTags UploadCover mt-2">
-          <div class="tags">
-            <app-text-header   [bgColor]="'#659DFFBF'"
-              [Icon]="'fa-solid fa-exclamation'" [title]="'Course Tags'"></app-text-header>
-            <div class="mt-3 tagsSelect">
-              <nz-select
-              nzMode="multiple"
-              [nzDropdownRender]="renderTemplate"
-              [nzMaxTagCount]="1"
-              [nzMaxTagPlaceholder]="tagPlaceHolder"
-              [nzDropdownMatchSelectWidth]="false"
-              nzPlaceHolder="Course tags"
-              
-            >
-            @for (item of listOfTags; track item) {
-              <nz-option [nzLabel]="item" [nzValue]="item"></nz-option>
-
-            }
-            
-            
-            </nz-select>
-            
-            <!-- Placeholder when many tags are selected -->
-            <ng-template #tagPlaceHolder let-selectedList>
-              and {{ selectedList.length }} more selected
-            </ng-template>
-            
-            <ng-template #renderTemplate>
-              <div class="container addTags d-flex justify-content-between align-content-center p-2">
-                <input type="text" #inputElement />
-                <div class="">
-                  <a class="add-item" (click)="addTags(inputElement)">
-                    <i class="fa-solid fa-plus mx-2"></i>
-                  </a>
-                </div>
-         
-              </div>
-            </ng-template>
-            
-            </div>
-          </div>
-        </div>
-
-        <div class="CourseTags UploadCover mt-2">
-          <div class="tags custom-fields-container">
-            <app-text-header  [bgColor]="'#659DFFBF'"
-              [Icon]="'fa-solid fa-exclamation'" [title]="'Course custom Fields'"></app-text-header>
         
-            <div class="input-row mt-4">
+        <div class="CourseTags UploadCover">
+          <div class="tags">
+            <app-text-header [bgColor]="'#659DFFBF'" [Icon]="'fa-solid fa-exclamation'"
+              [title]="'Course Tags'"></app-text-header>
+            <div class="mt-3 tagsSelect">
+              <div class="card btnScroll flex justify-center position-relative">
+                <p-multiselect 
+                  [options]="tagsListResponse.result" 
+                  formControlName="tags" 
+                  scrollHeight="150px"
+                  optionLabel="name" 
+                  placeholder="Select Cities" 
+                  [maxSelectedLabels]="3" 
+                  [filter]="false" 
+                  appendTo="self"
+                  styleClass="w-full md:w-80 btnScrollInput">
+              
+                  <ng-template pTemplate="footer">
+                    <div class="container addTags d-flex justify-content-between align-content-center p-2">
+                      <input type="text" 
+                      #inputElement     
+                      placeholder="Add new tag"
+                      (click)="$event.stopPropagation()" 
+                      (keydown)="$event.stopPropagation()"
+                      (focus)="$event.stopPropagation()"> 
+                      <div class="">
+                        <a class="add-item" (click)="addTags(inputElement); $event.stopPropagation()">
+                          <i class="fa-solid fa-plus mx-2"></i>
+                        </a>
+                      </div>
     
-      
-            <input list="keyOptionsList"
-            type="text" placeholder="Key" size="5" [(ngModel)]="newField.key" [ngModelOptions]="{ standalone: true }">
+                    </div>
+                  </ng-template>
+              
+                </p-multiselect>
+              </div>
 
-            <datalist id="keyOptionsList">
-              <option *ngFor="let key of keyOptions" [value]="key" ></option>
-            </datalist>       
+
+            </div>
+          </div>
+        </div>
+
+        <div  [formGroup]="fieldForm" class="CourseTags UploadCover pb-1 mt-2">
+          <div class="tags custom-fields-container">
+            <app-text-header [bgColor]="'#659DFFBF'" [Icon]="'fa-solid fa-exclamation'"
+              [title]="'Custom fields'">
+            </app-text-header>
+
+            <div class="input-row mt-4">
+              <div class="card flex justify-center border-0">
+                <p-select 
+                [options]="customFieldListResponse.result"
+                formControlName="key"
+                [editable]="true"
+                placeholder="Key"
+                optionLabel="key"
+                  >
+              </p-select>
+              </div>
             
-            <input type="text" placeholder="Value" [(ngModel)]="newField.value" [ngModelOptions]="{ standalone: true }">
+          
+              <input 
+              type="text" 
+              placeholder="Value" 
+              formControlName="usage"
+              class="w-full md:w-56">
+
               <button (click)="addField()" class="add-btn" pTooltip="Add Fields" tooltipPosition="top">
                 <i class="fa-solid fa-plus"></i>
               </button>
             </div>
-        
-         
+          </div>
+        </div>
+        <div class="Course "  [ngClass]="{'d-none': newCustomFieldList.length === 0}">
+          <div class="CourseTags UploadCover mt-2" >
+            <div class="tags custom-fields-container">
+              <app-text-header [bgColor]="'#659DFFBF'" [Icon]="'fa-solid fa-exclamation'"
+                [title]="'Course  fields'">
+              </app-text-header>
+  
+              <div    class="fields-list mt-2">
+                <div *ngFor="let field of customFieldsControls; let i = index" [formGroup]="field" class="field-item">
+                  
+                            
+                <input type="text" formControlName="key" readonly class="field-key" placeholder="Key">
+                <input type="text" formControlName="usage" readonly class="field-value" placeholder="Value">
+
+                <label class="containerCheck">
+                  <input type="checkbox" formControlName="visible" (change)="onVisibleChange(i)">
+                  <div class="checkmark"></div>
+                </label>
+
+                <button (click)="removeField(i)" class="delete-btn" pTooltip="Delete Field" tooltipPosition="top">
+                  <i class="fa-regular fa-trash-can"></i>
+                </button>
+              
+                </div>
+              </div>
+              
+            </div>
           </div>
         </div>
 
-        <div class="CourseTags UploadCover mt-2" *ngIf="customFields.length > 0" >
-          <div class="tags custom-fields-container">
-            <app-text-header pTooltip="Add Fields" tooltipPosition="top" [bgColor]="'#659DFFBF'"
-              [Icon]="'fa-solid fa-exclamation'" [title]="'Course custom Fields'"></app-text-header>
+     
+        <div class="UploadCover mt-2  p-3">
+          <div class="inputImage" *ngIf="!selectedImageUrl && !isUploadingImage" (click)="triggerFileInput('image')">
+            <i class="fa-solid fa-images mx-2"></i>
+            <p>{{ selectedImageName || 'Upload course photo' }}</p>
+          </div>
         
-            <div class="fields-list mt-2" [ngClass]="{ 'active': customFields.length > 0 }">
-              <div *ngFor="let field of customFields; let i = index" class="field-item">
-                <input type="text" [value]="field.key"  readonly class="field-key" placeholder="Key">
-                <input type="text" [value]="field.value" readonly  class="field-value" placeholder="Value">
-                <label class="containerCheck">
-                  <input  type="checkbox" id="invalidCheck" >
-                  <div class="checkmark">
-                      
-                  </div>
-              </label>          
-                <button (click)="removeField(i)" class="delete-btn" pTooltip="Delete Fields" tooltipPosition="top">
+          <div *ngIf="isUploadingImage" class="uploading-spinner d-flex flex-column justify-content-center gap-3  align-content-between align-items-center w-100">
+            <div class="">
+              <i class="fa-solid fa-spinner fa-spin"></i>
+            </div>
+            <p>جاري رفع الصوره</p>
+          </div>
+        
+          <input type="file" accept="image/*" #ImageInput class="hidenInput" formControlName="photoUrl"
+            (change)="onFileSelectedImage($event)">
+        
+          <div *ngIf="selectedImageUrl" class="image-preview-container">
+            <img [src]="selectedImageUrl" (load)="onImageLoad()"  alt="Selected Image" class="preview-image w-100 rounded-1">
+            <button class="delete-btn_image" (click)="removeImage()">
+              <i class="fa-regular fa-trash-can"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="UploadCover mt-2  p-3">
+          <div class="inputImage" *ngIf="!selectedVideoUrl && !isUploadingVideo" (click)="triggerFileInput('video')">
+            <i class="fa-solid fa-video mx-2"></i>
+            <p>{{ selectedVideoName || 'Upload course introduction video' }}</p>
+          </div>
+        
+          <div *ngIf="isUploadingVideo" class="uploading-spinner d-flex flex-column justify-content-center gap-3  align-content-between align-items-center w-100">
+            <div class="">
+              <i class="fa-solid fa-spinner fa-spin"></i>
+            </div>
+            <p>جاري رفع الفديو</p>
+          </div>
+          <input type="file" accept="video/*" (change)="onFileSelectedVideo($event)" #VideoInput 
+                 class="hidenInput" formControlName="introductionVideoUrl">
+        
+          <div *ngIf="selectedVideoUrl" class="image-preview-container">
+            <video [src]="selectedVideoUrl" autoplay controls muted class="preview-video w-100 h-50 rounded-1"></video>
+            <button class="delete-btn_image" (click)="removeVideo()">
+              <i class="fa-regular fa-trash-can"></i>
+            </button>
+          </div>
+        </div>
+        
+
+        <div class="UploadCover mt-2">
+          <div class="upload-container">
+            <label class="upload-box" (click)="triggerFileInput('file')">
+              <i class="fa-solid fa-paperclip mx-1"></i> Upload Course references
+            </label>
+            <input type="file" multiple accept=".pdf, .doc, .docx, .xls, .xlsx, .txt , .pptx , .ppt , .csv" #fileInput
+              class="hidden-input" formControlName="fileUrls" (change)="onFileSelectedFile($event)">
+            <div class="file-list" *ngIf="uploadedFiles.length > 0">
+              <div class="reloadFile">
+                
+              <div class="file-item uploading" *ngIf="isUploadingFile">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                <span class="file-name">جاري رفع الملف</span>
+              </div>
+              </div>
+
+              <div class="file-item" *ngFor="let file of uploadedFiles; let i = index">
+                <i class="fa-solid fa-file"></i>
+                <span class="file-name">{{ file.name }}</span>
+                <span class="file-size"></span>
+
+                <button class="delete-btn" (click)="removeFile(i , file.url)">
                   <i class="fa-regular fa-trash-can"></i>
                 </button>
               </div>
             </div>
           </div>
         </div>
+
       </div>
+
+      
     </form>
+    <div class="course-skeleton"  *ngIf="!isLoadTopic && !isLoadCustomFild ">
+      <div class="leftParts">
+        <div class="left-section ">
+          <div class="card-skeleton mb-3">
+            <div class="input-skeleton"></div>
+            <div class="input-skeleton"></div>
+  
+          </div>
+          <div class="card-skeleton skeletonBottom">
+            <div class="input-skeleton"></div>
+  
+          </div>
+        </div>
+      </div>
+    
+      <div class="right-section">
+        <div class="input-skeleton"></div>
+        <div class="input-skeleton"></div>
+        <div class="photo-skeleton"></div>
+        <div class="photo-skeleton video"></div>
+        <div class="photo-skeleton video"></div>
+
+      </div>
+    </div>
+    
     <div class="footerCourse bg-white rounded-1">
-      <div class="btnsCourse" >
-        <button class="">Create</button>
+      <div class="btnsCourse">
+        <button (click)="createCourse()" [disabled]="isLoad">
+          <span *ngIf="isLoad" class="spinner"></span>
+          <span *ngIf="!isLoad">Create</span>
+        </button>
       </div>
     </div>
   </div>

@@ -15,17 +15,17 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 })
 export class SelectIconComponent {
   
-  @Input() currentIcon: string = 'fa fa-address-book'; // Default icon
-  @Input() Icons: any[] = [];
   @Input() colors: any[] = [];
   @Input() colorDefault: string = '#5f5d5d'; // Default color
-
-  @Output() iconSelected = new EventEmitter<string>();
-  @Output() colorSelected = new EventEmitter<string>();
-
+  
   @Output() closeModal= new EventEmitter<string>();
-
-
+  @Output() colorSelected = new EventEmitter<string>();
+  
+  
+  
+  @Input() currentIcon: string = 'fa fa-address-book'; // Default icon
+  @Input() Icons: any[] = [];
+  @Output() iconSelected = new EventEmitter<string>();
   selectIcon(icon: string) {
     this.currentIcon = icon;
     this.iconSelected.emit(icon); 
