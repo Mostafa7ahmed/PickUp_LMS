@@ -48,15 +48,14 @@
   display: flex;
   overflow: hidden;
   height: 100%;
-  padding: 0 10px 10px;
+  padding: 10px 10px;
   padding-inline-end: 3px;
   gap: 10px;
 }
 
 .ShowPopup .add-Course .bodyCourse .leftCourse {
   width: 412px;
-  height: 440px;
-  padding: 10px 0 0 0;
+  height: 460px;
   overflow: scroll;
 
   &::-webkit-scrollbar {
@@ -67,11 +66,10 @@
 
 .ShowPopup .add-Course .bodyCourse .rightCourse {
   width: 360px;
-  height: 440px;
+  height: 460px;
   overflow: scroll;
   padding-inline-end: 3px;
-  padding-bottom: 10px;
-  padding-top: 10px;
+
   overflow: scroll;
 
   &::-webkit-scrollbar {
