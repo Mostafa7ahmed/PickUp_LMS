@@ -25,7 +25,8 @@
       <tr>
         <td>
           <div class="course-name" [routerLink]="['/ViewCourse', course.id]">
-            <img [src]="baseUrl + course.photoUrl" class="circle " alt="">
+            <img [src]="baseUrl + course.photoUrl" width="30" alt="" class="rounded-circle">
+
             <p class="m-0" [pTooltip]="course.name" tooltipPosition="top"> {{course.name | splicText }}</p>
 
           </div>
@@ -102,7 +103,7 @@
         <td>
           <div class="d-flex gap-1 align-items-center">
             <div class="  rounded-2">
-              <i id="tabsactive-icon-i-4" class="fa-kit fa-rating-cp "  style="color: gold; width: 20px;"  ></i>
+              <i id="tabsactive-icon-i-4" class="fa-kit fa-rating-cp  "  style="color: gold; font-size: 20px;"  ></i>
        
             </div>
             <div class="rating">
