@@ -1,144 +1,270 @@
 @if(paginationCoursesResponse.success && paginationCoursesResponse.result.length > 0){
-  <div class="scrollTable " #scrollContainer>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Students</th>
-          <th>Updater</th>
-          <th>Creator</th>
-          <th>Rate</th>
-          <th>Quizzes</th>
-          <th>Lessons</th>
-          <th>Status</th>
-          <th>Profit</th>
-          <th>Discount</th>
-          <th>Createded on </th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (course of paginationCoursesResponse.result; track  $index ; let i= $index) {
-            <tr >
-                <td>
-                  <div class="course-name">
-                    <img [src]="baseUrl + course.photoUrl" class="circle " alt="">
-                    <p class="m-0" [pTooltip]="course.name"  tooltipPosition="top" [routerLink]="['/ViewCourse', course.id]"> {{course.name | splicText }}</p>
+<div class="scrollTable " #scrollContainer>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>States</th>
+        <th>Price</th>
+        <th>Profit</th>
+        <th>Discount</th>
+        <th>Creator</th>
+        <th>Updater</th>
+        <th>Created On</th>
+        <th>Updated On</th>
+        <th>Rating</th>
+        <th>Videos</th>
+        <th>Coupons </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (course of paginationCoursesResponse.result; track $index ; let i= $index) {
+      <tr>
+        <td>
+          <div class="course-name" [routerLink]="['/ViewCourse', course.id]">
+            <img [src]="baseUrl + course.photoUrl" class="circle " alt="">
+            <p class="m-0" [pTooltip]="course.name" tooltipPosition="top"> {{course.name | splicText }}</p>
 
-                  </div>
-                </td>
-                <td >{{ course.studentsCount   }} </td>
-                <td>{{ course.creator.name }}</td>
-                <td>{{ course.creator.name }}</td>
+          </div>
+        </td>
+        <td>
+          <div class="stageName d-flex gap-1 align-items-center ">
+            <div class="progressBar" [style.border-color]="course.stage.color"></div>
+            <p [pTooltip]="course.stage.name" tooltipPosition="top">{{course.stage.name| splicText }}</p>
+          </div>
 
-                <td>{{course.rating  }} ⭐</td>
-                <td>{{course.quizzesCount }}</td>
-                <td>{{course.lessonssCount }}</td>
-                <td [matTooltip]="course.stage.name" class="stageNameText">
-                  <div class="stageName d-flex gap-1 align-items-center ">
-                    <div class="progressBar" [style.border-color]="course.stage.color"></div>
-                    {{course.stage.name| splicText }}
-                  </div>
-        
-                  </td>
+        </td>
+        <td>
+          <div class="Price d-flex gap-1 align-content-center">
+            <div class="icon">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M1.70107 11.5375H11.8565C12.3945 11.5375 12.831 11.1015 12.831 10.563V5.48976C12.8304 4.95398 12.3967 4.51859 11.8609 4.51525V4.14087C11.8609 3.7077 11.5486 3.33776 11.121 3.26565V2.87961C11.121 2.38931 10.7239 1.99219 10.2336 1.99219H3.33114C2.84085 1.99219 2.44372 2.38931 2.44372 2.87961V3.26565C2.01333 3.33442 1.69718 3.70548 1.69662 4.14087V4.51525C1.16085 4.51858 0.727116 4.95397 0.726562 5.48976V10.563C0.726562 10.8214 0.829171 11.0694 1.0122 11.2524C1.19468 11.4349 1.44259 11.5375 1.70107 11.5375ZM3.0322 2.87907V2.87963C3.0322 2.71601 3.16476 2.58345 3.32838 2.58345H10.2264C10.3046 2.58345 10.3801 2.61507 10.4355 2.67053C10.491 2.726 10.5221 2.80087 10.5221 2.87964V3.25402L3.03547 3.25346L3.0322 2.87907ZM2.28511 4.14087H2.28566C2.28566 3.97782 2.41767 3.84526 2.58128 3.84526H10.9735C11.0517 3.84526 11.1271 3.87632 11.1826 3.93178C11.238 3.98725 11.2691 4.06268 11.2691 4.14089V4.51527H2.28837L2.28511 4.14087ZM1.31505 5.48976C1.31505 5.27844 1.48698 5.10706 1.6983 5.10706H11.8565C12.0679 5.10706 12.2392 5.27844 12.2392 5.48976V10.563C12.2392 10.7743 12.0679 10.9462 11.8565 10.9462H1.70114C1.48982 10.9462 1.31844 10.7743 1.31844 10.563L1.31505 5.48976ZM2.64618 9.45051V9.45106C2.8159 9.58473 2.91518 9.78829 2.91684 10.004V10.019C2.91684 10.0972 2.94845 10.1726 3.00392 10.2281C3.05938 10.2836 3.13426 10.3146 3.21302 10.3146H10.349C10.4278 10.3146 10.5027 10.2836 10.5581 10.2281C10.6136 10.1727 10.6452 10.0972 10.6452 10.019V10.004C10.648 9.78718 10.7489 9.58362 10.9203 9.45106C11.3585 9.10829 11.6147 8.58305 11.6147 8.02678C11.6147 7.46992 11.3585 6.94468 10.9203 6.6025C10.7523 6.4705 10.6524 6.27028 10.648 6.05673C10.6486 6.04841 10.6486 6.04065 10.648 6.03288C10.648 5.95468 10.6169 5.87925 10.5615 5.82378C10.506 5.7683 10.4306 5.73725 10.3524 5.73725H3.20868C3.04506 5.73725 2.9125 5.86926 2.9125 6.03287V6.04341C2.9125 6.26194 2.81045 6.46826 2.6374 6.60249C2.19924 6.9447 1.943 7.46995 1.943 8.02677C1.943 8.58307 2.19924 9.10831 2.6374 9.45104L2.64618 9.45051ZM3.00726 7.06057C3.24354 6.87587 3.40881 6.61464 3.47315 6.32124H10.0844C10.1487 6.61464 10.314 6.87587 10.5503 7.06057C10.847 7.2913 11.0212 7.64627 11.0212 8.02231C11.0212 8.3978 10.847 8.75277 10.5503 8.9835C10.314 9.16875 10.1493 9.42998 10.0844 9.72283H3.47315C3.40825 9.42998 3.24352 9.16875 3.00726 8.9835C2.71053 8.75277 2.53637 8.3978 2.53637 8.02231C2.53637 7.64627 2.71053 7.2913 3.00726 7.06057ZM6.77874 9.2114C7.25739 9.2114 7.68891 8.923 7.87193 8.48095C8.05497 8.0389 7.95401 7.52974 7.61513 7.19141C7.2768 6.85308 6.7682 6.75158 6.32615 6.93461C5.88354 7.1182 5.59569 7.54915 5.59569 8.0278C5.59569 8.34173 5.71993 8.6429 5.94234 8.86475C6.1642 9.08661 6.46481 9.2114 6.77874 9.2114ZM6.77874 7.43655C7.01779 7.43655 7.23354 7.58076 7.32506 7.80151C7.41713 8.02281 7.36611 8.27739 7.19694 8.44656C7.02778 8.61572 6.77319 8.6662 6.55244 8.57468C6.33114 8.48316 6.18694 8.2674 6.18694 8.0278C6.18638 7.87083 6.2485 7.71941 6.35943 7.60794C6.47035 7.4959 6.62122 7.43322 6.77873 7.43322L6.77874 7.43655Z"
+                  fill="#957DAD" [ngStyle]="{'fill': course.stage.color}">
 
-                <td>{{ course.profit  }}</td>
-                    @if(course.discount){
-                      <td>{{ course.discount.amount  }}</td>
+                </path>
+              </svg>
+            </div>
+            <p>{{course.price}}</p>
 
-                    } 
-                    @else{
-                      <td>--</td>
-                    }
-             
-                <td>{{ course.createdOn | date }}</td>
-              </tr>
+          </div>
+        </td>
+
+        <td>
+          <div class="Price d-flex gap-1 align-content-center">
+            <div class="icon">
+              <img src="Images/mdi_coupon.svg" width="18" alt="">
+            </div>
+            <p>{{course.profit}}</p>
+
+          </div>
+        </td>
+
+        @if(course.discount){
+        <td>
+          <div class="Price d-flex gap-1 align-content-center">
+            <div class="icon">
+              <i class="fa-kit fa-transaction-cp"></i>
+            </div>
+            <p>{{course.discount.amount}}
+              <span class="discoundType">
+                <span *ngIf="course.discount.type === 1">%</span>
+                <span *ngIf="course.discount.type === 2">EGP</span>
+              </span>
+            </p>
+
+          </div>
+        </td>
+
         }
+        @else{
+          <td>
+            <div class="d-flex">
+              <span> --- </span>
+            </div>
+          </td>        }
 
- 
-      </tbody>
-    </table>
+        <td>
+          <div class="Price d-flex gap-1  align-items-center">
+            <div class="icon">
+              <img [src]="baseUrl + course.creator.photo" width="30" alt="" class="rounded-circle">
+            </div>
+            <p>{{course.creator.name}}</p>
 
-    <div
-    class="leftScroll"
-    [class.d-none]="!showLeftScroll"
-    (mouseenter)="scrollTable('left')"
-    (mouseleave)="stopScroll()"
-  >
+          </div>
+        </td>
+        @if(course.updater){
+        <td>
+          <div class="Price d-flex gap-1  align-items-center">
+            <div class="icon">
+              <img [src]="baseUrl + course.updater.photo" width="30" alt="" class="rounded-circle">
+            </div>
+            <p>{{course.updater.name}}</p>
+
+          </div>
+        </td>
+
+        }
+        @else{
+          <td>
+            <div class="d-flex">
+              <span> --- </span>
+            </div>
+          </td>
+        }
+        <td>
+          <div class="d-flex gap-1 align-items-center">
+            <div class="custom-icon  rounded-2 bg-light">
+              <img alt="" loading="lazy" width="16px" height="16px"
+                src="https://s3.dinarcrm.com/assets/img/contacts/calendar-deal-list.svg">
+            </div>
+            <div class="date">
+              {{ course.createdOn | date:'dd/MM/yyyy • hh:mm a' }}
+            </div>
+          </div>
+
+        </td>
+        @if(course.updatedOn){
+          <td>
+            <div class="d-flex gap-1 align-items-center">
+              <div class="custom-icon  rounded-2 bg-light">
+                <img alt="" loading="lazy" width="16px" height="16px"
+                  src="https://s3.dinarcrm.com/assets/img/contacts/calendar-deal-list.svg">
+              </div>
+              <div class="date">
+                {{ course.updatedOn | date:'dd/MM/yyyy • hh:mm a' }}
+              </div>
+            </div>
+  
+          </td>
+        }
+        @else{
+          <td>
+            <div class="d-flex">
+              <span> --- </span>
+            </div>
+          </td>
+          }
+      
+
+
+
+        <td>
+          <div class="d-flex gap-1 align-items-center">
+            <div class="  rounded-2">
+              <i id="tabsactive-icon-i-4" class="fa-kit fa-rating-cp "  style="color: gold;"  ></i>
+       
+            </div>
+            <div class="rating">
+              {{ course.rating}}
+            </div>
+          </div>
+        </td>
+        <td>  <div class="Price d-flex gap-1 align-content-center">
+          <div class="icon">
+            <i class="fa-solid fa-camera-retro" style="color: #92a1ad;"></i>
+          
+          </div>
+          <p>{{course.videos}}</p>
+
+        </div>
+      </td>
+        <td >
+          <div class="Price d-flex gap-1 align-content-center">
+            <div class="icon">
+              <img src="Images/mdi_coupon.svg" width="18" alt="">
+            </div>
+            <p>{{course.coupons}}</p>
+
+          </div>
+
+        </td>
+
+
+      
+      </tr>
+      }
+
+
+    </tbody>
+  </table>
+
+  <div class="leftScroll" [class.d-none]="!showLeftScroll" (mouseenter)="scrollTable('left')"
+    (mouseleave)="stopScroll()">
     <i class="fa-solid fa-chevron-left"></i>
   </div>
-  
-  <div
-    class="rightScroll"
-    [class.d-none]="!showRightScroll"
-    (mouseenter)="scrollTable('right')"
-    (mouseleave)="stopScroll()"
-  >
+
+  <div class="rightScroll" [class.d-none]="!showRightScroll" (mouseenter)="scrollTable('right')"
+    (mouseleave)="stopScroll()">
     <i class="fa-solid fa-chevron-right"></i>
   </div>
 
 
 
-    
-  </div>
 
-  <div class="footerTable px-3 py-2">
-    
-    <div class="pagination d-flex align-items-center gap-3 justify-content-end">
-  
-      <div class="paginationTabl  d-flex align-items-center justify-content-between px-3 " [class.collapsePagination]="collapsePagination">
-  
-  
-          <div class="rightpagination d-flex gap-2">
-            <select (change)="onPageSizeChange($event)">
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-          </select>
-              <div class="moveNext"  *ngIf="collapsePagination" (click)="toggPagination()">
-                  <i class="fa-solid fa-angle-left "></i>
-  
-              </div>
-  
-          </div>
-  
-          <div class="leftpagination d-flex gap-3 ">
-  
-              <p class="m-0"> {{paginationCoursesResponse.pageIndex}} of {{paginationCoursesResponse.totalPages}}</p>
-              <div class="close" (click)="toggPagination()">
-                  <i class="fa-solid fa-xmark"></i>
-                  
-              </div>
-          </div>
-  
+</div>
+
+<div class="footerTable px-3 py-2">
+
+  <div class="pagination d-flex align-items-center gap-3 justify-content-end">
+
+    <div class="paginationTabl  d-flex align-items-center justify-content-between px-3 "
+      [class.collapsePagination]="collapsePagination">
+
+
+      <div class="rightpagination d-flex gap-2">
+        <select (change)="onPageSizeChange($event)">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+        <div class="moveNext" *ngIf="collapsePagination" (click)="toggPagination()">
+          <i class="fa-solid fa-angle-left "></i>
+
+        </div>
+
       </div>
-  
-      <div class="movePagination  d-flex align-items-center gap-3 ">
-  
-        <!-- left => next -->
-        <button class="moveNext btn " type="button" [disabled]="!paginationCoursesResponse.movePrevious" (click)="getPrevCourses(paginationCoursesResponse.pageIndex,paginationCoursesResponse.pageSize)">
-              <i class="fa-solid fa-angle-left "></i>
-  
-        </button>
-          
-        <!-- left => previous -->
-          <button class="moveNext btn"   type="button"  [disabled]="!paginationCoursesResponse.moveNext" (click)="getRemainingCourses(paginationCoursesResponse.pageIndex,paginationCoursesResponse.pageSize)">
-              <i class="fa-solid fa-angle-right"></i>
-  
-          </button>
+
+      <div class="leftpagination d-flex gap-3 ">
+
+        <p class="m-0"> {{paginationCoursesResponse.pageIndex}} of {{paginationCoursesResponse.totalPages}}</p>
+        <div class="close" (click)="toggPagination()">
+          <i class="fa-solid fa-xmark"></i>
+
+        </div>
       </div>
-  
-  
-  </div>
+
     </div>
-  
-  
+
+    <div class="movePagination  d-flex align-items-center gap-3 ">
+
+      <!-- left => next -->
+      <button class="moveNext btn " type="button" [disabled]="!paginationCoursesResponse.movePrevious"
+        (click)="getPrevCourses(paginationCoursesResponse.pageIndex,paginationCoursesResponse.pageSize)">
+        <i class="fa-solid fa-angle-left "></i>
+
+      </button>
+
+      <!-- left => previous -->
+      <button class="moveNext btn" type="button" [disabled]="!paginationCoursesResponse.moveNext"
+        (click)="getRemainingCourses(paginationCoursesResponse.pageIndex,paginationCoursesResponse.pageSize)">
+        <i class="fa-solid fa-angle-right"></i>
+
+      </button>
+    </div>
+
+
+  </div>
+</div>
+
+
 }
 @else {
 
-  <div class="text-center mt-2 h-100">
-     <img src="Images/notfound.png" height="465" alt="">
-  </div>
- 
+<div class=" scrollTable text-center justify-content-center mt-2 d-flex align-items-center">
+  <img src="Images/calls-empty-illustrator (1).svg" height="300px" alt="">
+</div>
+
 }

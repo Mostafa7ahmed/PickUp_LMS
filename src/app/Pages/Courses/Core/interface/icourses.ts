@@ -21,6 +21,10 @@ export interface Icourses {
     createdOn: string
     updatedOn: string
     profit: number
+    coupons: number
+
+    videos: number
+
     duration: number
     price: number
     priceAfterDiscount: number

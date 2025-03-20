@@ -17,9 +17,10 @@
     overflow: hidden;
   
     th, td {
-      padding: 5px;
+      padding: 10px;
       text-align: left;
       border-bottom: 1px solid #ddd;
+      margin: 0;
       
     }
 
@@ -29,11 +30,14 @@
       position: sticky;
       top: 0;
       z-index: 2;
+      width: 100%;
     }
   
     .course-name {
       display: flex;
+      
       gap: 10px;
+      cursor: pointer;
       
       .circle {
         width:  25px;
@@ -42,9 +46,20 @@
       }
     }
   
+    .discoundType{
+      color: var(--green2);
+    }
+    .custom-icon {
+      background-color: #6b6b7221  !important;
+      padding: 4px 4px;
+      display: flex
+  ;
+      align-items: center;
+      justify-content: center;
+    }
     tbody {
       display: block;
-      max-height: calc(100vh - 342px);
+      max-height: calc(100vh - 450px);
       overflow-y: scroll;
       position: relative;
       &::-webkit-scrollbar{
