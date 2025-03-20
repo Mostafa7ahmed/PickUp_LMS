@@ -27,7 +27,7 @@
           <div class="course-name" [routerLink]="['/ViewCourse', course.id]">
             <img [src]="baseUrl + course.photoUrl" width="30" alt="" class="rounded-circle">
 
-            <p class="m-0" [pTooltip]="course.name" tooltipPosition="top"> {{course.name | splicText:50}}</p>
+            <p class="m-0" [pTooltip]="course.name" tooltipPosition="top"> {{course.name | splicText:40}}</p>
 
           </div>
         </td>
