@@ -119,8 +119,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="custom-fields-container pt-0 tags"
-                        [ngClass]="{'d-none': newCustomFieldList.length === 0}">
+                    <div class="custom-fields-container pt-0 tags" >
 
                         <div class="fields-list pt-0">
                             <div *ngFor="let field of customFieldsControls; let i = index" [formGroup]="field"
@@ -300,7 +299,7 @@
         </div>
     </div>
     <div class="rightView">
-        <div class="references">
+        <div class="references mb-2">
             <app-text-header [title]="'References'"></app-text-header>
             <div class="showreferences">
                 <div class="upload-field">
@@ -319,47 +318,36 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="file-item mt-3">
-                    <div class="file-info">
-                        <div class="pdfIcons">
-                            <i class="fa-file-lines fa-solid"></i>
+                <div class="files">
+                    <div class="file-item" *ngFor="let field of [0,1,2,3,4,5,6,8] ; let i = index">
+                        <div class="file-info">
+                            <div class="pdfIcons">
+                                <i class="fa-file-lines fa-solid"></i>
+                            </div>
+                            <span>Mostafa Cv.pdf</span>
                         </div>
-                        <span>Data base ass</span>
-                    </div>
-                    <div class="file-actions">
                         <div class="d-none gap-2 Showaction">
-                            <div class="img-container" >
+                            <div class="img-container" pTooltip="Download" tooltipPosition="top" >
                                 <img src="https://s3.dinarcrm.com/assets/img/contacts/download-file-icon.svg">
                             </div>
-                            <div class="img-container ng-star-inserted">
+                            <div class="img-container ng-star-inserted" pTooltip="Delete" tooltipPosition="top">
                                 <img  alt="" src="https://s3.dinarcrm.com/assets/img/contacts/delete-file-icon.svg">
                             </div>
                         </div>
                         <div class="file-size">23.73 KB</div>
-
                     </div>
-           
-                </div>
-
-                <div class="file-item">
-                    <div class="file-info">
-                        <div class="pdfIcons">
-                            <i class="fa-file-lines fa-solid"></i>
-                        </div>
-                        <span>1.pdf</span>
-                    </div>
-                    <div class="d-none gap-2 Showaction">
-                        <div class="img-container" >
-                            <img src="https://s3.dinarcrm.com/assets/img/contacts/download-file-icon.svg">
-                        </div>
-                        <div class="img-container ng-star-inserted">
-                            <img  alt="" src="https://s3.dinarcrm.com/assets/img/contacts/delete-file-icon.svg">
-                        </div>
-                    </div>
-                    <div class="file-size">23.73 KB</div>
+          
                 </div>
             </div>
+
+        </div>
+        <div class="VideoReferences references">
+            <app-text-header [title]="'Video intro'"></app-text-header>
+
+            <video #player controls crossorigin playsinline poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg">
+                <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4" type="video/mp4" />
+              </video>
+
 
         </div>
     </div>
