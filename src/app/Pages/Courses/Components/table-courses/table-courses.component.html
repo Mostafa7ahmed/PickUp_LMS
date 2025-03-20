@@ -14,7 +14,6 @@
         <th>Rating</th>
         <th>Videos</th>
         <th>Coupons </th>
-        <th class="nameTh">Description</th>
         <th>Creator</th>
         <th>Updater</th>
         <th class="dateTh">Created On</th>
@@ -131,27 +130,7 @@
           </div>
 
         </td>
-        @if(course.description ){
-        <td class="nameTh">
-         
-            <div class="course-name align-items-center " >
 
-              <p class="m-0" [pTooltip]="course.description" tooltipPosition="top"> {{course.description | splicText}}</p>
-  
-            </div>
-        
-        
-   
-        </td>
-        }
-        @else {
-      
-          <td class="nameTh">
-            <div >
-              <span> --- </span>
-            </div>
-          </td>
-        }
         <td>
           <div class="Price d-flex gap-1  align-items-center">
             <div class="icon">
