@@ -18,8 +18,8 @@
 
         <th>Creator</th>
         <th>Updater</th>
-        <th>Created On</th>
-        <th>Updated On</th>
+        <th class="dateTh">Created On</th>
+        <th class="dateTh">Updated On</th>
       </tr>
     </thead>
     <tbody>
@@ -132,23 +132,21 @@
           </div>
 
         </td>
-        @if(course.description ){
-          <td class="nameTh">
+        <td class="nameTh">
+          @if(course.description ){
             <div class="course-name align-items-center " >
-  
+
               <p class="m-0" [pTooltip]="course.description" tooltipPosition="top"> {{course.description | splicText}}</p>
   
             </div>
-          </td>
-        }
-        @else{
-          <td>
+          }
+          @else {
             <div class="d-flex">
               <span> --- </span>
             </div>
-          </td>
-        }
- 
+          }
+   
+        </td>
         
         <td>
           <div class="Price d-flex gap-1  align-items-center">
@@ -178,7 +176,7 @@
             </div>
           </td>
         }
-        <td>
+        <td class="dateTh">
           <div class="d-flex gap-1 align-items-center   ">
             <div class="custom-icon  rounded-2 bg-light">
               <img alt="" loading="lazy" width="16px" height="16px"
@@ -191,7 +189,7 @@
 
         </td>
         @if(course.updatedOn){
-          <td>
+          <td class="dateTh">
             <div class="d-flex gap-1 align-items-center">
               <div class="custom-icon  rounded-2 bg-light">
                 <img alt="" loading="lazy" width="16px" height="16px"
