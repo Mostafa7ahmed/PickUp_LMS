@@ -25,7 +25,7 @@ export interface NewCustomFieldRequest {
   id?: number | null
   key: string
   value?: string
-  usage?:any | null
+  usage?: any | null;
   visible: boolean
 }
 

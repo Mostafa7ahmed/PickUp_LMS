@@ -42,11 +42,14 @@
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
                "node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
               "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "node_modules/plyr/dist/plyr.css",
+
               "src/theme.less",
               "src/styles.scss"
 
             ],
             "scripts": [
+              "node_modules/plyr/dist/plyr.polyfilled.js",
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ],
             "server": "src/main.server.ts",
