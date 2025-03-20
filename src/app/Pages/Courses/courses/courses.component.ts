@@ -13,7 +13,6 @@ import { TopiclistService } from '../../topic/Core/Service/topiclist.service';
 import { ITopiclist } from '../Core/interface/itopiclist';
 import { PaginateCoursesService } from '../Core/service/paginate-courses.service';
 import { IPaginationResponse, IResponseOf } from '../../../Core/Shared/Interface/irespose';
-import { SplicTextPipe } from '../Core/Pipes/splic-text.pipe';
 import { CardkanbanStageComponent } from '../Components/cardkanban-stage/cardkanban-stage.component';
 import { KanbanService } from '../Core/service/kanban.service';
 
@@ -23,7 +22,6 @@ import { FormsModule } from '@angular/forms';
 import { DatePicker } from 'primeng/datepicker';
 
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { AddCoursesComponent } from "../Components/add-courses/add-courses.component";
 import { CustomslectwithiconComponent } from '../Components/customslectwithicon/customslectwithicon.component';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 

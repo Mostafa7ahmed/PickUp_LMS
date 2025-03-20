@@ -17,6 +17,7 @@ import { ViewTopicandStageComponent } from './Pages/Topics/Components/view-topic
 import { AddStageComponent } from './Pages/Stages/Components/add-stage/add-stage.component';
 import { EditStageComponent } from './Pages/Stages/Components/edit-stage/edit-stage.component';
 import { EditTopicComponent } from './Pages/Topics/Components/edit-topic/edit-topic.component';
+import { ViewCourseComponent } from './Pages/Courses/Components/view-course/view-course.component';
 
 export const routes: Routes = [
     //  Auth Router
@@ -58,6 +59,7 @@ export const routes: Routes = [
             { path: "porfile", title:"porfile",component: PorfileComponent },
             { path: "course", title:"Course",component: CoursesComponent },
             { path: "course/:topicId/:activeTab", component: CoursesComponent, data: { defaultTab: "1" } },
+            { path: "ViewCourse/:courseId", component:ViewCourseComponent },
             { path: "topics", title:"topic",component: TopicsComponent },
             {path: 'addTopic',   outlet: 'dialog',component: AddTopicComponent },
             {path: 'editTopic/:topicId',   outlet: 'dialog',component: EditTopicComponent },
