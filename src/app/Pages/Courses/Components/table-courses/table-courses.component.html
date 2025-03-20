@@ -3,7 +3,7 @@
   <table>
     <thead>
       <tr>
-        <th>Name</th>
+        <th class="nameTh">Name</th>
         <th>Stage</th>
         <th>Price</th>
         <th>Profit</th>
@@ -23,7 +23,7 @@
     <tbody>
       @for (course of paginationCoursesResponse.result; track $index ; let i= $index) {
       <tr>
-        <td>
+        <td class="nameTh">
           <div class="course-name" [routerLink]="['/ViewCourse', course.id]">
             <img [src]="baseUrl + course.photoUrl" width="30" alt="" class="rounded-circle">
 

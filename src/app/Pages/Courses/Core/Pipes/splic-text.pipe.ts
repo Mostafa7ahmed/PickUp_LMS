@@ -5,13 +5,8 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true
 })
 export class SplicTextPipe implements PipeTransform {
-
   transform(value: string): string {
     if (!value) return '';
-    return value.length > 15 ? value.substring(0, 12) + '...' : value;
+    return value.length > 40 ? value.substring(0, 40) + '...' : value;
   }
-
-  
-
-
 }
