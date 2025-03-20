@@ -1,1 +1,303 @@
-<p>view-course works!</p>
+<div class="view-custom-container pt-2">
+
+    <div class="leftView">
+        <div class="view-profile d-flex gap-2 flex-column">
+            <div class="profile-card">
+                <img src="Images/profile-card-Image.png" class="coverProfile" alt="">
+                <div class="infoProfle">
+                    <div class="ImageCourse position-relative" (click)="fileInput.click()">
+                        <img [src]="selectedImage || 'Images/logoPickup.png'" class="Image" alt="Course Image">
+                        <div class="pen-edit position-absolute">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </div>
+                        <input #fileInput type="file" accept="image/*" hidden (change)="onImageSelected($event)">
+                    </div>
+                    <div class="inFoName">
+                        <input type="text" value="Python ">
+
+                    </div>
+
+
+                </div>
+
+                <div class="line mb-1"></div>
+                <p class="subtitle">Haven't Interacted Yet</p>
+
+
+            </div>
+
+            <div class="view-details mb-0">
+                <app-text-header [title]="'Main course information '"></app-text-header>
+
+                <div class="line my-2"></div>
+                <div class="CourseDescription">
+                    <p>Course description : </p>
+                    <textarea readonly name="" id="" class="custom-textarea" rows="3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec mauris ac felis suscipit scelerisque. Sed tincidunt, mauris vel convallis tempor, neque mauris semper tellus, vel sagittis neque tellus a velit. Sed consectetur, lectus vel consectetur consectetur, justo neque dignissim velit, non congue diam arcu non neque. Sed vel velit semper, volutpat mauris non, cursus nunc. Aliquam erat volutpat. Sed facilisis, lectus ut viverra sagittis, turpis lacus auctor urna, sed consectetur nunc diam non nisi. Sed vel dolor vel lectus scelerisque consectetur. Duis vel tortor et urna condimentum semper. In sed lectus ac neque consectetur bibendum at id libero.
+                    </textarea>
+                </div>
+                <div class="contentDetails">
+                    <div class="content">
+                        <p class="text-view-name">Price</p>
+                        <div class="w-60">
+                            <div class="price">
+                                <p class="editable-text "> 500 <span>EGP</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <p class="text-view-name">Language</p>
+                        <div class="w-60">
+                            <div class="price">
+                                <p class="editable-text "> Arbic</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <p class="text-view-name">Topic</p>
+                        <div class="w-60">
+                            <div class="price  d-flex gap-1  align-items-center">
+                                <span class="color-indicator m-0" [style.background]="'#6d9ef4'"><i
+                                        class="fa fa-comments" aria-hidden="true"></i></span>
+                                <p class="editable-text ">Computer science</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <p class="text-view-name">Stage</p>
+                        <div class="w-60">
+                            <div class="price d-flex gap-1 align-items-center">
+                                <div class="progressBar"></div>
+                                <p class="editable-text "> Done</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <p class="text-view-name">Discount</p>
+                        <div class="w-60">
+                            <div class="price">
+                                <p class="editable-text "> 100 <span>EGP</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <p class="text-view-name">Tags</p>
+                        <div class="tagsShow ">
+                            <div class="tag">Python</div>
+                            <div class="tag">Programming</div>
+                            <div class="tag">AI</div>
+                            <div class="tag">Machine Learning</div>
+                            <div class="tag">Web Development</div>
+                            <div class="tag">Data Science</div>
+                            <div class="tag">Cloud Computing</div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="customFildes ">
+                <div [formGroup]="fieldForm" class="CourseTags UploadCover flex-column pb-1">
+                    <div class="tags custom-fields-container">
+                        <app-text-header [bgColor]="'#659DFFBF'" [title]="'Custom fields'">
+                        </app-text-header>
+
+                        <div class="input-row mt-4">
+                            <div class="card flex justify-center border-0">
+                                <p-select [options]="customFieldListResponse.result" formControlName="key"
+                                    [editable]="true" placeholder="Key" optionLabel="key">
+                                </p-select>
+                            </div>
+
+
+                            <input type="text" placeholder="Value" formControlName="usage" class="w-full md:w-56">
+
+                            <button (click)="addField()" class="add-btn" pTooltip="Add Fields" tooltipPosition="top">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="tags custom-fields-container pt-0"
+                        [ngClass]="{'d-none': newCustomFieldList.length === 0}">
+
+                        <div class="fields-list  pt-0">
+                            <div *ngFor="let field of customFieldsControls; let i = index" [formGroup]="field"
+                                class="field-item">
+
+
+                                <input type="text" formControlName="key" readonly class="field-key" placeholder="Key">
+                                <input type="text" formControlName="usage" readonly class="field-value"
+                                    placeholder="Value">
+
+                                <label class="containerCheck">
+                                    <input type="checkbox" formControlName="visible" (change)="onVisibleChange(i)">
+                                    <div class="checkmark"></div>
+                                </label>
+
+                                <button (click)="removeField(i)" class="delete-btn" pTooltip="Delete Field"
+                                    tooltipPosition="top">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+    <div class="middleView">
+        <div class="headerInfoCourse d-flex justify-content-between align-items-center">
+            <div class="leftInfoCourse d-flex justify-content-between align-items-center">
+                <div class="activityCourse" (onClick)="value = 0">
+                    <div class="IconCourse">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div class="infoCourse">
+                        <p class="text-course">Enrolled student</p>
+                        <p class="date-course">5</p>
+                    </div>
+
+
+
+                </div>
+                <div class="activityCourse" (onClick)="value = 2">
+                    <div class="IconCourse">
+                        <i class="fa-solid fa-star"></i>
+
+                    </div>
+                    <div class="infoCourse">
+                        <p class="text-course">Average rate</p>
+                        <p class="date-course">5</p>
+                    </div>
+
+
+
+                </div>
+                <div class="activityCourse">
+                    <div class="IconCourse">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                    <div class="infoCourse">
+                        <p class="text-course">Total amount</p>
+                        <p class="date-course">5</p>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+            <div class="rightCource">
+                <button class="btn btnLeason">+ Add Leason</button>
+            </div>
+
+        </div>
+        <div class="tabsCourse">
+            <div class="headerTabs">
+                <div class="tabs justify-content-between  " [class.activeHeader]="value == 0">
+                    <p-button (onClick)="value = 0" class="tab tab-active "   rounded="true" styleClass="tabHeader">
+                        <div class="tab-icon">
+                            <i class="fa-solid fa-person-chalkboard"></i>
+                        
+                        </div>
+                        <p>Lessons</p>
+                    </p-button>
+                    <img src="https://s3.dinarcrm.com/assets/img/contacts/Line-229.svg">
+                </div>
+
+                <div  class="tabs justify-content-between "  [class.activeHeader]="value == 1" >
+                    <p-button (onClick)="value = 1" class="tab tab-active " rounded="true" styleClass="tabHeader">
+                        <div class="tab-icon">
+                            <i class="fa-kit fa-stream-icon-cp"></i>
+                        </div>
+                        <p>Logs</p>
+                    </p-button>
+                    <img src="https://s3.dinarcrm.com/assets/img/contacts/Line-229.svg">
+                </div>
+                <div  class="tabs justify-content-between  "  [class.activeHeader]="value == 2">
+                    <p-button (onClick)="value = 2" class="tab tab-active "  rounded="true" styleClass="tabHeader ">
+                        <div class="tab-icon">
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p>Rating</p>
+                    </p-button>
+                    <img src="https://s3.dinarcrm.com/assets/img/contacts/Line-229.svg">
+                </div>
+                <div  class="tabs justify-content-between "  [class.activeHeader]="value == 3">
+                    <p-button (onClick)="value = 3" class="tab tab-active "  rounded="true" styleClass="tabHeader">
+                        <div class="tab-icon" >
+                            <i class="fa-solid fa-receipt"></i>
+                            </div>
+                        <p>Coupon</p>
+                    </p-button>
+                    <img src="https://s3.dinarcrm.com/assets/img/contacts/Line-229.svg">
+                </div>
+                <div  class="tabs justify-content-between "   [class.activeHeader]="value == 4">
+                    <p-button (onClick)="value = 4" class="tab tab-active "  rounded="true" styleClass="tabHeader">
+                    <div class="tab-icon">
+                        <i class=" fa-kit fa-chat-icons"></i>
+                    </div>
+                    <p>Chat</p>
+                </p-button>
+             
+                </div>
+         
+            </div>
+            <div class="stream-scroll-holder">
+                <div class="stream">
+                    <p-tabs [value]="value">
+                       
+                        <p-tabpanels>
+                            <p-tabpanel [value]="0">
+                                <div class="m-0 tabView flex-column d-flex align-items-center justify-content-center">
+                                    <img src="Images/deal-empty-state.svg" alt="" width="190px">
+                                    <p>No leason With Couese</p>
+                           
+                                </div>
+                            </p-tabpanel>
+                            <p-tabpanel [value]="1">
+                                <div class="m-0 tabView flex-column d-flex align-items-center justify-content-center">
+                                    <img src="Images/Email_empty.svg" alt="" width="190px">
+                                    <p>No Log  With Couese</p>
+                           
+                                </div>
+                            </p-tabpanel>
+                            <p-tabpanel [value]="2">
+                                <div class="m-0 tabView flex-column d-flex align-items-center justify-content-center">
+                                    <img src="https://s3.dinarcrm.com/assets/img/contacts/activity-rating-dashboard-header.svg" alt="" width="190px">
+                                    <p>No Rating With Couese</p>
+                           
+                                </div>
+                            </p-tabpanel>
+                            <p-tabpanel [value]="3">
+                                <div class="m-0 tabView flex-column d-flex align-items-center justify-content-center">
+                                    <img src="Images/deal-empty-state.svg" alt="" width="190px">
+                                    <p>No  Coupon With Couese</p>
+                           
+                                </div>
+                            </p-tabpanel>
+                            <p-tabpanel [value]="4">
+                                <div class="m-0 tabView flex-column d-flex align-items-center justify-content-center">
+                                    <img src="Images/message_empty.svg" alt="" width="190px">
+                                    <p>No Chat With Couese</p>
+                           
+                                </div>
+                            </p-tabpanel>
+                  
+                        </p-tabpanels>
+                    </p-tabs>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="rightView"></div>
+
+</div>

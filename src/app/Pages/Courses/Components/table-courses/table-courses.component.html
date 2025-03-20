@@ -22,7 +22,7 @@
                 <td>
                   <div class="course-name">
                     <img [src]="baseUrl + course.photoUrl" class="circle " alt="">
-                    <p class="m-0" [pTooltip]="course.name"  tooltipPosition="top"> {{course.name | splicText }}</p>
+                    <p class="m-0" [pTooltip]="course.name"  tooltipPosition="top" [routerLink]="['/ViewCourse', course.id]"> {{course.name | splicText }}</p>
 
                   </div>
                 </td>
