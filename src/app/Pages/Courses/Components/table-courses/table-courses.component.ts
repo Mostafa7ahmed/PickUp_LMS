@@ -6,11 +6,12 @@ import { SplicTextPipe } from '../../Core/Pipes/splic-text.pipe';
 import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose';
 import { TooltipModule } from 'primeng/tooltip';
 import { environment } from '../../../../Environments/environment';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-table-courses',
   standalone: true,
-  imports: [CommonModule  , MatTooltipModule, DatePipe ,TooltipModule, SplicTextPipe],
+  imports: [CommonModule  , MatTooltipModule, DatePipe ,TooltipModule, SplicTextPipe , RouterLink],
   templateUrl: './table-courses.component.html',
   styleUrls: ['./table-courses.component.scss', '../../../../../app/Core/Shared/CSS/horizontal-scrolling.scss']
 })

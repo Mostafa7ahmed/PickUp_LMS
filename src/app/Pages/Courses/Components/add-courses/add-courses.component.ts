@@ -2,7 +2,6 @@ import { DeleteStreamService } from './../../Core/service/delete-stream.service'
 import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { TopPopComponent } from '../../../../Components/top-pop/top-pop.component';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { TextHeaderComponent } from '../text-header/text-header.component';
 import { TooltipModule } from 'primeng/tooltip';
 import { Router, RouterModule } from '@angular/router';
