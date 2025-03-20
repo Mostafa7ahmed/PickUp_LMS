@@ -8,15 +8,16 @@
         <th>Price</th>
         <th>Profit</th>
         <th>Discount</th>
-        <th>Creator</th>
-        <th>Updater</th>
-        <th>Created On</th>
-        <th>Updated On</th>
+
         <th>Students</th>
 
         <th>Rating</th>
         <th>Videos</th>
         <th>Coupons </th>
+        <th>Creator</th>
+        <th>Updater</th>
+        <th>Created On</th>
+        <th>Updated On</th>
       </tr>
     </thead>
     <tbody>
@@ -163,8 +164,8 @@
               <img alt="" loading="lazy" width="16px" height="16px"
                 src="https://s3.dinarcrm.com/assets/img/contacts/calendar-deal-list.svg">
             </div>
-            <div class="date">
-              {{ course.updatedOn | date:'dd/MM/yyyy' }} <span class="dots"></span> {{ course.updatedOn | date:'hh:mm a' }}
+            <div class="date d-flex  align-items-center">
+              {{ course.updatedOn | date:'dd/MM/yyyy' }} <p class="dots"></p> {{ course.updatedOn | date:'hh:mm a' }}
             </div>
           </div>
 
@@ -176,8 +177,8 @@
                 <img alt="" loading="lazy" width="16px" height="16px"
                   src="https://s3.dinarcrm.com/assets/img/contacts/calendar-deal-list.svg">
               </div>
-              <div class="date">
-                {{ course.updatedOn | date:'dd/MM/yyyy' }} <span class="dots"></span> {{ course.updatedOn | date:'hh:mm a' }}
+              <div class="date  d-flex  align-items-center">
+                {{ course.updatedOn | date:'dd/MM/yyyy' }} <p class="dots"></p> {{ course.updatedOn | date:'hh:mm a' }}
               </div>
             </div>
   
