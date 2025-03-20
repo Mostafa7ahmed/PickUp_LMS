@@ -14,6 +14,8 @@
         <th>Rating</th>
         <th>Videos</th>
         <th>Coupons </th>
+        <th class="nameTh">Description</th>
+
         <th>Creator</th>
         <th>Updater</th>
         <th>Created On</th>
@@ -129,6 +131,13 @@
 
           </div>
 
+        </td>
+        <td class="nameTh">
+          <div class="course-name align-items-center " [routerLink]="['/ViewCourse', course.id]">
+
+            <p class="m-0" [pTooltip]="course.description" tooltipPosition="top"> {{course.name | splicText}}</p>
+
+          </div>
         </td>
         
         <td>
