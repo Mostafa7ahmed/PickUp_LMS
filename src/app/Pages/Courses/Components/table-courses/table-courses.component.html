@@ -53,7 +53,7 @@
         </td>
 
         <td>
-          <div class="Price d-flex gap-1 align-items-center">
+          <div class="Price d-flex gap-1 align-items-center" style="margin-bottom:5px;">
             <div class="icon">
               <img src="Images/Group 58.svg" width="20" alt="">
             </div>
@@ -86,67 +86,6 @@
             </div>
           </td>        }
 
-        <td>
-          <div class="Price d-flex gap-1  align-items-center">
-            <div class="icon">
-              <img [src]="baseUrl + course.creator.photo" width="30" alt="" class="rounded-circle">
-            </div>
-            <p>{{course.creator.name}}</p>
-
-          </div>
-        </td>
-        @if(course.updater){
-        <td>
-          <div class="Price d-flex gap-1  align-items-center">
-            <div class="icon">
-              <img [src]="baseUrl + course.updater.photo" width="30" alt="" class="rounded-circle">
-            </div>
-            <p>{{course.updater.name}}</p>
-
-          </div>
-        </td>
-
-        }
-        @else{
-          <td>
-            <div class="d-flex">
-              <span> --- </span>
-            </div>
-          </td>
-        }
-        <td>
-          <div class="d-flex gap-1 align-items-center   ">
-            <div class="custom-icon  rounded-2 bg-light">
-              <img alt="" loading="lazy" width="16px" height="16px"
-                src="https://s3.dinarcrm.com/assets/img/contacts/calendar-deal-list.svg">
-            </div>
-            <div class="date">
-              {{ course.createdOn | date:'dd/MM/yyyy • hh:mm a' }}
-            </div>
-          </div>
-
-        </td>
-        @if(course.updatedOn){
-          <td>
-            <div class="d-flex gap-1 align-items-center">
-              <div class="custom-icon  rounded-2 bg-light">
-                <img alt="" loading="lazy" width="16px" height="16px"
-                  src="https://s3.dinarcrm.com/assets/img/contacts/calendar-deal-list.svg">
-              </div>
-              <div class="date">
-                {{ course.updatedOn | date:'dd/MM/yyyy • hh:mm a' }}
-              </div>
-            </div>
-  
-          </td>
-        }
-        @else{
-          <td>
-            <div class="d-flex">
-              <span> --- </span>
-            </div>
-          </td>
-          }
         <td>  <div class="Price d-flex gap-1 align-items-center">
             <div class="icon">
               <i class="fa-graduation-cap fa-solid" style="color: #92a1ad;"></i>
@@ -189,6 +128,68 @@
           </div>
 
         </td>
+        
+        <td>
+          <div class="Price d-flex gap-1  align-items-center">
+            <div class="icon">
+              <img [src]="baseUrl + course.creator.photo" width="30" alt="" class="rounded-circle">
+            </div>
+            <p>{{course.creator.name}}</p>
+
+          </div>
+        </td>
+        @if(course.updater){
+        <td>
+          <div class="Price d-flex gap-1  align-items-center">
+            <div class="icon">
+              <img [src]="baseUrl + course.updater.photo" width="30" alt="" class="rounded-circle">
+            </div>
+            <p>{{course.updater.name}}</p>
+
+          </div>
+        </td>
+
+        }
+        @else{
+          <td>
+            <div class="d-flex">
+              <span> --- </span>
+            </div>
+          </td>
+        }
+        <td>
+          <div class="d-flex gap-1 align-items-center   ">
+            <div class="custom-icon  rounded-2 bg-light">
+              <img alt="" loading="lazy" width="16px" height="16px"
+                src="https://s3.dinarcrm.com/assets/img/contacts/calendar-deal-list.svg">
+            </div>
+            <div class="date">
+              {{ course.updatedOn | date:'dd/MM/yyyy' }} <span class="dots"></span> {{ course.updatedOn | date:'hh:mm a' }}
+            </div>
+          </div>
+
+        </td>
+        @if(course.updatedOn){
+          <td>
+            <div class="d-flex gap-1 align-items-center">
+              <div class="custom-icon  rounded-2 bg-light">
+                <img alt="" loading="lazy" width="16px" height="16px"
+                  src="https://s3.dinarcrm.com/assets/img/contacts/calendar-deal-list.svg">
+              </div>
+              <div class="date">
+                {{ course.updatedOn | date:'dd/MM/yyyy' }} <span class="dots"></span> {{ course.updatedOn | date:'hh:mm a' }}
+              </div>
+            </div>
+  
+          </td>
+        }
+        @else{
+          <td>
+            <div class="d-flex">
+              <span> --- </span>
+            </div>
+          </td>
+          }
 
 
       

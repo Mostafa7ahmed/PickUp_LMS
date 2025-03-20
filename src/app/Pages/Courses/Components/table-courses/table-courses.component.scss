@@ -72,6 +72,14 @@
         display: none
       }
     }
+    .date  .dots{
+      width: 5px;
+      height: 5px;
+      background-color: #c6cbd1;
+      border-radius: 50%;
+      margin: 0px 3px;
+
+    }
   
     thead, tbody tr {
       display: table;
