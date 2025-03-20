@@ -1,14 +1,14 @@
-<div class="view-custom-container pt-2">
+<div class="pt-2 view-custom-container">
 
     <div class="leftView">
-        <div class="view-profile d-flex gap-2 flex-column">
+        <div class="d-flex flex-column gap-2 view-profile">
             <div class="profile-card">
                 <img src="Images/profile-card-Image.png" class="coverProfile" alt="">
                 <div class="infoProfle">
-                    <div class="ImageCourse position-relative" (click)="fileInput.click()">
+                    <div class="position-relative ImageCourse" (click)="fileInput.click()">
                         <img [src]="selectedImage || 'Images/logoPickup.png'" class="Image" alt="Course Image">
-                        <div class="pen-edit position-absolute">
-                            <i class="fa-solid fa-pen-to-square"></i>
+                        <div class="position-absolute pen-edit">
+                            <i class="fa-pen-to-square fa-solid"></i>
                         </div>
                         <input #fileInput type="file" accept="image/*" hidden (change)="onImageSelected($event)">
                     </div>
@@ -26,7 +26,7 @@
 
             </div>
 
-            <div class="view-details mb-0">
+            <div class="mb-0 view-details">
                 <app-text-header [title]="'Main course information '"></app-text-header>
 
                 <div class="line my-2"></div>
@@ -40,7 +40,7 @@
                         <p class="text-view-name">Price</p>
                         <div class="w-60">
                             <div class="price">
-                                <p class="editable-text "> 500 <span>EGP</span></p>
+                                <p class="editable-text"> 500 <span>EGP</span></p>
                             </div>
                         </div>
                     </div>
@@ -48,26 +48,26 @@
                         <p class="text-view-name">Language</p>
                         <div class="w-60">
                             <div class="price">
-                                <p class="editable-text "> Arbic</p>
+                                <p class="editable-text"> Arbic</p>
                             </div>
                         </div>
                     </div>
                     <div class="content">
                         <p class="text-view-name">Topic</p>
                         <div class="w-60">
-                            <div class="price  d-flex gap-1  align-items-center">
+                            <div class="d-flex align-items-center gap-1 price">
                                 <span class="color-indicator m-0" [style.background]="'#6d9ef4'"><i
                                         class="fa fa-comments" aria-hidden="true"></i></span>
-                                <p class="editable-text ">Computer science</p>
+                                <p class="editable-text">Computer science</p>
                             </div>
                         </div>
                     </div>
                     <div class="content">
                         <p class="text-view-name">Stage</p>
                         <div class="w-60">
-                            <div class="price d-flex gap-1 align-items-center">
+                            <div class="d-flex align-items-center gap-1 price">
                                 <div class="progressBar"></div>
-                                <p class="editable-text "> Done</p>
+                                <p class="editable-text"> Done</p>
                             </div>
                         </div>
                     </div>
@@ -75,13 +75,13 @@
                         <p class="text-view-name">Discount</p>
                         <div class="w-60">
                             <div class="price">
-                                <p class="editable-text "> 100 <span>EGP</span></p>
+                                <p class="editable-text"> 100 <span>EGP</span></p>
                             </div>
                         </div>
                     </div>
                     <div class="content">
                         <p class="text-view-name">Tags</p>
-                        <div class="tagsShow ">
+                        <div class="tagsShow">
                             <div class="tag">Python</div>
                             <div class="tag">Programming</div>
                             <div class="tag">AI</div>
@@ -98,14 +98,14 @@
 
             </div>
 
-            <div class="customFildes ">
-                <div [formGroup]="fieldForm" class="CourseTags UploadCover flex-column pb-1">
-                    <div class="tags custom-fields-container">
+            <div class="customFildes">
+                <div [formGroup]="fieldForm" class="flex-column CourseTags pb-1 UploadCover">
+                    <div class="custom-fields-container tags">
                         <app-text-header [bgColor]="'#659DFFBF'" [title]="'Custom fields'">
                         </app-text-header>
 
                         <div class="input-row mt-4">
-                            <div class="card flex justify-center border-0">
+                            <div class="flex card border-0 justify-center">
                                 <p-select [options]="customFieldListResponse.result" formControlName="key"
                                     [editable]="true" placeholder="Key" optionLabel="key">
                                 </p-select>
@@ -115,14 +115,14 @@
                             <input type="text" placeholder="Value" formControlName="usage" class="w-full md:w-56">
 
                             <button (click)="addField()" class="add-btn" pTooltip="Add Fields" tooltipPosition="top">
-                                <i class="fa-solid fa-plus"></i>
+                                <i class="fa-plus fa-solid"></i>
                             </button>
                         </div>
                     </div>
-                    <div class="tags custom-fields-container pt-0"
+                    <div class="custom-fields-container pt-0 tags"
                         [ngClass]="{'d-none': newCustomFieldList.length === 0}">
 
-                        <div class="fields-list  pt-0">
+                        <div class="fields-list pt-0">
                             <div *ngFor="let field of customFieldsControls; let i = index" [formGroup]="field"
                                 class="field-item">
 
@@ -153,11 +153,11 @@
         </div>
     </div>
     <div class="middleView">
-        <div class="headerInfoCourse d-flex justify-content-between align-items-center">
-            <div class="leftInfoCourse d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center justify-content-between headerInfoCourse">
+            <div class="d-flex align-items-center justify-content-between leftInfoCourse">
                 <div class="activityCourse" (onClick)="value = 0">
                     <div class="IconCourse">
-                        <i class="fa-solid fa-graduation-cap"></i>
+                        <i class="fa-graduation-cap fa-solid"></i>
                     </div>
                     <div class="infoCourse">
                         <p class="text-course">Enrolled student</p>
@@ -201,19 +201,19 @@
         </div>
         <div class="tabsCourse">
             <div class="headerTabs">
-                <div class="tabs justify-content-between  " [class.activeHeader]="value == 0">
-                    <p-button (onClick)="value = 0" class="tab tab-active "   rounded="true" styleClass="tabHeader">
+                <div class="justify-content-between tabs" [class.activeHeader]="value == 0">
+                    <p-button (onClick)="value = 0" class="tab tab-active" rounded="true" styleClass="tabHeader">
                         <div class="tab-icon">
-                            <i class="fa-solid fa-person-chalkboard"></i>
-                        
+                            <i class="fa-person-chalkboard fa-solid"></i>
+
                         </div>
                         <p>Lessons</p>
                     </p-button>
                     <img src="https://s3.dinarcrm.com/assets/img/contacts/Line-229.svg">
                 </div>
 
-                <div  class="tabs justify-content-between "  [class.activeHeader]="value == 1" >
-                    <p-button (onClick)="value = 1" class="tab tab-active " rounded="true" styleClass="tabHeader">
+                <div class="justify-content-between tabs" [class.activeHeader]="value == 1">
+                    <p-button (onClick)="value = 1" class="tab tab-active" rounded="true" styleClass="tabHeader">
                         <div class="tab-icon">
                             <i class="fa-kit fa-stream-icon-cp"></i>
                         </div>
@@ -221,8 +221,8 @@
                     </p-button>
                     <img src="https://s3.dinarcrm.com/assets/img/contacts/Line-229.svg">
                 </div>
-                <div  class="tabs justify-content-between  "  [class.activeHeader]="value == 2">
-                    <p-button (onClick)="value = 2" class="tab tab-active "  rounded="true" styleClass="tabHeader ">
+                <div class="justify-content-between tabs" [class.activeHeader]="value == 2">
+                    <p-button (onClick)="value = 2" class="tab tab-active" rounded="true" styleClass="tabHeader ">
                         <div class="tab-icon">
                             <i class="fa-solid fa-star"></i>
                         </div>
@@ -230,67 +230,68 @@
                     </p-button>
                     <img src="https://s3.dinarcrm.com/assets/img/contacts/Line-229.svg">
                 </div>
-                <div  class="tabs justify-content-between "  [class.activeHeader]="value == 3">
-                    <p-button (onClick)="value = 3" class="tab tab-active "  rounded="true" styleClass="tabHeader">
-                        <div class="tab-icon" >
-                            <i class="fa-solid fa-receipt"></i>
-                            </div>
+                <div class="justify-content-between tabs" [class.activeHeader]="value == 3">
+                    <p-button (onClick)="value = 3" class="tab tab-active" rounded="true" styleClass="tabHeader">
+                        <div class="tab-icon">
+                            <i class="fa-receipt fa-solid"></i>
+                        </div>
                         <p>Coupon</p>
                     </p-button>
                     <img src="https://s3.dinarcrm.com/assets/img/contacts/Line-229.svg">
                 </div>
-                <div  class="tabs justify-content-between "   [class.activeHeader]="value == 4">
-                    <p-button (onClick)="value = 4" class="tab tab-active "  rounded="true" styleClass="tabHeader">
-                    <div class="tab-icon">
-                        <i class=" fa-kit fa-chat-icons"></i>
-                    </div>
-                    <p>Chat</p>
-                </p-button>
-             
+                <div class="justify-content-between tabs" [class.activeHeader]="value == 4">
+                    <p-button (onClick)="value = 4" class="tab tab-active" rounded="true" styleClass="tabHeader">
+                        <div class="tab-icon">
+                            <i class="fa-chat-icons fa-kit"></i>
+                        </div>
+                        <p>Chat</p>
+                    </p-button>
+
                 </div>
-         
+
             </div>
             <div class="stream-scroll-holder">
                 <div class="stream">
                     <p-tabs [value]="value">
-                       
+
                         <p-tabpanels>
                             <p-tabpanel [value]="0">
-                                <div class="m-0 tabView flex-column d-flex align-items-center justify-content-center">
+                                <div class="d-flex flex-column align-items-center justify-content-center m-0 tabView">
                                     <img src="Images/deal-empty-state.svg" alt="" width="190px">
                                     <p>No leason With Couese</p>
-                           
+
                                 </div>
                             </p-tabpanel>
                             <p-tabpanel [value]="1">
-                                <div class="m-0 tabView flex-column d-flex align-items-center justify-content-center">
+                                <div class="d-flex flex-column align-items-center justify-content-center m-0 tabView">
                                     <img src="Images/Email_empty.svg" alt="" width="190px">
-                                    <p>No Log  With Couese</p>
-                           
+                                    <p>No Log With Couese</p>
+
                                 </div>
                             </p-tabpanel>
                             <p-tabpanel [value]="2">
-                                <div class="m-0 tabView flex-column d-flex align-items-center justify-content-center">
-                                    <img src="https://s3.dinarcrm.com/assets/img/contacts/activity-rating-dashboard-header.svg" alt="" width="190px">
+                                <div class="d-flex flex-column align-items-center justify-content-center m-0 tabView">
+                                    <img src="https://s3.dinarcrm.com/assets/img/contacts/activity-rating-dashboard-header.svg"
+                                        alt="" width="190px">
                                     <p>No Rating With Couese</p>
-                           
+
                                 </div>
                             </p-tabpanel>
                             <p-tabpanel [value]="3">
-                                <div class="m-0 tabView flex-column d-flex align-items-center justify-content-center">
+                                <div class="d-flex flex-column align-items-center justify-content-center m-0 tabView">
                                     <img src="Images/deal-empty-state.svg" alt="" width="190px">
-                                    <p>No  Coupon With Couese</p>
-                           
+                                    <p>No Coupon With Couese</p>
+
                                 </div>
                             </p-tabpanel>
                             <p-tabpanel [value]="4">
-                                <div class="m-0 tabView flex-column d-flex align-items-center justify-content-center">
+                                <div class="d-flex flex-column align-items-center justify-content-center m-0 tabView">
                                     <img src="Images/message_empty.svg" alt="" width="190px">
                                     <p>No Chat With Couese</p>
-                           
+
                                 </div>
                             </p-tabpanel>
-                  
+
                         </p-tabpanels>
                     </p-tabs>
                 </div>
@@ -298,6 +299,69 @@
             </div>
         </div>
     </div>
-    <div class="rightView"></div>
+    <div class="rightView">
+        <div class="references">
+            <app-text-header [title]="'References'"></app-text-header>
+            <div class="showreferences">
+                <div class="upload-field">
+                    <input type="file" name="myFile"
+                        accept=".txt,.pdf,.docx,.doc,.xlsx,.xls,.mp4,.avi,.mkv,.ogg,.mp3,.wav,.csv,.bmp,.gif,.jpg,.jpeg,.png,.tif,.tiff"
+                        class="file-upload-input">
+                    <div class="upload-instruction">
+                        <div class="d-flex align-items-center gap-2 upload-icon-label">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+                                fill="none">
+                                <path
+                                    d="M10.2865 18.3327C8.84201 18.3327 7.61285 17.8257 6.59896 16.8118C5.58507 15.798 5.07812 14.5688 5.07812 13.1243V5.41602C5.07812 4.37435 5.44285 3.48907 6.17229 2.76018C6.90174 2.03129 7.78701 1.66657 8.82812 1.66602C9.86924 1.66546 10.7548 2.03018 11.4848 2.76018C12.2148 3.49018 12.5792 4.37546 12.5781 5.41602V10.8327C12.5781 11.0688 12.4981 11.2668 12.3381 11.4268C12.1781 11.5869 11.9803 11.6666 11.7448 11.666C11.5092 11.6655 11.3115 11.5855 11.1515 11.426C10.9915 11.2666 10.9115 11.0688 10.9115 10.8327V5.41602C10.8976 4.83268 10.6928 4.33963 10.2973 3.93685C9.90174 3.53407 9.41201 3.33268 8.82812 3.33268C8.24424 3.33268 7.75118 3.53407 7.34896 3.93685C6.94674 4.33963 6.74535 4.83268 6.74479 5.41602V13.1243C6.7309 14.1105 7.07118 14.9474 7.76563 15.6352C8.46007 16.323 9.30035 16.6666 10.2865 16.666C10.5226 16.666 10.7448 16.6416 10.9531 16.5927C11.1615 16.5438 11.3628 16.4849 11.5573 16.416C11.7795 16.3327 11.9948 16.3363 12.2031 16.4268C12.4115 16.5174 12.5573 16.6735 12.6406 16.8952C12.724 17.1168 12.7206 17.3321 12.6306 17.541C12.5406 17.7499 12.3842 17.8957 12.1615 17.9785C11.8698 18.0896 11.5678 18.1766 11.2556 18.2393C10.9434 18.3021 10.6203 18.3332 10.2865 18.3327ZM14.6615 17.4993C14.4253 17.4993 14.2276 17.4193 14.0681 17.2593C13.9087 17.0993 13.8287 16.9016 13.8281 16.666V14.9993H12.1615C11.9253 14.9993 11.7276 14.9193 11.5681 14.7593C11.4087 14.5993 11.3287 14.4016 11.3281 14.166C11.3276 13.9305 11.4076 13.7327 11.5681 13.5727C11.7287 13.4127 11.9265 13.3327 12.1615 13.3327H13.8281V11.666C13.8281 11.4299 13.9081 11.2321 14.0681 11.0727C14.2281 10.9132 14.4259 10.8332 14.6615 10.8327C14.897 10.8321 15.0951 10.9121 15.2556 11.0727C15.4162 11.2332 15.4959 11.431 15.4948 11.666V13.3327H17.1615C17.3976 13.3327 17.5956 13.4127 17.7556 13.5727C17.9156 13.7327 17.9953 13.9305 17.9948 14.166C17.9942 14.4016 17.9142 14.5996 17.7548 14.7602C17.5953 14.9207 17.3976 15.0005 17.1615 14.9993H15.4948V16.666C15.4948 16.9021 15.4148 17.1002 15.2548 17.2602C15.0948 17.4202 14.897 17.4999 14.6615 17.4993ZM8.82812 14.166C8.59201 14.166 8.39424 14.086 8.23479 13.926C8.07535 13.766 7.99535 13.5682 7.99479 13.3327V5.83268C7.99479 5.59657 8.07479 5.39879 8.23479 5.23935C8.39479 5.07991 8.59257 4.99991 8.82812 4.99935C9.06368 4.99879 9.26174 5.07879 9.42229 5.23935C9.58285 5.39991 9.66257 5.59768 9.66146 5.83268V13.3327C9.66146 13.5688 9.58146 13.7668 9.42146 13.9268C9.26146 14.0868 9.06368 14.1666 8.82812 14.166ZM14.6615 9.16602C14.4253 9.16602 14.2276 9.08602 14.0681 8.92602C13.9087 8.76602 13.8287 8.56824 13.8281 8.33268V5.83268C13.8281 5.59657 13.9081 5.39879 14.0681 5.23935C14.2281 5.07991 14.4259 4.99991 14.6615 4.99935C14.897 4.99879 15.0951 5.07879 15.2556 5.23935C15.4162 5.39991 15.4959 5.59768 15.4948 5.83268V8.33268C15.4948 8.56879 15.4148 8.76685 15.2548 8.92685C15.0948 9.08685 14.897 9.16657 14.6615 9.16602Z"
+                                    fill="#6B7280"></path>
+                            </svg>
+                            <p> Attach a file </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="file-item mt-3">
+                    <div class="file-info">
+                        <div class="pdfIcons">
+                            <i class="fa-file-lines fa-solid"></i>
+                        </div>
+                        <span>Data base ass</span>
+                    </div>
+                    <div class="file-actions">
+                        <div class="d-none gap-2 Showaction">
+                            <div class="img-container" >
+                                <img src="https://s3.dinarcrm.com/assets/img/contacts/download-file-icon.svg">
+                            </div>
+                            <div class="img-container ng-star-inserted">
+                                <img  alt="" src="https://s3.dinarcrm.com/assets/img/contacts/delete-file-icon.svg">
+                            </div>
+                        </div>
+                        <div class="file-size">23.73 KB</div>
+
+                    </div>
+           
+                </div>
+
+                <div class="file-item">
+                    <div class="file-info">
+                        <div class="pdfIcons">
+                            <i class="fa-file-lines fa-solid"></i>
+                        </div>
+                        <span>1.pdf</span>
+                    </div>
+                    <div class="d-none gap-2 Showaction">
+                        <div class="img-container" >
+                            <img src="https://s3.dinarcrm.com/assets/img/contacts/download-file-icon.svg">
+                        </div>
+                        <div class="img-container ng-star-inserted">
+                            <img  alt="" src="https://s3.dinarcrm.com/assets/img/contacts/delete-file-icon.svg">
+                        </div>
+                    </div>
+                    <div class="file-size">23.73 KB</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 
 </div>
