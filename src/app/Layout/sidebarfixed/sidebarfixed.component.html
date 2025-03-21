@@ -39,7 +39,7 @@
           >
             <div class="left d-flex align-items-center gap-2">
               <i class="fs-5" [class]="item.Icon"></i>
-              <p class="m-0">{{ item.name }}</p>
+              <p class="m-0">{{ item.name | translate }}</p>
             </div>
             <div class="right">
               <i class="fa-solid fa-angle-down"  [class.rotate]="openIndex === i"></i>
@@ -48,9 +48,10 @@
           <div class="cardlist w-100" [class.open]="openIndex === i">
             <ul class="menu">
               <li class="parent">
-                <ul class="submenu">
+                <ul class="submenu p0">
                   <li *ngFor="let course of item.list; let j = index">
-                    <a   routerLinkActive="active" [routerLink]="item.routes[j]"> {{ course }}</a>
+                    <a   routerLinkActive="active" [routerLink]="item.routes[j]">{{ course | translate }}
+                    </a>
                   </li>
                 </ul>
               </li>
@@ -75,10 +76,10 @@
               <div [class.showRouters]="!isCollapsed" [ngClass]="!isCollapsed ? '' : 'd-none'"  >
                 <p class="TextRouter d-flex gap-1">
                   <span></span>
-                  {{menuItem.name}}
+                  {{ menuItem.name | translate }}
                 </p>
                 @for (router of menuItem.routes; track $index) {
-                  <a [routerLink]="'/'+router"routerLinkActive="active" (click)="toggleRoute()">{{ menuItem.list[$index] }}</a>
+                  <a [routerLink]="'/'+router"routerLinkActive="active" (click)="toggleRoute()">  {{ menuItem.list[$index] | translate }}</a>
                   
                 }
               </div>

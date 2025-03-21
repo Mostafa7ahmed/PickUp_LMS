@@ -31,10 +31,10 @@
                 </div>
                 <div class="dropdown-menu add-menu" [class.open]="isAddMenuOpen">
                     <ul class="menu">
-                      <li><i class="fa-solid fa-briefcase"></i> Add Topic</li>
-                      <li><i class="fa-solid fa-user-plus"></i> Add Stage</li>
-                      <li><i class="fa-solid fa-bullhorn"></i> Add Course</li>
-                      <li><i class="fa-solid fa-user-group"></i> Add Leason</li>
+                      <li><i class="fa-solid fa-briefcase"></i> {{"AddSection.addTopic" | translate }}</li>
+                      <li><i class="fa-solid fa-user-plus"></i>{{"AddSection.addStage" | translate }}</li>
+                      <li><i class="fa-solid fa-bullhorn"></i> {{"AddSection.addCourse" | translate }}</li>
+                      <li><i class="fa-solid fa-user-group"></i>{{"AddSection.addLesson" | translate }}</li>
                     </ul>
                   </div>
                 <div class=" position-relative activitiesDropDown">
@@ -109,19 +109,19 @@
                         class="rounded-circle" width="40">
                         
                         <div class="account-info">
-                        <p class="account-type">Private Account</p>
+                        <p class="account-type">{{"PopupSetting.accountType" | translate }}</p>
                         <p class="m-0 p-0 fixed-width">{{dataUser.UserName}}</p>
                     </div>
                     </div>
                     <ul class="menu">
-                      <li><i class="fa-kit fa-user-45 fa-lg"></i> My Account</li>
-                      <li><i class="fa-kit fa-notification45"></i> Notifications Settings</li>
-                      <li><i class="fa-kit fa-password45"></i> Change Password</li>
-                      <li (click)="ToggleLang()"><i class="fa-kit fa-global-45" ></i> Change Language</li>
+                      <li><i class="fa-kit fa-user-45 fa-lg"></i>{{"PopupSetting.myAccount" | translate }}</li>
+                      <li><i class="fa-kit fa-notification45"></i>{{"PopupSetting.notifications" | translate }}</li>
+                      <li><i class="fa-kit fa-password45"></i> {{"PopupSetting.changePassword" | translate }}</li>
+                      <li (click)="ToggleLang()"><i class="fa-kit fa-global-45" ></i> {{"PopupSetting.changeLanguage" | translate }}</li>
                     </ul>
-                    <div class="logout d-flex align-items-center justify-content-start " (click)="logOut()">
-                      <i class="fa-solid fa-arrow-right-from-bracket mx-3"></i> 
-                      <p>Logout</p>
+                    <div class="logout d-flex align-items-center text-center gap-2 " (click)="logOut()">
+                      <i class=" m-0 fa-solid fa-arrow-right-from-bracket"></i> 
+                      <p class="m-0">{{"PopupSetting.logout" | translate }}</p>
                     </div>
                   </div>
                 

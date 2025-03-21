@@ -3,12 +3,12 @@ import { RouterLink } from '@angular/router';
 import { LoginService } from '../../../Core/Services/login.service';
 import { Decode } from '../../../Core/Interface/user';
 import { TranslationService } from '../../../Core/Services/translation.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-navbarinstructor',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink , TranslateModule],
   templateUrl: './navbarinstructor.component.html',
   styleUrl: './navbarinstructor.component.scss'
 })

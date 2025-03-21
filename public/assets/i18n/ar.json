@@ -1,75 +1,33 @@
 {
-  "navbar": {
-    "Home": "الصفحه الرئيسه",
-    "About": " من نحن",
-    "CarType": "انواع السيارت",
-    "ContactUS": "تواصل معانا",
-    "lang": "ع"
+  "PopupSetting": {
+    "accountType": "حساب خاص",
+    "username": "ahmedadel",
+    "myAccount": "حسابي",
+    "notifications": "إعدادات الإشعارات",
+    "changePassword": "تغيير كلمة المرور",
+    "changeLanguage": "تغيير اللغة",
+    "logout": "تسجيل الخروج"
   },
-  "Brand": {
-    "Brands": "العلامات التجارية المتميزة"
+  "AddSection": {
+    "addTopic": "إضافة موضوع",
+    "addStage": "إضافة مرحلة",
+    "addCourse": "إضافة دورة",
+    "addLesson": "إضافة درس"
   },
-  "Bodys": {
-    "Body": "حجم السيارت"
-  },
-  "Car": {
-    "car": " متاح الآن للإيجار"
-  },
-  "Footer": {
-    "Subscribe": {
-      "imageAlt": "شعار الموقع",
-      "placeholder": "البريد الإلكتروني",
-      "button": "اشترك"
-    },
-    "Pages": {
-      "title": "الصفحات",
-      "links": {
-        "Home": "الرئيسية",
-        "AboutUs": "من نحن",
-        "CarTypes": "أنواع السيارات",
-        "ContactUs": "اتصل بنا"
-      }
-    },
-    "Help": {
-      "title": "المساعدة",
-      "links": {
-        "FAQ": "الأسئلة الشائعة",
-        "TermsAndConditions": "الشروط والأحكام",
-        "SupportPolicy": "سياسة الدعم",
-        "Privacy": "الخصوصية"
-      }
-    },
-    "TeamSolutions": {
-      "title": "فريق التواصل"
-    }
-  },
-  "AboutUsPages": {
-    "title": " من نحن",
-    "Welcome": "مرحبًا بكم في ",
-    "subTille": "وجهتكم الموثوقة لجميع ما يتعلق بالسيارات. نفخر بتقديم خدمات استثنائية وعرض مجموعة واسعة من المركبات التي تناسب كل أسلوب حياة وميزانية."
-  },
-  "AllCar": {
-    "title": " انواع السيارات"
-  },
-  "ContactUsPages": {
-    "title": "اتصل بنا سريعا",
-    "Button": "إرسال",
-    "Call": "اتصل بنا",
-    "Woek": "ساعات العمل",
-    "Location": "موقعنا",
-    "availableTime": "الوقت المتاح للتواصل معنا من 3:00 مساءً إلى 12:00 منتصف الليل"
-
-  },
-  "carDelalils": {
-    "Daily": "يومي",
-    "Weekly": "أسبوعي",
-    "Month": "شهري",
-    "Color": "اللون",
-    "Body": "الهيكل"
-  },
-  "contact": {
-    "textPhone": "الاتصال ",
-    "textWhatsapp": " واتساب"
-  },
-  "notfound":"  لا يوجد سيارات"
+  "Sidebar": {
+    "Transaction": "المعاملات",
+    "TransactionList": "قائمة المعاملات",
+    "Courses": "الدورات",
+    "Board": "لوحة التحكم",
+    "CourseList": "قائمة الدورات",
+    "Dashboard": "لوحة القيادة",
+    "Follower": "المتابعين",
+    "Users": "المستخدمين",
+    "Students": "الطلاب",
+    "Notification": "الإشعارات",
+    "Message": "الرسائل",
+    "Setting": "الإعدادات",
+    "Logout": "تسجيل الخروج"
+  }
+ 
 }

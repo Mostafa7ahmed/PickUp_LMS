@@ -1,87 +1,35 @@
 {
-    "navbar":{
-        "Home" : "Home",
-        "About" :"About Us",
-        "CarType":"Car Types",
-        "ContactUS":"Contact Us",
-        "lang" :"En"
-    },
-    "Brand":{
-        "Brands":"Premium Brands"
-        
-    },
-    "Bodys":{
-        "Body":"Browse by Body"
-        
-    } ,
-    "Car":{
-        "car":"now available for rent"
-        
-    },
-    "Footer": {
-        "Subscribe": {
-            "imageAlt": "Website Logo",
-            "placeholder": "Email",
-            "button": "Subscribe"
-        },
-        "Pages": {
-            "title": "Pages",
-            "links": {
-                "Home": "Home",
-                "AboutUs": "About Us",
-                "CarTypes": "Car Types",
-                "ContactUs": "Contact Us"
-            }
-        },
-        "Help": {
-            "title": "Help",
-            "links": {
-                "FAQ": "FAQ",
-                "TermsAndConditions": "Terms & Conditions",
-                "SupportPolicy": "Support Policy",
-                "Privacy": "Privacy"
-            }
-        },
-        "TeamSolutions": {
-            "title": "Team Solutions"
-      
-        }
-    } ,
-    "AboutUsPages":{
-        "title":"About Us",
-        "Welcome":"Welcome to ",
-        "subTille":"your trusted destination for all things automotive. We pride ourselves on delivering exceptional services and offering an extensive range of vehicles to suit every lifestyle and budget."
-        
-    },
-    "AllCar":{
-        "title":"Car Types"
-        
-    },
-    
-    "ContactUsPages":{
-        "title":" Quick Contact",
-        "Button":"Send",
-        "Call":"Call Us",
-        "Woek":"Work Hours",
-        "Location":"We Are Here",
-        "availableTime": "The available time to contact us is from 3:00 PM to 12:00 AM"
 
-
-
-    },
-    "carDelalils" :{
-        "Daily":"Daily",
-        "Weekly":"Weekly",
-        "Month":"Month",
-        "Color":"Color",
-        "Body":"Body"
-    },
-    "contact":{
-        "textPhone":"Call ",
-        "textWhatsapp":"whatsapp"
-
-    },
-    "notfound":"Not Found Car"
+    "PopupSetting": {
+        "accountType": "Private Account",
+        "username": "ahmedadel",
+        "myAccount": "My Account",
+        "notifications": "Notifications Settings",
+        "changePassword": "Change Password",
+        "changeLanguage": "Change Language",
+        "logout": "Logout"
+      },
+      "AddSection": {
+        "addTopic": "Add Topic",
+        "addStage": "Add Stage",
+        "addCourse": "Add Course",
+        "addLesson": "Add Lesson"
+      },
+      "Sidebar": {
+        "Transaction": "Transaction",
+        "TransactionList": "Transaction List",
+        "Courses": "Courses",
+        "Board": "Board",
+        "CourseList": "Course List",
+        "Dashboard": "Dashboard",
+        "Follower": "Follower",
+        "Users": "Users",
+        "Students": "Students",
+        "Notification": "Notification",
+        "Message": "Message",
+        "Setting": "Setting",
+        "Logout": "Log Out"
+      }
    
 
 }
