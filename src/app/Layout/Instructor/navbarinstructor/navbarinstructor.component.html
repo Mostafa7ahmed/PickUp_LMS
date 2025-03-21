@@ -117,10 +117,11 @@
                       <li><i class="fa-kit fa-user-45 fa-lg"></i> My Account</li>
                       <li><i class="fa-kit fa-notification45"></i> Notifications Settings</li>
                       <li><i class="fa-kit fa-password45"></i> Change Password</li>
-                      <li><i class="fa-kit fa-global-45"></i> Change Language</li>
+                      <li (click)="ToggleLang()"><i class="fa-kit fa-global-45" ></i> Change Language</li>
                     </ul>
-                    <div class="logout" [routerLink]="'/login'">
-                      <i class="fa-solid fa-arrow-right-from-bracket mx-3"></i> Logout
+                    <div class="logout d-flex align-items-center justify-content-start " (click)="logOut()">
+                      <i class="fa-solid fa-arrow-right-from-bracket mx-3"></i> 
+                      <p>Logout</p>
                     </div>
                   </div>
                 

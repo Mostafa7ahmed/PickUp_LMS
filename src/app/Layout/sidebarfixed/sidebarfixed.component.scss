@@ -80,16 +80,16 @@
 .logo .right {
   position: absolute;
   cursor: pointer;
-  transition: 0.4s all ease-in;
+  transition: 0.2s all ease-in;
   overflow: hidden;
   top: 30px;
-  right: 20px;
+  margin-inline-start: 150px;
   transform: rotate(180deg) ;
 }
 
 .logo .center {
   cursor: pointer;
-  transition: 0.4s all ease-out;
+  transition: 0.2s all ease-out;
   overflow: hidden;
 
 }
