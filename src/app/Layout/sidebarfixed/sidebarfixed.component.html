@@ -72,7 +72,7 @@
         <ul>
           @for (menuItem of ListSidebarOpen; track $index) {
             <li class="home" [class.show]="activeIndex === $index" >
-              <i [class]="menuItem.Icon"  [pTooltip]="menuItem.name" tooltipPosition="right"  (click)="togglesidebarCollaped($index)"></i>
+              <i [class]="menuItem.Icon"  [pTooltip]="menuItem.name | translate " tooltipPosition="right"  (click)="togglesidebarCollaped($index)"></i>
               <div [class.showRouters]="!isCollapsed" [ngClass]="!isCollapsed ? '' : 'd-none'"  >
                 <p class="TextRouter d-flex gap-1">
                   <span></span>
