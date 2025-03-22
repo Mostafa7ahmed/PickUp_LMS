@@ -12,11 +12,12 @@ import { TextHeaderComponent } from "../../../Courses/Components/text-header/tex
 import { ConvertColorService } from '../../../../Core/Shared/service/convert-color.service';
 import { SetDefaultStageService } from '../../../Stages/Core/service/set-default-stage.service';
 import { SetDefaultTopicService } from '../../Service/set-default-topic.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-view-topicand-stage',
   standalone: true,
-  imports: [RouterModule, TopPopComponent, CommonModule, SpliceDescreptionPipe, DatePipe, TooltipModule],
+  imports: [RouterModule, TopPopComponent, CommonModule, SpliceDescreptionPipe, DatePipe,TranslateModule, TooltipModule],
   templateUrl: './view-topicand-stage.component.html',
   styleUrls: ['./view-topicand-stage.component.scss']
 })

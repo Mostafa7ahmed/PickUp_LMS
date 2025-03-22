@@ -15,11 +15,12 @@ import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { SetDefaultTopicService } from '../../Service/set-default-topic.service';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { TooltipModule } from 'primeng/tooltip';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-all-topic',
   standalone: true,
-  imports: [AllStagesComponent,InfiniteScrollModule, CommonModule, RouterLink,TooltipModule, DatePipe],
+  imports: [AllStagesComponent,InfiniteScrollModule, CommonModule, RouterLink,TooltipModule, TranslateModule, DatePipe],
   templateUrl: './all-topic.component.html',
   styleUrl: './all-topic.component.scss',
 })

@@ -23,11 +23,11 @@
 
                     </div>
                 </div>
-                <div class="icon" pTooltip="view topic kanban" tooltipPosition="top" [routerLink]="['/course', topic.id, '1']" >
+                <div class="icon"      [pTooltip]="'Board.Actions.viewtopickanban' | translate" tooltipPosition="top" [routerLink]="['/course', topic.id, '1']" >
                     <i class="fa-kit fa-apps-add-filled"></i>
                 </div>
                 <div class="icon" (click)="openViewTopic(topic.id)">
-                    <i class="fa-solid fa-gear"  pTooltip="view topic" tooltipPosition="top"></i>
+                    <i class="fa-solid fa-gear"  [pTooltip]="'Board.Actions.viewtopic' | translate" tooltipPosition="top"></i>
                 </div>
                 <div class="setDefualt position-relative">
                     <div class="icon p-2" (click)="toggleShow(topic.id)">
@@ -41,7 +41,7 @@
                                 <i class="fa fa-star" aria-hidden="true"></i>
 
                             </div>
-                            <div class="text" >Set as deafult</div>
+                            <div class="text" >{{ "Board.Actions.SetDefault" | translate }}</div>
                         </button>
                         <button class="deafult ShowEdit " (click)="openEditTopic(topic.id)">
                             <div class="iconShow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"
@@ -51,7 +51,7 @@
                                         stroke="#83899F" stroke-width="0.9375" stroke-linecap="round"
                                         stroke-linejoin="round"></path>
                                 </svg></div>
-                            <div class="text">Edit</div>
+                            <div class="text">{{ "Board.Actions.Edit" | translate }}</div>
                         </button>
                         <button class="deafult ShowDelete " (click)="toggleShow(topic.id)">
                             <div class="iconShow"><svg _ngcontent-ng-c3622333696="" width="14" height="14"
@@ -72,7 +72,7 @@
                                         d="M8.45829 7.72919H5.54163C5.30246 7.72919 5.10413 7.53085 5.10413 7.29169C5.10413 7.05252 5.30246 6.85419 5.54163 6.85419H8.45829C8.69746 6.85419 8.89579 7.05252 8.89579 7.29169C8.89579 7.53085 8.69746 7.72919 8.45829 7.72919Z"
                                         fill="#83899F"></path>
                                 </svg></div>
-                            <div class="text">Delete</div>
+                            <div class="text">{{ "Board.Actions.Delete" | translate }}</div>
                         </button>
                     </div>
                     
@@ -90,7 +90,7 @@
             <div class="number-deals">
                 <div class="icon"><img alt=""
                         src="https://s3.dinarcrm.com/assets/img/board-mangement/dollar-circle.svg"></div>
-                <div class="label"> Courses </div>
+                <div class="label"> {{ "Board.Courses" | translate }} </div>
                 <div class="number">
                     <div class="num">{{topic.snapshot.coursesCount}}</div>
                 </div>
@@ -98,7 +98,7 @@
             <div class="number-deals">
                 <div class="icon"><img alt=""
                         src="https://s3.dinarcrm.com/assets/img/board-mangement/dollar-circle.svg"></div>
-                <div class="label"> Total Price </div>
+                <div class="label">  {{ "Board.TotalPrice" | translate }} </div>
                 <div class="number">
                     <div class="num">{{topic.snapshot.totalPrice}}</div>
                 </div>
@@ -106,7 +106,7 @@
             <div class="number-deals">
                 <div class="icon"><img alt=""
                         src="https://s3.dinarcrm.com/assets/img/board-mangement/carbon_recently-viewed.svg"></div>
-                <div class="label">Last update </div>
+                <div class="label"> {{ "Board.LastUpdate" | translate }} </div>
                 <div class="number">
                     @if(topic.updatedOn){
                     <span>{{topic.updatedOn | date }}</span>
@@ -120,7 +120,7 @@
             <div class="number-deals">
                 <div class="icon"><img alt=""
                         src="https://s3.dinarcrm.com/assets/img/board-mangement/Icon-Interface.svg"></div>
-                <div class="label"> Creator </div>
+                <div class="label">  {{ "Board.Creator" | translate }}  </div>
                 <div class="number">
                     <div class="num">{{topic.creator.name}}</div>
                 </div>
@@ -132,7 +132,7 @@
             <div class="number-deals">
                 <div class="icon"><img alt=""
                         src="https://s3.dinarcrm.com/assets/img/board-mangement/carbon_recently-viewed.svg"></div>
-                <div class="label"> Created On </div>
+                <div class="label">  {{ "Board.CreatedOn" | translate }}  </div>
                 <div class="number">
                     <div class="num">{{topic.createdOn | date}}</div>
                 </div>
@@ -140,7 +140,7 @@
             <div class="number-deals">
                 <div class="icon"><img alt=""
                         src="https://s3.dinarcrm.com/assets/img/board-mangement/Icon-Interface.svg"></div>
-                <div class="label"> Last Updater </div>
+                <div class="label">  {{ "Board.LastUpdate" | translate }}  </div>
                 <div class="number">
                     @if(topic.updater !== null){
                     <span>{{topic.updater.name }}</span>

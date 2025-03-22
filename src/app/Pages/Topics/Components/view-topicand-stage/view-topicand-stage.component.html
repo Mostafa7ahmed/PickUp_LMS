@@ -1,7 +1,7 @@
 <div class="overlay"></div>
 
 <div class="shwowViewTopic">
-  <app-top-pop [NamePopup]="'View Topic'" (isVisibleChange)="closeViewTopic()" [bgColor]="bgColor"
+  <app-top-pop [NamePopup]="'Board.popupView.viewTopic'| translate" (isVisibleChange)="closeViewTopic()" [bgColor]="bgColor"
     [ColorIcon]="TopicResult.result.color" [NameIcon]="'fa-solid fa-tachograph-digital'"></app-top-pop>
 
   <div class="bodyView">
@@ -38,7 +38,7 @@
                     <i class="fa fa-star" aria-hidden="true"></i>
 
                   </div>
-                  <div class="text">Set as deafult</div>
+                  <div class="text">{{'Board.Actions.SetDefault' | translate}}</div>
                 </button>
                 <button class="deafult ShowEdit ">
                   <div class="iconShow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"
@@ -47,9 +47,9 @@
                         d="M10.125 4.49786L12 6.37286M8.875 13.2479H13.875M3.875 10.7479L3.25 13.2479L5.75 12.6229L12.9913 5.38161C13.2256 5.1472 13.3572 4.82931 13.3572 4.49786C13.3572 4.1664 13.2256 3.84852 12.9913 3.61411L12.8837 3.50661C12.6493 3.27227 12.3315 3.14062 12 3.14062C11.6685 3.14063 11.3507 3.27227 11.1163 3.50661L3.875 10.7479Z"
                         stroke="#83899F" stroke-width="0.9375" stroke-linecap="round" stroke-linejoin="round"></path>
                     </svg></div>
-                  <div class="text">Edit</div>
+                  <div class="text">{{'Board.Actions.Edit' | translate}}</div>
                 </button>
-                <button class="deafult ShowDelete ">
+                <button class="deafult ShowDelete " *ngIf="!isDefaultTopic">
                   <div class="iconShow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -68,7 +68,7 @@
                         d="M8.45829 7.72919H5.54163C5.30246 7.72919 5.10413 7.53085 5.10413 7.29169C5.10413 7.05252 5.30246 6.85419 5.54163 6.85419H8.45829C8.69746 6.85419 8.89579 7.05252 8.89579 7.29169C8.89579 7.53085 8.69746 7.72919 8.45829 7.72919Z"
                         fill="#83899F"></path>
                     </svg></div>
-                  <div class="text">Delete</div>
+                  <div class="text">{{'Board.Actions.Delete' | translate}}</div>
                 </button>
               </div>
             </div>
@@ -86,18 +86,18 @@
           <div class="boxContainer">
             <div class="box">
               <div class="content">
-                <div class="dealValue"> Total Price</div>
+                <div class="dealValue">{{'Board.popupView.totalPrice' | translate}}</div>
                 <div class="price">
                   <span class="no"
                     [style.color]="TopicResult.result.color">{{TopicResult.result.snapshot.totalPrice}}</span>
-                  <span class="currency">EGP</span>
+                  <span class="currency">{{'Board.EGP' | translate}}</span>
                 </div>
                 <div class="line" [style.background]="TopicResult.result.color"></div>
               </div>
 
             </div>
             <div class="expectedProfits ">
-              <div class="label">Courses :</div>
+              <div class="label">{{'Board.popupView.courses' | translate}}:</div>
               <div class="value">
                 <span class="expected">{{TopicResult.result.snapshot.coursesCount}}</span>
               </div>
@@ -114,7 +114,7 @@
           <i class="fa-kit fa-calender"></i>
         </div>
         <div id="ddContent" class="content">
-          <div class="label">Creation Date</div>
+          <div class="label">{{'Board.popupView.creationDate' | translate}}</div>
           <div class="date"><span id="ddNum" class="num">{{TopicResult.result.createdOn |date}}</span></div>
 
 
@@ -126,7 +126,7 @@
 
         </div>
         <div id="ddContent" class="content">
-          <div class="label">Creator Name</div>
+          <div class="label">{{'Board.popupView.creatorName' | translate}}</div>
           @if(TopicResult.result.creator){
           <span>{{TopicResult.result.creator.name}}</span>
 
@@ -143,7 +143,7 @@
 
         </div>
         <div id="ddContent" class="content">
-          <div class="label">Updater Name</div>
+          <div class="label">{{'Board.popupView.updaterName' | translate}}</div>
           @if(TopicResult.result.updater){
           <span>{{TopicResult.result.updater.name}}</span>
 
@@ -160,7 +160,7 @@
           <i class="fa-kit fa-calender"></i>
         </div>
         <div id="ddContent" class="content">
-          <div class="label">Updation Date</div>
+          <div class="label">{{'Board.popupView.updationDate' | translate}}</div>
           @if(TopicResult.result.updatedOn){
           <div class="date">
             <span id="ddNum" class="num">{{TopicResult.result.updatedOn | date}}</span>
@@ -182,7 +182,7 @@
         <div class="headerStage p-2">
           <div class="Stage d-flex gap-2 align-items-center">
             <div class="progressBar" [ngStyle]="{'border-color':TopicResult.result.color}"></div>
-            <h3>Stages</h3>
+            <h3>{{'Board.popupView.stages' | translate}}</h3>
 
 
           </div>
@@ -231,7 +231,7 @@
                     <i class="fa fa-star" aria-hidden="true"></i>
 
                   </div>
-                  <div class="text">Set as deafult</div>
+                  <div class="text">{{'Board.Actions.SetDefault' | translate}}</div>
                 </button>
                 <button class="deafult ShowEdit " (click)="openPopupEdittage(stage.id)" [ngClass]="stage.type == 0 ||stage.type == 2 ? 'd-none' : ''">
                   <div class="iconShow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"
@@ -240,8 +240,8 @@
                         d="M10.125 4.49786L12 6.37286M8.875 13.2479H13.875M3.875 10.7479L3.25 13.2479L5.75 12.6229L12.9913 5.38161C13.2256 5.1472 13.3572 4.82931 13.3572 4.49786C13.3572 4.1664 13.2256 3.84852 12.9913 3.61411L12.8837 3.50661C12.6493 3.27227 12.3315 3.14062 12 3.14062C11.6685 3.14063 11.3507 3.27227 11.1163 3.50661L3.875 10.7479Z"
                         stroke="#83899F" stroke-width="0.9375" stroke-linecap="round" stroke-linejoin="round"></path>
                     </svg></div>
-                  <div class="text">Edit</div>
-                </button>
+                    <div class="text">{{'Board.Actions.Edit' | translate}}</div>
+                  </button>
                 <button class="deafult ShowDelete " [ngClass]="stage.type == 0 ||stage.type == 2 ? 'd-none ' : ''">
                   <div class="iconShow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
@@ -261,7 +261,7 @@
                         d="M8.45829 7.72919H5.54163C5.30246 7.72919 5.10413 7.53085 5.10413 7.29169C5.10413 7.05252 5.30246 6.85419 5.54163 6.85419H8.45829C8.69746 6.85419 8.89579 7.05252 8.89579 7.29169C8.89579 7.53085 8.69746 7.72919 8.45829 7.72919Z"
                         fill="#83899F"></path>
                     </svg></div>
-                  <div class="text">Delete</div>
+                  <div class="text">{{'Board.Actions.Delete' | translate}}</div>
                 </button>
               </div>
             </div>
@@ -296,12 +296,12 @@
                 src="https://s3.dinarcrm.com/sortech//fdcd55c7-71e3-45de-8660-7e16a3dbe0a2/Identity/4124e88f-ba05-4dbe-b224-de76790fe793.png">
             </div>
             <div class="info">
-              <div class="by"> Created by </div>
+              <div class="by"> {{'Board.popupView.createdBy' | translate}} </div>
               <div class="name"> {{TopicResult.result.creator.name}}</div>
             </div>
           </div>
           <div class="date">
-            <div class="on">Created on</div>
+            <div class="on">{{'Board.popupView.createdOn' | translate}}</div>
             <div class="time">
               <div class="number"><span id="viewDealSpanN"> {{TopicResult.result.createdOn | date}} </span>
                 <span><i class="fa-kit fa-info"></i></span>

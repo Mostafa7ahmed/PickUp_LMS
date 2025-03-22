@@ -29,6 +29,72 @@
         "Message": "Message",
         "Setting": "Setting",
         "Logout": "Log Out"
+      },
+      "Board" : {
+        "Board": "Board",
+        "Description": "In this comprehensive course, we will take you on an exciting journey...",
+        "SearchPlaceholder": "You can search here",
+        "EGP": "EGP",
+        "NewTopic": "New Topic",
+
+        "Courses": "Courses",
+        "TotalPrice": "Total Price",
+        "Creator": "Creator",
+        "CreatedOn": "Created On",
+        "LastUpdater": "Last Updater",
+        "LastUpdate":"Last Updater",
+        "Actions": {
+          "SetDefault": "Set as default",
+          "Edit": "Edit",
+          "Delete": "Delete",
+          "viewtopic":"view topic",
+          "viewtopickanban":"view topic kanban"
+        },
+
+        "popupAdd":{
+          "add_topic": "Add Topic",
+          "add_stage": "Add Stage",
+
+          "create_topic_now": "Create Your Topic Now",
+          "create_stage_now": "Create Your Stage Now",
+
+          "create_topic_desc": "Have more control with different Topic to easily manage",
+          "topic_name": "Topic Name",
+          "topic_description": "Topic Description",
+          "main": "Main",
+          "next_step": "Next Step",
+          "step_details": "Topic Details",
+          "step_details_Stage": "Stage Details",
+
+          "step": "Step" ,
+          "Done" :"Create Topic"
+           
+        
+        }
+        ,
+        "popupEdit":{
+          "edit_topic": "Edit Topic",
+          "edit_stage": "Edit Stage"
+        }
+        ,
+        "popupView":{
+          "viewTopic": "View Topic",
+          "totalPrice": "Total Price",
+          "courses": "Courses",
+          "creationDate": "Creation Date",
+          "creatorName": "Creator Name",
+          "updaterName": "Updater Name",
+          "updationDate": "Updation Date",
+          "stages": "Stages",
+          "new": "New",
+          "inProgress": "In Progress",
+          "createdOn": "Created On",
+          "createdBy": "Created By",
+          "totalCourses": "Total Courses"
+
+        }
+        
+
       }
    
 

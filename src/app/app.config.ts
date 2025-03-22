@@ -26,7 +26,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes, withViewTransitions()),
+    provideRouter(routes),
     provideAnimations(),
     provideClientHydration() ,
     importProvidersFrom(FormsModule),
