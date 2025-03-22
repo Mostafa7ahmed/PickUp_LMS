@@ -110,6 +110,13 @@ export class AllTopicComponent implements OnInit, OnDestroy {
   openViewTopic(id: any) { 
     this.router.navigate([{ outlets: { dialog: ['ViewTopic', id] } }]);
   }
+  openDeleteTopic(id: any) { 
+    this.router.navigate([
+      { outlets: {dialog2: ['deleteTopic', id] } }
+    ]);  
+    this.toggleShow(null)
+
+  }
 
   openEditTopic(idTopic: number) { 
     this.router.navigate([{ outlets: { dialog: ['editTopic', idTopic] } }]);

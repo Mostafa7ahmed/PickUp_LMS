@@ -25,7 +25,7 @@
       <tr>
         <td class="nameTh">
           <div class="course-name align-items-center " [routerLink]="['/ViewCourse', course.id]">
-            <img [src]="baseUrl + course.photoUrl" width="30" alt="" class="rounded-circle">
+            <img [src]="baseUrl + course.photoUrl" width="30"  height="30"alt="" class="rounded-circle">
 
             <p class="m-0" [pTooltip]="course.name" tooltipPosition="top"> {{course.name | splicText}}</p>
 
@@ -134,7 +134,7 @@
         <td>
           <div class="Price d-flex gap-1  align-items-center">
             <div class="icon">
-              <img [src]="baseUrl + course.creator.photo" width="30" alt="" class="rounded-circle">
+              <img [src]="baseUrl + course.creator.photo" width="30" height="30" alt="" class="rounded-circle">
             </div>
             <p>{{course.creator.name}}</p>
 
@@ -144,7 +144,7 @@
         <td>
           <div class="Price d-flex gap-1  align-items-center">
             <div class="icon">
-              <img [src]="baseUrl + course.updater.photo" width="30" alt="" class="rounded-circle">
+              <img [src]="baseUrl + course.updater.photo" width="30" height="30" alt="" class="rounded-circle">
             </div>
             <p>{{course.updater.name}}</p>
 

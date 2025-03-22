@@ -53,7 +53,7 @@
                                 </svg></div>
                             <div class="text">{{ "Board.Actions.Edit" | translate }}</div>
                         </button>
-                        <button class="deafult ShowDelete " (click)="toggleShow(topic.id)">
+                        <button class="deafult ShowDelete " *ngIf="!topic.default" (click)="openDeleteTopic(topic.id)">
                             <div class="iconShow"><svg _ngcontent-ng-c3622333696="" width="14" height="14"
                                     viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path _ngcontent-ng-c3622333696=""

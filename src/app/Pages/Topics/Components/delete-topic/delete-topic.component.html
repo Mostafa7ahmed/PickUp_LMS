@@ -1,0 +1,69 @@
+<div class="overlay"></div>
+<div class="addTopic">
+    <app-top-pop [bgColor]="isConfirmTopic ? '#fee4e2' : '#fef0c7'" [ColorIcon]="isConfirmTopic ? '#ff4b55' : '#dc6803'" [NameIcon]="'fa-solid fa-trash-can'" [NamePopup]="'Delete Topic'" (isVisibleChange)="closePopup()"></app-top-pop>
+    <div class="content">
+        <div class="Icon mt-3">
+            <img src="Images/delete.svg" alt="" *ngIf=" isDeleteTopic" >
+            <img src="Images/warnings.svg" *ngIf="!isConfirmTopic || isMoveTopic" alt="">
+
+
+        </div>
+        <p class="textConfirm" *ngIf="!isConfirmTopic"> you want to Move this topic ?</p>
+        <p class="textConfirm" *ngIf="isDeleteTopic">Are you sure you want to delete this topic?</p>
+
+
+        <p class="textTitle" *ngIf="isDeleteTopic">This topic will be removed from the related topics list and the price may change as a result.</p>
+
+
+
+
+
+
+
+     
+    </div>
+
+
+
+    <div class="leftCoursePirce p-2 " *ngIf="isMoveTopic">
+        <div class="couresAccess d-flex flex-column gap-2  ">
+          <div class="titleAccess ">
+            <p>Topic </p>
+          </div>
+          <app-customslectwithicon [items]="topicsList"  (selectionChangeTopic)="onTopicSelected($event)" [isSelected]="true" [isLoadTopic]="isLoadTopic"
+            [selectedItem]="selectTopicDefault" >
+          </app-customslectwithicon>
+        </div>
+        <div class="couresAccess mt-2 d-flex flex-column gap-2  ">
+            <div class="titleAccessStage ">
+              <p>Stage </p>
+            </div>
+            <app-coustom-select-stage  (selectionChangeStage)="onStageSelected($event)"  [IsFull]="true" [items]="stageList" [isSelected]="true" [isLoadTopic]="isLoadTopic"
+            [selectedItem]="selectStageDefault">
+
+          </app-coustom-select-stage>         
+          </div>
+      </div>
+
+
+
+    
+    <div class="content">
+        <div class="btns w-100 d-flex flex-column gap-2" *ngIf="!isConfirmTopic">
+            <button class="btn btnMove" (click)="OpenMoveTopic()">Move</button>
+            <button class="btn btnCancel" (click)="OpenDeleteTopic()">Cancel</button>
+        </div>
+        
+        <div class="btns w-100 d-flex flex-column gap-2" *ngIf="isDeleteTopic">
+            <button class="btn btnDelete" (click)="deleteTopic()">Delete</button>
+            <button class="btn btnCancel" (click)="closePopup()">Cancel</button>
+        </div>
+        
+        <div class="btns w-100 d-flex flex-column gap-2" *ngIf="isMoveTopic">
+            <button class="btn btnMove" (click)="deleteTopic()">Move</button>
+            <button class="btn btnCancel" (click)="closePopup()">Cancel</button>
+        </div>
+    </div>
+
+
+</div>

@@ -77,6 +77,14 @@
           "edit_stage": "Edit Stage"
         }
         ,
+        "popupDelete":{
+
+          "deleteConfirmTitle": "Are you sure you want to delete this topic?",
+        "deleteConfirmMessage": "This topic will be removed from the related topics list and the price may change as a result."
+
+
+        }
+        ,
         "popupView":{
           "viewTopic": "View Topic",
           "totalPrice": "Total Price",
