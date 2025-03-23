@@ -13,15 +13,16 @@ export class DeleteTopicService {
   }
 
 
-  deleteTpoic(id: number, isMove: boolean, replacementTopicId?: number, replacementStageId?: number): Observable<any> {
+  deleteTpoic(id: number, isMove: boolean, replacementTopicId?: number, replacementStageId?: number)
+  : Observable<any> {
     let headers = new HttpHeaders({
       'id': id.toString(),
       'move': isMove.toString(),
     });
   
     if (isMove && replacementTopicId && replacementStageId) {
-      headers = headers.set('replacementTopicId', replacementTopicId.toString());
       headers = headers.set('replacementStageId', replacementStageId.toString());
+      headers = headers.set('replacementTopicId', replacementTopicId.toString());
     }
   
     return this._HttpClient.delete(`${environment.baseUrl}${environment.pickup}topic/delete`, { headers });

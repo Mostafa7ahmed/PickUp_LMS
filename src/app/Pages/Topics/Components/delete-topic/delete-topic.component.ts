@@ -75,9 +75,10 @@ export class DeleteTopicComponent implements OnInit {
     }
     
     onStageSelected(selectedId: number) {
-      console.log('Selected Stage ID:', selectedId);
+      const selectedStage = this.stageList.find((stage: Stage) => stage.id === selectedId);
+      this.selectStageDefault = selectedStage;
+      console.log('Selected Stage:', this.selectStageDefault);
     }
-  
     deleteTopic() {
       const deleteId = this._ActivatedRoute.snapshot.paramMap.get('deleteId');
     
