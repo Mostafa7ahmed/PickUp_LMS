@@ -144,11 +144,10 @@ export class ViewTopicandStageComponent {
     }
   }
 
-  @HostListener('document:click', ['$event'])
+  @HostListener('document:click')
   onClickOutside(event: Event) {
-    if (!this.eRef.nativeElement.contains(event.target)) {
-      this.toggleShowStage(null)
-    }
+
+
   }
 
 
