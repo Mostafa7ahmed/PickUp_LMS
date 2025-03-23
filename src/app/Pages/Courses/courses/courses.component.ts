@@ -50,9 +50,10 @@ export class CoursesComponent implements OnInit {
       this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: any) => {
-        if (event.url === '/course') {
-          this.getListTopics(this.topicIdFromRoute); 
-        }
+      if (event.url.includes('/course')) {
+        this.getListTopics(this.topicIdFromRoute);
+        this.getAllKanbans(this.selectedTopicId)
+      }
       });
     }
 

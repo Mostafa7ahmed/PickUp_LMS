@@ -53,7 +53,7 @@
                                 </svg></div>
                             <div class="text">{{ "Board.Actions.Edit" | translate }}</div>
                         </button>
-                        <button class="deafult ShowDelete " *ngIf="!topic.default" (click)="openDeleteTopic(topic.id)">
+                        <button class="deafult ShowDelete " *ngIf="!topic.default" (click)="openDeletePopup(topic.id ,topic.snapshot.hasCourses )">
                             <div class="iconShow"><svg _ngcontent-ng-c3622333696="" width="14" height="14"
                                     viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path _ngcontent-ng-c3622333696=""
@@ -109,7 +109,9 @@
                 <div class="label"> {{ "Board.LastUpdate" | translate }} </div>
                 <div class="number">
                     @if(topic.updatedOn){
-                    <span>{{topic.updatedOn | date }}</span>
+                    <div class="number">
+                        <div class="num">{{topic.updatedOn | date}}</div>
+                    </div>
                     }
                     @else {
                     <span> - - </span>
@@ -142,8 +144,10 @@
                         src="https://s3.dinarcrm.com/assets/img/board-mangement/Icon-Interface.svg"></div>
                 <div class="label">  {{ "Board.LastUpdate" | translate }}  </div>
                 <div class="number">
-                    @if(topic.updater !== null){
-                    <span>{{topic.updater.name }}</span>
+                    @if(topic.updater ){
+                    <div class="number">
+                        <div class="num">{{topic.updater.name}}</div>
+                    </div>
                     }
                     @else {
                     <span> - - </span>
@@ -162,3 +166,12 @@
 
     }
 </div>
+<app-delete-topic
+ *ngIf="isDeletePopupVisible && selectedDeleteId !== null"
+ [deleteId]="selectedDeleteId!"
+ [isConfirmTopic]="isConfirmTopic"
+ [isDeleteTopic]="isDeleteTopic"
+ [isMoveTopic]="isMoveTopic"
+ (topicDeleted)="handleDeletedTopic($event)"
+ (close)="closeDeletePopup()">
+</app-delete-topic>

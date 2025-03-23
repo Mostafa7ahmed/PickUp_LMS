@@ -33,7 +33,7 @@
             <div class="setDefualt ">
               <div class="show  " [class.active]="showEdit">
                 <button class="deafult ShowDeafult " *ngIf="!this.isDefaultTopic"
-                  (click)="setDefaultTopic(TopicResult.result.id)">
+                  (click)="setDefaultTopic(TopicResult.result.id) ; $event.stopPropagation()">
                   <div class="iconShow">
                     <i class="fa fa-star" aria-hidden="true"></i>
 
@@ -187,7 +187,7 @@
 
           </div>
           <button class="addStage btn" [disabled]="TopicResult.result.stages.length == 10"
-            (click)="openPopupAddStage()">
+            (click)="openPopupAddStage() ; $event.stopPropagation()">
             <i class="fa fa-plus" aria-hidden="true"></i>
           </button>
 
@@ -213,7 +213,7 @@
 
                 </div>
               </div>
-              <div class="more cr px-2" (click)="toggleShowStage(stage.id)" [ngClass]="stage.type == 0 && stage.default  ||stage.type == 2 && stage.default ? ' opacity-25' : ''" >
+              <div class="more cr px-2" (click)="toggleShowStage(stage.id) ; $event.stopPropagation()" [ngClass]="stage.type == 0 && stage.default  ||stage.type == 2 && stage.default ? ' opacity-25' : ''" >
                 <i class="fa-solid fa-ellipsis-vertical"></i>
               </div>
 
@@ -225,7 +225,7 @@
 
             <div class="setDefualt position-absolute">
               <div class="show  " [class.active]="selectedStaged === stage.id"
-                (click)="setDefaultStage( TopicResult.result.id ,stage.id ) ">
+                (click)="setDefaultStage( TopicResult.result.id ,stage.id )  ; $event.stopPropagation()">
                 <button class="deafult ShowDeafult " *ngIf="!stage.default">
                   <div class="iconShow">
                     <i class="fa fa-star" aria-hidden="true"></i>
