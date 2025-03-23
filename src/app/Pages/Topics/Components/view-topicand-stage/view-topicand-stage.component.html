@@ -221,6 +221,7 @@
             </div>
 
 
+            <div class="overlay"  *ngIf="selectedStaged === stage.id" (click)="toggleShowStage(null)"></div>
 
             <div class="setDefualt position-absolute">
               <div class="show  " [class.active]="selectedStaged === stage.id"
@@ -233,7 +234,7 @@
                   <div class="text">{{'Board.Actions.SetDefault' | translate}}</div>
                 </button>
                 <button class="deafult ShowEdit"
-                (click)="openPopupEdittage(stage.id);  $event.stopPropagation()"
+                (click)="openPopupEdittage(stage.id); $event.stopPropagation()"
                 [ngClass]="stage.type == 0 || stage.type == 2 ? 'd-none' : ''">
   
                 <div class="iconShow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"
