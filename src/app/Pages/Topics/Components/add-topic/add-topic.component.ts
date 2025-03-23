@@ -27,7 +27,7 @@ export class AddTopicComponent implements OnInit {
   icons: string[] = [];
   colors: string[] = [];
   currentIcon: string = 'fa fa-file-pen';
-  colorDefault: string = "#778fe6cf";
+  colorDefault: string = "#a0151e";
   ishowTab: boolean = true;
   isnext: boolean = true;
   selectedColors: string[] = [];
@@ -56,7 +56,7 @@ export class AddTopicComponent implements OnInit {
 
   topicForm: FormGroup = this._FormBuilder.group({
     name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-    color: ['#778fe6cf'],
+    color: ['#a0151e'],
     icon: ['fa fa-file-pen'],
     description: ['', [Validators.maxLength(300)]],
     isMain: [false],

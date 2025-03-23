@@ -51,6 +51,7 @@
         height: 25px;
         border-radius: 50%;
       }
+   
     }
   
     .iconPrice{
@@ -210,4 +211,8 @@
   background: #fff;
   margin-right: 5px;
   border: 4px solid rgba(119, 143, 230, 0.8117647059);
+}
+
+.course-name:hover p{
+  color: var(--green2) !important;
 }
