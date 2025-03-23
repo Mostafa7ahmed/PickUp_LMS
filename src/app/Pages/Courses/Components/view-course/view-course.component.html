@@ -6,14 +6,14 @@
                 <img src="Images/profile-card-Image.png" class="coverProfile" alt="">
                 <div class="infoProfle">
                     <div class="position-relative ImageCourse" (click)="fileInput.click()">
-                        <img [src]="selectedImage || 'Images/logoPickup.png'" class="Image" alt="Course Image">
+                        <img [src]="selectedImage || baseUrlFile + courseResultResponse.result.photoUrl" class="Image" alt="Course Image">
                         <div class="position-absolute pen-edit">
                             <i class="fa-pen-to-square fa-solid"></i>
                         </div>
                         <input #fileInput type="file" accept="image/*" hidden (change)="onImageSelected($event)">
                     </div>
                     <div class="inFoName">
-                        <input type="text" value="Python ">
+                        <input type="text" [value]=" courseResultResponse.result.name ">
 
                     </div>
 
@@ -32,15 +32,14 @@
                 <div class="line my-2"></div>
                 <div class="CourseDescription">
                     <p>Course description : </p>
-                    <textarea readonly name="" id="" class="custom-textarea" rows="3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec mauris ac felis suscipit scelerisque. Sed tincidunt, mauris vel convallis tempor, neque mauris semper tellus, vel sagittis neque tellus a velit. Sed consectetur, lectus vel consectetur consectetur, justo neque dignissim velit, non congue diam arcu non neque. Sed vel velit semper, volutpat mauris non, cursus nunc. Aliquam erat volutpat. Sed facilisis, lectus ut viverra sagittis, turpis lacus auctor urna, sed consectetur nunc diam non nisi. Sed vel dolor vel lectus scelerisque consectetur. Duis vel tortor et urna condimentum semper. In sed lectus ac neque consectetur bibendum at id libero.
-                    </textarea>
+                    <textarea readonly name="" id="" class="custom-textarea" rows="3">{{courseResultResponse.result.description}}</textarea>
                 </div>
                 <div class="contentDetails">
                     <div class="content">
                         <p class="text-view-name">Price</p>
                         <div class="w-60">
                             <div class="price">
-                                <p class="editable-text"> 500 <span>EGP</span></p>
+                                <p class="editable-text"> {{courseResultResponse.result.price}} <span>EGP</span></p>
                             </div>
                         </div>
                     </div>
@@ -48,7 +47,7 @@
                         <p class="text-view-name">Language</p>
                         <div class="w-60">
                             <div class="price">
-                                <p class="editable-text"> Arbic</p>
+                                <p class="editable-text"> {{courseResultResponse.result.name}}</p>
                             </div>
                         </div>
                     </div>
@@ -75,7 +74,27 @@
                         <p class="text-view-name">Discount</p>
                         <div class="w-60">
                             <div class="price">
-                                <p class="editable-text"> 100 <span>EGP</span></p>
+                                @if(courseResultResponse.result.discount){
+                                    <p class="editable-text">
+                                        
+                                        @if(courseResultResponse.result.discount.type === 1){
+                                            <span>
+                                                EGP
+                                            </span>
+                                        
+                                        }
+                                        @else {
+                                            <span>
+                                                %
+                                            </span>
+                                        }
+                                 
+                                </p>
+
+                                }
+                                @else{
+                                    <p class="editable-text"> --- </p>
+                                }
                             </div>
                         </div>
                     </div>

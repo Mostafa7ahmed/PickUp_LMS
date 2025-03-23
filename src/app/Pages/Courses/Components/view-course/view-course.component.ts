@@ -3,7 +3,7 @@ import { AfterViewInit, Component, ElementRef, inject, OnInit, ViewChild } from 
 import { TextHeaderComponent } from "../text-header/text-header.component";
 import { ReativeFormModule } from '../../../../Core/Shared/Modules/reative-form/reative-form.module';
 import { CustomFildsService } from '../../Core/service/custom-filds.service';
-import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose';
+import { IPaginationResponse, IResponseOf } from '../../../../Core/Shared/Interface/irespose';
 import { ICustomField } from '../../Core/interface/icustom-field';
 import { Select } from 'primeng/select';
 import { NewCustomFieldRequest } from '../../Core/interface/icreate-course';
@@ -12,6 +12,10 @@ import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { AddStageComponent } from "../../../Stages/Components/add-stage/add-stage.component";
 import Plyr from 'plyr';
+import { GetonecourseService } from '../../Core/service/getonecourse.service';
+import { ActivatedRoute } from '@angular/router';
+import { CourseResult } from '../../Core/interface/icourses';
+import { environment } from '../../../../Environments/environment';
 
 @Component({
   selector: 'app-view-course',
@@ -21,14 +25,13 @@ import Plyr from 'plyr';
   styleUrl: './view-course.component.scss'
 })
 export class ViewCourseComponent implements AfterViewInit ,OnInit{
-  editIndex: number | null = null;
-  @ViewChild('player') playerRef!: ElementRef;
-  player!: Plyr;
 
-  ngAfterViewInit() {
-    this.player = new Plyr(this.playerRef.nativeElement);
-  }
+
   private _CustomFildsService = inject(CustomFildsService);
+  private _getonecourseService = inject(GetonecourseService);
+  private _ActivatedRoute = inject(ActivatedRoute);
+
+
   private _FormBuilder = inject(FormBuilder);
   get customFieldsArray(): FormArray {
     return this.courseForm.get('customFields') as FormArray;
@@ -38,7 +41,6 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
     return this.customFieldsArray.controls as FormGroup[];
   }
 
-  customFieldListResponse: IPaginationResponse<ICustomField> = {} as IPaginationResponse<ICustomField>;
 
   courseForm: FormGroup = this._FormBuilder.group({
 
@@ -51,10 +53,16 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
   });
 
 
-  selectedImage!: string | null
   newCustomFieldList: NewCustomFieldRequest[] = [ ];
-  
-  
+  customFieldListResponse: IPaginationResponse<ICustomField> = {} as IPaginationResponse<ICustomField>;
+  courseResultResponse: IResponseOf<CourseResult> = {} as IResponseOf<CourseResult>;
+ baseUrlFile = environment.baseUrlFiles ;
+  @ViewChild('player') playerRef!: ElementRef;
+  selectedImage!: string | null
+  editIndex: number | null = null;
+  player!: Plyr;
+  CourseId: number = 0;
+
   value: number = 0;
 
 
@@ -71,13 +79,7 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
   getICustomField() {
     this.customFieldsArray.clear();
   
-    this.customFieldListResponse.result = [
-      { id: 5, key: 'key 1', usage: 1, visible: true },
-      { key: 'key 2', usage: 'value 2', visible: false },
-      { key: 'key 3', usage: 'value 3  ', visible: true },
-      { key: 'key 4', usage: 'value 4', visible: true },
-      { key: 'key 5', usage: 'value 5', visible: false },
-    ];
+
   
     this.customFieldListResponse.result.forEach((field: ICustomField) => {
       const group = this._FormBuilder.group({
@@ -87,6 +89,18 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
         visible: [field.visible ?? true]
       });
       this.customFieldsArray.push(group);
+    });
+  }
+
+  getOneCourse(id:number){
+    this._getonecourseService.getCourse(id).subscribe((res: any) => {
+      if(res.success){
+        this.courseResultResponse = res;
+        console.log(this.courseResultResponse.result)
+
+
+      }
+
     });
   }
   onVisibleChange(index: number) {
@@ -162,6 +176,17 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
   }
 
   ngOnInit() {
-    this.getICustomField()
+    this._ActivatedRoute.params.subscribe(params => {
+      if (params['courseId'] && params['courseId'] !== '0') {
+        this.CourseId = +params['courseId'];
+        console.log(this.CourseId)
+        this.getOneCourse(this.CourseId)
+      }
+    });
+  
+  }
+  
+  ngAfterViewInit() {
+    this.player = new Plyr(this.playerRef.nativeElement);
   }
 }
