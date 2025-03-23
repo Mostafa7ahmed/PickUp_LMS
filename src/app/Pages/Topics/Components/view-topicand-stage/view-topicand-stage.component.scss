@@ -430,7 +430,7 @@
             position: absolute;
             top: 30px;
             opacity: 4;
-            inset-inline-start: 250px;
+            inset-inline-start: 236px;
             transition: opacity 0.1s ease-in-out, height 0.1s ease-in-out, visibility 0.1s ease-in-out;
             opacity: 0;
             visibility: hidden;
@@ -642,10 +642,13 @@
     background-color: #f4b74030;
   
     .iconShow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
   
       i {
         color: #f4b740;
-        font-size: 13px;
+        font-size: 12px;
       }
     }
   
