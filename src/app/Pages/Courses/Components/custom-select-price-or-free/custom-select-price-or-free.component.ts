@@ -41,14 +41,15 @@ export class CustomSelectPriceOrFreeComponent {
     this.onTouched();
   }
 
-  selectOption(option: string) {
-    this.value = option === 'Free';
-  
-    this.valueChange.emit({
-      free: this.value,
-      price: this.value ? 0 : this.coursePrice 
-    });
-  }
+selectOption(option: string) {
+  this.value = option === 'Free';
+  this.onChange(this.value);
+
+  this.valueChange.emit({
+    free: this.value,
+    price: this.value ? 0 : this.coursePrice 
+  });
+}
   writeValue(value: boolean): void {
     this._value = value;
   }

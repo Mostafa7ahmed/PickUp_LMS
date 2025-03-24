@@ -12,6 +12,7 @@
   z-index: 1000;
   box-shadow: 1px 1px 5px #0000001f;
   background-color: #f8f8f8;
+  visibility: visible;
 
   &::-webkit-scrollbar {
     display: none;
@@ -361,9 +362,9 @@
 
 }
 
-.UploadCover img,
+.UploadCover .preview-image,
 .UploadCover video {
-  height: 150px !important;
+  height: 150px;
   object-fit: cover;
 }
 
@@ -708,69 +709,6 @@
   display: none;
 }
 
-.file-list {
-  margin-top: 10px;
-  max-height: 100px;
-  overflow-y: scroll;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
-
-.file-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #e3f2fd;
-  padding: 8px 12px;
-  border-radius: 5px;
-  margin-bottom: 5px;
-  font-size: 14px;
-}
-
-.file-item i {
-  color: #007bff;
-}
-
-.file-name {
-  flex-grow: 1;
-  margin: 0 8px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.file-size {
-  color: #6c757d;
-  font-size: 12px;
-}
-
-.download-btn,
-.delete-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  margin-left: 8px;
-}
-
-.download-btn i {
-  color: #79d34c9c;
-}
-
-.delete-btn i {
-  color: rgba(255, 0, 0, 0.43);
-}
-
-.download-btn:hover i {
-  color: #7ad34c;
-}
-
-.delete-btn:hover i {
-  color: rgba(255, 0, 0, 0.83);
-}
-
 
 
 .containerCheck input {
@@ -944,56 +882,6 @@
   opacity: 0.7;
 }
 
-.reloadFile {
-
-  .upload-container {
-    background-color: #f9f9f9;
-    border: 2px dashed #ddd;
-    padding: 15px;
-    border-radius: 10px;
-  }
-
-  .upload-box {
-    cursor: pointer;
-    background-color: #007bff;
-    color: #fff;
-    padding: 8px 15px;
-    border-radius: 5px;
-    display: inline-flex;
-    align-items: center;
-  }
-
-  .hidden-input {
-    display: none;
-  }
-
-  .file-list {
-    margin-top: 15px;
-  }
-
-  .file-item {
-    background-color: #eaf4fd;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .file-item.uploading {
-    background-color: #fff3cd;
-    color: #856404;
-  }
-
-  .file-name {
-    flex: 1;
-  }
-
-  .fa-spinner {
-    font-size: 18px;
-  }
-}
 
 
 .course-skeleton {
@@ -1117,4 +1005,121 @@
     padding: 5px 10px !important;
 
   }
+}
+
+::ng-deep  .p-splitbutton{
+
+  height: 40px !important;
+}
+::ng-deep  .p-tieredmenu-item-link:hover{
+
+  background-color: #f1f5f9 !important;
+
+}
+
+.files{
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: 200px;
+  scrollbar-width: none;
+  padding: 15px 0px 0px 0px;
+}
+
+.upload-field {
+  display: flex  ;
+      padding: 8px 16px;
+      justify-content: center;
+      align-items: center;
+      min-height: 36px;
+      border-radius: 6px;
+      border: .75px dashed rgba(0, 0, 0, .15);
+      box-sizing: border-box;
+      background: #f9f9f9;
+      position: relative;
+      cursor: pointer;
+}
+
+.upload-field:hover {
+  background-color: #dfdfdf85;
+}
+
+.file-upload-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.upload-instruction {
+  text-align: center;
+  color: #6b7280;
+}
+
+.upload-icon-label p {
+  margin: 0;
+  font-weight: 500;
+  color: #374151;
+}
+.file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f9f9f9;
+  padding: 5px 15px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+.file-item .pdfIcons{
+  border-radius: 4px;
+  padding: 2px  5px;
+  background-color: #fff;
+
+}
+
+.file-item:hover {
+  background: #eef6ff;
+  .Showaction{
+    display: flex !important;
+    cursor: pointer;
+
+  }
+  .file-size{
+    display: none;
+  }
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.file-info img {
+  width: 24px;
+  height: 24px;
+}
+
+.file-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+
+}
+
+.download-btn {
+  color: #007bff;
+}
+
+.delete-btn {
+  color: #dc3545;
+}
+
+.file-size {
+  color: #6c757d;
+  font-size: 14px;
 }

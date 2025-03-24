@@ -32,11 +32,14 @@ import { Select } from 'primeng/select';
 import { ReativeFormModule } from '../../../../Core/Shared/Modules/reative-form/reative-form.module';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { DropdownModule } from 'primeng/dropdown';
+import { SplitButtonModule } from 'primeng/splitbutton';
+import { MenuItem } from 'primeng/api';
+import { SplicTextPipe } from '../../Core/Pipes/splic-text.pipe';
 
 @Component({
   selector: 'app-add-courses',
   standalone: true,
-  imports: [TopPopComponent, Select,InputTextModule,MultiSelectModule,KeyFilterModule,DropdownModule, ButtonModule,RouterModule, TooltipModule, ReactiveFormsModule, ReativeFormModule, TextHeaderComponent, CustomSelectPriceOrFreeComponent, CustomslectwithiconComponent, CustomSelectLanguageComponent, CoustomSelectStageComponent],
+  imports: [TopPopComponent, SplitButtonModule,SplicTextPipe,Select,InputTextModule,MultiSelectModule,KeyFilterModule,DropdownModule, ButtonModule,RouterModule, TooltipModule, ReactiveFormsModule, ReativeFormModule, TextHeaderComponent, CustomSelectPriceOrFreeComponent, CustomslectwithiconComponent, CoustomSelectStageComponent],
   templateUrl: './add-courses.component.html',
   styleUrl: './add-courses.component.scss'
 })
@@ -44,7 +47,6 @@ export class AddCoursesComponent {
   //Injects Or Call Service
   private router = inject(Router);
   private _StreamService = inject(StreamService);
-  private _languageService = inject(LanguageService);
   private _FormBuilder = inject(FormBuilder);
   private _topiclistService = inject(TopiclistService);
   private _deleteStreamService = inject(DeleteStreamService);
@@ -54,20 +56,41 @@ export class AddCoursesComponent {
   private _CustomFildsService = inject(CustomFildsService);
 
 
+  items: MenuItem[];
 
 
 
 
+  constructor() {
+    this.items = [
+        {
+            label: 'save and create new',
+            command: () => {
+              console.log("first")
+            }
+        },
+        {
+            label: 'save and create coupon',
+            command: () => {
+              console.log("second")
+            }
+        },
+        { label: 'save and create lesson',    command: () => {
+          console.log("Three")
+        }
+      }
+
+    ];
+}
 
 
 
   courseForm: FormGroup = this._FormBuilder.group({
     topicId: [0, Validators.required],
     stageId: [0, Validators.required],
-    LanguageId: [0, Validators.required],
     name: ['', Validators.required],
     free: [false],
-    price: this._FormBuilder.control({ value: 1, disabled: false }, [Validators.min(1)]),
+    price: this._FormBuilder.control({ value: 0, disabled: false }, [Validators.min(0)]),
     description: [''],
     photoUrl: [''],
     tags: this._FormBuilder.control([]), 
@@ -81,7 +104,7 @@ export class AddCoursesComponent {
   });
   fieldForm: FormGroup = this._FormBuilder.group({
     key: [null],
-    usage: ['']
+    value: ['']
   });
 
   get customFieldsArray(): FormArray {
@@ -100,8 +123,8 @@ export class AddCoursesComponent {
   selectTopicDefault: any
   selectedTopicId: number | null = null;
   selectedLangugeId: number | null = 4;
-  discountSymbol: string = "EGP";
-  isPercentage: boolean = false;
+  discountSymbol: string = "%";
+  isPercentage: boolean = true;
   isLoadTopic: boolean = false
   isLoadTags: boolean = false
   isLoadCustomFild: boolean = false
@@ -180,13 +203,6 @@ export class AddCoursesComponent {
       }
     });
   }
-    getLanguageList() {
-    this._languageService.getAllLanguage().subscribe(Language => {
-      this.LanguageResultList = Language.result;
-      this.isLoadlanguage = true;
-      console.log(this.LanguageResultList[0])
-    });
-  }
 
   onTopicSelected(selectedId: number) {
     this.selectedTopicId = selectedId;
@@ -232,13 +248,13 @@ export class AddCoursesComponent {
     if (this.isPercentage) {
       amountControl?.setValidators([
         Validators.required,
-        Validators.min(1),
+        Validators.min(0),
         Validators.max(100)
       ]);
     } else {
       amountControl?.setValidators([
         Validators.required,
-        Validators.min(1)
+        Validators.min(0)
       ]);
     }
   
@@ -249,10 +265,8 @@ export class AddCoursesComponent {
     const amountControl = this.courseForm.get('discount.amount');
     const value = +amountControl?.value;
   
-    if (this.isPercentage && value > 100) {
-      amountControl?.setValue(100);
-    } else if (value < 1) {
-      amountControl?.setValue(1);
+    if (value < 0) {
+      amountControl?.setValue(0);
     }
   }
   toggleVisibility(event: Event) {
@@ -277,12 +291,11 @@ export class AddCoursesComponent {
   
               this.uploadedFiles.push(result); 
               fileUrlsArray.push(new FormControl(fileUrl));
-  
+              this.isUploadingFile = false;
+
               console.log('✅ ملف مرفوع:', result);
             }
-            if (index === files.length - 1) {
-              this.isUploadingFile = false;
-            }
+
           },
           error: (err) => {
             console.error('❌ خطأ أثناء رفع الملف:', err);
@@ -320,6 +333,7 @@ export class AddCoursesComponent {
             this.selectedImageName = fileName;
             this.selectedImageUrl = environment.baseUrlFiles + result.url;
             const selectedFile: string = result.url;
+            this.isUploadingImage = false;
             this.courseForm.get('photoUrl')?.setValue(selectedFile);
             console.log('📄 اسم الملف:', result.url);
           }
@@ -366,6 +380,7 @@ export class AddCoursesComponent {
             this.selectedVideoName = fileName;
             this.selectedVideoUrl = environment.baseUrlFiles + result.url;
             const selectedFile: string = result.url;
+            this.isUploadingVideo = false;
             this.courseForm.get('introductionVideoUrl')?.setValue(selectedFile);
             console.log('📄 اسم الفيديو:', result.url);
           }
@@ -395,7 +410,7 @@ export class AddCoursesComponent {
   }
   addField() {
     const keyControl = this.fieldForm.get('key')?.value;
-    const valueControl = this.fieldForm.get('usage')?.value;
+    const valueControl = this.fieldForm.get('value')?.value;
     this.customFieldsArray.controls.forEach((field, index) => {
       console.log(`Field ${index} visible: `, field.get('visible')?.value);
     });
@@ -418,7 +433,7 @@ export class AddCoursesComponent {
     const newFieldEntry = this._FormBuilder.group({
       id: [id],
       key: [key],
-      usage: [valueControl.trim()],
+      value: [valueControl.trim()],
       visible: [true]
     });
   
@@ -433,14 +448,14 @@ export class AddCoursesComponent {
       this.customFieldListResponse.result.push({
         id: null,
         key: key,
-        usage: 0,
+        value: 0,
         createdOn: null
       });
     }
     this.newCustomFieldList = this.customFieldsArray.value;
 
       this.fieldForm.get('key')?.reset();
-    this.fieldForm.get('usage')?.reset();
+    this.fieldForm.get('value')?.reset();
   
   }
   removeField(index: number) {
@@ -485,7 +500,6 @@ export class AddCoursesComponent {
   }
   ngOnInit() {
     this.getTopicList();
-    this.getLanguageList();
     this.getTagsList();
     this.getICustomField()
   }
@@ -494,12 +508,12 @@ export class AddCoursesComponent {
       id: tag.id,
       name: tag.name
     })) || [];
+
     let fileUrls = this.uploadedFiles.filter(file => this._stringExtensionsService.HasValue(file.url)).map(file => file.url);
     let createCourseRequest: ICreateCourseRequest = {
       name: this.courseForm.get("name")?.value,
       free: this.courseForm.get("free")?.value,
       description: this._stringExtensionsService.resolveEmptyStringToNull(this.courseForm.get("description")?.value),
-      languageId: this.courseForm.get("LanguageId")?.value ,
       price: this.courseForm.get("price")?.value,
       topicId: this.courseForm.get("topicId")?.value,
       stageId: this.courseForm.get("stageId")?.value,
@@ -513,7 +527,7 @@ export class AddCoursesComponent {
     createCourseRequest.customFields = this.customFieldsArray.value.map((field: any) => ({
       id: field.id,
       key: field.key,
-      usage: field.usage,
+      value: field.value,
       visible: field.visible
     }));
     return createCourseRequest;
@@ -522,9 +536,9 @@ export class AddCoursesComponent {
   createCourse() {
     let request = this.collectCreateCourseRequest();
     this.isLoad = true;
-    console.log(request)
 
-    if(this.courseForm.valid) {
+
+    if(this.courseForm.valid ||  this.courseForm.get("free")?.value ) {
       this._createCourseService.addCourse(request).subscribe({
         next: (response) => {
           this.isLoad = false;

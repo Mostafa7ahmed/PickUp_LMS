@@ -85,7 +85,7 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
       const group = this._FormBuilder.group({
         id: [field.id ?? null],
         key: [field.key],
-        usage: [field.usage],
+        usage: [field.value],
         visible: [field.visible ?? true]
       });
       this.customFieldsArray.push(group);
@@ -159,7 +159,7 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
       this.customFieldListResponse.result.push({
         id: null,
         key: key,
-        usage: 0,
+        value: 0,
         createdOn: null
       });
     }
