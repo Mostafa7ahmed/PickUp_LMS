@@ -47,14 +47,14 @@ export class CoursesComponent implements OnInit {
   private router = inject(Router);
   private _ActivatedRoute = inject(ActivatedRoute);
     constructor() {
-      this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((event: any) => {
-      if (event.url.includes('/course')) {
-        this.getListTopics(this.topicIdFromRoute);
-        this.getAllKanbans(this.selectedTopicId)
-      }
-      });
+      // this.router.events
+      // .pipe(filter((event) => event instanceof NavigationEnd))
+      // .subscribe((event: any) => {
+      // if (event.url.includes('/course')) {
+      //   this.getListTopics(this.topicIdFromRoute);
+      //   this.getAllKanbans(this.selectedTopicId)
+      // }
+      // });
     }
 
 

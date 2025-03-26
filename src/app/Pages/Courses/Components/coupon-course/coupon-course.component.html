@@ -4,16 +4,72 @@
     <app-top-pop NamePopup="Create Coupon" [bgColor]="'#ec89501a'"  [ColorIcon]="'#ec8950'"  [NameIcon]="'fa-solid fa-receipt'"></app-top-pop>
 
     <div class="CouponCourse p-2">
-        <div class="leftCoupon">
+        <div class="leftCoupon  w-50">
             <div class="courseSelect">
-                <app-text-header  [title]="'Course'" [bgColor]="'#ec8950'"> </app-text-header>
+                <app-text-header [title]="'Course'" [bgColor]="'#ec8950'"></app-text-header>
+              
+                <!-- لو مفيش كورس متحدد -->
+                <div *ngIf="!selectedCourse" class="selectcard  mt-3 my-2" (click)="toggleDropdown()">
+                  <div class="icon">
+                    <i class="fas fa-book"></i>
+                  </div>
+                  <div class="text">
+                    <p>Click to Add Course</p>
+                  </div>
+                </div>
+              
+                <!-- لو الكورس متحدد -->
+                <div *ngIf="selectedCourse" class="mt-3">
+                    <div class="course-card px-2 py-1 position-relative">
+                        <div class="d-flex align-items-center gap-1">
+                          <div class="images">
+                            <img class=" rounded-circle" [src]="baseUrl + selectedCourse.photoUrl" height="30" width="30">
+
+                          </div>
+                          <div class="course-info">
+                            <h5 class="mb-1 fw-bold">{{selectedCourse.name |splicText:15}}</h5>
+                            <p class="date mb-0"><i class="fas fa-clock"></i> {{selectedCourse.createdOn | date}}</p>
+                          </div>
+                        </div>
+                        
+                        <div class="course-details text-end">
+                          <p class="price"> {{selectedCourse.price}} <i class="fas fa-dollar-sign text-success"></i></p>
+                          <p class="students">{{selectedCourse.studentsCount}} <i class="fas fa-graduation-cap text-primary"></i></p>
+                          <p class="discount" *ngIf="selectedCourse.discount">{{selectedCourse.discount.amount}} <i class="fas fa-percent text-danger"></i> </p>
+                        </div>
+                      
+                        <button class="closeBtn position-absolute" (click)="removeCourse()"><i  class="fa-solid fa-xmark"></i></button>
+                      </div>
+                </div>
+              
+                <!-- الدروب داون اللي يظهر لما اضغط عشان أختار كورس -->
+                <div *ngIf="showDropdown" class="dropdown bg-white border rounded p-2 mt-2">
+                  <div *ngFor="let lead of paginationCoursesResponse.result" 
+                       class="lead-item d-flex justify-content-between align-items-center p-2 border-bottom cursor-pointer"
+                       (click)="selectCourse(lead)">
+                    <div class="info_course d-flex gap-2 align-items-center">
+                      <img class="img-fluid rounded-circle" [src]="baseUrl + lead.photoUrl" width="30">
+                      <div class="info">
+                        <h5 class="name">{{ lead.name | splicText :13 }}</h5>
+                        <p class="price">{{ lead.price }}</p>
+                      </div>
+                    </div>
+                    <div class="deals-btn">With Deals</div>
+                  </div>
+                </div>
+              </div>
+              
+
+        </div>
+
+        <div class="rightCoupon w-50">
+            <div class="courseSelect">
+                <app-text-header  [title]="'Students'" [bgColor]="'#ec8950'" [Icon]="'fa-solid fa-exclamation'"> </app-text-header>
                 
             </div>
 
+        </div>
 
-        </div>
-        <div class="rightCoupon">
-        </div>
 
          
     </div>
