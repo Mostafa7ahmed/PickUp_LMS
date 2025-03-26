@@ -16,11 +16,14 @@ import { GetonecourseService } from '../../Core/service/getonecourse.service';
 import { ActivatedRoute } from '@angular/router';
 import { CourseResult } from '../../Core/interface/icourses';
 import { environment } from '../../../../Environments/environment';
+import { ViewCourse } from '../../Core/interface/view-course';
+import { SplicTextPipe } from '../../Core/Pipes/splic-text.pipe';
+import { link } from 'fs';
 
 @Component({
   selector: 'app-view-course',
   standalone: true,
-  imports: [TextHeaderComponent, ReativeFormModule, Select, TabsModule, ButtonModule, TooltipModule],
+  imports: [TextHeaderComponent, ReativeFormModule, Select, SplicTextPipe, TabsModule, ButtonModule, TooltipModule],
   templateUrl: './view-course.component.html',
   styleUrl: './view-course.component.scss'
 })
@@ -49,13 +52,13 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
   });
   fieldForm: FormGroup = this._FormBuilder.group({
     key: [null],
-    usage: ['']
+    value: ['']
   });
 
 
   newCustomFieldList: NewCustomFieldRequest[] = [ ];
   customFieldListResponse: IPaginationResponse<ICustomField> = {} as IPaginationResponse<ICustomField>;
-  courseResultResponse: IResponseOf<CourseResult> = {} as IResponseOf<CourseResult>;
+  courseResultResponse: IResponseOf<ViewCourse> = {} as IResponseOf<ViewCourse>;
  baseUrlFile = environment.baseUrlFiles ;
   @ViewChild('player') playerRef!: ElementRef;
   selectedImage!: string | null
@@ -85,7 +88,7 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
       const group = this._FormBuilder.group({
         id: [field.id ?? null],
         key: [field.key],
-        usage: [field.value],
+        value: [field.value],
         visible: [field.visible ?? true]
       });
       this.customFieldsArray.push(group);
@@ -103,13 +106,22 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
 
     });
   }
+  downloadFile(fileUrl: string) {
+   console.log(fileUrl);
+  
+    const link = document.createElement('a');
+    link.setAttribute('download', '');
+    document.body.appendChild(link);
+    link.click();
+
+  }
   onVisibleChange(index: number) {
     const field = this.customFieldsArray.at(index);
     console.log('Visible Now:', field.get('visible')?.value);
   }
   addField() {
     const keyControl = this.fieldForm.get('key')?.value;
-    const valueControl = this.fieldForm.get('usage')?.value;
+    const valueControl = this.fieldForm.get('value')?.value;
 
     this.customFieldsArray.controls.forEach((field, index) => {
       console.log(`Field ${index} visible: `, field.get('visible')?.value);
@@ -144,7 +156,7 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
     const newFieldEntry = this._FormBuilder.group({
       id: [id],
       key: [key],
-      usage: [valueControl.trim()],
+      value: [valueControl.trim()],
       visible: [true]
     });
 
@@ -167,7 +179,7 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
     this.newCustomFieldList = this.customFieldsArray.value;
 
     this.fieldForm.get('key')?.reset();
-    this.fieldForm.get('usage')?.reset();
+    this.fieldForm.get('value')?.reset();
   }
 
   removeField(index: number) {

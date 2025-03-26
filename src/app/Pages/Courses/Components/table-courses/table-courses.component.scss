@@ -38,6 +38,9 @@
       max-width: 340px;
       width: 340px !important;
     }
+    .fixedWithdth{
+      width: 200px !important;
+    }
 
   
     .course-name {
@@ -186,6 +189,8 @@
 
 ::ng-deep .p-tooltip .p-tooltip-text {
   background-color: #ffffff !important;
+  max-width: 340px !important;
+  width: fit-content !important;
   color: #000000; 
   padding: 8px 12px; 
   border-radius: 4px !important; 

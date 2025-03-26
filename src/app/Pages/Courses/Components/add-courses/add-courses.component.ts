@@ -67,13 +67,15 @@ export class AddCoursesComponent {
             label: 'save and create new',
             command: () => {
               console.log("first")
+
             }
         },
         {
-            label: 'save and create coupon',
-            command: () => {
-              console.log("second")
-            }
+          label: 'Save and Create Coupon',
+          command: () => {
+            const coupanId = 123; 
+            this.router.navigate([{ outlets: { dialog: ['coupan', coupanId] } }]);
+          }
         },
         { label: 'save and create lesson',    command: () => {
           console.log("Three")

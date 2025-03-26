@@ -381,8 +381,13 @@
           <span *ngIf="isLoad" class="spinner"></span>
           <span *ngIf="!isLoad">Create</span>
         </button> -->
-        <p-splitbutton label="Create" appendTo="body"  (onClick)="createCourse()" [model]="items" />
-
+        <p-splitbutton 
+        label="Create" 
+        appendTo="body"  
+        (onClick)="createCourse()" 
+        [model]="items" 
+        [disabled]="isLoad">
+      </p-splitbutton>
       </div>
     </div>
   </div>

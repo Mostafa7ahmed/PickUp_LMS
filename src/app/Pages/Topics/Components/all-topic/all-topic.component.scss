@@ -386,6 +386,9 @@
   display: flex;
   align-items: center;
   gap: 80px;
+  overflow-x: auto;
+  width: 95%;
+  scrollbar-width: none;
 
   .number-deals {
     display: flex;
@@ -421,6 +424,7 @@
       font-weight: 500;
       padding-inline-end: 6px;
       border-inline-end: 1px solid #EAEAEA;
+      white-space: nowrap;
 
     }
 
@@ -428,6 +432,8 @@
       padding-inline-start: 6px;
       display: flex;
       align-items: center;
+      white-space: nowrap;
+
 
       gap: 2px;
 
@@ -437,6 +443,8 @@
         font-size: 12px;
         font-style: normal;
         font-weight: 500;
+        white-space: nowrap;
+
         line-height: 24px;
       }
     }

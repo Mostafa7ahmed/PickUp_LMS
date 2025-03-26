@@ -4,20 +4,22 @@
     <thead>
       <tr>
         <th class="nameTh">Name</th>
-        <th>Stage</th>
-        <th>Price</th>
-        <th>Profit</th>
-        <th>Discount</th>
+        <th class="fixedWithdth">Stage</th>
+        <th class="fixedWithdth">Price</th>
+        <th class="fixedWithdth">Profit</th>
+        <th class="fixedWithdth">Discount</th>
 
-        <th>Students</th>
+        <th class="fixedWithdth">Students</th>
 
-        <th>Rating</th>
-        <th>Videos</th>
-        <th>Coupons </th>
-        <th>Creator</th>
-        <th>Updater</th>
-        <th class="dateTh">Created On</th>
-        <th class="dateTh">Updated On</th>
+        <th class="fixedWithdth">Rating</th>
+        <th class="fixedWithdth">Videos</th>
+        <th class="fixedWithdth">Coupons </th>
+        <th class="nameTh">Description </th>
+
+        <th class="fixedWithdth">Creator</th>
+        <th class="fixedWithdth">Updater</th>
+        <th class="fixedWithdth">Created On</th>
+        <th class="fixedWithdth">Updated On</th>
       </tr>
     </thead>
     <tbody>
@@ -31,14 +33,14 @@
 
           </div>
         </td>
-        <td>
+        <td class="fixedWithdth">
           <div class="stageName d-flex gap-1 align-items-center ">
             <div class="progressBar" [style.border-color]="course.stage.color"></div>
             <p [pTooltip]="course.stage.name" tooltipPosition="top">{{course.stage.name| splicText }}</p>
           </div>
 
         </td>
-        <td>
+        <td class="fixedWithdth">
           <div class="Price d-flex gap-1 align-items-center">
             <div class="iconPrice">
               <svg width="18" height="18" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -54,7 +56,7 @@
           </div>
         </td>
 
-        <td>
+        <td class="fixedWithdth">
           <div class="Price d-flex gap-1 align-items-center">
             <div class="icon"  style="margin-bottom: 5px;">
               <img src="Images/Group 58.svg" width="20" alt="">
@@ -65,7 +67,7 @@
         </td>
 
         @if(course.discount){
-        <td>
+        <td class="fixedWithdth">
           <div class="Price d-flex gap-1 align-items-center">
             <div class="icon">
               <i class="fa-kit fa-transaction-cp"></i>
@@ -82,13 +84,15 @@
 
         }
         @else{
-          <td>
+          <td class="fixedWithdth">
             <div class="d-flex">
               <span> --- </span>
             </div>
-          </td>        }
+          </td>  
+        
+        }
 
-        <td>  <div class="Price d-flex gap-1 align-items-center">
+        <td class="fixedWithdth">  <div class="Price d-flex gap-1 align-items-center">
             <div class="icon">
               <i class="fa-graduation-cap fa-solid" style="color: #92a1ad;"></i>
 
@@ -100,7 +104,7 @@
 
 
 
-        <td>
+        <td class="fixedWithdth">
           <div class="d-flex gap-1 align-items-center">
             <div class="  rounded-2">
               <i id="tabsactive-icon-i-4" class="fa-kit fa-rating-cp  "  style="color: gold; font-size: 20px;"  ></i>
@@ -111,7 +115,7 @@
             </div>
           </div>
         </td>
-        <td>  <div class="Price d-flex gap-1 align-items-center">
+        <td class="fixedWithdth">  <div class="Price d-flex gap-1 align-items-center">
           <div class="icon">
             <i class="fa-solid fa-camera-retro" style="color: #92a1ad; "></i>
           
@@ -130,8 +134,26 @@
           </div>
 
         </td>
+        @if(course.description){
+          <td class="nameTh">
+            <div class="Price d-flex gap-1  align-items-center">
+       
+              <p lass="m-0" [pTooltip]="course.description" tooltipPosition="top">{{course.description | splicText}}</p>
 
-        <td>
+            </div>
+          </td>
+  
+          }
+          @else{
+            <td class="nameTh">
+              <div class="d-flex  ">
+                <span> --- </span>
+              </div>
+            </td>
+          }
+
+
+        <td class="fixedWithdth">
           <div class="Price d-flex gap-1  align-items-center">
             <div class="icon">
               <img [src]="baseUrl + course.creator.photo" width="30" height="30" alt="" class="rounded-circle">
@@ -141,7 +163,7 @@
           </div>
         </td>
         @if(course.updater){
-        <td>
+        <td class="fixedWithdth">
           <div class="Price d-flex gap-1  align-items-center">
             <div class="icon">
               <img [src]="baseUrl + course.updater.photo" width="30" height="30" alt="" class="rounded-circle">
@@ -153,13 +175,13 @@
 
         }
         @else{
-          <td>
-            <div class="d-flex">
+          <td class="fixedWithdth">
+            <div class="d-flex  ">
               <span> --- </span>
             </div>
           </td>
         }
-        <td class="dateTh">
+        <td class="fixedWithdth">
           <div class="d-flex gap-1 align-items-center   ">
             <div class="custom-icon  rounded-2 bg-light">
               <img alt="" loading="lazy" width="16px" height="16px"
@@ -172,7 +194,7 @@
 
         </td>
         @if(course.updatedOn){
-          <td class="dateTh">
+          <td class="fixedWithdth">
             <div class="d-flex gap-1 align-items-center">
               <div class="custom-icon  rounded-2 bg-light">
                 <img alt="" loading="lazy" width="16px" height="16px"
@@ -186,8 +208,8 @@
           </td>
         }
         @else{
-          <td>
-            <div class="d-flex">
+          <td class="fixedWithdth">
+            <div class="d-flex  ">
               <span> --- </span>
             </div>
           </td>

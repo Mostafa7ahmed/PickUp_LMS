@@ -6,7 +6,13 @@
                 <img src="Images/profile-card-Image.png" class="coverProfile" alt="">
                 <div class="infoProfle">
                     <div class="position-relative ImageCourse" (click)="fileInput.click()">
-                        <img [src]="selectedImage || baseUrlFile + courseResultResponse.result.photoUrl" class="Image" alt="Course Image">
+                        @if(courseResultResponse.result.photoUrl != null) {
+
+                            <img [src]="selectedImage || baseUrlFile + courseResultResponse.result.photoUrl" class="Image" alt="Course Image">
+                        }
+                        @else{
+                            <img src="Images/Logo.png" class="Image" alt="Course Image">
+                        }
                         <div class="position-absolute pen-edit">
                             <i class="fa-pen-to-square fa-solid"></i>
                         </div>
@@ -39,25 +45,21 @@
                         <p class="text-view-name">Price</p>
                         <div class="w-60">
                             <div class="price">
-                                <p class="editable-text"> {{courseResultResponse.result.price}} <span>EGP</span></p>
+                                <p class="editable-text"> {{courseResultResponse.result.actualPrice}} <span>EGP</span></p>
                             </div>
                         </div>
                     </div>
-                    <div class="content">
-                        <p class="text-view-name">Language</p>
-                        <div class="w-60">
-                            <div class="price">
-                                <p class="editable-text"> {{courseResultResponse.result.name}}</p>
-                            </div>
-                        </div>
-                    </div>
+                  
                     <div class="content">
                         <p class="text-view-name">Topic</p>
                         <div class="w-60">
                             <div class="d-flex align-items-center gap-1 price">
-                                <span class="color-indicator m-0" [style.background]="'#6d9ef4'"><i
-                                        class="fa fa-comments" aria-hidden="true"></i></span>
-                                <p class="editable-text">Computer science</p>
+                                <span 
+                                class="color-indicator m-0" 
+                                [style.background-color]="courseResultResponse.result.topic.color">
+                                
+                                <i [class]="courseResultResponse.result.topic.icon" aria-hidden="true"></i></span>
+                                <p class="editable-text">{{courseResultResponse.result.topic.name}}</p>
                             </div>
                         </div>
                     </div>
@@ -65,8 +67,8 @@
                         <p class="text-view-name">Stage</p>
                         <div class="w-60">
                             <div class="d-flex align-items-center gap-1 price">
-                                <div class="progressBar"></div>
-                                <p class="editable-text"> Done</p>
+                                <div class="progressBar" [style.border-color]="courseResultResponse.result.stage.color"></div>
+                                <p class="editable-text">{{courseResultResponse.result.stage.name}}</p>
                             </div>
                         </div>
                     </div>
@@ -76,6 +78,7 @@
                             <div class="price">
                                 @if(courseResultResponse.result.discount){
                                     <p class="editable-text">
+                                        {{courseResultResponse.result.discount.amount}}
                                         
                                         @if(courseResultResponse.result.discount.type === 1){
                                             <span>
@@ -101,14 +104,18 @@
                     <div class="content">
                         <p class="text-view-name">Tags</p>
                         <div class="tagsShow">
-                            <div class="tag">Python</div>
-                            <div class="tag">Programming</div>
-                            <div class="tag">AI</div>
-                            <div class="tag">Machine Learning</div>
-                            <div class="tag">Web Development</div>
-                            <div class="tag">Data Science</div>
-                            <div class="tag">Cloud Computing</div>
-
+                            @if(courseResultResponse.result.tags.length > 0){
+                                <div  *ngFor="let tag of courseResultResponse.result.tags; let i = index ">
+                                    <div class="tag">{{tag.name}}</div>
+    
+    
+                                </div>
+                            }
+                            @else{
+                                <div class="tag text-center"> --- </div>
+                            }
+                     
+        
                         </div>
 
                     </div>
@@ -118,20 +125,20 @@
             </div>
 
             <div class="customFildes">
-                <div [formGroup]="fieldForm" class="flex-column CourseTags pb-1 UploadCover">
+                <div  class="flex-column CourseTags pb-1 UploadCover">
                     <div class="custom-fields-container tags">
                         <app-text-header [bgColor]="'#659DFFBF'" [title]="'Custom fields'">
                         </app-text-header>
 
                         <div class="input-row mt-4">
                             <div class="flex card border-0 justify-center">
-                                <p-select [options]="customFieldListResponse.result" formControlName="key"
+                                <p-select [options]="customFieldListResponse.result" 
                                     [editable]="true" placeholder="Key" optionLabel="key">
                                 </p-select>
                             </div>
 
 
-                            <input type="text" placeholder="Value" formControlName="usage" class="w-full md:w-56">
+                            <input type="text" placeholder="Value"  class="w-full md:w-56">
 
                             <button (click)="addField()" class="add-btn" pTooltip="Add Fields" tooltipPosition="top">
                                 <i class="fa-plus fa-solid"></i>
@@ -141,16 +148,16 @@
                     <div class="custom-fields-container pt-0 tags" >
 
                         <div class="fields-list pt-0">
-                            <div *ngFor="let field of customFieldsControls; let i = index" [formGroup]="field"
+                            <div *ngFor="let field of courseResultResponse.result.customFields; let i = index" 
                                 class="field-item">
 
 
-                                <input type="text" formControlName="key" readonly class="field-key" placeholder="Key">
-                                <input type="text" formControlName="usage" readonly class="field-value"
+                                <input type="text"  [value]="field.key"  readonly class="field-key" placeholder="Key">
+                                <input type="text"  readonly class="field-value"
                                     placeholder="Value">
 
                                 <label class="containerCheck">
-                                    <input type="checkbox" formControlName="visible" (change)="onVisibleChange(i)">
+                                    <input type="checkbox"[checked]="field.visible"  (change)="onVisibleChange(i)">
                                     <div class="checkmark"></div>
                                 </label>
 
@@ -338,22 +345,24 @@
                     </div>
                 </div>
                 <div class="files">
-                    <div class="file-item" *ngFor="let field of [0,1,2,3,4,5,6,8] ; let i = index">
+                    <div class="file-item" *ngFor="let field of courseResultResponse.result.files; let i = index">
                         <div class="file-info">
                             <div class="pdfIcons">
                                 <i class="fa-file-lines fa-solid"></i>
                             </div>
-                            <span>Mostafa Cv.pdf</span>
+                            <span>{{field.name | splicText : 20}}</span>
                         </div>
                         <div class="d-none gap-2 Showaction">
-                            <div class="img-container" pTooltip="Download" tooltipPosition="top" >
+                            <a class="img-container " [href]="baseUrlFile  + field.url" download pTooltip="Download" tooltipPosition="top" 
+                            
+                            >
                                 <img src="https://s3.dinarcrm.com/assets/img/contacts/download-file-icon.svg">
-                            </div>
+                            </a>
                             <div class="img-container ng-star-inserted" pTooltip="Delete" tooltipPosition="top">
                                 <img  alt="" src="https://s3.dinarcrm.com/assets/img/contacts/delete-file-icon.svg">
                             </div>
                         </div>
-                        <div class="file-size">23.73 KB</div>
+                        <div class="file-size">{{field.size}} KB</div>
                     </div>
           
                 </div>
