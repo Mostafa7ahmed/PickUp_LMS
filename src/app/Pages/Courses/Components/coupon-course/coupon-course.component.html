@@ -1,77 +1,274 @@
 <div class="overlay"></div>
 
 <div class="ShowPopup">
-    <app-top-pop NamePopup="Create Coupon" [bgColor]="'#ec89501a'"  [ColorIcon]="'#ec8950'"  [NameIcon]="'fa-solid fa-receipt'"></app-top-pop>
+  <app-top-pop NamePopup="Create Coupon" [bgColor]="'#ec89501a'" [ColorIcon]="'#ec8950'"
+    [NameIcon]="'fa-solid fa-receipt'"></app-top-pop>
 
-    <div class="CouponCourse p-2">
-        <div class="leftCoupon  w-50">
-            <div class="courseSelect">
-                <app-text-header [title]="'Course'" [bgColor]="'#ec8950'"></app-text-header>
-              
-                <!-- لو مفيش كورس متحدد -->
-                <div *ngIf="!selectedCourse" class="selectcard  mt-3 my-2" (click)="toggleDropdown()">
-                  <div class="icon">
-                    <i class="fas fa-book"></i>
-                  </div>
-                  <div class="text">
-                    <p>Click to Add Course</p>
-                  </div>
-                </div>
-              
-                <!-- لو الكورس متحدد -->
-                <div *ngIf="selectedCourse" class="mt-3">
-                    <div class="course-card px-2 py-1 position-relative">
-                        <div class="d-flex align-items-center gap-1">
-                          <div class="images">
-                            <img class=" rounded-circle" [src]="baseUrl + selectedCourse.photoUrl" height="30" width="30">
+  <div class="CouponCourse p-2" *ngIf="isLoadCourse ">
+    <div class="leftCoupon  w-50"   >
+      <div class="courseSelect ">
+        <app-text-header [title]="'Course'" [bgColor]="'#ec8950'"></app-text-header>
 
-                          </div>
-                          <div class="course-info">
-                            <h5 class="mb-1 fw-bold">{{selectedCourse.name |splicText:15}}</h5>
-                            <p class="date mb-0"><i class="fas fa-clock"></i> {{selectedCourse.createdOn | date}}</p>
-                          </div>
-                        </div>
-                        
-                        <div class="course-details text-end">
-                          <p class="price"> {{selectedCourse.price}} <i class="fas fa-dollar-sign text-success"></i></p>
-                          <p class="students">{{selectedCourse.studentsCount}} <i class="fas fa-graduation-cap text-primary"></i></p>
-                          <p class="discount" *ngIf="selectedCourse.discount">{{selectedCourse.discount.amount}} <i class="fas fa-percent text-danger"></i> </p>
-                        </div>
-                      
-                        <button class="closeBtn position-absolute" (click)="removeCourse()"><i  class="fa-solid fa-xmark"></i></button>
-                      </div>
-                </div>
-              
-                <!-- الدروب داون اللي يظهر لما اضغط عشان أختار كورس -->
-                <div *ngIf="showDropdown" class="dropdown bg-white border rounded p-2 mt-2">
-                  <div *ngFor="let lead of paginationCoursesResponse.result" 
-                       class="lead-item d-flex justify-content-between align-items-center p-2 border-bottom cursor-pointer"
-                       (click)="selectCourse(lead)">
-                    <div class="info_course d-flex gap-2 align-items-center">
-                      <img class="img-fluid rounded-circle" [src]="baseUrl + lead.photoUrl" width="30">
-                      <div class="info">
-                        <h5 class="name">{{ lead.name | splicText :13 }}</h5>
-                        <p class="price">{{ lead.price }}</p>
-                      </div>
-                    </div>
-                    <div class="deals-btn">With Deals</div>
-                  </div>
-                </div>
-              </div>
-              
-
+        <div *ngIf="!selectedCourse" class="selectcard  mt-3 my-2" (click)="toggleDropdown()">
+          <div class="icon">
+            <i class="fas fa-book"></i>
+          </div>
+          <div class="text">
+            <p>Click to Add Course</p>
+          </div>
         </div>
 
-        <div class="rightCoupon w-50">
-            <div class="courseSelect">
-                <app-text-header  [title]="'Students'" [bgColor]="'#ec8950'" [Icon]="'fa-solid fa-exclamation'"> </app-text-header>
-                
+        <div *ngIf="selectedCourse" class="mt-3">
+          <div class="course-card px-2 py-1 position-relative">
+            <div class="d-flex align-items-center gap-1">
+              <div class="images">
+                <img class=" rounded-circle" [src]="baseUrl + selectedCourse.photoUrl" height="30" width="30">
+
+              </div>
+              <div class="course-info">
+                <h5 class="mb-1 fw-bold">{{selectedCourse.name |splicText:15}}</h5>
+                <p class="date mb-0"><i class="fas fa-clock"></i> {{selectedCourse.createdOn | date}}</p>
+              </div>
             </div>
 
+            <div class="course-details text-end d-flex flex-column align-items-end justify-content-end">
+              <p class="price"> {{selectedCourse.price}} <i class="fas fa-dollar-sign text-success"></i></p>
+              <p class="students">{{selectedCourse.enrollmentCount}} <i class="fas fa-graduation-cap text-primary"></i></p>
+            </div>
+
+            <button class="closeBtn position-absolute" (click)="removeCourse()"><i
+                class="fa-solid fa-xmark"></i></button>
+          </div>
+        </div>
+        <div *ngIf="showDropdown" class="dropdown bg-white border rounded p-2 mt-2">
+          <div *ngFor="let lead of paginationCoursesResponse.result"
+            class="lead-item d-flex justify-content-between align-items-center p-2 border-bottom cursor-pointer"
+            (click)="selectCourse(lead)">
+            <div class="info_course d-flex gap-2 align-items-center">
+              <img class="img-fluid rounded-circle" [src]="baseUrl + lead.photoUrl" width="30" height="30">
+              <div class="info">
+                <h5 class="name">{{ lead.name | splicText :13 }}</h5>
+                <p class="price">{{ lead.price }}</p>
+              </div>
+            </div>
+            <div class="deals-btn">With Deals</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="courseSelect m-2">
+        <app-text-header [title]="'Students'" [bgColor]="'#ec8950'" [Icon]="'fa-solid fa-exclamation'">
+        </app-text-header>
+
+        <div class="selectcard  mt-3 my-2">
+          <div class="icon">
+            <i class="fas fa-book"></i>
+          </div>
+          <div class="text">
+            <p>Click to Add Students</p>
+          </div>
+        </div>
+         <!-- <div *ngIf="selectedCourse" class="mt-3">
+          <div class="course-card px-2 py-1 position-relative">
+            <div class="d-flex align-items-center gap-1">
+              <div class="images">
+                <img class=" rounded-circle" [src]="baseUrl + selectedCourse.photoUrl" height="30" width="30">
+
+              </div>
+              <div class="course-info">
+                <h5 class="mb-1 fw-bold">{{selectedCourse.name |splicText:15}}</h5>
+                <p class="date mb-0"><i class="fas fa-clock"></i> {{selectedCourse.createdOn | date}}</p>
+              </div>
+            </div>
+
+            <div class="course-details text-end d-flex flex-column align-items-end justify-content-end">
+              <p class="price"> {{selectedCourse.price}} <i class="fas fa-dollar-sign text-success"></i></p>
+              <p class="students">{{selectedCourse.couponsCount}} <i class="fas fa-graduation-cap text-primary"></i>
+              </p>
+     
+            </div>
+
+            <button class="closeBtn position-absolute" (click)="removeCourse()"><i
+                class="fa-solid fa-xmark"></i></button>
+          </div>
+        </div> 
+        <div *ngIf="showDropdown" class="dropdown bg-white border rounded p-2 mt-2">
+          <div *ngFor="let lead of paginationCoursesResponse.result"
+            class="lead-item d-flex justify-content-between align-items-center p-2 border-bottom cursor-pointer"
+            (click)="selectCourse(lead)">
+            <div class="info_course d-flex gap-2 align-items-center">
+              <img class="img-fluid rounded-circle" [src]="baseUrl + lead.photoUrl" width="30" height="30">
+              <div class="info">
+                <h5 class="name">{{ lead.name | splicText :13 }}</h5>
+                <p class="price">{{ lead.price }}</p>
+              </div>
+            </div>
+            <div class="deals-btn">With Deals</div>
+          </div>
+        </div> -->
+
+      </div>
+
+      <div class="mainSelet courseSelect p-2  mt-2">
+        <app-text-header [title]="'Maim coupon information'" [bgColor]="'#6662FF'"> </app-text-header>
+        <div class="mainContent mt-3">
+          <div class="codeCoupon d-flex gap-2 align-items-end mb-2">
+            <div class="Course_name flex-grow-1" >
+              <label for="Course_name">Coupon code</label>
+              <input formcontrolname="name" type="text" id="Course_name" placeholder="Enter Coupon code"
+                class="input_Couser ">
+            </div>
+            <div class="deal-desc-btn" tooltipPosition="top">
+              <i class="fa-kit fa-subtitles"></i>
+            </div>
+          </div>
+          <div class="desCourse_name Course_name mt-2  active" >
+            <label for="Course_description">Coupon Notes</label>
+            <textarea formControlName="description" class="input_Couser textarea_course"
+              id="Course_description"></textarea>
+          </div>
+          
+      
+
+
+
+
+        </div>
+        
+      </div>
+
+
+
+    </div>
+
+    <div class="rightCoupon w-50"  >
+
+      <div class="dicountCard courseSelect p-2  ">
+        <app-text-header [title]="'Coupon usage'" [bgColor]="'#04865Fab'" >
+        </app-text-header>
+
+        <div class="checkDicound d-flex gap-2 align-items-center mt-3 justify-content-between">
+          <div class="seletDiscound  d-flex flex-column " >
+            <label for="seletDiscound">Coupon Usage</label>
+            <p-select  [options]="cities" optionLabel="name"  />
+  
+          </div>
+          <div class="DiscountValuse">
+            <label for="valuDiscound">Discount Value</label>
+
+            <div class="valuDiscound ">
+              <input type="number" class="input_Couser" placeholder="Enter Discount Value">
+              <span class="price">
+                EGP
+              </span>
+              
+            </div>
+          </div>
+
         </div>
 
 
-         
+
     </div>
+
+      <div class="dicountCard courseSelect p-2  mt-2 ">
+        <app-text-header [title]="'Discount'" [bgColor]="'#ff6584ab'" >
+        </app-text-header>
+
+        <div class="checkDicound d-flex gap-2 align-items-center mt-3 justify-content-between">
+          <div class="seletDiscound ">
+            <p-select  [options]="cities" optionLabel="name"  />
+  
+          </div>
+          <div class="valuDiscound">
+  
+            <input type="number" class="input_Couser" placeholder="Enter Discount Value">
+            <span class="price">
+              EGP
+            </span>
+            
+          </div>
+        </div>
+
+
+
+    </div>
+    <div class=" courseSelect dateSelet p-2  mt-2  position-relative" >
+      <app-text-header [title]="'Coupon activation data'" [bgColor]="'#FFE065'" >
+      </app-text-header>
+      <div class="FromDate mt-3 d-flex gap-2 align-items-center justify-content-between">
+        <div class="DateFrom  d-flex flex-column gap-1" >
+          <label for="DateFrom">From</label>
+          <div class="date position-relative">
+            <p-datepicker formControlName="date" />
+            <div class="icon">
+
+              <i class="fa-regular fa-clock"></i>
+            </div>
+          </div>
+
+    
+        </div>
+        <div class="DateFrom  d-flex flex-column gap-1" >
+          <label for="DateFrom">To</label>
+          <div class="date position-relative">
+            <p-datepicker formControlName="date" />
+            <div class="icon">
+
+              <i class="fa-regular fa-clock"></i>
+            </div>
+          </div>
+    
+        </div>
+
+      </div>
+
+    
+      </div>
+
+
+
+  </div>
+
+
+
+
+  </div>
+  <div class="course-skeleton"  *ngIf="!isLoadCourse ">
+    <div class="leftParts">
+      <div class="left-section ">
+        <div class="card-skeleton mb-3">
+          <div class="input-skeleton"></div>
+          <div class="input-skeleton"></div>
+
+        </div>
+        <div class="card-skeleton skeletonBottom">
+          <div class="input-skeleton"></div>
+
+        </div>
+      </div>
+    </div>
+  
+    <div class="right-section">
+      <div class="input-skeleton"></div>
+      <div class="input-skeleton"></div>
+      <div class="photo-skeleton"></div>
+      <div class="photo-skeleton video"></div>
+      <div class="photo-skeleton video"></div>
+
+    </div>
+  </div>
+
+  <div class="footerCourse bg-white rounded-1">
+    <div class="btnsCourse">
+      <button >
+        <!-- <span *ngIf="isLoad" class="spinner"></span> -->
+        <span >Create</span>
+      </button>
+
+    </div>
+  </div>
+
+
 
 </div>

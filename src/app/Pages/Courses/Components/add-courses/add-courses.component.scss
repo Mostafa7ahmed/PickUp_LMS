@@ -335,7 +335,19 @@
   }
 
 }
+:host ::ng-deep  .footerCourse  .p-button{
 
+  font-size: 12px !important;
+
+  color: #fff !important ;
+  background: #24C12B !important;
+
+  &:disabled {
+    background-color: #24c12c8e !important;;
+    cursor: not-allowed;
+  }
+
+}
 .UploadCover {
   height: auto;
   border-radius: 6px;
@@ -378,7 +390,7 @@
 
 
 
-::ng-deep .cdk-virtual-scrollable {
+:host ::ng-deep  .add-Course .cdk-virtual-scrollable {
   height: 100px !important;
   overflow-y: auto;
 
@@ -400,7 +412,7 @@
   margin-right: 10px;
 }
 
-::ng-deep .tags .p-select {
+:host ::ng-deep  .add-Course .tags .p-select {
   height: 32px !important;
   border: 1px solid #ddd !important;
   box-shadow: none !important;
@@ -408,7 +420,7 @@
 
 }
 
-::ng-deep .p-select-list-container {
+:host ::ng-deep  .add-Course .p-select-list-container {
   scrollbar-width: none;
 }
 
@@ -426,14 +438,14 @@
   color: #24C12B;
 }
 
-::ng-deep .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+:host ::ng-deep  .add-Course .ant-select:not(.ant-select-customize-input) .ant-select-selector {
   border-radius: 4px !important;
   border: .7px solid #eee;
 
 
 }
 
-::ng-deep .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+:host ::ng-deep  .add-Course .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
   width: 100%;
   height: 35px;
   padding: 0 11px;
@@ -444,17 +456,17 @@
   transition: all 0.3s
 }
 
-::ng-deep .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+:host ::ng-deep  .add-Course .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
   box-shadow: 0 0 0 2px rgba(140, 250, 56, 0.092);
   border: .7px solid #24C12B;
   outline: 0;
 }
 
-::ng-deep .ant-select-item-empty {
+:host ::ng-deep  .add-Course .ant-select-item-empty {
   display: none !important;
 }
 
-::ng-deep .cdk-virtual-scroll-viewport {
+:host ::ng-deep  .add-Course .cdk-virtual-scroll-viewport {
   height: fit-content !important;
   max-height: 100px !important;
   overflow-y: auto;
@@ -465,19 +477,19 @@
 
 }
 
-::ng-deep .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+:host ::ng-deep  .add-Course .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
   box-shadow: 0 0 0 2px rgba(140, 250, 56, 0.092);
   border: .7px solid #24C12B;
   outline: 0;
 }
 
-::ng-deep .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+:host ::ng-deep  .add-Course .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
 
   background-color: #0def1800;
 }
 
 
-::ng-deep .ant-select-item-option-selected:not(.ant-select-item-option-disabled) .ant-select-item-option-state {
+:host ::ng-deep  .add-Course .ant-select-item-option-selected:not(.ant-select-item-option-disabled) .ant-select-item-option-state {
   color: #24C12B;
 }
 
@@ -590,13 +602,13 @@
   }
 }
 
-::ng-deep .p-tooltip {
+:host ::ng-deep  .add-Course .p-tooltip {
   z-index: 888888888888888888888888888888888888888888888888888888888888888888888 !important;
 
 }
 
 
-::ng-deep .p-tooltip .p-tooltip-text {
+:host ::ng-deep  .add-Course .p-tooltip .p-tooltip-text {
   background-color: #ffffff !important;
   color: #000000;
   padding: 8px 12px;
@@ -607,11 +619,11 @@
   font-family: var(--font-family-1) !important;
 }
 
-::ng-deep .p-tooltip .p-tooltip-arrow {
+:host ::ng-deep  .add-Course .p-tooltip .p-tooltip-arrow {
   border-top-color: #ffffff !important;
 }
 
-::ng-deep .p-tooltip.p-tooltip-top {
+:host ::ng-deep  .add-Course .p-tooltip.p-tooltip-top {
   transform: translateY(-7px);
 }
 
@@ -808,12 +820,12 @@
 
 }
 
-::ng-deep .p-multiselect-list-container {
+:host ::ng-deep  .add-Course .p-multiselect-list-container {
   scrollbar-width: none !important;
   ;
 }
 
-::ng-deep .p-multiselect {
+:host ::ng-deep  .add-Course .p-multiselect {
   border: 1px solid #ddd;
   border-radius: 5px;
   height: 32px !important;
@@ -828,11 +840,11 @@
 
 }
 
-::ng-deep .p-multiselect-label {
+:host ::ng-deep  .add-Course .p-multiselect-label {
   padding: 5px 10px !important;
 }
 
-::ng-deep .p-inputtext {
+:host ::ng-deep  .add-Course .p-inputtext {
   position: static !important;
   border: 1px solid #6c757d38 !important;
 
@@ -846,12 +858,12 @@
   font-size: 14px;
 }
 
-::ng-deep .p-multiselect-option.p-multiselect-option-selected.p-focus {
+:host ::ng-deep  .add-Course .p-multiselect-option.p-multiselect-option-selected.p-focus {
 
   background-color: #007bff !important;
 }
 
-::ng-deep .p-multiselect-header .p-checkbox {
+:host ::ng-deep  .add-Course .p-multiselect-header .p-checkbox {
   display: none !important;
 }
 
@@ -966,33 +978,33 @@
 }
 
 
-::ng-deep .p-select .p-select-dropdown .p-icon {
+:host ::ng-deep  .add-Course .p-select .p-select-dropdown .p-icon {
   transition: transform 0.3s ease;
 }
 
-::ng-deep .p-multiselect .p-multiselect-dropdown .p-icon {
+:host ::ng-deep  .add-Course .p-multiselect .p-multiselect-dropdown .p-icon {
   transition: transform 0.3s ease;
 }
 
-::ng-deep .p-select.p-inputwrapper-focus .p-select-dropdown .p-icon,
-::ng-deep .p-select.p-dropdown-open .p-select-dropdown .p-icon {
+:host ::ng-deep  .add-Course .p-select.p-inputwrapper-focus .p-select-dropdown .p-icon,
+:host ::ng-deep  .add-Course .p-select.p-dropdown-open .p-select-dropdown .p-icon {
   transform: rotate(180deg) !important;
 }
 
 
-::ng-deep .p-multiselect.p-inputwrapper-focus .p-multiselect-dropdown .p-icon,
-::ng-deep .p-multiselect.p-multiselect-open .p-multiselect-dropdown .p-icon {
+:host ::ng-deep  .add-Course .p-multiselect.p-inputwrapper-focus .p-multiselect-dropdown .p-icon,
+:host ::ng-deep  .add-Course .p-multiselect.p-multiselect-open .p-multiselect-dropdown .p-icon {
   transform: rotate(180deg) !important;
 }
 
-::ng-deep .p-inputtext {
+:host ::ng-deep  .add-Course .p-inputtext {
   all: unset;
 }
 
-::ng-deep .custom-select .p-overlay{
+:host ::ng-deep  .add-Course .custom-select .p-overlay{
   top : -90px !important
 }
-::ng-deep  .custom-select  .p-select{
+:host ::ng-deep  .add-Course  .custom-select  .p-select{
   height: 32px !important;
   border-radius: 4px !important;
   border: 1px solid #6c757d38 !important;
@@ -1007,11 +1019,11 @@
   }
 }
 
-::ng-deep  .p-splitbutton{
+:host ::ng-deep  .add-Course  .p-splitbutton{
 
   height: 40px !important;
 }
-::ng-deep  .p-tieredmenu-item-link:hover{
+:host ::ng-deep  .add-Course  .p-tieredmenu-item-link:hover{
 
   background-color: #f1f5f9 !important;
 

@@ -7,6 +7,15 @@
       display: none
     }
   }
+.scrollTableNotFound {
+  width: 100%;
+  overflow-x: auto;
+  height: calc(100dvh - 340px);
+      white-space: nowrap; 
+  &::-webkit-scrollbar{
+    display: none
+  }
+}
 
   table {
     width: 150%;

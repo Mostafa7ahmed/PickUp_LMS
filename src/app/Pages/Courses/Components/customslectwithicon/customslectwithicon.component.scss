@@ -71,9 +71,16 @@
     max-height: 120px;
     background: white;
     overflow-y: auto;
+    white-space: nowrap;
+    overflow-y: auto;
     &::-webkit-scrollbar{
-        display: none;
-  
+      width: 3px;
+      background-color: #ffffff00;
+
+    }
+    &::-webkit-scrollbar-thumb{
+      background-color: #cbff9ba9;
+      border-radius: 4px;
     }
     z-index: 106;
     border: 1px solid var(--Gray-200, #EAECF0);

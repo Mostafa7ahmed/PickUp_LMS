@@ -4,41 +4,56 @@ import { TextHeaderComponent } from "../text-header/text-header.component";
 import { CommonModule } from '@angular/common';
 import { PaginateCoursesService } from '../../Core/service/paginate-courses.service';
 import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose';
-import { CourseResult } from '../../Core/interface/icourses';
+import { CourseResult, ListCourse } from '../../Core/interface/icourses';
 import { environment } from '../../../../Environments/environment';
 import { SplicTextPipe } from '../../Core/Pipes/splic-text.pipe';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ReativeFormModule } from '../../../../Core/Shared/Modules/reative-form/reative-form.module';
+import { Select } from 'primeng/select';
+import { DatePicker } from 'primeng/datepicker';
+import { ListCourseService } from '../../Core/service/list-course.service';
 
+interface City {
+  name: string;
+  code: string;
+}
 @Component({
   selector: 'app-coupon-course',
   standalone: true,
-  imports: [TopPopComponent, TextHeaderComponent , CommonModule , SplicTextPipe],
+
+  imports: [TopPopComponent, TextHeaderComponent ,DatePicker,ReativeFormModule,Select ,CommonModule , SplicTextPipe],
   templateUrl: './coupon-course.component.html',
   styleUrl: './coupon-course.component.scss'
 })
 export class CouponCourseComponent implements OnInit {
   showDropdown = false;
-  selectedCourse: CourseResult | null = null; 
+  isLoadCourse = false;
+  selectedCourse: ListCourse | null = null; 
 
-  private _paginateCoursesService = inject(PaginateCoursesService);
+  private _paginateCoursesService = inject(ListCourseService);
 
-  paginationCoursesResponse: IPaginationResponse<CourseResult> = {} as IPaginationResponse<CourseResult>;
+  paginationCoursesResponse: IPaginationResponse<ListCourse> = {} as IPaginationResponse<ListCourse>;
   baseUrl: string = environment.baseUrlFiles;
+  cities: City[] = [];
+
+  formGroup!: FormGroup ;
 
   ngOnInit(): void {
-    this._paginateCoursesService.getCourses(250, 1).subscribe((response) => {
-      this.paginationCoursesResponse = response;
-      const defaultCourse = this.paginationCoursesResponse.result.find((course) =>  course.id === 205);
-      if (defaultCourse) {
-        this.selectCourse(defaultCourse);
-      }
-    });
+    this.getCourse();
+    this.cities = [
+      { name: 'Percentage', code: 'NY' },
+      { name: 'Value', code: 'RM' },
+
+  ];
+
+
   }
 
   toggleDropdown() {
     this.showDropdown = !this.showDropdown;
   }
 
-  selectCourse(course: CourseResult) {
+  selectCourse(course: ListCourse) {
     this.selectedCourse = course;
     this.showDropdown = false;
   }
@@ -46,6 +61,21 @@ export class CouponCourseComponent implements OnInit {
   removeCourse() {
     this.selectedCourse = null;
     this.showDropdown = false;
+  }
+ 
+
+  getCourse(){
+    
+    this._paginateCoursesService.getCourses().subscribe((response) => {
+      this.paginationCoursesResponse = response;
+      this.isLoadCourse = true;
+      const defaultCourse = this.paginationCoursesResponse.result.find((course) =>  course.id === 205);
+      if (defaultCourse) {
+        this.isLoadCourse = true;
+
+        this.selectCourse(defaultCourse);
+      }
+    });
   }
 
 

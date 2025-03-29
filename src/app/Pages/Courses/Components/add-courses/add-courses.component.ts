@@ -9,7 +9,6 @@ import { StreamType } from '../../../../Core/Interface/stream-type';
 import { StreamService } from '../../../../Core/Services/stream.service';
 import { LanguageService } from '../../../../Core/Services/language.service';
 import { CustomSelectPriceOrFreeComponent } from "../custom-select-price-or-free/custom-select-price-or-free.component";
-import { ITopiclist } from '../../Core/interface/itopiclist';
 import { CustomslectwithiconComponent } from "../customslectwithicon/customslectwithicon.component";
 import { TopiclistService } from '../../../Topics/Service/topiclist.service';
 import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose';
@@ -170,7 +169,7 @@ export class AddCoursesComponent {
       this.topicsList = topics.result;
       this.isLoadTopic = true;
   
-      let defautlTopic = this.topicsList.find((e: ITopiclist) => e.default);
+      let defautlTopic = this.topicsList.find((e:ItopicList) => e.default);
       console.log("Default Topic: ", defautlTopic);
         if (!defautlTopic) defautlTopic = this.topicsList[0];
         this.stageList = defautlTopic.stages.filter((stage: Stage) => stage.type !== 2);
@@ -208,7 +207,7 @@ export class AddCoursesComponent {
 
   onTopicSelected(selectedId: number) {
     this.selectedTopicId = selectedId;
-    const selectedTopic = this.topicsList.find((topic: ITopiclist) => topic.id === selectedId);
+    const selectedTopic = this.topicsList.find((topic: ItopicList) => topic.id === selectedId);
       this.stageList = selectedTopic?.stages.filter((stage: Stage) => stage.type !== 2) ?? [];
   
     let defautlStage = this.stageList.find((e: Stage) => e.default);
