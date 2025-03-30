@@ -1,8 +1,9 @@
     <div class="stages ">
         @for (stageone of Stage; track stageone.id ) {
-            <div class="stage"    [ngStyle]="{
+            <div class="stage "    [ngStyle]="{
                 'box-shadow': getBoxShadow(stageone.color, 0.1), 
-                'border-color':  borderColors[$index]
+                'border-color':  borderColors[$index],
+                 'color' : stageone.color
               }">
                 <div class="stageName">
                     <div class="progressBar" [ngStyle]="{'border-color':stageone.color}" ></div>
@@ -17,13 +18,11 @@
                                     fill="#957DAD" [ngStyle]="{'fill': stageone.color}"></path>
                             </svg></div>
                         <p class="price"  [ngStyle]="{'color': stageone.color}" >{{stageone.snapshot.totalPrice}}
-                        </p><span [ngStyle]="{'color': stageone.color}">EGP</span>
+                        </p><span [ngStyle]="{'color': stageone.color}">{{ "Board.EGP" | translate }}</span>
                     </div>
                 </div>
-                <div class="leftCircle" *ngIf="!$first"   [ngStyle]="{'background-color': stageone.color}"></div>
-                <div class="rightCircle"  *ngIf="!$last"  [ngStyle]="{'background-color': stageone.color}"></div>
      
-                <div class="lineContactWithStages" *ngIf="!$last" ></div>
+                <div class="lineContactWithStages"  *ngIf="!$last" ></div>
             </div>
     
           

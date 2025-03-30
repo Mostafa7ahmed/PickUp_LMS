@@ -222,7 +222,6 @@
   background-color: #fff;
   padding: 3px 6px;
   position: absolute;
-  right: 0px;
   top: 30px;
   opacity: 4;
   transition: opacity 0.1s ease-in-out, height 0.1s ease-in-out, visibility 0.1s ease-in-out;
@@ -230,6 +229,8 @@
   visibility: hidden;
   height: 0;
   z-index: 8888888888888 !important;
+  margin-inline-end: 120px;
+
 
 }
 
@@ -385,6 +386,9 @@
   display: flex;
   align-items: center;
   gap: 80px;
+  overflow-x: auto;
+  width: 95%;
+  scrollbar-width: none;
 
   .number-deals {
     display: flex;
@@ -420,6 +424,7 @@
       font-weight: 500;
       padding-inline-end: 6px;
       border-inline-end: 1px solid #EAEAEA;
+      white-space: nowrap;
 
     }
 
@@ -427,6 +432,8 @@
       padding-inline-start: 6px;
       display: flex;
       align-items: center;
+      white-space: nowrap;
+
 
       gap: 2px;
 
@@ -436,6 +443,8 @@
         font-size: 12px;
         font-style: normal;
         font-weight: 500;
+        white-space: nowrap;
+
         line-height: 24px;
       }
     }

@@ -1,0 +1,99 @@
+{
+  "PopupSetting": {
+    "accountType": "حساب خاص",
+    "username": "ahmedadel",
+    "myAccount": "حسابي",
+    "notifications": "إعدادات الإشعارات",
+    "changePassword": "تغيير كلمة المرور",
+    "changeLanguage": "تغيير اللغة",
+    "logout": "تسجيل الخروج"
+  },
+  "AddSection": {
+    "addTopic": "إضافة موضوع",
+    "addStage": "إضافة مرحلة",
+    "addCourse": "إضافة دورة",
+    "addLesson": "إضافة درس"
+  },
+  "Sidebar": {
+    "Transaction": "المعاملات",
+    "TransactionList": "قائمة المعاملات",
+    "Courses": "الدورات",
+    "Board": "لوحة التحكم",
+    "CourseList": "قائمة الدورات",
+    "Dashboard": "لوحة القيادة",
+    "Follower": "المتابعين",
+    "Users": "المستخدمين",
+    "Students": "الطلاب",
+    "Notification": "الإشعارات",
+    "Message": "الرسائل",
+    "Setting": "الإعدادات",
+    "Logout": "تسجيل الخروج"
+  }
+  ,
+      "Board" : {
+        "Board": "لوحة التحكم",
+        "Description": "في هذه الدورة الشاملة، سنأخذك في رحلة ممتعة...",
+        "SearchPlaceholder": "ابحث هنا",
+        "NewTopic": "موضوع جديد",
+        "EGP": "ج.م",
+        "Courses": "الدورات",
+        "TotalPrice": "إجمالي السعر",
+        "Creator": "المنشئ",
+        "CreatedOn": "تاريخ الإنشاء",
+        "LastUpdater": "آخر تحديث",
+        "LastUpdate": "آخر تحديث",
+        "Actions": {
+          "SetDefault": "تعيين كافتراضي",
+          "Edit": "تعديل",
+          "Delete": "حذف",
+          "viewtopic":"مشاهده الموضوع",
+          "viewtopickanban": "عرض الموضوع كنبان"
+        }
+        ,
+        "popupAdd":{
+          "add_topic": "إضافة موضوع",
+          "add_stage": "إضافة المرحله",
+
+          "create_topic_now": "أنشئ موضوعك الآن",
+          "create_stage_now": "أنشئ المرحله الآن",
+
+          "create_topic_desc": "تحكم أكثر بإنشاء مواضيع مختلفة لإدارتها بسهولة",
+          "topic_name": "اسم الموضوع",
+          "topic_description": "وصف الموضوع",
+          "main": "رئيسي",
+          "next_step": "الخطوة التالية",
+          "step_details": "تفاصيل الموضوع",
+          "step_details_Stage": "تفاصيل المرحله ",
+
+          "step": "الخطوة",
+          "Done" :"انشاء موضوع"
+
+        },
+        "popupView":{
+          "viewTopic": "عرض الموضوع",
+          "totalPrice": "السعر الإجمالي",
+          "courses": "الدورات",
+          "creationDate": "تاريخ الإنشاء",
+          "creatorName": "اسم المنشئ",
+          "updaterName": "اسم المُحدِّث",
+          "updationDate": "تاريخ التحديث",
+          "stages": "المراحل",
+          "new": "جديد",
+          "inProgress": "قيد التقدُّم",
+          "createdOn": "تم الإنشاء في",
+          "createdBy": "تم الإنشاء بواسطة",
+          "totalCourses": "عدد الدورات"
+
+        }
+        ,
+        "popupDelete":{
+
+      "deleteConfirmTitle": "هل أنت متأكد من حذف هذا الموضوع؟",
+  "deleteConfirmMessage": "سيتم إزالة هذا الموضوع من قائمة المواضيع المرتبطة، وقد يتغير السعر نتيجة لذلك."
+        }
+
+      
+      }
+
+ 
+}

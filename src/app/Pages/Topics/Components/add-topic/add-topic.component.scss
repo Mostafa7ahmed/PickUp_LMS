@@ -4,7 +4,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 8888888888;
-  animation: grow 0.5s ease-out;
+  animation: grow 0.2s ease-out;
   background-color: var(--white);
 
   border: 0.5px solid #E1E1E1;
@@ -277,18 +277,18 @@ footer {
       gap: 4px;
       background: transparent;
 
-      .frist {
+      .first {
         width: 23px;
         height: 8px;
         border-radius: var(--Border-Radius-4-px, 4px);
-        background: #32d7c3;
+        background: #31CA6C;
       }
 
       .second {
         width: 12px;
         height: 8px;
         border-radius: var(--Border-Radius-4-px, 4px);
-        background: #32d7c3;
+        background: #31CA6C;
       }
     }
 
@@ -347,23 +347,7 @@ footer {
   overflow: hidden;
   width: 300px;
 
-  .imagePosition {
-    position: absolute;
-    inset-inline-end: 0;
-    z-index: 5;
-    right: -169px;
-    border: -6px;
-    bottom: 44px;
-    transition: none;
-    transform: rotate(-30deg);
-    filter: blur(0.8px);
-    z-index: 44444;
-    mask: bisque;
-
-    img {
-      height: 305px;
-    }
-  }
+  
 }
 
 .fromStage {
@@ -464,6 +448,7 @@ footer {
     font-weight: 500;
     outline: none;
     padding: 4px 10px;
+    flex: 8888;
     &:hover {
       border: .5px #48b29a solid;
 
@@ -546,4 +531,23 @@ footer {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
   }
+}
+
+
+
+
+.imagePosition {
+  position: absolute;
+  inset-inline-end: 0;
+  top: 0%;
+  z-index: 5;
+
+
+}
+:dir(ltr) .imagePosition {
+  transform: rotateY(180deg);
+}
+
+:dir(rtl) .imagePosition {
+  transform: none;
 }

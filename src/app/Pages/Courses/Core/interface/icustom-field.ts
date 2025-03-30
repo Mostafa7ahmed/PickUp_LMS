@@ -1,6 +1,6 @@
 export interface ICustomField {
     id?: number | null
-    usage?: any | null;
+    value?: any | null;
     key: string
     visible ?:boolean
     createdOn?: string | null

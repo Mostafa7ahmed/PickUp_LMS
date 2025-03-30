@@ -5,17 +5,18 @@
             <div class="text">
                 <div class="head">
                     <div class="icon"><i class="fa-solid fa-dollar-sign"></i></div>
-                    <div class="name">Board</div>
+                    <div class="name">  {{ "Board.Board" | translate }}</div>
                 </div>
                 <div class="description">
-                    <p> In this comprehensive course, we will take you on an...</p>
+                    <p> {{ "Board.Description" | translate }}</p>
                 </div>
             </div>
         </div>
 
     </div>
     <div class="searchBoard">
-        <div class="search-input"><input type="text" placeholder="You can search here" fdprocessedid="uk159">
+        <div class="search-input">
+            <input type="text" [placeholder]="'Board.SearchPlaceholder' | translate">
             <div class="icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_1143_70294)">
@@ -37,7 +38,7 @@
                 <i class="fa-solid fa-plus"></i>
 
             </div>
-            <span> New Topic</span>
+            <span>{{ "Board.NewTopic" | translate }}</span>
         </button>
     </div>
 

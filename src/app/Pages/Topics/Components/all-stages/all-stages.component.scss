@@ -17,7 +17,7 @@
       border: .75px solid rgba(246, 246, 246, .9);
       background: #fff;
       box-shadow: 0 2px 10px #606c803d  !important; 
-    padding: 6px 0 6px 8px;
+      padding: 6px 0 6px 8px;
       position: relative;
       z-index: 1000;
       display: flex;
@@ -26,14 +26,18 @@
   
       flex-direction: column;
       gap: 4px;
-      z-index: 0 !important;
+      z-index: 500 !important;
+      position: relative;
+
   
     }
+    
   
     .stageName {
       display: flex;
       align-items: center;
       gap: 5px;
+      padding-inline-start: 10px;
   
       h4 {
         color: #79877E;
@@ -92,41 +96,58 @@
     }
   
   
+
+
+  }
+
+  .stage:not(:first-child)::before {
+
+   content: "";
+    position: absolute;
+    background-color: currentColor;
+    border-radius: 50%;
+    padding: 5px;
+
+
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    inset-inline-start: -4px;
+
+  }
+  .stage:not(:last-child)::after{
+
+    content: "";
+     position: absolute;
+     background-color: currentColor;
+     border-radius: 50%;
+     padding: 5px;
+
+ 
+     top: 50%;
+     transform: translateY(-50%);
+     z-index: 1000;
+     inset-inline-end: -4px;
+ 
+   }
+
+
+   :dir(ltr) .lineContactWithStages:not(:first-child) {
+    border-top: 1px dashed #BCC2C8;
+    position: absolute;
+    width: 40px;
+    height: 1px;
+    top: 50%;
+    right: -38px;
+    transform: translateY(-50%);
+  }
   
-  
-    .leftCircle {
-      content: "";
-      position: absolute;
-      background-color: #f5cc6ddf;
-      border-radius: 50px;
-      width: 7px;
-      height: 7px;
-      top: 50%;
-      left: 0px;
-      transform: translate(-50%, 0);
-  
-      z-index: 1000;
-  
-    }
-  
-    .rightCircle {
-      position: absolute;
-      width: 7px;
-      height: 7px;
-      background-color: #f5cc6ddf;
-      border-radius: 50px;
-      top: 50%;
-      right: -7px;
-      transform: translate(-50%);
-      z-index: 1000;
-    }
-  
-    .lineContactWithStages {
-      width: 50px;
-      height: 1px;
-      background-color: #e5e5e5;
-      position: absolute;
-      top: 56%;
-      right: -50px;
-    }
+  /* RTL نفس الكلام */
+  :dir(rtl) .lineContactWithStages {
+    border-top: 1px dashed #BCC2C8;
+        position: absolute;
+    width: 40px;
+    top: 50%;
+    left: -38px;
+    transform: translateY(-50%);
   }

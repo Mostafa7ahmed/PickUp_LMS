@@ -23,7 +23,6 @@ export class IconListService {
     { icon: 'fa fa-book-open' },     // قراءة المحتوى
     { icon: 'fa fa-folder-open' },   // تنظيم المواضيع
     { icon: 'fa fa-comment-dots' },  // التعليقات والنقاشات
-    { icon: 'fa fa-list-alt' },      // عرض المواضيع
     { icon: 'fa fa-inbox' },         // إدارة المواضيع المستلمة
     { icon: 'fa fa-globe' }          // موضوع عالمي أو عام
   ];

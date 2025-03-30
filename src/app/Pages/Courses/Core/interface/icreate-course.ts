@@ -3,7 +3,6 @@ import { publicDecrypt } from "crypto"
 export interface ICreateCourseRequest {
   topicId: number
   stageId: number
-  languageId: number
   name: string
   price: number
   free: boolean

@@ -28,9 +28,9 @@ export class EditStageComponent {
     showPackageColor = false;
     stageForm : FormGroup = this._FormBuilder.group({
       name: ['',[Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      color: ['#778fe6cf'],  
+      color: ['#a0151e'],  
       icon:["fa fa-folder-open"],
-      shadow:["778fe6c0"],
+      shadow:["3e97ff66"],
       id:[null]
     })
     get selectedColor(): string {

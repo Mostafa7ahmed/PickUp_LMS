@@ -1,0 +1,116 @@
+.addTopic {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 8888888888;
+  animation: grow 0.2s ease-out;
+
+  border: 0.5px solid #e1e1e1;
+  border-radius: 7px;
+
+  width: 305px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 4px 16.7px #63636326;
+
+  .content {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    .Icon {
+      width: 75px;
+      height: 75px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .textConfirm {
+      color: #2e2e2e;
+      text-align: center;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 18px;
+      margin-bottom: 8px;
+    }
+    .textTitle {
+      color: #687f93;
+      text-align: center;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 18px;
+      margin-bottom: 0;
+    }
+    .btn {
+      border: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 32px;
+      padding: 10px;
+      gap: 10px;
+      flex-shrink: 0;
+      align-self: stretch;
+      border-radius: 4px;
+      font-size: 14px !important;
+      width: 100%;
+    }
+    .btnDelete {
+      background-color: #ff4b55;
+      color: #ffffff;
+      &:hover {
+        background-color: #f12f3c;
+        color: #ffffff;
+      }
+    }
+    .btnMove {
+      background-color: #fbbd05da;
+      color: #ffffff;
+      &:hover {
+        background-color: #fbbd05;
+        color: #ffffff;
+      }
+    }
+    .btnCancel {
+      background-color: #eee;
+      color: #2e2e2e;
+      &:hover {
+        background-color: #f2f2f2;
+        color: #2e2e2e;
+      }
+    }
+  }
+
+  .leftCoursePirce {
+    width: 250px !important;
+  }
+  .titleAccessStage{
+    width: 290px !important;
+
+  }
+  .titleAccess p {
+    color: #6b7280;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    display: flex;
+    gap: 4px;
+  }
+}
+
+@keyframes grow {
+  0% {
+    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}

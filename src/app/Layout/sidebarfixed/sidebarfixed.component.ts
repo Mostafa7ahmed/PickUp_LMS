@@ -2,12 +2,13 @@ import { CommonModule, } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-sidebarfixed',
   standalone: true,
-  imports: [TooltipModule, RouterLinkActive, CommonModule, RouterLink],
+  imports: [TooltipModule, RouterLinkActive, TranslateModule,CommonModule, RouterLink],
   templateUrl: './sidebarfixed.component.html',
   styleUrl: './sidebarfixed.component.scss',
 
@@ -42,42 +43,39 @@ export class SidebarfixedComponent {
 
 
 
-
   ListSidebarOpen = [
     {
-      name: 'Transaction ',
+      name: 'Sidebar.Transaction',
       Icon: 'fa-solid fa-money-bill-transfer',
-      list: ["Transaction List", "Transaction  "],
-      routes: ["Transactionlist", "Dashboard "]
+      list: ["Sidebar.TransactionList", "Sidebar.Transaction"],
+      routes: ["Transactionlist", "Dashboard"]
     },
     {
-      name: 'Courses',
+      name: 'Sidebar.Courses',
       Icon: 'fa-solid fa-person-chalkboard',
-
-      list: ["Board", "course List", "Dashboard"],
+      list: ["Sidebar.Board", "Sidebar.CourseList", "Sidebar.Dashboard"],
       routes: ["topics", "course", "Dashboard"]
-    }
-    ,
+    },
     {
-      name: 'Follower',
+      name: 'Sidebar.Follower',
       Icon: 'fa-kit fa-213-frame',
-      list: ["Users", "Students"],
+      list: ["Sidebar.Users", "Sidebar.Students"],
       routes: ["Users", "Students"]
     },
     {
-      name: 'Notification',
+      name: 'Sidebar.Notification',
       Icon: 'fa-solid fa-bell',
-      list: ["Message", "Notification"],
+      list: ["Sidebar.Message", "Sidebar.Notification"],
       routes: ["Message", "Notification"]
-    }
-    ,
+    },
     {
-      name: 'Setting',
+      name: 'Sidebar.Setting',
       Icon: 'fa-solid fa-gear',
-      list: ["Message", "Log Out"],
+      list: ["Sidebar.Message", "Sidebar.Logout"],
       routes: ["Message", "login"]
     }
   ];
+  
 
   openIndex: number | null = null;
   isRotated: boolean = false;

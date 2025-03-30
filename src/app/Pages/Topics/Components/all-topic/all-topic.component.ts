@@ -1,6 +1,5 @@
 import {
   Component,
-  HostListener,
   inject,
   OnDestroy,
   OnInit,
@@ -13,13 +12,14 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { filter, Subscription } from 'rxjs';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { SetDefaultTopicService } from '../../Service/set-default-topic.service';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { TooltipModule } from 'primeng/tooltip';
+import { TranslateModule } from '@ngx-translate/core';
+import { DeleteTopicComponent } from '../delete-topic/delete-topic.component';
 
 @Component({
   selector: 'app-all-topic',
   standalone: true,
-  imports: [AllStagesComponent,InfiniteScrollModule, CommonModule, RouterLink,TooltipModule, DatePipe],
+  imports: [AllStagesComponent, DeleteTopicComponent, CommonModule, RouterLink,TooltipModule, TranslateModule, DatePipe],
   templateUrl: './all-topic.component.html',
   styleUrl: './all-topic.component.scss',
 })
@@ -108,6 +108,43 @@ export class AllTopicComponent implements OnInit, OnDestroy {
 
   openViewTopic(id: any) { 
     this.router.navigate([{ outlets: { dialog: ['ViewTopic', id] } }]);
+  }
+  isDeletePopupVisible = false;
+  selectedDeleteId: number | null = null;
+  isConfirmTopic = false;
+  isDeleteTopic = true;
+  isMoveTopic = false;
+
+  openDeletePopup(topicId: number , hasCourses : boolean = false){
+
+    if (!hasCourses) {
+      this.isConfirmTopic = false;
+      this.isDeleteTopic = true;
+      this.isMoveTopic = false;
+      this.selectedDeleteId = topicId;
+        this.isDeletePopupVisible = true;
+        console.log(hasCourses)
+        this.toggleShow(null)
+    }
+    else {
+      this.isConfirmTopic = true;
+      this.isDeleteTopic = false;
+      this.isMoveTopic = false;
+      this.selectedDeleteId = topicId;
+        this.isDeletePopupVisible = true;
+        console.log(hasCourses)
+        this.toggleShow(null)
+    }
+
+  }
+
+  closeDeletePopup() {
+    this.isDeletePopupVisible = false;
+    this.selectedDeleteId = null;
+  }
+  handleDeletedTopic(deletedId: number) {
+    this.paginationTpoicsResponse.result = this.paginationTpoicsResponse.result.filter(topic => topic.id !== deletedId);
+    this.closeDeletePopup();
   }
 
   openEditTopic(idTopic: number) { 

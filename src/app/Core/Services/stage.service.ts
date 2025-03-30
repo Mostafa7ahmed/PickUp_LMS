@@ -27,6 +27,7 @@ export class StageService {
       }
     )
   }
+  
 
     deleteStage(id: number, isMove: boolean): Observable<any> {
       const headers = new HttpHeaders({

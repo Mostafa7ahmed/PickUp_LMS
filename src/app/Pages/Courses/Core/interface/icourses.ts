@@ -33,7 +33,16 @@ export interface Icourses {
     updater: Updater
     stage: Stage
   }
-  
+  export interface ListCourse{
+    photoUrl: string
+    id: number
+    name: string
+    price: number
+    enrollmentCount: number
+    couponsCount: number
+    createdOn: string
+
+  }
   export interface Discount {
     amount: number
     type: number

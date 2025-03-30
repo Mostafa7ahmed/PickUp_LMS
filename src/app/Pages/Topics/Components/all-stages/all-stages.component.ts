@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Stage } from './../../Core/Interface/itopic';
 import { Component, Input, input, OnInit } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-all-stages',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule ,TranslateModule],
   templateUrl: './all-stages.component.html',
   styleUrl: './all-stages.component.scss'
 })

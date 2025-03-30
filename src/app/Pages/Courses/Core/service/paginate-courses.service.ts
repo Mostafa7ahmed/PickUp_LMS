@@ -1,3 +1,4 @@
+import { Topic } from './../interface/view-course';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../Environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -17,8 +18,9 @@ export class PaginateCoursesService {
 
    getCourses(
     topicId: number, 
+    stageId ?:number ,
     pageNumber: number = 1, 
-    pageSize: number = 2,
+    pageSize: number = 100,
     courseListViewType: number = 0, 
     from?: string, 
     to?: string, 
@@ -36,6 +38,9 @@ export class PaginateCoursesService {
       orderBeforPagination: 'true',
       orderDirection: orderDirection.toString(),
     };
+    if (stageId !== undefined) {
+      params.stageId = stageId.toString();
+    }
     if (from) params.from = from;
     if (to) params.to = to;
 

@@ -1,25 +1,25 @@
 @if(isVisble){
 <div class="overlay"></div>
 <div class="addTopic">
-  <app-top-pop [NamePopup]="'Add Topic'" (isVisibleChange)="closePopup()"></app-top-pop>
+  <app-top-pop [NamePopup]="'Board.popupAdd.add_topic'| translate" (isVisibleChange)="closePopup()"></app-top-pop>
   <div class="bodyAdd d-flex">
     <div class="leftBody">
       <div class="headerBody">
         @if(isnext){
-        <h5>Create Your Topic Now</h5>
+        <h5> {{ 'Board.popupAdd.create_topic_now'| translate }}</h5>
 
         }
         @else {
-        <h5>Create Your Stage Now</h5>
+        <h5>{{ 'Board.popupAdd.create_stage_now'| translate }}</h5>
 
         }
-        <p>Have more control with different Topic to easily manage</p>
+        <p>{{ 'Board.popupAdd.create_topic_desc'| translate }}</p>
       </div>
       <div class="line"></div>
 
       <div class="formBody" *ngIf="isnext">
         <div class="formGroupInput" [formGroup]="topicForm">
-          <label>Topic Name</label>
+          <label>{{ 'Board.popupAdd.topic_name'| translate }}</label>
           <div class="input-info-group mb-2">
             <input maxlength="50" type="text" formControlName="name" />
             <div class="dropdownColor">
@@ -38,7 +38,7 @@
               </app-select-icon>
             </div>
           </div>
-          <label>Topic Description</label>
+          <label>{{ 'Board.popupAdd.topic_description'| translate }}</label>
           <div class="board-group mb-2">
             <textarea rows="2" cols="30" pinputtextarea="" maxlength="500" formControlName="description"></textarea>
           </div>
@@ -52,7 +52,7 @@
 
             
             <div class="d-flex gap-2 align-items-center checkedCard">
-              <label class="labelChecked mb-0" for="invalidCheck">Main</label>
+              <label class="labelChecked mb-0" for="invalidCheck">{{ 'Board.popupAdd.main'| translate }}</label>
 
               <label class="containerCheck mb-0">
                 <input type="checkbox" id="invalidCheck" formControlName="isMain" />
@@ -65,7 +65,9 @@
       </div>
       <div class="fromStage" *ngIf="!isnext">
         <button class="add-stage-btn" [disabled]="stages.length >= maxStages" (click)="addStage()">
-          <i class="fa-kit fa-add-circle"></i> Add Stage
+          <i class="fa-kit fa-add-circle"></i> 
+          {{ 'Board.popupAdd.add_stage'| translate }}
+
         </button>
         <div class="cdk-drop-list stages  " [formGroup]="stageForm">
           <div class="cdk-drag stage ng-star-inserted ms-3">
@@ -76,8 +78,7 @@
             </div>
             <input maxlength="50" type="text" [value]="topicResult.result.stages[0].name" readonly class=" dragged "
               placeholder="Enter Stage Name" />
-            <button class="stage-trash ng-star-inserted opacity-0">
-              <i class="fa-kit fa-delete"></i></button>
+        
           </div>
           <div class="stagesDynamic" formArrayName="newStages">
             <div *ngFor="let child of stages.controls; let i = index" [formGroupName]="i">
@@ -111,9 +112,7 @@
             </div>
             <input maxlength="50" type="text" pinputtext="" [value]="topicResult.result.stages[1].name" readonly
               class=" dragged " placeholder="Enter Stage Name" />
-            <button class="stage-trash ng-star-inserted opacity-0">
-              <i class="fa-kit fa-delete"></i>
-            </button>
+  
           </div>
 
         </div>
@@ -134,14 +133,14 @@
       </div>
       @if(isnext){
       <div class="step">
-        <p>Step <span>2/1</span></p>
-        <h3>Topic Details</h3>
+        <p>{{ 'Board.popupAdd.step'| translate }} <span>2/1</span></p>
+        <h3>{{ 'Board.popupAdd.step_details'| translate }}</h3>
       </div>
       }
       @else {
       <div class="step">
-        <p>Step <span>2/2</span></p>
-        <h3>Stage Details</h3>
+        <p>{{ 'Board.popupAdd.step'| translate }} <span>2/2</span></p>
+        <h3>{{ 'Board.popupAdd.step_details_Stage'| translate }} </h3>
       </div>
       }
 
@@ -150,7 +149,7 @@
     <div class="board-footer-btn" (click)="submitFormTopic()">
       <button class="p-element " [disabled]="isLoad">
         <span *ngIf="isLoad" class="spinner"></span>
-        <span *ngIf="!isLoad">Next Step</span>
+        <span *ngIf="!isLoad">{{ 'Board.popupAdd.next_step'| translate }}</span>
       </button>
     </div>
 
@@ -159,7 +158,7 @@
     <div class="board-footer-btn" (click)="submitFormStage()">
       <button class="p-element ">
         <span *ngIf="isLoad" class="spinner"></span>
-        <span *ngIf="!isLoad">Done</span>
+        <span *ngIf="!isLoad">            {{ 'Board.popupAdd.Done'| translate }}        </span>
       </button>
     </div>
     }

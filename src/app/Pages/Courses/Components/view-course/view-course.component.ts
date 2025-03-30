@@ -3,7 +3,7 @@ import { AfterViewInit, Component, ElementRef, inject, OnInit, ViewChild } from 
 import { TextHeaderComponent } from "../text-header/text-header.component";
 import { ReativeFormModule } from '../../../../Core/Shared/Modules/reative-form/reative-form.module';
 import { CustomFildsService } from '../../Core/service/custom-filds.service';
-import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose';
+import { IPaginationResponse, IResponseOf } from '../../../../Core/Shared/Interface/irespose';
 import { ICustomField } from '../../Core/interface/icustom-field';
 import { Select } from 'primeng/select';
 import { NewCustomFieldRequest } from '../../Core/interface/icreate-course';
@@ -12,23 +12,29 @@ import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { AddStageComponent } from "../../../Stages/Components/add-stage/add-stage.component";
 import Plyr from 'plyr';
+import { GetonecourseService } from '../../Core/service/getonecourse.service';
+import { ActivatedRoute } from '@angular/router';
+import { CourseResult } from '../../Core/interface/icourses';
+import { environment } from '../../../../Environments/environment';
+import { ViewCourse } from '../../Core/interface/view-course';
+import { SplicTextPipe } from '../../Core/Pipes/splic-text.pipe';
+import { link } from 'fs';
 
 @Component({
   selector: 'app-view-course',
   standalone: true,
-  imports: [TextHeaderComponent, ReativeFormModule, Select, TabsModule, ButtonModule, TooltipModule],
+  imports: [TextHeaderComponent, ReativeFormModule, Select, SplicTextPipe, TabsModule, ButtonModule, TooltipModule],
   templateUrl: './view-course.component.html',
   styleUrl: './view-course.component.scss'
 })
 export class ViewCourseComponent implements AfterViewInit ,OnInit{
-  editIndex: number | null = null;
-  @ViewChild('player') playerRef!: ElementRef;
-  player!: Plyr;
 
-  ngAfterViewInit() {
-    this.player = new Plyr(this.playerRef.nativeElement);
-  }
+
   private _CustomFildsService = inject(CustomFildsService);
+  private _getonecourseService = inject(GetonecourseService);
+  private _ActivatedRoute = inject(ActivatedRoute);
+
+
   private _FormBuilder = inject(FormBuilder);
   get customFieldsArray(): FormArray {
     return this.courseForm.get('customFields') as FormArray;
@@ -38,7 +44,6 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
     return this.customFieldsArray.controls as FormGroup[];
   }
 
-  customFieldListResponse: IPaginationResponse<ICustomField> = {} as IPaginationResponse<ICustomField>;
 
   courseForm: FormGroup = this._FormBuilder.group({
 
@@ -47,14 +52,20 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
   });
   fieldForm: FormGroup = this._FormBuilder.group({
     key: [null],
-    usage: ['']
+    value: ['']
   });
 
 
-  selectedImage!: string | null
   newCustomFieldList: NewCustomFieldRequest[] = [ ];
-  
-  
+  customFieldListResponse: IPaginationResponse<ICustomField> = {} as IPaginationResponse<ICustomField>;
+  courseResultResponse: IResponseOf<ViewCourse> = {} as IResponseOf<ViewCourse>;
+ baseUrlFile = environment.baseUrlFiles ;
+  @ViewChild('player') playerRef!: ElementRef;
+  selectedImage!: string | null
+  editIndex: number | null = null;
+  player!: Plyr;
+  CourseId: number = 0;
+
   value: number = 0;
 
 
@@ -71,23 +82,38 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
   getICustomField() {
     this.customFieldsArray.clear();
   
-    this.customFieldListResponse.result = [
-      { id: 5, key: 'key 1', usage: 1, visible: true },
-      { key: 'key 2', usage: 'value 2', visible: false },
-      { key: 'key 3', usage: 'value 3  ', visible: true },
-      { key: 'key 4', usage: 'value 4', visible: true },
-      { key: 'key 5', usage: 'value 5', visible: false },
-    ];
+
   
     this.customFieldListResponse.result.forEach((field: ICustomField) => {
       const group = this._FormBuilder.group({
         id: [field.id ?? null],
         key: [field.key],
-        usage: [field.usage],
+        value: [field.value],
         visible: [field.visible ?? true]
       });
       this.customFieldsArray.push(group);
     });
+  }
+
+  getOneCourse(id:number){
+    this._getonecourseService.getCourse(id).subscribe((res: any) => {
+      if(res.success){
+        this.courseResultResponse = res;
+        console.log(this.courseResultResponse.result)
+
+
+      }
+
+    });
+  }
+  downloadFile(fileUrl: string) {
+   console.log(fileUrl);
+  
+    const link = document.createElement('a');
+    link.setAttribute('download', '');
+    document.body.appendChild(link);
+    link.click();
+
   }
   onVisibleChange(index: number) {
     const field = this.customFieldsArray.at(index);
@@ -95,7 +121,7 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
   }
   addField() {
     const keyControl = this.fieldForm.get('key')?.value;
-    const valueControl = this.fieldForm.get('usage')?.value;
+    const valueControl = this.fieldForm.get('value')?.value;
 
     this.customFieldsArray.controls.forEach((field, index) => {
       console.log(`Field ${index} visible: `, field.get('visible')?.value);
@@ -130,7 +156,7 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
     const newFieldEntry = this._FormBuilder.group({
       id: [id],
       key: [key],
-      usage: [valueControl.trim()],
+      value: [valueControl.trim()],
       visible: [true]
     });
 
@@ -145,7 +171,7 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
       this.customFieldListResponse.result.push({
         id: null,
         key: key,
-        usage: 0,
+        value: 0,
         createdOn: null
       });
     }
@@ -153,7 +179,7 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
     this.newCustomFieldList = this.customFieldsArray.value;
 
     this.fieldForm.get('key')?.reset();
-    this.fieldForm.get('usage')?.reset();
+    this.fieldForm.get('value')?.reset();
   }
 
   removeField(index: number) {
@@ -162,6 +188,17 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
   }
 
   ngOnInit() {
-    this.getICustomField()
+    this._ActivatedRoute.params.subscribe(params => {
+      if (params['courseId'] && params['courseId'] !== '0') {
+        this.CourseId = +params['courseId'];
+        console.log(this.CourseId)
+        this.getOneCourse(this.CourseId)
+      }
+    });
+  
+  }
+  
+  ngAfterViewInit() {
+    this.player = new Plyr(this.playerRef.nativeElement);
   }
 }
