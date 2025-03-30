@@ -94,6 +94,7 @@ export class AddCoursesComponent {
     price: this._FormBuilder.control({ value: 0, disabled: false }, [Validators.min(0)]),
     description: [''],
     photoUrl: [''],
+    introductionVideoUrl: [''],
     tags: this._FormBuilder.control([]), 
     fileUrls: this._FormBuilder.array([]),
     discount: this._FormBuilder.group({

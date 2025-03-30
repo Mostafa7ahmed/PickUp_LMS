@@ -1,15 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, forwardRef, HostListener, Input, Output } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-custom-select-price-or-free',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './custom-select-price-or-free.component.html',
-  styleUrl: './custom-select-price-or-free.component.scss'
+  styleUrl: './custom-select-price-or-free.component.scss',
+    providers: [
+      {
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => CustomSelectPriceOrFreeComponent),
+        multi: true
+      }
+    ]
 })
 export class CustomSelectPriceOrFreeComponent {
-
+ 
 
   @Input() options = ['Paid', 'Free']; // الخيارات المتاحة
   @Input() coursePrice: number = 0; // ✅ استقبال السعر من المكون الأب
@@ -50,18 +58,6 @@ selectOption(option: string) {
     price: this.value ? 0 : this.coursePrice 
   });
 }
-  writeValue(value: boolean): void {
-    this._value = value;
-  }
-
-  registerOnChange(fn: (value: boolean) => void): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
-  }
-
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
