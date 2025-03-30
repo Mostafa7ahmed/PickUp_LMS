@@ -83,11 +83,12 @@ export class CouponCourseComponent implements OnInit {
       this.selectedStudents = [...this.selectedStudents, student]; // إضافة دون فقد البيانات السابقة
       console.log(this.selectedStudents);
     }
+    
   }
   
 
   removeStudent(studentId: number, event: Event) {
-    event.stopPropagation(); // لمنع تفعيل اختيار الطالب عند الضغط على X
+    event.stopPropagation(); 
     this.selectedStudents = this.selectedStudents.filter(s => s.studentId !== studentId);
   }
   isSelected(studentId: number): boolean {
@@ -111,6 +112,8 @@ export class CouponCourseComponent implements OnInit {
   
     this.showDropdownStudents = false;
     this.showDropdownCourse = false;
+    event.stopPropagation(); 
+
   }
 
   getCourse(){
