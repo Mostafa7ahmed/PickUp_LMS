@@ -20,7 +20,7 @@
     "Courses": "الدورات",
     "Board": "لوحة التحكم",
     "CourseList": "قائمة الدورات",
-    "Dashboard": "لوحة القيادة",
+    "Dashboard": " أكواد الخصم",
     "Follower": "المتابعين",
     "Users": "المستخدمين",
     "Students": "الطلاب",
@@ -93,7 +93,27 @@
         }
 
       
-      }
+       },
+       "course" : {
+        "tableCourse": {
+          "name": "الاسم",
+          "stage": "المرحله",
+          "price": "السعر",
+          "profit": "الربح",
+          "discount": "الخصم",
+          "students": "الطلاب",
+          "rating": "التقييم",
+          "videos": "الفيديوهات",
+          "coupons": "أكواد  ",
+          "description": "الوصف",
+          "creator": "المنشئ",
+          "updater": "المُحدث",
+          "created_on": "تاريخ الإنشاء",
+          "updated_on": "تاريخ التحديث"
+        }
+  
+       }
+
 
  
 }

@@ -21,7 +21,7 @@
         "Courses": "Courses",
         "Board": "Board",
         "CourseList": "Course List",
-        "Dashboard": "Dashboard",
+        "Dashboard": "Coupons list",
         "Follower": "Follower",
         "Users": "Users",
         "Students": "Students",
@@ -103,7 +103,27 @@
         }
         
 
+      },
+    
+      "course" : {
+        "tableCourse": {
+          "name": "Name",
+          "stage": "Stage",
+          "price": "Price",
+          "profit": "Profit",
+          "discount": "Discount",
+          "students": "Students",
+          "rating": "Rating",
+          "videos": "Videos",
+          "coupons": "Coupons",
+          "description": "Description",
+          "creator": "Creator",
+          "updater": "Updater",
+          "created_on": "Created On",
+          "updated_on": "Updated On"
+        }
+     
       }
-   
+  
 
 }

@@ -54,7 +54,7 @@ export class SidebarfixedComponent {
       name: 'Sidebar.Courses',
       Icon: 'fa-solid fa-person-chalkboard',
       list: ["Sidebar.Board", "Sidebar.CourseList", "Sidebar.Dashboard"],
-      routes: ["topics", "course", "Dashboard"]
+      routes: ["topics", "course", "Couponslist"]
     },
     {
       name: 'Sidebar.Follower',
