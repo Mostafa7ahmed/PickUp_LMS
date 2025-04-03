@@ -702,3 +702,64 @@
   justify-content: center;
   color: #24c12b;
 }
+
+
+.containerCheck input {
+  display: none;
+}
+
+.containerCheck {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  font-size: 20px;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.checkmark {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  background-color: #2196f300;
+  border-radius: 4px;
+  transition: all 0.25s;
+}
+
+.containerCheck input:checked~.checkmark {
+  background-color: var(--green1);
+  ;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  transform: rotate(0deg);
+  border: 1px solid #f0f0f0;
+  left: 0;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  transition: all 0.25s, border-width 0.1s;
+}
+
+.containerCheck input:checked~.checkmark:after {
+  left: 5.4px;
+  top: 3px;
+  width: 5px;
+  height: 9px;
+  border-color: rgba(255, 255, 255, 0) white white rgba(255, 255, 255, 0);
+  border-width: 0 0.15em 0.15em 0;
+  border-radius: 0em;
+  transform: rotate(45deg);
+}
+
+.labelChecked,
+.routePassword a {
+  font-weight: 16px;
+  font-weight: 400;
+  color: #1F2832;
+}

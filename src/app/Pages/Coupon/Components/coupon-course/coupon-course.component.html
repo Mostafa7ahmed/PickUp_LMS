@@ -2,10 +2,10 @@
 
 <div class="ShowPopup">
   <app-top-pop NamePopup="Create Coupon" [bgColor]="'#ec89501a'" [ColorIcon]="'#ec8950'"
-    [NameIcon]="'fa-solid fa-receipt'"></app-top-pop>
+    [NameIcon]="'fa-solid fa-receipt'" (isVisibleChange)="closePopup()"></app-top-pop>
 
-  <div class="CouponCourse p-2" *ngIf="isLoadStudents && isLoadCourse">
-    <div class="leftCoupon  w-50">
+  <div class="CouponCourse p-2"   [formGroup]="formGroup" *ngIf="isLoadStudents && isLoadCourse">
+    <div class="leftCoupon  w-50" >
       <div class="courseSelect ">
         <app-text-header [title]="'Course'" [bgColor]="'#ec8950'"></app-text-header>
 
@@ -61,7 +61,6 @@
         <app-text-header [title]="'Students'" [bgColor]="'#ec8950'" [Icon]="'fa-solid fa-exclamation'">
         </app-text-header>
 
-        <!-- زر اختيار الطلاب -->
         <div *ngIf="!selectedStudents.length" class="selectcard mt-3 my-2"(click)="toggleDropdownStudents($event)">
           <div class="icon">
             <i class="fas fa-book"></i>
@@ -121,7 +120,7 @@
           <div class="codeCoupon d-flex gap-2 align-items-end mb-2">
             <div class="Course_name flex-grow-1">
               <label for="Course_name">Coupon code</label>
-              <input  type="text" id="Course_name" placeholder="Enter Coupon code"
+              <input  formControlName="code"  type="text" id="Course_name" placeholder="Enter Coupon code"
                 class="input_Couser ">
             </div>
             <div class="deal-desc-btn" tooltipPosition="top">
@@ -130,7 +129,7 @@
           </div>
           <div class="desCourse_name Course_name mt-2  active">
             <label for="Course_description">Coupon Notes</label>
-            <textarea  class="input_Couser textarea_course"
+            <textarea  formControlName="notes"  class="input_Couser textarea_course"
               id="Course_description"></textarea>
           </div>
 
@@ -150,20 +149,22 @@
     <div class="rightCoupon w-50">
 
       <div class="dicountCard courseSelect p-2  ">
-        <app-text-header [title]="'Coupon usage'" [bgColor]="'#04865Fab'">
-        </app-text-header>
+        <div class="d-flex gap-2 align-items-center justify-content-between checkedCard">
+          <app-text-header [title]="'Coupon usage'" [bgColor]="'#04865Fab'">
+          </app-text-header>
+          <label class="containerCheck">
+            <input type="checkbox" [checked]="selectedStudents.length <= 1" id="invalidCheck" >
+            <div class="checkmark ">
 
-        <div class="checkDicound d-flex gap-2 align-items-center mt-3 justify-content-between">
-          <div class="seletDiscound  d-flex flex-column ">
-            <label for="seletDiscound">Coupon Usage</label>
-            <p-select [options]="cities" optionLabel="name" />
+            </div>
+          </label>
+        </div>
 
-          </div>
+
+        <div class="checkDicound" *ngIf="selectedStudents.length > 1">
           <div class="DiscountValuse">
-            <label for="valuDiscound">Discount Value</label>
-
-            <div class="valuDiscound ">
-              <input type="number" class="input_Couser" placeholder="Enter Discount Value">
+            <div class="valuDiscound mt-2 w-100 ">
+              <input type="number"  formControlName="allowedUsage"  class="input_Couser w-100" placeholder="Enter Discount Value">
               <span class="price">
                 EGP
               </span>
@@ -180,22 +181,23 @@
       <div class="dicountCard courseSelect p-2  mt-2 ">
         <app-text-header [title]="'Discount'" [bgColor]="'#ff6584ab'">
         </app-text-header>
-
         <div class="checkDicound d-flex gap-2 align-items-center mt-3 justify-content-between">
-          <div class="seletDiscound ">
-            <p-select [options]="cities" optionLabel="name" />
-
+          <div class="seletDiscound">
+            <p-select 
+              [options]="discountTypes" 
+              optionLabel="label"
+              optionValue="value"
+              formControlName="discountType">
+            </p-select>
           </div>
           <div class="valuDiscound">
-
-            <input type="number" class="input_Couser" placeholder="Enter Discount Value">
+            <input type="number" class="input_Couser" placeholder="Enter Discount Value" formControlName="discount">
             <span class="price">
-              EGP
+              {{ formGroup.get('discountType')?.value === 1 ? '%' : 'EGP' }}
             </span>
-
           </div>
         </div>
-
+        
 
 
       </div>
@@ -206,11 +208,19 @@
           <div class="DateFrom  d-flex flex-column gap-1">
             <label for="DateFrom">From</label>
             <div class="date position-relative">
-              <p-datepicker/>
-              <div class="icon">
-
-                <i class="fa-regular fa-clock"></i>
-              </div>
+              <p-datepicker 
+              inputId="calendar-12h" 
+              [formControlName]="'validFrom'" 
+              dateFormat="dd/mm/yy" 
+              [showTime]="true" 
+            >
+            </p-datepicker>         
+            
+         
+            <div class="icon" *ngIf="!formGroup.get('validFrom')?.value">
+              <img alt="" loading="lazy" width="16px" height="16px" src="https://s3.dinarcrm.com/assets/img/contacts/calendar-deal-list.svg">     
+            
+            </div>
             </div>
 
 
@@ -218,11 +228,17 @@
           <div class="DateFrom  d-flex flex-column gap-1">
             <label for="DateFrom">To</label>
             <div class="date position-relative">
-              <p-datepicker  />
-              <div class="icon">
-
-                <i class="fa-regular fa-clock"></i>
-              </div>
+              <p-datepicker 
+              inputId="calendar-12h" 
+              [formControlName]="'validTo'" 
+              dateFormat="dd/mm/yy" 
+              [showTime]="true" 
+            >
+            </p-datepicker>
+            
+            <div class="icon" *ngIf="!formGroup.get('validTo')?.value">
+              <img alt="" loading="lazy" width="16px" height="16px" src="https://s3.dinarcrm.com/assets/img/contacts/calendar-deal-list.svg">            </div>
+            
             </div>
 
           </div>
@@ -267,7 +283,7 @@
 
   <div class="footerCourse bg-white rounded-1">
     <div class="btnsCourse">
-      <button>
+      <button  (click)="createCoupon()">
         <!-- <span *ngIf="isLoad" class="spinner"></span> -->
         <span>Create</span>
       </button>

@@ -1,0 +1,24 @@
+<div class="coupon py-2">
+    <div class="topcoupon "> 
+        <div class="footerBanner d-flex justify-content-between align-items-end ">
+            <div class="leftFooter d-flex align-items-center gap-3">
+                <div class="iconHeader">
+                    <img src="Images/Vector.svg" width="25" alt="">
+                  </div>
+                  <div class="titleHeader">
+                    <h3 class="m-0">Coupons List</h3>
+                    
+                    <app-select-coupon [isLoadTopic]="isLoadCourse" [ListCourse]="listCourse" [selectedItem]="selectedValue"></app-select-coupon>
+                </div>
+            </div>
+            <div class="rightFooter d-flex gap-3">
+                <button class="openCard" (click)="toggShowInfo()" [class.rotatearrow]="showInfoCoupon" >
+                    <i class="fa-solid fa-caret-down"></i>
+                  </button>            
+                </div>
+        </div>
+    
+    </div> 
+    <app-widget-coupan [showInfo]="showInfoCoupon"></app-widget-coupan>
+
+</div>

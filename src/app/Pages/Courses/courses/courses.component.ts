@@ -3,14 +3,13 @@ import { CourseResult } from '../Core/interface/icourses';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from 'ngx-echarts';
 import * as echarts from 'echarts';
-import { filter, Subscription } from 'rxjs';
+import {  Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
 import { TableCoursesComponent } from "../Components/table-courses/table-courses.component";
 import { WidgetCoursesComponent } from '../Components/widget-courses/widget-courses.component';
 import { TopiclistService } from '../../topic/Core/Service/topiclist.service';
-import { ITopiclist } from '../Core/interface/itopiclist';
 import { PaginateCoursesService } from '../Core/service/paginate-courses.service';
 import { IPaginationResponse, IResponseOf } from '../../../Core/Shared/Interface/irespose';
 import { CardkanbanStageComponent } from '../Components/cardkanban-stage/cardkanban-stage.component';
@@ -25,12 +24,11 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CustomslectwithiconComponent } from '../Components/customslectwithicon/customslectwithicon.component';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { ItopicList, Stage } from '../../Topics/Core/Interface/itopic-list-result';
-import { CoustomSelectStageComponent } from "../Components/coustom-select-stage/coustom-select-stage.component";
 
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, RouterModule, NzSelectModule, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent, CustomslectwithiconComponent, CoustomSelectStageComponent],
+  imports: [CommonModule, RouterModule, NzSelectModule, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent, CustomslectwithiconComponent],
   providers: [
     { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } }
 
@@ -69,9 +67,6 @@ export class CoursesComponent implements OnInit {
     if (this.rangeDates?.length === 2 && this.rangeDates[0] && this.rangeDates[1]) {
       const fromDate = this.formatDateToISO(this.rangeDates[0]);
       const toDate = this.formatDateToISO(this.rangeDates[1]);
-
-      console.log("📌 Formatted From:", fromDate);
-      console.log("📌 Formatted To:", toDate);
       this.fetchCourses({}, this.selectedTopicId, undefined, this.valueTable, fromDate, toDate);
     }
   }

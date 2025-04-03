@@ -1,5 +1,5 @@
 <div class="courses py-2">
-  <div class="topCourses ">
+<div class="topCourses ">
 
     <div class="footerBanner d-flex justify-content-between align-items-end ">
       <div class="leftFooter d-flex align-items-center gap-3">
@@ -109,17 +109,17 @@
               </div>
 
               <div class="CreationDate dropdown">
-                <div class="stages d-flex align-items-center gap-1 w-100"  (click)="toggleDropdown()">
+                <div class="stages d-flex align-items-center gap-1 w-100" (click)="toggleDropdown()">
                   <div class="icon">
                     <i class="icon-grey fa-kit fa-profile-circle"></i>
                   </div>
                   <p class="m-0">Stage </p>
-         
+
                 </div>
-                <div class="clear" *ngIf="iselectedStage"  (click)="clearDateRange()">
+                <div class="clear" *ngIf="iselectedStage" (click)="clearDateRange()">
                   <i class="fa fa-close close-icon" aria-hidden="true"></i>
                 </div>
-                <div  #dropdownContainer  class="dropdown-content" *ngIf="dropdownVisible">
+                <div #dropdownContainer class="dropdown-content" *ngIf="dropdownVisible">
                   <div *ngFor="let status of selectedValue.stages" class="dropdown-item" (click)="selectStatus(status)">
 
                     <div class="progressBar" [style.border-color]="status.color"></div>
