@@ -20,7 +20,6 @@ import { MovecourseService } from '../Core/service/movecourse.service';
 import { FormsModule } from '@angular/forms';
 import { DatePicker } from 'primeng/datepicker';
 
-import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CustomslectwithiconComponent } from '../Components/customslectwithicon/customslectwithicon.component';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { ItopicList, Stage } from '../../Topics/Core/Interface/itopic-list-result';
@@ -28,7 +27,7 @@ import { ItopicList, Stage } from '../../Topics/Core/Interface/itopic-list-resul
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, RouterModule, NzSelectModule, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent, CustomslectwithiconComponent],
+  imports: [CommonModule, RouterModule, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, MatTooltipModule, WidgetCoursesComponent, TableCoursesComponent, CustomslectwithiconComponent],
   providers: [
     { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } }
 

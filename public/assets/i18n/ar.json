@@ -112,7 +112,21 @@
           "updated_on": "تاريخ التحديث"
         }
   
-       }
+       },
+       "coupon": {
+        "tableCoupon": {
+          "code": "الرمز",
+          "notes": "الملاحظات",
+          "allowedUsage": "الاستخدام المسموح به",
+          "actualUsage": "الاستخدام الفعلي",
+          "validFrom": "صالح من",
+          "validTo": "صالح حتى",
+          "limited": "محدود",
+          "discountType": "نوع الخصم",
+          "discount": "الخصم",
+          "priceAfterDiscount": "السعر بعد الخصم"
+        }
+      }
 
 
  

@@ -123,6 +123,21 @@
           "updated_on": "Updated On"
         }
      
+      },
+      "coupon": {
+        "tableCoupon": {
+          "code": "Code",
+          "notes": "Notes",
+          "allowedUsage": "Allowed Usage",
+          "actualUsage": "Actual Usage",
+          "validFrom": "Valid From",
+          "validTo": "Valid To",
+          "limited": "Limited",
+          "discountType": "Discount Type",
+          "discount": "Discount",
+          "priceAfterDiscount": "Price After Discount",
+          "students": "Students"
+        }
       }
   
 
