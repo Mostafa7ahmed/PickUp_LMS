@@ -1,0 +1,63 @@
+<div class="showContent my-2 mb-2" [class.showInfo]="showInfo">
+    <div class="leftContent">
+        <div echarts [options]="chartOptions" class="chart-container"></div>
+    </div>
+    <div class="rightContent">
+      <div class="cards">
+        <div class="cardInformation">
+          <div
+            class="aboutCourses d-flex justify-content-between align-items-center"
+          >
+            <p class="m-0">Total Coupons Issued</p>
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <div
+            class="numberCources mt-2 d-flex align-items-end justify-content-end"
+          >
+            <span>{{dataWidgets.totalNumberEnrolledStudents}}</span>
+          </div>
+        </div>
+        <div class="cardInformation">
+          <div
+            class="aboutCourses d-flex justify-content-between align-items-center"
+          >
+            <p class="m-0">Total Active Coupons</p>
+            <i class="fa-solid fa-list-check"></i>
+          </div>
+          <div
+            class="numberCources mt-2 d-flex align-items-end justify-content-end"
+          >
+            <span>{{dataWidgets.totalPriceOfCourses}} $</span>
+          </div>
+        </div>
+        <div class="cardInformation">
+            <div
+              class="aboutCourses d-flex justify-content-between align-items-center"
+            >
+              <p class="m-0">Total Coupons</p>
+              <i class="fa-regular fa-circle-check"></i>            
+        </div>
+            <div
+              class="numberCources mt-2 d-flex align-items-end justify-content-end"
+            >
+            <span>{{dataWidgets.totalProfitOfCourses}} $</span>
+            </div>
+         </div>
+  
+        <div class="cardInformation">
+          <div
+            class="aboutCourses d-flex justify-content-between align-items-center"
+          >
+            <p class="m-0">Recent Activity</p>
+            <i class="fa-solid fa-clock-rotate-left"></i>
+        </div>
+          <div
+            class="numberCources mt-2 d-flex align-items-end justify-content-end"
+          >
+            <span>{{dataWidgets.totalNumberOfCourses}}</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>

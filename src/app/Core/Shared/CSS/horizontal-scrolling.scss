@@ -7,7 +7,7 @@
     padding: 12px;
     border-radius: 8px;
     top: 50%;
-    left: 5px;
+    inset-inline-start: 5px;
     height:80px;
     font-size: 20px;
     z-index: 588;
@@ -25,7 +25,7 @@
     padding: 12px;
     border-radius: 8px;
     top: 50%;
-    right: 5px;
+    inset-inline-end: 5px;
     height:80px;
     font-size: 20px;
     z-index: 588;

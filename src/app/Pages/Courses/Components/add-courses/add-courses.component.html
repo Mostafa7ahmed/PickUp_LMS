@@ -21,7 +21,7 @@
                 </div>
               </div>
 
-              <div class="desCourse_name Course_name mt-2 mb-3" [class.active]="showDescription">
+              <div class="desCourse_name Course_name mt-2 mb-3" [class.active]="!showDescription">
                 <label for="Course_description">Course description</label>
                 <textarea formControlName="description" class="input_Couser textarea_course"
                   id="Course_description"></textarea>
@@ -86,17 +86,7 @@
             </div>
           </div>
 
-          <div class="couserLanguage mt-3">
-            <div class="Language w-50">
-              <div class="titleAccess d-flex justify-content-between gap-2 align-items-center">
-                <p>Course language</p>
-              </div>
 
-              <app-custom-select-language [options]="LanguageResultList" (valueChange)="onSelectChange($event)">
-
-              </app-custom-select-language>
-            </div>
-          </div>
         </div>
 
         <div class="couseContentAdd Discount">
@@ -144,9 +134,8 @@
                    pKeyFilter="int" 
                    class="px-2 rounded-2" 
                    type="number" 
-                   min="1" 
+                   min="0" 
                    [attr.max]="isPercentage ? 100 : null" 
-                   [attr.step]="1"
                    placeholder="Enter course Value" 
                    formControlName="amount" 
                    (input)="onAmountInput()" 
@@ -226,7 +215,7 @@
               <input 
               type="text" 
               placeholder="Value" 
-              formControlName="usage"
+              formControlName="value"
               class="w-full md:w-56">
 
               <button (click)="addField()" class="add-btn" pTooltip="Add Fields" tooltipPosition="top">
@@ -247,7 +236,7 @@
                   
                             
                 <input type="text" formControlName="key" readonly class="field-key" placeholder="Key">
-                <input type="text" formControlName="usage" readonly class="field-value" placeholder="Value">
+                <input type="text" formControlName="value" readonly class="field-value" placeholder="Value">
 
                 <label class="containerCheck">
                   <input type="checkbox" formControlName="visible" (change)="onVisibleChange(i)">
@@ -283,7 +272,7 @@
             (change)="onFileSelectedImage($event)">
         
           <div *ngIf="selectedImageUrl" class="image-preview-container">
-            <img [src]="selectedImageUrl" (load)="onImageLoad()"  alt="Selected Image" class="preview-image w-100 rounded-1">
+            <img [src]="selectedImageUrl"  (load)="onImageLoad()"  alt="Selected Image" class="preview-image w-100 rounded-1">
             <button class="delete-btn_image" (click)="removeImage()">
               <i class="fa-regular fa-trash-can"></i>
             </button>
@@ -311,7 +300,7 @@
               <i class="fa-regular fa-trash-can"></i>
             </button>
           </div>
-        </div>
+        </div> 
         
 
         <div class="UploadCover mt-2">
@@ -321,24 +310,38 @@
             </label>
             <input type="file" multiple accept=".pdf, .doc, .docx, .xls, .xlsx, .txt , .pptx , .ppt , .csv" #fileInput
               class="hidden-input" formControlName="fileUrls" (change)="onFileSelectedFile($event)">
-            <div class="file-list" *ngIf="uploadedFiles.length > 0">
+            <div class="file-list" >
               <div class="reloadFile">
                 
-              <div class="file-item uploading" *ngIf="isUploadingFile">
-                <i class="fa-solid fa-spinner fa-spin"></i>
-                <span class="file-name">جاري رفع الملف</span>
+                  <div class="file-item uploading m-2" *ngIf="isUploadingFile">
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+                    <span class="file-name">جاري رفع الملف</span>
+                  </div>
+
+
+                  
+              <div class="files">
+                <div class="file-item"  *ngFor="let file of uploadedFiles; let i = index">
+                    <div class="file-info">
+                        <div class="pdfIcons">
+                            <i class="fa-file-lines fa-solid"></i>
+                        </div>
+                        <span class="file-name" [pTooltip]="file.name" tooltipPosition="top">{{ file.name  | splicText : 15  }}</span>
+                      </div>
+                    <div class="d-none gap-2 Showaction">
+                
+                        <div class="" (click)="removeFile(i , file.url)" pTooltip="Delete" tooltipPosition="top">
+                            <img  alt="" src="https://s3.dinarcrm.com/assets/img/contacts/delete-file-icon.svg" width="25" height="25px">
+                        </div>
+                    </div>
+                    <div class="file-size">{{file.size}} KB</div>
+                </div>
+      
               </div>
               </div>
 
-              <div class="file-item" *ngFor="let file of uploadedFiles; let i = index">
-                <i class="fa-solid fa-file"></i>
-                <span class="file-name">{{ file.name }}</span>
-                <span class="file-size"></span>
 
-                <button class="delete-btn" (click)="removeFile(i , file.url)">
-                  <i class="fa-regular fa-trash-can"></i>
-                </button>
-              </div>
+
             </div>
           </div>
         </div>
@@ -374,10 +377,17 @@
     
     <div class="footerCourse bg-white rounded-1">
       <div class="btnsCourse">
-        <button (click)="createCourse()" [disabled]="isLoad">
+        <!-- <button (click)="createCourse()" [disabled]="isLoad">
           <span *ngIf="isLoad" class="spinner"></span>
           <span *ngIf="!isLoad">Create</span>
-        </button>
+        </button> -->
+        <p-splitbutton 
+        label="Create" 
+        appendTo="body"  
+        (onClick)="createCourse()" 
+        [model]="items" 
+        [disabled]="isLoad">
+      </p-splitbutton>
       </div>
     </div>
   </div>

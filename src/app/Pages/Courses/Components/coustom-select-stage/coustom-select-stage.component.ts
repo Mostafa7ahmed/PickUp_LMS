@@ -17,6 +17,7 @@ export class CoustomSelectStageComponent {
 
   @Input() isSelected: boolean = false;
   @Input() disabled: boolean = false;
+  @Input() IsFull: boolean = false;
 
   @Input() isLoadTopic: boolean = false;
 

@@ -14,108 +14,167 @@
         <ng-template #two>2</ng-template>
 
         <ng-template #three>3</ng-template>
+
       </nz-steps>
     </div>
 
     <form class="p-3" [formGroup]="registerFrom">
       @switch (current) {
-      @case (0) {
-      <!-- Lable Input -->
-      <div class="position-relative mb-3">
-        <!-- Input Field -->
-        <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="name" [ngClass]="{
-            invalid: isFieldInvalid('name'),
-            success: isFieldValid('name')
-          }" />
-
-        <!-- Label -->
-        <label id="label-input">Name</label>
-
-
-      </div>
-
-      <div class="position-relative mt-4" [class.my-3]="!isFieldInvalid('userName')">
-        <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="userName"
-          [ngClass]="{
-            invalid: !showIconsUserName && isFieldInvalid('userName'),
-            success: showIconsUserName && isFieldValid('userName')
-          }" />
-        <label id="label-input">User name</label>
-
-
-      </div>
-      @if(isFieldInvalid('userName')){
-      <p class="error-message m">{{MessageUseName}}</p>
-
-      }
-
-      <div class="position-relative mt-4" [class.my-3]="!isFieldInvalid('email')">
-        <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="email" [ngClass]="{
-            invalid: !showIconsEmail && isFieldInvalid('email'),
-            success: showIconsEmail && isFieldValid('email')
-          }" />
-        <label id="label-input">Email</label>
-
-
-      </div>
-
-
-      <div class="position-relative mt-4">
-
-        <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="phoneNumber"
-          [ngClass]="{
-          invalid: !showIconsUserName && isFieldInvalid('phoneNumber'),
-          success: showIconsUserName && isFieldValid('phoneNumber')
-        }" />
-        <label id="label-input">PhoneNumber</label>
-
-
-
-
-      </div>
-      @if(registerFrom.get("phoneNumber")?.errors &&
-      registerFrom.get("phoneNumber")?.touched){
-      <p class="error-message m-0">{{MessagePhone}}</p>
-
-      }
-      }
-      @case (1) {
-      <div class="position-relative mb-4">
-        <nz-select nzMode="default" nzPlaceHolder="Select Country" nzAllowClear nzServerSearch
-          class="input-cal input-base inputFloating" [ngClass]="{
-            invalid: isFieldInvalid('countryId'),
-            success: isFieldValid('countryId')
-          }" formControlName="countryId">
-          @for (country of allCountry; track country.id) {
-          <nz-option [nzValue]="country.id" [nzLabel]="country.name"></nz-option>
+        @case (0) {
+          <!-- Lable Input -->
+          <div class="position-relative mb-3">
+            <!-- Input Field -->
+            <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="name" [ngClass]="{
+                invalid: isFieldInvalid('name'),
+                success: isFieldValid('name')
+              }" />
+    
+            <!-- Label -->
+            <label id="label-input">Name</label>
+    
+    
+          </div>
+    
+          <div class="position-relative mt-4" [class.my-3]="!isFieldInvalid('userName')">
+            <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="userName"
+              [ngClass]="{
+                invalid: !showIconsUserName && isFieldInvalid('userName'),
+                success: showIconsUserName && isFieldValid('userName')
+              }" />
+            <label id="label-input">User name</label>
+    
+    
+          </div>
+          @if(isFieldInvalid('userName')){
+          <p class="error-message m">{{MessageUseName}}</p>
+    
           }
-        </nz-select>
-        <label id="label-input">country </label>
-      </div>
+    
+          <div class="position-relative mt-4" [class.my-3]="!isFieldInvalid('email')">
+            <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="email" [ngClass]="{
+                invalid: !showIconsEmail && isFieldInvalid('email'),
+                success: showIconsEmail && isFieldValid('email')
+              }" />
+            <label id="label-input">Email</label>
+    
+    
+          </div>
+    
+    
+          <div class="position-relative mt-4">
+    
+            <input class="input-cal input-base inputFloating" placeholder="" type="text" formControlName="phoneNumber"
+              [ngClass]="{
+              invalid: !showIconsUserName && isFieldInvalid('phoneNumber'),
+              success: showIconsUserName && isFieldValid('phoneNumber')
+            }" />
+            <label id="label-input">PhoneNumber</label>
+    
+    
+    
+    
+          </div>
+          @if(registerFrom.get("phoneNumber")?.errors &&
+          registerFrom.get("phoneNumber")?.touched){
+          <p class="error-message m-0">{{MessagePhone}}</p>
+    
+          }
+          }
 
-      <div class="position-relative mb-3">
-        <nz-select nzMode="default" nzPlaceHolder="Select Preferred language" nzAllowClear nzServerSearch
-          class="input-cal input-base inputFloating" [ngClass]="{
-            invalid: isFieldInvalid('preferredLanguge'),
-            success: isFieldValid('preferredLanguge')
-          }" formControlName="preferredLanguge">
-          <nz-option nzValue="0" nzLabel="Arabic"></nz-option>
-          <nz-option nzValue="1" nzLabel="English"></nz-option>
-        </nz-select>
-        <label id="label-input">Preferred language </label>
-      </div>
+      @case (1) {
+        <div class="position-relative mb-3">
+          <p-floatlabel class="w-full w-100 md:w-56" variant="on">
+            <p-select [(ngModel)]="selectedCountry" 
+            [ngModelOptions]="{standalone: true}"
+                      inputId="on_label" 
+                      [options]="allCountry" 
+                      optionLabel="name" 
+                      filterBy="name" 
+                      [filter]="true" 
+                      [showClear]="true"
+                      styleClass="w-full w-100">
+                
+                <!-- عند تحديد عنصر -->
+                <ng-template #selectedItem let-selectedOption>
+                    <div class="d-flex align-items-center gap-2">
+                        <img [src]="selectedOption.flag" alt="{{ selectedOption.name }}" style="width: 18px; height: 12px;" />
+                        <div>{{ selectedOption.name }}</div>
+                    </div>
+                </ng-template>
+        
+                <!-- عند عرض العناصر في القائمة -->
+                <ng-template let-country #item>
+                    <div class="d-flex align-items-center gap-2">
+                        <img [src]="country.flag" alt="{{ country.name }}" style="width: 18px; height: 12px;" />
+                        <div>{{ country.name }}</div>
+                    </div>
+                </ng-template>
+            </p-select>
+            
+            <label for="on_label">Select a Country</label>
+        </p-floatlabel>
+        </div>
+        <div class="position-relative mb-3">
+          <p-floatlabel variant="on">
+            <p-select
+              [(ngModel)]="selectedLanguage"
+              [ngModelOptions]="{standalone: true}"
+              inputId="language_label"
+              [options]="allLangauge"
+              optionLabel="name"
+              filterBy="name"
+              [filter]="true"
+              [showClear]="true"
+              styleClass="w-full w-100">
+              
+              <!-- قوالب التحديد والعناصر -->
+              <ng-template pTemplate="selectedItem" let-selectedOption>
+                <div *ngIf="selectedOption && selectedOption.name">
+                  {{ selectedOption.name | splicText : 15 }}
+                </div>
+              </ng-template>
+          
+              <ng-template pTemplate="item" let-language>
+                <div>{{ language.name | splicText : 15 }}</div>
+              </ng-template>
+          
+            </p-select>  
+            <label for="language_label">Select a Language</label>
+          </p-floatlabel>
+          
+    
+        </div>
+        
+        <div class="position-relative mb-3">
+          <p-floatlabel variant="on">
+            <p-select
+              [(ngModel)]="selectedpreferredLanguge"
+              
+              inputId="language_label"
+              [options]="allpreferredLanguge"
+              optionLabel="name"
+              [showClear]="true"
+              formControlName="preferredLanguge"
+              styleClass="w-full w-100">
+              
+              <ng-template pTemplate="selectedItem" let-selectedOption>
+                <div *ngIf="selectedOption && selectedOption.name">
+                  {{ selectedOption.name }}
+                </div>
+              </ng-template>
+                  <ng-template pTemplate="item" let-language>
+                <div>{{ language.name }}</div>
+              </ng-template>
+          
+            </p-select>  
+            <label for="language_label">Preferred  Language</label>
+          </p-floatlabel>
+        </div>
 
-      <select formControlName="languageId" name="" id="" class="p-2 selected w-25" [ngClass]="{
-          invalid: isFieldInvalid('languageId'),
-          success: isFieldValid('languageId')
-        }">
-        @for (language of allLangauge; track language.id) {
 
-        <option [value]="language.id">{{ language.name }}</option>
-        }
-      </select>
 
-      }
+
+      } 
 
       @case (2) {
       <!-- Lable Input -->

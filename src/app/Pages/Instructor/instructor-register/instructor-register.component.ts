@@ -4,18 +4,21 @@ import { Router, RouterLink } from '@angular/router';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RegisterService } from '../../../Core/Services/register.service';
-import { NgClass } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { CountryService } from '../../../Core/Services/country.service';
 import { BehaviorSubject } from 'rxjs';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { LanguageService } from '../../../Core/Services/language.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { forkJoin } from 'rxjs';
+import { SelectModule } from 'primeng/select';
+import { FloatLabel } from "primeng/floatlabel"
+import { SplicTextPipe } from '../../Courses/Core/Pipes/splic-text.pipe';
 
 @Component({
   selector: 'app-instructor-register',
   standalone: true,
-  imports: [NzStepsModule, RouterLink, ReactiveFormsModule, FormsModule, NgClass, NzSelectModule],
+  imports: [NzStepsModule,SplicTextPipe, RouterLink,CommonModule, ReactiveFormsModule, FormsModule, SelectModule,NgClass, FloatLabel],
   templateUrl: './instructor-register.component.html',
   styleUrls: ['../../../Core/Shared/CSS/Stepper.scss', './instructor-register.component.scss', '../../../Core/Shared/CSS/input.scss'],
 
@@ -25,7 +28,8 @@ export class InstructorRegisterComponent implements OnInit {
   stepone: boolean = true;
   passwordFieldType: boolean = true;
   repasswordFieldType: boolean = true;
-
+  selectedCountry: string | undefined;
+  selectedLanguage : string | undefined;
   stepTwo: boolean = false;
 
   stepThree: boolean = false;
@@ -220,13 +224,22 @@ export class InstructorRegisterComponent implements OnInit {
   getAllCountry() {
     this._CountryService.getAllCountry().subscribe(
       (res) => {
-        this.allCountry = res.result;
-
-        console.log(res.result)
+        if (res.result) {
+          this.allCountry = res.result.map((country: any) => ({
+            id: country.id,
+            name: country.name,
+            nationality: country.nationality,
+            isoAlpha2Code: country.isoAlpha2Code,
+            flag: country.flag  
+          }));
+          console.log(this.allCountry);
+        }
+      },
+      (error) => {
+        console.error('Error fetching countries:', error);
       }
     );
   }
-
   getAllLanguage() {
     this._LanguageService.getAllLanguage().subscribe({
       next: (res) => {
@@ -236,7 +249,11 @@ export class InstructorRegisterComponent implements OnInit {
       }
     })
   }
-
+  selectedpreferredLanguge: any;
+  allpreferredLanguge = [
+    { id: 1, name: 'English' },
+    { id: 2, name: 'Arabic' }
+  ];
 
 
   ConfirmPasswordCustom(confirmPass: AbstractControl): any {

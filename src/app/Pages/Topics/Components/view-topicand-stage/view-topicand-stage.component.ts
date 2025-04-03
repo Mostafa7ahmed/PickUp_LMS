@@ -1,5 +1,5 @@
 import { TopicResult } from './../../Core/Interface/itopic';
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, ElementRef, HostListener, inject } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Route, Router, RouterModule } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { TopPopComponent } from "../../../../Components/top-pop/top-pop.component";
@@ -12,11 +12,12 @@ import { TextHeaderComponent } from "../../../Courses/Components/text-header/tex
 import { ConvertColorService } from '../../../../Core/Shared/service/convert-color.service';
 import { SetDefaultStageService } from '../../../Stages/Core/service/set-default-stage.service';
 import { SetDefaultTopicService } from '../../Service/set-default-topic.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-view-topicand-stage',
   standalone: true,
-  imports: [RouterModule, TopPopComponent, CommonModule, SpliceDescreptionPipe, DatePipe, TooltipModule],
+  imports: [RouterModule, TopPopComponent, CommonModule, SpliceDescreptionPipe, DatePipe,TranslateModule, TooltipModule],
   templateUrl: './view-topicand-stage.component.html',
   styleUrls: ['./view-topicand-stage.component.scss']
 })
@@ -34,9 +35,9 @@ export class ViewTopicandStageComponent {
   private _SetDefaultStageService = inject(SetDefaultStageService)
   private _SetDefaultTopicService = inject(SetDefaultTopicService)
 
-  private routerSubscription!: Subscription; // متغير لتخزين الاشتراك
+  private routerSubscription!: Subscription;
 
-  constructor(private _ActivatedRoute: ActivatedRoute, private _Router: Router) {
+  constructor(private _ActivatedRoute: ActivatedRoute, private eRef: ElementRef , private _Router: Router) {
     this.routerSubscription = this._Router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
@@ -142,11 +143,11 @@ export class ViewTopicandStageComponent {
       this.getTopicById(this.topicId);
     }
   }
-  @HostListener('window:scroll', [])
-  onScroll(): void {
-    if (this.selectedStaged !== null) {
-      this.toggleShowStage(null);
-    }
+
+  @HostListener('document:click')
+  onClickOutside(event: Event) {
+
+
   }
 
 

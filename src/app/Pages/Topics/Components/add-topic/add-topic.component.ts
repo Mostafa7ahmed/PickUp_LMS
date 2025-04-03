@@ -1,11 +1,9 @@
-import { ITopic, TopicResult } from './../../Core/Interface/itopic';
+import { TopicResult } from './../../Core/Interface/itopic';
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule, RouterOutlet } from '@angular/router';
-import { AllTopicComponent } from '../all-topic/all-topic.component';
+import { Router, RouterModule } from '@angular/router';
 import { TopPopComponent } from '../../../../Components/top-pop/top-pop.component';
 import { CustomslectwithiconComponent } from '../../../Courses/Components/customslectwithicon/customslectwithicon.component';
-import { CustomSelectComponent } from '../../../../Components/custom-select/custom-select.component';
 import { IconListService } from '../../../../Core/Shared/service/icon-list.service';
 import { ColorlistService } from '../../../../Core/Shared/service/colorlist.service';
 import { SelectIconComponent } from '../../../../Components/select-icon/select-icon.component';
@@ -15,11 +13,13 @@ import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Va
 import { AddTopicService } from '../../Service/add-topic.service';
 import { IResponseOf } from '../../../../Core/Shared/Interface/irespose';
 import { AddStageTopicService } from '../../Service/add-stage-topic.service';
+import { ReativeFormModule } from '../../../../Core/Shared/Modules/reative-form/reative-form.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-topic',
   standalone: true,
-  imports: [TopPopComponent, CommonModule, SelectIconComponent, ReactiveFormsModule, CustomslectwithiconComponent, RouterModule],
+  imports: [TopPopComponent, ReativeFormModule,TranslateModule, SelectIconComponent, CustomslectwithiconComponent, RouterModule],
   templateUrl: './add-topic.component.html',
   styleUrl: './add-topic.component.scss'
 })
@@ -27,7 +27,7 @@ export class AddTopicComponent implements OnInit {
   icons: string[] = [];
   colors: string[] = [];
   currentIcon: string = 'fa fa-file-pen';
-  colorDefault: string = "#778fe6cf";
+  colorDefault: string = "#a0151e";
   ishowTab: boolean = true;
   isnext: boolean = true;
   selectedColors: string[] = [];
@@ -56,7 +56,7 @@ export class AddTopicComponent implements OnInit {
 
   topicForm: FormGroup = this._FormBuilder.group({
     name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-    color: ['#778fe6cf'],
+    color: ['#a0151e'],
     icon: ['fa fa-file-pen'],
     description: ['', [Validators.maxLength(300)]],
     isMain: [false],

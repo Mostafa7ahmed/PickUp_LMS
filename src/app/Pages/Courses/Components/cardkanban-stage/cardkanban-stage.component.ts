@@ -84,7 +84,7 @@ export class CardkanbanStageComponent {
 
     if (hex.length !== 6) {
       console.error('Invalid HEX color:', hex);
-      return 'rgba(0, 0, 0, 1)';
+      return '#3e97ff66';
     }
 
     const r = parseInt(hex.substring(0, 2), 16);

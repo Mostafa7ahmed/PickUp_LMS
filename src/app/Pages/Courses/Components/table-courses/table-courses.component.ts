@@ -7,11 +7,12 @@ import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose'
 import { TooltipModule } from 'primeng/tooltip';
 import { environment } from '../../../../Environments/environment';
 import { RouterLink } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-table-courses',
   standalone: true,
-  imports: [CommonModule  , MatTooltipModule, DatePipe ,TooltipModule, SplicTextPipe , RouterLink],
+  imports: [CommonModule  ,TranslateModule, MatTooltipModule, DatePipe ,TooltipModule, SplicTextPipe , RouterLink],
   templateUrl: './table-courses.component.html',
   styleUrls: ['./table-courses.component.scss', '../../../../../app/Core/Shared/CSS/horizontal-scrolling.scss']
 })
@@ -40,14 +41,20 @@ export class TableCoursesComponent {
     toggPagination() {
       this.collapsePagination = !this.collapsePagination;
     }
-  
     scrollTable(direction: 'left' | 'right') {
       const container = this.scrollContainer.nativeElement;
       const speed = 10;
-      const step = 20; 
-  
+      const step = 20;
+    
+      const isRTL = document.documentElement.dir === 'rtl'; // تحقق من اللغة
+    
       this.scrollInterval = setInterval(() => {
-        container.scrollLeft += direction === 'right' ? step : -step;
+        if (isRTL) {
+          container.scrollLeft += direction === 'right' ? -step : step; // عكس الاتجاه عند RTL
+        } else {
+          container.scrollLeft += direction === 'right' ? step : -step; // الاتجاه التقليدي عند LTR
+        }
+    
         this.updateScrollButtons();
       }, speed);
     }
@@ -69,6 +76,9 @@ export class TableCoursesComponent {
     onResize() {
       this.updateScrollButtons();
     }
+     isRTL() {
+    return document.documentElement.dir === 'rtl';
+  }
 
 
     getRemainingCourses(pageNumber:number , pageSize:number ){

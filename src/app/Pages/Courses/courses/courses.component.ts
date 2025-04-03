@@ -1,16 +1,15 @@
-import { Component, ElementRef, EventEmitter, HostListener, inject, Input, OnInit, Output, viewChild, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, Input, OnInit, Output, viewChild, ViewChild } from '@angular/core';
 import { CourseResult } from '../Core/interface/icourses';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from 'ngx-echarts';
 import * as echarts from 'echarts';
-import { filter, Subscription } from 'rxjs';
+import {  Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
 import { TableCoursesComponent } from "../Components/table-courses/table-courses.component";
 import { WidgetCoursesComponent } from '../Components/widget-courses/widget-courses.component';
 import { TopiclistService } from '../../topic/Core/Service/topiclist.service';
-import { ITopiclist } from '../Core/interface/itopiclist';
 import { PaginateCoursesService } from '../Core/service/paginate-courses.service';
 import { IPaginationResponse, IResponseOf } from '../../../Core/Shared/Interface/irespose';
 import { CardkanbanStageComponent } from '../Components/cardkanban-stage/cardkanban-stage.component';
@@ -21,14 +20,14 @@ import { MovecourseService } from '../Core/service/movecourse.service';
 import { FormsModule } from '@angular/forms';
 import { DatePicker } from 'primeng/datepicker';
 
-import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CustomslectwithiconComponent } from '../Components/customslectwithicon/customslectwithicon.component';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
+import { ItopicList, Stage } from '../../Topics/Core/Interface/itopic-list-result';
 
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule,RouterModule, NzSelectModule, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent, CustomslectwithiconComponent],
+  imports: [CommonModule, RouterModule, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, MatTooltipModule, WidgetCoursesComponent, TableCoursesComponent, CustomslectwithiconComponent],
   providers: [
     { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } }
 
@@ -46,15 +45,16 @@ export class CoursesComponent implements OnInit {
   private _MovecourseService = inject(MovecourseService);
   private router = inject(Router);
   private _ActivatedRoute = inject(ActivatedRoute);
-    constructor() {
-      this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((event: any) => {
-        if (event.url === '/course') {
-          this.getListTopics(this.topicIdFromRoute); 
-        }
-      });
-    }
+  constructor(private eRef: ElementRef) {
+    // this.router.events
+    // .pipe(filter((event) => event instanceof NavigationEnd))
+    // .subscribe((event: any) => {
+    // if (event.url.includes('/course')) {
+    //   this.getListTopics(this.topicIdFromRoute);
+    //   this.getAllKanbans(this.selectedTopicId)
+    // }
+    // });
+  }
 
 
 
@@ -66,15 +66,13 @@ export class CoursesComponent implements OnInit {
     if (this.rangeDates?.length === 2 && this.rangeDates[0] && this.rangeDates[1]) {
       const fromDate = this.formatDateToISO(this.rangeDates[0]);
       const toDate = this.formatDateToISO(this.rangeDates[1]);
-  
-      console.log("📌 Formatted From:", fromDate);
-      console.log("📌 Formatted To:", toDate);
-        this.fetchCourses({}, this.selectedTopicId, this.valueTable, fromDate, toDate);
+      this.fetchCourses({}, this.selectedTopicId, undefined, this.valueTable, fromDate, toDate);
     }
   }
   clearDateRange() {
-    this.rangeDates = null;  
-    this.fetchCourses({}, this.selectedTopicId, this.valueTable);
+    this.rangeDates = null;
+    this.iselectedStage =  false
+    this.fetchCourses({}, this.selectedTopicId, undefined,this.valueTable);
   }
   formatDateToISO(date: Date | null): string {
     if (!date) return '';
@@ -88,29 +86,44 @@ export class CoursesComponent implements OnInit {
   //~ values
   showInfo = false;
   collapsePagination = false;
-  selectedValue: any ={};
   selectedFile!: File;
   valueTable: number = 0;
-  topicsList: ITopiclist[] = [];
+  topicsList: ItopicList[] = [];
+  selectedValue: ItopicList = {} as ItopicList;
+  selectedStage: ItopicList = {} as ItopicList;
+  selectStageDefault: any
   isOpen: boolean = false;
   isLoading: boolean = false;
   paginationCoursesResponse: IPaginationResponse<CourseResult> = {} as IPaginationResponse<CourseResult>;
   kanbanResponse: IResponseOf<IKanbanResponse> = {} as IResponseOf<IKanbanResponse>;
 
   selectedTopicId: number = 0;
-  topicIdFromRoute:string| null = ''
+  topicIdFromRoute: string | null = ''
   valueheader: number = 0;
-
+iselectedStage : boolean = false;
   showLeftScroll = false;
   showRightScroll = true;
-  activeTab :number =1;
+  activeTab: number = 1;
 
 
   @ViewChild(TableCoursesComponent) TableCourses!: TableCoursesComponent;
   isVisible = false;
   showModal(): void {
     this.isVisible = true;
-    
+
+  }
+  dropdownVisible = false;
+  selectStatus(status: any) {
+    this.selectedStage = status;
+    this.dropdownVisible = false; 
+    this.iselectedStage = true;
+
+    console.log(status)
+    this.fetchCourses({}, this.selectedTopicId, status.id, this.valueTable);
+  }
+
+  toggleDropdown() {
+    this.dropdownVisible = !this.dropdownVisible;
   }
   //^ Functions
 
@@ -134,10 +147,10 @@ export class CoursesComponent implements OnInit {
     console.log(option.id)
     this.selectedTopicId = option.id;
     this.topicIdFromRoute = option.id;
-    this.router.navigate(['/course', option.id , this.valueheader]); 
-
-    this.fetchCourses({}, option.id, this.valueTable);
+    this.router.navigate(['/course', option.id, this.valueheader]);
+    
     this.getAllKanbans(option.id)
+    this.fetchCourses({}, option.id, this.valueTable);
 
   }
   toggShowInfo() {
@@ -148,42 +161,56 @@ export class CoursesComponent implements OnInit {
   }
 
   openPopup() {
-     this.router.navigate([{ outlets: { dialog: [ 'addcourse'] } }]); 
-     }
+    this.router.navigate([{ outlets: { dialog: ['addcourse'] } }]);
+  }
 
+  @ViewChild('dropdownContainer') dropdownContainer!: ElementRef;
 
-
-
-     getListTopics(topicIdFromRoute: string | null = null): void {
-      this._topiclistService.getAlllits().subscribe({
-        next: (topics) => {
-          this.topicsList = topics.result;
-    
-          let defaultTopic = this.topicsList.find((e: ITopiclist) => e.default);
-          
-          if (!defaultTopic) {
-            return;
-          }
-    
-          this.selectedTopicId = topicIdFromRoute ? Number(topicIdFromRoute) : defaultTopic.id;
-          this.selectedValue = this.topicsList.find((e: ITopiclist) => e.id === this.selectedTopicId);
-    
-          console.log(this.selectedTopicId);
-    
-          if (topics.success) {
-            this.fetchCourses({}, this.selectedTopicId);
-            this.getAllKanbans(this.selectedTopicId);
-          }
-        }
-      });
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: Event) {
+    if (this.dropdownVisible && this.dropdownContainer) {
+      if (!this.dropdownContainer.nativeElement.contains(event.target)) {
+        this.dropdownVisible = false;
+        console.log('Dropdown closed'); 
+      }
     }
-    
-  fetchCourses(eventData: { pageNumber?: number; pageSize?: number }, topicId: number, courseListViewType: number = 0 ,  from?: string, 
+  }
+
+  getListTopics(topicIdFromRoute: string | null = null): void {
+    this._topiclistService.getAlllits().subscribe({
+      next: (topics) => {
+        this.topicsList = topics.result;
+
+
+        let defaultTopic = this.topicsList.find((e: ItopicList) => e.default);
+
+
+        if (!defaultTopic) {
+          return;
+        }
+
+        this.selectedTopicId = topicIdFromRoute ? Number(topicIdFromRoute) : defaultTopic.id;
+        this.selectedValue = this.topicsList.find((e: ItopicList) => e.id === this.selectedTopicId) || {} as ItopicList;
+        console.log('Selected Value:', this.selectedValue.stages);
+        let defautlStage = this.selectedValue.stages.find((stage: Stage) => stage.default);
+        console.log("Default Stage: ", defautlStage);
+        if (!defautlStage) defautlStage = this.selectedValue.stages[0];
+        this.selectStageDefault = defautlStage;
+
+        if (topics.success) {
+          this.fetchCourses({}, this.selectedTopicId);
+          this.getAllKanbans(this.selectedTopicId);
+        }
+      }
+    });
+  }
+
+  fetchCourses(eventData: { pageNumber?: number; pageSize?: number }, topicId: number, stageId?:number, courseListViewType: number = 0, from?: string,
     to?: string): void {
     const { pageNumber = 1, pageSize = 5 } = eventData;
 
     this.isLoading = true;
-    this._PaginateCoursesService.getCourses(topicId, pageNumber, pageSize, courseListViewType , from, to).subscribe({
+    this._PaginateCoursesService.getCourses(topicId,stageId, pageNumber, pageSize, courseListViewType, from, to).subscribe({
       next: (response) => {
         console.log(response);
         this.paginationCoursesResponse = response;
@@ -270,8 +297,8 @@ export class CoursesComponent implements OnInit {
       if (activeTabFromRoute === '0') {
         this.valueheader = 0;
       }
-  
-      this.getListTopics(this.topicIdFromRoute); 
+
+      this.getListTopics(this.topicIdFromRoute);
     });
 
   }

@@ -1,0 +1,144 @@
+{
+
+    "PopupSetting": {
+        "accountType": "Private Account",
+        "username": "ahmedadel",
+        "myAccount": "My Account",
+        "notifications": "Notifications Settings",
+        "changePassword": "Change Password",
+        "changeLanguage": "Change Language",
+        "logout": "Logout"
+      },
+      "AddSection": {
+        "addTopic": "Add Topic",
+        "addStage": "Add Stage",
+        "addCourse": "Add Course",
+        "addLesson": "Add Lesson"
+      },
+      "Sidebar": {
+        "Transaction": "Transaction",
+        "TransactionList": "Transaction List",
+        "Courses": "Courses",
+        "Board": "Board",
+        "CourseList": "Course List",
+        "Dashboard": "Coupons list",
+        "Follower": "Follower",
+        "Users": "Users",
+        "Students": "Students",
+        "Notification": "Notification",
+        "Message": "Message",
+        "Setting": "Setting",
+        "Logout": "Log Out"
+      },
+      "Board" : {
+        "Board": "Board",
+        "Description": "In this comprehensive course, we will take you on an exciting journey...",
+        "SearchPlaceholder": "You can search here",
+        "EGP": "EGP",
+        "NewTopic": "New Topic",
+
+        "Courses": "Courses",
+        "TotalPrice": "Total Price",
+        "Creator": "Creator",
+        "CreatedOn": "Created On",
+        "LastUpdater": "Last Updater",
+        "LastUpdate":"Last Updater",
+        "Actions": {
+          "SetDefault": "Set as default",
+          "Edit": "Edit",
+          "Delete": "Delete",
+          "viewtopic":"view topic",
+          "viewtopickanban":"view topic kanban"
+        },
+
+        "popupAdd":{
+          "add_topic": "Add Topic",
+          "add_stage": "Add Stage",
+
+          "create_topic_now": "Create Your Topic Now",
+          "create_stage_now": "Create Your Stage Now",
+
+          "create_topic_desc": "Have more control with different Topic to easily manage",
+          "topic_name": "Topic Name",
+          "topic_description": "Topic Description",
+          "main": "Main",
+          "next_step": "Next Step",
+          "step_details": "Topic Details",
+          "step_details_Stage": "Stage Details",
+
+          "step": "Step" ,
+          "Done" :"Create Topic"
+           
+        
+        }
+        ,
+        "popupEdit":{
+          "edit_topic": "Edit Topic",
+          "edit_stage": "Edit Stage"
+        }
+        ,
+        "popupDelete":{
+
+          "deleteConfirmTitle": "Are you sure you want to delete this topic?",
+        "deleteConfirmMessage": "This topic will be removed from the related topics list and the price may change as a result."
+
+
+        }
+        ,
+        "popupView":{
+          "viewTopic": "View Topic",
+          "totalPrice": "Total Price",
+          "courses": "Courses",
+          "creationDate": "Creation Date",
+          "creatorName": "Creator Name",
+          "updaterName": "Updater Name",
+          "updationDate": "Updation Date",
+          "stages": "Stages",
+          "new": "New",
+          "inProgress": "In Progress",
+          "createdOn": "Created On",
+          "createdBy": "Created By",
+          "totalCourses": "Total Courses"
+
+        }
+        
+
+      },
+    
+      "course" : {
+        "tableCourse": {
+          "name": "Name",
+          "stage": "Stage",
+          "price": "Price",
+          "profit": "Profit",
+          "discount": "Discount",
+          "students": "Students",
+          "rating": "Rating",
+          "videos": "Videos",
+          "coupons": "Coupons",
+          "description": "Description",
+          "creator": "Creator",
+          "updater": "Updater",
+          "created_on": "Created On",
+          "updated_on": "Updated On"
+        }
+     
+      },
+      "coupon": {
+        "tableCoupon": {
+          "code": "Code",
+          "notes": "Notes",
+          "allowedUsage": "Allowed Usage",
+          "actualUsage": "Actual Usage",
+          "validFrom": "Valid From",
+          "validTo": "Valid To",
+          "limited": "Limited",
+          "discountType": "Discount Type",
+          "discount": "Discount",
+          "priceAfterDiscount": "Price After Discount",
+          "students": "Students"
+        }
+      }
+  
+
+}

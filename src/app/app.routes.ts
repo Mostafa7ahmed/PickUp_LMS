@@ -18,6 +18,9 @@ import { AddStageComponent } from './Pages/Stages/Components/add-stage/add-stage
 import { EditStageComponent } from './Pages/Stages/Components/edit-stage/edit-stage.component';
 import { EditTopicComponent } from './Pages/Topics/Components/edit-topic/edit-topic.component';
 import { ViewCourseComponent } from './Pages/Courses/Components/view-course/view-course.component';
+import { DeleteTopicComponent } from './Pages/Topics/Components/delete-topic/delete-topic.component';
+import { CouponCourseComponent } from './Pages/Coupon/Components/coupon-course/coupon-course.component';
+import { CouponListComponent } from './Pages/Coupon/coupon-list/coupon-list.component';
 
 export const routes: Routes = [
     //  Auth Router
@@ -62,8 +65,11 @@ export const routes: Routes = [
             { path: "ViewCourse/:courseId", component:ViewCourseComponent },
             { path: "topics", title:"topic",component: TopicsComponent },
             {path: 'addTopic',   outlet: 'dialog',component: AddTopicComponent },
+            {path: 'deleteTopic/:deleteId',   outlet: 'dialog2',component: DeleteTopicComponent },
             {path: 'editTopic/:topicId',   outlet: 'dialog',component: EditTopicComponent },
             {path: 'addcourse',   outlet: 'dialog',component: AddCoursesComponent },
+            {path: 'coupan/:CoupanId',   outlet: 'dialog',component: CouponCourseComponent },
+            {path: 'Couponslist',  title:"Coupons",component: CouponListComponent },
             { path: 'ViewTopic/:id', outlet: 'dialog', component: ViewTopicandStageComponent },
             {path: 'addStage/:StageId',   outlet: 'dialog2',component: AddStageComponent },
             {path: 'editStage/:StageId',   outlet: 'dialog2',component: EditStageComponent },
