@@ -62,22 +62,22 @@ export class AddCoursesComponent {
 
   constructor() {
     this.items = [
-        {
-            label: 'save and create new',
-            command: () => {
-              console.log("first")
-
-            }
-        },
-        {
-          label: 'Save and Create Coupon',
-          command: () => {
-            const coupanId = 123; 
-            this.router.navigate([{ outlets: { dialog: ['coupan', coupanId] } }]);
-          }
-        },
-        { label: 'save and create lesson',    command: () => {
-          console.log("Three")
+      {
+        label: 'Save and Create New',
+        command: () => {
+          this.createCourse('create-new');
+        }
+      },
+      {
+        label: 'Save and Create Coupon',
+        command: () => {
+          this.createCourse('create-coupon');
+        }
+      },
+      {
+        label: 'Save and Create Lesson',
+        command: () => {
+          this.createCourse('create-lesson');
         }
       }
 
@@ -181,7 +181,6 @@ export class AddCoursesComponent {
       this.selectTopicDefault = defautlTopic;
       this.selectStageDefault = defautlStage;
   
-      // نحدث الفورم
       this.courseForm.get("topicId")?.setValue(defautlTopic.id);
       this.courseForm.get("stageId")?.setValue(defautlStage?.id);
     });
@@ -535,7 +534,7 @@ export class AddCoursesComponent {
     return createCourseRequest;
   }
 
-  createCourse() {
+  createCourse(actionType: 'normal' | 'create-new' | 'create-coupon' | 'create-lesson' = 'normal') {
     let request = this.collectCreateCourseRequest();
     this.isLoad = true;
 
@@ -544,8 +543,27 @@ export class AddCoursesComponent {
       this._createCourseService.addCourse(request).subscribe({
         next: (response) => {
           this.isLoad = false;
+          const courseId = response.result.id;
+
           console.log("course created successfully !", response);
-          this.closePopup();
+          
+        switch (actionType) {
+          case 'create-new':
+            this.courseForm.reset();
+            break;
+
+          case 'create-coupon':
+            this.router.navigate([{ outlets: { dialog: ['coupan', courseId] } }]);
+            break;
+
+          case 'create-lesson':
+            this.router.navigate(['/create-lesson', courseId]); 
+            break;
+
+          default:
+            this.closePopup();
+        }
+      
         },
         error: (err) => {
           this.isLoad = false;

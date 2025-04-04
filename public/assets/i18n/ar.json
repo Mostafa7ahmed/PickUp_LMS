@@ -124,7 +124,8 @@
           "limited": "محدود",
           "discountType": "نوع الخصم",
           "discount": "الخصم",
-          "priceAfterDiscount": "السعر بعد الخصم"
+          "priceAfterDiscount": "السعر بعد الخصم",
+          "students":"الطلاب"
         }
       }
 

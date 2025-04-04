@@ -124,7 +124,7 @@ export class CouponListComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    this.getCourse(); // يتم تعيين selectedValue هنا
+    this.getCourse(); 
     
   
     

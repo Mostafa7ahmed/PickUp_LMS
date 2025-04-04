@@ -14,7 +14,7 @@ import { ListCourseService } from '../../../Courses/Core/service/list-course.ser
 import { ListStudentsService } from '../../../Courses/Core/service/list-students.service';
 import { ListCourse } from '../../../Courses/Core/interface/icourses';
 import { CreateCoupnService } from '../../Core/Service/create-coupn.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 interface DiscountType {
   label: string;
@@ -37,6 +37,7 @@ export class CouponCourseComponent implements OnInit {
   paginationCoursesResponse: IPaginationResponse<ListCourse> = {} as IPaginationResponse<ListCourse>;
   private _FormBuilder = inject(FormBuilder);
   private router = inject(Router);
+  private _activatedRoute= inject(ActivatedRoute);
 
   baseUrl: string = environment.baseUrlFiles;
   discountTypes : DiscountType[] = [
@@ -135,12 +136,15 @@ updateDiscountType() {
 
   }
   getCourse(){
-    
+    const routeCoupanId = +this._activatedRoute.snapshot.paramMap.get('CoupanId')!;
+
     this._paginateCoursesService.getCourses().subscribe((response) => {
       this.paginationCoursesResponse = response;
       this.isLoadCourse = true;
-      const defaultCourse = this.paginationCoursesResponse.result.find((course) =>  course.id === 205);
-      if (defaultCourse) {
+      const defaultCourse = this.paginationCoursesResponse.result.find(
+        (course) => course.id === routeCoupanId
+      );
+        if (defaultCourse) {
         this.isLoadCourse = true;
 
         this.selectCourse(defaultCourse);
