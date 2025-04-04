@@ -4,7 +4,7 @@ import { TopPopComponent } from "../../../../Components/top-pop/top-pop.componen
 import { CommonModule } from '@angular/common';
 import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose';
 import { environment } from '../../../../Environments/environment';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ReativeFormModule } from '../../../../Core/Shared/Modules/reative-form/reative-form.module';
 import { Select } from 'primeng/select';
 import { DatePicker } from 'primeng/datepicker';
@@ -14,7 +14,7 @@ import { ListCourseService } from '../../../Courses/Core/service/list-course.ser
 import { ListStudentsService } from '../../../Courses/Core/service/list-students.service';
 import { ListCourse } from '../../../Courses/Core/interface/icourses';
 import { CreateCoupnService } from '../../Core/Service/create-coupn.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 interface DiscountType {
   label: string;
@@ -37,6 +37,7 @@ export class CouponCourseComponent implements OnInit {
   paginationCoursesResponse: IPaginationResponse<ListCourse> = {} as IPaginationResponse<ListCourse>;
   private _FormBuilder = inject(FormBuilder);
   private router = inject(Router);
+  private _activatedRoute= inject(ActivatedRoute);
 
   baseUrl: string = environment.baseUrlFiles;
   discountTypes : DiscountType[] = [
@@ -57,18 +58,17 @@ export class CouponCourseComponent implements OnInit {
   selectedStudents: IStudent[] = [];
 
   formGroup: FormGroup = this._FormBuilder.group({
-    courseId: new FormControl(null),
-    code: new FormControl(null),
-    active: new FormControl(true),
-    limited: new FormControl(false),
-    allowedUsage: new FormControl(0),
+    courseId: new FormControl(null, [Validators.required]),
+    code: new FormControl(null, [Validators.required]),
+    active: new FormControl(true, [Validators.required]),
+    limited: new FormControl(false, [Validators.required]),
+    allowedUsage: new FormControl(0, [Validators.required]),
     discount: new FormControl(0),
     discountType: new FormControl(0),
-    validFrom: new FormControl(null),
-    validTo: new FormControl(null),
-    notes: new FormControl(null),
+    validFrom: new FormControl(null, [Validators.required]),
+    validTo: new FormControl(null, [Validators.required]),
+    notes: new FormControl(''),
   });
-
 
 updateDiscountType() {
   this.formGroup.patchValue({ discountType: this.selectedDiscountType });
@@ -88,6 +88,7 @@ updateDiscountType() {
 
   selectCourse(course: ListCourse) {
     this.selectedCourse = course;
+    this.formGroup.patchValue({ courseId: course.id });
     this.showDropdownCourse = false;
   }
   toggleDropdownStudents(event: Event) {
@@ -134,19 +135,24 @@ updateDiscountType() {
     event.stopPropagation(); 
 
   }
-  getCourse(){
-    
+  getCourse() {
+    const routeCoupanId = +this._activatedRoute.snapshot.paramMap.get('CoupanId')!;
+  
     this._paginateCoursesService.getCourses().subscribe((response) => {
       this.paginationCoursesResponse = response;
       this.isLoadCourse = true;
-      const defaultCourse = this.paginationCoursesResponse.result.find((course) =>  course.id === 205);
+        const defaultCourse = this.paginationCoursesResponse.result.find(
+        (course) => course.id === routeCoupanId
+      );
+  
       if (defaultCourse) {
-        this.isLoadCourse = true;
-
         this.selectCourse(defaultCourse);
+      } else {
+        console.error('Course not found.');
       }
     });
-  }  
+  }
+   
   getStudents(){
     
     this._listStudentsService.getStudents().subscribe((response) => {
@@ -160,29 +166,51 @@ updateDiscountType() {
   }
 
   createCoupon() {
-    this.formGroup.get('discountType')?.valueChanges.subscribe(value => {
-      console.log('Updated discountType:', value);
-    });
-
-
+    if (!this.formGroup.valid) {
+      console.log('Form is not valid!');
+      console.log(this.formGroup.value);
+      return;
+    }
+  
+    if (!this.selectedCourse) {
+      console.error('Course is not selected!');
+      return;
+    }
+  
+    const courseId = this.selectedCourse?.id;
+    if (!courseId) {
+      console.error('Course ID is missing!');
+      return;
+    }
+  
     const formValue = this.formGroup.value;
     const selectedStudentIds = this.selectedStudents.map(student => student.studentId);
-    const isLimited = selectedStudentIds.length < 1;
+    const isLimited = selectedStudentIds.length > 1;
     this.formGroup.patchValue({ limited: isLimited });
+  
     const couponData = {
       ...formValue,
-      courseId: this.selectedCourse?.id,
+      courseId: courseId,  // تأكد من أن هذا ليس null
       studentIds: selectedStudentIds
     };
+  
     console.log(couponData);
-    this._createCoupnService.addCoupan(couponData).subscribe((response) => {
-      console.log(response);
-      this.closePopup();
-    });
-
-   console.log(this.datetime12h)
+  
+    if (this.formGroup.valid) {
+      this._createCoupnService.addCoupan(couponData).subscribe({
+        next: (response) => {
+          console.log('Coupon created successfully!', response);
+          this.closePopup();
+        },
+        error: (error) => {
+          console.error('Error creating coupon:', error);
+        }
+      });
+    }
+  
+    console.log(this.formGroup.value);
   }
-
+  
 
 
 

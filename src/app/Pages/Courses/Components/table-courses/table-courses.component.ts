@@ -17,7 +17,8 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrls: ['./table-courses.component.scss', '../../../../../app/Core/Shared/CSS/horizontal-scrolling.scss']
 })
 export class TableCoursesComponent {
-  pageSize: number = 5; 
+
+ pageSize: number = 5; 
  baseUrl =environment.baseUrlFiles
 
   @Input()paginationCoursesResponse: IPaginationResponse<CourseResult>  = {} as IPaginationResponse<CourseResult> ;
@@ -41,20 +42,14 @@ export class TableCoursesComponent {
     toggPagination() {
       this.collapsePagination = !this.collapsePagination;
     }
+  
     scrollTable(direction: 'left' | 'right') {
       const container = this.scrollContainer.nativeElement;
       const speed = 10;
-      const step = 20;
-    
-      const isRTL = document.documentElement.dir === 'rtl'; // تحقق من اللغة
-    
+      const step = 20; 
+  
       this.scrollInterval = setInterval(() => {
-        if (isRTL) {
-          container.scrollLeft += direction === 'right' ? -step : step; // عكس الاتجاه عند RTL
-        } else {
-          container.scrollLeft += direction === 'right' ? step : -step; // الاتجاه التقليدي عند LTR
-        }
-    
+        container.scrollLeft += direction === 'right' ? step : -step;
         this.updateScrollButtons();
       }, speed);
     }
@@ -72,14 +67,7 @@ export class TableCoursesComponent {
     }
 
   
-    @HostListener('window:resize')
-    onResize() {
-      this.updateScrollButtons();
-    }
-     isRTL() {
-    return document.documentElement.dir === 'rtl';
-  }
-
+   
 
     getRemainingCourses(pageNumber:number , pageSize:number ){
       pageNumber = pageNumber + 1;
@@ -94,11 +82,21 @@ export class TableCoursesComponent {
       this.pageSize = Number(target.value);
       this.someMethodToEmitEvent(this.pageSize, 1);
     }
-    
+        @HostListener('window:resize')
+    onResize() {
+      this.updateScrollButtons();
+    }
+     isRTL() {
+    return document.documentElement.dir === 'rtl';
+  }
+
   
   
     ngOnDestroy() {
       clearInterval(this.scrollInterval);
     }
+
+
+
 
 }

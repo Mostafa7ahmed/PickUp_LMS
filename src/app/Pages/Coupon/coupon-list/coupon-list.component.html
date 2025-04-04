@@ -6,7 +6,7 @@
                     <img src="Images/Vector.svg" width="25" alt="">
                   </div>
                   <div class="titleHeader">
-                    <h3 class="m-0">Coupons List</h3>
+                    <h3 class="m-0">   {{"coupon.mainContent.CouponList" | translate }} </h3>
                     
                     <app-select-coupon [isLoadTopic]="isLoadCourse" [ListCourse]="listCourse"  (selectionChange)="selectOption($event)" [selectedItem]="selectedValue"></app-select-coupon>
                 </div>
@@ -28,17 +28,22 @@
           <div class="headerTabs">
             <div class="tab tab1" [class.active]="valueTable == 0">
               <p-button (onClick)="changeInnerTab(0)" rounded="true" styleClass="tabtext">
-                All courses <span>+99</span>
+                {{"coupon.mainContent.allCoupon " | translate }}  <span>+99</span>
               </p-button>
             </div>
             <div class="tab tab2" [class.active]="valueTable == 1">
               <p-button (onClick)="changeInnerTab(1)" rounded="true" styleClass="tabtext">
-                Free Courses <span>+99</span>
+                {{"coupon.mainContent.activeCoupon " | translate }} <span>+99</span>
               </p-button>
             </div>
             <div class="tab tab3" [class.active]="valueTable == 2">
               <p-button (onClick)="changeInnerTab(2)" rounded="true" styleClass="tabtext">
-                Sold courses <span>+99</span>
+                {{"coupon.mainContent.expired " | translate }} <span>+99</span>
+              </p-button>
+            </div>
+            <div class="tab tab3" [class.active]="valueTable == 3">
+              <p-button (onClick)="changeInnerTab(3)" rounded="true" styleClass="tabtext">
+                {{"coupon.mainContent.Expired Soon " | translate }} <span>+99</span>
               </p-button>
             </div>
           </div>
@@ -46,7 +51,7 @@
             <div class="search-container-right d-flex gap-3">
               <div class="inputSearch">
 
-                <input type="text" placeholder="Search for courses">
+                <input type="text" [placeholder]="'coupon.mainContent.SearchPlaceholder' | translate">
               </div>
               <div class="advanced-filter-container">
 
@@ -67,7 +72,7 @@
                 <div class="icon" id="stage-drop-down-icon-0">
                   <i class="icon-grey fa-kit fa-calendar" id="stage-drop-down-icon-i-0"></i>
                 </div>
-                <p class="m-0">Creation Date</p>
+                <p class="m-0">{{"course.mainContent.CreationDate" | translate }}</p>
                 <p-datepicker class="icon-only position-relative" [(ngModel)]="rangeDates" selectionMode="range"
                   [readonlyInput]="true" dateFormat="dd-mm-yyyy" (onSelect)="convertDateRange()">
                 </p-datepicker>
@@ -77,34 +82,14 @@
 
               </div>
 
-              <!-- <div class="CreationDate dropdown">
-                <div class="stages d-flex align-items-center gap-1 w-100" (click)="toggleDropdown()">
-                  <div class="icon">
-                    <i class="icon-grey fa-kit fa-profile-circle"></i>
-                  </div>
-                  <p class="m-0">Stage </p>
 
-                </div>
-                <div class="clear" *ngIf="iselectedStage" (click)="clearDateRange()">
-                  <i class="fa fa-close close-icon" aria-hidden="true"></i>
-                </div>
-                <div #dropdownContainer class="dropdown-content" *ngIf="dropdownVisible">
-                  <div *ngFor="let status of selectedValue.stages" class="dropdown-item" (click)="selectStatus(status)">
-
-                    <div class="progressBar" [style.border-color]="status.color"></div>
-
-
-                    <span class="selected-value">{{ status.name }}</span>
-                  </div>
-                </div>
-              </div> -->
 
 
 
             </div>
             <div class="search-container-left">
-              <div class="addCourse" >
-                <button class="btn-add"><i class="fa fa-plus-square" aria-hidden="true"></i> Add Coupon</button>
+              <div class="addCourse"  (click)="openPopup()">
+                <button class="btn-add"><i class="fa fa-plus-square" aria-hidden="true"></i>{{"coupon.mainContent.addCoupon" | translate }}</button>
               </div>
             </div>
 
@@ -118,14 +103,22 @@
                 
 
               </p-tabpanel>
-              <!-- <p-tabpanel [value]="1">
-                <app-table-courses [paginationCoursesResponse]="paginationCoursesResponse"
-                  (fetchCoursesEvent)="fetchCourses($event,selectedTopicId ,valueTable )"></app-table-courses>
+              <p-tabpanel [value]="1">
+                <app-table-coupan  [paginationCouponResponse]="paginationCouponResponse"(getListCoupanEvent)="getListCoupans($event,selectedCouponcId )"></app-table-coupan>
+                
+
               </p-tabpanel>
               <p-tabpanel [value]="2">
-                <app-table-courses [paginationCoursesResponse]="paginationCoursesResponse"
-                  (fetchCoursesEvent)="fetchCourses($event,selectedTopicId , valueTable)"></app-table-courses>
-              </p-tabpanel> -->
+                <app-table-coupan  [paginationCouponResponse]="paginationCouponResponse"(getListCoupanEvent)="getListCoupans($event,selectedCouponcId )"></app-table-coupan>
+                
+
+              </p-tabpanel>
+              <p-tabpanel [value]="3">
+                <app-table-coupan  [paginationCouponResponse]="paginationCouponResponse"(getListCoupanEvent)="getListCoupans($event,selectedCouponcId )"></app-table-coupan>
+                
+
+              </p-tabpanel>
+
             </p-tabpanels>
           </p-tabs> 
         </div>

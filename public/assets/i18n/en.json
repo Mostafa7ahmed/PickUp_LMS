@@ -121,6 +121,28 @@
           "updater": "Updater",
           "created_on": "Created On",
           "updated_on": "Updated On"
+        },
+        "mainContent": {
+          "CoursesList": "Courses List",
+          "table": "Table",
+          "kanban": "kanban",
+          "allCourses ": "All Courses ",
+          "freeCourses ": "Free Courses ",
+          "soildCourses ": "Soild Courses ",
+          "SearchPlaceholder": "Search For Course",
+          "addCourse": "Add Course",
+          "Stage": "Stage",
+          "CreationDate": "Creation Date"
+
+
+
+
+        },
+        "widget":{
+          "Totalstudentofcourses": "Total student of courses",
+          "totalStudents": "Total price of courses",
+          "Totalnumber": "Total number of courses",
+          "Totalprofit": "Total profit of courses"
         }
      
       },
@@ -137,6 +159,27 @@
           "discount": "Discount",
           "priceAfterDiscount": "Price After Discount",
           "students": "Students"
+        },
+        "mainContent": {
+          "CouponList": "Coupon List",
+          "allCoupon ": "All Coupons ",
+          "activeCoupon ": "Active ",
+          "Expired Soon ": "Expired Soon ",
+          "expired ": "Expired Coupon ",
+
+          "SearchPlaceholder": "Search For Course",
+          "addCoupon": "Add Coupon",
+          "CreationDate": "Creation Date"
+
+
+
+
+        },
+        "widget":{
+          "TotalActive Coupons": "Total Active Coupons",
+          "TotalCoupons Issued": "Total Coupons Issued",
+          "RecentActivity": "Recent Activity",
+          "TotalCoupons": "Total Coupons"
         }
       }
   

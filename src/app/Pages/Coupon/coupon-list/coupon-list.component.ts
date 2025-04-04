@@ -1,4 +1,5 @@
-import { RouterModule } from '@angular/router';
+import { routes } from './../../../app.routes';
+import { Router, RouterModule } from '@angular/router';
 import { Component, ElementRef, EventEmitter, HostListener, inject, Input, OnInit, Output } from '@angular/core';
 import { ListCourse } from '../../Courses/Core/interface/icourses';
 import { IPaginationResponse } from '../../../Core/Shared/Interface/irespose';
@@ -15,12 +16,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { TabsModule } from 'primeng/tabs';
 import { TableCoursesComponent } from '../../Courses/Components/table-courses/table-courses.component';
 import { TableCoupanComponent } from "../Components/table-coupan/table-coupan.component";
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-coupon-list',
   standalone: true,
   
-  imports: [SelectCouponComponent, WidgetCoupanComponent, CommonModule, RouterModule, ButtonModule, FormsModule, DatePicker, TabsModule, MatTooltipModule, TableCoursesComponent, TableCoupanComponent],
+  imports: [SelectCouponComponent, WidgetCoupanComponent, CommonModule, RouterModule, ButtonModule,TranslateModule, FormsModule, DatePicker, TabsModule, MatTooltipModule, TableCoursesComponent, TableCoupanComponent],
   templateUrl: './coupon-list.component.html',
   styleUrls: ['./coupon-list.component.scss',"../../Courses/courses/courses.component.scss"]
 })
@@ -31,6 +33,8 @@ export class CouponListComponent implements OnInit {
 
   private _paginateCoursesService = inject(ListCourseService); 
   private _PaginateCouponService = inject(ListCouponService);
+  private routes = inject(Router);
+
   isLoadCourse = false;
   showInfoCoupon = false;
   isLoading = false;
@@ -96,7 +100,10 @@ export class CouponListComponent implements OnInit {
       this.getListCoupans({}, this.selectedValue.id, fromDate, toDate);
     }
   }
-  
+  openPopup() {
+    this.routes.navigate([{ outlets: { dialog: ['coupan', this.selectedCouponcId] } }]);
+  }
+ 
   clearDateRange() {
     this.rangeDates = null;
     if (this.selectedValue) {
@@ -124,7 +131,7 @@ export class CouponListComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    this.getCourse(); // يتم تعيين selectedValue هنا
+    this.getCourse(); 
     
   
     

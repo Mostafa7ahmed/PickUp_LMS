@@ -3,11 +3,12 @@ import { Component, inject, Input, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { GetWidgetsService } from '../../../Courses/Core/service/get-widgets.service';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-widget-coupan',
   standalone: true,
-  imports: [NgxEchartsModule],
+  imports: [NgxEchartsModule , TranslateModule],
   templateUrl: './widget-coupan.component.html',
   styleUrls: ['./widget-coupan.component.scss' , "../../../Courses/Components/widget-courses/widget-courses.component.scss"]
 })

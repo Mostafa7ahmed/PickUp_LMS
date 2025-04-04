@@ -9,11 +9,13 @@ import { TooltipModule } from 'primeng/tooltip';
 import { SplicTextPipe } from '../../../Courses/Core/Pipes/splic-text.pipe';
 import { RouterLink } from '@angular/router';
 import { ICouponRespone } from '../../Core/Interfaces/icoupon-respone';
+import { AvatarGroup } from 'primeng/avatargroup';
+import { Avatar } from 'primeng/avatar';
 
 @Component({
   selector: 'app-table-coupan',
   standalone: true,
-  imports: [CommonModule  ,TranslateModule, MatTooltipModule, DatePipe ,TooltipModule, SplicTextPipe , RouterLink],
+  imports: [CommonModule  ,TranslateModule, MatTooltipModule, DatePipe ,TooltipModule, Avatar, AvatarGroup , RouterLink],
   templateUrl: './table-coupan.component.html',
   styleUrls:[ './table-coupan.component.scss', '../../../Courses/Components/table-courses/table-courses.component.scss' , '../../../../../app/Core/Shared/CSS/horizontal-scrolling.scss'],
 })
