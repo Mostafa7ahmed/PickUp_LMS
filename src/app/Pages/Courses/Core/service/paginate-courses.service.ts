@@ -18,33 +18,34 @@ export class PaginateCoursesService {
 
    getCourses(
     topicId: number, 
-    stageId: number =0,
+    stageId?: number,  // ترك stageId اختياري
     pageNumber: number = 1, 
-    pageSize: number = 100,
+    pageSize: number = 100, 
     courseListViewType: number = 0, 
     from?: string, 
     to?: string, 
     orderBy: number = 2, 
     orderDirection: number = 1,
-
   ): Observable<any> {
   
     const params: any = {
       topicId: topicId.toString(),
-      stageId: stageId.toString(),
-
-
-      courseListViewType: courseListViewType.toString(),
-      orderBy: orderBy.toString(),
       pageNumber: pageNumber.toString(),
       pageSize: pageSize.toString(),
-      orderBeforPagination: 'true',
+      courseListViewType: courseListViewType.toString(),
+      orderBy: orderBy.toString(),
       orderDirection: orderDirection.toString(),
+      orderBeforPagination: 'true',
     };
+  
+    // إذا كان stageId موجود، أضفه
+    if (stageId) {
+      params.stageId = stageId.toString();
+    }
+  
     if (from) params.from = from;
     if (to) params.to = to;
-
+  
     return this._HttpClient.get<any>(`${this.urlPagination}`, { params });
-  } 
-
+  }
 }

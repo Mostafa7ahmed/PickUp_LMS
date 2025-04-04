@@ -46,7 +46,7 @@ export class SidebarfixedComponent {
   ListSidebarOpen = [
     {
       name: 'Sidebar.Transaction',
-      Icon: 'fa-solid fa-money-bill-transfer',
+      Icon: 'fa-kit fa-transaction-cp',
       list: ["Sidebar.TransactionList", "Sidebar.Transaction"],
       routes: ["Transactionlist", "Dashboard"]
     },

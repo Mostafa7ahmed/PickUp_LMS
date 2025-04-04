@@ -1,4 +1,5 @@
-import { RouterModule } from '@angular/router';
+import { routes } from './../../../app.routes';
+import { Router, RouterModule } from '@angular/router';
 import { Component, ElementRef, EventEmitter, HostListener, inject, Input, OnInit, Output } from '@angular/core';
 import { ListCourse } from '../../Courses/Core/interface/icourses';
 import { IPaginationResponse } from '../../../Core/Shared/Interface/irespose';
@@ -31,6 +32,8 @@ export class CouponListComponent implements OnInit {
 
   private _paginateCoursesService = inject(ListCourseService); 
   private _PaginateCouponService = inject(ListCouponService);
+  private routes = inject(Router);
+
   isLoadCourse = false;
   showInfoCoupon = false;
   isLoading = false;
@@ -96,7 +99,10 @@ export class CouponListComponent implements OnInit {
       this.getListCoupans({}, this.selectedValue.id, fromDate, toDate);
     }
   }
-  
+  openPopup() {
+    this.routes.navigate([{ outlets: { dialog: ['coupan', this.selectedCouponcId] } }]);
+  }
+ 
   clearDateRange() {
     this.rangeDates = null;
     if (this.selectedValue) {

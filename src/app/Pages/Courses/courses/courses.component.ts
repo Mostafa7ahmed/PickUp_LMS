@@ -66,7 +66,7 @@ export class CoursesComponent implements OnInit {
     if (this.rangeDates?.length === 2 && this.rangeDates[0] && this.rangeDates[1]) {
       const fromDate = this.formatDateToISO(this.rangeDates[0]);
       const toDate = this.formatDateToISO(this.rangeDates[1]);
-      this.fetchCourses({}, this.selectedTopicId, undefined, this.valueTable, fromDate, toDate);
+      this.fetchCourses({}, this.selectedTopicId, undefined, this.valueTable, fromDate, toDate );
     }
   }
   clearDateRange() {
@@ -137,7 +137,7 @@ iselectedStage : boolean = false;
     console.log(this.valueTable)
 
 
-    this.fetchCourses({}, this.selectedTopicId, this.valueTable);
+    this.fetchCourses({}, this.selectedTopicId, undefined, this.valueTable);
 
   }
   selectOption(option: any): void {
@@ -199,18 +199,19 @@ iselectedStage : boolean = false;
 
         if (topics.success) {
           this.fetchCourses({}, this.selectedTopicId);
-          this.getAllKanbans(this.selectedTopicId);
+          this.getAllKanbans(this.selectedTopicId); 
         }
       }
     });
   }
 
-  fetchCourses(eventData: { pageNumber?: number; pageSize?: number }, topicId: number, stageId?:number , courseListViewType: number = 0, from?: string,
+
+  fetchCourses(eventData: { pageNumber?: number; pageSize?: number }, topicId: number,     stageId?: number,  courseListViewType: number = 0 ,  from?: string, 
     to?: string): void {
     const { pageNumber = 1, pageSize = 5 } = eventData;
 
     this.isLoading = true;
-    this._PaginateCoursesService.getCourses(topicId, pageNumber, pageSize, courseListViewType, from, to).subscribe({
+    this._PaginateCoursesService.getCourses(topicId,stageId ,pageNumber, pageSize,courseListViewType , from, to).subscribe({
       next: (response) => {
         console.log(response);
         this.paginationCoursesResponse = response;
@@ -227,7 +228,6 @@ iselectedStage : boolean = false;
       }
     });
   }
-
   @ViewChild('scrollKanpan') scrollContainer!: ElementRef;
   scrollInterval: any;
 

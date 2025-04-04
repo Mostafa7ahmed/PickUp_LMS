@@ -116,7 +116,8 @@ updateDiscountType() {
   isSelected(studentId: number): boolean {
     return this.selectedStudents.some(s => s.studentId === studentId);
   }
- 
+
+
   @HostListener('document:click', ['$event'])
   onClickOutside(event: Event) {
     const dropdown = document.querySelector('.dropdown');
@@ -171,8 +172,10 @@ updateDiscountType() {
 
     const formValue = this.formGroup.value;
     const selectedStudentIds = this.selectedStudents.map(student => student.studentId);
-    const isLimited = selectedStudentIds.length < 1;
+    const isLimited = selectedStudentIds.length > 1;
     this.formGroup.patchValue({ limited: isLimited });
+    console.log(this.formGroup.value);
+    console.log(isLimited);
     const couponData = {
       ...formValue,
       courseId: this.selectedCourse?.id,
