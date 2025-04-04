@@ -205,12 +205,12 @@ iselectedStage : boolean = false;
     });
   }
 
-  fetchCourses(eventData: { pageNumber?: number; pageSize?: number }, topicId: number, stageId?:number, courseListViewType: number = 0, from?: string,
+  fetchCourses(eventData: { pageNumber?: number; pageSize?: number }, topicId: number, stageId?:number , courseListViewType: number = 0, from?: string,
     to?: string): void {
     const { pageNumber = 1, pageSize = 5 } = eventData;
 
     this.isLoading = true;
-    this._PaginateCoursesService.getCourses(topicId,stageId, pageNumber, pageSize, courseListViewType, from, to).subscribe({
+    this._PaginateCoursesService.getCourses(topicId, pageNumber, pageSize, courseListViewType, from, to).subscribe({
       next: (response) => {
         console.log(response);
         this.paginationCoursesResponse = response;

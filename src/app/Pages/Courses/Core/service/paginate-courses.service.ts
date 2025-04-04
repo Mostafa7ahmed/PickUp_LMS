@@ -18,7 +18,7 @@ export class PaginateCoursesService {
 
    getCourses(
     topicId: number, 
-    stageId ?:number ,
+    stageId: number =0,
     pageNumber: number = 1, 
     pageSize: number = 100,
     courseListViewType: number = 0, 
@@ -31,6 +31,9 @@ export class PaginateCoursesService {
   
     const params: any = {
       topicId: topicId.toString(),
+      stageId: stageId.toString(),
+
+
       courseListViewType: courseListViewType.toString(),
       orderBy: orderBy.toString(),
       pageNumber: pageNumber.toString(),
@@ -38,12 +41,10 @@ export class PaginateCoursesService {
       orderBeforPagination: 'true',
       orderDirection: orderDirection.toString(),
     };
-    if (stageId !== undefined) {
-      params.stageId = stageId.toString();
-    }
     if (from) params.from = from;
     if (to) params.to = to;
 
     return this._HttpClient.get<any>(`${this.urlPagination}`, { params });
-  }
+  } 
+
 }
