@@ -137,8 +137,8 @@
       "students": "الطلاب"
     },
     "mainContent": {
-      "CouponList": "قائمة القسائم",
-      "allCoupon ": "جميع القسائم",
+      "CouponList": "قائمة الاكواد",
+      "allCoupon ": "جميع الاكواد",
       "activeCoupon ": "الفعالة",
       "Expired Soon ": "ستنتهي قريبًا",
       "expired ": "منتهية الصلاحية",
@@ -147,10 +147,10 @@
       "CreationDate": "تاريخ الإنشاء"
     },
     "widget": {
-      "TotalActive Coupons": "إجمالي القسائم الفعالة",
-      "TotalCoupons Issued": "إجمالي القسائم الصادرة",
+      "TotalActive Coupons": "إجمالي الاكواد الفعالة",
+      "TotalCoupons Issued": "إجمالي الاكواد الصادرة",
       "RecentActivity": "النشاط الأخير",
-      "TotalCoupons": "إجمالي القسائم"
+      "TotalCoupons": "إجمالي الاكواد"
     }
   }
 }
