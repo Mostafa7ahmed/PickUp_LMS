@@ -187,6 +187,8 @@ updateDiscountType() {
       this.closePopup();
     });
 
+
+
    console.log(this.datetime12h)
   }
 

@@ -549,7 +549,7 @@ export class AddCoursesComponent {
           
         switch (actionType) {
           case 'create-new':
-            this.courseForm.reset();
+            this.router.navigate([{ outlets: { dialog: ['addcourse'] } }]);
             break;
 
           case 'create-coupon':
