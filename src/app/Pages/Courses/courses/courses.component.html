@@ -7,7 +7,7 @@
           <i class="fa-solid fa-chalkboard-user"></i>
         </div>
         <div class="titleHeader">
-          <h3 class="m-0">Courses List</h3>
+          <h3 class="m-0">{{"course.mainContent.CoursesList" | translate }}</h3>
 
           <app-customslectwithicon [items]="topicsList" [isLoadTopic]="true" [selectedItem]="selectedValue"
             (selectionChange)="selectOption($event)">
@@ -25,7 +25,7 @@
               <div class="icon">
                 <i class="fa-solid fa-table"></i>
               </div>
-              <span>Table</span>
+              <span>{{"course.mainContent.table" | translate }}</span>
             </p-button>
           </div>
           <span class="line"></span>
@@ -35,7 +35,7 @@
               <div class="icon">
                 <i class="fa-light fa-objects-align-top"></i>
               </div>
-              <span>Kanban</span>
+              <span>{{"course.mainContent.kanban" | translate }}</span>
             </p-button>
 
           </div>
@@ -59,17 +59,17 @@
           <div class="headerTabs">
             <div class="tab tab1" [class.active]="valueTable == 0">
               <p-button (onClick)="changeInnerTab(0)" rounded="true" styleClass="tabtext">
-                All courses <span>+99</span>
+                {{"course.mainContent.allCourses " | translate }} <span>+99</span>
               </p-button>
             </div>
             <div class="tab tab2" [class.active]="valueTable == 1">
               <p-button (onClick)="changeInnerTab(1)" rounded="true" styleClass="tabtext">
-                Free Courses <span>+99</span>
+                {{"course.mainContent.freeCourses " | translate }} <span>+99</span>
               </p-button>
             </div>
             <div class="tab tab3" [class.active]="valueTable == 2">
               <p-button (onClick)="changeInnerTab(2)" rounded="true" styleClass="tabtext">
-                Sold courses <span>+99</span>
+                {{"course.mainContent.soildCourses " | translate }} <span>+99</span>
               </p-button>
             </div>
           </div>
@@ -77,7 +77,7 @@
             <div class="search-container-right d-flex gap-3">
               <div class="inputSearch">
 
-                <input type="text" placeholder="Search for courses">
+                <input type="text" placeholder="Search for courses"[placeholder]="'course.mainContent.SearchPlaceholder' | translate">
               </div>
               <div class="advanced-filter-container">
 
@@ -98,7 +98,7 @@
                 <div class="icon" id="stage-drop-down-icon-0">
                   <i class="icon-grey fa-kit fa-calendar" id="stage-drop-down-icon-i-0"></i>
                 </div>
-                <p class="m-0">Creation Date</p>
+                <p class="m-0">{{"course.mainContent.CreationDate" | translate }}</p>
                 <p-datepicker class="icon-only position-relative" [(ngModel)]="rangeDates" selectionMode="range"
                   [readonlyInput]="true" dateFormat="dd-mm-yyyy" (onSelect)="convertDateRange()">
                 </p-datepicker>
@@ -113,7 +113,7 @@
                   <div class="icon">
                     <i class="icon-grey fa-kit fa-profile-circle"></i>
                   </div>
-                  <p class="m-0">Stage </p>
+                  <p class="m-0">{{"course.mainContent.Stage" | translate }} </p>
 
                 </div>
                 <div class="clear" *ngIf="iselectedStage" (click)="clearDateRange()">
@@ -135,7 +135,7 @@
             </div>
             <div class="search-container-left">
               <div class="addCourse" (click)="openPopup()">
-                <button class="btn-add"><i class="fa fa-plus-square" aria-hidden="true"></i> Add Course</button>
+                <button class="btn-add"><i class="fa fa-plus-square" aria-hidden="true"></i> {{"course.mainContent.addCourse" | translate }}</button>
               </div>
             </div>
 
@@ -168,12 +168,12 @@
           <div class="headerKanban">
 
             <div class="inputSearch">
-              <input type="text" placeholder="Search for courses">
+              <input type="text" [placeholder]="'course.mainContent.SearchPlaceholder' | translate">
 
             </div>
 
             <div class="addCourse" (click)="openPopup()">
-              <button class="btn-add"><i class="fa fa-plus-square" aria-hidden="true"></i> Add Course</button>
+              <button class="btn-add"><i class="fa fa-plus-square" aria-hidden="true"></i> {{"course.mainContent.addCourse" | translate }}</button>
             </div>
 
 

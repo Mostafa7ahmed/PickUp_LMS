@@ -28,107 +28,129 @@
     "Message": "الرسائل",
     "Setting": "الإعدادات",
     "Logout": "تسجيل الخروج"
-  }
-  ,
-      "Board" : {
-        "Board": "لوحة التحكم",
-        "Description": "في هذه الدورة الشاملة، سنأخذك في رحلة ممتعة...",
-        "SearchPlaceholder": "ابحث هنا",
-        "NewTopic": "موضوع جديد",
-        "EGP": "ج.م",
-        "Courses": "الدورات",
-        "TotalPrice": "إجمالي السعر",
-        "Creator": "المنشئ",
-        "CreatedOn": "تاريخ الإنشاء",
-        "LastUpdater": "آخر تحديث",
-        "LastUpdate": "آخر تحديث",
-        "Actions": {
-          "SetDefault": "تعيين كافتراضي",
-          "Edit": "تعديل",
-          "Delete": "حذف",
-          "viewtopic":"مشاهده الموضوع",
-          "viewtopickanban": "عرض الموضوع كنبان"
-        }
-        ,
-        "popupAdd":{
-          "add_topic": "إضافة موضوع",
-          "add_stage": "إضافة المرحله",
+  },
+  "Board": {
+    "Board": "لوحة التحكم",
+    "Description": "في هذه الدورة الشاملة، سنأخذك في رحلة ممتعة...",
+    "SearchPlaceholder": "ابحث هنا",
+    "NewTopic": "موضوع جديد",
+    "EGP": "ج.م",
+    "Courses": "الدورات",
+    "TotalPrice": "إجمالي السعر",
+    "Creator": "المنشئ",
+    "CreatedOn": "تاريخ الإنشاء",
+    "LastUpdater": "آخر تحديث",
+    "LastUpdate": "آخر تحديث",
+    "Actions": {
+      "SetDefault": "تعيين كافتراضي",
+      "Edit": "تعديل",
+      "Delete": "حذف",
+      "viewtopic": "مشاهده الموضوع",
+      "viewtopickanban": "عرض الموضوع كنبان"
+    },
+    "popupAdd": {
+      "add_topic": "إضافة موضوع",
+      "add_stage": "إضافة المرحله",
 
-          "create_topic_now": "أنشئ موضوعك الآن",
-          "create_stage_now": "أنشئ المرحله الآن",
+      "create_topic_now": "أنشئ موضوعك الآن",
+      "create_stage_now": "أنشئ المرحله الآن",
 
-          "create_topic_desc": "تحكم أكثر بإنشاء مواضيع مختلفة لإدارتها بسهولة",
-          "topic_name": "اسم الموضوع",
-          "topic_description": "وصف الموضوع",
-          "main": "رئيسي",
-          "next_step": "الخطوة التالية",
-          "step_details": "تفاصيل الموضوع",
-          "step_details_Stage": "تفاصيل المرحله ",
+      "create_topic_desc": "تحكم أكثر بإنشاء مواضيع مختلفة لإدارتها بسهولة",
+      "topic_name": "اسم الموضوع",
+      "topic_description": "وصف الموضوع",
+      "main": "رئيسي",
+      "next_step": "الخطوة التالية",
+      "step_details": "تفاصيل الموضوع",
+      "step_details_Stage": "تفاصيل المرحله ",
 
-          "step": "الخطوة",
-          "Done" :"انشاء موضوع"
-
-        },
-        "popupView":{
-          "viewTopic": "عرض الموضوع",
-          "totalPrice": "السعر الإجمالي",
-          "courses": "الدورات",
-          "creationDate": "تاريخ الإنشاء",
-          "creatorName": "اسم المنشئ",
-          "updaterName": "اسم المُحدِّث",
-          "updationDate": "تاريخ التحديث",
-          "stages": "المراحل",
-          "new": "جديد",
-          "inProgress": "قيد التقدُّم",
-          "createdOn": "تم الإنشاء في",
-          "createdBy": "تم الإنشاء بواسطة",
-          "totalCourses": "عدد الدورات"
-
-        }
-        ,
-        "popupDelete":{
-
+      "step": "الخطوة",
+      "Done": "انشاء موضوع"
+    },
+    "popupView": {
+      "viewTopic": "عرض الموضوع",
+      "totalPrice": "السعر الإجمالي",
+      "courses": "الدورات",
+      "creationDate": "تاريخ الإنشاء",
+      "creatorName": "اسم المنشئ",
+      "updaterName": "اسم المُحدِّث",
+      "updationDate": "تاريخ التحديث",
+      "stages": "المراحل",
+      "new": "جديد",
+      "inProgress": "قيد التقدُّم",
+      "createdOn": "تم الإنشاء في",
+      "createdBy": "تم الإنشاء بواسطة",
+      "totalCourses": "عدد الدورات"
+    },
+    "popupDelete": {
       "deleteConfirmTitle": "هل أنت متأكد من حذف هذا الموضوع؟",
-  "deleteConfirmMessage": "سيتم إزالة هذا الموضوع من قائمة المواضيع المرتبطة، وقد يتغير السعر نتيجة لذلك."
-        }
-
-      
-       },
-       "course" : {
-        "tableCourse": {
-          "name": "الاسم",
-          "stage": "المرحله",
-          "price": "السعر",
-          "profit": "الربح",
-          "discount": "الخصم",
-          "students": "الطلاب",
-          "rating": "التقييم",
-          "videos": "الفيديوهات",
-          "coupons": "أكواد  ",
-          "description": "الوصف",
-          "creator": "المنشئ",
-          "updater": "المُحدث",
-          "created_on": "تاريخ الإنشاء",
-          "updated_on": "تاريخ التحديث"
-        }
-  
-       },
-       "coupon": {
-        "tableCoupon": {
-          "code": "الرمز",
-          "notes": "الملاحظات",
-          "allowedUsage": "الاستخدام المسموح به",
-          "actualUsage": "الاستخدام الفعلي",
-          "validFrom": "صالح من",
-          "validTo": "صالح حتى",
-          "limited": "محدود",
-          "discountType": "نوع الخصم",
-          "discount": "الخصم",
-          "priceAfterDiscount": "السعر بعد الخصم",
-          "students":"الطلاب"
-        }
-      }
-
-
- 
+      "deleteConfirmMessage": "سيتم إزالة هذا الموضوع من قائمة المواضيع المرتبطة، وقد يتغير السعر نتيجة لذلك."
+    }
+  },
+  "course": {
+    "tableCourse": {
+      "name": "الاسم",
+      "stage": "المرحله",
+      "price": "السعر",
+      "profit": "الربح",
+      "discount": "الخصم",
+      "students": "الطلاب",
+      "rating": "التقييم",
+      "videos": "الفيديوهات",
+      "coupons": "أكواد  ",
+      "description": "الوصف",
+      "creator": "المنشئ",
+      "updater": "المُحدث",
+      "created_on": "تاريخ الإنشاء",
+      "updated_on": "تاريخ التحديث"
+    },
+    "mainContent": {
+      "CoursesList": "قائمة الدورات",
+      "table": "جدول",
+      "kanban": "كانبان",
+      "allCourses ": "جميع الدورات",
+      "freeCourses ": "الدورات المجانية",
+      "soildCourses ": "الدورات المدفوعة",
+      "SearchPlaceholder": "ابحث عن دورة",
+      "addCourse": "إضافة دورة",
+      "Stage": "المرحلة",
+      "CreationDate": "تاريخ الإنشاء"
+    },
+    "widget": {
+      "Totalstudentofcourses": "إجمالي عدد الطلاب في الدورات",
+      "totalStudents": "إجمالي أسعار الدورات",
+      "Totalnumber": "إجمالي عدد الدورات",
+      "Totalprofit": "إجمالي أرباح الدورات"
+    }
+  },
+  "coupon": {
+    "tableCoupon": {
+      "code": "الرمز",
+      "notes": "الملاحظات",
+      "allowedUsage": "الاستخدام المسموح به",
+      "actualUsage": "الاستخدام الفعلي",
+      "validFrom": "صالح من",
+      "validTo": "صالح حتى",
+      "limited": "محدود",
+      "discountType": "نوع الخصم",
+      "discount": "الخصم",
+      "priceAfterDiscount": "السعر بعد الخصم",
+      "students": "الطلاب"
+    },
+    "mainContent": {
+      "CouponList": "قائمة القسائم",
+      "allCoupon ": "جميع القسائم",
+      "activeCoupon ": "الفعالة",
+      "Expired Soon ": "ستنتهي قريبًا",
+      "expired ": "منتهية الصلاحية",
+      "SearchPlaceholder": "ابحث عن دورة",
+      "addCoupon": "إضافة قسيمة",
+      "CreationDate": "تاريخ الإنشاء"
+    },
+    "widget": {
+      "TotalActive Coupons": "إجمالي القسائم الفعالة",
+      "TotalCoupons Issued": "إجمالي القسائم الصادرة",
+      "RecentActivity": "النشاط الأخير",
+      "TotalCoupons": "إجمالي القسائم"
+    }
+  }
 }

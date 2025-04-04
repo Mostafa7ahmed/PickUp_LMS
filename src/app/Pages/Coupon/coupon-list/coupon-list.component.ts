@@ -16,12 +16,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { TabsModule } from 'primeng/tabs';
 import { TableCoursesComponent } from '../../Courses/Components/table-courses/table-courses.component';
 import { TableCoupanComponent } from "../Components/table-coupan/table-coupan.component";
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-coupon-list',
   standalone: true,
   
-  imports: [SelectCouponComponent, WidgetCoupanComponent, CommonModule, RouterModule, ButtonModule, FormsModule, DatePicker, TabsModule, MatTooltipModule, TableCoursesComponent, TableCoupanComponent],
+  imports: [SelectCouponComponent, WidgetCoupanComponent, CommonModule, RouterModule, ButtonModule,TranslateModule, FormsModule, DatePicker, TabsModule, MatTooltipModule, TableCoursesComponent, TableCoupanComponent],
   templateUrl: './coupon-list.component.html',
   styleUrls: ['./coupon-list.component.scss',"../../Courses/courses/courses.component.scss"]
 })

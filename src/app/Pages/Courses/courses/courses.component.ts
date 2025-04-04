@@ -1,8 +1,7 @@
 import { Component, ElementRef, HostListener, inject, Input, OnInit, Output, viewChild, ViewChild } from '@angular/core';
 import { CourseResult } from '../Core/interface/icourses';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from 'ngx-echarts';
-import * as echarts from 'echarts';
+
 import {  Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
@@ -23,15 +22,12 @@ import { DatePicker } from 'primeng/datepicker';
 import { CustomslectwithiconComponent } from '../Components/customslectwithicon/customslectwithicon.component';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { ItopicList, Stage } from '../../Topics/Core/Interface/itopic-list-result';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, RouterModule, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, MatTooltipModule, WidgetCoursesComponent, TableCoursesComponent, CustomslectwithiconComponent],
-  providers: [
-    { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } }
-
-  ],
+  imports: [CommonModule, RouterModule, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent,TranslateModule, TabsModule, MatTooltipModule, WidgetCoursesComponent, TableCoursesComponent, CustomslectwithiconComponent],
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss', '../../../../app/Core/Shared/CSS/horizontal-scrolling.scss']
 
