@@ -154,7 +154,7 @@
 
                                 <input type="text"  [value]="field.key"  readonly class="field-key" placeholder="Key">
                                 <input type="text"  readonly class="field-value"
-                                    placeholder="Value">
+                                    placeholder="Value"  [value]="field.value"  readonly >
 
                                 <label class="containerCheck">
                                     <input type="checkbox"[checked]="field.visible"  (change)="onVisibleChange(i)">
