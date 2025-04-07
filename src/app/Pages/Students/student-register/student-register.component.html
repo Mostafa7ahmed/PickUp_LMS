@@ -18,8 +18,7 @@
     </div>
 
     <form class="p-3" [formGroup]="registerFrom">
-      @switch (current) {
-         @case (0) {
+      @switch (current) { @case (0) {
       <!-- Lable Input -->
       <div class="position-relative mb-3">
         <!-- Input Field -->
@@ -36,12 +35,10 @@
 
         <!-- Label -->
         <label id="label-input">Name</label>
-
-      
       </div>
 
       <div
-        class="position-relative my-3"
+        class="position-relative mt-4"
         [class.my-3]="!isFieldInvalid('userName')"
       >
         <input
@@ -49,24 +46,20 @@
           placeholder=""
           type="text"
           formControlName="userName"
-          (blur)="validUseName('userName', 0)"
-
           [ngClass]="{
-            invalid: !showIconsUserName && isFieldInvalid('userName'),
-            success: showIconsUserName && isFieldValid('userName')
+            invalid: isFieldInvalid('userName'),
+            success: isFieldValid('userName')
           }"
         />
         <label id="label-input">User name</label>
-
-    
       </div>
       @if(isFieldInvalid('userName')){
-      <p class="error-message m">{{MessageUseName}}</p>
+      <p class="error-message m">{{ MessageUseName }}</p>
 
       }
 
       <div
-        class="position-relative my-3"
+        class="position-relative mt-4"
         [class.my-3]="!isFieldInvalid('email')"
       >
         <input
@@ -74,128 +67,118 @@
           placeholder=""
           type="text"
           formControlName="email"
-          (blur)="validEmail('email', 1)"
-
           [ngClass]="{
-            invalid: !showIconsEmail && isFieldInvalid('email'),
-            success: showIconsEmail && isFieldValid('email')
+            invalid: isFieldInvalid('email'),
+            success: isFieldValid('email')
           }"
         />
         <label id="label-input">Email</label>
-
-     
       </div>
-      @if(isFieldInvalid('email')){
-        <p class="error-message m">{{MessageEmail}}</p>
 
-      }
-
-      <div class="position-relative">
-        <!-- <ngx-intl-tel-input
-          [cssClass]="getCssClass('phoneNumber')"
-          [preferredCountries]="preferredCountries"
-          [searchCountryFlag]="true"
-          [searchCountryField]="[
-            SearchCountryField.Iso2,
-            SearchCountryField.Name
-          ]"
-          [selectFirstCountry]="true"
-          [selectedCountryISO]="CountryISO.Egypt"
-          [phoneValidation]="true"
-          [numberFormat]="PhoneNumberFormat.National"
-          name="phoneNumber"
-          formControlName="phoneNumber"
-          (focusout)="validPhone('phoneNumber', 2)"
-
-        ></ngx-intl-tel-input> -->
-
-        <!-- @if(registerFrom.get("phoneNumber")?.errors &&
-        registerFrom.get("phoneNumber")?.touched){
-        <p class="error-message m-0">{{MessagePhone}}</p>
-
-        } -->
-      
+      <div class="position-relative mt-4">
         <input
-        class="input-cal input-base inputFloating"
-        placeholder=""
-        type="text"
-        formControlName="phoneNumber"
-        (blur)="validEmail('phoneNumber',2)"
-
-        [ngClass]="{
-          invalid: !showIconsUserName && isFieldInvalid('phoneNumber'),
-          success: showIconsUserName && isFieldValid('phoneNumber')
-        }"
-      />
-      <label id="label-input">PhoneNumber</label>
-
-
-
-        
-      </div>
-        @if(registerFrom.get("phoneNumber")?.errors &&
-        registerFrom.get("phoneNumber")?.touched){
-        <p class="error-message m-0">{{MessagePhone}}</p>
-
-        }
-      }
-       @case (1) {
-      <div class="position-relative mb-4">
-        <nz-select
-          nzMode="default"
-          nzPlaceHolder="Select Country"
-          nzAllowClear
-          nzServerSearch
           class="input-cal input-base inputFloating"
+          placeholder=""
+          type="text"
+          formControlName="phoneNumber"
           [ngClass]="{
-            invalid: isFieldInvalid('countryId'),
-            success: isFieldValid('countryId')
+            invalid: isFieldInvalid('phoneNumber'),
+            success: isFieldValid('phoneNumber')
           }"
-          formControlName="countryId"
-        >
-          @for (country of allCountry; track country.id) {
-          <nz-option
-            [nzValue]="country.id"
-            [nzLabel]="country.name"
-          ></nz-option>
-          }
-        </nz-select>
-        <label id="label-input">country </label>
+        />
+        <label id="label-input">PhoneNumber</label>
       </div>
+      @if(registerFrom.get("phoneNumber")?.errors &&
+      registerFrom.get("phoneNumber")?.touched){
+      <p class="error-message m-0">{{ MessagePhone }}</p>
+
+      } } @case (1) {
+      <div class="position-relative mb-3">
+        <p-floatlabel class="w-full w-100 md:w-56" variant="on">
+          <p-select
+            formControlName="countryId"
+            inputId="on_label"
+            [options]="allCountry"
+            optionLabel="name"
+            filterBy="name"
+            [filter]="true"
+            [showClear]="true"
+            optionValue="id"
+
+            [ngClass]="{
+              'ng-invalid ng-dirty':
+                registerFrom.get('countryId')?.invalid &&
+                registerFrom.get('countryId')?.touched
+            }"
+            styleClass="w-full w-100"
+          >
+            <ng-template #selectedItem let-selectedOption>
+              <div class="d-flex align-items-center gap-2">
+                <img
+                  [src]="selectedOption.flag"
+                  alt="{{ selectedOption.name }}"
+                  style="width: 18px; height: 12px"
+                />
+                <div>{{ selectedOption.name }}</div>
+              </div>
+            </ng-template>
+
+            <ng-template let-country #item>
+              <div class="d-flex align-items-center gap-2">
+                <img
+                  [src]="country.flag"
+                  alt="{{ country.name }}"
+                  style="width: 18px; height: 12px"
+                />
+                <div>{{ country.name }}</div>
+              </div>
+            </ng-template>
+          </p-select>
+
+          <label for="on_label">Select a Country</label>
+        </p-floatlabel>
+      </div>
+
 
       <div class="position-relative mb-3">
-        <nz-select
-          nzMode="default"
-          nzPlaceHolder="Select Preferred language"
-          nzAllowClear
-          nzServerSearch
-          class="input-cal input-base inputFloating"
-          [ngClass]="{
-            invalid: isFieldInvalid('preferredLanguge'),
-            success: isFieldValid('preferredLanguge')
-          }"
-          formControlName="preferredLanguge"
-        >
-          <nz-option nzValue="0" nzLabel="Arabic"></nz-option>
-          <nz-option nzValue="1" nzLabel="English"></nz-option>
-        </nz-select>
-        <label id="label-input">Preferred language </label>
+        <p-floatlabel variant="on">
+          <p-select
+            inputId="language_label"
+            [options]="allpreferredLanguge"
+            optionLabel="name"
+            optionValue="id"
+            formControlName="preferredLanguge"
+            styleClass="w-full w-100"
+            [ngClass]="{
+              'ng-invalid ng-dirty':
+                registerFrom.get('preferredLanguge')?.invalid &&
+                registerFrom.get('preferredLanguge')?.touched
+            }"
+          >
+            <ng-template pTemplate="selectedItem" let-selectedOption>
+              <div *ngIf="selectedOption && selectedOption.name">
+                {{ selectedOption.name }}
+              </div>
+            </ng-template>
+            <ng-template pTemplate="item" let-language>
+              <div>{{ language.name }}</div>
+            </ng-template>
+          </p-select>
+          <label for="language_label">Preferred Language</label>
+        </p-floatlabel>
       </div>
 
-
-      } 
-      
-      @case (2) {
+      } @case (2) {
       <!-- Lable Input -->
-      <div class="position-relative mb-3">
+      <div class="position-relative mb-1 ">
         <input
           class="input-cal input-base inputFloating"
           placeholder=""
           [type]="passwordFieldType ? 'password' : 'text'"
           formControlName="password"
           [ngClass]="{
-            'invalid': isFieldInvalid('password'),
-            'success': isFieldValid('password')
+            invalid: isFieldInvalid('password'),
+            success: isFieldValid('password')
           }"
         />
         <label id="label-input">Password</label>
@@ -208,18 +191,28 @@
         >
         </i>
       </div>
+      @if (registerFrom.get('password')?.errors && registerFrom.get('password')?.touched) {
+        <p class="error-message mb-3"> must start  an uppercase letter , symbols like &#64; and number</p>
+   
+      }
+    
 
-      <div class="position-relative mb-3">
+      <div class="position-relative mt-3">
         <input
           class="input-cal input-base inputFloating"
           placeholder=""
           [type]="repasswordFieldType ? 'password' : 'text'"
           formControlName="confirmedPassword"
           [ngClass]="{
-            'invalid': !registerFrom.get('rePassword')?.touched && (registerFrom.getError('mismatch') &&  registerFrom.get('confirmedPassword')?.dirty) ,
-            'success': isFieldValid('confirmedPassword') && (!registerFrom.getError('mismatch') && registerFrom.get('confirmedPassword')?.dirty)
+            invalid:
+              !registerFrom.get('rePassword')?.touched &&
+              registerFrom.getError('mismatch') &&
+                registerFrom.get('confirmedPassword')?.dirty,
+            success:
+              isFieldValid('confirmedPassword') &&
+              !registerFrom.getError('mismatch') &&
+                registerFrom.get('confirmedPassword')?.dirty
           }"
-
         />
         <label id="label-input">Repassword</label>
         <i
@@ -228,19 +221,16 @@
           class="fa-solid position-absolute passicon"
           [class.fa-eye]="repasswordFieldType"
           [class.fa-eye-slash]="!repasswordFieldType"
-
         >
         </i>
 
 
       </div>
+      @if (registerFrom.hasError('mismatch') &&registerFrom.get('confirmedPassword')?.touched) {
+          <p class="error-message mt-2">Passwords do not match</p>
+        }
 
-
-
-
-        } 
-    }
-
+      } }
     </form>
 
     <div class="steps-action py-3">
@@ -250,8 +240,9 @@
         <button class="btn" type="submit" routerLink="/startregister">
           <span>Back</span>
         </button>
-        <button class="btn btnAcrive" (click)="next()">
-          <span>Next</span>
+        <button class="btn btnAcrive" (click)="ensureFirstStepData()">
+          <span *ngIf="!stepOneLoading">Next</span>
+          <span *ngIf="stepOneLoading" class="spinner"></span>
         </button>
       </div>
 
@@ -261,7 +252,7 @@
         <button class="btn" (click)="pre()">
           <span>Back</span>
         </button>
-        <button class="btn btnAcrive" (click)="next()">
+        <button class="btn btnAcrive" (click)="nextSoundingPage()">
           <span>Next</span>
         </button>
       </div>
@@ -270,19 +261,18 @@
         <button class="btn" (click)="pre()">
           <span>Back</span>
         </button>
-        <button
-          class="btn btnAcrive"
-          (click)="submitForm()"
-          [disabled]="registerFrom.invalid"
-        >
-          <span>Done</span>
+        <button class="btn btnAcrive"  (click)="submitForm()">
+          <span *ngIf="!loading">Done</span>
+          <span *ngIf="loading" class="spinner"></span>
         </button>
       </div>
       }
     </div>
   </div>
 
-  <div class="ImgLogin">
-    <img src="Images/Login_Screen.png" alt="" />
+
+
+  <div class="ImgResiter">
+    <img src="Images/Login/StdudentsResgiter.png" alt="" />
   </div>
 </div>

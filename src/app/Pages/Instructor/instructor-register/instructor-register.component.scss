@@ -122,3 +122,35 @@
   height: 45px;
 
 }
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid white;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+::ng-deep .ant-message-notice-content{
+  background: #f703030d;
+  box-shadow: none !important;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+::ng-deep .ant-message .anticon {
+  background-color: var(--white);
+  border-radius: 5px;
+  padding: 4px;
+}
+
+::ng-deep .p-select-clear-icon   {
+  display: none !important;;
+}

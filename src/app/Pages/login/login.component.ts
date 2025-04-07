@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { NgClass } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Decode } from '../../Core/Interface/user';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,7 @@ export class LoginComponent {
   private readonly _FormBuilder = inject(FormBuilder);
   private readonly _Router = inject(Router);
   userDecode = {} as Decode;
+  constructor(private message: NzMessageService) {}
 
   MessageUseName:string =""
   isLoading: boolean = false;
@@ -44,6 +46,8 @@ export class LoginComponent {
           this._loginService.saveUserAuth();
           this.userDecode =this._loginService.saveUserAuth()!;
           console.log("message"+ this.userDecode.UserType)
+          this.message.success(res.message);
+
           this._Router.navigate([`/home${this.userDecode.UserType}`])
 
 

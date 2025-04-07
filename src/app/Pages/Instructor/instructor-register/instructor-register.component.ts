@@ -1,3 +1,4 @@
+import { validate } from './../../../Core/Interface/user';
 // import { CountryISO, NgxIntlTelInputModule, PhoneNumberFormat, SearchCountryField } from 'ngx-intl-tel-input';
 import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
@@ -6,11 +7,9 @@ import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModu
 import { RegisterService } from '../../../Core/Services/register.service';
 import { CommonModule, NgClass } from '@angular/common';
 import { CountryService } from '../../../Core/Services/country.service';
-import { BehaviorSubject } from 'rxjs';
-import { NzSelectModule } from 'ng-zorro-antd/select';
 import { LanguageService } from '../../../Core/Services/language.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { forkJoin } from 'rxjs';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { forkJoin, retry } from 'rxjs';
 import { SelectModule } from 'primeng/select';
 import { FloatLabel } from "primeng/floatlabel"
 import { SplicTextPipe } from '../../Courses/Core/Pipes/splic-text.pipe';
@@ -18,7 +17,7 @@ import { SplicTextPipe } from '../../Courses/Core/Pipes/splic-text.pipe';
 @Component({
   selector: 'app-instructor-register',
   standalone: true,
-  imports: [NzStepsModule,SplicTextPipe, RouterLink,CommonModule, ReactiveFormsModule, FormsModule, SelectModule,NgClass, FloatLabel],
+  imports: [NzStepsModule, SplicTextPipe, RouterLink, CommonModule, ReactiveFormsModule, FormsModule, SelectModule, NgClass, FloatLabel],
   templateUrl: './instructor-register.component.html',
   styleUrls: ['../../../Core/Shared/CSS/Stepper.scss', './instructor-register.component.scss', '../../../Core/Shared/CSS/input.scss'],
 
@@ -29,11 +28,9 @@ export class InstructorRegisterComponent implements OnInit {
   passwordFieldType: boolean = true;
   repasswordFieldType: boolean = true;
   selectedCountry: string | undefined;
-  selectedLanguage : string | undefined;
+  selectedLanguage: string | undefined;
   stepTwo: boolean = false;
-
   stepThree: boolean = false;
-
   private readonly _RegisterService = inject(RegisterService);
   private readonly _CountryService = inject(CountryService);
   private readonly _LanguageService = inject(LanguageService);
@@ -42,11 +39,11 @@ export class InstructorRegisterComponent implements OnInit {
 
 
   private _FormBuilder = inject(FormBuilder);
-  private Router = inject(Router)
   allCountry: any[] = [];
   allLangauge: any[] = [];
 
   loading = false;
+  stepOneLoading = false;
 
 
   ngOnInit(): void {
@@ -56,12 +53,11 @@ export class InstructorRegisterComponent implements OnInit {
 
   MessageUseName: string = '';
   MessageEmail: string = '';
-
   MessagePhone: string = '';
-
   showIconsUserName: boolean = true;
   showIconsEmail: boolean = true;
   showIconsPhone: boolean = true;
+
 
   pre(): void {
     this.current -= 1;
@@ -72,15 +68,46 @@ export class InstructorRegisterComponent implements OnInit {
     this.changeContent();
   }
 
+  nextSoundingPage() {
+    const languageId = "languageId";
+    const countryId = "countryId";
+    const preferredLanguge = "preferredLanguge";
+
+
+    console.log(this.registerFrom.value)
+
+    const languageIdValid = this.registerFrom.get(languageId)?.valid;
+    const countryIdValid= this.registerFrom.get(countryId)?.valid;
+    const preferredLangugeValied = this.registerFrom.get(preferredLanguge)?.valid;
+    if(languageIdValid && countryIdValid && preferredLangugeValied) {
+      this.current += 1;
+      this.changeContent();  
+    
+    }
+    else {
+      this.stepOneLoading = false;
+      const fields = [
+        { key: "countryId", label: "Country", message: " is required." },
+        { key: "languageId", label: "Language", message: "is required." },
+        { key: "preferredLanguge", label: "Preferred Language", message: "is required." }
+      ];
+    
+      for (const field of fields) {
+        const control = this.registerFrom.get(field.key);
+        if (control && control.invalid) {
+          this.message.error(`${field.label} is ${field.message}`);
+          break; 
+        }
+      }
+    }
+
+  }
   next(): void {
 
     this.current += 1;
     this.changeContent();
   }
 
-  done(): void {
-    console.log('done');
-  }
 
   changeContent(): void {
     switch (this.current) {
@@ -105,11 +132,6 @@ export class InstructorRegisterComponent implements OnInit {
 
     }
   }
-  // preferredCountries: CountryISO[] = [CountryISO.Egypt, CountryISO.SaudiArabia, CountryISO.UnitedArabEmirates]; // الدول المفضلة
-  // separateDialCode = true;
-  // SearchCountryField = SearchCountryField;
-  // CountryISO = CountryISO;
-  // PhoneNumberFormat = PhoneNumberFormat;
   id: string = "";
   inputId: string = "";
 
@@ -130,63 +152,96 @@ export class InstructorRegisterComponent implements OnInit {
   }, { validators: this.ConfirmPasswordCustom }
   )
 
+  constructor(private message: NzMessageService) {}
 
   ensureFirstStepData() {
     const userNamekey = "userName";
     const emailKey = "email";
     const phoneNumberKey = "phoneNumber";
+    const nameKey = "name";
     const userNameValue = this.registerFrom.get(userNamekey)?.value;
     const emailValue = this.registerFrom.get(emailKey)?.value;
     const phoneNumberValue = this.registerFrom.get(phoneNumberKey)?.value;
+    const nameValue = this.registerFrom.get(nameKey)?.value;
 
-    if (this.registerFrom.get(userNamekey)?.valid && this.registerFrom.get(emailKey)?.valid && this.registerFrom.get(phoneNumberKey)?.valid) {
+    this.stepOneLoading = true;
+
+
+    if (userNameValue && emailValue && phoneNumberValue && nameValue) {
+
+
       const phoneValidation$ = this._RegisterService.validateRegistration(2, phoneNumberValue);
       const userNameValidation$ = this._RegisterService.validateRegistration(0, userNameValue);
       const emailValidation$ = this._RegisterService.validateRegistration(1, emailValue);
 
       forkJoin({
-        phone: phoneValidation$,
-        userName: userNameValidation$,
-        email: emailValidation$
+        phone: phoneValidation$.pipe(retry(1)),      
+        userName: userNameValidation$.pipe(retry(1)),
+        email: emailValidation$.pipe(retry(1))
       }).subscribe({
         next: (res) => {
+          this.stepOneLoading = false;
+          console.log(res);
+
           this.nextFristPage();
         },
         error: (err) => {
-          console.log("Error whil ensureFirstStepData ");
+          console.error("Error while ensuring first step data", err);
+          if (err.error.message) {
+            this.message.error(err.error.message);
+          } else {
+            this.message.error("An error occurred while validating data.");
+          }
+
+
+
+          this.stepOneLoading = false;
         }
       });
-
+    }
+    else {
+      this.stepOneLoading = false;
+      const fields = [
+        { key: "name", label: "Name", message: "Name must be at least 3 characters." },
+        { key: "userName", label: "Username", message: "Username must be at least 6 characters." },
+        { key: "email", label: "Email", message: "Email is invalid." },
+        { key: "phoneNumber", label: "Phone number", message: "Phone number must start with +20 and contain 10 digits after." }
+      ];
+    
+      for (const field of fields) {
+        const control = this.registerFrom.get(field.key);
+        if (control && control.invalid) {
+          this.message.error(`${field.label} is ${field.message}`);
+          break; 
+        }
+      }
     }
   }
 
   submitForm() {
     this.loading = true;
-
+  
     if (this.registerFrom.valid) {
-      const phoneNumberObject = this.registerFrom.get('phoneNumber')?.value;
-      const countryId = +this.registerFrom.get('countryId')?.value;
-      const preferredLanguge = +this.registerFrom.get('preferredLanguge')?.value;
 
-
-
+  
       const updatedFormValue = {
         ...this.registerFrom.value,
-        preferredLanguge: preferredLanguge,
-        countryId: countryId
+ 
       };
-
+  
       this._RegisterService.setRegiterForm(updatedFormValue).subscribe({
         next: (res) => {
           console.log(res);
           this.loading = false;
           if (res.success) {
+            this.message.success(res.message);
             this._Router.navigate(['/ConfirmEmail']);
-
           }
-
         },
-
+        error: () => {
+          this.loading = false;
+          this.message.error('An error occurred while submitting form.');
+        }
       });
     } else {
       this.loading = false;
@@ -230,7 +285,7 @@ export class InstructorRegisterComponent implements OnInit {
             name: country.name,
             nationality: country.nationality,
             isoAlpha2Code: country.isoAlpha2Code,
-            flag: country.flag  
+            flag: country.flag
           }));
           console.log(this.allCountry);
         }
