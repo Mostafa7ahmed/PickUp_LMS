@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './Pages/login/login.component';
+import { LoginComponent } from './Pages/Auth/login/login.component';
 import { IntoregisterComponent } from './Pages/intoregister/intoregister.component';
-import { InstructorRegisterComponent } from './Pages/Instructor/instructor-register/instructor-register.component';
-import { StudentRegisterComponent } from './Pages/Students/student-register/student-register.component';
+import { InstructorRegisterComponent } from './Pages/Auth/instructor-register/instructor-register.component';
+import { StudentRegisterComponent } from './Pages/Auth/student-register/student-register.component';
 import { ConfirmEmailComponent } from './Components/confirm-email/confirm-email.component';
 import { PorfileComponent } from './Pages/Instructor/porfile/porfile.component';
 import { HomeinstructorComponent } from './Pages/Instructor/homeinstructor/homeinstructor.component';

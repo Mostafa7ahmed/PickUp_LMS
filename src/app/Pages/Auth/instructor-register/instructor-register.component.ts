@@ -1,4 +1,4 @@
-import { validate } from './../../../Core/Interface/user';
+import { validate } from '../../../Core/Interface/user';
 // import { CountryISO, NgxIntlTelInputModule, PhoneNumberFormat, SearchCountryField } from 'ngx-intl-tel-input';
 import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
@@ -15,14 +15,14 @@ import { FloatLabel } from "primeng/floatlabel"
 import { SplicTextPipe } from '../../Courses/Core/Pipes/splic-text.pipe';
 
 @Component({
-  selector: 'app-student-register',
+  selector: 'app-instructor-register',
   standalone: true,
   imports: [NzStepsModule, SplicTextPipe, RouterLink, CommonModule, ReactiveFormsModule, FormsModule, SelectModule, NgClass, FloatLabel],
-  templateUrl: './student-register.component.html',
-  styleUrls: ['../../../Core/Shared/CSS/Stepper.scss', '../../Instructor/instructor-register/instructor-register.component.scss','../../../Core/Shared/CSS/input.scss'],
+  templateUrl: './instructor-register.component.html',
+  styleUrls: ['../../../Core/Shared/CSS/Stepper.scss', './instructor-register.component.scss', '../../../Core/Shared/CSS/input.scss'],
 
 })
-export class StudentRegisterComponent {
+export class InstructorRegisterComponent implements OnInit {
   current = 0;
   stepone: boolean = true;
   passwordFieldType: boolean = true;
@@ -40,6 +40,7 @@ export class StudentRegisterComponent {
 
   private _FormBuilder = inject(FormBuilder);
   allCountry: any[] = [];
+  allLangauge: any[] = [];
 
   loading = false;
   stepOneLoading = false;
@@ -47,6 +48,7 @@ export class StudentRegisterComponent {
 
   ngOnInit(): void {
     this.getAllCountry()
+    this.getAllLanguage()
   }
 
   MessageUseName: string = '';
@@ -67,15 +69,17 @@ export class StudentRegisterComponent {
   }
 
   nextSoundingPage() {
+    const languageId = "languageId";
     const countryId = "countryId";
     const preferredLanguge = "preferredLanguge";
 
 
     console.log(this.registerFrom.value)
 
+    const languageIdValid = this.registerFrom.get(languageId)?.valid;
     const countryIdValid= this.registerFrom.get(countryId)?.valid;
     const preferredLangugeValied = this.registerFrom.get(preferredLanguge)?.valid;
-    if(countryIdValid && preferredLangugeValied) {
+    if(languageIdValid && countryIdValid && preferredLangugeValied) {
       this.current += 1;
       this.changeContent();  
     
@@ -84,6 +88,7 @@ export class StudentRegisterComponent {
       this.stepOneLoading = false;
       const fields = [
         { key: "countryId", label: "Country", message: " is required." },
+        { key: "languageId", label: "Language", message: "is required." },
         { key: "preferredLanguge", label: "Preferred Language", message: "is required." }
       ];
     
@@ -134,10 +139,11 @@ export class StudentRegisterComponent {
     name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
     userName: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(30)]],
     phoneNumber: [null, [Validators.required]],
-    type: 2,
+    type: 1,
     email: [null, [Validators.required, Validators.email]],
     preferredLanguge: [null, [Validators.required]],
     countryId: [null, [Validators.required]],
+    languageId: [null, [Validators.required]],
     password: [null, [Validators.pattern(/^[A-Z][a-zA-Z0-9@#$%^&+=]{7,}$/), Validators.required]],
     confirmedPassword: [null],
 
@@ -289,7 +295,15 @@ export class StudentRegisterComponent {
       }
     );
   }
+  getAllLanguage() {
+    this._LanguageService.getAllLanguage().subscribe({
+      next: (res) => {
+        console.log(res.result);
+        this.allLangauge = res.result;
 
+      }
+    })
+  }
   selectedpreferredLanguge: any;
   allpreferredLanguge = [
     { id: 1, name: 'English' },
@@ -312,7 +326,6 @@ export class StudentRegisterComponent {
   toggleRePasswordVisibility() {
     this.repasswordFieldType = !this.repasswordFieldType;
   }
-
 
 
 }

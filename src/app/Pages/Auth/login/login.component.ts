@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { LoginService } from '../../Core/Services/login.service';
+import { LoginService } from '../../../Core/Services/login.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Decode } from '../../Core/Interface/user';
+import { Decode } from '../../../Core/Interface/user';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
@@ -12,7 +12,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   standalone: true,
   imports: [RouterLink , ReactiveFormsModule , NgClass],
   templateUrl: './login.component.html',
-  styleUrls:[ './login.component.scss',"../../Core/Shared/CSS/input.scss"]
+  styleUrls:[ './login.component.scss',"../../../Core/Shared/CSS/input.scss"]
 })
 export class LoginComponent {
   passwordFieldType: boolean = true;
