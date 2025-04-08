@@ -24,6 +24,7 @@ import { CouponListComponent } from './Pages/Coupon/coupon-list/coupon-list.comp
 import { ForgotpasswordComponent } from './Pages/Auth/forgotpassword/forgotpassword.component';
 import { ChangepasswordComponent } from './Pages/Auth/changepassword/changepassword.component';
 import { HomestudentComponent } from './Pages/Students/homestudent/homestudent.component';
+import { ChangePasswordPopupComponent } from './Pages/Auth/change-password-popup/change-password-popup.component';
 
 export const routes: Routes = [
     //  Auth Router
@@ -86,6 +87,8 @@ export const routes: Routes = [
             { path: '', redirectTo: 'homeInstructor', pathMatch: 'full' },
             { path: "homeInstructor", title:"Home Instrctor",component: HomeinstructorComponent},
             { path: "porfile", title:"porfile",component: PorfileComponent },
+            {path: 'ChangePasswordPopup',   outlet: 'dialog',component: ChangePasswordPopupComponent },
+
             { path: "course", title:"Course",component: CoursesComponent },
             { path: "course/:topicId/:activeTab", component: CoursesComponent, data: { defaultTab: "1" } },
             { path: "ViewCourse/:courseId", component:ViewCourseComponent },

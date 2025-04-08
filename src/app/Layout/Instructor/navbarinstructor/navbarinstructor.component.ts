@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { LoginService } from '../../../Core/Services/login.service';
 import { Decode } from '../../../Core/Interface/user';
 import { TranslationService } from '../../../Core/Services/translation.service';
@@ -19,6 +19,11 @@ export class NavbarinstructorComponent {
   private _LoginService = inject(LoginService);
 
   dataUser:Decode = {} as Decode;
+  private router = inject(Router);
+
+  openPopup() {
+    this.router.navigate([{ outlets: { dialog: ['ChangePasswordPopup'] } }]);
+  }
 
 
   logOut(){

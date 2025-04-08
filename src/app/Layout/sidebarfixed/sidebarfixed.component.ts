@@ -1,7 +1,7 @@
 import { CommonModule, } from '@angular/common';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TooltipModule } from 'primeng/tooltip';
 
@@ -36,7 +36,7 @@ export class SidebarfixedComponent {
     this.activeIndex = null;
   }
 
-
+  
 
 
 
