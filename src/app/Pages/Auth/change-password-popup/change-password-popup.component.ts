@@ -17,6 +17,9 @@ export class ChangePasswordPopupComponent {
   changePasswordForm: FormGroup;
   isLoading = false;
   isDone = false;
+  passwordFieldType: boolean = true;
+  passwordFieldType2: boolean = true;
+  passwordFieldType3: boolean = true;
   constructor(private fb: FormBuilder, private userService: ForgotPasswordService , private nzMessageService: NzMessageService) {
     this.changePasswordForm = this.fb.group({
       oldPassword: ['',    [
@@ -34,6 +37,15 @@ export class ChangePasswordPopupComponent {
     }, {
       validators: this.passwordsMatchValidator
     });
+  }
+  togglePasswordVisibility() {
+    this.passwordFieldType = !this.passwordFieldType;
+  }
+  togglePasswordVisibility2() {
+    this.passwordFieldType2 = !this.passwordFieldType2;
+  }
+  togglePasswordVisibility3() {
+    this.passwordFieldType3 = !this.passwordFieldType3;
   }
   passwordsMatchValidator(group: FormGroup) {
     const password = group.get('newPassword')?.value;
