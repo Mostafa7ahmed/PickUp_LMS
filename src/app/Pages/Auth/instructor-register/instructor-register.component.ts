@@ -144,7 +144,7 @@ export class InstructorRegisterComponent implements OnInit {
     preferredLanguge: [null, [Validators.required]],
     countryId: [null, [Validators.required]],
     languageId: [null, [Validators.required]],
-    password: [null, [Validators.pattern(/^[A-Z][a-zA-Z0-9@#$%^&+=]{7,}$/), Validators.required]],
+    password: [null, [ Validators.pattern('^(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_])[A-Za-z\\d\\W_]{8,}$'), Validators.required]],
     confirmedPassword: [null],
 
 

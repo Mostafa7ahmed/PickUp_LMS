@@ -21,6 +21,8 @@ import { ViewCourseComponent } from './Pages/Courses/Components/view-course/view
 import { DeleteTopicComponent } from './Pages/Topics/Components/delete-topic/delete-topic.component';
 import { CouponCourseComponent } from './Pages/Coupon/Components/coupon-course/coupon-course.component';
 import { CouponListComponent } from './Pages/Coupon/coupon-list/coupon-list.component';
+import { ForgotpasswordComponent } from './Pages/Auth/forgotpassword/forgotpassword.component';
+import { ChangepasswordComponent } from './Pages/Auth/changepassword/changepassword.component';
 
 export const routes: Routes = [
     //  Auth Router
@@ -37,13 +39,25 @@ export const routes: Routes = [
      canActivate: [isloginguardsGuard],
 
      },
-     { path: "RegisterStudent", title:"startregister",
+     { path: "RegisterStudent", title:"RegisterStudent",
         component: StudentRegisterComponent ,        
-         canActivate: [notloginguardsGuard],
+         canActivate: [isloginguardsGuard],
     },
     { path: "RegisterInstructor", 
-        title:"startregister",
+        title:"RegisterInstructor",
         component: InstructorRegisterComponent,
+        canActivate: [isloginguardsGuard],
+
+     },
+     { path: "ForgotPassword",
+        title:"ForgotPassword", 
+        component: ForgotpasswordComponent,
+        canActivate: [isloginguardsGuard],
+
+     },
+     { path: "changepassword",
+        title:"changepassword", 
+        component: ChangepasswordComponent,
         canActivate: [isloginguardsGuard],
 
      },

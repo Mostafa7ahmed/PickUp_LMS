@@ -12,12 +12,11 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { forkJoin, retry } from 'rxjs';
 import { SelectModule } from 'primeng/select';
 import { FloatLabel } from "primeng/floatlabel"
-import { SplicTextPipe } from '../../Courses/Core/Pipes/splic-text.pipe';
 
 @Component({
   selector: 'app-student-register',
   standalone: true,
-  imports: [NzStepsModule, SplicTextPipe, RouterLink, CommonModule, ReactiveFormsModule, FormsModule, SelectModule, NgClass, FloatLabel],
+  imports: [NzStepsModule, RouterLink, CommonModule, ReactiveFormsModule, FormsModule, SelectModule, NgClass, FloatLabel],
   templateUrl: './student-register.component.html',
   styleUrls: ['../../../Core/Shared/CSS/Stepper.scss', '../../Auth/instructor-register/instructor-register.component.scss','../../../Core/Shared/CSS/input.scss'],
 
