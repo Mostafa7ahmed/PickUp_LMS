@@ -1,0 +1,83 @@
+.home{
+    display: flex;
+
+    background-color: var(--white);
+    margin: 10px 0; 
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 98vh;
+
+
+
+
+
+
+}
+.leftHome h1{
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 20px;
+    line-height: 1.4;
+    > span{
+        background-color: #28ab5d;
+        padding:  10px 5px;
+        border-radius: 4px;
+        color: var(--white);
+
+    }
+}
+
+.leftHome p{
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    line-height: 1.4;   
+    color: #A09DA4;
+}
+.listPostive{
+    margin-top: 80px !important;
+}
+ul li{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    margin-bottom: 20px;
+}
+ul li .Icon{
+    width: 30px;
+    height: 30px;
+    background-color: #28ab5d;
+    border-radius: 50%;
+    color: var(--white) ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    >  i {
+        font-size: 1rem;
+    }
+
+    
+}
+ul li  .text{
+    font-size: 1.4rem;
+    color: var(--black);
+    font-weight: 500;
+}
+.pickup-btn {
+    background-color: #00c16e;
+    padding: 15px 45px;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 1.4rem;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+  }
+  .rightHome{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }

@@ -23,6 +23,7 @@ import { CouponCourseComponent } from './Pages/Coupon/Components/coupon-course/c
 import { CouponListComponent } from './Pages/Coupon/coupon-list/coupon-list.component';
 import { ForgotpasswordComponent } from './Pages/Auth/forgotpassword/forgotpassword.component';
 import { ChangepasswordComponent } from './Pages/Auth/changepassword/changepassword.component';
+import { HomestudentComponent } from './Pages/Students/homestudent/homestudent.component';
 
 export const routes: Routes = [
     //  Auth Router
@@ -66,6 +67,17 @@ export const routes: Routes = [
          component: ConfirmEmailComponent,
          canActivate: [isloginguardsGuard],
      },
+     {
+         path:'',
+         canActivate: [notloginguardsGuard],
+         children:[
+             { path: '', redirectTo: 'homeStudent', pathMatch: 'full' },
+             { path: "homeStudent", title:"Home Student",component: HomestudentComponent},
+ 
+ 
+ 
+         ]
+     },
     {
         path:'',
         component:RoutesinstructorComponent,
@@ -91,7 +103,7 @@ export const routes: Routes = [
 
 
         ]
-    },
+    }
 
 
 
