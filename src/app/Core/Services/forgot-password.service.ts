@@ -21,7 +21,7 @@ export class ForgotPasswordService {
     return this.http.post(`${this.apiUrl}/forget-password`, body , {
       headers: {
         'Content-Type': 'application/json',
-        redirectUrl: 'http://localhost:4200/changepassword',
+        redirectUrl: 'https://pick-up-lms-lyart.vercel.app/changepassword',
       },
     });
   }
