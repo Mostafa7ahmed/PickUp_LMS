@@ -11,7 +11,7 @@
       },
       "AddSection": {
         "addTopic": "Add Topic",
-        "addStage": "Add Stage",
+        "addStage": "Add Coupon",
         "addCourse": "Add Course",
         "addLesson": "Add Lesson"
       },
@@ -181,7 +181,24 @@
           "RecentActivity": "Recent Activity",
           "TotalCoupons": "Total Coupons"
         }
-      }
-  
+      },
+      "Home":{
+        "welcomeMessage": "Welcome to the",
+        "Logo" :" Pickup LMS",
+        "subTitle": "Learning Experience Builder",
+        "quote": "Let’s create a learning space that helps you deliver powerful content and grow your learners’ success.",
+        "feature1": "Create and manage interactive courses easily",
+        "feature2": "Build your own learning experience",
+        "feature3": "Track learners’ progress with real-time analytics",
+        "feature4": "Add quizzes, assignments, and certifications in minutes",
+        "startButton": "Start Learning 🚀"
+      },
+      "LogOut" :{
+        "LOGOUT_SUCCESS": "Logout Successfully"
+      }    ,
+      "Langaue" :{
+        "LANGUAGE_CHANGED": "Language changed successfully"
+      } 
+
 
 }

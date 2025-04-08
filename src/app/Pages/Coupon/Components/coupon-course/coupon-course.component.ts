@@ -141,18 +141,24 @@ updateDiscountType() {
     this._paginateCoursesService.getCourses().subscribe((response) => {
       this.paginationCoursesResponse = response;
       this.isLoadCourse = true;
-        const defaultCourse = this.paginationCoursesResponse.result.find(
+  
+      const defaultCourse = this.paginationCoursesResponse.result.find(
         (course) => course.id === routeCoupanId
       );
   
       if (defaultCourse) {
         this.selectCourse(defaultCourse);
       } else {
-        console.error('Course not found.');
+        const fallbackCourse = this.paginationCoursesResponse.result.find(
+          (course) => course.id === 205
+        );
+        if (fallbackCourse) {
+          this.selectCourse(fallbackCourse);
+        }
       }
     });
   }
-   
+  
   getStudents(){
     
     this._listStudentsService.getStudents().subscribe((response) => {

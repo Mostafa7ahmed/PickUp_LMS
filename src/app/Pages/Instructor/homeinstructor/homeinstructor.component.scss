@@ -78,6 +78,6 @@ ul li  .text{
   }
   .rightHome{
     position: absolute;
-    right: 0;
-    bottom: 0;
+    inset-inline-end: -25px;
+    bottom: -40px;
   }

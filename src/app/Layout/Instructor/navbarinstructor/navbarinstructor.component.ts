@@ -4,11 +4,12 @@ import { LoginService } from '../../../Core/Services/login.service';
 import { Decode } from '../../../Core/Interface/user';
 import { TranslationService } from '../../../Core/Services/translation.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-navbarinstructor',
   standalone: true,
-  imports: [RouterLink , TranslateModule],
+  imports: [RouterLink, TranslateModule],
   templateUrl: './navbarinstructor.component.html',
   styleUrl: './navbarinstructor.component.scss'
 })
@@ -17,16 +18,22 @@ export class NavbarinstructorComponent {
   private readonly _MytranslationService = inject(TranslationService);
   readonly _TranslateService = inject(TranslateService);
   private _LoginService = inject(LoginService);
-
-  dataUser:Decode = {} as Decode;
+  private _NzMessageService = inject(NzMessageService);
   private router = inject(Router);
 
+  dataUser: Decode = {} as Decode;
+
   openPopup() {
+    this.toggleAccountMenu();
+
     this.router.navigate([{ outlets: { dialog: ['ChangePasswordPopup'] } }]);
   }
 
 
-  logOut(){
+  logOut() {
+    this.translate.get('LogOut.LOGOUT_SUCCESS').subscribe((res: string) => {
+      this._NzMessageService.success(res); 
+    });
     this._LoginService.SignOut()
   }
 
@@ -38,7 +45,7 @@ export class NavbarinstructorComponent {
   isAddMenuOpen = false;
   isAccountMenuOpen = false;
 
-  constructor(private eRef: ElementRef) {}
+  constructor(private eRef: ElementRef ,    private translate: TranslateService) { }
 
   toggleAddMenu() {
     this.isAddMenuOpen = !this.isAddMenuOpen;
@@ -47,7 +54,7 @@ export class NavbarinstructorComponent {
 
   toggleAccountMenu() {
     this.isAccountMenuOpen = !this.isAccountMenuOpen;
-    this.isAddMenuOpen = false; 
+    this.isAddMenuOpen = false;
   }
 
   @HostListener('document:click', ['$event'])
@@ -57,12 +64,25 @@ export class NavbarinstructorComponent {
       this.isAccountMenuOpen = false;
     }
   }
-  ChangeLang(lang: string) {
+ ChangeLang(lang: string) {
+    this.toggleAccountMenu();
+
+    this.translate.get('Langaue.LANGUAGE_CHANGED').subscribe((res: string) => {
+      this._NzMessageService.success(res); 
+    });
+
     this._MytranslationService.ChangeLang(lang);
+
+    this.translate.use(lang);  
+  }
+  addTopic() { this.toggleAddMenu(); this.router.navigate([{ outlets: { dialog: ['addTopic'] } }]); }
+  addCourse() { this.toggleAddMenu(); this.router.navigate([{ outlets: { dialog: ['addcourse'] } }]); }
+  addCoupan() {
+    this.toggleAddMenu(); this.router.navigate([{ outlets: { dialog: ['coupan', 205] } }]);
+
   }
 
   ToggleLang() {
-    // Toggling between 'en' and 'ar'
     const currentLang = this._TranslateService.currentLang;
     const newLang = currentLang === 'en' ? 'ar' : 'en';
     this.ChangeLang(newLang);

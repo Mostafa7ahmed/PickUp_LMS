@@ -31,9 +31,9 @@
                 </div>
                 <div class="dropdown-menu add-menu" [class.open]="isAddMenuOpen">
                     <ul class="menu">
-                      <li><i class="fa-solid fa-briefcase"></i> {{"AddSection.addTopic" | translate }}</li>
-                      <li><i class="fa-solid fa-user-plus"></i>{{"AddSection.addStage" | translate }}</li>
-                      <li><i class="fa-solid fa-bullhorn"></i> {{"AddSection.addCourse" | translate }}</li>
+                      <li (click)="addTopic()"><i class="fa-solid fa-briefcase"></i> {{"AddSection.addTopic" | translate }}</li>
+                      <li (click)="addCourse()" ><i class="fa-solid fa-bullhorn"></i> {{"AddSection.addCourse" | translate }}</li>
+                      <li (click)="addCoupan()"><i class="fa-solid fa-user-plus"></i>{{"AddSection.addStage" | translate }}</li>
                       <li><i class="fa-solid fa-user-group"></i>{{"AddSection.addLesson" | translate }}</li>
                     </ul>
                   </div>
