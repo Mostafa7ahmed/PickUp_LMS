@@ -19,11 +19,13 @@ import { environment } from '../../../../Environments/environment';
 import { ViewCourse } from '../../Core/interface/view-course';
 import { SplicTextPipe } from '../../Core/Pipes/splic-text.pipe';
 import { link } from 'fs';
+import { DeleteCourseComponent } from "../delete-course/delete-course.component";
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-view-course',
   standalone: true,
-  imports: [TextHeaderComponent, ReativeFormModule, Select, SplicTextPipe, TabsModule, ButtonModule, TooltipModule],
+  imports: [TextHeaderComponent,TranslateModule, ReativeFormModule, Select, SplicTextPipe, TabsModule, ButtonModule, TooltipModule, DeleteCourseComponent],
   templateUrl: './view-course.component.html',
   styleUrl: './view-course.component.scss'
 })
@@ -33,7 +35,9 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
   private _CustomFildsService = inject(CustomFildsService);
   private _getonecourseService = inject(GetonecourseService);
   private _ActivatedRoute = inject(ActivatedRoute);
-
+  isDeletePopupVisible :boolean = false;
+  selectedDeleteId : number  | null = null;
+  isShowOption: boolean = false;
 
   private _FormBuilder = inject(FormBuilder);
   get customFieldsArray(): FormArray {
@@ -200,5 +204,19 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
   
   ngAfterViewInit() {
     this.player = new Plyr(this.playerRef.nativeElement);
+  }
+  toggleShow(){
+    this.isShowOption = !this.isShowOption;
+  }
+
+  openDeletePopup(){
+    this.isDeletePopupVisible = true;
+    this.selectedDeleteId = this.CourseId;
+    console.log(this.selectedDeleteId)
+    this.toggleShow()
+  }
+  closeDeletePopup() {
+    this.isDeletePopupVisible = false;
+    this.selectedDeleteId = null;
   }
 }

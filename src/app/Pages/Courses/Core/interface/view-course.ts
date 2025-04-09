@@ -5,6 +5,8 @@ export interface ViewCourse {
     name: string
     description: string
     actualPrice: number
+    introductionVideoUrl: string
+
     hasDiscount: boolean
     priceAfterDiscount: number
     files: File[]

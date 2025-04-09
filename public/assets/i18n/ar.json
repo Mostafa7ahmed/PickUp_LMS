@@ -82,6 +82,8 @@
       "totalCourses": "عدد الدورات"
     },
     "popupDelete": {
+      "deleteTopic": "حذف الموضوع",
+      "deleteCourse": "حذف الدوره",
       "deleteConfirmTitle": "هل أنت متأكد من حذف هذا الموضوع؟",
       "deleteConfirmMessage": "سيتم إزالة هذا الموضوع من قائمة المواضيع المرتبطة، وقد يتغير السعر نتيجة لذلك."
     }
@@ -169,5 +171,41 @@
     }    ,
     "Langaue" :{
       "LANGUAGE_CHANGED": "تم تغيير اللغة بنجاح"
-    } 
+    } ,
+    "ViewCourse":{
+      "Delete Course": "حذف الكورس",
+      "Edit Course": "تعديل الكورس",
+      "Enrolled student": "الطلاب المسجلين",
+      "Average rate": "متوسط التقييم",
+      "Total amount": "العدد الكلي",
+      "Add Lesson": "إضافة درس",
+      "Lessons": "الدروس",
+      "Logs": "السجلات",
+      "Rating": "التقييم",
+      "Coupon": "كوبون",
+      "EGP": "جم",
+      "Chat": "المحادثة",
+      "Attach a file": "إرفاق ملف",
+      "No File With Couese": "لا يوجد ملف مع الكورس",
+      "No Video With Couese": "لا يوجد فيديو تعريفي مع الكورس",
+      "Main course information": "معلومات الكورس الرئيسية",
+      "Course description": "وصف الكورس",
+      "Price": "السعر",
+      "Topic": "الموضوع",
+      "Stage": "المرحلة",
+      "Discount": "الخصم",
+      "Tags": "الوسوم",
+      "Custom fields": "حقول مخصصة",
+      "Key": "المفتاح",
+      "Value": "القيمة",
+      "No leason With Couese": "لا يوجد درس مع الكورس",
+      "HavennteractedYet": "لم يتم التفاعل بعد",
+      "NoLesson": "لا يوجد درس مع الكورس",
+      "NoLog": "لا توجد سجلات مع الكورس",
+      "NoRating": "لا يوجد تقييم مع الكورس",
+      "NoCoupon": "لا يوجد كوبون مع الكورس",
+      "NoChat": "لا توجد محادثات مع الكورس",
+        "References": "المراجع",
+        "VideoIntro": "مقدمة الفيديو"
+    }
 }

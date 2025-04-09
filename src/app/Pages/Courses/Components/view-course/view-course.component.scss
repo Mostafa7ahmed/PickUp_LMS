@@ -37,6 +37,66 @@
       height: 130px;
       width: 324px;
     }
+    .optionIcon{
+      position: absolute;
+      top: 12px;
+      inset-inline-end: 13px;
+       
+      > i{
+        font-size: 16px;
+        color: #7c7b91;
+        cursor: pointer;
+
+      }
+    }
+    .listOption{
+      min-width: 123px;
+      box-shadow: 0 6px 12px #abbed14d;
+      border: 1px solid #EAECF0;
+      padding: 6px;
+      background-color: var(--white);
+      border-radius: 4px;
+      position: absolute !important;
+      cursor: pointer;
+      overflow: hidden;
+      height: 0px;
+      opacity: 0;
+   
+      transition: opacity .5s ease, height .5s ease;
+      top: 20px;
+      z-index: 555555555555555555;
+      inset-inline-end: 25px;
+      .delete , .edit{
+        padding: 4px;
+        border-radius: 4px;
+      }
+      .delete p{
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 21px;
+        color: #ff4b55;
+        white-space: nowrap;
+
+      }
+      .edit p{
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 21px;
+        color:#6b7280;
+        white-space: nowrap;
+
+      }
+      &  .delete:hover{
+        background-color: #ff4b543b;
+      }
+    }
+    .listOption.show{
+      opacity: 1;
+      height: 80px;
+      z-index: 555555555555555555;
+
+      transition: opacity .5s ease, height .5s ease;
+    }
 
     .infoProfle {
       position: absolute;
@@ -99,6 +159,7 @@
         opacity: 1;
         visibility: visible;
       }
+
     }
 
     &:hover .pen-edit {

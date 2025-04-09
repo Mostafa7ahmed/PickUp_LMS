@@ -67,8 +67,9 @@ export class ChangePasswordPopupComponent {
           console.log('Password changed successfully!', res);
           this.nzMessageService.success(res.message);
           this.isLoading = false;
-          this._LoginService.SignOut();
-
+          this.router.navigate([{ outlets: { dialog: null } }]).then(() => {
+            this._LoginService.SignOut();
+          });
 
 
         },

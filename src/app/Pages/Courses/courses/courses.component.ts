@@ -2,7 +2,7 @@ import { Component, ElementRef, HostListener, inject, Input, OnInit, Output, vie
 import { CourseResult } from '../Core/interface/icourses';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import {  Subscription } from 'rxjs';
+import {  filter, Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
@@ -42,14 +42,14 @@ export class CoursesComponent implements OnInit {
   private router = inject(Router);
   private _ActivatedRoute = inject(ActivatedRoute);
   constructor(private eRef: ElementRef) {
-    // this.router.events
-    // .pipe(filter((event) => event instanceof NavigationEnd))
-    // .subscribe((event: any) => {
-    // if (event.url.includes('/course')) {
-    //   this.getListTopics(this.topicIdFromRoute);
-    //   this.getAllKanbans(this.selectedTopicId)
-    // }
-    // });
+    this.router.events
+    .pipe(filter((event) => event instanceof NavigationEnd))
+    .subscribe((event: any) => {
+    if (event.url.includes('/course')) {
+      this.getListTopics(this.topicIdFromRoute);
+      this.getAllKanbans(this.selectedTopicId)
+    }
+    });
   }
 
 

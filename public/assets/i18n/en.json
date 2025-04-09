@@ -198,7 +198,45 @@
       }    ,
       "Langaue" :{
         "LANGUAGE_CHANGED": "Language changed successfully"
-      } 
+      } ,
+      "ViewCourse":{
+        "Delete Course": "Delete Course",
+        "Edit Course": "Edit Course",
+        "Enrolled student": "Enrolled student",
+        "Average rate": "Average rate",
+        "Total amount": "Total amount",
+        "Add Lesson": "Add Lesson",
+        "Lessons": "Lessons",
+        "Logs": "Logs",
+        "Rating": "Rating",
+        "Coupon": "Coupon",
+        "EGP": "EGP",
+        "Chat": "Chat",
+        "Attach a file": "Attach a file",
+        "No File With Couese": "No File With Course",
+        "No Video With Couese": "No Video With Course",
+        "Main course information": "Main course information",
+        "Course description": "Course description",
+        "Price": "Price",
+        "Topic": "Topic",
+        "Stage": "Stage",
+        "Discount": "Discount",
+        "Tags": "Tags",
+        "Custom fields": "Custom fields",
+        "Key": "Key",
+        "Value": "Value",
+        "No leason With Couese": "No lesson With Course",
+        "HavennteractedYet": "Haven't Interacted Yet",
+        "NoLesson": "No lesson with course",
+        "NoLog": "No log with course",
+        "NoRating": "No rating with course",
+        "NoCoupon": "No coupon with course",
+        "NoChat": "No chat with course",
+        "References": "References",
+        "VideoIntro": "Video intro"
+
+
+      }
 
 
 }
