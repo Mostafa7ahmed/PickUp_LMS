@@ -120,13 +120,14 @@ export class CouponListComponent implements OnInit {
     this._paginateCoursesService.getCourses().subscribe((response) => {
       this.paginationCoursesResponse = response;
       this.listCourse = response.result;
-      this.selectedValue = this.listCourse.find(course => course.id === 205) || null;
-      this.selectedCouponcId = this.selectedValue?.id as number; 
-
-      console.log('Selected Course:', this.selectedValue);      console.log(this.selectedValue)
+  
+      this.selectedValue = this.listCourse[this.listCourse.length - 1] || null;
+  
+      this.selectedCouponcId = this.selectedValue?.id as number;
+  
+      console.log('Selected Course:', this.selectedValue);
       this.getListCoupans({}, this.selectedValue?.id as number);
       this.isLoadCourse = true;
-
     });
   }
   
