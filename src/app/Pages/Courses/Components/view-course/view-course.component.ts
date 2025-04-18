@@ -21,11 +21,12 @@ import { SplicTextPipe } from '../../Core/Pipes/splic-text.pipe';
 import { link } from 'fs';
 import { DeleteCourseComponent } from "../delete-course/delete-course.component";
 import { TranslateModule } from '@ngx-translate/core';
+import { LessonComponent } from "../../../lesson/lesson.component";
 
 @Component({
   selector: 'app-view-course',
   standalone: true,
-  imports: [TextHeaderComponent,TranslateModule, ReativeFormModule, Select, SplicTextPipe, TabsModule, ButtonModule, TooltipModule, DeleteCourseComponent],
+  imports: [TextHeaderComponent, TranslateModule, ReativeFormModule, Select, SplicTextPipe, TabsModule, ButtonModule, TooltipModule, DeleteCourseComponent, LessonComponent],
   templateUrl: './view-course.component.html',
   styleUrl: './view-course.component.scss'
 })
