@@ -25,6 +25,7 @@ import { ForgotpasswordComponent } from './Pages/Auth/forgotpassword/forgotpassw
 import { ChangepasswordComponent } from './Pages/Auth/changepassword/changepassword.component';
 import { HomestudentComponent } from './Pages/Students/homestudent/homestudent.component';
 import { ChangePasswordPopupComponent } from './Pages/Auth/change-password-popup/change-password-popup.component';
+import { ViewCouponComponent } from './Pages/Coupon/Components/view-coupon/view-coupon.component';
 
 export const routes: Routes = [
     //  Auth Router
@@ -98,6 +99,8 @@ export const routes: Routes = [
             {path: 'editTopic/:topicId',   outlet: 'dialog',component: EditTopicComponent },
             {path: 'addcourse',   outlet: 'dialog',component: AddCoursesComponent },
             {path: 'coupan/:CoupanId',   outlet: 'dialog',component: CouponCourseComponent },
+            {path: 'viewCoupon/:CoupanId',   outlet: 'dialog',component: ViewCouponComponent },
+
             {path: 'Couponslist',  title:"Coupons",component: CouponListComponent },
             { path: 'ViewTopic/:id', outlet: 'dialog', component: ViewTopicandStageComponent },
             {path: 'addStage/:StageId',   outlet: 'dialog2',component: AddStageComponent },

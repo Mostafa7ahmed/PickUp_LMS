@@ -1,0 +1,176 @@
+<div class="overlay"></div>
+<div class="ShowPopup">
+    <app-top-pop NamePopup="View Coupon" [NameIcon]="'fa-solid fa-receipt'"></app-top-pop>
+
+    <div class="viewCourse my-2 p-2">
+        <div class="leftCoupon w-50">
+            <div class="courseSelect w-100">
+                <app-text-header [title]="'Course'" [bgColor]="'#6625256e'"></app-text-header>
+                <div class="copylink" pTooltip="Copy Link Course" tooltipPosition="top">
+                    <i class="fa-regular fa-copy"></i>
+                </div>
+                <div class="course-card mt-2 px-2 py-1 position-relative">
+                    <div class="d-flex align-items-center gap-1">
+                        <div class="images">
+                            <img class=" rounded-circle"
+                                src="https://vgfdprgqzkwvoxsnfdlr.supabase.co/storage/v1/object/public/pickup/instructor/42/photo/.jpg/b91ac9ad-fa8d-497e-88e9-44536ee2973e.jpg"
+                                height="30" width="30">
+
+                        </div>
+                        <div class="course-info">
+                            <h5 class="mb-1 fw-bold">C# Topic</h5>
+                            <p class="date mb-0"><i class="fas fa-clock"></i> 20/30/2000</p>
+                        </div>
+                    </div>
+
+                    <div class="course-details text-end d-flex flex-column align-items-end justify-content-end">
+                        <p class="price">
+                            <span class="number mx-1">1000</span>
+                            <img src="Images/Icons/price.svg" width="18" alt="">
+                        </p>
+                        <p class="price">
+                            <span class="number mx-1">1000</span>
+                            <img src="Images/Icons/Student.svg" width="18" alt="">
+                        </p>
+                        <p class="price">
+                            <span class="number mx-1">1000</span>
+                            <img src="Images/Icons/coupan.svg" width="18" alt="">
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="courseSelect mt-2 w-100">
+                <app-text-header [title]="'Coupon Statistics'"></app-text-header>
+                <div class="copylink">
+                    <i class="fa-solid fa-ellipsis-vertical" style="color:#9C9C9C ;"></i>
+
+                </div>
+                <div class="Statistics">
+                    <div class="cardBox mt-2">
+                        <div  class="box">
+                            <div  class="icon"><i class="fa-kit fa-calender"></i></div>
+                            <div   class="content">
+                                <div  class="label">Creation Date</div>
+                                <div  class="date"><span class="num">Apr 9, 2025</span></div>
+                            </div>
+                        </div>
+                        <div  class="box">
+                            <div id="ddBoxIcon" class="icon">
+                                <img alt="" src="https://s3.dinarcrm.com/assets/img/board-mangement/Icon-Interface.svg">
+                      
+                              </div>                            <div   class="content">
+                                <div  class="label">Creator</div>
+                                <div  class="date"><span >Mostafa Hamed</span></div>
+                            </div>
+                        </div>
+                        <div  class="box">
+                            <div  class="icon"><i class="fa-kit fa-calender"></i></div>
+                            <div   class="content">
+                                <div  class="label">Last Update </div>
+                                <div  class="date"><span class="num">Apr 9, 2025</span></div>
+                            </div>
+                        </div>
+                        <div  class="box">
+                            <div id="ddBoxIcon" class="icon">
+                                <img alt="" src="https://s3.dinarcrm.com/assets/img/board-mangement/Icon-Interface.svg">
+                      
+                              </div>                
+                                <div   class="content">
+                                <div  class="label">Updator </div>
+                                <div  class="date"><span >Mostafa Hamed</span></div>
+                            </div>
+                        </div>
+                        <div  class="box">
+                            <div id="ddBoxIcon" class="icon">
+                                <img alt="" src="https://s3.dinarcrm.com/assets/img/board-mangement/Icon-Interface.svg">
+                              </div>                                <div   class="content">
+                                <div  class="label"> Actual Usage </div>
+                                <div  class="date"><span class="num">25</span></div>
+                            </div>
+                        </div>
+                     
+                    </div>
+
+                   
+                </div>
+ 
+
+
+            </div>
+            <div class="courseSelect my-2">
+                <app-text-header [title]="'Maim coupon information'" [bgColor]="'#3e97ff'"></app-text-header>
+
+              <div class="mainSelet mt-2">
+                <div class="d-flex">
+                    <div class="codeCoupon d-flex gap-2 align-items-end mb-2">
+                        <div class="Course_name flex-grow-1">
+                          <label for="Course_name">Coupon usage</label>
+                          <input   type="text" id="Course_name" placeholder="Enter Coupon code"
+                            class="input_Couser " value="5">
+                        </div>
+    
+                      </div>
+                    <div class="codeCoupon d-flex gap-2 align-items-end mb-2">
+                        <div class="Course_name flex-grow-1">
+                          <label for="Course_name">Coupon code</label>
+                          <input   type="text" id="Course_name" placeholder="Enter Coupon code"
+                            class="input_Couser " value="asdddddddddddddddd">
+                        </div>
+    
+                      </div>
+                </div>
+      
+                  <div class="desCourse_name Course_name mt-2  active">
+                    <label for="Course_description">Coupon Notes</label>
+                    <textarea  formControlName="notes"  class="input_Couser textarea_course"
+                      id="Course_description " value="">asddddddddddddddddasddddddddddddddddasdddddddddddddddd asdddddddddddddddd</textarea>
+                  </div>
+        
+
+              </div>
+            </div>
+
+
+
+        </div>
+
+        <div class="rightview  w-50">
+            <div class=" courseSelect studenet">
+                <app-text-header [title]="'Students'" [bgColor]="'#FFE0656e'"></app-text-header>
+                <div class="Price avatar d-flex gap-1 align-items-center justify-content-between mt-2 border-1" #dropdownWrapper (click)="toggleDropdown()">
+                    <p-avatar-group>
+                      <p-avatar
+                        *ngFor="let student of students.slice(0, 8)"
+                        [image]="student.image"
+                        [styleClass]="'small'"
+                        shape="circle">
+                      </p-avatar>
+                      <p-avatar
+                        *ngIf="students.length > 8"
+                        [label]="'+' + (students.length - 8)"
+                        [styleClass]="'small'"
+                        shape="circle">
+                      </p-avatar>
+                    </p-avatar-group>
+                    <div class="icons">
+                        <i class="fa-solid fa-chevron-down"
+                           [ngClass]="{ 'rotate-icon': isDropdownOpen }"
+                           style="color: #92a1ad; transition: transform 0.3s;"></i>
+                      </div>
+                  </div>
+                  
+                  <div *ngIf="isDropdownOpen" class="dropdown-menu-custom mt-2">
+                    <div *ngFor="let student of students" class="dropdown-item d-flex align-items-center gap-2 p-2">
+                      <img [src]="student.image" width="30" height="30" class="rounded-circle" />
+                      <span>{{ student.name }}</span>
+                    </div>
+                  </div>
+
+         
+            </div>
+        </div>
+
+    </div>
+
+</div>
