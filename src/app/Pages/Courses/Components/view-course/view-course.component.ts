@@ -24,11 +24,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LessonComponent } from "../../../lesson/lesson.component";
 import { DeleteCoursesService } from '../../Core/service/delete-courses.service';
 import { RatingComponent } from "../../../rating/rating.component";
+import { CardCouponComponent } from '../../../Coupon/Components/card-coupon/card-coupon.component';
 
 @Component({
   selector: 'app-view-course',
   standalone: true,
-  imports: [TextHeaderComponent, TranslateModule, ReativeFormModule, Select, SplicTextPipe, TabsModule, ButtonModule, TooltipModule, DeleteCourseComponent, LessonComponent, RatingComponent],
+  imports: [TextHeaderComponent, TranslateModule, ReativeFormModule, Select, SplicTextPipe, TabsModule, ButtonModule, TooltipModule, DeleteCourseComponent, LessonComponent, CardCouponComponent,RatingComponent],
   templateUrl: './view-course.component.html',
   styleUrl: './view-course.component.scss'
 })

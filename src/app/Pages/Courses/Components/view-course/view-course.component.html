@@ -121,24 +121,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="content">
-                        <p class="text-view-name">{{"ViewCourse.Tags"| translate}}</p>
-                        <div class="tagsShow">
-                            @if(courseResultResponse.result.tags.length > 0){
-                                <div  *ngFor="let tag of courseResultResponse.result.tags; let i = index ">
-                                    <div class="tag">{{tag.name}}</div>
-    
-    
-                                </div>
-                            }
-                            @else{
-                                <div class="tag text-center"> --- </div>
-                            }
-                     
-        
-                        </div>
-
-                    </div>
+                  
                 </div>
 
 
@@ -193,7 +176,26 @@
                 </div>
 
             </div>
+            <div class="tags">
+                <app-text-header [title]="'ViewCourse.Tags' | translate"></app-text-header>
+                <div class="tagsShow">
+                    @if(courseResultResponse.result.tags.length > 0){
+                        <div  *ngFor="let tag of courseResultResponse.result.tags; let i = index ">
+                            <div class="tag">{{tag.name}} </div>
 
+
+
+
+                        </div>
+                    }
+                    @else{
+                        <div class="tag text-center"> --- </div>
+                    }
+             
+
+                </div>
+            </div>
+  
 
         </div>
     </div>
@@ -332,11 +334,7 @@
                     
                             </p-tabpanel>
                             <p-tabpanel [value]="3">
-                                <div class="d-flex flex-column align-items-center justify-content-center m-0 tabView">
-                                    <img src="Images/deal-empty-state.svg" alt="" width="190px">
-                                    <p>{{'ViewCourse.NoCoupon' | translate}}</p>
-
-                                </div>
+                                <app-card-coupon></app-card-coupon>
                             </p-tabpanel>
                             <p-tabpanel [value]="4">
                                 <div class="d-flex flex-column align-items-center justify-content-center m-0 tabView">

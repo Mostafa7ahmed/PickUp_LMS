@@ -40,7 +40,7 @@
     .optionIcon{
       position: absolute;
       top: 12px;
-      inset-inline-end: -4px;
+      inset-inline-end:0px;
       padding: 0 20px;
        
       > i{
@@ -277,36 +277,7 @@
       }
     }
 
-    .tagsShow {
-      display: flex;
-      gap: 5px;
-      margin-top: 10px;
-      width: 60%;
-      overflow-x: scroll;
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-
-      .tag {
-        background-color: #e0dddd9b;
-        color: #030303a9;
-        padding: 7px 8px;
-        border-radius: 4px;
-        font-size: 12px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 1;
-        margin-right: 3px;
-        cursor: pointer;
-        width: 100%;
-        text-wrap: none;
-        white-space: nowrap;
-        transition: background-color 0.3s ease;
-
-        &:hover {
-          background-color: #e0ddddd8;
-        }
-      }
-    }
+   
   }
 
   .customFildes {
@@ -851,3 +822,40 @@
     }
 }
 
+.tags {
+  height: auto;
+  border-radius: 6px;
+  background-color: #fff;
+  border: 1px solid #ecf0f5;
+  padding: 12px;
+  .tagsShow {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+    width: 100%;
+    overflow-x: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    .tag {
+      background-color: #e0dddd9b;
+      color: #030303a9;
+      padding: 7px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 1;
+      margin-right: 3px;
+      cursor: pointer;
+      width: 100%;
+      text-wrap: none;
+      white-space: nowrap;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #e0ddddd8;
+      }
+    }
+  }
+}
