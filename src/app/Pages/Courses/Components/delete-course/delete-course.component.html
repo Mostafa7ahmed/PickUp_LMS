@@ -29,8 +29,15 @@
     <div class="content">
 
         <div class="btns w-100 d-flex flex-column gap-2" >
-            <button class="btn btnDelete"  (click)="Print()" >Delete</button>
-            <button class="btn btnCancel" (click)="closePopup()">Cancel</button>
+            <button class="btn btnDelete" (click)="deleteCourse()" [disabled]="isDeleting">
+                <ng-container *ngIf="!isDeleting; else loading">
+                  Delete
+                </ng-container>
+                <ng-template #loading>
+                  <i class="fa-solid fa-spinner fa-spin"></i> Delete
+
+                </ng-template>
+              </button>            <button class="btn btnCancel" (click)="closePopup()">Cancel</button>
         </div>
         
   

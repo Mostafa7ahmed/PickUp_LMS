@@ -40,7 +40,8 @@
     .optionIcon{
       position: absolute;
       top: 12px;
-      inset-inline-end: 13px;
+      inset-inline-end: -4px;
+      padding: 0 20px;
        
       > i{
         font-size: 16px;
@@ -566,7 +567,9 @@
         color: #6b7280;
       }
     }
-
+ .rightCource {
+  position: relative;
+ }
     .rightCource .btnLeason {
       display: flex;
       height: 26px;
@@ -582,6 +585,34 @@
       font-weight: 500;
       line-height: normal;
       margin-top: -3px !important;
+    }
+    .rightCource .listQuick{
+      position: absolute;
+      white-space: nowrap;
+      padding: 10px;
+      margin-top: 6px;
+      min-width: 123px;
+      box-shadow: 0 6px 12px #abbed14d;
+      border: 1px solid #EAECF0;
+      padding: 6px;
+      background-color: var(--white);
+      border-radius: 4px;
+      position: absolute !important;
+      cursor: pointer;
+      overflow: hidden;
+      overflow: hidden;
+      height: 0px;
+      opacity: 0;
+   
+      transition: opacity .5s ease, height .5s ease;
+      z-index: 555555555555555555;
+    }
+    .rightCource .listQuick.show{
+      opacity: 1;
+      height: 70px;
+      z-index: 555555555555555555;
+
+      transition: opacity .5s ease, height .5s ease;
     }
   }
 
