@@ -26,6 +26,7 @@ import { ChangepasswordComponent } from './Pages/Auth/changepassword/changepassw
 import { HomestudentComponent } from './Pages/Students/homestudent/homestudent.component';
 import { ChangePasswordPopupComponent } from './Pages/Auth/change-password-popup/change-password-popup.component';
 import { ViewCouponComponent } from './Pages/Coupon/Components/view-coupon/view-coupon.component';
+import { QuizlistComponent } from './Pages/quizlist/quizlist.component';
 
 export const routes: Routes = [
     //  Auth Router
@@ -91,6 +92,8 @@ export const routes: Routes = [
             {path: 'ChangePasswordPopup',   outlet: 'dialog',component: ChangePasswordPopupComponent },
 
             { path: "course", title:"Course",component: CoursesComponent },
+            { path: "quizlist", title:"Quiz List",component: QuizlistComponent },
+
             { path: "course/:topicId/:activeTab", component: CoursesComponent, data: { defaultTab: "1" } },
             { path: "ViewCourse/:courseId", component:ViewCourseComponent },
             { path: "topics", title:"topic",component: TopicsComponent },

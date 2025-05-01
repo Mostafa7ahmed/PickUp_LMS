@@ -1,0 +1,47 @@
+.showContent{
+
+    overflow: hidden;
+    width: 100%;
+    opacity: 0;
+    height: 0;
+    gap: 10px;
+    transition: opacity 0.5s ease, height 0.5s ease;
+    
+
+  }
+  .showContent.showInfo{
+    opacity: 1;
+    height:60px;
+    transition: opacity 0.5s ease, height 0.5s ease;
+  }
+.showContent .rightContent .cards {
+    display: flex;
+    justify-content: space-between; /* أو space-evenly لو عايز مسافات متساوية */
+    align-items: stretch;
+    flex-wrap: wrap;
+    
+    gap: 10px;
+    max-width: 100%;
+  }
+  
+  .showContent .rightContent .cards .cardInformation {
+    flex: 1 1 calc(20% - 10px); 
+    min-width: 200px; 
+
+    border-radius: 5px;
+    background-color: #ffffff;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+.aboutCourses p {
+  font-family: var(--font-family-1);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0px;
+  color: #79877e;
+}
+.aboutCourses i {
+  font-size: 18px;
+  color: #c6d1dc;
+}
