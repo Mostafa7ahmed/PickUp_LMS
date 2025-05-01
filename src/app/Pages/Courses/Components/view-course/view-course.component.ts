@@ -13,27 +13,39 @@ import { TooltipModule } from 'primeng/tooltip';
 import { AddStageComponent } from "../../../Stages/Components/add-stage/add-stage.component";
 import Plyr from 'plyr';
 import { GetonecourseService } from '../../Core/service/getonecourse.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CourseResult } from '../../Core/interface/icourses';
 import { environment } from '../../../../Environments/environment';
 import { ViewCourse } from '../../Core/interface/view-course';
 import { SplicTextPipe } from '../../Core/Pipes/splic-text.pipe';
 import { link } from 'fs';
+import { DeleteCourseComponent } from "../delete-course/delete-course.component";
+import { TranslateModule } from '@ngx-translate/core';
+import { LessonComponent } from "../../../lesson/lesson.component";
+import { DeleteCoursesService } from '../../Core/service/delete-courses.service';
+import { RatingComponent } from "../../../rating/rating.component";
+import { CardCouponComponent } from '../../../Coupon/Components/card-coupon/card-coupon.component';
 
 @Component({
   selector: 'app-view-course',
   standalone: true,
-  imports: [TextHeaderComponent, ReativeFormModule, Select, SplicTextPipe, TabsModule, ButtonModule, TooltipModule],
+  imports: [TextHeaderComponent, TranslateModule, ReativeFormModule, Select, SplicTextPipe, TabsModule, ButtonModule, TooltipModule, DeleteCourseComponent, LessonComponent, CardCouponComponent,RatingComponent],
   templateUrl: './view-course.component.html',
   styleUrl: './view-course.component.scss'
 })
 export class ViewCourseComponent implements AfterViewInit ,OnInit{
 
 
-  private _CustomFildsService = inject(CustomFildsService);
+  private _CustomFildsService = inject(CustomFildsService);  
+  private _deleteCoursesService = inject(DeleteCoursesService);
+  private router = inject(Router);
+
   private _getonecourseService = inject(GetonecourseService);
   private _ActivatedRoute = inject(ActivatedRoute);
-
+  isDeletePopupVisible :boolean = false;
+  selectedDeleteId : number  | null = null;
+  isShowOption: boolean = false;
+  isShowQuick: boolean = false;
 
   private _FormBuilder = inject(FormBuilder);
   get customFieldsArray(): FormArray {
@@ -200,5 +212,38 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
   
   ngAfterViewInit() {
     this.player = new Plyr(this.playerRef.nativeElement);
+  }
+  toggleShow(){
+    this.isShowOption = !this.isShowOption;
+  }
+  toggleShowQuickList(){
+    this.isShowQuick = !this.isShowQuick;
+  }
+
+
+  openDeletePopup(){
+    this.isDeletePopupVisible = true;
+    this.selectedDeleteId = this.CourseId;
+
+
+    this.toggleShow()
+  }
+  deleteCourse() {
+    if (this.selectedDeleteId) {
+      this._deleteCoursesService.deleteCourse(this.selectedDeleteId).subscribe((res: any) => {
+        if (res.success) {
+          console.log('Course deleted successfully');
+          this.router.navigate(['/course']);
+          
+          this.closeDeletePopup();
+        } else {
+          console.error('Failed to delete course:', res.message);
+        }
+      });
+    }
+  }
+  closeDeletePopup() {
+    this.isDeletePopupVisible = false;
+    this.selectedDeleteId = null;
   }
 }

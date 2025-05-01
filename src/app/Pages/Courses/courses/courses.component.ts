@@ -1,16 +1,14 @@
 import { Component, ElementRef, HostListener, inject, Input, OnInit, Output, viewChild, ViewChild } from '@angular/core';
 import { CourseResult } from '../Core/interface/icourses';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from 'ngx-echarts';
-import * as echarts from 'echarts';
-import { filter, Subscription } from 'rxjs';
+
+import {  filter, Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
 import { TableCoursesComponent } from "../Components/table-courses/table-courses.component";
 import { WidgetCoursesComponent } from '../Components/widget-courses/widget-courses.component';
 import { TopiclistService } from '../../topic/Core/Service/topiclist.service';
-import { ITopiclist } from '../Core/interface/itopiclist';
 import { PaginateCoursesService } from '../Core/service/paginate-courses.service';
 import { IPaginationResponse, IResponseOf } from '../../../Core/Shared/Interface/irespose';
 import { CardkanbanStageComponent } from '../Components/cardkanban-stage/cardkanban-stage.component';
@@ -21,20 +19,15 @@ import { MovecourseService } from '../Core/service/movecourse.service';
 import { FormsModule } from '@angular/forms';
 import { DatePicker } from 'primeng/datepicker';
 
-import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CustomslectwithiconComponent } from '../Components/customslectwithicon/customslectwithicon.component';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { ItopicList, Stage } from '../../Topics/Core/Interface/itopic-list-result';
-import { CoustomSelectStageComponent } from "../Components/coustom-select-stage/coustom-select-stage.component";
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, RouterModule, NzSelectModule, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TabsModule, MatTooltipModule, NgxEchartsModule, WidgetCoursesComponent, TableCoursesComponent, CustomslectwithiconComponent, CoustomSelectStageComponent],
-  providers: [
-    { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } }
-
-  ],
+  imports: [CommonModule, RouterModule, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent,TranslateModule, TabsModule, MatTooltipModule, WidgetCoursesComponent, TableCoursesComponent, CustomslectwithiconComponent],
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss', '../../../../app/Core/Shared/CSS/horizontal-scrolling.scss']
 
@@ -49,14 +42,14 @@ export class CoursesComponent implements OnInit {
   private router = inject(Router);
   private _ActivatedRoute = inject(ActivatedRoute);
   constructor(private eRef: ElementRef) {
-    // this.router.events
-    // .pipe(filter((event) => event instanceof NavigationEnd))
-    // .subscribe((event: any) => {
-    // if (event.url.includes('/course')) {
-    //   this.getListTopics(this.topicIdFromRoute);
-    //   this.getAllKanbans(this.selectedTopicId)
-    // }
-    // });
+    this.router.events
+    .pipe(filter((event) => event instanceof NavigationEnd))
+    .subscribe((event: any) => {
+    if (event.url.includes('/course')) {
+      this.getListTopics(this.topicIdFromRoute);
+      this.getAllKanbans(this.selectedTopicId)
+    }
+    });
   }
 
 
@@ -69,10 +62,7 @@ export class CoursesComponent implements OnInit {
     if (this.rangeDates?.length === 2 && this.rangeDates[0] && this.rangeDates[1]) {
       const fromDate = this.formatDateToISO(this.rangeDates[0]);
       const toDate = this.formatDateToISO(this.rangeDates[1]);
-
-      console.log("📌 Formatted From:", fromDate);
-      console.log("📌 Formatted To:", toDate);
-      this.fetchCourses({}, this.selectedTopicId, undefined, this.valueTable, fromDate, toDate);
+      this.fetchCourses({}, this.selectedTopicId, undefined, this.valueTable, fromDate, toDate );
     }
   }
   clearDateRange() {
@@ -143,7 +133,7 @@ iselectedStage : boolean = false;
     console.log(this.valueTable)
 
 
-    this.fetchCourses({}, this.selectedTopicId, this.valueTable);
+    this.fetchCourses({}, this.selectedTopicId, undefined, this.valueTable);
 
   }
   selectOption(option: any): void {
@@ -205,18 +195,19 @@ iselectedStage : boolean = false;
 
         if (topics.success) {
           this.fetchCourses({}, this.selectedTopicId);
-          this.getAllKanbans(this.selectedTopicId);
+          this.getAllKanbans(this.selectedTopicId); 
         }
       }
     });
   }
 
-  fetchCourses(eventData: { pageNumber?: number; pageSize?: number }, topicId: number, stageId?:number, courseListViewType: number = 0, from?: string,
+
+  fetchCourses(eventData: { pageNumber?: number; pageSize?: number }, topicId: number,     stageId?: number,  courseListViewType: number = 0 ,  from?: string, 
     to?: string): void {
     const { pageNumber = 1, pageSize = 5 } = eventData;
 
     this.isLoading = true;
-    this._PaginateCoursesService.getCourses(topicId,stageId, pageNumber, pageSize, courseListViewType, from, to).subscribe({
+    this._PaginateCoursesService.getCourses(topicId,stageId ,pageNumber, pageSize,courseListViewType , from, to).subscribe({
       next: (response) => {
         console.log(response);
         this.paginationCoursesResponse = response;
@@ -233,7 +224,6 @@ iselectedStage : boolean = false;
       }
     });
   }
-
   @ViewChild('scrollKanpan') scrollContainer!: ElementRef;
   scrollInterval: any;
 

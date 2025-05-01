@@ -1,7 +1,7 @@
 <div class="pt-2 view-custom-container">
 
     <div class="leftView">
-        <div class="d-flex flex-column gap-2 view-profile">
+        <div class="d-flex flex-column gap-2 view-profile position-relative">
             <div class="profile-card">
                 <img src="Images/profile-card-Image.png" class="coverProfile" alt="">
                 <div class="infoProfle">
@@ -27,31 +27,51 @@
                 </div>
 
                 <div class="line mb-1"></div>
-                <p class="subtitle">Haven't Interacted Yet</p>
+                <p class="subtitle">{{'ViewCourse.HavennteractedYet' | translate}}</p>
+
+                <div class="deleteCourse">
+                    <div class="optionIcon" (click)="toggleShow()">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </div>
+                    <div class="listOption d-flex flex-column gap-2 justify-content-center" [class.show]="isShowOption" >
+                        <div class="delete d-flex align-items-center gap-2" (click)="openDeletePopup()">
+                            <img src="https://s3.dinarcrm.com/assets/img/contacts/delete-file-icon.svg" alt="" width="20">
+                              <p>{{'ViewCourse.Delete Course' | translate}}</p>
+                        </div>
+                        <div class="edit d-flex align-items-center gap-2">
+                            <p ><i  class="fa-solid fa-pen "></i></p>
+                            <p >{{'ViewCourse.Edit Course' | translate}} </p>
+                        </div>
+
+
+                        
+                    </div>
+
+                </div>
 
 
             </div>
 
             <div class="mb-0 view-details">
-                <app-text-header [title]="'Main course information '"></app-text-header>
+                <app-text-header [title]="'ViewCourse.Main course information' | translate"></app-text-header>
 
                 <div class="line my-2"></div>
                 <div class="CourseDescription">
-                    <p>Course description : </p>
+                    <p>{{'ViewCourse.Course description' |translate }} : </p>
                     <textarea readonly name="" id="" class="custom-textarea" rows="3">{{courseResultResponse.result.description}}</textarea>
                 </div>
                 <div class="contentDetails">
                     <div class="content">
-                        <p class="text-view-name">Price</p>
+                        <p class="text-view-name">{{'ViewCourse.Price' | translate}}</p>
                         <div class="w-60">
                             <div class="price">
-                                <p class="editable-text"> {{courseResultResponse.result.actualPrice}} <span>EGP</span></p>
+                                <p class="editable-text"> {{courseResultResponse.result.actualPrice}} <span>{{"ViewCourse.EGP" |translate}}</span></p>
                             </div>
                         </div>
                     </div>
                   
                     <div class="content">
-                        <p class="text-view-name">Topic</p>
+                        <p class="text-view-name">{{'ViewCourse.Topic' |translate }}</p>
                         <div class="w-60">
                             <div class="d-flex align-items-center gap-1 price">
                                 <span 
@@ -64,7 +84,7 @@
                         </div>
                     </div>
                     <div class="content">
-                        <p class="text-view-name">Stage</p>
+                        <p class="text-view-name">{{"ViewCourse.Stage"| translate}}</p>
                         <div class="w-60">
                             <div class="d-flex align-items-center gap-1 price">
                                 <div class="progressBar" [style.border-color]="courseResultResponse.result.stage.color"></div>
@@ -73,7 +93,7 @@
                         </div>
                     </div>
                     <div class="content">
-                        <p class="text-view-name">Discount</p>
+                        <p class="text-view-name">{{"ViewCourse.Discount"| translate}}</p>
                         <div class="w-60">
                             <div class="price">
                                 @if(courseResultResponse.result.discount){
@@ -82,7 +102,7 @@
                                         
                                         @if(courseResultResponse.result.discount.type === 1){
                                             <span>
-                                                EGP
+                                                {{"ViewCourse.EGP"| translate}}
                                             </span>
                                         
                                         }
@@ -101,24 +121,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="content">
-                        <p class="text-view-name">Tags</p>
-                        <div class="tagsShow">
-                            @if(courseResultResponse.result.tags.length > 0){
-                                <div  *ngFor="let tag of courseResultResponse.result.tags; let i = index ">
-                                    <div class="tag">{{tag.name}}</div>
-    
-    
-                                </div>
-                            }
-                            @else{
-                                <div class="tag text-center"> --- </div>
-                            }
-                     
-        
-                        </div>
-
-                    </div>
+                  
                 </div>
 
 
@@ -127,18 +130,18 @@
             <div class="customFildes">
                 <div  class="flex-column CourseTags pb-1 UploadCover">
                     <div class="custom-fields-container tags">
-                        <app-text-header [bgColor]="'#659DFFBF'" [title]="'Custom fields'">
+                        <app-text-header [bgColor]="'#659DFFBF'" [title]="'ViewCourse.Custom fields' | translate">
                         </app-text-header>
 
                         <div class="input-row mt-4">
                             <div class="flex card border-0 justify-center">
                                 <p-select [options]="customFieldListResponse.result" 
-                                    [editable]="true" placeholder="Key" optionLabel="key">
+                                    [editable]="true" [placeholder]="'ViewCourse.Key' | translate" optionLabel="key">
                                 </p-select>
                             </div>
 
 
-                            <input type="text" placeholder="Value"  class="w-full md:w-56">
+                            <input type="text" [placeholder]="'ViewCourse.Value' | translate"  class="w-full md:w-56">
 
                             <button (click)="addField()" class="add-btn" pTooltip="Add Fields" tooltipPosition="top">
                                 <i class="fa-plus fa-solid"></i>
@@ -154,7 +157,7 @@
 
                                 <input type="text"  [value]="field.key"  readonly class="field-key" placeholder="Key">
                                 <input type="text"  readonly class="field-value"
-                                    placeholder="Value">
+                                    placeholder="Value"  [value]="field.value"  readonly >
 
                                 <label class="containerCheck">
                                     <input type="checkbox"[checked]="field.visible"  (change)="onVisibleChange(i)">
@@ -173,7 +176,26 @@
                 </div>
 
             </div>
+            <div class="tags">
+                <app-text-header [title]="'ViewCourse.Tags' | translate"></app-text-header>
+                <div class="tagsShow">
+                    @if(courseResultResponse.result.tags.length > 0){
+                        <div  *ngFor="let tag of courseResultResponse.result.tags; let i = index ">
+                            <div class="tag">{{tag.name}} </div>
 
+
+
+
+                        </div>
+                    }
+                    @else{
+                        <div class="tag text-center"> --- </div>
+                    }
+             
+
+                </div>
+            </div>
+  
 
         </div>
     </div>
@@ -185,7 +207,7 @@
                         <i class="fa-graduation-cap fa-solid"></i>
                     </div>
                     <div class="infoCourse">
-                        <p class="text-course">Enrolled student</p>
+                        <p class="text-course">{{'ViewCourse.Enrolled student' | translate}}</p>
                         <p class="date-course">5</p>
                     </div>
 
@@ -198,7 +220,7 @@
 
                     </div>
                     <div class="infoCourse">
-                        <p class="text-course">Average rate</p>
+                        <p class="text-course">{{'ViewCourse.Average rate' | translate}}</p>
                         <p class="date-course">5</p>
                     </div>
 
@@ -210,7 +232,7 @@
                         <i class="fa-solid fa-wallet"></i>
                     </div>
                     <div class="infoCourse">
-                        <p class="text-course">Total amount</p>
+                        <p class="text-course">{{'ViewCourse.Total amount' | translate}}</p>
                         <p class="date-course">5</p>
                     </div>
 
@@ -219,8 +241,24 @@
                 </div>
 
             </div>
-            <div class="rightCource">
-                <button class="btn btnLeason">+ Add Leason</button>
+            <div class="rightCource" >
+                <button class="btn btnLeason" (click)="toggleShowQuickList()" >+ {{'ViewCourse.Quick Actions' | translate}}</button>
+                <div class="listQuick" [class.show]="isShowQuick" >
+                    <div class="quickAction mb-2 d-flex align-items-center gap-2" >
+                        <div class="tab-icon">
+                            <i class="fa-person-chalkboard fa-solid"></i>
+
+                        </div>
+                        <p>{{'ViewCourse.Add Lesson' | translate}}</p>
+                    </div>
+                    <div class="quickAction  d-flex align-items-center gap-2">
+                        <div class="tab-icon">
+                            <i class="fa-receipt fa-solid"></i>
+                        </div>
+                        <p>{{'ViewCourse.Add Coupon' | translate}}</p>
+                    </div>
+                </div>
+               
             </div>
 
         </div>
@@ -232,7 +270,7 @@
                             <i class="fa-person-chalkboard fa-solid"></i>
 
                         </div>
-                        <p>Lessons</p>
+                        <p>{{'ViewCourse.Lessons' | translate}}</p>
                     </p-button>
                     <img src="https://s3.dinarcrm.com/assets/img/contacts/Line-229.svg">
                 </div>
@@ -242,7 +280,7 @@
                         <div class="tab-icon">
                             <i class="fa-kit fa-stream-icon-cp"></i>
                         </div>
-                        <p>Logs</p>
+                        <p>{{"ViewCourse.Logs" | translate}}</p>
                     </p-button>
                     <img src="https://s3.dinarcrm.com/assets/img/contacts/Line-229.svg">
                 </div>
@@ -251,7 +289,7 @@
                         <div class="tab-icon">
                             <i class="fa-solid fa-star"></i>
                         </div>
-                        <p>Rating</p>
+                        <p>{{'ViewCourse.Rating' | translate}}</p>
                     </p-button>
                     <img src="https://s3.dinarcrm.com/assets/img/contacts/Line-229.svg">
                 </div>
@@ -260,7 +298,7 @@
                         <div class="tab-icon">
                             <i class="fa-receipt fa-solid"></i>
                         </div>
-                        <p>Coupon</p>
+                        <p>{{'ViewCourse.Coupon' | translate}}</p>
                     </p-button>
                     <img src="https://s3.dinarcrm.com/assets/img/contacts/Line-229.svg">
                 </div>
@@ -269,7 +307,7 @@
                         <div class="tab-icon">
                             <i class="fa-chat-icons fa-kit"></i>
                         </div>
-                        <p>Chat</p>
+                        <p>{{'ViewCourse.Chat' | translate}}</p>
                     </p-button>
 
                 </div>
@@ -281,38 +319,27 @@
 
                         <p-tabpanels>
                             <p-tabpanel [value]="0">
-                                <div class="d-flex flex-column align-items-center justify-content-center m-0 tabView">
-                                    <img src="Images/deal-empty-state.svg" alt="" width="190px">
-                                    <p>No leason With Couese</p>
-
-                                </div>
+                            <app-lesson></app-lesson>
+            
                             </p-tabpanel>
                             <p-tabpanel [value]="1">
                                 <div class="d-flex flex-column align-items-center justify-content-center m-0 tabView">
                                     <img src="Images/Email_empty.svg" alt="" width="190px">
-                                    <p>No Log With Couese</p>
+                                    <p>{{'ViewCourse.NoLog' | translate}}</p>
 
                                 </div>
                             </p-tabpanel>
                             <p-tabpanel [value]="2">
-                                <div class="d-flex flex-column align-items-center justify-content-center m-0 tabView">
-                                    <img src="https://s3.dinarcrm.com/assets/img/contacts/activity-rating-dashboard-header.svg"
-                                        alt="" width="190px">
-                                    <p>No Rating With Couese</p>
-
-                                </div>
+                                <app-rating></app-rating>
+                    
                             </p-tabpanel>
                             <p-tabpanel [value]="3">
-                                <div class="d-flex flex-column align-items-center justify-content-center m-0 tabView">
-                                    <img src="Images/deal-empty-state.svg" alt="" width="190px">
-                                    <p>No Coupon With Couese</p>
-
-                                </div>
+                                <app-card-coupon></app-card-coupon>
                             </p-tabpanel>
                             <p-tabpanel [value]="4">
                                 <div class="d-flex flex-column align-items-center justify-content-center m-0 tabView">
                                     <img src="Images/message_empty.svg" alt="" width="190px">
-                                    <p>No Chat With Couese</p>
+                                    <p>{{'ViewCourse.NoChat' | translate}}</p>
 
                                 </div>
                             </p-tabpanel>
@@ -326,7 +353,7 @@
     </div>
     <div class="rightView">
         <div class="references mb-2">
-            <app-text-header [title]="'References'"></app-text-header>
+            <app-text-header [title]="'ViewCourse.References' | translate"></app-text-header>
             <div class="showreferences">
                 <div class="upload-field">
                     <input type="file" name="myFile"
@@ -340,44 +367,72 @@
                                     d="M10.2865 18.3327C8.84201 18.3327 7.61285 17.8257 6.59896 16.8118C5.58507 15.798 5.07812 14.5688 5.07812 13.1243V5.41602C5.07812 4.37435 5.44285 3.48907 6.17229 2.76018C6.90174 2.03129 7.78701 1.66657 8.82812 1.66602C9.86924 1.66546 10.7548 2.03018 11.4848 2.76018C12.2148 3.49018 12.5792 4.37546 12.5781 5.41602V10.8327C12.5781 11.0688 12.4981 11.2668 12.3381 11.4268C12.1781 11.5869 11.9803 11.6666 11.7448 11.666C11.5092 11.6655 11.3115 11.5855 11.1515 11.426C10.9915 11.2666 10.9115 11.0688 10.9115 10.8327V5.41602C10.8976 4.83268 10.6928 4.33963 10.2973 3.93685C9.90174 3.53407 9.41201 3.33268 8.82812 3.33268C8.24424 3.33268 7.75118 3.53407 7.34896 3.93685C6.94674 4.33963 6.74535 4.83268 6.74479 5.41602V13.1243C6.7309 14.1105 7.07118 14.9474 7.76563 15.6352C8.46007 16.323 9.30035 16.6666 10.2865 16.666C10.5226 16.666 10.7448 16.6416 10.9531 16.5927C11.1615 16.5438 11.3628 16.4849 11.5573 16.416C11.7795 16.3327 11.9948 16.3363 12.2031 16.4268C12.4115 16.5174 12.5573 16.6735 12.6406 16.8952C12.724 17.1168 12.7206 17.3321 12.6306 17.541C12.5406 17.7499 12.3842 17.8957 12.1615 17.9785C11.8698 18.0896 11.5678 18.1766 11.2556 18.2393C10.9434 18.3021 10.6203 18.3332 10.2865 18.3327ZM14.6615 17.4993C14.4253 17.4993 14.2276 17.4193 14.0681 17.2593C13.9087 17.0993 13.8287 16.9016 13.8281 16.666V14.9993H12.1615C11.9253 14.9993 11.7276 14.9193 11.5681 14.7593C11.4087 14.5993 11.3287 14.4016 11.3281 14.166C11.3276 13.9305 11.4076 13.7327 11.5681 13.5727C11.7287 13.4127 11.9265 13.3327 12.1615 13.3327H13.8281V11.666C13.8281 11.4299 13.9081 11.2321 14.0681 11.0727C14.2281 10.9132 14.4259 10.8332 14.6615 10.8327C14.897 10.8321 15.0951 10.9121 15.2556 11.0727C15.4162 11.2332 15.4959 11.431 15.4948 11.666V13.3327H17.1615C17.3976 13.3327 17.5956 13.4127 17.7556 13.5727C17.9156 13.7327 17.9953 13.9305 17.9948 14.166C17.9942 14.4016 17.9142 14.5996 17.7548 14.7602C17.5953 14.9207 17.3976 15.0005 17.1615 14.9993H15.4948V16.666C15.4948 16.9021 15.4148 17.1002 15.2548 17.2602C15.0948 17.4202 14.897 17.4999 14.6615 17.4993ZM8.82812 14.166C8.59201 14.166 8.39424 14.086 8.23479 13.926C8.07535 13.766 7.99535 13.5682 7.99479 13.3327V5.83268C7.99479 5.59657 8.07479 5.39879 8.23479 5.23935C8.39479 5.07991 8.59257 4.99991 8.82812 4.99935C9.06368 4.99879 9.26174 5.07879 9.42229 5.23935C9.58285 5.39991 9.66257 5.59768 9.66146 5.83268V13.3327C9.66146 13.5688 9.58146 13.7668 9.42146 13.9268C9.26146 14.0868 9.06368 14.1666 8.82812 14.166ZM14.6615 9.16602C14.4253 9.16602 14.2276 9.08602 14.0681 8.92602C13.9087 8.76602 13.8287 8.56824 13.8281 8.33268V5.83268C13.8281 5.59657 13.9081 5.39879 14.0681 5.23935C14.2281 5.07991 14.4259 4.99991 14.6615 4.99935C14.897 4.99879 15.0951 5.07879 15.2556 5.23935C15.4162 5.39991 15.4959 5.59768 15.4948 5.83268V8.33268C15.4948 8.56879 15.4148 8.76685 15.2548 8.92685C15.0948 9.08685 14.897 9.16657 14.6615 9.16602Z"
                                     fill="#6B7280"></path>
                             </svg>
-                            <p> Attach a file </p>
+                            <p>{{'ViewCourse.Attach a file' | translate}}</p>
                         </div>
                     </div>
                 </div>
                 <div class="files">
-                    <div class="file-item" *ngFor="let field of courseResultResponse.result.files; let i = index">
-                        <div class="file-info">
-                            <div class="pdfIcons">
-                                <i class="fa-file-lines fa-solid"></i>
+                    @if(courseResultResponse.result.files.length > 0){
+                        <div class="file-item" *ngFor="let field of courseResultResponse.result.files; let i = index">
+                            <div class="file-info">
+                                <div class="pdfIcons">
+                                    <i class="fa-file-lines fa-solid"></i>
+                                </div>
+                                <span>{{field.name | splicText : 20}}</span>
                             </div>
-                            <span>{{field.name | splicText : 20}}</span>
-                        </div>
-                        <div class="d-none gap-2 Showaction">
-                            <a class="img-container " [href]="baseUrlFile  + field.url" download pTooltip="Download" tooltipPosition="top" 
-                            
-                            >
-                                <img src="https://s3.dinarcrm.com/assets/img/contacts/download-file-icon.svg">
-                            </a>
-                            <div class="img-container ng-star-inserted" pTooltip="Delete" tooltipPosition="top">
-                                <img  alt="" src="https://s3.dinarcrm.com/assets/img/contacts/delete-file-icon.svg">
+                            <div class="d-none gap-2 Showaction">
+                                <a class="img-container " [href]="baseUrlFile  + field.url" download pTooltip="Download" tooltipPosition="top" 
+                                
+                                >
+                                    <img src="https://s3.dinarcrm.com/assets/img/contacts/download-file-icon.svg">
+                                </a>
+                                <div class="img-container ng-star-inserted" pTooltip="Delete" tooltipPosition="top">
+                                    <img  alt="" src="https://s3.dinarcrm.com/assets/img/contacts/delete-file-icon.svg">
+                                </div>
                             </div>
+                            <div class="file-size">{{field.size}} KB</div>
                         </div>
-                        <div class="file-size">{{field.size}} KB</div>
-                    </div>
+                    }@else {
+                        <div class="d-flex flex-column  gap-2 align-items-center">
+                            <img src="Images/Course/file.png" alt="" width="120px">
+                            <p>{{'ViewCourse.No File With Couese' | translate}}</p>
+
+                        </div>
+
+                    }
+
+
+                    
           
                 </div>
             </div>
 
         </div>
         <div class="VideoReferences references">
-            <app-text-header [title]="'Video intro'"></app-text-header>
+            <app-text-header [title]="'ViewCourse.VideoIntro' | translate"></app-text-header>
+            @if(courseResultResponse.result.introductionVideoUrl != null){
+         
+                <video #player controls crossorigin playsinline poster="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/311843542/original/8c9c677c05b80b431b4f10624d089f5c0c5c2732/do-the-best-poster-design.png">
+                    <source [src]="baseUrlFile +courseResultResponse.result.introductionVideoUrl " type="video/mp4" />
+                  </video>
+            }
+            @else{
+                <div class="d-flex flex-column  gap-2 align-items-center">
+                    <img src="Images/Course/webinar.png" alt="" width="190px">
+                    <p>{{'ViewCourse.No Video With Couese' | translate}}</p>
+                </div>
+            }
 
-            <video #player controls crossorigin playsinline poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg">
-                <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4" type="video/mp4" />
-              </video>
 
 
         </div>
     </div>
 
 </div>
+
+<app-delete-course 
+ *ngIf="isDeletePopupVisible"
+ [deleteId]="courseResultResponse.result.id"
+ (delete)="deleteCourse()"
+(close)="closeDeletePopup()"
+></app-delete-course>

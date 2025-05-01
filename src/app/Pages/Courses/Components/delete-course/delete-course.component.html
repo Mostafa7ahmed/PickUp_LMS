@@ -1,0 +1,47 @@
+<div class="overlay"></div>
+<div class="addTopic">
+    <app-top-pop [bgColor]="'#fee4e2'" [ColorIcon]="'#ff4b55'" [NameIcon]="'fa-solid fa-trash-can'" [NamePopup]="'Delete Course'"  (isVisibleChange)="closePopup()"></app-top-pop>
+    <div class="content">
+        <div class="Icon mt-3">
+            <img src="Images/delete.svg" alt="" >
+
+
+        </div>
+        <p class="textConfirm">Are you sure you want to delete this Course?</p>
+
+
+        <p class="textTitle">This Course will be removed from the related Course list and the price may change as a result.</p>
+
+
+
+
+
+
+
+     
+    </div>
+
+
+
+
+
+    
+    <div class="content">
+
+        <div class="btns w-100 d-flex flex-column gap-2" >
+            <button class="btn btnDelete" (click)="deleteCourse()" [disabled]="isDeleting">
+                <ng-container *ngIf="!isDeleting; else loading">
+                  Delete
+                </ng-container>
+                <ng-template #loading>
+                  <i class="fa-solid fa-spinner fa-spin"></i> Delete
+
+                </ng-template>
+              </button>            <button class="btn btnCancel" (click)="closePopup()">Cancel</button>
+        </div>
+        
+  
+    </div>
+
+
+</div>

@@ -1,0 +1,99 @@
+.dateLine{
+    width: 100%;
+    background: #83899f4d;
+    height: .5px;
+    display: flex
+;
+    align-items: center;
+    justify-content: flex-start;
+    padding-inline-start: 35px;
+}
+.dateLine span{
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: #fff;
+    color: #83899fcc;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.ratePersonal .cardRate{
+    display: flex;
+    align-items: flex-start;
+
+    gap: 10px;
+    padding: 20px 0px 0px 0px;
+    width: 100%;
+    height: 100%;
+
+}
+.cardRate .rateIcon{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-self: stretch;
+    align-items: center;
+}
+.ratePersonal .rateDemo{
+    border-radius: 8px;
+    border: 1px solid #FFE112;
+    background: #ffdf122d;
+    display: flex;
+    width: 30px;
+    height: 30px;
+    padding: 6px;
+    justify-content: center;
+    align-items: center;
+}
+.ratePersonal .rateDemo .icon-demo{
+    color: #FFE112;
+}
+
+.rateIcon .line-stream-demo {
+    width: .75px;
+    background-color: #FFE112;
+    height: 100%;
+}
+.ratePersonal  .infoRate{
+    width: 100%;
+
+    border-radius: 4px;
+    border: .75px solid rgba(246, 246, 246, .9);
+    background: #fff;
+    box-shadow: 0 0 4px #606c800a;
+    border: 1px solid #eaeaea;
+    padding: 6px 0 6px 8px;
+
+}
+.infoRate .title{
+    font-size: 16px;
+    color: #111827;
+    font-family: var(--font-family-1);
+    font-weight: 600;
+}
+.infoRate .number{
+    font-size: 14px;
+    color: #6B7280;
+    font-family: var(--font-family-2);
+    font-weight: 600;
+}
+
+.review {
+    position: relative;
+    margin-inline-start: 15px;
+}
+
+.review::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: -12px;
+    width: .75px;
+    height: 100%;
+    background: #C6D1DC;    
+
+ 
+}

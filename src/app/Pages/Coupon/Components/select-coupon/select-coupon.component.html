@@ -1,0 +1,32 @@
+@if(isLoadTopic){
+    <div class="custom-select ">
+        <button class="select-button" type="button" [disabled]="disabled" (click)="toggleDropdown()" [class.selected]="isOpen" [attr.aria-expanded]="isOpen">
+            <div class="d-flex align-items-center gap-1" >
+                <div  class="icon">
+                    <img [src]="baseUrl + selectedItem.photoUrl" width="20" height="20" alt="" class="rounded-circle">
+                </div>
+    
+                <span class="selected-value">{{ selectedItem.name  | splicText :12   }}</span>
+            </div>
+    
+            <div class="icon" [ngClass]="{ 'rotate': isOpen }">
+                <i class="fa-solid fa-chevron-down" ></i>
+            </div>
+        </button>
+    
+        <ul class="select-dropdown" [ngClass]="{ 'hidden': !isOpen }">
+            <li *ngFor="let option of ListCourse" (click)="selectOption(option)">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center gap-2" [pTooltip]="option.name" tooltipPosition="left">
+                        <div  class="icon">
+                            <img [src]="baseUrl + option.photoUrl" width="20"  height="20" alt="" class="rounded-circle">
+                        </div>
+                        <p class="m-0" >{{ option.name  | splicText:12  }}</p>
+                    </div>
+    
+                </div>
+            </li>
+        </ul>
+    </div>
+    
+}

@@ -31,10 +31,9 @@ export class LoginService {
   SignOut() {
     localStorage.removeItem('UserAuth');
     localStorage.removeItem('refreshToken');
-    this._router.navigate(['/login']);
+    this._router.navigateByUrl('/login');
     
 
-    return ;
 
 
  

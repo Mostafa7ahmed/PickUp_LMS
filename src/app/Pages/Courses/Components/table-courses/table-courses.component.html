@@ -3,24 +3,25 @@
   <table>
     <thead>
       <tr>
-        <th class="nameTh">Name</th>
-        <th class="fixedWithdth">Stage</th>
-        <th class="fixedWithdth">Price</th>
-        <th class="fixedWithdth">Profit</th>
-        <th class="fixedWithdth">Discount</th>
-
-        <th class="fixedWithdth">Students</th>
-
-        <th class="fixedWithdth">Rating</th>
-        <th class="fixedWithdth">Videos</th>
-        <th class="fixedWithdth">Coupons </th>
-        <th class="nameTh">Description </th>
-
-        <th class="fixedWithdth">Creator</th>
-        <th class="fixedWithdth">Updater</th>
-        <th class="fixedWithdth">Created On</th>
-        <th class="fixedWithdth">Updated On</th>
+        <th class="nameTh">{{"course.tableCourse.name" | translate}}</th>
+        <th class="fixedWithdth">{{"course.tableCourse.stage" | translate}}</th>
+        <th class="fixedWithdth">{{"course.tableCourse.price" | translate}}</th>
+        <th class="fixedWithdth">{{"course.tableCourse.profit" | translate}}</th>
+        <th class="fixedWithdth">{{"course.tableCourse.discount" | translate}}</th>
+      
+        <th class="fixedWithdth">{{"course.tableCourse.students" | translate}}</th>
+      
+        <th class="fixedWithdth">{{"course.tableCourse.rating" | translate}}</th>
+        <th class="fixedWithdth">{{"course.tableCourse.videos" | translate}}</th>
+        <th class="fixedWithdth">{{"course.tableCourse.coupons" | translate}}</th>
+        <th class="nameTh">{{"course.tableCourse.description" | translate}}</th>
+      
+        <th class="fixedWithdth">{{"course.tableCourse.creator" | translate}}</th>
+        <th class="fixedWithdth">{{"course.tableCourse.updater" | translate}}</th>
+        <th class="fixedWithdth">{{"course.tableCourse.created_on" | translate}}</th>
+        <th class="fixedWithdth">{{"course.tableCourse.updated_on" | translate}}</th>
       </tr>
+      
     </thead>
     <tbody>
       @for (course of paginationCoursesResponse.result; track $index ; let i= $index) {
@@ -224,16 +225,39 @@
     </tbody>
   </table>
 
-  <div class="leftScroll" [class.d-none]="!showLeftScroll" (mouseenter)="scrollTable('left')"
-    (mouseleave)="stopScroll()">
-    <i class="fa-solid fa-chevron-left"></i>
-  </div>
-
-  <div class="rightScroll" [class.d-none]="!showRightScroll" (mouseenter)="scrollTable('right')"
+  @if(!isRTL()){
+      <div class="leftScroll" 
+      [class.d-none]=" !showLeftScroll" 
+      (mouseenter)="scrollTable( 'left')" 
+      (mouseleave)="stopScroll()">
+      <i class="fa-solid fa-chevron-left"></i>
+    
+    </div>
+    <div class="rightScroll" 
+    [class.d-none]=" !showRightScroll" 
+    (mouseenter)="scrollTable( 'right')" 
     (mouseleave)="stopScroll()">
     <i class="fa-solid fa-chevron-right"></i>
+  
   </div>
+    
+  }
+  @else {
+    <div class="rightScroll" 
+    [class.d-none]=" showRightScroll" 
+    (mouseenter)="scrollTable( 'right')" 
+    (mouseleave)="stopScroll()">
+    <i class="fa-solid fa-chevron-left"></i>
+  
+  </div>
+  <div class="leftScroll" 
+  [class.d-none]=" !showLeftScroll" 
+  (mouseenter)="scrollTable( 'left')" 
+  (mouseleave)="stopScroll()">
+  <i class="fa-solid fa-chevron-right"></i>
 
+</div>
+  }
 
 
 

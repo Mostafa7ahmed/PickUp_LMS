@@ -35,5 +35,18 @@ export interface Discount {
 
 
 export interface ICreateCourseResponse {
+  id:number;
+  topicId: number
+  stageId: number
+  name: string
+  price: number
+  free: boolean
+  description?: string | null
+  photoUrl?: string | null
+  introductionVideoUrl?: string | null
+  fileUrls: string[]
+  tags: NewTagRequest[]
+  customFields: NewCustomFieldRequest[]
+  discount?: Discount
 
 }

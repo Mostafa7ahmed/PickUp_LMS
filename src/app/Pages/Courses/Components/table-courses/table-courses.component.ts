@@ -7,16 +7,18 @@ import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose'
 import { TooltipModule } from 'primeng/tooltip';
 import { environment } from '../../../../Environments/environment';
 import { RouterLink } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-table-courses',
   standalone: true,
-  imports: [CommonModule  , MatTooltipModule, DatePipe ,TooltipModule, SplicTextPipe , RouterLink],
+  imports: [CommonModule  ,TranslateModule, MatTooltipModule, DatePipe ,TooltipModule, SplicTextPipe , RouterLink],
   templateUrl: './table-courses.component.html',
   styleUrls: ['./table-courses.component.scss', '../../../../../app/Core/Shared/CSS/horizontal-scrolling.scss']
 })
 export class TableCoursesComponent {
-  pageSize: number = 5; 
+
+ pageSize: number = 5; 
  baseUrl =environment.baseUrlFiles
 
   @Input()paginationCoursesResponse: IPaginationResponse<CourseResult>  = {} as IPaginationResponse<CourseResult> ;
@@ -65,11 +67,7 @@ export class TableCoursesComponent {
     }
 
   
-    @HostListener('window:resize')
-    onResize() {
-      this.updateScrollButtons();
-    }
-
+   
 
     getRemainingCourses(pageNumber:number , pageSize:number ){
       pageNumber = pageNumber + 1;
@@ -84,11 +82,21 @@ export class TableCoursesComponent {
       this.pageSize = Number(target.value);
       this.someMethodToEmitEvent(this.pageSize, 1);
     }
-    
+        @HostListener('window:resize')
+    onResize() {
+      this.updateScrollButtons();
+    }
+     isRTL() {
+    return document.documentElement.dir === 'rtl';
+  }
+
   
   
     ngOnDestroy() {
       clearInterval(this.scrollInterval);
     }
+
+
+
 
 }

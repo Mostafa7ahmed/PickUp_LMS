@@ -15,7 +15,7 @@
     width: 800px;
     box-shadow: 0px 0px 4px 0px #00000036;
     background: linear-gradient(90deg, #FFFFFF 34.1%, rgba(191, 255, 190, 0.570816) 99.99%, rgba(106, 255, 103, 0) 100%);
-    height: 400px;
+    height: 360px;
     border-radius: 25px;
 }
 .startregister .choose .leftContent h3{
@@ -26,7 +26,7 @@
 .startregister .choose .leftContent {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    gap: 60px;
 }
 .cardchoose .choose .leftContent .contentChoose{
     gap: 70px;

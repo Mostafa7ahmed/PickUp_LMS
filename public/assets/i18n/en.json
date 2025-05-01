@@ -11,7 +11,7 @@
       },
       "AddSection": {
         "addTopic": "Add Topic",
-        "addStage": "Add Stage",
+        "addStage": "Add Coupon",
         "addCourse": "Add Course",
         "addLesson": "Add Lesson"
       },
@@ -21,7 +21,8 @@
         "Courses": "Courses",
         "Board": "Board",
         "CourseList": "Course List",
-        "Dashboard": "Dashboard",
+        "Dashboard": "Coupons list",
+        "quizlist": "Quiz List",
         "Follower": "Follower",
         "Users": "Users",
         "Students": "Students",
@@ -103,7 +104,142 @@
         }
         
 
+      },
+    
+      "course" : {
+        "tableCourse": {
+          "name": "Name",
+          "stage": "Stage",
+          "price": "Price",
+          "profit": "Profit",
+          "discount": "Discount",
+          "students": "Students",
+          "rating": "Rating",
+          "videos": "Videos",
+          "coupons": "Coupons",
+          "description": "Description",
+          "creator": "Creator",
+          "updater": "Updater",
+          "created_on": "Created On",
+          "updated_on": "Updated On"
+        },
+        "mainContent": {
+          "CoursesList": "Courses List",
+          "table": "Table",
+          "kanban": "kanban",
+          "allCourses ": "All Courses ",
+          "freeCourses ": "Free Courses ",
+          "soildCourses ": "Soild Courses ",
+          "SearchPlaceholder": "Search For Course",
+          "addCourse": "Add Course",
+          "Stage": "Stage",
+          "CreationDate": "Creation Date"
+
+
+
+
+        },
+        "widget":{
+          "Totalstudentofcourses": "Total student of courses",
+          "totalStudents": "Total price of courses",
+          "Totalnumber": "Total number of courses",
+          "Totalprofit": "Total profit of courses"
+        }
+     
+      },
+      "coupon": {
+        "tableCoupon": {
+          "code": "Code",
+          "notes": "Notes",
+          "allowedUsage": "Allowed Usage",
+          "actualUsage": "Actual Usage",
+          "validFrom": "Valid From",
+          "validTo": "Valid To",
+          "limited": "Limited",
+          "discountType": "Discount Type",
+          "discount": "Discount",
+          "priceAfterDiscount": "Price After Discount",
+          "students": "Students"
+        },
+        "mainContent": {
+          "CouponList": "Coupon List",
+          "allCoupon ": "All Coupons ",
+          "activeCoupon ": "Active ",
+          "Expired Soon ": "Expired Soon ",
+          "expired ": "Expired Coupon ",
+
+          "SearchPlaceholder": "Search For Course",
+          "addCoupon": "Add Coupon",
+          "CreationDate": "Creation Date"
+
+
+
+
+        },
+        "widget":{
+          "TotalActive Coupons": "Total Active Coupons",
+          "TotalCoupons Issued": "Total Coupons Issued",
+          "RecentActivity": "Recent Activity",
+          "TotalCoupons": "Total Coupons"
+        }
+      },
+      "Home":{
+        "welcomeMessage": "Welcome to the",
+        "Logo" :" Pickup LMS",
+        "subTitle": "Learning Experience Builder",
+        "quote": "Let’s create a learning space that helps you deliver powerful content and grow your learners’ success.",
+        "feature1": "Create and manage interactive courses easily",
+        "feature2": "Build your own learning experience",
+        "feature3": "Track learners’ progress with real-time analytics",
+        "feature4": "Add quizzes, assignments, and certifications in minutes",
+        "startButton": "Start Learning 🚀"
+      },
+      "LogOut" :{
+        "LOGOUT_SUCCESS": "Logout Successfully"
+      }    ,
+      "Langaue" :{
+        "LANGUAGE_CHANGED": "Language changed successfully"
+      } ,
+      "ViewCourse":{
+        "Delete Course": "Delete Course",
+        "Add Coupon": "Add Coupon",
+        "Add Lesson": "Add Lesson",
+        "Edit Course": "Edit Course",
+        "Enrolled student": "Enrolled student",
+        "Average rate": "Average rate",
+        "Total amount": "Total amount",
+        "Quick Actions": "Quick Actions",
+        "Lessons": "Lessons",
+        "Logs": "Logs",
+        "Rating": "Rating",
+        "Coupon": "Coupon",
+        "EGP": "EGP",
+        "Chat": "Chat",
+        "Attach a file": "Attach a file",
+        "No File With Couese": "No File With Course",
+        "No Video With Couese": "No Video With Course",
+        "Main course information": "Main course information",
+        "Course description": "Course description",
+        "Price": "Price",
+        "Topic": "Topic",
+        "Stage": "Stage",
+        "Discount": "Discount",
+        "Tags": "Tags",
+        "Custom fields": "Custom fields",
+        "Key": "Key",
+        "Value": "Value",
+        "No leason With Couese": "No lesson With Course",
+        "HavennteractedYet": "Haven't Interacted Yet",
+        "NoLesson": "No lesson with course",
+        "NoLog": "No log with course",
+        "NoRating": "No rating with course",
+        "NoCoupon": "No coupon with course",
+        "NoChat": "No chat with course",
+        "References": "References",
+        "VideoIntro": "Video intro"
+
+
       }
-   
+
 
 }

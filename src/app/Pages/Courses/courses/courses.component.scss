@@ -919,7 +919,7 @@
   position: absolute;
   top: -23px;
   width: 100%;
-  left: -118px;
+  margin-inline-start: -114px;
   background: transparent !important;
   opacity: 0 !important;
   height: 36px;
@@ -932,8 +932,9 @@
 :host ::ng-deep .CreationDate .p-datepicker-panel {
   position: absolute;
   top: 27px !important;
-  left: -129px !important;
   z-index: 1002;
+  margin-inline-start: -114px;
+
   transform-origin: center top;
   margin-top: 2px;
 }

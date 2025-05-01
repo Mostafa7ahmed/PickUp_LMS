@@ -3,11 +3,12 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { Subscription } from 'rxjs';
 import { GetWidgetsService } from '../../Core/service/get-widgets.service';
 import { IwidgetResponse } from '../../Core/interface/iwidget-response';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-widget-courses',
   standalone: true,
-  imports: [NgxEchartsModule],
+  imports: [NgxEchartsModule , TranslateModule],
   templateUrl: './widget-courses.component.html',
   styleUrl: './widget-courses.component.scss'
 })
@@ -20,11 +21,11 @@ export class WidgetCoursesComponent implements OnInit {
     dataWidgets: IwidgetResponse = {} as  IwidgetResponse;
 
   chartOptions :any= {
-    title: {
-      text: 'My Chart Title',
-      left: 'left',
-      textStyle: { color: '#333', fontSize: 13 }
-    },
+    // title: {
+    //   text: 'My Chart Title',
+    //   left: 'left',
+    //   textStyle: { color: '#333', fontSize: 13 }
+    // },
     tooltip: { 
       trigger: 'axis',
       formatter: (params: any) => ` ${params[0].value}` // يعرض فقط قيمة Y

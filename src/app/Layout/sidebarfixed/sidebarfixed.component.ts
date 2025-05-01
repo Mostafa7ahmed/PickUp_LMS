@@ -1,7 +1,7 @@
 import { CommonModule, } from '@angular/common';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TooltipModule } from 'primeng/tooltip';
 
@@ -36,7 +36,7 @@ export class SidebarfixedComponent {
     this.activeIndex = null;
   }
 
-
+  
 
 
 
@@ -46,15 +46,15 @@ export class SidebarfixedComponent {
   ListSidebarOpen = [
     {
       name: 'Sidebar.Transaction',
-      Icon: 'fa-solid fa-money-bill-transfer',
+      Icon: 'fa-kit fa-transaction-cp',
       list: ["Sidebar.TransactionList", "Sidebar.Transaction"],
       routes: ["Transactionlist", "Dashboard"]
     },
     {
       name: 'Sidebar.Courses',
       Icon: 'fa-solid fa-person-chalkboard',
-      list: ["Sidebar.Board", "Sidebar.CourseList", "Sidebar.Dashboard"],
-      routes: ["topics", "course", "Dashboard"]
+      list: ["Sidebar.Board", "Sidebar.CourseList", "Sidebar.Dashboard" , "Sidebar.quizlist"],
+      routes: ["topics", "course", "Couponslist" , "quizlist"]
     },
     {
       name: 'Sidebar.Follower',

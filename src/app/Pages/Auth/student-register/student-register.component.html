@@ -1,0 +1,278 @@
+<div class="registerInstructor">
+  <div class="cardForm">
+    <div class="logo">
+      <img src="Images/Logo.png" alt="" />
+    </div>
+    <div class="dataInstructor my-4 px-3">
+      <nz-steps [nzCurrent]="current">
+        <nz-step [nzIcon]="one"></nz-step>
+        <nz-step [nzIcon]="two"></nz-step>
+        <nz-step [nzIcon]="three"></nz-step>
+
+        <ng-template #one>1</ng-template>
+
+        <ng-template #two>2</ng-template>
+
+        <ng-template #three>3</ng-template>
+      </nz-steps>
+    </div>
+
+    <form class="p-3" [formGroup]="registerFrom">
+      @switch (current) { @case (0) {
+      <!-- Lable Input -->
+      <div class="position-relative mb-3">
+        <!-- Input Field -->
+        <input
+          class="input-cal input-base inputFloating"
+          placeholder=""
+          type="text"
+          formControlName="name"
+          [ngClass]="{
+            invalid: isFieldInvalid('name'),
+            success: isFieldValid('name')
+          }"
+        />
+
+        <!-- Label -->
+        <label id="label-input">Name</label>
+      </div>
+
+      <div
+        class="position-relative mt-4"
+        [class.my-3]="!isFieldInvalid('userName')"
+      >
+        <input
+          class="input-cal input-base inputFloating"
+          placeholder=""
+          type="text"
+          formControlName="userName"
+          [ngClass]="{
+            invalid: isFieldInvalid('userName'),
+            success: isFieldValid('userName')
+          }"
+        />
+        <label id="label-input">User name</label>
+      </div>
+      @if(isFieldInvalid('userName')){
+      <p class="error-message m">{{ MessageUseName }}</p>
+
+      }
+
+      <div
+        class="position-relative mt-4"
+        [class.my-3]="!isFieldInvalid('email')"
+      >
+        <input
+          class="input-cal input-base inputFloating"
+          placeholder=""
+          type="text"
+          formControlName="email"
+          [ngClass]="{
+            invalid: isFieldInvalid('email'),
+            success: isFieldValid('email')
+          }"
+        />
+        <label id="label-input">Email</label>
+      </div>
+
+      <div class="position-relative mt-4">
+        <input
+          class="input-cal input-base inputFloating"
+          placeholder=""
+          type="text"
+          formControlName="phoneNumber"
+          [ngClass]="{
+            invalid: isFieldInvalid('phoneNumber'),
+            success: isFieldValid('phoneNumber')
+          }"
+        />
+        <label id="label-input">PhoneNumber</label>
+      </div>
+      @if(registerFrom.get("phoneNumber")?.errors &&
+      registerFrom.get("phoneNumber")?.touched){
+      <p class="error-message m-0">{{ MessagePhone }}</p>
+
+      } } @case (1) {
+      <div class="position-relative mb-3">
+        <p-floatlabel class="w-full w-100 md:w-56" variant="on">
+          <p-select
+            formControlName="countryId"
+            inputId="on_label"
+            [options]="allCountry"
+            optionLabel="name"
+            filterBy="name"
+            [filter]="true"
+            [showClear]="true"
+            optionValue="id"
+
+            [ngClass]="{
+              'ng-invalid ng-dirty':
+                registerFrom.get('countryId')?.invalid &&
+                registerFrom.get('countryId')?.touched
+            }"
+            styleClass="w-full w-100"
+          >
+            <ng-template #selectedItem let-selectedOption>
+              <div class="d-flex align-items-center gap-2">
+                <img
+                  [src]="selectedOption.flag"
+                  alt="{{ selectedOption.name }}"
+                  style="width: 18px; height: 12px"
+                />
+                <div>{{ selectedOption.name }}</div>
+              </div>
+            </ng-template>
+
+            <ng-template let-country #item>
+              <div class="d-flex align-items-center gap-2">
+                <img
+                  [src]="country.flag"
+                  alt="{{ country.name }}"
+                  style="width: 18px; height: 12px"
+                />
+                <div>{{ country.name }}</div>
+              </div>
+            </ng-template>
+          </p-select>
+
+          <label for="on_label">Select a Country</label>
+        </p-floatlabel>
+      </div>
+
+
+      <div class="position-relative mb-3">
+        <p-floatlabel variant="on">
+          <p-select
+            inputId="language_label"
+            [options]="allpreferredLanguge"
+            optionLabel="name"
+            optionValue="id"
+            formControlName="preferredLanguge"
+            styleClass="w-full w-100"
+            [ngClass]="{
+              'ng-invalid ng-dirty':
+                registerFrom.get('preferredLanguge')?.invalid &&
+                registerFrom.get('preferredLanguge')?.touched
+            }"
+          >
+            <ng-template pTemplate="selectedItem" let-selectedOption>
+              <div *ngIf="selectedOption && selectedOption.name">
+                {{ selectedOption.name }}
+              </div>
+            </ng-template>
+            <ng-template pTemplate="item" let-language>
+              <div>{{ language.name }}</div>
+            </ng-template>
+          </p-select>
+          <label for="language_label">Preferred Language</label>
+        </p-floatlabel>
+      </div>
+
+      } @case (2) {
+      <!-- Lable Input -->
+      <div class="position-relative mb-1 ">
+        <input
+          class="input-cal input-base inputFloating"
+          placeholder=""
+          [type]="passwordFieldType ? 'password' : 'text'"
+          formControlName="password"
+          [ngClass]="{
+            invalid: isFieldInvalid('password'),
+            success: isFieldValid('password')
+          }"
+        />
+        <label id="label-input">Password</label>
+        <i
+          (click)="togglePasswordVisibility()"
+          role="button"
+          class="fa-solid position-absolute passicon"
+          [class.fa-eye]="passwordFieldType"
+          [class.fa-eye-slash]="!passwordFieldType"
+        >
+        </i>
+      </div>
+      @if (registerFrom.get('password')?.errors && registerFrom.get('password')?.touched) {
+        <p class="error-message mb-3"> must start  an uppercase letter , symbols like &#64; and number</p>
+   
+      }
+    
+
+      <div class="position-relative mt-3">
+        <input
+          class="input-cal input-base inputFloating"
+          placeholder=""
+          [type]="repasswordFieldType ? 'password' : 'text'"
+          formControlName="confirmedPassword"
+          [ngClass]="{
+            invalid:
+              !registerFrom.get('rePassword')?.touched &&
+              registerFrom.getError('mismatch') &&
+                registerFrom.get('confirmedPassword')?.dirty,
+            success:
+              isFieldValid('confirmedPassword') &&
+              !registerFrom.getError('mismatch') &&
+                registerFrom.get('confirmedPassword')?.dirty
+          }"
+        />
+        <label id="label-input">Repassword</label>
+        <i
+          (click)="toggleRePasswordVisibility()"
+          role="button"
+          class="fa-solid position-absolute passicon"
+          [class.fa-eye]="repasswordFieldType"
+          [class.fa-eye-slash]="!repasswordFieldType"
+        >
+        </i>
+
+
+      </div>
+      @if (registerFrom.hasError('mismatch') &&registerFrom.get('confirmedPassword')?.touched) {
+          <p class="error-message mt-2">Passwords do not match</p>
+        }
+
+      } }
+    </form>
+
+    <div class="steps-action py-3">
+      @if (current == 0) {
+
+      <div class="action px-3 d-flex justify-content-end gap-3">
+        <button class="btn" type="submit" routerLink="/startregister">
+          <span>Back</span>
+        </button>
+        <button class="btn btnAcrive" (click)="ensureFirstStepData()">
+          <span *ngIf="!stepOneLoading">Next</span>
+          <span *ngIf="stepOneLoading" class="spinner"></span>
+        </button>
+      </div>
+
+      } @if (current === 1) {
+
+      <div class="action px-3 d-flex justify-content-end gap-3">
+        <button class="btn" (click)="pre()">
+          <span>Back</span>
+        </button>
+        <button class="btn btnAcrive" (click)="nextSoundingPage()">
+          <span>Next</span>
+        </button>
+      </div>
+      } @if (current === 2) {
+      <div class="action px-3 d-flex justify-content-end gap-3">
+        <button class="btn" (click)="pre()">
+          <span>Back</span>
+        </button>
+        <button class="btn btnAcrive"  (click)="submitForm()">
+          <span *ngIf="!loading">Done</span>
+          <span *ngIf="loading" class="spinner"></span>
+        </button>
+      </div>
+      }
+    </div>
+  </div>
+
+
+
+  <div class="ImgResiter">
+    <img src="Images/Login/StdudentsResgiter.png"  loading="lazy" alt="" />
+  </div>
+</div>

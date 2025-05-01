@@ -1,0 +1,248 @@
+@if(paginationCouponResponse.success && paginationCouponResponse.result.length > 0){
+<div class="scrollTable " #scrollContainer>
+  <table>
+    <thead>
+      <tr>
+        <th class="fixedWithdth">{{"coupon.tableCoupon.code" | translate}}</th>
+        <th class="fixedWithdth">{{"coupon.tableCoupon.notes" | translate}}</th>
+        <th class="fixedWithdth">{{"coupon.tableCoupon.allowedUsage" | translate}}</th>
+        <th class="fixedWithdth">{{"coupon.tableCoupon.actualUsage" | translate}}</th>
+        <th class="fixedWithdth">{{"coupon.tableCoupon.students" | translate}}</th>
+        <th class="fixedWithdth">{{"coupon.tableCoupon.limited" | translate}}</th>
+        <th class="fixedWithdth">{{"coupon.tableCoupon.discount" | translate}}</th>
+        <th class="fixedWithdth">{{"coupon.tableCoupon.priceAfterDiscount" | translate}}</th>
+        <th class="fixedWithdth">{{"coupon.tableCoupon.validFrom" | translate}}</th>
+
+        <th class="fixedWithdth">{{"coupon.tableCoupon.validTo" | translate}}</th>
+
+      </tr>
+
+    </thead>
+    <tbody>
+      @for (coupon of paginationCouponResponse.result; track $index ; let i= $index) {
+      <tr>
+
+        <td class="fixedWithdth">
+          <div class="Price d-flex gap-1 align-items-center">
+            <div class="icon">
+              <i class="fa-solid fa-qrcode" style="color: #92a1ad;"></i>
+            </div>
+            <p>{{coupon.code}}</p>
+
+          </div>
+
+        </td>
+        <td class="fixedWithdth">
+          <div class="Price d-flex gap-1 align-items-center">
+            <div class="icon">
+              <i class="fa-regular fa-note-sticky" style="color: #52b655;" ></i>
+            </div>
+            <p>{{coupon.notes}}</p>
+
+          </div>
+        </td>
+        <td class="fixedWithdth">
+          <div class="Price d-flex gap-1 align-items-center">
+            <div class="icon" >
+              <i class="fa-solid fa-user-check" style="color: #92a1ad;"></i>            </div>
+            <p>{{coupon.allowedUsage}}</p>
+
+          </div>
+        </td>
+
+        <td class="fixedWithdth">
+          <div class="Price d-flex gap-1 align-items-center">
+            <div class="icon" >
+              <i class="fa-solid fa-person-booth" style="color: #92a1ad;"></i>
+            
+            </div>
+            <p>{{coupon.actualUsage}}</p>
+
+          </div>
+        </td>
+        <td class="fixedWithdth">
+          <div class="Price avatar d-flex gap-1 align-items-center">
+            <p-avatar-group>
+              <p-avatar  *ngFor="let student of coupon.students.slice(0, 4)"
+                        [image]="baseUrl + student.photoUrl"
+                        [styleClass]="'small'"
+                        [pTooltip]="student.name"
+                        [tooltipPosition]="'top'"
+                        shape="circle">
+              </p-avatar>
+              <p-avatar *ngIf="coupon.students.length > 4"
+                        [label]="'+' + (coupon.students.length - 4)"
+                        [styleClass]="'small'"
+                        shape="circle">
+              </p-avatar>
+            </p-avatar-group>
+
+          </div>
+        </td>
+        <td class="fixedWithdth ">
+          <div class="Price d-flex gap-1 align-items-center">
+            <div class="icon">
+              <i 
+              [ngClass]="!coupon.limited ? 'fa-solid fa-xmark' : 'fa-solid fa-check'" 
+              [style.color]="!coupon.limited ? 'red' : 'green'">
+            </i>          
+            </div>
+
+          </div>
+        </td>
+
+        <td class="fixedWithdth">
+          <div class="Price d-flex gap-1 align-items-center">
+      
+            <p>{{coupon.discount}}
+              <span class="discoundType">
+                <span *ngIf="coupon.discountType === 1">%</span>
+                <span *ngIf="coupon.discountType === 0">EGP</span>
+              </span>
+            </p>
+
+          </div>
+        </td>
+
+
+
+
+
+
+        <td class="fixedWithdth">
+          <div class="Price d-flex gap-1 align-items-center">
+            <p>{{coupon.priceAfterDiscount}}</p>
+            <div class="icon">
+              <i class="fa-kit fa-transaction-cp"></i>
+            </div>
+
+          </div>
+        </td>
+
+        <td class="fixedWithdth">
+          <div class="d-flex gap-1 align-items-center">
+            <div class="custom-icon  rounded-2 bg-light">
+              <img alt="" loading="lazy" width="16px" height="16px"
+                src="https://s3.dinarcrm.com/assets/img/contacts/calendar-deal-list.svg">
+            </div>
+            <div class="date  d-flex  align-items-center">
+              {{ coupon.validFrom| date:'dd/MM/yyyy' }} <p class="dots"></p> {{ coupon.validFrom | date:'hh:mm a' }}
+            </div>
+          </div>
+
+        </td>
+        <td class="fixedWithdth">
+          <div class="d-flex gap-1 align-items-center">
+            <div class="custom-icon  rounded-2 bg-light">
+              <img alt="" loading="lazy" width="16px" height="16px"
+                src="https://s3.dinarcrm.com/assets/img/contacts/calendar-deal-list.svg">
+            </div>
+            <div class="date  d-flex  align-items-center">
+              {{ coupon.validTo| date:'dd/MM/yyyy' }} <p class="dots"></p> {{ coupon.validTo | date:'hh:mm a' }}
+            </div>
+          </div>
+
+        </td>
+
+
+      </tr>
+      }
+
+
+    </tbody>
+  </table>
+
+  @if(!isRTL()){
+  <div class="leftScroll" [class.d-none]=" !showLeftScroll" (mouseenter)="scrollTable( 'left')"
+    (mouseleave)="stopScroll()">
+    <i class="fa-solid fa-chevron-left"></i>
+
+  </div>
+  <div class="rightScroll" [class.d-none]=" !showRightScroll" (mouseenter)="scrollTable( 'right')"
+    (mouseleave)="stopScroll()">
+    <i class="fa-solid fa-chevron-right"></i>
+
+  </div>
+
+  }
+  @else {
+  <div class="rightScroll" [class.d-none]=" showRightScroll" (mouseenter)="scrollTable( 'right')"
+    (mouseleave)="stopScroll()">
+    <i class="fa-solid fa-chevron-left"></i>
+
+  </div>
+  <div class="leftScroll" [class.d-none]=" !showLeftScroll" (mouseenter)="scrollTable( 'left')"
+    (mouseleave)="stopScroll()">
+    <i class="fa-solid fa-chevron-right"></i>
+
+  </div>
+  }
+
+
+
+</div>
+
+<div class="footerTable px-3 py-2">
+
+  <div class="pagination d-flex align-items-center gap-3 justify-content-end">
+
+    <div class="paginationTabl  d-flex align-items-center justify-content-between px-3 "
+      [class.collapsePagination]="collapsePagination">
+
+
+      <div class="rightpagination d-flex gap-2">
+        <select (change)="onPageSizeChange($event)">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+        <div class="moveNext" *ngIf="collapsePagination" (click)="toggPagination()">
+          <i class="fa-solid fa-angle-left "></i>
+
+        </div>
+
+      </div>
+
+      <div class="leftpagination d-flex gap-3 ">
+
+        <p class="m-0"> {{paginationCouponResponse.pageIndex}} of {{paginationCouponResponse.totalPages}}</p>
+        <div class="close" (click)="toggPagination()">
+          <i class="fa-solid fa-xmark"></i>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="movePagination  d-flex align-items-center gap-3 ">
+
+      <!-- left => next -->
+      <button class="moveNext btn " type="button" [disabled]="!paginationCouponResponse.movePrevious"
+        (click)="getPrevCourses(paginationCouponResponse.pageIndex,paginationCouponResponse.pageSize)">
+        <i class="fa-solid fa-angle-left "></i>
+
+      </button>
+
+      <!-- left => previous -->
+      <button class="moveNext btn" type="button" [disabled]="!paginationCouponResponse.moveNext"
+        (click)="getRemainingCourses(paginationCouponResponse.pageIndex,paginationCouponResponse.pageSize)">
+        <i class="fa-solid fa-angle-right"></i>
+
+      </button>
+    </div>
+
+
+  </div>
+</div>
+
+
+}
+@else {
+
+<div class=" scrollTableNotFound text-center justify-content-center mt-2 d-flex align-items-center">
+  <img src="Images/calls-empty-illustrator (1).svg" height="300px" alt="">
+</div>
+
+}
