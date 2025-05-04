@@ -137,7 +137,9 @@
       "discountType": "نوع الخصم",
       "discount": "الخصم",
       "priceAfterDiscount": "السعر بعد الخصم",
-      "students": "الطلاب"
+      "students": "الطلاب",
+      "actions": "الاجراءات"
+
     },
     "mainContent": {
       "CouponList": "قائمة الاكواد",

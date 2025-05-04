@@ -1,10 +1,21 @@
-export interface IRating {
-    name: string;
-    stars: number;
-    comment?: string;
-    date: string;
-}
-export interface ReviewsByDate {
-    date: string;
-    reviews: IRating[];
+
+  export interface ReviewsByDate {
+    date: string
+    ratings: Rating[]
   }
+  
+  export interface Rating {
+    id: number
+    value: number
+    note: string
+    createdOn: string
+    student: Student
+  }
+  
+  export interface Student {
+    id: number
+    name: string
+    email: string
+    photoUrl: string
+  }
+  

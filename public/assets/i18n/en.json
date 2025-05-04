@@ -159,7 +159,8 @@
           "discountType": "Discount Type",
           "discount": "Discount",
           "priceAfterDiscount": "Price After Discount",
-          "students": "Students"
+          "students": "Students",
+          "actions": "Actions"
         },
         "mainContent": {
           "CouponList": "Coupon List",

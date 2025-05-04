@@ -1,13 +1,11 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
 import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose';
-import { CourseResult } from '../../../Courses/Core/interface/icourses';
 import { environment } from '../../../../Environments/environment';
 import { CommonModule, DatePipe } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TooltipModule } from 'primeng/tooltip';
-import { SplicTextPipe } from '../../../Courses/Core/Pipes/splic-text.pipe';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ICouponRespone } from '../../Core/Interfaces/icoupon-respone';
 import { AvatarGroup } from 'primeng/avatargroup';
 import { Avatar } from 'primeng/avatar';
@@ -22,6 +20,7 @@ import { Avatar } from 'primeng/avatar';
 export class TableCoupanComponent {
   pageSize: number = 5; 
  baseUrl =environment.baseUrlFiles
+ constructor(private router: Router) {}
 
   @Input()paginationCouponResponse: IPaginationResponse<ICouponRespone>  = {} as IPaginationResponse<ICouponRespone> ;
     @ViewChild('scrollContainer') scrollContainer!: ElementRef;
@@ -99,6 +98,10 @@ export class TableCoupanComponent {
     }
     
   
+    openDialog(couponId: number) { 
+      this.router.navigate([{ outlets: { dialog: ['viewCoupon', couponId] } }]);
+  
+    }
   
     ngOnDestroy() {
       clearInterval(this.scrollInterval);

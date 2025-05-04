@@ -1,14 +1,12 @@
 <div class="rating p-3">
-    @for (reviewsByDate of reviewsByDates; track $index) {
+    @for (reviewsByDate of reviewsByDates.result; track $index) {
       <div class="rateSeemDay mb-4">
         
-        <!-- التاريخ -->
         <div class="dateLine">
-          <span>{{ reviewsByDate.date | date: 'M/d/yyyy' }}</span>
+          <span> {{courseId}}{{ reviewsByDate.date | date: 'M/d/yyyy' }}</span>
         </div>
   
-        <!-- الليستة بتاعة كل شخص عمل ريفيو في نفس اليوم -->
-        @for (review of reviewsByDate.reviews; track $index) {
+        @for (review of reviewsByDate.ratings; track $index) {
           <div class="ratePersonal">
             <div class="cardRate">
               <div class="rateIcon position-relative">
@@ -22,25 +20,25 @@
   
               <div class="infoRate p-3">
                 <div class="headerRate d-flex align-items-center justify-content-between">
-                  <p class="title">{{ review.name }}</p>
+                  <p class="title">{{ review.student.name }}</p>
                   <p class="number">
-                    {{ review.date | date: 'hh:mm a' }}
+                    {{ review.createdOn| date: 'hh:mm a' }}
                   </p>
                 </div>
   
                 <div class="mt-2">
                   <div class="review">
                     <div class="stars d-flex gap-2 align-items-center">
-                        @for (star of getStarsArray(review.stars); track $index) {
+                        @for (star of getStarsArray(review.value); track $index) {
                           <i class="fa-solid fa-star " style="color: #FFE112;" ></i>
                         }
-                        @for (star of getStarsArray(5 - review.stars); track $index) {
+                        @for (star of getStarsArray(5 - review.value); track $index) {
                           <i class="fa-solid fa-star" style="color: #D8D8D8;"  ></i>
                         }
                       </div>
   
                     <div class="comment mt-2">
-                      <p class="text">{{ review.comment }}</p>
+                      <p class="text">{{ review.value }}</p>
                     </div>
                   </div>
                 </div>
@@ -52,10 +50,10 @@
       </div>
     }
     @empty {
-        <div class="d-flex flex-column align-items-center justify-content-center m-0 tabView">
+        <div class="d-flex flex-column align-items-center justify-content-center mt-5 t4abView">
             <img src="https://s3.dinarcrm.com/assets/img/contacts/activity-rating-dashboard-header.svg"
-                alt="" width="190px">
-                <p>{{'ViewCourse.NoRating' | translate}}</p>
+                alt="" width="190px" class="mt-5">
+                <p class="mt-5">{{'ViewCourse.NoRating' | translate}}</p>
         
         </div>
     }
