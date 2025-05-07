@@ -1,6 +1,6 @@
 <div class="overlay"></div>
 <div class="ShowPopup">
-    <app-top-pop NamePopup="View Coupon" [NameIcon]="'fa-solid fa-receipt'"></app-top-pop>
+    <app-top-pop NamePopup="View Coupon" (isVisibleChange)="closePopup()"  [NameIcon]="'fa-solid fa-receipt'"></app-top-pop>
 
     <div class="viewCourse my-2 p-2">
         <div class="leftCoupon w-50">
@@ -168,6 +168,46 @@
                   </div>
 
          
+            </div>
+
+            <div class="courseSelect mt-2">
+                <app-text-header [title]="'Discount'" [bgColor]="'#ff658469'"></app-text-header>
+                <div class="checkDicound d-flex gap-2 align-items-center mt-3 justify-content-between">
+                    <div class="seletDiscound">
+                      <p-select 
+                        [options]="discountTypes" 
+                        optionLabel="label"
+                        optionValue="value"
+                       >
+                      </p-select>
+                    </div>
+                    <div class="valuDiscound">
+                      <input type="number" class="input_Couser" placeholder="Enter Discount Value" formControlName="discount">
+                      <span class="price">
+                        EGP
+                      </span>
+                    </div>
+                  </div>
+                  
+
+
+            </div>
+
+            <div class="courseSelect mt-2">
+                <app-text-header [title]="'Coupon Activation Data'" [bgColor]="'#FFE065'"></app-text-header>
+                
+            <div class="date-time-container">
+                <div class="field">
+                <label>From</label>
+                <p>3-4-2024, 12:00 PM</p>
+                </div>
+            
+                <div class="field">
+                <label>TO</label>
+                <p>3-4-2024, 12:00 PM</p>
+                </div>
+            </div>
+                        
             </div>
         </div>
 
