@@ -1,5 +1,5 @@
 <div class="lessons">
-@for (lessom of [1,2,3,4,5,8,8,8,8,81,2,3,4,5,8,8,8,8,8,8]; track $index) {
+    @for (lesson of ListLessonData.result; track lesson.id) {
     <div class="lessonCard">
         <div class="drag">
             <span class="icon">
@@ -8,8 +8,8 @@
         </div>
         <div class="leftCardLesson">
             <span class="number">#{{$index+1}} : </span>
-            <span class="title">Lesson Title {{$index+1}}</span>
-        
+            <span class="title">{{lesson.name}}</span>
+
         </div>
         <div class="rightCardLesson d-flex align-items-center justify-content-center gap-2">
             <div class="information d-flex align-items-center justify-content-center gap-2">
@@ -17,14 +17,14 @@
                     <span class="icon">
                         <i class="fa-solid fa-video"></i>
                     </span>
-                    <p  class="number">4</p>
+                    <p class="number">{{lesson.videosCount}}</p>
                 </div>
                 <div class="line"></div>
                 <div class="video d-flex align-items-center justify-content-center gap-2">
                     <span class="icon">
                         <i class="fa-solid fa-eye"></i>
                     </span>
-                    <p  class="number">4</p>
+                    <p class="number">{{lesson.viewsCount}}</p>
                 </div>
                 <div class="line"></div>
                 <div class="video d-flex align-items-center justify-content-center gap-2">
@@ -32,22 +32,29 @@
                         <i class="fa-regular fa-clock"></i>
 
                     </span>
-                    <p  class="number">4</p>
+                    <p class="number">{{lesson.durationInMinutes}}</p>
                 </div>
                 <div class="line"></div>
             </div>
             <div class="view">
                 <button>
-            
+
                     <span class="text">View Details</span>
                 </button>
             </div>
         </div>
-         
+
     </div>
 
-  
-}
+
+    }
+    @empty {
+    <div
+        class="d-flex flex-column mt-5 align-items-center justify-content-center m-0 tabView ng-star-inserted"><img
+            src="Images/deal-empty-state.svg" alt="" width="190px">
+        <p class=" mt-5 ">No lesson with course</p>
+    </div>
+    }
 
 
 </div>
