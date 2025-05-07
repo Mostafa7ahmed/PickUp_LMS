@@ -27,9 +27,9 @@ import { HomestudentComponent } from './Pages/Students/homestudent/homestudent.c
 import { ChangePasswordPopupComponent } from './Pages/Auth/change-password-popup/change-password-popup.component';
 import { ViewCouponComponent } from './Pages/Coupon/Components/view-coupon/view-coupon.component';
 import { QuizlistComponent } from './Pages/quizlist/quizlist.component';
+import { CreateLessonComponent } from './Pages/lesson/Components/create-lesson/create-lesson.component';
 
 export const routes: Routes = [
-    //  Auth Router
 
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: "login",
@@ -90,10 +90,8 @@ export const routes: Routes = [
             { path: "homeInstructor", title:"Home Instrctor",component: HomeinstructorComponent},
             { path: "porfile", title:"porfile",component: PorfileComponent },
             {path: 'ChangePasswordPopup',   outlet: 'dialog',component: ChangePasswordPopupComponent },
-
             { path: "course", title:"Course",component: CoursesComponent },
             { path: "quizlist", title:"Quiz List",component: QuizlistComponent },
-
             { path: "course/:topicId/:activeTab", component: CoursesComponent, data: { defaultTab: "1" } },
             { path: "ViewCourse/:courseId", component:ViewCourseComponent },
             { path: "topics", title:"topic",component: TopicsComponent },
@@ -101,6 +99,8 @@ export const routes: Routes = [
             {path: 'deleteTopic/:deleteId',   outlet: 'dialog2',component: DeleteTopicComponent },
             {path: 'editTopic/:topicId',   outlet: 'dialog',component: EditTopicComponent },
             {path: 'addcourse',   outlet: 'dialog',component: AddCoursesComponent },
+            {path: 'addLesson/:courseId',   outlet: 'dialog',component: CreateLessonComponent },
+
             {path: 'coupan/:CoupanId',   outlet: 'dialog',component: CouponCourseComponent },
             {path: 'viewCoupon/:CoupanId',   outlet: 'dialog',component: ViewCouponComponent },
 

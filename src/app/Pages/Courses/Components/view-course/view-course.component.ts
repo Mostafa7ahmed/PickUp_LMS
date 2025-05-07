@@ -219,6 +219,13 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
   toggleShowQuickList(){
     this.isShowQuick = !this.isShowQuick;
   }
+  
+  createLesson(courseId: number) { 
+    this.router.navigate([{ outlets: { dialog: ['addLesson', courseId] } }]);
+    console.log(courseId)
+    this.isShowQuick = false;
+
+  }
 
 
   openDeletePopup(){

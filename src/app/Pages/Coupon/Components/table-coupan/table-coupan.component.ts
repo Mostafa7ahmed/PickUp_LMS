@@ -13,7 +13,7 @@ import { Avatar } from 'primeng/avatar';
 @Component({
   selector: 'app-table-coupan',
   standalone: true,
-  imports: [CommonModule  ,TranslateModule, MatTooltipModule, DatePipe ,TooltipModule, Avatar, AvatarGroup , RouterLink],
+  imports: [CommonModule  ,TranslateModule, MatTooltipModule, DatePipe ,TooltipModule, Avatar, AvatarGroup ],
   templateUrl: './table-coupan.component.html',
   styleUrls:[ './table-coupan.component.scss', '../../../Courses/Components/table-courses/table-courses.component.scss' , '../../../../../app/Core/Shared/CSS/horizontal-scrolling.scss'],
 })

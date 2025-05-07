@@ -249,7 +249,7 @@
                             <i class="fa-person-chalkboard fa-solid"></i>
 
                         </div>
-                        <p>{{'ViewCourse.Add Lesson' | translate}}</p>
+                        <p (click)="createLesson(CourseId)">{{'ViewCourse.Add Lesson' | translate}}</p>
                     </div>
                     <div class="quickAction  d-flex align-items-center gap-2">
                         <div class="tab-icon">
@@ -436,3 +436,4 @@
  (delete)="deleteCourse()"
 (close)="closeDeletePopup()"
 ></app-delete-course>
+
