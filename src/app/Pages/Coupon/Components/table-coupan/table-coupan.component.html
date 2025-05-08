@@ -150,7 +150,7 @@
               <i class="fa-solid fa-arrow-up-right-from-square" style="color: var(--gray2);"></i>
 
             </div>
-            <div class="custom-icon p-2 rounded-2 bg-light"  pTooltip="Delete" tooltipPosition="top">
+            <div class="custom-icon p-2 rounded-2 bg-light"  (click)="openDeletePopup(coupon.id)"  pTooltip="Delete" tooltipPosition="top">
               <i class="fa-solid fa-trash-can" style="color: var(--red-icon-hover);"></i>
 
             </div>
@@ -261,3 +261,11 @@
 </div>
 
 }
+<app-delete-coupon
+*ngIf="isDeletePopupVisible"
+(delete)="deleteCourse()"
+(close)="closeDeletePopup()"
+
+
+
+></app-delete-coupon>

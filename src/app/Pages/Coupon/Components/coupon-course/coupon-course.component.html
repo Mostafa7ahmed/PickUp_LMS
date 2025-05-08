@@ -153,21 +153,20 @@
           <app-text-header [title]="'Coupon usage'" [bgColor]="'#04865Fab'">
           </app-text-header>
           <label class="containerCheck">
-            <input type="checkbox" [checked]="selectedStudents.length <= 1" id="invalidCheck" >
-            <div class="checkmark ">
-
-            </div>
+            <input type="checkbox" [checked]="isLimited" (change)="onLimitedChange($event)">
+            <div class="checkmark"></div>
           </label>
         </div>
 
 
-        <div class="checkDicound" *ngIf="selectedStudents.length > 1">
+        <div class="checkDicound" >
           <div class="DiscountValuse">
             <div class="valuDiscound mt-2 w-100 ">
-              <input type="number"  formControlName="allowedUsage"  class="input_Couser w-100" placeholder="Enter Discount Value">
-              <span class="price">
-                EGP
-              </span>
+              <input 
+              type="number"
+              formControlName="allowedUsage"  
+              class="input_Couser w-100" 
+              placeholder="Enter Discount Value">
 
             </div>
           </div>

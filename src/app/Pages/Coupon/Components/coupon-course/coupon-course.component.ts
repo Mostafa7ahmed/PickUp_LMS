@@ -15,6 +15,7 @@ import { ListStudentsService } from '../../../Courses/Core/service/list-students
 import { ListCourse } from '../../../Courses/Core/interface/icourses';
 import { CreateCoupnService } from '../../Core/Service/create-coupn.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 interface DiscountType {
   label: string;
@@ -38,7 +39,7 @@ export class CouponCourseComponent implements OnInit {
   private _FormBuilder = inject(FormBuilder);
   private router = inject(Router);
   private _activatedRoute= inject(ActivatedRoute);
-
+  private nzMessageService = inject(NzMessageService);
   baseUrl: string = environment.baseUrlFiles;
   discountTypes : DiscountType[] = [
     { label: 'Percentage', value: 1 },
@@ -113,7 +114,16 @@ updateDiscountType() {
     event.stopPropagation(); 
     this.selectedStudents = this.selectedStudents.filter(s => s.studentId !== studentId);
   }
+  updateAllowedUsageBasedOnSelectedStudents() {
+    const count = this.selectedStudents.length;
+    this.formGroup.patchValue({
+      allowedUsage: count,
+      limited: count > 0
+    });
+  }
   isSelected(studentId: number): boolean {
+    this.updateAllowedUsageBasedOnSelectedStudents();
+
     return this.selectedStudents.some(s => s.studentId === studentId);
   }
  
@@ -170,53 +180,75 @@ updateDiscountType() {
   closePopup() {
     this.router.navigate([{ outlets: { dialog: null } }]);
   }
+  isLimited = true;
 
-  createCoupon() {
-    if (!this.formGroup.valid) {
-      console.log('Form is not valid!');
-      console.log(this.formGroup.value);
-      return;
-    }
-  
-    if (!this.selectedCourse) {
-      console.error('Course is not selected!');
-      return;
-    }
-  
-    const courseId = this.selectedCourse?.id;
-    if (!courseId) {
-      console.error('Course ID is missing!');
-      return;
-    }
-  
-    const formValue = this.formGroup.value;
-    const selectedStudentIds = this.selectedStudents.map(student => student.studentId);
-    const isLimited = selectedStudentIds.length > 1;
-    this.formGroup.patchValue({ limited: isLimited });
-  
-    const couponData = {
-      ...formValue,
-      courseId: courseId,  // تأكد من أن هذا ليس null
-      studentIds: selectedStudentIds
-    };
-  
-    console.log(couponData);
-  
-    if (this.formGroup.valid) {
-      this._createCoupnService.addCoupan(couponData).subscribe({
-        next: (response) => {
-          console.log('Coupon created successfully!', response);
-          this.closePopup();
-        },
-        error: (error) => {
-          console.error('Error creating coupon:', error);
-        }
-      });
-    }
-  
-    console.log(this.formGroup.value);
+onLimitedChange(event: Event) {
+  const checked = (event.target as HTMLInputElement).checked;
+  this.isLimited = checked;
+
+  if (!checked) {
+    this.selectedStudents = [];
+    this.formGroup.patchValue({
+      allowedUsage: 0
+    });
   }
-  
+
+  this.formGroup.patchValue({
+    limited: checked
+  });
+}
+
+createCoupon() {
+  console.log(this.couponResponse());
+
+  if (!this.formGroup.valid) {
+    console.log('Form is not valid!');
+    return;
+  }
+
+  if (!this.selectedCourse) {
+    console.error('Course is not selected!');
+    return;
+  }
+
+  const couponData = this.couponResponse();
+  console.log(couponData);
+
+  if (this.formGroup.valid) {
+    this._createCoupnService.addCoupan(couponData).subscribe({
+      next: (response) => {
+        console.log('Coupon created successfully!', response);
+        this.nzMessageService.success(response.message);
+        
+        this.closePopup();
+      },
+      error: (error) => { 
+        console.error('Error creating coupon:', error);
+        this.nzMessageService.error(error.error.message || 'Error creating coupon. Please try again.');
+
+      }
+    });
+  }
+
+}
+
+couponResponse() {
+  const selectedStudentIds = this.selectedStudents.map(student => student.studentId);
+  return {
+    courseId: this.formGroup.get('courseId')?.value,
+    code: this.formGroup.get('code')?.value,
+    active: this.formGroup.get('active')?.value,
+    limited: this.isLimited,
+    allowedUsage: this.isLimited ? this.formGroup.get('allowedUsage')?.value : 0,
+    discount: this.formGroup.get('discount')?.value,
+    discountType: this.formGroup.get('discountType')?.value,
+    validFrom: this.formGroup.get('validFrom')?.value,
+    validTo: this.formGroup.get('validTo')?.value,
+    notes: this.formGroup.get('notes')?.value,
+    studentIds: selectedStudentIds
+  };
+}
+
 
 
 

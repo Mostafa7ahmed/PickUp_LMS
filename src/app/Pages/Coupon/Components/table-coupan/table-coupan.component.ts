@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, inject, Input, Output, ViewChild } from '@angular/core';
 import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose';
 import { environment } from '../../../../Environments/environment';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -9,17 +9,24 @@ import { Router, RouterLink } from '@angular/router';
 import { ICouponRespone } from '../../Core/Interfaces/icoupon-respone';
 import { AvatarGroup } from 'primeng/avatargroup';
 import { Avatar } from 'primeng/avatar';
+import { DeleteCouponComponent } from "../delete-coupon/delete-coupon.component";
+import { DeleteCouponService } from '../../Core/Service/delete-coupon.service';
 
 @Component({
   selector: 'app-table-coupan',
   standalone: true,
-  imports: [CommonModule  ,TranslateModule, MatTooltipModule, DatePipe ,TooltipModule, Avatar, AvatarGroup ],
+  imports: [CommonModule, TranslateModule, MatTooltipModule, DatePipe, TooltipModule, Avatar, AvatarGroup, DeleteCouponComponent],
   templateUrl: './table-coupan.component.html',
   styleUrls:[ './table-coupan.component.scss', '../../../Courses/Components/table-courses/table-courses.component.scss' , '../../../../../app/Core/Shared/CSS/horizontal-scrolling.scss'],
 })
 export class TableCoupanComponent {
   pageSize: number = 5; 
- baseUrl =environment.baseUrlFiles
+ baseUrl =environment.baseUrlFiles;
+  isDeletePopupVisible = false;
+  selectedDeleteId: number | null = null;
+  showDeletePopup = false;
+ private _deleteCouponService = inject(DeleteCouponService);
+
  constructor(private router: Router) {}
 
   @Input()paginationCouponResponse: IPaginationResponse<ICouponRespone>  = {} as IPaginationResponse<ICouponRespone> ;
@@ -101,6 +108,32 @@ export class TableCoupanComponent {
     openDialog(couponId: number) { 
       this.router.navigate([{ outlets: { dialog: ['viewCoupon', couponId] } }]);
   
+    }
+
+    openDeletePopup(couponId: number) {
+      this.isDeletePopupVisible = true;
+      this.selectedDeleteId =couponId;
+  
+  
+    }
+    deleteCourse() {
+      if (this.selectedDeleteId) {
+        this._deleteCouponService.deleteCoupon(this.selectedDeleteId).subscribe(
+          (response) => {
+            this.isDeletePopupVisible = false;
+            this.selectedDeleteId = null;
+            this.getListCoupanEvent.emit({ pageNumber: 1, pageSize: this.pageSize });
+            console.log(response)
+          },
+          (error) => {
+            console.error('Error deleting coupon:', error);
+          }
+        )
+      }
+    }
+    closeDeletePopup() {
+      this.isDeletePopupVisible = false;
+      this.selectedDeleteId = null;
     }
   
     ngOnDestroy() {
