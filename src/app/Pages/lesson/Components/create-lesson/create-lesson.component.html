@@ -58,8 +58,8 @@
 
       </div>
 
-      <div class="lessonInformation mt-2 courseSelect">
-        <app-text-header [title]="'Lesson Lesson Data '" [bgColor]="'#40CDF4'"></app-text-header>
+      <div class="lessonInformation position-relative mt-2 courseSelect">
+        <app-text-header [title]="'Lesson Data '" [bgColor]="'#40CDF4'"></app-text-header>
         <div class="lessonData my-2">
           <div class="lessonName  my-2 d-flex flex-column gap-1">
             <label for="lessonName">Lesson Name</label>
@@ -70,6 +70,17 @@
             <textarea id="lessonName" class="input_Couser textarea_course"
               placeholder="You can write courses desription here"></textarea>
           </div>
+
+           <div class="photoUrl">
+            <div class="image-upload">
+              <div class="image-box" [style.backgroundImage]="imagePreview ? 'url(' + imagePreview + ')' : ''">
+                <input type="file" accept="image/*" (change)="onFileSelected($event)" id="upload" hidden />
+                <label for="upload" class="camera-icon">
+                  <i class="fas fa-camera"></i>
+                </label>
+              </div>
+            </div>
+           </div>
 
         </div>
       </div>
@@ -171,211 +182,7 @@
               </div>
             </div>
           </div>
-          <div class="drag d-flex align-items-center gap-2">
 
-            <div class="dragIcon">
-              <span class="icon">
-                <i class="fa-solid fa-grip-vertical"></i>
-              </span>
-            </div>
-            <div class="informationVedio flex-grow-1 d-flex justify-content-between align-items-center">
-              <div class="leftInfo">
-                <div class="vedioName d-flex gap-2 align-items-center">
-                  <span class="number">#1</span>
-                  <p class="mb-0 title">Video Name</p>
-                </div>
-
-              </div>
-              <div class="rightInfo d-flex flex-row-reverse align-items-center gap-2">
-                <div class="deleteIcon Icons" pTooltip="Delete Video" tooltipPosition="top">
-                  <i class="fa-regular fa-trash-can"></i>
-                </div>
-                <div class="editIcon Icons"   pTooltip="Edit Name Video" tooltipPosition="top">
-                  <i class="fa-regular fa-pen-to-square"></i>
-                </div>
-                <div class="lockIcon Icons" pTooltip="Make Private Video" tooltipPosition="top">
-                  <i class="fa-solid fa-lock"></i>
-
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="drag d-flex align-items-center gap-2">
-
-            <div class="dragIcon">
-              <span class="icon">
-                <i class="fa-solid fa-grip-vertical"></i>
-              </span>
-            </div>
-            <div class="informationVedio flex-grow-1 d-flex justify-content-between align-items-center">
-              <div class="leftInfo">
-                <div class="vedioName d-flex gap-2 align-items-center">
-                  <span class="number">#1</span>
-                  <p class="mb-0 title">Video Name</p>
-                </div>
-
-              </div>
-              <div class="rightInfo d-flex flex-row-reverse align-items-center gap-2">
-                <div class="deleteIcon Icons" pTooltip="Delete Video" tooltipPosition="top">
-                  <i class="fa-regular fa-trash-can"></i>
-                </div>
-                <div class="editIcon Icons"   pTooltip="Edit Name Video" tooltipPosition="top">
-                  <i class="fa-regular fa-pen-to-square"></i>
-                </div>
-                <div class="lockIcon Icons" pTooltip="Make Private Video" tooltipPosition="top">
-                  <i class="fa-solid fa-lock"></i>
-
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="drag d-flex align-items-center gap-2">
-
-            <div class="dragIcon">
-              <span class="icon">
-                <i class="fa-solid fa-grip-vertical"></i>
-              </span>
-            </div>
-            <div class="informationVedio flex-grow-1 d-flex justify-content-between align-items-center">
-              <div class="leftInfo">
-                <div class="vedioName d-flex gap-2 align-items-center">
-                  <span class="number">#1</span>
-                  <p class="mb-0 title">Video Name</p>
-                </div>
-
-              </div>
-              <div class="rightInfo d-flex flex-row-reverse align-items-center gap-2">
-                <div class="deleteIcon Icons" pTooltip="Delete Video" tooltipPosition="top">
-                  <i class="fa-regular fa-trash-can"></i>
-                </div>
-                <div class="editIcon Icons"   pTooltip="Edit Name Video" tooltipPosition="top">
-                  <i class="fa-regular fa-pen-to-square"></i>
-                </div>
-                <div class="lockIcon Icons" pTooltip="Make Private Video" tooltipPosition="top">
-                  <i class="fa-solid fa-lock"></i>
-
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="drag d-flex align-items-center gap-2">
-
-            <div class="dragIcon">
-              <span class="icon">
-                <i class="fa-solid fa-grip-vertical"></i>
-              </span>
-            </div>
-            <div class="informationVedio flex-grow-1 d-flex justify-content-between align-items-center">
-              <div class="leftInfo">
-                <div class="vedioName d-flex gap-2 align-items-center">
-                  <span class="number">#1</span>
-                  <p class="mb-0 title">Video Name</p>
-                </div>
-
-              </div>
-              <div class="rightInfo d-flex flex-row-reverse align-items-center gap-2">
-                <div class="deleteIcon Icons" pTooltip="Delete Video" tooltipPosition="top">
-                  <i class="fa-regular fa-trash-can"></i>
-                </div>
-                <div class="editIcon Icons"   pTooltip="Edit Name Video" tooltipPosition="top">
-                  <i class="fa-regular fa-pen-to-square"></i>
-                </div>
-                <div class="lockIcon Icons" pTooltip="Make Private Video" tooltipPosition="top">
-                  <i class="fa-solid fa-lock"></i>
-
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="drag d-flex align-items-center gap-2">
-
-            <div class="dragIcon">
-              <span class="icon">
-                <i class="fa-solid fa-grip-vertical"></i>
-              </span>
-            </div>
-            <div class="informationVedio flex-grow-1 d-flex justify-content-between align-items-center">
-              <div class="leftInfo">
-                <div class="vedioName d-flex gap-2 align-items-center">
-                  <span class="number">#1</span>
-                  <p class="mb-0 title">Video Name</p>
-                </div>
-
-              </div>
-              <div class="rightInfo d-flex flex-row-reverse align-items-center gap-2">
-                <div class="deleteIcon Icons" pTooltip="Delete Video" tooltipPosition="top">
-                  <i class="fa-regular fa-trash-can"></i>
-                </div>
-                <div class="editIcon Icons"   pTooltip="Edit Name Video" tooltipPosition="top">
-                  <i class="fa-regular fa-pen-to-square"></i>
-                </div>
-                <div class="lockIcon Icons" pTooltip="Make Private Video" tooltipPosition="top">
-                  <i class="fa-solid fa-lock"></i>
-
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="drag d-flex align-items-center gap-2">
-
-            <div class="dragIcon">
-              <span class="icon">
-                <i class="fa-solid fa-grip-vertical"></i>
-              </span>
-            </div>
-            <div class="informationVedio flex-grow-1 d-flex justify-content-between align-items-center">
-              <div class="leftInfo">
-                <div class="vedioName d-flex gap-2 align-items-center">
-                  <span class="number">#1</span>
-                  <p class="mb-0 title">Video Name</p>
-                </div>
-
-              </div>
-              <div class="rightInfo d-flex flex-row-reverse align-items-center gap-2">
-                <div class="deleteIcon Icons" pTooltip="Delete Video" tooltipPosition="top">
-                  <i class="fa-regular fa-trash-can"></i>
-                </div>
-                <div class="editIcon Icons"   pTooltip="Edit Name Video" tooltipPosition="top">
-                  <i class="fa-regular fa-pen-to-square"></i>
-                </div>
-                <div class="lockIcon Icons" pTooltip="Make Private Video" tooltipPosition="top">
-                  <i class="fa-solid fa-lock"></i>
-
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="drag d-flex align-items-center gap-2">
-
-            <div class="dragIcon">
-              <span class="icon">
-                <i class="fa-solid fa-grip-vertical"></i>
-              </span>
-            </div>
-            <div class="informationVedio flex-grow-1 d-flex justify-content-between align-items-center">
-              <div class="leftInfo">
-                <div class="vedioName d-flex gap-2 align-items-center">
-                  <span class="number">#1</span>
-                  <p class="mb-0 title">Video Name</p>
-                </div>
-
-              </div>
-              <div class="rightInfo d-flex flex-row-reverse align-items-center gap-2">
-                <div class="deleteIcon Icons" pTooltip="Delete Video" tooltipPosition="top">
-                  <i class="fa-regular fa-trash-can"></i>
-                </div>
-                <div class="editIcon Icons"   pTooltip="Edit Name Video" tooltipPosition="top">
-                  <i class="fa-regular fa-pen-to-square"></i>
-                </div>
-                <div class="lockIcon Icons" pTooltip="Make Private Video" tooltipPosition="top">
-                  <i class="fa-solid fa-lock"></i>
-
-                </div>
-              </div>
-            </div>
-          </div>
 
 
         </div>

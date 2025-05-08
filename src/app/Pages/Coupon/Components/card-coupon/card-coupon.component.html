@@ -1,66 +1,83 @@
 <div class="cardsCoupon p-3">
 
-    @for (copuom of [4,6,8,8,4,23,8]; track $index) {
-        <div class="cardcoupon p-3 mb-3">
-            <div class="title">MTS5{{$index}}</div>
-            <div class="infoCoupon d-flex align-items-center justify-content-between" >
-                <div class="leftCoupon d-flex flex-column gap-2">
-                    <span class="persentage">18%</span>
-                    <div class="studenets">
-                        <p-avatar-group>
-                            <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" styleClass="small custom-avatar"  shape="circle" />
-                            <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/asiyajavayant.png" styleClass="small custom-avatar" shape="circle" />
-                            <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png"styleClass="small custom-avatar"  shape="circle" />
-                            <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/ionibowcher.png" styleClass="small custom-avatar" shape="circle" />
-                            <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/xuxuefeng.png" styleClass="small custom-avatar" shape="circle" />
-                            <p-avatar label="+8" shape="circle" styleClass="small custom-avatar" />
-                        </p-avatar-group>
-                    </div>
-                    <div class="timeExpire d-flex align-items-center gap-5">
-                        
+    @for (copuon of paginationCouponResponse.result ; track copuon.id) {
+    <div class="cardcoupon p-3 mb-3">
+        <div class="title">{{copuon.code}}</div>
+        <div class="infoCoupon d-flex align-items-center justify-content-between">
+            <div class="leftCoupon d-flex flex-column gap-2">
+                <span class="persentage">{{copuon.discount}}
+                    <span class="discoundType">
+                        <span *ngIf="copuon.discountType === 1">%</span>
+                        <span *ngIf="copuon.discountType === 0">EGP</span>
+                    </span>
+                </span>
+                <div class="studenets">
+                    <p-avatar-group>
+                        <p-avatar *ngFor="let student of copuon.students.slice(0, 4)"
+                            [image]="baseUrl + student.photoUrl" [styleClass]="'small'" [pTooltip]="student.name"
+                            [tooltipPosition]="'top'" shape="circle">
+                        </p-avatar>
+                        <p-avatar *ngIf="copuon.students.length > 4" [label]="'+' + (copuon.students.length - 4)"
+                            [styleClass]="'small'" shape="circle">
+                        </p-avatar>
+                    </p-avatar-group>
+                </div>
+                <div class="timeExpire d-flex align-items-center gap-5">
+
                     <div class="dateExpire d-flex gap-2 align-items-center">
-                        <p class="number">21-3-2024</p>
+                        <p class="number">{{copuon.validFrom | date:'dd/MM/yyyy' }}</p>
+
                         <i class="fa-solid fa-angles-right"></i>
-                        <p class="number">21-5-2024</p>
-    
+                        <p class="number"> {{ copuon.validTo| date:'dd/MM/yyyy' }}</p>
+
                     </div>
                     <div class="time d-flex gap-2 align-items-center">
                         <div class="fromTime">
                             <i class="fa-solid fa-clock  mx-2"></i>
-                            <span class="number">10:00</span>
+                            <span class="number"> {{ copuon.validFrom | date:'hh:mm a' }}</span>
                         </div>
                         <i class="fa-solid fa-angles-right"></i>
-    
+
                         <div class="fromTime">
                             <i class="fa-solid fa-clock mx-2"></i>
-                            <span class="number">12:00</span>
+                            <span class="number"> {{ copuon.validTo | date:'hh:mm a' }}</span>
                         </div>
-                
-                
+
+
                     </div>
-                    </div>
-                    <div class="description">
-                        <p class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.</p>
-                    </div>
-    
                 </div>
-                <div class="rightCoupon">
-                    <div class="view">
-                        <button>View Coupon</button>
-                    </div>
-                    <div class="numberStgudent ">
-                        <p class="number">  <i class="fa-solid fa-graduation-cap mx-1" style="color:#C95D20 ;"></i> 20 </p>
-    
-                        <p class="number">  <i class="fa-solid fa-graduation-cap mx-1" style="color:#24C12B ;"></i> 20 </p>
-                    </div>
-    
+                <div class="description">
+                    <p class="text">{{copuon.notes}}</p>
                 </div>
-             
+
             </div>
-    
+            <div class="rightCoupon">
+                <div class="view">
+                    <button (click)="openDialog(copuon.id)">View Coupon</button>
+                </div>
+                <div class="numberStgudent ">
+                    <p class="number"> <i class="fa-solid fa-graduation-cap mx-1" style="color:#C95D20 ;"></i>
+                        {{copuon.allowedUsage}} </p>
+
+                    <p class="number"> <i class="fa-solid fa-graduation-cap mx-1" style="color:#24C12B ;"></i>
+                        {{copuon.actualUsage}} </p>
+                </div>
+
+            </div>
+
         </div>
-    
-      
+
+    </div>
+
+
+    }
+    @empty {
+    <div 
+        class="d-flex flex-column align-items-center mt-5 justify-content-center m-0 tabView ng-star-inserted"><img
+             src="Images/deal-empty-state.svg" alt="" width="190px">
+        <p >No coupon with course</p>
+    </div>
+
     }
 
 

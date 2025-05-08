@@ -226,7 +226,11 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
     this.isShowQuick = false;
 
   }
-
+  createCoupon() {
+    this.router.navigate([{ outlets: { dialog: ['coupan', this.CourseId] } }]);
+    this.isShowQuick = false;
+  }
+ 
 
   openDeletePopup(){
     this.isDeletePopupVisible = true;
