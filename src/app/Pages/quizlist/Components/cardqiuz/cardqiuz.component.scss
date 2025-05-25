@@ -1,0 +1,55 @@
+
+.search-container {
+    background-color: #fff;
+    padding: 0 20px ;
+    border-radius: 6px;
+}
+ .inputSearch  input{
+  border-radius: 6px;
+  border: 1px solid #E5E5E5;
+  width: 303px;
+  height: 36px;
+  padding: 4px 12px;
+  font-size: 13px !important;
+  outline: none;
+}
+.inputSearch  input:hover , .inputSearch  input:focus{
+  border: 1px solid #7ad34c;
+}
+
+.addCourse button {
+  outline: none;
+  border: none;
+  background-color: #7ad34c;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 10px;
+  justify-content: center;
+  height: 36px;
+  min-width: 100px;
+  color: #fff;
+}
+
+
+.advanced-filter-container{
+  border-radius: 6px;
+  border: 1px solid #E5E5E5;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .2s all ease-in-out; 
+}
+.my-svg path{
+
+  fill: #E5E5E5 !important;
+}
+ .advanced-filter-container:hover , .advanced-filter-container:hover .my-svg path
+  {
+  border-color: #7ad34c;
+  fill: #7ad34c !important;
+}

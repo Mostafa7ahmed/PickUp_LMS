@@ -28,87 +28,97 @@ import { ChangePasswordPopupComponent } from './Pages/Auth/change-password-popup
 import { ViewCouponComponent } from './Pages/Coupon/Components/view-coupon/view-coupon.component';
 import { QuizlistComponent } from './Pages/quizlist/quizlist.component';
 import { CreateLessonComponent } from './Pages/lesson/Components/create-lesson/create-lesson.component';
+import { AddquizlistComponent } from './Pages/quizlist/Components/addquizlist/addquizlist.component';
 
 export const routes: Routes = [
 
     { path: '', redirectTo: 'login', pathMatch: 'full' },
-    { path: "login",
-         title:"Login",
-         canActivate: [isloginguardsGuard],
-        component: LoginComponent 
+    {
+        path: "login",
+        title: "Login",
+        canActivate: [isloginguardsGuard],
+        component: LoginComponent
     },
-    { path: "startregister", 
-      title:"startregister",
-     component: IntoregisterComponent,
-     canActivate: [isloginguardsGuard],
+    {
+        path: "startregister",
+        title: "startregister",
+        component: IntoregisterComponent,
+        canActivate: [isloginguardsGuard],
 
-     },
-     { path: "RegisterStudent", title:"RegisterStudent",
-        component: StudentRegisterComponent ,        
-         canActivate: [isloginguardsGuard],
     },
-    { path: "RegisterInstructor", 
-        title:"RegisterInstructor",
+    {
+        path: "RegisterStudent", title: "RegisterStudent",
+        component: StudentRegisterComponent,
+        canActivate: [isloginguardsGuard],
+    },
+    {
+        path: "RegisterInstructor",
+        title: "RegisterInstructor",
         component: InstructorRegisterComponent,
         canActivate: [isloginguardsGuard],
 
-     },
-     { path: "ForgotPassword",
-        title:"ForgotPassword", 
+    },
+    {
+        path: "ForgotPassword",
+        title: "ForgotPassword",
         component: ForgotpasswordComponent,
         canActivate: [isloginguardsGuard],
 
-     },
-     { path: "changepassword",
-        title:"changepassword", 
+    },
+    {
+        path: "changepassword",
+        title: "changepassword",
         component: ChangepasswordComponent,
         canActivate: [isloginguardsGuard],
 
-     },
-     {   path: "ConfirmEmail",
-         title:"ConfirmEmail",
-         component: ConfirmEmailComponent,
-         canActivate: [isloginguardsGuard],
-     },
-     {
-         path:'',
-         canActivate: [notloginguardsGuard],
-         children:[
-             { path: '', redirectTo: 'homeStudent', pathMatch: 'full' },
-             { path: "homeStudent", title:"Home Student",component: HomestudentComponent},
- 
- 
- 
-         ]
-     },
+    },
     {
-        path:'',
-        component:RoutesinstructorComponent,
+        path: "ConfirmEmail",
+        title: "ConfirmEmail",
+        component: ConfirmEmailComponent,
+        canActivate: [isloginguardsGuard],
+    },
+    {
+        path: '',
         canActivate: [notloginguardsGuard],
-        children:[
+        children: [
+            { path: '', redirectTo: 'homeStudent', pathMatch: 'full' },
+            { path: "homeStudent", title: "Home Student", component: HomestudentComponent },
+
+
+
+        ]
+    },
+    {
+        path: '',
+        component: RoutesinstructorComponent,
+        canActivate: [notloginguardsGuard],
+        children: [
             { path: '', redirectTo: 'homeInstructor', pathMatch: 'full' },
-            { path: "homeInstructor", title:"Home Instrctor",component: HomeinstructorComponent},
-            { path: "porfile", title:"porfile",component: PorfileComponent },
-            {path: 'ChangePasswordPopup',   outlet: 'dialog',component: ChangePasswordPopupComponent },
-            { path: "course", title:"Course",component: CoursesComponent },
-            { path: "quizlist", title:"Quiz List",component: QuizlistComponent },
+            { path: "homeInstructor", title: "Home Instrctor", component: HomeinstructorComponent },
+            { path: "porfile", title: "porfile", component: PorfileComponent },
+            { path: 'ChangePasswordPopup', outlet: 'dialog', component: ChangePasswordPopupComponent },
+            { path: "course", title: "Course", component: CoursesComponent },
+            { path: "quizlist", title: "Quiz List", component: QuizlistComponent },
             { path: "course/:topicId/:activeTab", component: CoursesComponent, data: { defaultTab: "1" } },
-            { path: "ViewCourse/:courseId", component:ViewCourseComponent },
-            { path: "topics", title:"topic",component: TopicsComponent },
-            {path: 'addTopic',   outlet: 'dialog',component: AddTopicComponent },
-            {path: 'deleteTopic/:deleteId',   outlet: 'dialog2',component: DeleteTopicComponent },
-            {path: 'editTopic/:topicId',   outlet: 'dialog',component: EditTopicComponent },
-            {path: 'addcourse',   outlet: 'dialog',component: AddCoursesComponent },
-            {path: 'addLesson/:courseId',   outlet: 'dialog',component: CreateLessonComponent },
+            { path: "ViewCourse/:courseId", component: ViewCourseComponent },
+            { path: "topics", title: "topic", component: TopicsComponent },
+            { path: 'addTopic', outlet: 'dialog', component: AddTopicComponent },
+            { path: 'addQuiz', outlet: 'dialog', component: AddquizlistComponent },
 
-            {path: 'coupan/:CoupanId',   outlet: 'dialog',component: CouponCourseComponent },
-            {path: 'viewCoupon/:CoupanId',   outlet: 'dialog',component: ViewCouponComponent },
+            { path: 'deleteTopic/:deleteId', outlet: 'dialog2', component: DeleteTopicComponent },
+            { path: 'editTopic/:topicId', outlet: 'dialog', component: EditTopicComponent },
+            { path: 'addcourse', outlet: 'dialog', component: AddCoursesComponent },
+            { path: 'addLesson/:courseId', outlet: 'dialog', component: CreateLessonComponent },
 
-            {path: 'Couponslist',  title:"Coupons",component: CouponListComponent },
+            { path: 'coupan/:CoupanId', outlet: 'dialog', component: CouponCourseComponent },
+            { path: 'viewCoupon/:CoupanId', outlet: 'dialog', component: ViewCouponComponent },
+
+            { path: 'Couponslist', title: "Coupons", component: CouponListComponent },
             { path: 'ViewTopic/:id', outlet: 'dialog', component: ViewTopicandStageComponent },
-            {path: 'addStage/:StageId',   outlet: 'dialog2',component: AddStageComponent },
-            {path: 'editStage/:StageId',   outlet: 'dialog2',component: EditStageComponent },
-            { path: "**", title:"notFound",component: HomeinstructorComponent },
+            { path: 'addStage/:StageId', outlet: 'dialog2', component: AddStageComponent },
+            { path: 'editStage/:StageId', outlet: 'dialog2', component: EditStageComponent },
+            { path: "**", title: "notFound", component: HomeinstructorComponent },
 
 
         ]

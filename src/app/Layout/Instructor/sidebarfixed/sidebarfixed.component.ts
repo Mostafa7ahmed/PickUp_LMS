@@ -8,7 +8,7 @@ import { TooltipModule } from 'primeng/tooltip';
 @Component({
   selector: 'app-sidebarfixed',
   standalone: true,
-  imports: [TooltipModule, RouterLinkActive, TranslateModule,CommonModule, RouterLink],
+  imports: [TooltipModule, RouterLinkActive, TranslateModule, CommonModule, RouterLink],
   templateUrl: './sidebarfixed.component.html',
   styleUrl: './sidebarfixed.component.scss',
 
@@ -36,7 +36,7 @@ export class SidebarfixedComponent {
     this.activeIndex = null;
   }
 
-  
+
 
 
 
@@ -53,8 +53,14 @@ export class SidebarfixedComponent {
     {
       name: 'Sidebar.Courses',
       Icon: 'fa-solid fa-person-chalkboard',
-      list: ["Sidebar.Board", "Sidebar.CourseList", "Sidebar.Dashboard" , "Sidebar.quizlist"],
-      routes: ["topics", "course", "Couponslist" , "quizlist"]
+      list: ["Sidebar.Board", "Sidebar.CourseList", "Sidebar.Dashboard"],
+      routes: ["topics", "course", "Couponslist"]
+    },
+    {
+      name: 'Sidebar.curricula',
+      Icon: 'fa-solid fa-person-chalkboard',
+      list: ["Sidebar.Dashboard", "Sidebar.quizlist"],
+      routes: ["Couponslist", "quizlist"]
     },
     {
       name: 'Sidebar.Follower',
@@ -62,12 +68,7 @@ export class SidebarfixedComponent {
       list: ["Sidebar.Users", "Sidebar.Students"],
       routes: ["Users", "Students"]
     },
-    {
-      name: 'Sidebar.Notification',
-      Icon: 'fa-solid fa-bell',
-      list: ["Sidebar.Message", "Sidebar.Notification"],
-      routes: ["Message", "Notification"]
-    },
+
     {
       name: 'Sidebar.Setting',
       Icon: 'fa-solid fa-gear',
@@ -75,7 +76,7 @@ export class SidebarfixedComponent {
       routes: ["Message", "login"]
     }
   ];
-  
+
 
   openIndex: number | null = null;
   isRotated: boolean = false;

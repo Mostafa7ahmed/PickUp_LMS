@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { NavbarinstructorComponent } from "../navbarinstructor/navbarinstructor.component";
 import { RouterOutlet } from '@angular/router';
-import { SidebarfixedComponent } from "../../sidebarfixed/sidebarfixed.component";
 import { CommonModule } from '@angular/common';
+import { SidebarfixedComponent } from '../sidebarfixed/sidebarfixed.component';
 
 @Component({
   selector: 'app-routesinstructor',
@@ -13,10 +13,10 @@ import { CommonModule } from '@angular/common';
 })
 export class RoutesinstructorComponent {
 
-  isCollapsed = false; // الحالة الأولية للشريط الجانبي غير مصغرة
+  isCollapsed = false; 
 
   toggleSidebar() {
-    this.isCollapsed = !this.isCollapsed; // التبديل بين المصغر والموسع
+    this.isCollapsed = !this.isCollapsed;
   }
 
 }
