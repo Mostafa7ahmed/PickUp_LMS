@@ -45,35 +45,30 @@ export class SidebarfixedComponent {
 
   ListSidebarOpen = [
     {
-      name: 'Sidebar.Transaction',
-      Icon: 'fa-kit fa-transaction-cp',
-      list: ["Sidebar.TransactionList", "Sidebar.Transaction"],
-      routes: ["Transactionlist", "Dashboard"]
+      name: 'Home Page',
+      Icon: 'fa-solid fa-house',
+      routes: "home"
     },
     {
-      name: 'Sidebar.Courses',
+      name: 'Board',
+      Icon: 'fa-solid fa-envelopes-bulk',
+      routes: "topics"
+    },
+    {
+      name: 'Course',
       Icon: 'fa-solid fa-person-chalkboard',
-      list: ["Sidebar.Board", "Sidebar.CourseList", "Sidebar.Dashboard"],
-      routes: ["topics", "course", "Couponslist"]
+      routes: "course"
     },
     {
-      name: 'Sidebar.curricula',
-      Icon: 'fa-solid fa-person-chalkboard',
-      list: ["Sidebar.Dashboard", "Sidebar.quizlist"],
-      routes: ["Couponslist", "quizlist"]
-    },
-    {
-      name: 'Sidebar.Follower',
-      Icon: 'fa-kit fa-213-frame',
-      list: ["Sidebar.Users", "Sidebar.Students"],
-      routes: ["Users", "Students"]
+      name: 'Quiz',
+      Icon: 'fa-solid fa-clipboard-question',
+      routes: "quizlist"
     },
 
     {
-      name: 'Sidebar.Setting',
-      Icon: 'fa-solid fa-gear',
-      list: ["Sidebar.Message", "Sidebar.Logout"],
-      routes: ["Message", "login"]
+      name: 'Coupon',
+      Icon: 'fa-receipt fa-solid',
+      routes: "Couponslist"
     }
   ];
 

@@ -124,32 +124,40 @@
 .navSide ul .list-item {
   cursor: pointer;
 }
-.list-item:last-child ,.nav ul li:last-child{
-  position: absolute;
-  bottom: 50px;
-  width: 90%;
-}
+// .list-item:last-child ,.nav ul li:last-child{
+//   position: absolute;
+//   bottom: 50px;
+//   width: 90%;
+// }
 
 .navSide ul .list-item .nav-link {
-  padding: 15px;
+  padding: 15px 8px;
   background-color: transparent;
-  border-radius: 15px;
+  border-radius: 10px;
   transition:  0.4s background-color ease-in-out;
   text-wrap: unset;
+  margin-bottom: 10px;
 }
-
+.navSide ul .list-item .nav-link:hover {
+  background-color: #24c12b2b !important;
+  color: #000 !important;
+}
 .navSide ul .list-item .nav-click {
-  padding: 15px;
+  padding: 15px 8px;
   background: #24c12b2b;
-  border-radius: 7px;
+  border-radius: 10px;
+    margin-bottom: 10px;
+
 }
 
 .navSide ul .list-item .nav-link p {
   color: #6b6d6c;
-  font-size: 14px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+    white-space: nowrap;
+
 }
 
 .navSide ul .list-item .nav-click p {
@@ -157,13 +165,14 @@
 }
 
 .navSide ul .list-item i {
-  font-size: 13px !important;
+  font-size: 16px !important;
   color: #6b6d6c;
 
 }
 
 .navSide ul .list-item .nav-click i {
   color: var(--color_link);
+  font-size: 16px !important;
 }
 
 .cardlist {
@@ -333,6 +342,7 @@ ul{
   color: #000000 !important;
   font-size: 14px;
   font-weight: 500;
+  white-space: nowrap;
 }
 .nav ul li .showRouters .TextRouter span{
   display: block;
