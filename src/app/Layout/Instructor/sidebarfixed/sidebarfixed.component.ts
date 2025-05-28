@@ -47,7 +47,7 @@ export class SidebarfixedComponent {
     {
       name: 'Home Page',
       Icon: 'fa-solid fa-house',
-      routes: "home"
+      routes: "homeInstructor"
     },
     {
       name: 'Board',
