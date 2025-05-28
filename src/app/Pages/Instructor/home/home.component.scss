@@ -132,12 +132,17 @@
   color: #6b7280;
   text-decoration: none;
 }
-
+.listItem{
+  height: 240px;
+  overflow-y: auto;
+    scrollbar-width: none;
+}
 .entry-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
+
 }
 
 .entry-left {

@@ -1,178 +1,202 @@
 <div class="homePage mt-3">
-    <div class="header cover mb-4">
-        <div class="bgCard"></div>
-        <div class="information">
-            <div class="icon">
-                👋
-            </div>
-            <div class="nameInstrctor">
-                <h4> Welcome Back , <br> Dr Amr Mausad </h4>
-
-            </div>
-
-
-        </div>
-        <div class="cardWidget d-flex justify-content-between gap-4 p-3">
-            <div class="cardinfo">
-                <div class="informationCard">
-                    <h5 class="title">Total Students</h5>
-                    <span class="number">2,845</span>
-                </div>
-                <div class="iconCard">
-                    <i class="fa-solid fa-user-large"></i>
-
-                </div>
-
-            </div>
-            <div class="cardinfo">
-                <div class="informationCard">
-                    <h5 class="title">Active Courses</h5>
-                    <span class="number">2,845</span>
-                </div>
-                <div class="iconCard iconCourse">
-
-                    <i class="fa-solid fa-person-chalkboard"></i>
-                </div>
-            </div>
-
-            <div class="cardinfo">
-                <div class="informationCard">
-                    <h5 class="title">Total Revenue</h5>
-                    <span class="number">2,845 $</span>
-                </div>
-                <div class="iconCard iconMoney">
-                    <i class="fa-solid fa-money-bill"></i>
-
-                </div>
-            </div>
-
-            <div class="cardinfo">
-                <div class="informationCard">
-                    <h5 class="title">Average Rating</h5>
-                    <span class="number">4.9</span>
-                </div>
-                <div class="iconCard iconStar">
-                    <i class="fa-solid fa-star"></i>
-                </div>
-            </div>
-
-
-        </div>
-
+  <div class="header cover mb-4">
+    <div class="bgCard"></div>
+    <div class="information">
+      <div class="icon">👋</div>
+      <div class="nameInstrctor">
+        <h4>
+          Welcome Back , <br />
+          Dr Amr Mausad
+        </h4>
+      </div>
     </div>
-    <div class="  p-3 py-1">
-        <div class="row g-4 mt-4">
-            <!-- Top Instructors -->
-            <div class="col-md-6">
-                <div class="custom-card">
-                    <div class="card-header-custom">
-                        <h5>Top Instructors</h5>
-                        <a href="#">View All &rsaquo;</a>
-                    </div>
-                    <div *ngFor="let instructor of instructors" class="entry-row">
-                        <div class="entry-left">
-                            <div class="avatar" [ngStyle]="{'background-color': instructor.bgColor}">
-                                {{ instructor.initials }}
-                            </div>
-                            <div class="entry-info">
-                                <div class="name">{{ instructor.name }}</div>
-                                <div class="desc">{{ instructor.subject }}</div>
-                            </div>
-                        </div>
-                        <div class="entry-right">
-                            <div class="rating">⭐ {{ instructor.rating }}</div>
-                            <div class="courses">{{ instructor.courses }} courses</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Top Students -->
-            <div class="col-md-6">
-                <div class="custom-card">
-                    <div class="card-header-custom">
-                        <h5>Top Students</h5>
-                        <a href="#">View All &rsaquo;</a>
-                    </div>
-                    <div *ngFor="let student of students" class="entry-row">
-                        <div class="entry-left">
-                            <div class="avatar" [ngStyle]="{'background-color': student.bgColor}">
-                                {{ student.initials }}
-                            </div>
-                            <div class="entry-info">
-                                <div class="name">{{ student.name }}</div>
-                                <div class="desc">Completed {{ student.completed }} courses</div>
-                            </div>
-                        </div>
-                        <div class="entry-right">
-                            <div class="badge-title">🏅 {{ student.title }}</div>
-                            <div class="score">{{ student.score }} avg. score</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="cardWidget d-flex justify-content-between gap-4 p-3">
+      <div class="cardinfo">
+        <div class="informationCard">
+          <h5 class="title">Total Students</h5>
+          <span class="number">2,845</span>
         </div>
+        <div class="iconCard">
+          <i class="fa-solid fa-user-large"></i>
+        </div>
+      </div>
+      <div class="cardinfo">
+        <div class="informationCard">
+          <h5 class="title">Active Courses</h5>
+          <span class="number">2,845</span>
+        </div>
+        <div class="iconCard iconCourse">
+          <i class="fa-solid fa-person-chalkboard"></i>
+        </div>
+      </div>
+
+      <div class="cardinfo">
+        <div class="informationCard">
+          <h5 class="title">Total Revenue</h5>
+          <span class="number">2,845 $</span>
+        </div>
+        <div class="iconCard iconMoney">
+          <i class="fa-solid fa-money-bill"></i>
+        </div>
+      </div>
+
+      <div class="cardinfo">
+        <div class="informationCard">
+          <h5 class="title">Average Rating</h5>
+          <span class="number">4.9</span>
+        </div>
+        <div class="iconCard iconStar">
+          <i class="fa-solid fa-star"></i>
+        </div>
+      </div>
     </div>
-    <div class="  p-3 py-2">
+  </div>
+  <div class="p-3 py-1">
+    <div class="row g-4 mt-4">
+      <!-- Top Instructors -->
+      <div class="col-md-6">
         <div class="custom-card">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="fw-bold mb-0">Top Rated Courses</h5>
+          <div class="card-header-custom">
+            <h5>Top Instructors</h5>
+          </div>
+                  <div class="listItem">
+
+     @for (instructor of instructors; track $index) {
+           
+        <div  class="entry-row">
+            <div class="entry-left">
+              <div
+                class="avatar"
+                [ngStyle]="{ 'background-color': instructor.bgColor }"
+              >
+                {{ instructor.initials }}
+              </div>
+              <div class="entry-info">
+                <div class="name">{{ instructor.name }}</div>
+                <div class="desc">{{ instructor.subject }}</div>
+              </div>
             </div>
-
-            <div class="table-responsive">
-                <table class="table align-middle custom-table">
-                    <thead>
-                        <tr>
-                            <th>Course</th>
-                            <th>Topics</th>
-                            <th>Students</th>
-                            <th>Rating</th>
-                            <th>Revenue</th>
-                            <th>Stage</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let course of courses">
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="circle-icon me-2" [ngStyle]="{'background-color': course.color}">
-                                        <img src="Images/Icons/Student.svg" alt="icon" width="16" *ngIf="course.icon" />
-                                    </div>
-                                    <div>
-                                        <div class="fw-semibold">{{ course.name }}</div>
-                                        <div class="text-muted small">{{ course.modules }} modules • {{ course.hours }}
-                                            hours</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>{{ course.topic }}</td>
-                            <td>{{ course.students | number }}</td>
-                            <td>
-                                <div class="d-flex align-items-center gap-1">
-                                    <span *ngFor="let star of getStars(course.rating)" class="text-warning">★</span>
-
-                                    <ng-container *ngIf="course.rating < 5">
-                                        <span *ngFor="let s of getEmptyStars(course.rating)" class="text-muted">★</span>
-                                    </ng-container>
-
-                                    <span class="text-muted small">({{ course.reviews }})</span>
-                                </div>
-                            </td>
-                            <td>${{ course.revenue | number }}</td>
-                            <td>
-                                <div class="stageName d-flex gap-1 align-items-center ">
-                                    <div class="progressBar" [style.border-color]="course.color"></div>
-                                    <p>{{course.stage }}</p>
-                                </div>
-
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="entry-right">
+              <div class="rating">⭐ {{ instructor.rating }}</div>
+              <div class="courses">{{ instructor.courses }} courses</div>
             </div>
+          </div>
+            
+          }
+                </div>
+
         </div>
+      </div>
+
+      <!-- Top Students -->
+      <div class="col-md-6">
+        <div class="custom-card">
+          <div class="card-header-custom">
+            <h5>Top Students</h5>
+          </div>
+          <div class="listItem">
+              <div *ngFor="let student of students" class="entry-row">
+            <div class="entry-left">
+              <div
+                class="avatar"
+                [ngStyle]="{ 'background-color': student.bgColor }"
+              >
+                {{ student.initials }}
+              </div>
+              <div class="entry-info">
+                <div class="name">{{ student.name }}</div>
+                <div class="desc">
+                  Completed {{ student.completed }} courses
+                </div>
+              </div>
+            </div>
+            <div class="entry-right">
+              <div class="badge-title">🏅 {{ student.title }}</div>
+              <div class="score">{{ student.score }} avg. score</div>
+            </div>
+          </div>
+          </div>
+        
+        </div>
+      </div>
     </div>
+  </div>
+  <div class="p-3 py-2">
+    <div class="custom-card">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0">Top Rated Courses</h5>
+      </div>
 
+      <div class="table-responsive">
+        <table class="table align-middle custom-table">
+          <thead>
+            <tr>
+              <th>Course</th>
+              <th>Topics</th>
+              <th>Students</th>
+              <th>Rating</th>
+              <th>Revenue</th>
+              <th>Stage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let course of courses">
+              <td>
+                <div class="d-flex align-items-center">
+                  <div
+                    class="circle-icon me-2"
+                    [ngStyle]="{ 'background-color': course.color }"
+                  >
+                    <img
+                      src="Images/Icons/Student.svg"
+                      alt="icon"
+                      width="16"
+                      *ngIf="course.icon"
+                    />
+                  </div>
+                  <div>
+                    <div class="fw-semibold">{{ course.name }}</div>
+                    <div class="text-muted small">
+                      {{ course.modules }} modules • {{ course.hours }} hours
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td>{{ course.topic }}</td>
+              <td>{{ course.students | number }}</td>
+              <td>
+                <div class="d-flex align-items-center gap-1">
+                  <span
+                    *ngFor="let star of getStars(course.rating)"
+                    class="text-warning"
+                    >★</span
+                  >
 
+                  <ng-container *ngIf="course.rating < 5">
+                    <span
+                      *ngFor="let s of getEmptyStars(course.rating)"
+                      class="text-muted"
+                      >★</span
+                    >
+                  </ng-container>
 
+                  <span class="text-muted small">({{ course.reviews }})</span>
+                </div>
+              </td>
+              <td>${{ course.revenue | number }}</td>
+              <td>
+                <div class="stageName d-flex gap-1 align-items-center">
+                  <div
+                    class="progressBar"
+                    [style.border-color]="course.color"
+                  ></div>
+                  <p>{{ course.stage }}</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
