@@ -1,3 +1,4 @@
+import { HomeComponent } from './Pages/Instructor/home/home.component';
 import { Routes } from '@angular/router';
 import { LoginComponent } from './Pages/Auth/login/login.component';
 import { IntoregisterComponent } from './Pages/intoregister/intoregister.component';
@@ -95,8 +96,8 @@ export const routes: Routes = [
         canActivate: [notloginguardsGuard],
         children: [
             { path: '', redirectTo: 'homeInstructor', pathMatch: 'full' },
-            { path: "homeInstructor", title: "Home Instrctor", component: HomeinstructorComponent },
-            { path: "porfile", title: "porfile", component: PorfileComponent },
+            { path: "homeInstructor", title: "Home Instrctor", component: HomeComponent },
+            { path: "myprofile", title: "porfile", component: PorfileComponent },
             { path: 'ChangePasswordPopup', outlet: 'dialog', component: ChangePasswordPopupComponent },
             { path: "course", title: "Course", component: CoursesComponent },
             { path: "quizlist", title: "Quiz List", component: QuizlistComponent },

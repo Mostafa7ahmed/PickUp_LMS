@@ -1,1 +1,58 @@
-<p>porfile works!</p>
+<div class="profile-card mt-3">
+  <div class="cover">
+    <img src="Images/CardProfile.png" alt="Cover Image"  width="100%" height="100%"/>
+  </div>
+  
+  <div class="profile-header">
+    <div class="imageAva">
+            <img class="avatar" src="Images/dr.jpeg" alt="Profile Image" />
+
+    </div>
+    <div class="info">
+      <h2>Dr. Amr Mausad</h2>
+      <p>Senior Data Science Instructor | AI Researcher</p>
+      <div class="social mt-2">
+        <a><i class="fab fa-linkedin"></i>linkedin</a>
+        <a ><i class="fab fa-twitter"></i>twitter</a>
+        <a ><i class="fab fa-instagram"></i>instagram</a>
+        <a ><i class="fas fa-envelope"></i>Email</a>
+      </div>
+    </div>
+    <button class="manage-btn"> <i class="fa-solid fa-gear"></i> Manage</button>
+  </div>
+
+  <p class="bio">
+With over 15 years of experience in data science and machine learning, I specialize in making complex technical concepts accessible to learners of all levels. My research
+focuses on practical applications of AI in business and healthcare.  </p>
+
+  <div class="followers mt-2">
+
+    <div class="title">
+      <p class="text mb-3">Followers ({{ followers.length }})</p>
+      <div class="line"></div>
+    </div>
+    <div class="searchStudents  mb-3">
+      <div class="leftSearch">
+        <h5>People Following <span class="titleNAme">Dr. Amr mausad</span></h5>
+      </div>
+      <div class="rightSearch">
+        <input type="text" placeholder="Search by name or title" [(ngModel)]="searchText" />
+      </div>
+
+    </div>
+
+   <div class="followersList">
+      <div class="followers-list">
+      <div
+        class="follower-card" *ngFor="let follower of filteredFollowers()">
+        <img [src]="follower.image" alt="Avatar" />
+        <div>
+          <h4 class="nameStudent">{{ follower.name }}</h4>
+          <p>{{ follower.title }}</p>
+        </div>
+      </div>
+    </div>
+
+   </div>
+  </div>
+</div>

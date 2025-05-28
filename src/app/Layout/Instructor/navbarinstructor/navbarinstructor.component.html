@@ -114,7 +114,7 @@
                     </div>
                     </div>
                     <ul class="menu">
-                      <li><i class="fa-kit fa-user-45 fa-lg"></i>{{"PopupSetting.myAccount" | translate }}</li>
+                      <li (click)="routeProfile()"><i class="fa-kit fa-user-45 fa-lg"></i>{{"PopupSetting.myAccount" | translate }}</li>
                       <li><i class="fa-kit fa-notification45"></i>{{"PopupSetting.notifications" | translate }}</li>
                       <li (click)="openPopup()"><i class="fa-kit fa-password45"></i> {{"PopupSetting.changePassword" | translate }}</li>
                       <li (click)="ToggleLang()"><i class="fa-kit fa-global-45" ></i> {{"PopupSetting.changeLanguage" | translate }}</li>

@@ -28,6 +28,11 @@ export class NavbarinstructorComponent {
 
     this.router.navigate([{ outlets: { dialog: ['ChangePasswordPopup'] } }]);
   }
+  routeProfile(): void {
+        this.toggleAccountMenu();
+
+  this.router.navigate(['/myprofile']);
+}
 
 
   logOut() {
