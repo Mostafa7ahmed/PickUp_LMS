@@ -53,16 +53,7 @@ export class SidebarStudentComponent {
       Icon: 'fa-solid fa-person-chalkboard',
       routes: "course"
     },
-       {
-      name: 'Coupon',
-      Icon: 'fa-receipt fa-solid',
-      routes: "Couponslist"
-    },
-    {
-      name: 'Quiz',
-      Icon: 'fa-solid fa-clipboard-question',
-      routes: "quizlist"
-    },
+
     {
       name: 'Chat',
       Icon: 'fa-regular fa-comment-dots',
