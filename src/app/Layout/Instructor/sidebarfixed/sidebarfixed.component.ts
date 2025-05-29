@@ -69,7 +69,19 @@ export class SidebarfixedComponent {
       name: 'Coupon',
       Icon: 'fa-receipt fa-solid',
       routes: "Couponslist"
-    }
+    },
+        {
+      name: 'Chat',
+      Icon: 'fa-regular fa-comment-dots',
+      
+      routes: "quizlist"
+    },  
+    
+    {
+      name: 'To Do',
+      Icon: 'fa-solid fa-list-check',
+      routes: "quizlist"
+    },
   ];
 
 

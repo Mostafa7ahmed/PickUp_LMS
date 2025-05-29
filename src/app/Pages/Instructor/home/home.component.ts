@@ -10,7 +10,7 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
   instructors = [
-        { initials: 'RJ', name: 'Ahmed Hamed', subject: 'Web Development', rating: 4.9, courses: 24, bgColor: '#ccfbf1' },
+   { initials: 'RJ', name: 'Ahmed Hamed', subject: 'Web Development', rating: 4.9, courses: 24, bgColor: '#ccfbf1' },
     { initials: 'DM', name: 'Mahmoud', subject: 'Data Science', rating: 4.8, courses: 18, bgColor: '#bbf7d0' },
     { initials: 'SK', name: 'Sarah Kim', subject: 'UX/UI Design', rating: 4.7, courses: 15, bgColor: '#f3e8ff' },
     { initials: 'JP', name: 'James Peterson', subject: 'Business Strategy', rating: 4.6, courses: 12, bgColor: '#ffedd5' },

@@ -1,0 +1,25 @@
+<div class="card p-3 mb-3 todo-container">
+  <h5 class="mb-3">To-Do List</h5>
+  
+  <ul class="list-unstyled">
+    @for ( task of tasks; track $index){
+    <li class="d-flex align-items-center justify-content-between mb-2">
+      <div>
+        <input type="checkbox" [(ngModel)]="task.completed" class="form-check-input me-2" />
+        <span [class.completed]="task.completed">{{ task.title }}</span>
+      </div>
+      <button class="btnDelete"  (click)="removeTask(task)"><i class="fa-regular fa-trash-can"></i></button>
+    </li>}
+    @empty {
+      <div class="d-flex justify-content-center align-items-center gap-3  flex-column" >
+        <img src="Images/Course/file.png" alt="">
+        <p class="text-muted">No tasks available. Add a new task to get started!</p>
+      </div>
+    }
+  </ul>
+
+  <div class="inputTask mt-3">
+    <input type="text" class="form-control" placeholder="Add new task..." [(ngModel)]="newTask" (keyup.enter)="addTask()" />
+    <button class="btnAdd" type="button" (click)="addTask()">+</button>
+  </div>
+</div>

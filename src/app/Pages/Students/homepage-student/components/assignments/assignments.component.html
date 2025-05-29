@@ -1,0 +1,15 @@
+<div class="assignments-container">
+  <div class="header">
+    <h2>Upcoming Assignments</h2>
+    <a class="view-all" href="#">View All →</a>
+  </div>
+
+  <div class="assignment-card" *ngFor="let item of assignments" [ngStyle]="{ 'background-color': item.bgColor }">
+    <div class="icon">{{ item.icon }}</div>
+    <div class="details">
+      <h3>{{ item.title }}</h3>
+      <p>{{ item.course }} • {{ item.due }}</p>
+    </div>
+    <button class="action-btn">{{ item.action }}</button>
+  </div>
+</div>

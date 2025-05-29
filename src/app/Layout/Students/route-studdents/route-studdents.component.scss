@@ -1,0 +1,27 @@
+.layout {
+    display: flex;
+    background-color: var(--bgHome);
+    min-height: 100vh;
+
+  }
+  
+
+  
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 155;
+    margin-inline-start: 70px;
+    overflow: hidden;
+    padding-inline-start: 10px;
+    padding-top: 10px;
+    padding-inline-end: 10px;
+    width: 100vw;
+    height: auto;
+    background-color:#f3f5f7 !important;
+
+  }
+  
+
+ 
+  

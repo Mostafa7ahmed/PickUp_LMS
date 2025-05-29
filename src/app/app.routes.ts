@@ -30,6 +30,8 @@ import { ViewCouponComponent } from './Pages/Coupon/Components/view-coupon/view-
 import { QuizlistComponent } from './Pages/quizlist/quizlist.component';
 import { CreateLessonComponent } from './Pages/lesson/Components/create-lesson/create-lesson.component';
 import { AddquizlistComponent } from './Pages/quizlist/Components/addquizlist/addquizlist.component';
+import { RouteStuddentsComponent } from './Layout/Students/route-studdents/route-studdents.component';
+import { HomepageStudentComponent } from './Pages/Students/homepage-student/homepage-student.component';
 
 export const routes: Routes = [
 
@@ -79,17 +81,21 @@ export const routes: Routes = [
         component: ConfirmEmailComponent,
         canActivate: [isloginguardsGuard],
     },
-    {
+        {
         path: '',
+        component: RouteStuddentsComponent,
+
         canActivate: [notloginguardsGuard],
         children: [
             { path: '', redirectTo: 'homeStudent', pathMatch: 'full' },
-            { path: "homeStudent", title: "Home Student", component: HomestudentComponent },
+            { path: "homeStudent", title: "Home Student", component: HomepageStudentComponent },
+            { path: "**", title: "notFound", component: HomestudentComponent },
 
 
 
         ]
     },
+
     {
         path: '',
         component: RoutesinstructorComponent,
@@ -123,7 +129,9 @@ export const routes: Routes = [
 
 
         ]
-    }
+    },
+
+
 
 
 

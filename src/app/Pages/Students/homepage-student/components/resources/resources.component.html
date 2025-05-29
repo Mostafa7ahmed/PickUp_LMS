@@ -1,0 +1,16 @@
+<div class="resources-container">
+  <div class="header">
+    <h2>Study Resources</h2>
+    <a class="view-all" href="#">View All →</a>
+  </div>
+
+  <div class="resource-card" *ngFor="let res of resources">
+    <div class="icon" [ngStyle]="{ 'background-color': res.bgColor }">
+      {{ res.icon }}
+    </div>
+    <div class="info">
+      <h3>{{ res.title }}</h3>
+      <p>{{ res.subtitle }}</p>
+    </div>
+  </div>
+</div>

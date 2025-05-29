@@ -1,0 +1,57 @@
+.todo-container {
+  background: #fff;
+  border-radius: 12px;
+   border: none;
+
+  .completed {
+    text-decoration: line-through;
+    color: #aaa;
+  }
+.list-unstyled{
+   max-height: 280px;
+    padding: 10px;
+    overflow: scroll;
+    scrollbar-width: none;
+}
+ .btnDelete{
+    padding: 5px 10px;
+    background-color: var(--bg-red);
+    border: none;
+    border-radius: 5px;
+    color: #fd00007c;
+ }
+
+  input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #16a34a  !important;
+    box-shadow: none !important;
+  border: 1px solid #22c55e;
+
+    cursor: pointer;
+  }
+  input[type="checkbox"]:checked {
+  border: 1px solid #22c55e;
+  background-color: #22c55e;
+}
+  .inputTask{
+    display: flex;
+    gap: 10px;
+    padding: 0px 10px;
+    background-color: #F3F4F6;
+    border-radius: 25px;
+    input{
+        border: none;
+        background: transparent;
+        width: 100%;
+    }
+    .btnAdd{
+        border: none;
+        border-radius: 5px;
+        color: #2E8B57;
+    font-size: 28px;
+        background-color: #F3F4F6;
+        cursor: pointer;
+    }
+  }
+}

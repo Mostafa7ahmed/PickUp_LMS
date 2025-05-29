@@ -1,0 +1,23 @@
+<div class="my-courses-container mb-3">
+  <div class="header">
+    <h2>My Courses</h2>
+    <a class="view-all">View All →</a>
+  </div>
+<div class="courseList">
+  <div class="course-card" *ngFor="let course of courses">
+    <div class="course-icon" [ngStyle]="{ 'background-color': course.color }">
+      {{ course.icon }}
+    </div>
+    <div class="course-details">
+      <h3>{{ course.title }}</h3>
+      <p>{{ course.professor }} · {{ course.schedule }}</p>
+    </div>
+<div class="progress-bar">
+  <div class="progress" [style.width.%]="course.progress"></div>
+</div>
+  <p class="progress-percent">{{ course.progress }}%</p>
+
+  </div>
+</div>
+
+</div>
