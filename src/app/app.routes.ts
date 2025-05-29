@@ -81,20 +81,6 @@ export const routes: Routes = [
         component: ConfirmEmailComponent,
         canActivate: [isloginguardsGuard],
     },
-        {
-        path: '',
-        component: RouteStuddentsComponent,
-
-        canActivate: [notloginguardsGuard],
-        children: [
-            { path: '', redirectTo: 'homeStudent', pathMatch: 'full' },
-            { path: "homeStudent", title: "Home Student", component: HomepageStudentComponent },
-            { path: "**", title: "notFound", component: HomestudentComponent },
-
-
-
-        ]
-    },
 
     {
         path: '',
@@ -131,6 +117,20 @@ export const routes: Routes = [
         ]
     },
 
+        {
+        path: '',
+        component: RouteStuddentsComponent,
+
+        canActivate: [notloginguardsGuard],
+        children: [
+            { path: '', redirectTo: 'homeStudent', pathMatch: 'full' },
+            { path: "homeStudent", title: "Home Student", component: HomepageStudentComponent },
+            { path: "**", title: "notFound", component: HomestudentComponent },
+
+
+
+        ]
+    },
 
 
 
