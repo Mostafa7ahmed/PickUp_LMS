@@ -12,6 +12,8 @@ import { ChangepasswordComponent } from './Pages/Auth/changepassword/changepassw
 
 import { instructorRoutes } from './routes/instructor.routes';
 import { studentRoutes } from './routes/student.routes';
+import { RoutesinstructorComponent } from './Layout/Instructor/routesinstructor/routesinstructor.component';
+import { notloginguardsGuard } from './Core/Guards/notloginguards.guard';
 
 export const routes: Routes = [
 
@@ -62,8 +64,14 @@ export const routes: Routes = [
         canActivate: [isloginguardsGuard],
     },
     ...studentRoutes,
-    ...instructorRoutes,
-   
+      
+{
+  path: 'Instructor',
+  component: RoutesinstructorComponent,
+  canActivate: [notloginguardsGuard('Instructor')],
+  children: instructorRoutes 
+}
+      
 
 
 

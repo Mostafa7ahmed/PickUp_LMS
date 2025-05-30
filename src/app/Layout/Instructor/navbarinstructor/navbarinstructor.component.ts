@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { LoginService } from '../../../Core/Services/login.service';
 import { Decode } from '../../../Core/Interface/user';
 import { TranslationService } from '../../../Core/Services/translation.service';
@@ -20,6 +20,7 @@ export class NavbarinstructorComponent {
   private _LoginService = inject(LoginService);
   private _NzMessageService = inject(NzMessageService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   dataUser: Decode = {} as Decode;
 
@@ -80,7 +81,7 @@ export class NavbarinstructorComponent {
 
     this.translate.use(lang);  
   }
-  addTopic() { this.toggleAddMenu(); this.router.navigate([{ outlets: { dialog: ['addTopic'] } }]); }
+  addTopic() { this.toggleAddMenu(); this.router.navigate([{ outlets: { dialog: ['addTopic'] } }],  { relativeTo: this.route } ); }
   addCourse() { this.toggleAddMenu(); this.router.navigate([{ outlets: { dialog: ['addcourse'] } }]); }
   addCoupan() {
     this.toggleAddMenu(); this.router.navigate([{ outlets: { dialog: ['coupan', 205] } }]);
