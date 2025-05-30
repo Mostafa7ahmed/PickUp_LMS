@@ -19,7 +19,7 @@ export class LoginComponent {
   private readonly _loginService = inject(LoginService);
   private readonly _FormBuilder = inject(FormBuilder);
   private readonly _Router = inject(Router);
-  userDecode = {} as Decode;
+ private userDecode = {} as Decode;
   constructor(private message: NzMessageService) {}
 
   MessageUseName:string =""
@@ -41,14 +41,16 @@ export class LoginComponent {
           this.isLoading = false;
           localStorage.setItem("UserAuth", res.result.jwt);
           localStorage.setItem("refreshToken", res.result.refreshToken);
+             this.userDecode =this._loginService.saveUserAuth()!;
+
+                localStorage.setItem("roles", this.userDecode.roles); 
 
 
-          this._loginService.saveUserAuth();
-          this.userDecode =this._loginService.saveUserAuth()!;
-          console.log("message"+ this.userDecode.UserType)
-          this.message.success(res.message);
+             this._loginService.saveUserAuth();
+            console.log("message"+ this.userDecode.UserType)
+             this.message.success(res.message);
+          this._Router.navigate([`/${this.userDecode.roles}/home${this.userDecode.roles}`]);
 
-          this._Router.navigate([`/home${this.userDecode.UserType}`])
 
 
 

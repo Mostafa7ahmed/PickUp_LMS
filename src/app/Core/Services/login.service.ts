@@ -19,15 +19,22 @@ export class LoginService {
   }
 
   
-  saveUserAuth(): Decode {
-    if (localStorage.getItem('UserAuth') != null) {
-      this.userData = jwtDecode(localStorage.getItem('UserAuth')!);
-      return this.userData
+saveUserAuth(): Decode {
+  const token = localStorage.getItem('UserAuth');
+
+  if (token) {
+    this.userData = jwtDecode<Decode>(token);
+
+    if (this.userData?.role) {
+      localStorage.setItem('roles', this.userData.role); 
     }
-    
-    return this.userData
-    // return user Data ==>userData userType ==> route pages
+
+    return this.userData;
   }
+
+  return this.userData;
+}
+
   SignOut() {
     localStorage.removeItem('UserAuth');
     localStorage.removeItem('refreshToken');

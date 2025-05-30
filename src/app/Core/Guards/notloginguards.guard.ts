@@ -2,19 +2,22 @@ import { isPlatformBrowser } from '@angular/common';
 import { inject, PLATFORM_ID } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 
-export const notloginguardsGuard: CanActivateFn = (route, state) => {
+export function  notloginguardsGuard(expectedRole: string): CanActivateFn  {
+ return (route, state) => {
+    const platformId = inject(PLATFORM_ID);
+    const router = inject(Router);
+    if (isPlatformBrowser(platformId)) {
+      const token = localStorage.getItem("UserAuth");
+      const role = localStorage.getItem("roles");
 
-  const _isPlatformId = inject(PLATFORM_ID)
-  const _router = inject(Router);
-   if (isPlatformBrowser(_isPlatformId)) {
-     if (localStorage.getItem('UserAuth') !== null) {
-       return true;
-     } else {
-       _router.navigate(['/login']);
-       return false;
-     }
-   } else {
-     return false;
-   }
-  
+      if (token && role === expectedRole) {
+        return true;
+      } else {
+        router.navigate(['/login']);
+        return false;
+      }
+    }
+
+    return false;
+  };
  };

@@ -5,33 +5,13 @@ import { IntoregisterComponent } from './Pages/intoregister/intoregister.compone
 import { InstructorRegisterComponent } from './Pages/Auth/instructor-register/instructor-register.component';
 import { StudentRegisterComponent } from './Pages/Auth/student-register/student-register.component';
 import { ConfirmEmailComponent } from './Components/confirm-email/confirm-email.component';
-import { PorfileComponent } from './Pages/Instructor/porfile/porfile.component';
-import { HomeinstructorComponent } from './Pages/Instructor/homeinstructor/homeinstructor.component';
 import { isloginguardsGuard } from './Core/Guards/isloginguards.guard';
-import { notloginguardsGuard } from './Core/Guards/notloginguards.guard';
-import { RoutesinstructorComponent } from './Layout/Instructor/routesinstructor/routesinstructor.component';
-import { CoursesComponent } from './Pages/Courses/courses/courses.component';
-import { TopicsComponent } from './Pages/Topics/topics/topics.component';
-import { AddTopicComponent } from './Pages/Topics/Components/add-topic/add-topic.component';
-import { AddCoursesComponent } from './Pages/Courses/Components/add-courses/add-courses.component';
-import { ViewTopicandStageComponent } from './Pages/Topics/Components/view-topicand-stage/view-topicand-stage.component';
-import { AddStageComponent } from './Pages/Stages/Components/add-stage/add-stage.component';
-import { EditStageComponent } from './Pages/Stages/Components/edit-stage/edit-stage.component';
-import { EditTopicComponent } from './Pages/Topics/Components/edit-topic/edit-topic.component';
-import { ViewCourseComponent } from './Pages/Courses/Components/view-course/view-course.component';
-import { DeleteTopicComponent } from './Pages/Topics/Components/delete-topic/delete-topic.component';
-import { CouponCourseComponent } from './Pages/Coupon/Components/coupon-course/coupon-course.component';
-import { CouponListComponent } from './Pages/Coupon/coupon-list/coupon-list.component';
+
 import { ForgotpasswordComponent } from './Pages/Auth/forgotpassword/forgotpassword.component';
 import { ChangepasswordComponent } from './Pages/Auth/changepassword/changepassword.component';
-import { HomestudentComponent } from './Pages/Students/homestudent/homestudent.component';
-import { ChangePasswordPopupComponent } from './Pages/Auth/change-password-popup/change-password-popup.component';
-import { ViewCouponComponent } from './Pages/Coupon/Components/view-coupon/view-coupon.component';
-import { QuizlistComponent } from './Pages/quizlist/quizlist.component';
-import { CreateLessonComponent } from './Pages/lesson/Components/create-lesson/create-lesson.component';
-import { AddquizlistComponent } from './Pages/quizlist/Components/addquizlist/addquizlist.component';
-import { RouteStuddentsComponent } from './Layout/Students/route-studdents/route-studdents.component';
-import { HomepageStudentComponent } from './Pages/Students/homepage-student/homepage-student.component';
+
+import { instructorRoutes } from './routes/instructor.routes';
+import { studentRoutes } from './routes/student.routes';
 
 export const routes: Routes = [
 
@@ -81,56 +61,9 @@ export const routes: Routes = [
         component: ConfirmEmailComponent,
         canActivate: [isloginguardsGuard],
     },
-
-    {
-        path: '',
-        component: RoutesinstructorComponent,
-        canActivate: [notloginguardsGuard],
-        children: [
-            { path: '', redirectTo: 'homeInstructor', pathMatch: 'full' },
-            { path: "homeInstructor", title: "Home Instrctor", component: HomeComponent },
-            { path: "myprofile", title: "porfile", component: PorfileComponent },
-            { path: 'ChangePasswordPopup', outlet: 'dialog', component: ChangePasswordPopupComponent },
-            { path: "course", title: "Course", component: CoursesComponent },
-            { path: "quizlist", title: "Quiz List", component: QuizlistComponent },
-            { path: "course/:topicId/:activeTab", component: CoursesComponent, data: { defaultTab: "1" } },
-            { path: "ViewCourse/:courseId", component: ViewCourseComponent },
-            { path: "topics", title: "topic", component: TopicsComponent },
-            { path: 'addTopic', outlet: 'dialog', component: AddTopicComponent },
-            { path: 'addQuiz', outlet: 'dialog', component: AddquizlistComponent },
-
-            { path: 'deleteTopic/:deleteId', outlet: 'dialog2', component: DeleteTopicComponent },
-            { path: 'editTopic/:topicId', outlet: 'dialog', component: EditTopicComponent },
-            { path: 'addcourse', outlet: 'dialog', component: AddCoursesComponent },
-            { path: 'addLesson/:courseId', outlet: 'dialog', component: CreateLessonComponent },
-
-            { path: 'coupan/:CoupanId', outlet: 'dialog', component: CouponCourseComponent },
-            { path: 'viewCoupon/:CoupanId', outlet: 'dialog', component: ViewCouponComponent },
-
-            { path: 'Couponslist', title: "Coupons", component: CouponListComponent },
-            { path: 'ViewTopic/:id', outlet: 'dialog', component: ViewTopicandStageComponent },
-            { path: 'addStage/:StageId', outlet: 'dialog2', component: AddStageComponent },
-            { path: 'editStage/:StageId', outlet: 'dialog2', component: EditStageComponent },
-            { path: "**", title: "notFound", component: HomeinstructorComponent },
-
-
-        ]
-    },
-
-        {
-        path: '',
-        component: RouteStuddentsComponent,
-
-        canActivate: [notloginguardsGuard],
-        children: [
-            { path: '', redirectTo: 'homeStudent', pathMatch: 'full' },
-            { path: "homeStudent", title: "Home Student", component: HomepageStudentComponent },
-            { path: "**", title: "notFound", component: HomestudentComponent },
-
-
-
-        ]
-    },
+    ...studentRoutes,
+    ...instructorRoutes,
+   
 
 
 
