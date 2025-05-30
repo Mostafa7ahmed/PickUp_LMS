@@ -1,0 +1,37 @@
+<div class="cardCourseList mt-3">
+      <div class="header">
+    <h2>Enroll Courses</h2>
+    <a class="view-all" >View All →</a>
+  </div>
+
+    <div class="card-container">
+  <div class="card" *ngFor="let course of courses">
+    <div class="image-wrapper">
+      <img [src]="course.image" alt="Course image" />
+      <span class="tag" [ngClass]="course.tagType">{{ course.tag }}</span>
+    </div>
+    <div class="card-body">
+      <div class="instructor">
+        <img src="https://i.pravatar.cc/40" alt="avatar" class="avatar" />
+        <div>
+          <h4>{{ course.instructorName }}</h4>
+          <p>{{ course.instructorTitle }}</p>
+        </div>
+      </div>
+      <h3>{{ course.title }}</h3>
+      <p class="details">
+        🕒 {{ course.duration }} &nbsp; • &nbsp; 📘 {{ course.lessons }} lessons
+      </p>
+      <p class="rating">
+        ⭐ {{ course.rating }} ({{ course.reviews }} reviews)
+      </p>
+      <div class="price-row d-flex justify-content-between align-items-center">
+        <span class="price">${{ course.price }}</span>
+        <span class="old-price">${{ course.oldPrice }}</span>
+      </div>
+      <button class="enroll-btn"><i class="fa-solid fa-cart-shopping mx-2"></i> Enroll Now</button>
+    </div>
+  </div>
+</div>
+
+</div>
