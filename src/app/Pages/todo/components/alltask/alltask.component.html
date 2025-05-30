@@ -1,0 +1,39 @@
+<div class="task-board">
+  <div class="column" *ngFor="let column of taskColumns">
+    <div class="column-header">
+      <span class="title">{{ column.title }}</span>
+      <span class="count">{{ column.tasks.length }}</span>
+    </div>
+
+    <div class="task-list"
+         cdkDropList
+         [id]="column.id"
+         [cdkDropListData]="column.tasks"
+         [cdkDropListConnectedTo]="getConnectedColumns(column.id)"
+         (cdkDropListDropped)="onDrop($event)">
+      
+      <div class="task-card" 
+           *ngFor="let task of column.tasks"
+           cdkDrag
+           [cdkDragData]="task">
+        <div class="drag-placeholder" *cdkDragPlaceholder></div>
+        <div class="priority" [ngClass]="task.priorityClass">{{ task.priority }}</div>
+        <div class="task-image" *ngIf="task.image">
+          <img [src]="task.image" [alt]="task.title">
+        </div>
+        <h4 class="title">{{ task.title }}</h4>
+        <p class="description">{{ task.description }}</p>
+
+        <div class="task-footer">
+          <span class="date">{{ task.date | date:'MMM d, y' }}</span>
+          <div class="icons">
+            <i class="material-icons">comment</i>
+            <span>{{ task.comments }}</span>
+            <i class="material-icons">visibility</i>
+            <span>{{ task.views }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

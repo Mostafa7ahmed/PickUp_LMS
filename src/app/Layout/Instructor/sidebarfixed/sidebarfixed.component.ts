@@ -74,13 +74,13 @@ export class SidebarfixedComponent {
       name: 'Chat',
       Icon: 'fa-regular fa-comment-dots',
       
-      routes: "quizlist"
+      routes: "Chat"
     },  
     
     {
       name: 'To Do',
       Icon: 'fa-solid fa-list-check',
-      routes: "quizlist"
+      routes: "todo"
     },
   ];
 
