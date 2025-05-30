@@ -38,6 +38,8 @@ saveUserAuth(): Decode {
   SignOut() {
     localStorage.removeItem('UserAuth');
     localStorage.removeItem('refreshToken');
+        localStorage.removeItem('roles');
+
     this._router.navigateByUrl('/login');
     
 
