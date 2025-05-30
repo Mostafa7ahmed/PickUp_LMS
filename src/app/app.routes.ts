@@ -12,10 +12,18 @@ import { ChangepasswordComponent } from './Pages/Auth/changepassword/changepassw
 
 import { instructorRoutes } from './routes/instructor.routes';
 import { studentRoutes } from './routes/student.routes';
+import { LandingpageComponent } from './Pages/landingpage/landingpage.component';
 
 export const routes: Routes = [
 
-    { path: '', redirectTo: 'login', pathMatch: 'full' },
+    { path: '', redirectTo: 'LandingPage', pathMatch: 'full' },
+      {
+        path: "LandingPage",
+        title: "LMS Pick Up",
+        component: LandingpageComponent,
+        canActivate: [isloginguardsGuard],
+
+    },
     {
         path: "login",
         title: "Login",
@@ -55,6 +63,7 @@ export const routes: Routes = [
         canActivate: [isloginguardsGuard],
 
     },
+
     {
         path: "ConfirmEmail",
         title: "ConfirmEmail",

@@ -13,9 +13,9 @@ import { Task, TaskColumn } from '../../interfaces/task.interface';
   styleUrls: ['./alltask.component.scss']
 })
 export class AlltaskComponent {
-  taskColumns: TaskColumn[] = [
+  taskColumns: any[] = [
     {
-      id: 'todo',
+      id: 1,
       title: 'To Do',
       tasks: [
         {
@@ -41,7 +41,7 @@ export class AlltaskComponent {
       ]
     },
     {
-      id: 'inprogress',
+      id: 2,
       title: 'In Progress',
       tasks: [
         {
@@ -57,7 +57,7 @@ export class AlltaskComponent {
       ]
     },
     {
-      id: 'done',
+      id: 3,
       title: 'Done',
       tasks: [
         {
