@@ -45,7 +45,7 @@ export class StudentChatComponent {
   currentUser: User = {
     id: 1,
     name: 'Current Student',
-    avatar: 'Images/avatars/student.jpg',
+    avatar: 'Images/public/Images/dr.jpeg',
     role: 'student',
     online: true
   };
@@ -56,7 +56,7 @@ export class StudentChatComponent {
       participant: {
         id: 2,
         name: 'Dr. Sarah Wilson',
-        avatar: 'Images/avatars/instructor1.jpg',
+        avatar: 'Images/dr.jpeg',
         role: 'instructor',
         online: true
       },
@@ -103,7 +103,7 @@ export class StudentChatComponent {
       participant: {
         id: 3,
         name: 'Prof. Michael Chen',
-        avatar: 'Images/avatars/instructor2.jpg',
+        avatar: 'Images/dr.jpeg',
         role: 'instructor',
         online: false,
         lastSeen: new Date('2024-03-12T09:45:00')
@@ -136,7 +136,7 @@ export class StudentChatComponent {
       participant: {
         id: 4,
         name: 'Alex Johnson',
-        avatar: 'Images/avatars/student2.jpg',
+        avatar: 'Images/dr.jpeg',
         role: 'student',
         online: true
       },
@@ -175,7 +175,7 @@ export class StudentChatComponent {
       participant: {
         id: 5,
         name: 'Study Group - AI Course',
-        avatar: 'Images/avatars/group.jpg',
+        avatar: 'Images/dr.jpeg',
         role: 'student',
         online: true
       },

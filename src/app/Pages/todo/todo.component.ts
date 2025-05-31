@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlltaskComponent } from "./components/alltask/alltask.component";
+import { AlltaskComponent } from './components/alltask/alltask.component';
 
 @Component({
   selector: 'app-todo',
