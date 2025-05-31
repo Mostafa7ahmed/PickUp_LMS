@@ -31,7 +31,7 @@ export class NavbarinstructorComponent {
   routeProfile(): void {
         this.toggleAccountMenu();
 
-  this.router.navigate(['Instructor/myprofile']);
+  this.router.navigate(['/myprofile']);
 }
 
 
