@@ -1,0 +1,18 @@
+<section class="why-students-love">
+  <div class="container">
+    <h2 class="title">Why Students Love Our Platform</h2>
+    <p class="subtitle">Join thousands of successful learners worldwide</p>
+
+    <div class="features">
+      <div class="feature-card" 
+        #ddddd
+    *ngFor="let feature of features; let i = index"
+    [ngStyle]="{ 'animation-delay': (i * 0.3) + 's' }"
+  >
+        <div class="icon"><i [class]="feature.icon"></i></div>
+        <h3>{{ feature.title }}</h3>
+        <p>{{ feature.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>

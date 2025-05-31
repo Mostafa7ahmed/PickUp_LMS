@@ -1,0 +1,76 @@
+.why-students-love {
+background: var(--color-grey-98, #F9FAFB);
+  padding: 4rem 1rem;
+  text-align: center;
+
+  .title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    color: #6b7280;
+    margin-bottom: 2rem;
+  }
+
+  .features {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+
+    .feature-card {
+      background: #fff;
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      padding: 2rem;
+      transition: transform 0.3s ease;
+      width: 350px;
+
+      &:hover {
+        transform: translateY(-5px);
+      }
+
+      .icon {
+        background: #d1fae5;
+        width: 64px;
+        height: 64px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto 1rem auto;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        color: #10b981;
+      }
+
+      h3 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #111827;
+        margin-bottom: 0.5rem;
+      }
+
+      p {
+        font-size: 0.875rem;
+        color: #4b5563;
+        line-height: 1.5;
+      }
+    }
+  }
+}
+.feature-card {
+  opacity: 0;
+  transform: translateY(50px);
+  animation: fadeInUp 0.8s ease forwards;
+  animation-play-state: paused;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

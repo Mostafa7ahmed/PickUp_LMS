@@ -1,0 +1,88 @@
+.space {
+    margin-bottom: 80px;
+}
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem 2rem;
+  backdrop-filter: blur(1px);
+  z-index: 1000;
+  font-family: 'Poppins', sans-serif;
+  background-color: #fff;
+
+  .logo-icon {
+    color: #28ab5d;
+    margin-right: 0.5rem;
+  }
+
+  .logo-text {
+    font-weight: bold;
+    color: #28ab5d;
+
+    .slogan {
+      color: #ccc;
+      margin-left: 0.5rem;
+      font-weight: normal;
+    }
+  }
+
+  .btn {
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .sign-in {
+    background: transparent;
+    border: 2px solid #28ab5d;
+    color: #28ab5d;
+    margin-right: 1rem;
+  }
+
+  .join-as {
+    background-color: #28ab5d;
+    color: #fff;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .dropdown {
+    position: relative;
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      min-width: 150px;
+
+      .dropdown-item {
+        display: block;
+        padding: 0.5rem 1rem;
+        color: #000;
+        text-decoration: none;
+        &:hover {
+          background: #28ab5d;
+          color: white;
+        }
+      }
+    }
+
+    .show {
+      display: block;
+    }
+  }
+}
