@@ -32,32 +32,39 @@
     <!-- Main Content -->
     <div class="row">
       <!-- Left Column - Todo Lists -->
-      <div class="col-lg-8">
-        <!-- Filter Tabs -->
-        <div class="filter-tabs">
-          <button class="tab-btn" 
-                  [class.active]="activeFilter === 'all'"
-                  (click)="setFilter('all')">
-            <i class="fa-solid fa-list"></i>
-            All Tasks
-          </button>
-          <button class="tab-btn" 
-                  [class.active]="activeFilter === 'teaching'"
-                  (click)="setFilter('teaching')">
-            <i class="fa-solid fa-chalkboard-teacher"></i>
-            Teaching
-          </button>
-          <button class="tab-btn" 
-                  [class.active]="activeFilter === 'grading'"
-                  (click)="setFilter('grading')">
-            <i class="fa-solid fa-clipboard-check"></i>
-            Grading
-          </button>
-          <button class="tab-btn" 
-                  [class.active]="activeFilter === 'administrative'"
-                  (click)="setFilter('administrative')">
-            <i class="fa-solid fa-briefcase"></i>
-            Administrative
+      <div class="col-lg-12">
+        <!-- Filter Tabs and Add Button -->
+        <div class="controls-section">
+          <div class="filter-tabs">
+            <button class="tab-btn" 
+                    [class.active]="activeFilter === 'all'"
+                    (click)="setFilter('all')">
+              <i class="fa-solid fa-list"></i>
+              All Tasks
+            </button>
+            <button class="tab-btn" 
+                    [class.active]="activeFilter === 'teaching'"
+                    (click)="setFilter('teaching')">
+              <i class="fa-solid fa-chalkboard-teacher"></i>
+              Teaching
+            </button>
+            <button class="tab-btn" 
+                    [class.active]="activeFilter === 'grading'"
+                    (click)="setFilter('grading')">
+              <i class="fa-solid fa-clipboard-check"></i>
+              Grading
+            </button>
+            <button class="tab-btn" 
+                    [class.active]="activeFilter === 'administrative'"
+                    (click)="setFilter('administrative')">
+              <i class="fa-solid fa-briefcase"></i>
+              Administrative
+            </button>
+          </div>
+
+          <button class="btn-add-task-main" (click)="openAddTaskPopup()">
+            <i class="fa-solid fa-plus"></i>
+            Add New Task
           </button>
         </div>
 
@@ -116,7 +123,7 @@
               
               <div class="task-actions">
                 <button class="action-btn edit-btn" 
-                        (click)="editTask(task)"
+                        (click)="openEditTaskPopup(task)"
                         title="Edit Task">
                   <i class="fa-solid fa-edit"></i>
                 </button>
@@ -139,76 +146,84 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
 
-      <!-- Right Column - Add Task Form -->
-      <div class="col-lg-4">
-        <div class="add-task-card">
-          <div class="card-header">
-            <h3>
-              <i class="fa-solid fa-plus-circle"></i>
-              Add New Task
-            </h3>
+  <!-- Add/Edit Task Modal -->
+  <div class="modal-overlay" *ngIf="showTaskModal" (click)="closeTaskModal()">
+    <div class="task-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>
+          <i [class]="isEditMode ? 'fa-solid fa-edit' : 'fa-solid fa-plus-circle'"></i>
+          {{ isEditMode ? 'Edit Task' : 'Add New Task' }}
+        </h3>
+        <button class="btn-close" (click)="closeTaskModal()">
+          <i class="fa-solid fa-times"></i>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="taskTitle">Task Title *</label>
+          <input type="text" 
+                 id="taskTitle"
+                 [(ngModel)]="taskForm.title" 
+                 placeholder="Enter task title..."
+                 class="form-control"
+                 [class.error]="!taskForm.title.trim() && showValidation">
+        </div>
+        
+        <div class="form-group">
+          <label for="taskDescription">Description</label>
+          <textarea id="taskDescription"
+                    [(ngModel)]="taskForm.description" 
+                    placeholder="Task description (optional)..."
+                    class="form-control"
+                    rows="3"></textarea>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="taskType">Type</label>
+            <select id="taskType" [(ngModel)]="taskForm.type" class="form-control">
+              <option value="teaching">Teaching</option>
+              <option value="grading">Grading</option>
+              <option value="administrative">Administrative</option>
+              <option value="meeting">Meeting</option>
+              <option value="personal">Personal</option>
+            </select>
           </div>
           
-          <div class="add-task-form">
-            <div class="form-group">
-              <label for="taskTitle">Task Title</label>
-              <input type="text" 
-                     id="taskTitle"
-                     [(ngModel)]="newTask.title" 
-                     placeholder="Enter task title..."
-                     class="form-control"
-                     (keyup.enter)="addTask()">
-            </div>
-            
-            <div class="form-group">
-              <label for="taskDescription">Description</label>
-              <textarea id="taskDescription"
-                        [(ngModel)]="newTask.description" 
-                        placeholder="Task description (optional)..."
-                        class="form-control"
-                        rows="3"></textarea>
-            </div>
-            
-            <div class="form-row">
-              <div class="form-group">
-                <label for="taskType">Type</label>
-                <select id="taskType" [(ngModel)]="newTask.type" class="form-control">
-                  <option value="teaching">Teaching</option>
-                  <option value="grading">Grading</option>
-                  <option value="administrative">Administrative</option>
-                  <option value="meeting">Meeting</option>
-                  <option value="personal">Personal</option>
-                </select>
-              </div>
-              
-              <div class="form-group">
-                <label for="taskPriority">Priority</label>
-                <select id="taskPriority" [(ngModel)]="newTask.priority" class="form-control">
-                  <option value="low">Low</option>
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option>
-                  <option value="urgent">Urgent</option>
-                </select>
-              </div>
-            </div>
-            
-            <div class="form-group">
-              <label for="taskDueDate">Due Date</label>
-              <input type="date" 
-                     id="taskDueDate"
-                     [(ngModel)]="newTask.dueDate" 
-                     class="form-control">
-            </div>
-            
-            <button class="btn-add-task" 
-                    (click)="addTask()"
-                    [disabled]="!newTask.title || !newTask.title.trim()">
-              <i class="fa-solid fa-plus"></i>
-              Add Task
-            </button>
+          <div class="form-group">
+            <label for="taskPriority">Priority</label>
+            <select id="taskPriority" [(ngModel)]="taskForm.priority" class="form-control">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="urgent">Urgent</option>
+            </select>
           </div>
         </div>
+        
+        <div class="form-group">
+          <label for="taskDueDate">Due Date</label>
+          <input type="date" 
+                 id="taskDueDate"
+                 [(ngModel)]="taskForm.dueDate" 
+                 class="form-control">
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="closeTaskModal()">
+          Cancel
+        </button>
+        <button class="btn-save" 
+                (click)="saveTask()"
+                [disabled]="!taskForm.title.trim()">
+          <i [class]="isEditMode ? 'fa-solid fa-save' : 'fa-solid fa-plus'"></i>
+          {{ isEditMode ? 'Update Task' : 'Add Task' }}
+        </button>
       </div>
     </div>
   </div>

@@ -42,7 +42,7 @@ export class TopicComponent implements OnInit {
   currentTopicId: number | null = null;
   subscription: Subscription | null = null;
   showModal(): void {
-    this.router.navigate([{ outlets: { dialog: ['addTopic'] } }]);
+    this.router.navigate(['/Instructor', { outlets: { dialog: ['addTopic'] } }]);
   }
 
   showsViewTopic = false;

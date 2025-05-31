@@ -43,6 +43,19 @@ export class ChangePasswordPopupComponent {
       validators: this.passwordsMatchValidator
     });
   }
+  
+  private getCorrectRoute(): string {
+    // Check current URL to determine if we're in instructor or student area
+    const currentUrl = this.router.url;
+    if (currentUrl.includes('/Instructor')) {
+      return '/Instructor';
+    } else if (currentUrl.includes('/Student')) {
+      return '/Student';
+    }
+    // Default fallback - shouldn't happen in normal flow
+    return '/Instructor';
+  }
+  
   togglePasswordVisibility() {
     this.passwordFieldType = !this.passwordFieldType;
   }
@@ -67,11 +80,10 @@ export class ChangePasswordPopupComponent {
           console.log('Password changed successfully!', res);
           this.nzMessageService.success(res.message);
           this.isLoading = false;
-          this.router.navigate([{ outlets: { dialog: null } }]).then(() => {
+          const correctRoute = this.getCorrectRoute();
+          this.router.navigate([correctRoute, { outlets: { dialog: null } }]).then(() => {
             this._LoginService.SignOut();
           });
-
-
         },
         error: err => {
           console.error('Error changing password:', err);
@@ -82,8 +94,8 @@ export class ChangePasswordPopupComponent {
     }
   }
 
-
   closePopup() {
-    this.router.navigate([{ outlets: { dialog: null } }]);
+    const correctRoute = this.getCorrectRoute();
+    this.router.navigate([correctRoute, { outlets: { dialog: null } }]);
   }
 }

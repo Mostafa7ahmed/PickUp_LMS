@@ -106,8 +106,7 @@ export class TableCoupanComponent {
     
   
     openDialog(couponId: number) { 
-      this.router.navigate([{ outlets: { dialog: ['viewCoupon', couponId] } }]);
-  
+      this.router.navigate(['/Instructor', { outlets: { dialog: ['viewCoupon', couponId] } }]);
     }
 
     openDeletePopup(couponId: number) {

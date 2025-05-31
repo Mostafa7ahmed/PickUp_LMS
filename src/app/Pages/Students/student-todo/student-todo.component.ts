@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DragDropModule, CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
@@ -30,7 +30,7 @@ interface TaskColumn {
   templateUrl: './student-todo.component.html',
   styleUrl: './student-todo.component.scss'
 })
-export class StudentTodoComponent {
+export class StudentTodoComponent implements OnInit, OnDestroy {
   taskColumns: TaskColumn[] = [
     {
       id: 'todo',
@@ -407,5 +407,26 @@ export class StudentTodoComponent {
       case 'completed': return 'fa-solid fa-check-circle';
       default: return 'fa-regular fa-circle';
     }
+  }
+
+  ngOnInit() {
+    // Add event listener to handle opening the add task form when triggered from the navbar
+    window.addEventListener('openAddTaskForm', this.openAddTaskForm.bind(this));
+  }
+
+  ngOnDestroy() {
+    // Clean up event listener
+    window.removeEventListener('openAddTaskForm', this.openAddTaskForm.bind(this));
+  }
+
+  openAddTaskForm() {
+    this.showAddForm = true;
+    // Scroll to the add task form
+    setTimeout(() => {
+      const addFormElement = document.querySelector('.add-task-form');
+      if (addFormElement) {
+        addFormElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 100);
   }
 } 

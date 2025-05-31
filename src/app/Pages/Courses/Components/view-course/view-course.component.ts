@@ -221,13 +221,13 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
   }
   
   createLesson(courseId: number) { 
-    this.router.navigate([{ outlets: { dialog: ['addLesson', courseId] } }]);
+    this.router.navigate(['/Instructor', { outlets: { dialog: ['addLesson', courseId] } }]);
     console.log(courseId)
     this.isShowQuick = false;
 
   }
   createCoupon() {
-    this.router.navigate([{ outlets: { dialog: ['coupan', this.CourseId] } }]);
+    this.router.navigate(['/Instructor', { outlets: { dialog: ['coupan', this.CourseId] } }]);
     this.isShowQuick = false;
   }
  

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -21,25 +21,24 @@ interface InstructorTask {
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.scss']
 })
-export class TodoComponent implements OnInit {
+export class TodoComponent implements OnInit, OnDestroy {
   
   // Filter and search
   activeFilter: string = 'all';
   searchTerm: string = '';
   
-  // New task form - properly initialized
-  newTask: {
-    title: string;
-    description: string;
-    type: 'teaching' | 'grading' | 'administrative' | 'meeting' | 'personal';
-    priority: 'low' | 'medium' | 'high' | 'urgent';
-    dueDate: string;
-    completed: boolean;
-  } = {
+  // Modal state
+  showTaskModal: boolean = false;
+  isEditMode: boolean = false;
+  editingTaskId: number | null = null;
+  showValidation: boolean = false;
+  
+  // Task form for modal
+  taskForm = {
     title: '',
     description: '',
-    type: 'teaching',
-    priority: 'medium',
+    type: 'teaching' as 'teaching' | 'grading' | 'administrative' | 'meeting' | 'personal',
+    priority: 'medium' as 'low' | 'medium' | 'high' | 'urgent',
     dueDate: '',
     completed: false
   };
@@ -110,9 +109,97 @@ export class TodoComponent implements OnInit {
 
   ngOnInit(): void {
     // Set default due date to tomorrow
+    this.setDefaultDueDate();
+    // Add event listener to handle opening the add task form when triggered from the navbar
+    window.addEventListener('openAddTaskForm', this.openAddTaskForm.bind(this));
+  }
+
+  private setDefaultDueDate(): void {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    this.newTask.dueDate = tomorrow.toISOString().split('T')[0];
+    this.taskForm.dueDate = tomorrow.toISOString().split('T')[0];
+  }
+
+  // Modal methods
+  openAddTaskPopup(): void {
+    this.isEditMode = false;
+    this.editingTaskId = null;
+    this.showValidation = false;
+    this.resetTaskForm();
+    this.setDefaultDueDate();
+    this.showTaskModal = true;
+  }
+
+  openEditTaskPopup(task: InstructorTask): void {
+    this.isEditMode = true;
+    this.editingTaskId = task.id;
+    this.showValidation = false;
+    this.taskForm = {
+      title: task.title,
+      description: task.description || '',
+      type: task.type,
+      priority: task.priority,
+      dueDate: task.dueDate,
+      completed: task.completed
+    };
+    this.showTaskModal = true;
+  }
+
+  closeTaskModal(): void {
+    this.showTaskModal = false;
+    this.isEditMode = false;
+    this.editingTaskId = null;
+    this.showValidation = false;
+    this.resetTaskForm();
+  }
+
+  private resetTaskForm(): void {
+    this.taskForm = {
+      title: '',
+      description: '',
+      type: 'teaching',
+      priority: 'medium',
+      dueDate: '',
+      completed: false
+    };
+  }
+
+  saveTask(): void {
+    if (!this.taskForm.title.trim()) {
+      this.showValidation = true;
+      return;
+    }
+
+    if (this.isEditMode && this.editingTaskId) {
+      // Update existing task
+      const taskIndex = this.tasks.findIndex(t => t.id === this.editingTaskId);
+      if (taskIndex !== -1) {
+        this.tasks[taskIndex] = {
+          ...this.tasks[taskIndex],
+          title: this.taskForm.title.trim(),
+          description: this.taskForm.description.trim(),
+          type: this.taskForm.type,
+          priority: this.taskForm.priority,
+          dueDate: this.taskForm.dueDate,
+          completed: this.taskForm.completed
+        };
+      }
+    } else {
+      // Add new task
+      const newTask: InstructorTask = {
+        id: Date.now(),
+        title: this.taskForm.title.trim(),
+        description: this.taskForm.description.trim(),
+        type: this.taskForm.type,
+        priority: this.taskForm.priority,
+        dueDate: this.taskForm.dueDate,
+        completed: false,
+        createdAt: new Date()
+      };
+      this.tasks.unshift(newTask);
+    }
+
+    this.closeTaskModal();
   }
 
   // Filter methods
@@ -177,49 +264,9 @@ export class TodoComponent implements OnInit {
   }
 
   // Task management methods
-  addTask(): void {
-    if (!this.newTask.title?.trim()) return;
-
-    const task: InstructorTask = {
-      id: Date.now(),
-      title: this.newTask.title.trim(),
-      description: this.newTask.description?.trim() || '',
-      type: this.newTask.type,
-      priority: this.newTask.priority,
-      dueDate: this.newTask.dueDate || '',
-      completed: false,
-      createdAt: new Date()
-    };
-
-    this.tasks.unshift(task);
-    
-    // Reset form
-    this.newTask = {
-      title: '',
-      description: '',
-      type: 'teaching',
-      priority: 'medium',
-      dueDate: this.newTask.dueDate, // Keep the same due date
-      completed: false
-    };
-  }
-
   updateTaskStatus(task: InstructorTask): void {
     // Task status is already updated via two-way binding
     // You could add additional logic here like saving to backend
-  }
-
-  editTask(task: InstructorTask): void {
-    // For now, just populate the form with task data
-    this.newTask = {
-      title: task.title,
-      description: task.description || '',
-      type: task.type,
-      priority: task.priority,
-      dueDate: task.dueDate,
-      completed: task.completed
-    };
-    this.deleteTask(task);
   }
 
   deleteTask(task: InstructorTask): void {
@@ -285,5 +332,21 @@ export class TodoComponent implements OnInit {
       case 'administrative': return 'No administrative tasks found. Stay organized!';
       default: return 'No tasks found. Add your first task to get started!';
     }
+  }
+
+  ngOnDestroy(): void {
+    // Clean up event listener
+    window.removeEventListener('openAddTaskForm', this.openAddTaskForm.bind(this));
+  }
+
+  openAddTaskForm(): void {
+    this.openAddTaskPopup();
+    // Scroll to the modal or form
+    setTimeout(() => {
+      const modalElement = document.querySelector('.task-modal');
+      if (modalElement) {
+        modalElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 100);
   }
 }

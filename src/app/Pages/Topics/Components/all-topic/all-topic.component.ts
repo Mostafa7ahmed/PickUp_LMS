@@ -107,7 +107,7 @@ export class AllTopicComponent implements OnInit, OnDestroy {
 
 
   openViewTopic(id: any) { 
-    this.router.navigate([{ outlets: { dialog: ['ViewTopic', id] } }]);
+    this.router.navigate(['/Instructor', { outlets: { dialog: ['ViewTopic', id] } }]);
   }
   isDeletePopupVisible = false;
   selectedDeleteId: number | null = null;
@@ -148,7 +148,7 @@ export class AllTopicComponent implements OnInit, OnDestroy {
   }
 
   openEditTopic(idTopic: number) { 
-    this.router.navigate([{ outlets: { dialog: ['editTopic', idTopic] } }]);
+    this.router.navigate(['/Instructor', { outlets: { dialog: ['editTopic', idTopic] } }]);
 
     this.toggleShow(null)
   }

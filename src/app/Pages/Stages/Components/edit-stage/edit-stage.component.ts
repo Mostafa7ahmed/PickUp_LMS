@@ -68,14 +68,14 @@ export class EditStageComponent {
       this.showPackageColor =!this.showPackageColor;
     }
     closePopup() {
-      this.router.navigate([{ outlets: { dialog2: null } }]);
+      this.router.navigate(['/Instructor', { outlets: { dialog2: null } }]);
     }
     updateStage() {
       if (this.stageId !== null) {
         this._UpdateStageService.updateStage(this.stageForm.value).subscribe({
           next: (res) => {
             console.log("Stage updated successfully:", res);
-            this.router.navigate([{ outlets: { dialog2: null } }]);
+            this.router.navigate(['/Instructor', { outlets: { dialog2: null } }]);
           },
           error: (err) => {
             console.error("Error updating stage:", err);

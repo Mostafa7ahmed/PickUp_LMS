@@ -18,7 +18,7 @@ export class CardqiuzComponent {
 
 
     openPopup() {
-    this.router.navigate([{ outlets: { dialog: ['addQuiz'] } }]);
+    this.router.navigate(['/Instructor', { outlets: { dialog: ['addQuiz'] } }]);
   }
 
 }

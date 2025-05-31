@@ -1,0 +1,264 @@
+<div class="course-catalog-page">
+  
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="header-content">
+        <div class="title-section">
+          <h1 class="page-title">
+            <i class="fa-solid fa-graduation-cap me-2"></i>
+            Discover New Courses
+          </h1>
+          <p class="page-subtitle">
+            Expand your skills with our comprehensive course catalog
+          </p>
+        </div>
+        
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+          <div class="stat-card">
+            <div class="stat-number">{{ allCourses.length }}</div>
+            <div class="stat-label">Available Courses</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">{{ filteredCourses.length }}</div>
+            <div class="stat-label">Showing</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search and Filters Section -->
+  <div class="filters-section">
+    <div class="container-fluid">
+      <div class="filters-container">
+        
+        <!-- Search Bar -->
+        <div class="search-bar">
+          <div class="search-input-wrapper">
+            <i class="fa-solid fa-search search-icon"></i>
+            <input 
+              type="text" 
+              class="search-input"
+              placeholder="Search courses, instructors, or topics..."
+              [(ngModel)]="searchTerm"
+              (ngModelChange)="onSearchChange()"
+            />
+            <button 
+              *ngIf="searchTerm" 
+              class="clear-search-btn"
+              (click)="searchTerm = ''; onSearchChange()"
+            >
+              <i class="fa-solid fa-times"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="filter-controls">
+          <div class="filter-group">
+            <label class="filter-label">Category</label>
+            <select 
+              class="filter-select"
+              [(ngModel)]="selectedCategory"
+              (ngModelChange)="onFilterChange()"
+            >
+              <option *ngFor="let category of categories" [value]="category.value">
+                {{ category.label }}
+              </option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-label">Level</label>
+            <select 
+              class="filter-select"
+              [(ngModel)]="selectedLevel"
+              (ngModelChange)="onFilterChange()"
+            >
+              <option *ngFor="let level of levels" [value]="level.value">
+                {{ level.label }}
+              </option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-label">Sort By</label>
+            <select 
+              class="filter-select"
+              [(ngModel)]="sortBy"
+              (ngModelChange)="onFilterChange()"
+            >
+              <option *ngFor="let option of sortOptions" [value]="option.value">
+                {{ option.label }}
+              </option>
+            </select>
+          </div>
+
+          <button 
+            class="clear-filters-btn"
+            (click)="clearFilters()"
+            *ngIf="searchTerm || selectedCategory !== 'all' || selectedLevel !== 'all' || sortBy !== 'newest'"
+          >
+            <i class="fa-solid fa-filter-circle-xmark me-1"></i>
+            Clear Filters
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Courses Grid -->
+  <div class="courses-section">
+    <div class="container-fluid">
+      
+      <!-- No Results Message -->
+      <div *ngIf="filteredCourses.length === 0" class="no-results">
+        <div class="no-results-icon">
+          <i class="fa-solid fa-search"></i>
+        </div>
+        <h3>No courses found</h3>
+        <p>Try adjusting your search criteria or filters</p>
+        <button class="btn-clear-filters" (click)="clearFilters()">
+          Clear All Filters
+        </button>
+      </div>
+
+      <!-- Courses Grid -->
+      <div *ngIf="filteredCourses.length > 0" class="courses-grid">
+        <div 
+          *ngFor="let course of filteredCourses; trackBy: trackByCourseId" 
+          class="course-card"
+          [class.enrolled]="course.isEnrolled"
+        >
+          
+          <!-- Course Image -->
+          <div class="course-image-wrapper">
+            <div class="course-image" [style.background-image]="'url(' + course.imageUrl + ')'">
+              <!-- Fallback if no image -->
+              <div class="image-placeholder" *ngIf="!course.imageUrl">
+                <i class="fa-solid fa-play-circle"></i>
+              </div>
+            </div>
+            
+            <!-- Favorite Button -->
+            <button 
+              class="favorite-btn"
+              [class.active]="course.isFavorite"
+              (click)="toggleFavorite(course)"
+            >
+              <i class="fa-solid fa-heart"></i>
+            </button>
+
+            <!-- Discount Badge -->
+            <div *ngIf="course.discount" class="discount-badge">
+              {{ course.discount }}% OFF
+            </div>
+
+            <!-- Enrolled Badge -->
+            <div *ngIf="course.isEnrolled" class="enrolled-badge">
+              <i class="fa-solid fa-check-circle me-1"></i>
+              Enrolled
+            </div>
+          </div>
+
+          <!-- Course Content -->
+          <div class="course-content">
+            
+            <!-- Course Level -->
+            <div class="course-level">
+              <span class="level-badge" [class]="course.level.toLowerCase()">
+                {{ course.level }}
+              </span>
+              <span class="category-tag">{{ getCategoryLabel(course.category) }}</span>
+            </div>
+
+            <!-- Course Title -->
+            <h3 class="course-title" (click)="viewCourseDetails(course)">
+              {{ course.title }}
+            </h3>
+
+            <!-- Course Description -->
+            <p class="course-description">
+              {{ course.description }}
+            </p>
+
+            <!-- Course Meta Info -->
+            <div class="course-meta">
+              <div class="instructor-info">
+                <div class="instructor-avatar" [style.background-image]="'url(' + course.instructorPhoto + ')'">
+                  <!-- Fallback -->
+                  <i *ngIf="!course.instructorPhoto" class="fa-solid fa-user"></i>
+                </div>
+                <span class="instructor-name">{{ course.instructor }}</span>
+              </div>
+
+              <div class="course-stats">
+                <div class="stat-item">
+                  <i class="fa-solid fa-star"></i>
+                  <span>{{ course.rating }}</span>
+                </div>
+                <div class="stat-item">
+                  <i class="fa-solid fa-users"></i>
+                  <span>{{ formatNumber(course.studentsCount) }}</span>
+                </div>
+                <div class="stat-item">
+                  <i class="fa-solid fa-clock"></i>
+                  <span>{{ course.duration }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Course Features -->
+            <div class="course-features">
+              <div *ngFor="let feature of course.features.slice(0, 2)" class="feature-item">
+                <i class="fa-solid fa-check"></i>
+                <span>{{ feature }}</span>
+              </div>
+            </div>
+
+            <!-- Course Footer -->
+            <div class="course-footer">
+              <div class="price-section">
+                <div *ngIf="course.originalPrice && course.discount" class="original-price">
+                  ${{ formatPrice(course.originalPrice) }}
+                </div>
+                <div class="current-price">
+                  ${{ formatPrice(course.price) }}
+                </div>
+              </div>
+
+              <div class="action-buttons">
+                <button 
+                  *ngIf="!course.isEnrolled" 
+                  class="btn-enroll"
+                  (click)="enrollInCourse(course)"
+                >
+                  <i class="fa-solid fa-graduation-cap me-1"></i>
+                  Enroll Now
+                </button>
+                
+                <button 
+                  *ngIf="course.isEnrolled" 
+                  class="btn-continue"
+                  (click)="viewCourseDetails(course)"
+                >
+                  <i class="fa-solid fa-play me-1"></i>
+                  Continue Learning
+                </button>
+
+                <button 
+                  class="btn-details"
+                  (click)="viewCourseDetails(course)"
+                >
+                  <i class="fa-solid fa-info-circle"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

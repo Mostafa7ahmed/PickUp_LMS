@@ -53,6 +53,11 @@ export class SidebarStudentComponent {
       routes: "/Student/courses"
     },
     {
+      name: 'Discover Courses',
+      Icon: 'fa-solid fa-compass',
+      routes: "/Student/discover"
+    },
+    {
       name: 'To Do',
       Icon: 'fa-solid fa-list-check',
       routes: "/Student/todo"

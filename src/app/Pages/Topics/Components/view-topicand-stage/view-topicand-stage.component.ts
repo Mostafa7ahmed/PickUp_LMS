@@ -45,8 +45,7 @@ export class ViewTopicandStageComponent {
       });
   }
   closeViewTopic() {
-    this._Router.navigate([{ outlets: { dialog: null } }]);
-
+    this._Router.navigate(['/Instructor', { outlets: { dialog: null } }]);
   }
   toggleShow() {
     this.showEdit = !this.showEdit;
@@ -121,20 +120,15 @@ export class ViewTopicandStageComponent {
   }
 
   openPopupAddStage() {
-
-    this._Router.navigate([
+    this._Router.navigate(['/Instructor',
       { outlets: { dialog: ['ViewTopic', this.topicId], dialog2: ['addStage', this.topicId] } }
     ]);
-
-
   }
   openPopupEdittage(stageID: number) {
-
-    this._Router.navigate([
+    this._Router.navigate(['/Instructor',
       { outlets: { dialog: ['ViewTopic', this.topicId], dialog2: ['editStage', stageID] } }
     ]);
     this.selectedStaged = null;
-
   }
 
   checkAndFetchTopic() {

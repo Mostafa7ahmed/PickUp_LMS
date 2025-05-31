@@ -1,0 +1,143 @@
+<!-- Debug element to check if component loads -->
+<div style="position: fixed; top: 10px; right: 10px; background: red; color: white; padding: 10px; z-index: 99999; border-radius: 5px;">
+  🚀 POPUP LOADED!
+</div>
+
+<div class="enrollment-popup-overlay">
+  <div class="enrollment-popup">
+    
+    <!-- Header Section -->
+    <div class="popup-header">
+      <div class="header-background">
+        <div class="header-content">
+          <h2 class="enrollment-title">
+            Enroll in: {{ courseInfo.title }}
+          </h2>
+          <p class="enrollment-subtitle">
+            Confirm your enrollment and payment details
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="popup-content">
+      
+      <!-- Wallet Section -->
+      <div class="wallet-section">
+        <div class="wallet-card">
+          <h3 class="wallet-title">Your Wallet</h3>
+          <div class="wallet-balance">
+            <div class="currency-icon">
+              <i class="fa-solid fa-coins"></i>
+            </div>
+            <span class="balance-amount">
+              {{ walletInfo.balance | number:'1.0-0' }} {{ walletInfo.currency }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Course Details Section -->
+      <div class="course-details-section">
+        <h3 class="section-title">Course Details</h3>
+        
+        <div class="price-details">
+          <div class="price-row">
+            <span class="price-label">Original Price</span>
+            <span class="price-value original-price">
+              ${{ courseInfo.originalPrice | number:'1.2-2' }}
+            </span>
+          </div>
+          
+          <div class="price-row">
+            <span class="price-label">Final Price</span>
+            <span class="price-value final-price">
+              ${{ courseInfo.finalPrice | number:'1.2-2' }}
+            </span>
+          </div>
+
+          <!-- Show coupon discount if applied -->
+          <div *ngIf="isCouponApplied" class="price-row discount-row">
+            <span class="price-label">Coupon Discount</span>
+            <span class="price-value discount-value">
+              -${{ couponDiscount | number:'1.2-2' }}
+              <button (click)="removeCoupon()" class="remove-coupon-btn">
+                <i class="fa-solid fa-times"></i>
+              </button>
+            </span>
+          </div>
+        </div>
+
+        <!-- Coupon Code Section -->
+        <div class="coupon-section">
+          <form [formGroup]="couponForm" (ngSubmit)="applyCoupon()">
+            <div class="coupon-input-group">
+              <label class="coupon-label">
+                <i class="fa-solid fa-ticket"></i>
+                Coupon Code (optional)
+              </label>
+              
+              <div class="coupon-input-wrapper">
+                <input 
+                  type="text" 
+                  formControlName="couponCode"
+                  class="coupon-input"
+                  [class.success]="isCouponApplied"
+                  placeholder="e.g., Code10"
+                  [disabled]="isCouponApplied"
+                />
+                
+                <button 
+                  type="submit" 
+                  class="apply-coupon-btn"
+                  [disabled]="isLoading || isCouponApplied"
+                  [class.loading]="isLoading"
+                >
+                  <span *ngIf="!isLoading">Apply</span>
+                  <i *ngIf="isLoading" class="fa-solid fa-spinner fa-spin"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Total Payment Amount -->
+        <div class="total-amount-section">
+          <div class="total-row">
+            <span class="total-label">Total Payment</span>
+            <span class="total-amount">
+              ${{ getFinalPaymentAmount() | number:'1.2-2' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button 
+          type="button" 
+          class="cancel-btn"
+          (click)="closePopup()"
+          [disabled]="isLoading"
+        >
+          Cancel
+        </button>
+        
+        <button 
+          type="button" 
+          class="confirm-btn"
+          (click)="confirmEnrollment()"
+          [disabled]="isLoading"
+          [class.loading]="isLoading"
+        >
+          <i *ngIf="isLoading" class="fa-solid fa-spinner fa-spin"></i>
+          <i *ngIf="!isLoading" class="fa-solid fa-credit-card"></i>
+          <span>
+            Confirm & pay ${{ getFinalPaymentAmount() | number:'1.2-2' }}
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div> 

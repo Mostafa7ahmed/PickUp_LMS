@@ -84,7 +84,7 @@ export class EditTopicComponent {
     this.ishowTab = !this.ishowTab;
   }
   closePopup() {
-    this.router.navigate([{ outlets: { dialog: null } }]);
+    this.router.navigate(['/Instructor', { outlets: { dialog: null } }]);
   }
 
 

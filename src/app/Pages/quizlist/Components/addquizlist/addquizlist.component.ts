@@ -70,7 +70,7 @@ nextPopup() {
 }
 
   closePopup() {
-    this.router.navigate([{ outlets: { dialog: null } }]);
+    this.router.navigate(['/Instructor', { outlets: { dialog: null } }]);
   }
 
   ngOnInit(): void {

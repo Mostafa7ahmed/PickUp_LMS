@@ -7,6 +7,7 @@ import { instructorOnlyGuard } from '../Core/Guards/role-based.guard';
 import { HomeComponent } from '../Pages/Instructor/home/home.component';
 import { PorfileComponent } from '../Pages/Instructor/porfile/porfile.component';
 import { ChangePasswordPopupComponent } from '../Pages/Auth/change-password-popup/change-password-popup.component';
+import { EnrollCoursePopupComponent } from '../Pages/enrollment/enroll-course-popup/enroll-course-popup.component';
 
 // Course Management
 import { CoursesComponent } from '../Pages/Courses/courses/courses.component';
@@ -76,6 +77,13 @@ export const instructorRoutes: Routes = [
                 path: 'ChangePasswordPopup', 
                 outlet: 'dialog', 
                 component: ChangePasswordPopupComponent 
+            },
+            
+            // Course Enrollment Popup
+            { 
+                path: 'enrollCourse/:courseId', 
+                outlet: 'dialog', 
+                component: EnrollCoursePopupComponent 
             },
             
             // Course Management

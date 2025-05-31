@@ -111,7 +111,7 @@ console.log('validTo:', data.validTo);
   }
 
   closePopup() {
-    this.router.navigate([{ outlets: { dialog: null } }]);
+    this.router.navigate(['/Instructor', { outlets: { dialog: null } }]);
   }
 
   toggleDropdown() {

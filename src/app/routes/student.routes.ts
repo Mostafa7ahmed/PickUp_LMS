@@ -3,12 +3,14 @@ import { RouteStuddentsComponent } from '../Layout/Students/route-studdents/rout
 import { notloginguardsGuard } from '../Core/Guards/notloginguards.guard';
 import { studentOnlyGuard } from '../Core/Guards/role-based.guard';
 import { ChangePasswordPopupComponent } from '../Pages/Auth/change-password-popup/change-password-popup.component';
+import { EnrollCoursePopupComponent } from '../Pages/enrollment/enroll-course-popup/enroll-course-popup.component';
 
 // Student Components
 import { HomepageStudentComponent } from '../Pages/Students/homepage-student/homepage-student.component';
 import { StudentCoursesComponent } from '../Pages/Students/student-courses/student-courses.component';
 import { StudentTodoComponent } from '../Pages/Students/student-todo/student-todo.component';
 import { StudentChatComponent } from '../Pages/Students/student-chat/student-chat.component';
+import { StudentCourseCatalogComponent } from '../Pages/Students/student-course-catalog/student-course-catalog.component';
 
 // Import additional student components when they are created
 // import { StudentProgressComponent } from '../Pages/Students/student-progress/student-progress.component';
@@ -44,11 +46,24 @@ export const studentRoutes: Routes = [
                 component: ChangePasswordPopupComponent 
             },
             
+            // Course Enrollment Popup - accessible via dialog outlet
+            { 
+                path: 'enrollCourse/:courseId', 
+                outlet: 'dialog', 
+                component: EnrollCoursePopupComponent 
+            },
+            
             // Student learning features
             { 
                 path: 'courses', 
                 title: 'My Courses', 
                 component: StudentCoursesComponent,
+                canActivate: [studentOnlyGuard]
+            },
+            { 
+                path: 'discover', 
+                title: 'Discover Courses', 
+                component: StudentCourseCatalogComponent,
                 canActivate: [studentOnlyGuard]
             },
             { 

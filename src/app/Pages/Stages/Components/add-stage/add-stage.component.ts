@@ -53,12 +53,12 @@ export class AddStageComponent implements OnInit{
     this.showPackageColor =!this.showPackageColor;
   }
   closePopup() {
-    this.router.navigate([{ outlets: { dialog2: null } }]);
+    this.router.navigate(['/Instructor', { outlets: { dialog2: null } }]);
   }
   addStage(){
     this._CreateStageService.createStage(this.stageForm.value).subscribe({
       next: (res) => {
-        this.router.navigate([{ outlets: { dialog2: null } }]);
+        this.router.navigate(['/Instructor', { outlets: { dialog2: null } }]);
 
       },
       error: (err) => {

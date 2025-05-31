@@ -115,7 +115,7 @@ export class CreateLessonComponent {
       }
 }
     closePopup() {
-      this.router.navigate([{ outlets: { dialog: null } }]);
+      this.router.navigate(['/Instructor', { outlets: { dialog: null } }]);
     }
     ngOnInit() {
       this.getCourse();
