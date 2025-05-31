@@ -1,58 +1,179 @@
 <div class="profile-card mt-3">
+  <!-- Enhanced Cover Section -->
   <div class="cover">
-    <img src="Images/CardProfile.png" alt="Cover Image"  width="100%" height="100%"/>
+    <div class="cover-overlay"></div>
+    <div class="cover-pattern"></div>
+    <img src="Images/CardProfile.png" alt="Cover Image" width="100%" height="100%"/>
+    
+    <!-- Stats Cards on Cover -->
+    <div class="stats-overlay">
+      <div class="stat-item">
+        <div class="stat-number">{{ stats.totalStudents.toLocaleString() }}</div>
+        <div class="stat-label">Students</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">{{ stats.totalCourses }}</div>
+        <div class="stat-label">Courses</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">{{ stats.avgRating }}</div>
+        <div class="stat-label">Rating</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">{{ stats.yearsExperience }}+</div>
+        <div class="stat-label">Years Exp.</div>
+      </div>
+    </div>
   </div>
   
+  <!-- Enhanced Profile Header -->
   <div class="profile-header">
     <div class="imageAva">
-            <img class="avatar" src="Images/dr.jpeg" alt="Profile Image" />
-
-    </div>
-    <div class="info">
-      <h2>Dr. Amr Mausad</h2>
-      <p>Senior Data Science Instructor | AI Researcher</p>
-      <div class="social mt-2">
-        <a><i class="fab fa-linkedin"></i>linkedin</a>
-        <a ><i class="fab fa-twitter"></i>twitter</a>
-        <a ><i class="fab fa-instagram"></i>instagram</a>
-        <a ><i class="fas fa-envelope"></i>Email</a>
+      <img class="avatar" src="Images/dr.jpeg" alt="Profile Image" />
+      <div class="avatar-badge">
+        <i class="fa-solid fa-graduation-cap"></i>
+      </div>
+      <div class="verified-badge">
+        <i class="fa-solid fa-check"></i>
       </div>
     </div>
-    <button class="manage-btn"> <i class="fa-solid fa-gear"></i> Manage</button>
+    
+    <div class="info">
+      <div class="name-section">
+        <h2 *ngIf="!isEditing">{{ instructorProfile.name }}</h2>
+        <input *ngIf="isEditing" [(ngModel)]="instructorProfile.name" class="edit-input name-input" />
+        <div class="rating-display">
+          <span class="stars">{{ getStarDisplay(stats.avgRating) }}</span>
+          <span class="rating-number">({{ stats.avgRating }}/5.0)</span>
+        </div>
+      </div>
+      
+      <div class="title-section">
+        <p *ngIf="!isEditing">{{ instructorProfile.title }}</p>
+        <input *ngIf="isEditing" [(ngModel)]="instructorProfile.title" class="edit-input title-input" />
+      </div>
+      
+      <!-- Enhanced Social Links -->
+      <div class="social mt-2">
+        <a class="social-link linkedin"><i class="fab fa-linkedin"></i>LinkedIn</a>
+        <a class="social-link twitter"><i class="fab fa-twitter"></i>Twitter</a>
+        <a class="social-link instagram"><i class="fab fa-instagram"></i>Instagram</a>
+        <a class="social-link email"><i class="fas fa-envelope"></i>Email</a>
+      </div>
+      
+      <!-- Expertise Tags -->
+      <div class="expertise-tags mt-3">
+        <span class="expertise-tag" *ngFor="let skill of instructorProfile.expertise">
+          <i class="fa-solid fa-code" *ngIf="skill.includes('Python')"></i>
+          <i class="fa-solid fa-brain" *ngIf="skill.includes('Learning') || skill.includes('AI')"></i>
+          <i class="fa-solid fa-chart-line" *ngIf="skill.includes('Data')"></i>
+          <i class="fa-solid fa-microscope" *ngIf="skill.includes('Research')"></i>
+          {{ skill }}
+        </span>
+      </div>
+    </div>
+    
+    <!-- Enhanced Manage Button -->
+    <button class="manage-btn" (click)="toggleEdit()"> 
+      <i class="fa-solid" [class]="isEditing ? 'fa-save' : 'fa-gear'"></i> 
+      {{ isEditing ? 'Save' : 'Manage' }}
+    </button>
   </div>
 
-  <p class="bio">
-With over 15 years of experience in data science and machine learning, I specialize in making complex technical concepts accessible to learners of all levels. My research
-focuses on practical applications of AI in business and healthcare.  </p>
+  <!-- Enhanced Bio Section -->
+  <div class="bio-section">
+    <div class="bio-header">
+      <h3><i class="fa-solid fa-user-graduate"></i>About</h3>
+    </div>
+    <div *ngIf="!isEditing" class="bio">{{ instructorProfile.bio }}</div>
+    <textarea *ngIf="isEditing" [(ngModel)]="instructorProfile.bio" class="bio-edit" rows="4"></textarea>
+    
+    <!-- Additional Sections -->
+    <div class="additional-info" *ngIf="!isEditing">
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="info-icon education">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <div class="info-content">
+            <h4>Education</h4>
+            <ul>
+              <li *ngFor="let edu of instructorProfile.education">{{ edu }}</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="info-card">
+          <div class="info-icon achievements">
+            <i class="fa-solid fa-trophy"></i>
+          </div>
+          <div class="info-content">
+            <h4>Key Achievements</h4>
+            <ul>
+              <li *ngFor="let achievement of instructorProfile.achievements">{{ achievement }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <!-- Enhanced Followers Section -->
   <div class="followers mt-2">
-
     <div class="title">
-      <p class="text mb-3">Followers ({{ followers.length }})</p>
+      <p class="text mb-3">
+        <i class="fa-solid fa-users"></i>
+        Followers ({{ followers.length }})
+      </p>
       <div class="line"></div>
     </div>
-    <div class="searchStudents  mb-3">
+    
+    <div class="searchStudents mb-3">
       <div class="leftSearch">
-        <h5>People Following <span class="titleNAme">Dr. Amr mausad</span></h5>
+        <h5>People Following <span class="titleName">{{ instructorProfile.name }}</span></h5>
+        <p class="follower-subtitle">Engaged learners from around the world</p>
       </div>
       <div class="rightSearch">
-        <input type="text" placeholder="Search by name or title" [(ngModel)]="searchText" />
-      </div>
-
-    </div>
-
-   <div class="followersList">
-      <div class="followers-list">
-      <div
-        class="follower-card" *ngFor="let follower of filteredFollowers()">
-        <img [src]="follower.image" alt="Avatar" />
-        <div>
-          <h4 class="nameStudent">{{ follower.name }}</h4>
-          <p>{{ follower.title }}</p>
+        <div class="search-container">
+          <i class="fa-solid fa-search search-icon"></i>
+          <input type="text" placeholder="Search by name or title" [(ngModel)]="searchText" />
+          <div class="search-results-count" *ngIf="searchText">
+            {{ filteredFollowers().length }} results
+          </div>
         </div>
       </div>
     </div>
 
-   </div>
+    <!-- Enhanced Followers List -->
+    <div class="followersList">
+      <div class="followers-list">
+        <div class="follower-card" *ngFor="let follower of filteredFollowers()">
+          <div class="follower-avatar">
+            <img [src]="follower.image" alt="Avatar" />
+            <div class="follower-status"></div>
+          </div>
+          
+          <div class="follower-info">
+            <h4 class="nameStudent">{{ follower.name }}</h4>
+            <p class="follower-title">{{ follower.title }}</p>
+            <div class="follower-meta">
+              <span class="courses-taken">
+                <i class="fa-solid fa-book-open"></i>
+                {{ follower.courses }} courses
+              </span>
+              <span class="join-date">
+                <i class="fa-solid fa-calendar"></i>
+                {{ formatDate(follower.joinDate) }}
+              </span>
+            </div>
+          </div>
+          
+          <div class="follower-rating">
+            <div class="rating-stars">{{ getStarDisplay(follower.rating) }}</div>
+            <div class="rating-number">{{ follower.rating }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
