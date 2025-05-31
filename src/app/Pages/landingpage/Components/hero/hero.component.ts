@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [NzIconModule , TranslateModule , CommonModule] ,
+  imports: [NzIconModule , TranslateModule ,RouterLink, CommonModule] ,
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.scss',
   
