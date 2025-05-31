@@ -101,7 +101,7 @@ export class NavbarinstructorComponent {
   addCoupon() {
     this.toggleAddMenu(); 
     console.log('Opening Coupon popup...');
-    this.router.navigate(['/Instructor', { outlets: { dialog: ['coupon', 205] } }])
+    this.router.navigate(['/Instructor', { outlets: { dialog: ['coupan', 205] } }])
       .then(success => console.log('Navigation success:', success))
       .catch(err => console.error('Navigation error:', err));
   }

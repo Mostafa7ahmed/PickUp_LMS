@@ -76,6 +76,7 @@ updateDiscountType() {
   console.log('Updated discountType:', this.formGroup.value.discountType); // للتأكد أنه يعمل بشكل صحيح
 }
   ngOnInit(): void {
+    console.log('CouponCourseComponent ngOnInit called - Dialog should be visible');
     this.getCourse();
     this.getStudents();
     
@@ -180,7 +181,7 @@ updateDiscountType() {
   closePopup() {
     this.isVisible = false;
     setTimeout(() => {
-      this.router.navigate([{ outlets: { dialog: null } }]);
+      this.router.navigate(['/Instructor', { outlets: { dialog: null } }]);
     }, 150);
   }
   isLimited = true;

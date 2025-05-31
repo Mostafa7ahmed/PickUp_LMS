@@ -60,6 +60,7 @@ export class AddCoursesComponent {
   isVisible: boolean = true;
 
   constructor() {
+    console.log('AddCoursesComponent constructor called - Dialog should be visible');
     this.items = [
       {
         label: 'Save and Create New',
@@ -495,7 +496,7 @@ export class AddCoursesComponent {
     this.isVisible = false;
     // Add small delay to allow animation before navigating
     setTimeout(() => {
-      this.router.navigate([{ outlets: { dialog: null } }]);
+      this.router.navigate(['/Instructor', { outlets: { dialog: null } }]);
     }, 150);
   }
   

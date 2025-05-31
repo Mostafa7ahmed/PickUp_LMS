@@ -32,7 +32,7 @@ export class CouponListComponent implements OnInit {
 
   private _paginateCoursesService = inject(ListCourseService); 
   private _PaginateCouponService = inject(ListCouponService);
-  private routes = inject(Router);
+  private router = inject(Router);
 
   isLoadCourse = false;
   showInfoCoupon = false;
@@ -100,7 +100,10 @@ export class CouponListComponent implements OnInit {
     }
   }
   openPopup() {
-    this.routes.navigate([{ outlets: { dialog: ['coupan', this.selectedCouponcId] } }]);
+    console.log('CouponListComponent openPopup called - navigating to coupan dialog with ID:', this.selectedCouponcId);
+    this.router.navigate(['/Instructor', { outlets: { dialog: ['coupan', this.selectedCouponcId] } }])
+      .then(success => console.log('Coupon navigation success:', success))
+      .catch(err => console.error('Coupon navigation error:', err));
   }
  
   clearDateRange() {

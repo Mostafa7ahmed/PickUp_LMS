@@ -9,6 +9,8 @@ import { SelectIconComponent } from "../../Components/select-icon/select-icon.co
 import { ViewtpoicComponent } from "./Components/viewtpoic/viewtpoic.component";
 import { finalize, Subscription } from 'rxjs';
 import { AddTopicComponent } from "./Components/add-topic/add-topic.component";
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-topic',
   standalone: true,
@@ -18,7 +20,7 @@ import { AddTopicComponent } from "./Components/add-topic/add-topic.component";
 })
 export class TopicComponent implements OnInit {
   private _topicService = inject(TopicService);
-
+  private router = inject(Router);
 
   private cdr = inject(ChangeDetectorRef);
   pageIndex :number = 0;
@@ -40,8 +42,7 @@ export class TopicComponent implements OnInit {
   currentTopicId: number | null = null;
   subscription: Subscription | null = null;
   showModal(): void {
-    this.isVisible = true;
-    
+    this.router.navigate([{ outlets: { dialog: ['addTopic'] } }]);
   }
 
   showsViewTopic = false;

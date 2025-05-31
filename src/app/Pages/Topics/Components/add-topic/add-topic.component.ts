@@ -64,6 +64,7 @@ export class AddTopicComponent implements OnInit {
   });
 
   constructor() {
+    console.log('AddTopicComponent constructor called');
     this.icons = this.iconsService.getIcons();
     this.colors = this.colorlistService.getColors();
   }
@@ -93,7 +94,7 @@ export class AddTopicComponent implements OnInit {
   closePopup() {
     this.isVisble = false;
     setTimeout(() => {
-      this.router.navigate([{ outlets: { dialog: null } }]);
+      this.router.navigate(['/Instructor', { outlets: { dialog: null } }]);
     }, 150);
   }
 
@@ -225,7 +226,7 @@ export class AddTopicComponent implements OnInit {
 
 
   ngOnInit(): void {
-
+    console.log('AddTopicComponent ngOnInit called - Dialog should be visible');
     this.topicForm.get('isMain')?.valueChanges.subscribe((isChecked) => {
       if (isChecked) {
         this.topicForm.get('mainId')?.setValue(null, { emitEvent: false });

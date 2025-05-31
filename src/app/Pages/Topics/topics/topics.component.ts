@@ -15,6 +15,11 @@ import { TranslateModule } from '@ngx-translate/core';
 export class TopicsComponent {
   constructor(private router: Router) {}
 
-  openPopup() { this.router.navigate([{ outlets: { dialog: [ 'addTopic'] } }]);  }
+  openPopup() { 
+    console.log('TopicsComponent openPopup called - navigating to addTopic dialog');
+    this.router.navigate(['/Instructor', { outlets: { dialog: ['addTopic'] } }])
+      .then(success => console.log('Navigation success:', success))
+      .catch(err => console.error('Navigation error:', err));
+  }
   
 }

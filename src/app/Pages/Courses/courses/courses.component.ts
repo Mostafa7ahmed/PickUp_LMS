@@ -153,7 +153,10 @@ iselectedStage : boolean = false;
   }
 
   openPopup() {
-    this.router.navigate([{ outlets: { dialog: ['addcourse'] } }]);
+    console.log('CoursesComponent openPopup called - navigating to addcourse dialog');
+    this.router.navigate(['/Instructor', { outlets: { dialog: ['addcourse'] } }])
+      .then(success => console.log('Course navigation success:', success))
+      .catch(err => console.error('Course navigation error:', err));
   }
 
   @ViewChild('dropdownContainer') dropdownContainer!: ElementRef;

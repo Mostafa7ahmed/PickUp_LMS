@@ -4,7 +4,7 @@ import { notloginguardsGuard } from '../Core/Guards/notloginguards.guard';
 import { instructorOnlyGuard } from '../Core/Guards/role-based.guard';
 
 // Main Components
-import { HomeinstructorComponent } from '../Pages/Instructor/homeinstructor/homeinstructor.component';
+import { HomeComponent } from '../Pages/Instructor/home/home.component';
 import { PorfileComponent } from '../Pages/Instructor/porfile/porfile.component';
 import { ChangePasswordPopupComponent } from '../Pages/Auth/change-password-popup/change-password-popup.component';
 
@@ -59,7 +59,7 @@ export const instructorRoutes: Routes = [
             { 
                 path: 'homeInstructor', 
                 title: 'Instructor Dashboard', 
-                component: HomeinstructorComponent,
+                component: HomeComponent,
                 canActivate: [instructorOnlyGuard]
             },
             
@@ -153,7 +153,7 @@ export const instructorRoutes: Routes = [
             { path: 'addStage/:StageId', outlet: 'dialog2', component: AddStageComponent },
             { path: 'editStage/:StageId', outlet: 'dialog2', component: EditStageComponent },
             
-            { path: 'coupon/:CoupanId', outlet: 'dialog', component: CouponCourseComponent },
+            { path: 'coupan/:CoupanId', outlet: 'dialog', component: CouponCourseComponent },
             { path: 'viewCoupon/:CoupanId', outlet: 'dialog', component: ViewCouponComponent },
             
             // Fallback route
