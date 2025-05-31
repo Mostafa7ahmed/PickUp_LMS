@@ -1,28 +1,127 @@
-<div class="home position-relative">
-  <div class="leftHome">
-    <h1 class="fade-slide-in">
-      Welcome to the <span> Pickup LMS</span> <br>Learning Experience Builder
-    </h1>
-
-    <p class="fade-slide-in-delayed">
-      "Let’s create a learning space that helps you deliver powerful content and grow your learners’ success."
-    </p>
-
-    <div class="listPostive fade-slide-in-delayed mt-5">
-      <ul>
-        <li *ngFor="let item of features; let i = index" [ngStyle]="{'animation-delay': (0.6 + i * 0.1) + 's'}" class="fade-slide-in">
-          <span class="Icon"><i class="fa-solid fa-check"></i></span>
-          <span class="text">{{ item }}</span>
-        </li>
-      </ul>
-    </div>
-
-    <div class="buttonCenter d-flex justify-content-center mt-5 fade-slide-in-delayed">
-      <button class="shadow pickup-btn"> Start Learning 🚀</button>
+<section class="hero-section">
+  <div class="hero-background">
+    <div class="floating-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
     </div>
   </div>
+  
+  <div class="hero-container">
+    <div class="hero-content">
+      <div class="hero-left">
+        <!-- Hero Badge -->
+        <div class="hero-badge fade-slide-in">
+          <span class="badge-icon">🚀</span>
+          <span>Transform Your Learning Journey</span>
+        </div>
+        
+        <!-- Hero Title -->
+        <h1 class="hero-title hero-title-visible">
+          Welcome to the <span class="highlight">PickUp LMS</span>
+          <br>Learning Experience Platform
+        </h1>
 
-  <div class="rightHome slide-in-right">
-    <img src="Images/HomeImages.png" alt="homeInstructor" class="img-fluid" />
+        <!-- Hero Subtitle -->
+        <p class="hero-subtitle fade-slide-in-delayed">
+          Create powerful learning experiences, deliver engaging content, and track student success with our comprehensive LMS platform designed for modern education.
+        </p>
+
+        <!-- Hero Stats -->
+        <div class="hero-stats fade-slide-in-delayed">
+          <div class="stat-item">
+            <span class="stat-number">50K+</span>
+            <span class="stat-label">Active Students</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">2K+</span>
+            <span class="stat-label">Expert Instructors</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">500+</span>
+            <span class="stat-label">Courses</span>
+          </div>
+        </div>
+
+        <!-- Feature List -->
+        <div class="feature-list fade-slide-in-delayed">
+          <div class="features-grid">
+            <div *ngFor="let item of features; let i = index" 
+                 [ngStyle]="{'animation-delay': (0.8 + i * 0.1) + 's'}" 
+                 class="feature-item fade-slide-in">
+              <div class="feature-icon">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <span class="feature-text">{{ item }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Actions -->
+        <div class="hero-actions fade-slide-in-delayed">
+          <button class="btn btn-primary btn-large" routerLink="/startregister">
+            <span>Start Learning Today</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+          <button class="btn btn-secondary btn-large" routerLink="/login">
+            <span>Explore Features</span>
+            <i class="fa-solid fa-play"></i>
+          </button>
+        </div>
+
+        <!-- Trust Indicators -->
+        <div class="trust-indicators fade-slide-in-delayed">
+          <p class="trust-text">Trusted by leading organizations</p>
+          <div class="company-logos">
+            <div class="company-logo">Google</div>
+            <div class="company-logo">Microsoft</div>
+            <div class="company-logo">Amazon</div>
+            <div class="company-logo">Meta</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-right slide-in-right">
+        <div class="hero-image-container">
+          <div class="dashboard-mockup">
+            <div class="mockup-header">
+              <div class="mockup-controls">
+                <span class="control red"></span>
+                <span class="control yellow"></span>
+                <span class="control green"></span>
+              </div>
+              <div class="mockup-title">PickUp LMS Dashboard</div>
+            </div>
+            <div class="mockup-content">
+              <img src="Images/HomeImages.png" alt="PickUp LMS Dashboard" class="img-fluid dashboard-image" />
+              <div class="floating-elements">
+                <div class="floating-card card-1">
+                  <div class="card-icon">📊</div>
+                  <div class="card-content">
+                    <div class="card-title">Progress</div>
+                    <div class="card-value">85%</div>
+                  </div>
+                </div>
+                <div class="floating-card card-2">
+                  <div class="card-icon">🏆</div>
+                  <div class="card-content">
+                    <div class="card-title">Achievements</div>
+                    <div class="card-value">12</div>
+                  </div>
+                </div>
+                <div class="floating-card card-3">
+                  <div class="card-icon">👥</div>
+                  <div class="card-content">
+                    <div class="card-title">Students</div>
+                    <div class="card-value">2.5K</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="hero-glow"></div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+</section>

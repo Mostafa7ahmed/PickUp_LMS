@@ -26,15 +26,14 @@ export class NavbarStudentComponent {
   
     openPopup() {
       this.toggleAccountMenu();
-  
       this.router.navigate([{ outlets: { dialog: ['ChangePasswordPopup'] } }]);
     }
+    
     routeProfile(): void {
-          this.toggleAccountMenu();
-  
-    this.router.navigate(['/myprofile']);
-  }
-  
+      this.toggleAccountMenu();
+      // Navigate to student profile route
+      this.router.navigate(['/Student/profile']);
+    }
   
     logOut() {
       this.translate.get('LogOut.LOGOUT_SUCCESS').subscribe((res: string) => {
@@ -44,14 +43,13 @@ export class NavbarStudentComponent {
     }
   
     ngOnInit() {
-  
       this.dataUser = this._LoginService.saveUserAuth();
     }
   
     isAddMenuOpen = false;
     isAccountMenuOpen = false;
   
-    constructor(private eRef: ElementRef ,    private translate: TranslateService) { }
+    constructor(private eRef: ElementRef, private translate: TranslateService) { }
   
     toggleAddMenu() {
       this.isAddMenuOpen = !this.isAddMenuOpen;
@@ -70,28 +68,25 @@ export class NavbarStudentComponent {
         this.isAccountMenuOpen = false;
       }
     }
-   ChangeLang(lang: string) {
+    
+    ChangeLang(lang: string) {
       this.toggleAccountMenu();
-  
       this.translate.get('Langaue.LANGUAGE_CHANGED').subscribe((res: string) => {
         this._NzMessageService.success(res); 
       });
-  
       this._MytranslationService.ChangeLang(lang);
-  
       this.translate.use(lang);  
     }
-    addTopic() { this.toggleAddMenu(); this.router.navigate([{ outlets: { dialog: ['addTopic'] } }]); }
-    addCourse() { this.toggleAddMenu(); this.router.navigate([{ outlets: { dialog: ['addcourse'] } }]); }
-    addCoupan() {
-      this.toggleAddMenu(); this.router.navigate([{ outlets: { dialog: ['coupan', 205] } }]);
-  
-    }
-  
+    
+    // REMOVED INSTRUCTOR-ONLY FUNCTIONS:
+    // - addTopic() 
+    // - addCourse()
+    // - addCoupan()
+    // These functions are now only available to instructors
+    
     ToggleLang() {
       const currentLang = this._TranslateService.currentLang;
       const newLang = currentLang === 'en' ? 'ar' : 'en';
       this.ChangeLang(newLang);
     }
-
 }

@@ -45,17 +45,18 @@ export class LoginComponent {
 
                 localStorage.setItem("roles", this.userDecode.roles); 
 
-
              this._loginService.saveUserAuth();
             console.log("message"+ this.userDecode.UserType)
              this.message.success(res.message);
-          this._Router.navigate([`/${this.userDecode.roles}/home${this.userDecode.roles}`]);
-
-
-
-
-
           
+          // Navigate based on user role with proper route paths
+          if (this.userDecode.roles === 'Instructor') {
+            this._Router.navigate(['/Instructor/homeInstructor']);
+          } else if (this.userDecode.roles === 'Student') {
+            this._Router.navigate(['/Student/homeStudent']);
+          } else {
+            this._Router.navigate(['/']);
+          }
         },
         error: (err: HttpErrorResponse) => {
           this.MessageUseName =err.error.message;

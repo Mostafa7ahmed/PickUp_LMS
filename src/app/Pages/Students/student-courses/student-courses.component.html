@@ -1,0 +1,150 @@
+<div class="student-courses-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="title-area">
+      <h1><i class="fa-solid fa-graduation-cap me-3"></i>My Courses</h1>
+      <p>Track your learning progress and continue your educational journey</p>
+    </div>
+    
+    <!-- Filters and Search -->
+    <div class="controls-section">
+      <div class="filter-controls">
+        <select [(ngModel)]="filterBy" class="filter-select">
+          <option value="all">All Courses</option>
+          <option value="in-progress">In Progress</option>
+          <option value="completed">Completed</option>
+          <option value="not-started">Not Started</option>
+        </select>
+        
+        <select [(ngModel)]="sortBy" class="sort-select">
+          <option value="progress">Sort by Progress</option>
+          <option value="title">Sort by Title</option>
+          <option value="recent">Recently Accessed</option>
+        </select>
+      </div>
+      
+      <div class="search-box">
+        <i class="fa-solid fa-search"></i>
+        <input type="text" placeholder="Search courses...">
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-icon enrolled">
+        <i class="fa-solid fa-book"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ courses.length }}</h3>
+        <p>Enrolled Courses</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon completed">
+        <i class="fa-solid fa-trophy"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ completedCoursesCount }}</h3>
+        <p>Completed</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon progress">
+        <i class="fa-solid fa-clock"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ inProgressCoursesCount }}</h3>
+        <p>In Progress</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon avg-progress">
+        <i class="fa-solid fa-chart-line"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ averageProgress }}%</h3>
+        <p>Avg Progress</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Courses Grid -->
+  <div class="courses-grid">
+    <div class="course-card" *ngFor="let course of filteredCourses">
+      <div class="course-image">
+        <img [src]="course.image" [alt]="course.title" onerror="this.src='Images/Course/default.jpg'">
+        <div class="progress-overlay">
+          <div class="progress-circle">
+            <span>{{ course.progress }}%</span>
+          </div>
+        </div>
+        <div class="category-badge">{{ course.category }}</div>
+      </div>
+      
+      <div class="course-content">
+        <h3 class="course-title">{{ course.title }}</h3>
+        <p class="course-instructor">
+          <i class="fa-solid fa-user-tie"></i>
+          {{ course.instructor }}
+        </p>
+        <p class="course-description">{{ course.description }}</p>
+        
+        <div class="course-stats">
+          <div class="stat">
+            <i class="fa-solid fa-play-circle"></i>
+            <span>{{ course.completedLessons }}/{{ course.totalLessons }} lessons</span>
+          </div>
+          <div class="stat">
+            <i class="fa-solid fa-clock"></i>
+            <span>{{ course.duration }}</span>
+          </div>
+          <div class="stat">
+            <i class="fa-solid fa-star"></i>
+            <span>{{ course.rating }}</span>
+          </div>
+        </div>
+        
+        <div class="progress-section">
+          <div class="progress-info">
+            <span class="progress-text">{{ getProgressStatus(course.progress) }}</span>
+            <span class="progress-percent">{{ course.progress }}%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" 
+                 [style.width.%]="course.progress"
+                 [style.background-color]="getProgressColor(course.progress)">
+            </div>
+          </div>
+        </div>
+        
+        <div class="course-actions">
+          <button class="btn-continue" [routerLink]="['/Student/course', course.id]">
+            <i class="fa-solid fa-play"></i>
+            {{ getButtonText(course.progress) }}
+          </button>
+          <button class="btn-menu">
+            <i class="fa-solid fa-ellipsis-vertical"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="filteredCourses.length === 0">
+    <div class="empty-icon">
+      <i class="fa-solid fa-graduation-cap"></i>
+    </div>
+    <h3>No courses found</h3>
+    <p>Try adjusting your filters or explore our course catalog to find new learning opportunities.</p>
+    <button class="btn-explore" routerLink="/courses">
+      <i class="fa-solid fa-search"></i>
+      Explore Courses
+    </button>
+  </div>
+</div> 

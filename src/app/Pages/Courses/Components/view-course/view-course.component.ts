@@ -244,7 +244,7 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
       this._deleteCoursesService.deleteCourse(this.selectedDeleteId).subscribe((res: any) => {
         if (res.success) {
           console.log('Course deleted successfully');
-          this.router.navigate(['/course']);
+          this.router.navigate(['/Instructor/course']);
           
           this.closeDeletePopup();
         } else {

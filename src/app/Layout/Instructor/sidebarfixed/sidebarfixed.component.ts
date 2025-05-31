@@ -47,40 +47,40 @@ export class SidebarfixedComponent {
     {
       name: 'Home Page',
       Icon: 'fa-solid fa-house',
-      routes: "homeInstructor"
+      routes: "/Instructor/homeInstructor"
     },
     {
       name: 'Board',
       Icon: 'fa-solid fa-envelopes-bulk',
-      routes: "topics"
+      routes: "/Instructor/topics"
     },
     {
       name: 'Course',
       Icon: 'fa-solid fa-person-chalkboard',
-      routes: "course"
+      routes: "/Instructor/course"
     },
     {
       name: 'Quiz',
       Icon: 'fa-solid fa-clipboard-question',
-      routes: "quizlist"
+      routes: "/Instructor/quizlist"
     },
 
     {
       name: 'Coupon',
       Icon: 'fa-receipt fa-solid',
-      routes: "Couponslist"
+      routes: "/Instructor/Couponslist"
     },
-        {
-      name: 'Chat',
-      Icon: 'fa-regular fa-comment-dots',
-      
-      routes: "Chat"
-    },  
+    // Commented out until Chat component is created
+    // {
+    //   name: 'Chat',
+    //   Icon: 'fa-regular fa-comment-dots',
+    //   routes: "/Instructor/chat"
+    // },  
     
     {
       name: 'To Do',
       Icon: 'fa-solid fa-list-check',
-      routes: "todo"
+      routes: "/Instructor/todo"
     },
   ];
 

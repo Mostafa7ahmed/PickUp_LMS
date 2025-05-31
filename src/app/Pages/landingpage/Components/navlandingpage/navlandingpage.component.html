@@ -5,14 +5,14 @@
 
   </div>
   <div class="navbar-right  d-flex align-items-center gap-2">
-    <button class="btn sign-in">Sign In</button>
+    <button class="btn sign-in" routerLink="/login">Sign In</button>
     <div class="dropdown" (mouseenter)="showDropdown = true" (mouseleave)="showDropdown = false">
       <button class="btn join-as">
         Join As <i class="fas fa-chevron-down"></i>
       </button>
       <div class="dropdown-menu"  [class.show]="showDropdown">
-        <a href="#" class="dropdown-item">Student</a>
-        <a href="#" class="dropdown-item">Instructor</a>
+        <a routerLink="/RegisterStudent" class="dropdown-item">Student</a>
+        <a routerLink="/RegisterInstructor" class="dropdown-item">Instructor</a>
       </div>
     </div>
   </div>

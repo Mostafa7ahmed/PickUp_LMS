@@ -1,0 +1,438 @@
+<div class="student-todo-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="title-area">
+      <h1><i class="fa-solid fa-list-check me-3"></i>My Tasks</h1>
+      <p>Organize and track your academic tasks and assignments</p>
+    </div>
+    
+    <!-- Controls -->
+    <div class="controls-section">
+      <div class="filter-controls">
+        <select [(ngModel)]="filterType" class="filter-select">
+          <option value="all">All Tasks</option>
+          <option value="assignment">Assignments</option>
+          <option value="exam">Exams</option>
+          <option value="study">Study</option>
+          <option value="personal">Personal</option>
+        </select>
+      </div>
+      
+      <div class="search-box">
+        <i class="fa-solid fa-search"></i>
+        <input type="text" [(ngModel)]="searchTerm" placeholder="Search tasks...">
+      </div>
+      
+      <button class="btn-add-task" (click)="showAddForm = true">
+        <i class="fa-solid fa-plus"></i>
+        Add Task
+      </button>
+    </div>
+  </div>
+
+  <!-- Enhanced Stats Row -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-icon total">
+        <i class="fa-solid fa-tasks"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ getTotalTasks() }}</h3>
+        <p>Total Tasks</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon in-progress">
+        <i class="fa-solid fa-play-circle"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ getTasksInProgress() }}</h3>
+        <p>In Progress</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon completed">
+        <i class="fa-solid fa-check-circle"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ getCompletedTasks() }}</h3>
+        <p>Completed</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon overdue">
+        <i class="fa-solid fa-exclamation-triangle"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ getOverdueTasks() }}</h3>
+        <p>Overdue</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Kanban Board -->
+  <div class="kanban-board">
+    <div class="kanban-column" *ngFor="let column of filteredColumns">
+      <div class="column-header" [style.border-left-color]="column.color">
+        <div class="column-title">
+          <div class="column-info">
+            <i [class]="getStatusIcon(column.id)"></i>
+            <span>{{ column.title }}</span>
+          </div>
+          <span class="task-count">{{ column.tasks.length }}</span>
+        </div>
+      </div>
+      
+      <div class="tasks-container"
+           cdkDropList
+           [id]="column.id"
+           [attr.data-column]="column.id"
+           [cdkDropListData]="column.tasks"
+           [cdkDropListConnectedTo]="getConnectedColumns()"
+           (cdkDropListDropped)="onDrop($event)"
+           [class.drop-zone-active]="true">
+        
+        <div class="task-card" 
+             *ngFor="let task of column.tasks"
+             cdkDrag
+             [cdkDragData]="task"
+             [class]="'task-status-' + task.status">
+          
+          <!-- Drag Handle -->
+          <div class="drag-handle" cdkDragHandle>
+            <i class="fa-solid fa-grip-dots-vertical"></i>
+          </div>
+          
+          <div class="task-content">
+            <div class="task-header">
+              <div class="priority-section">
+                <span class="priority-badge" [class]="'priority-' + task.priorityClass">
+                  <i [class]="getPriorityIcon(task.priority)"></i>
+                  {{ task.priority }}
+                </span>
+              </div>
+              <div class="task-actions">
+                <button class="btn-view" (click)="viewTask(task)" title="View Task Details">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+                <button class="btn-edit" (click)="editTask(task)" title="Edit Task">
+                  <i class="fa-solid fa-edit"></i>
+                </button>
+                <button class="btn-delete" (click)="deleteTask(column.id, task.id)" title="Delete Task">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </div>
+            
+            <h4 class="task-title">{{ task.title }}</h4>
+            <p class="task-description">{{ task.description }}</p>
+            
+            <div class="task-meta">
+              <div class="task-type">
+                <i [class]="getTaskTypeIcon(task.type)"></i>
+                <span>{{ task.type | titlecase }}</span>
+              </div>
+              
+              <div class="task-course" *ngIf="task.course">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>{{ task.course }}</span>
+              </div>
+            </div>
+            
+            <div class="task-footer">
+              <div class="due-date">
+                <i class="fa-solid fa-calendar"></i>
+                <span *ngIf="!isOverdue(task.dueDate) || task.completed">
+                  {{ getDaysUntilDue(task.dueDate) === 0 ? 'Due Today' : 
+                     getDaysUntilDue(task.dueDate) === 1 ? 'Due Tomorrow' : 
+                     'Due in ' + getDaysUntilDue(task.dueDate) + ' days' }}
+                </span>
+                <span *ngIf="isOverdue(task.dueDate) && !task.completed" class="overdue-text">
+                  <i class="fa-solid fa-clock"></i>
+                  Overdue by {{ getAbsoluteDays(task.dueDate) }} day(s)
+                </span>
+              </div>
+              
+              <div class="task-status-indicator">
+                <i [class]="getStatusIcon(task.status)"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="empty-column" *ngIf="column.tasks.length === 0">
+          <div class="drop-zone-indicator">
+            <i class="fa-solid fa-plus-circle"></i>
+            <p>Drop tasks here or click Add Task</p>
+            <small>{{ column.title }} - {{ column.tasks.length }} tasks</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Task Modal -->
+  <div class="modal-overlay" *ngIf="showAddForm" (click)="showAddForm = false">
+    <div class="add-task-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-plus-circle"></i> Add New Task</h3>
+        <button class="btn-close" (click)="showAddForm = false">
+          <i class="fa-solid fa-times"></i>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-group">
+          <label><i class="fa-solid fa-heading"></i> Task Title</label>
+          <input type="text" [(ngModel)]="newTask.title" placeholder="Enter task title..." class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label><i class="fa-solid fa-align-left"></i> Description</label>
+          <textarea [(ngModel)]="newTask.description" placeholder="Task description..." class="form-control" rows="3"></textarea>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label><i class="fa-solid fa-flag"></i> Priority</label>
+            <select [(ngModel)]="newTask.priority" class="form-control">
+              <option value="Low">🟢 Low</option>
+              <option value="Medium">🟡 Medium</option>
+              <option value="High">🔴 High</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fa-solid fa-tag"></i> Type</label>
+            <select [(ngModel)]="newTask.type" class="form-control">
+              <option value="assignment">📄 Assignment</option>
+              <option value="exam">❓ Exam</option>
+              <option value="study">📚 Study</option>
+              <option value="personal">👤 Personal</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label><i class="fa-solid fa-calendar"></i> Due Date</label>
+            <input type="date" [(ngModel)]="newTask.dueDate" class="form-control">
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fa-solid fa-graduation-cap"></i> Course (Optional)</label>
+            <input type="text" [(ngModel)]="newTask.course" placeholder="Course name..." class="form-control">
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="showAddForm = false">
+          <i class="fa-solid fa-times"></i> Cancel
+        </button>
+        <button class="btn-add" (click)="addTask()">
+          <i class="fa-solid fa-plus"></i> Add Task
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Task Modal -->
+  <div class="modal-overlay" *ngIf="showEditForm && editingTask" (click)="cancelEdit()">
+    <div class="add-task-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-edit"></i> Edit Task</h3>
+        <button class="btn-close" (click)="cancelEdit()">
+          <i class="fa-solid fa-times"></i>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-group">
+          <label><i class="fa-solid fa-heading"></i> Task Title</label>
+          <input type="text" [(ngModel)]="editingTask.title" placeholder="Enter task title..." class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label><i class="fa-solid fa-align-left"></i> Description</label>
+          <textarea [(ngModel)]="editingTask.description" placeholder="Task description..." class="form-control" rows="3"></textarea>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label><i class="fa-solid fa-flag"></i> Priority</label>
+            <select [(ngModel)]="editingTask.priority" class="form-control">
+              <option value="Low">🟢 Low</option>
+              <option value="Medium">🟡 Medium</option>
+              <option value="High">🔴 High</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fa-solid fa-tag"></i> Type</label>
+            <select [(ngModel)]="editingTask.type" class="form-control">
+              <option value="assignment">📄 Assignment</option>
+              <option value="exam">❓ Exam</option>
+              <option value="study">📚 Study</option>
+              <option value="personal">👤 Personal</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label><i class="fa-solid fa-calendar"></i> Due Date</label>
+            <input type="date" [(ngModel)]="editingTask.dueDate" class="form-control">
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fa-solid fa-graduation-cap"></i> Course</label>
+            <input type="text" [(ngModel)]="editingTask.course" placeholder="Course name..." class="form-control">
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="cancelEdit()">
+          <i class="fa-solid fa-times"></i> Cancel
+        </button>
+        <button class="btn-add" (click)="updateTask()">
+          <i class="fa-solid fa-save"></i> Update Task
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- View Task Modal -->
+  <div class="modal-overlay" *ngIf="showViewModal && viewingTask" (click)="closeViewModal()">
+    <div class="view-task-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-eye"></i> Task Details</h3>
+        <button class="btn-close" (click)="closeViewModal()">
+          <i class="fa-solid fa-times"></i>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="task-detail-section">
+          <div class="detail-row">
+            <div class="detail-label">
+              <i class="fa-solid fa-heading"></i>
+              <span>Title</span>
+            </div>
+            <div class="detail-value title-value">{{ viewingTask.title }}</div>
+          </div>
+
+          <div class="detail-row" *ngIf="viewingTask.description">
+            <div class="detail-label">
+              <i class="fa-solid fa-align-left"></i>
+              <span>Description</span>
+            </div>
+            <div class="detail-value description-value">{{ viewingTask.description }}</div>
+          </div>
+
+          <div class="detail-row-group">
+            <div class="detail-row">
+              <div class="detail-label">
+                <i class="fa-solid fa-flag"></i>
+                <span>Priority</span>
+              </div>
+              <div class="detail-value">
+                <span class="priority-badge" [class]="'priority-' + viewingTask.priorityClass">
+                  <i [class]="getPriorityIcon(viewingTask.priority)"></i>
+                  {{ viewingTask.priority }}
+                </span>
+              </div>
+            </div>
+
+            <div class="detail-row">
+              <div class="detail-label">
+                <i class="fa-solid fa-list"></i>
+                <span>Status</span>
+              </div>
+              <div class="detail-value">
+                <span class="status-badge" [class]="'status-' + viewingTask.status">
+                  <i [class]="getStatusIcon(viewingTask.status)"></i>
+                  {{ viewingTask.status | titlecase }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-row-group">
+            <div class="detail-row">
+              <div class="detail-label">
+                <i class="fa-solid fa-tag"></i>
+                <span>Type</span>
+              </div>
+              <div class="detail-value">
+                <span class="type-badge">
+                  <i [class]="getTaskTypeIcon(viewingTask.type)"></i>
+                  {{ viewingTask.type | titlecase }}
+                </span>
+              </div>
+            </div>
+
+            <div class="detail-row" *ngIf="viewingTask.course">
+              <div class="detail-label">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Course</span>
+              </div>
+              <div class="detail-value course-value">{{ viewingTask.course }}</div>
+            </div>
+          </div>
+
+          <div class="detail-row">
+            <div class="detail-label">
+              <i class="fa-solid fa-calendar"></i>
+              <span>Due Date</span>
+            </div>
+            <div class="detail-value date-value">
+              <span class="due-date-info" 
+                    [class.overdue]="isOverdue(viewingTask.dueDate) && !viewingTask.completed"
+                    [class.completed]="viewingTask.completed">
+                {{ viewingTask.dueDate | date:'fullDate' }}
+                <small *ngIf="!isOverdue(viewingTask.dueDate) && !viewingTask.completed">
+                  ({{ getDaysUntilDue(viewingTask.dueDate) === 0 ? 'Due Today' : 
+                       getDaysUntilDue(viewingTask.dueDate) === 1 ? 'Due Tomorrow' : 
+                       'Due in ' + getDaysUntilDue(viewingTask.dueDate) + ' days' }})
+                </small>
+                <small *ngIf="isOverdue(viewingTask.dueDate) && !viewingTask.completed" class="overdue-text">
+                  (Overdue by {{ getAbsoluteDays(viewingTask.dueDate) }} day(s))
+                </small>
+                <small *ngIf="viewingTask.completed" class="completed-text">
+                  (Completed)
+                </small>
+              </span>
+            </div>
+          </div>
+
+          <div class="detail-row" *ngIf="viewingTask.completed">
+            <div class="detail-label">
+              <i class="fa-solid fa-check-circle"></i>
+              <span>Status</span>
+            </div>
+            <div class="detail-value">
+              <span class="completion-badge completed">
+                <i class="fa-solid fa-check"></i>
+                Task Completed
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="btn-edit-from-view" (click)="editTask(viewingTask); closeViewModal()">
+          <i class="fa-solid fa-edit"></i> Edit Task
+        </button>
+        <button class="btn-close-view" (click)="closeViewModal()">
+          <i class="fa-solid fa-times"></i> Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div> 

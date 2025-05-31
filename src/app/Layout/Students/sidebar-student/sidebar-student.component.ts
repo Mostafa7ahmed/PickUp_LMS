@@ -43,30 +43,41 @@ export class SidebarStudentComponent {
 
   ListSidebarOpen = [
     {
-      name: 'Home Page',
+      name: 'Dashboard',
       Icon: 'fa-solid fa-house',
-      routes: "homeStudent"
+      routes: "/Student/homeStudent"
     },
- 
     {
-      name: 'Course',
-      Icon: 'fa-solid fa-person-chalkboard',
-      routes: "course"
+      name: 'My Courses',
+      Icon: 'fa-solid fa-graduation-cap',
+      routes: "/Student/courses"
     },
-
-    {
-      name: 'Chat',
-      Icon: 'fa-regular fa-comment-dots',
-      
-      routes: "Chat"
-    },  
-    
     {
       name: 'To Do',
       Icon: 'fa-solid fa-list-check',
-      routes: "Todo"
+      routes: "/Student/todo"
     },
- 
+    {
+      name: 'Chat',
+      Icon: 'fa-regular fa-comment-dots',
+      routes: "/Student/chat"
+    },
+    // Commented out routes until components are created
+    // {
+    //   name: 'My Progress',
+    //   Icon: 'fa-solid fa-chart-line',
+    //   routes: "/Student/progress"
+    // },
+    // {
+    //   name: 'Quizzes',
+    //   Icon: 'fa-solid fa-clipboard-question',
+    //   routes: "/Student/quizzes"
+    // },
+    // {
+    //   name: 'Certificates',
+    //   Icon: 'fa-solid fa-certificate',
+    //   routes: "/Student/certificates"
+    // }
   ];
 
 

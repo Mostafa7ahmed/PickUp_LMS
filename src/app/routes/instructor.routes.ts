@@ -24,15 +24,16 @@ import { EditStageComponent } from '../Pages/Stages/Components/edit-stage/edit-s
 import { AddStageComponent } from '../Pages/Stages/Components/add-stage/add-stage.component';
 import { HomeinstructorComponent } from '../Pages/Instructor/homeinstructor/homeinstructor.component';
 import { TodoComponent } from '../Pages/todo/todo.component';
+
 export const instructorRoutes: Routes = [
     {
-        path: '',
+        path: 'Instructor',
         component: RoutesinstructorComponent,
         canActivate: [notloginguardsGuard('Instructor')],
         children: [
-            { path: 'instructor', redirectTo: 'homeInstructor', pathMatch: 'full' },
-            { path: "homeInstructor", title: "Home Instrctor", component: HomeComponent },
-            { path: "myprofile", title: "porfile", component: PorfileComponent },
+            { path: '', redirectTo: 'homeInstructor', pathMatch: 'full' },
+            { path: "homeInstructor", title: "Home Instructor", component: HomeComponent },
+            { path: "myprofile", title: "Profile", component: PorfileComponent },
             { path: 'ChangePasswordPopup', outlet: 'dialog', component: ChangePasswordPopupComponent },
             { path: "course", title: "Course", component: CoursesComponent },
             { path: "todo", title: "Task Management", component: TodoComponent },
@@ -40,7 +41,7 @@ export const instructorRoutes: Routes = [
             { path: "quizlist", title: "Quiz List", component: QuizlistComponent },
             { path: "course/:topicId/:activeTab", component: CoursesComponent, data: { defaultTab: "1" } },
             { path: "ViewCourse/:courseId", component: ViewCourseComponent },
-            { path: "topics", title: "topic", component: TopicsComponent },
+            { path: "topics", title: "Topics", component: TopicsComponent },
             { path: 'addTopic', outlet: 'dialog', component: AddTopicComponent },
             { path: 'addQuiz', outlet: 'dialog', component: AddquizlistComponent },
             { path: 'deleteTopic/:deleteId', outlet: 'dialog2', component: DeleteTopicComponent },
@@ -53,11 +54,7 @@ export const instructorRoutes: Routes = [
             { path: 'ViewTopic/:id', outlet: 'dialog', component: ViewTopicandStageComponent },
             { path: 'addStage/:StageId', outlet: 'dialog2', component: AddStageComponent },
             { path: 'editStage/:StageId', outlet: 'dialog2', component: EditStageComponent },
-            { path: "**", title: "notFound", component: HomeinstructorComponent },
-
-
+            { path: "**", title: "Not Found", component: HomeinstructorComponent },
         ]
     },
-
-
 ];

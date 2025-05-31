@@ -11,7 +11,7 @@ export const isloginguardsGuard: CanActivateFn = (route, state) => {
     if (role === 'Instructor') {
       router.navigate(['/Instructor/homeInstructor']);
     } else if (role === 'Student') {
-      router.navigate(['Student/homeStudent']);
+      router.navigate(['/Student/homeStudent']);
     } else {
       router.navigate(['/']);
     }

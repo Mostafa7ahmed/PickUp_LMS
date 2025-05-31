@@ -125,8 +125,7 @@ iselectedStage : boolean = false;
 
   changeTab(value: number): void {
     this.valueheader = value;
-    this.router.navigate(['/course', this.topicIdFromRoute, this.valueheader]);
-
+    this.router.navigate(['/Instructor/course', this.topicIdFromRoute, this.valueheader]);
   }
   changeInnerTab(value: number): void {
     this.valueTable = value;
@@ -137,17 +136,14 @@ iselectedStage : boolean = false;
 
   }
   selectOption(option: any): void {
-
-
     this.isOpen = false;
     console.log(option.id)
     this.selectedTopicId = option.id;
     this.topicIdFromRoute = option.id;
-    this.router.navigate(['/course', option.id, this.valueheader]);
+    this.router.navigate(['/Instructor/course', option.id, this.valueheader]);
     
     this.getAllKanbans(option.id)
     this.fetchCourses({}, option.id, this.valueTable);
-
   }
   toggShowInfo() {
     this.showInfo = !this.showInfo;

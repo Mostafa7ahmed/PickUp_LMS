@@ -1,0 +1,156 @@
+<div class="student-chat-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="title-area">
+      <h1><i class="fa-solid fa-comment-dots me-3"></i>Messages</h1>
+      <p>Connect with instructors and classmates</p>
+    </div>
+    
+    <div class="unread-badge" *ngIf="getTotalUnreadCount() > 0">
+      {{ getTotalUnreadCount() }} unread
+    </div>
+  </div>
+
+  <div class="chat-layout">
+    <!-- Conversations Sidebar -->
+    <div class="conversations-sidebar">
+      <div class="search-section">
+        <div class="search-box">
+          <i class="fa-solid fa-search"></i>
+          <input type="text" [(ngModel)]="searchTerm" placeholder="Search conversations...">
+        </div>
+      </div>
+      
+      <div class="conversations-list">
+        <div class="conversation-item" 
+             *ngFor="let conversation of filteredConversations"
+             [class.active]="selectedConversation?.id === conversation.id"
+             (click)="selectConversation(conversation)">
+          <div class="avatar">
+            <img [src]="conversation.participant.avatar" [alt]="conversation.participant.name" 
+                 onerror="this.src='Images/avatars/default.jpg'">
+            <div class="online-indicator" *ngIf="conversation.participant.online"></div>
+          </div>
+          
+          <div class="conversation-info">
+            <div class="conversation-header">
+              <h4>{{ conversation.participant.name }}</h4>
+              <span class="role-badge" [class]="conversation.participant.role">
+                {{ conversation.participant.role }}
+              </span>
+            </div>
+            
+            <p class="last-message" *ngIf="conversation.lastMessage">
+              {{ conversation.lastMessage.content | slice:0:50 }}
+              <span *ngIf="conversation.lastMessage.content.length > 50">...</span>
+            </p>
+            
+            <div class="conversation-meta">
+              <span class="time" *ngIf="conversation.lastMessage">
+                {{ formatTime(conversation.lastMessage.timestamp) }}
+              </span>
+              <span class="unread-count" *ngIf="conversation.unreadCount > 0">
+                {{ conversation.unreadCount }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Area -->
+    <div class="chat-area" *ngIf="selectedConversation">
+      <!-- Chat Header -->
+      <div class="chat-header">
+        <div class="participant-info">
+          <div class="avatar">
+            <img [src]="selectedConversation.participant.avatar" 
+                 [alt]="selectedConversation.participant.name"
+                 onerror="this.src='Images/avatars/default.jpg'">
+            <div class="online-indicator" *ngIf="selectedConversation.participant.online"></div>
+          </div>
+          
+          <div class="info">
+            <h3>{{ selectedConversation.participant.name }}</h3>
+            <p class="status">{{ getStatusText(selectedConversation.participant) }}</p>
+          </div>
+        </div>
+        
+        <div class="chat-actions">
+          <button class="btn-action">
+            <i class="fa-solid fa-phone"></i>
+          </button>
+          <button class="btn-action">
+            <i class="fa-solid fa-video"></i>
+          </button>
+          <button class="btn-action">
+            <i class="fa-solid fa-ellipsis-vertical"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Messages Container -->
+      <div class="messages-container">
+        <div class="message" 
+             *ngFor="let message of selectedConversation.messages"
+             [class.own-message]="isMessageFromCurrentUser(message)">
+          <div class="message-content">
+            <div class="message-bubble">
+              <p *ngIf="message.type === 'text'">{{ message.content }}</p>
+              
+              <div class="file-message" *ngIf="message.type === 'file'">
+                <i class="fa-solid fa-file"></i>
+                <span>{{ message.fileName }}</span>
+              </div>
+            </div>
+            
+            <div class="message-time">
+              {{ formatTime(message.timestamp) }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Message Input -->
+      <div class="message-input-section">
+        <div class="input-container">
+          <button class="btn-attachment" (click)="fileInput.click()">
+            <i class="fa-solid fa-paperclip"></i>
+          </button>
+          
+          <input type="text" 
+                 [(ngModel)]="newMessage" 
+                 (keyup.enter)="sendMessage()"
+                 placeholder="Type a message..." 
+                 class="message-input">
+          
+          <button class="btn-emoji" (click)="showEmojiPicker = !showEmojiPicker">
+            <i class="fa-solid fa-face-smile"></i>
+          </button>
+          
+          <button class="btn-send" (click)="sendMessage()" [disabled]="!newMessage.trim()">
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </div>
+        
+        <!-- Emoji Picker -->
+        <div class="emoji-picker" *ngIf="showEmojiPicker">
+          <span *ngFor="let emoji of ['😀', '😂', '😍', '🤔', '👍', '👎', '❤️', '🎉']"
+                (click)="addEmoji(emoji)" class="emoji">{{ emoji }}</span>
+        </div>
+      </div>
+      
+      <!-- Hidden File Input -->
+      <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;">
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-chat-state" *ngIf="!selectedConversation">
+      <div class="empty-icon">
+        <i class="fa-solid fa-comment-dots"></i>
+      </div>
+      <h3>Select a conversation</h3>
+      <p>Choose a conversation from the sidebar to start messaging</p>
+    </div>
+  </div>
+</div> 
