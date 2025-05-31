@@ -26,7 +26,7 @@ import { HomeinstructorComponent } from '../Pages/Instructor/homeinstructor/home
 import { TodoComponent } from '../Pages/todo/todo.component';
 export const instructorRoutes: Routes = [
     {
-        path: 'Instructor',
+        path: '',
         component: RoutesinstructorComponent,
         canActivate: [notloginguardsGuard('Instructor')],
         children: [

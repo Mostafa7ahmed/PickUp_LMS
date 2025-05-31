@@ -1,0 +1,25 @@
+<div class="header">
+  <h2>Meet Our Expert Instructors</h2>
+  <p>Learn from industry professionals with real-world experience</p>
+</div>
+
+<p-carousel [value]="instructors" [responsiveOptions]="responsiveOptions" [showIndicators]="false"
+  [numVisible]="5" [numScroll]="1" [circular]="true" [autoplayInterval]="autoplay" 
+    (mouseenter)="pauseCarousel()"
+  (mouseleave)="resumeCarousel()">
+  <ng-template pTemplate="item" let-instructor>
+    <div class="card m-2">
+      <div class="cardImage d-flex justify-content-center align-items-center">
+        <img [src]="instructor.image" alt="{{ instructor.name }}">
+      </div>
+      <h3>{{ instructor.name }}</h3>
+      <h4 [style.color]="instructor.color">{{ instructor.role }}</h4>
+      <p class="desc">{{ instructor.description }}</p>
+      <div class="stats d-flex align-items-start gap-4">
+        <p><span class="num">{{ instructor.courses }}</span> <span>Courses</span></p>
+        <p><span class="num">{{ instructor.students }}</span> <span>Students</span></p>
+        <p><span class="num">{{ instructor.rating }}</span> <span>Rating</span></p>
+      </div>
+    </div>
+  </ng-template>
+</p-carousel>

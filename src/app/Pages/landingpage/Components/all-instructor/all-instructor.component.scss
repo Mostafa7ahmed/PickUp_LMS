@@ -1,0 +1,88 @@
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.header h2 {
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.header p {
+  font-size: 16px;
+  color: #555;
+}
+
+.instructors-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.card {
+width: 284px;
+height: 326px;
+border-radius: 16px;
+border-width: stroke weight/1;
+background: var(--color-white-solid, #FFFFFF);
+box-shadow: 0px 1px 2px 0px #0000000D;
+padding: 20px;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+border: 1px solid var(--color-grey-96, #F3F4F6)
+}
+
+.card img {
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 15px;
+}
+
+.card h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.card h4 {
+  font-size: 16px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.desc {
+  font-size: 13px;
+  color: #4B5563;
+;
+    text-align: center;
+
+  margin-bottom: 15px;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #444;
+}
+.stats span {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  gap: 8px;
+}
+.stats .num{
+  font-weight: 600;
+  color: var(--color_link);
+}
+
+.stats i {
+  margin-right: 5px;
+  color: #333;
+}

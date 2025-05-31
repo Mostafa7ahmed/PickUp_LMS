@@ -7,7 +7,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
   standalone: true,
   imports: [NzIconModule , TranslateModule],
   templateUrl: './hero.component.html',
-  styleUrl: './hero.component.scss'
+  styleUrl: './hero.component.scss',
+  
 })
 export class HeroComponent {
 
