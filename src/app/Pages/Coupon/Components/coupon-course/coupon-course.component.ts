@@ -178,7 +178,10 @@ updateDiscountType() {
     });
   }
   closePopup() {
-    this.router.navigate([{ outlets: { dialog: null } }]);
+    this.isVisible = false;
+    setTimeout(() => {
+      this.router.navigate([{ outlets: { dialog: null } }]);
+    }, 150);
   }
   isLimited = true;
 
@@ -249,7 +252,12 @@ couponResponse() {
   };
 }
 
+isVisible: boolean = true;
 
-
+onBackdropClick(event: Event) {
+  if (event.target === event.currentTarget) {
+    this.closePopup();
+  }
+}
 
 }

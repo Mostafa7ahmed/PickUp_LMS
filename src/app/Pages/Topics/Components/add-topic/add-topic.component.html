@@ -1,6 +1,6 @@
 @if(isVisble){
-<div class="overlay"></div>
-<div class="addTopic">
+<div class="overlay" (click)="onBackdropClick($event)"></div>
+<div class="addTopic" (click)="$event.stopPropagation()">
   <app-top-pop [NamePopup]="'Board.popupAdd.add_topic'| translate" (isVisibleChange)="closePopup()"></app-top-pop>
   <div class="bodyAdd d-flex">
     <div class="leftBody">

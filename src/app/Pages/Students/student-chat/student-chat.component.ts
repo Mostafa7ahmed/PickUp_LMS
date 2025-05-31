@@ -24,6 +24,11 @@ interface Message {
 interface Conversation {
   id: number;
   participant: User;
+  course?: {
+    name: string;
+    code: string;
+    image: string;
+  };
   lastMessage?: Message;
   unreadCount: number;
   messages: Message[];
@@ -54,6 +59,11 @@ export class StudentChatComponent {
         avatar: 'Images/avatars/instructor1.jpg',
         role: 'instructor',
         online: true
+      },
+      course: {
+        name: 'Database Management Systems',
+        code: 'CS-401',
+        image: 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'
       },
       unreadCount: 2,
       messages: [
@@ -98,6 +108,11 @@ export class StudentChatComponent {
         online: false,
         lastSeen: new Date('2024-03-12T09:45:00')
       },
+      course: {
+        name: 'Web Development Fundamentals',
+        code: 'CS-301',
+        image: 'https://images.unsplash.com/photo-1627398242454-45a1465c2479?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'
+      },
       unreadCount: 0,
       messages: [
         {
@@ -124,6 +139,11 @@ export class StudentChatComponent {
         avatar: 'Images/avatars/student2.jpg',
         role: 'student',
         online: true
+      },
+      course: {
+        name: 'Data Structures & Algorithms',
+        code: 'CS-202',
+        image: 'https://images.unsplash.com/photo-1518932945647-7a1c969f8be2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'
       },
       unreadCount: 1,
       messages: [
@@ -159,6 +179,11 @@ export class StudentChatComponent {
         role: 'student',
         online: true
       },
+      course: {
+        name: 'Machine Learning & AI',
+        code: 'CS-501',
+        image: 'https://images.unsplash.com/photo-1555255707-c07966088b7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'
+      },
       unreadCount: 5,
       messages: [
         {
@@ -183,18 +208,40 @@ export class StudentChatComponent {
   newMessage: string = '';
   searchTerm: string = '';
   showEmojiPicker: boolean = false;
+  isLoading: boolean = true;
 
   ngOnInit() {
-    // Load first conversation
-    if (this.conversations.length > 0) {
-      this.selectConversation(this.conversations[0]);
-    }
+    // Remove automatic selection to prevent flash
+    // Let user manually select a conversation
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 100);
   }
 
   selectConversation(conversation: Conversation) {
+    // Add smooth transition
+    if (this.selectedConversation?.id === conversation.id) {
+      return; // Already selected
+    }
+    
     this.selectedConversation = conversation;
     // Mark messages as read
     conversation.unreadCount = 0;
+    
+    // Scroll to bottom smoothly after selection
+    setTimeout(() => {
+      this.scrollToBottom();
+    }, 150);
+  }
+
+  private scrollToBottom() {
+    const messagesContainer = document.querySelector('.messages-container');
+    if (messagesContainer) {
+      messagesContainer.scrollTo({
+        top: messagesContainer.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
   }
 
   sendMessage() {

@@ -54,11 +54,10 @@ export class AddCoursesComponent {
   private _TagesService = inject(TagesService);
   private _CustomFildsService = inject(CustomFildsService);
 
-
   items: MenuItem[];
-
-
-
+  
+  // Add visibility management
+  isVisible: boolean = true;
 
   constructor() {
     this.items = [
@@ -493,7 +492,11 @@ export class AddCoursesComponent {
     console.log('Visible Now:', field.get('visible')?.value);
   }
   closePopup() {
-    this.router.navigate([{ outlets: { dialog: null } }]);
+    this.isVisible = false;
+    // Add small delay to allow animation before navigating
+    setTimeout(() => {
+      this.router.navigate([{ outlets: { dialog: null } }]);
+    }, 150);
   }
   
   ShowDescription() {
@@ -579,4 +582,10 @@ export class AddCoursesComponent {
   
   }
   
+  // Add method to handle backdrop clicks
+  onBackdropClick(event: Event) {
+    if (event.target === event.currentTarget) {
+      this.closePopup();
+    }
+  }
 }

@@ -26,33 +26,47 @@
              *ngFor="let conversation of filteredConversations"
              [class.active]="selectedConversation?.id === conversation.id"
              (click)="selectConversation(conversation)">
-          <div class="avatar">
-            <img [src]="conversation.participant.avatar" [alt]="conversation.participant.name" 
-                 onerror="this.src='Images/avatars/default.jpg'">
-            <div class="online-indicator" *ngIf="conversation.participant.online"></div>
+          
+          <div class="conversation-main">
+            <div class="course-image" *ngIf="conversation.course">
+              <img [src]="conversation.course.image" [alt]="conversation.course.name" 
+                   onerror="this.src='Images/course-placeholder.jpg'">
+            </div>
+            
+            <div class="avatar">
+              <img [src]="conversation.participant.avatar" [alt]="conversation.participant.name" 
+                   onerror="this.src='Images/avatars/default.jpg'">
+              <div class="online-indicator" *ngIf="conversation.participant.online"></div>
+            </div>
           </div>
           
           <div class="conversation-info">
             <div class="conversation-header">
-              <h4>{{ conversation.participant.name }}</h4>
-              <span class="role-badge" [class]="conversation.participant.role">
-                {{ conversation.participant.role }}
-              </span>
+              <div class="participant-details">
+                <h4>{{ conversation.participant.name }}</h4>
+                <span class="role-badge" [class]="conversation.participant.role">
+                  {{ conversation.participant.role }}
+                </span>
+              </div>
+              <div class="conversation-meta">
+                <span class="time" *ngIf="conversation.lastMessage">
+                  {{ formatTime(conversation.lastMessage.timestamp) }}
+                </span>
+                <span class="unread-count" *ngIf="conversation.unreadCount > 0">
+                  {{ conversation.unreadCount }}
+                </span>
+              </div>
+            </div>
+            
+            <div class="course-info" *ngIf="conversation.course">
+              <span class="course-name">{{ conversation.course.name }}</span>
+              <span class="course-code">{{ conversation.course.code }}</span>
             </div>
             
             <p class="last-message" *ngIf="conversation.lastMessage">
               {{ conversation.lastMessage.content | slice:0:50 }}
               <span *ngIf="conversation.lastMessage.content.length > 50">...</span>
             </p>
-            
-            <div class="conversation-meta">
-              <span class="time" *ngIf="conversation.lastMessage">
-                {{ formatTime(conversation.lastMessage.timestamp) }}
-              </span>
-              <span class="unread-count" *ngIf="conversation.unreadCount > 0">
-                {{ conversation.unreadCount }}
-              </span>
-            </div>
           </div>
         </div>
       </div>
@@ -144,13 +158,23 @@
       <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;">
     </div>
 
+    <!-- Loading State -->
+    <div class="loading-state" *ngIf="isLoading">
+      <div class="loading-content">
+        <div class="loading-spinner">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+        </div>
+        <p>Loading conversations...</p>
+      </div>
+    </div>
+
     <!-- Empty State -->
-    <div class="empty-chat-state" *ngIf="!selectedConversation">
+    <div class="empty-chat-state" *ngIf="!selectedConversation && !isLoading">
       <div class="empty-icon">
         <i class="fa-solid fa-comment-dots"></i>
       </div>
-      <h3>Select a conversation</h3>
-      <p>Choose a conversation from the sidebar to start messaging</p>
+      <h3>Welcome to Messages</h3>
+      <p>Select a conversation from the sidebar to start chatting</p>
     </div>
   </div>
 </div> 

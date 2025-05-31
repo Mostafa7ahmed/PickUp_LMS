@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-cta-footer',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterLink],
   templateUrl: './cta-footer.component.html',
   styleUrl: './cta-footer.component.scss'
 })

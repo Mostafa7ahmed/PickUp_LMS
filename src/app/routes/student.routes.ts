@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
 import { RouteStuddentsComponent } from '../Layout/Students/route-studdents/route-studdents.component';
-import { studentGuard } from '../Core/Guards/student.guard';
 import { notloginguardsGuard } from '../Core/Guards/notloginguards.guard';
 import { studentOnlyGuard } from '../Core/Guards/role-based.guard';
 import { ChangePasswordPopupComponent } from '../Pages/Auth/change-password-popup/change-password-popup.component';
 
+// Student Components
 import { HomepageStudentComponent } from '../Pages/Students/homepage-student/homepage-student.component';
 import { StudentCoursesComponent } from '../Pages/Students/student-courses/student-courses.component';
 import { StudentTodoComponent } from '../Pages/Students/student-todo/student-todo.component';
@@ -22,8 +22,14 @@ export const studentRoutes: Routes = [
         component: RouteStuddentsComponent,
         canActivate: [notloginguardsGuard('Student'), studentOnlyGuard],
         children: [
+            // Default redirect
+            { 
+                path: '', 
+                redirectTo: 'homeStudent', 
+                pathMatch: 'full' 
+            },
+            
             // Main student dashboard
-            { path: '', redirectTo: 'homeStudent', pathMatch: 'full' },
             { 
                 path: 'homeStudent', 
                 title: 'Student Dashboard', 
@@ -104,7 +110,7 @@ export const studentRoutes: Routes = [
             //     canActivate: [studentOnlyGuard]
             // },
             
-            // Redirect any other routes to student dashboard to prevent unauthorized access
+            // Fallback route
             { 
                 path: '**', 
                 redirectTo: 'homeStudent'

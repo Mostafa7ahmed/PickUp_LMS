@@ -26,13 +26,17 @@ export class NavbarStudentComponent {
   
     openPopup() {
       this.toggleAccountMenu();
-      this.router.navigate([{ outlets: { dialog: ['ChangePasswordPopup'] } }]);
+      console.log('Opening ChangePasswordPopup...');
+      this.router.navigate(['/Student', { outlets: { dialog: ['ChangePasswordPopup'] } }])
+        .then(success => console.log('Navigation success:', success))
+        .catch(err => console.error('Navigation error:', err));
     }
     
     routeProfile(): void {
       this.toggleAccountMenu();
-      // Navigate to student profile route
-      this.router.navigate(['/Student/profile']);
+      // Navigate to student profile route (when component is created)
+      // this.router.navigate(['/Student/profile']);
+      console.log('Student profile navigation - component not yet created');
     }
   
     logOut() {

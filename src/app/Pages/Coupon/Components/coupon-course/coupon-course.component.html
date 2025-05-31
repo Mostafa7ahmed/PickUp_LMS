@@ -1,6 +1,6 @@
-<div class="overlay"></div>
-
-<div class="ShowPopup">
+@if(isVisible){
+<div class="overlay" (click)="onBackdropClick($event)"></div>
+<div class="ShowPopup" (click)="$event.stopPropagation()">
   <app-top-pop NamePopup="Create Coupon" [bgColor]="'#ec89501a'" [ColorIcon]="'#ec8950'"
     [NameIcon]="'fa-solid fa-receipt'" (isVisibleChange)="closePopup()"></app-top-pop>
 
@@ -293,3 +293,4 @@
 
 
 </div>
+}

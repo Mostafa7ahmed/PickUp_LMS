@@ -91,9 +91,17 @@ export class AddTopicComponent implements OnInit {
     this.ishowTab = !this.ishowTab;
   }
   closePopup() {
-    this.router.navigate([{ outlets: { dialog: null } }]);
+    this.isVisble = false;
+    setTimeout(() => {
+      this.router.navigate([{ outlets: { dialog: null } }]);
+    }, 150);
   }
 
+  onBackdropClick(event: Event) {
+    if (event.target === event.currentTarget) {
+      this.closePopup();
+    }
+  }
 
   submitFormTopic() {
     this.isLoad = true;
@@ -197,17 +205,14 @@ export class AddTopicComponent implements OnInit {
         if (res.success) {
           console.log(res);
           this.isLoad = false;
-          this.closePopup()
+          this.closePopup();
         }
-
       },
       error: (err) => {
-        console.log(err);
+        console.error('Error creating stage:', err);
         this.isLoad = false;
-
-      },
-    })
-
+      }
+    });
   }
 
   getTopicList() {

@@ -1,5 +1,6 @@
-<div class="overlay"></div>
-<div class="ShowPopup">
+@if(isVisible){
+<div class="overlay" (click)="onBackdropClick($event)"></div>
+<div class="ShowPopup" (click)="$event.stopPropagation()">
   <div class="add-Course">
     <app-top-pop [NamePopup]="'Add Course'" (isVisibleChange)="closePopup()"></app-top-pop>
     <form class="bodyCourse" [formGroup]="courseForm"  *ngIf="isLoadTopic">
@@ -392,3 +393,4 @@
     </div>
   </div>
 </div>
+}

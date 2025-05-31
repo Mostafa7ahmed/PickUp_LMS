@@ -1,0 +1,220 @@
+<div class="instructor-chat-container">
+  <div class="chat-layout">
+    <!-- Courses Sidebar -->
+    <div class="courses-sidebar">
+      <div class="sidebar-header">
+        <div class="header-content">
+          <h2><i class="fa-solid fa-comments me-2"></i>Course Chats</h2>
+          <div class="unread-badge" *ngIf="getTotalUnreadCount() > 0">
+            {{ getTotalUnreadCount() }}
+          </div>
+        </div>
+        
+        <!-- Search -->
+        <div class="search-box">
+          <i class="fa-solid fa-search"></i>
+          <input type="text" [(ngModel)]="searchTerm" placeholder="Search courses or students...">
+        </div>
+      </div>
+
+      <!-- Courses List -->
+      <div class="courses-list">
+        <div class="course-item" 
+             *ngFor="let course of filteredCourses"
+             [class.active]="selectedCourse?.id === course.id"
+             (click)="selectCourse(course)">
+          
+          <div class="course-info">
+            <div class="course-header">
+              <div class="course-main">
+                <div class="course-image">
+                  <img [src]="course.image" [alt]="course.name" class="course-thumbnail">
+                </div>
+                <div class="course-details">
+                  <h3>{{ course.name }}</h3>
+                  <span class="course-code">{{ course.code }}</span>
+                </div>
+              </div>
+              <div class="course-meta">
+                <div class="unread-count" *ngIf="course.unreadCount > 0">
+                  {{ course.unreadCount }}
+                </div>
+                <div class="online-indicator">
+                  <i class="fa-solid fa-circle"></i>
+                  <span>{{ getOnlineStudentsCount(course) }}</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="last-message" *ngIf="course.lastMessage">
+              <p>{{ course.lastMessage.content | slice:0:50 }}{{ course.lastMessage.content.length > 50 ? '...' : '' }}</p>
+              <span class="timestamp">{{ formatTime(course.lastMessage.timestamp) }}</span>
+            </div>
+            
+            <div class="students-preview">
+              <div class="student-avatars">
+                <img *ngFor="let student of course.students | slice:0:3" 
+                     [src]="student.avatar" 
+                     [alt]="student.name"
+                     [class.online]="student.online"
+                     class="student-avatar">
+                <div class="more-students" *ngIf="course.students.length > 3">
+                  +{{ course.students.length - 3 }}
+                </div>
+              </div>
+              <span class="student-count">{{ course.students.length }} students</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Area -->
+    <div class="chat-area" *ngIf="selectedCourse">
+      <!-- Chat Header -->
+      <div class="chat-header">
+        <div class="course-info">
+          <div class="course-details">
+            <h3>{{ selectedCourse.name }}</h3>
+            <span class="course-code">{{ selectedCourse.code }}</span>
+          </div>
+          <div class="course-stats">
+            <span class="student-count">
+              <i class="fa-solid fa-users"></i>
+              {{ selectedCourse.students.length }} students
+            </span>
+            <span class="online-count">
+              <i class="fa-solid fa-circle online"></i>
+              {{ getOnlineStudentsCount(selectedCourse) }} online
+            </span>
+          </div>
+        </div>
+        
+        <div class="chat-actions">
+          <button class="btn-toggle-students" (click)="toggleStudentsList()" 
+                  [class.active]="showStudentsList">
+            <i class="fa-solid fa-users"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="chat-content">
+        <!-- Chat Messages -->
+        <div class="chat-messages">
+          <div class="message-date-separator" *ngFor="let message of selectedCourse.messages; let i = index">
+            <!-- Date separator -->
+            <div class="date-separator" 
+                 *ngIf="i === 0 || formatDate(message.timestamp) !== formatDate(selectedCourse.messages[i-1].timestamp)">
+              <span>{{ formatDate(message.timestamp) }}</span>
+            </div>
+
+            <!-- Message -->
+            <div class="message" 
+                 [class.own-message]="isMessageFromCurrentUser(message)"
+                 [class.other-message]="!isMessageFromCurrentUser(message)">
+              
+              <!-- Sender avatar (for student messages) -->
+              <div class="message-avatar" *ngIf="!isMessageFromCurrentUser(message)">
+                <img [src]="getMessageSender(message)?.avatar || 'Images/avatars/default.jpg'" 
+                     [alt]="getMessageSender(message)?.name || 'Student'">
+              </div>
+
+              <div class="message-content">
+                <!-- Sender name (for student messages) -->
+                <div class="sender-name" *ngIf="!isMessageFromCurrentUser(message)">
+                  {{ getMessageSender(message)?.name || 'Student' }}
+                </div>
+
+                <!-- Message bubble -->
+                <div class="message-bubble">
+                  <div class="message-text" *ngIf="message.type === 'text'">
+                    {{ message.content }}
+                  </div>
+                  
+                  <div class="message-file" *ngIf="message.type === 'file'">
+                    <i class="fa-solid fa-file"></i>
+                    <span>{{ message.fileName }}</span>
+                    <a [href]="message.fileUrl" download class="download-btn">
+                      <i class="fa-solid fa-download"></i>
+                    </a>
+                  </div>
+                  
+                  <div class="message-timestamp">
+                    {{ formatTime(message.timestamp) }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Students List (Right Panel) -->
+        <div class="students-panel" *ngIf="showStudentsList">
+          <div class="panel-header">
+            <h4>Students ({{ selectedCourse.students.length }})</h4>
+            <button class="btn-close-panel" (click)="toggleStudentsList()">
+              <i class="fa-solid fa-times"></i>
+            </button>
+          </div>
+          
+          <div class="students-list">
+            <div class="student-item" *ngFor="let student of selectedCourse.students">
+              <div class="student-avatar">
+                <img [src]="student.avatar" [alt]="student.name">
+                <div class="online-status" [class.online]="student.online"></div>
+              </div>
+              <div class="student-info">
+                <div class="student-name">{{ student.name }}</div>
+                <div class="student-status">{{ getStatusText(student) }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Message Input -->
+      <div class="message-input-area">
+        <div class="input-container">
+          <button class="btn-emoji" (click)="showEmojiPicker = !showEmojiPicker">
+            <i class="fa-solid fa-smile"></i>
+          </button>
+          
+          <textarea [(ngModel)]="newMessage" 
+                    (keydown)="onKeyPress($event)"
+                    placeholder="Type your message to the class..."
+                    rows="1"></textarea>
+          
+          <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)">
+          <button class="btn-file" (click)="fileInput.click()">
+            <i class="fa-solid fa-paperclip"></i>
+          </button>
+          
+          <button class="btn-send" 
+                  [disabled]="!newMessage.trim()"
+                  (click)="sendMessage()">
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </div>
+
+        <!-- Emoji Picker -->
+        <div class="emoji-picker" *ngIf="showEmojiPicker">
+          <div class="emoji-grid">
+            <span class="emoji" *ngFor="let emoji of ['😀', '😃', '😄', '😁', '😊', '😇', '🙂', '🙃', '😉', '😌', '😍', '🥰', '😘', '😗', '😙', '😚', '😋', '😛', '😝', '😜', '🤪', '🤨', '🧐', '🤓', '😎', '🤩', '🥳', '😏', '😒', '😞', '😔', '😟', '😕', '🙁', '☹️', '😣', '😖', '😫', '😩', '🥺', '😢', '😭', '😤', '😠', '😡', '🤬', '🤯', '😳', '🥵', '🥶', '😱', '😨', '😰', '😥', '😓', '🤗', '🤔', '🤭', '🤫', '🤥', '😶', '😐', '😑', '😬', '🙄', '😯', '😦', '😧', '😮', '😲', '🥱', '😴', '🤤', '😪', '😵', '🤐', '🥴', '🤢', '🤮', '🤧', '😷', '🤒', '🤕', '🤑', '🤠', '😈', '👿', '👹', '👺', '🤡', '💩', '👻', '💀', '☠️', '👽', '👾', '🤖', '🎃', '😺', '😸', '😹', '😻', '😼', '😽', '🙀', '😿', '😾']"
+                  (click)="addEmoji(emoji)">
+              {{ emoji }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="!selectedCourse">
+      <div class="empty-content">
+        <i class="fa-solid fa-comments"></i>
+        <h3>Welcome to Course Chats</h3>
+        <p>Select a course from the sidebar to start chatting with your students</p>
+      </div>
+    </div>
+  </div>
+</div> 
