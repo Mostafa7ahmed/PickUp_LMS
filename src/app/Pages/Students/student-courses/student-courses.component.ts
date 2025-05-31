@@ -109,7 +109,7 @@ export class StudentCoursesComponent {
       instructor: 'Prof. David Thompson',
       description: 'Essential cybersecurity concepts, threat analysis, and security best practices.',
       image: 'Images/Course/Image+Background.png',
-      progress: 0,
+      progress: 10,
       totalLessons: 16,
       completedLessons: 14,
       duration: '4 weeks',
