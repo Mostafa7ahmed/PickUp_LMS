@@ -99,9 +99,7 @@ export class NavbarStudentComponent {
     
     routeProfile(): void {
       this.toggleAccountMenu();
-      // Navigate to student profile route (when component is created)
-      // this.router.navigate(['/Student/profile']);
-      console.log('Student profile navigation - component not yet created');
+      this.router.navigate(['/Student/profile']);
     }
   
     logOut() {

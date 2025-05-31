@@ -11,11 +11,11 @@ import { StudentCoursesComponent } from '../Pages/Students/student-courses/stude
 import { StudentTodoComponent } from '../Pages/Students/student-todo/student-todo.component';
 import { StudentChatComponent } from '../Pages/Students/student-chat/student-chat.component';
 import { StudentCourseCatalogComponent } from '../Pages/Students/student-course-catalog/student-course-catalog.component';
+import { StudentProfileComponent } from '../Pages/Students/student-profile/student-profile.component';
 
 // Import additional student components when they are created
 // import { StudentProgressComponent } from '../Pages/Students/student-progress/student-progress.component';
 // import { StudentQuizzesComponent } from '../Pages/Students/student-quizzes/student-quizzes.component';
-// import { StudentProfileComponent } from '../Pages/Students/student-profile/student-profile.component';
 // import { StudentCertificatesComponent } from '../Pages/Students/student-certificates/student-certificates.component';
 
 export const studentRoutes: Routes = [
@@ -36,6 +36,14 @@ export const studentRoutes: Routes = [
                 path: 'homeStudent', 
                 title: 'Student Dashboard', 
                 component: HomepageStudentComponent,
+                canActivate: [studentOnlyGuard]
+            },
+            
+            // Profile Management
+            { 
+                path: 'profile', 
+                title: 'My Profile', 
+                component: StudentProfileComponent,
                 canActivate: [studentOnlyGuard]
             },
             
@@ -96,12 +104,6 @@ export const studentRoutes: Routes = [
             //     path: 'certificates', 
             //     title: 'Certificates', 
             //     component: StudentCertificatesComponent,
-            //     canActivate: [studentOnlyGuard]
-            // },
-            // { 
-            //     path: 'profile', 
-            //     title: 'My Profile', 
-            //     component: StudentProfileComponent,
             //     canActivate: [studentOnlyGuard]
             // },
             

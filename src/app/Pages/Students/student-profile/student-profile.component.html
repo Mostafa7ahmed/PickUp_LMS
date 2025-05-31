@@ -1,0 +1,346 @@
+<div class="student-profile-container">
+  <!-- Hero Section with Cover -->
+  <div class="profile-hero">
+    <div class="hero-background">
+      <div class="gradient-overlay"></div>
+      <div class="pattern-overlay"></div>
+    </div>
+    
+    <div class="hero-content">
+      <div class="profile-main">
+        <div class="avatar-container">
+          <img class="main-avatar" src="https://s3.dinarcrm.com/sortech//fdcd55c7-71e3-45de-8660-7e16a3dbe0a2/Identity/d16fa148-7c55-4819-8ef4-da030a5688cc.png" alt="Profile Avatar" />
+          <div class="avatar-badge">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+        </div>
+        
+        <div class="profile-info">
+          <h1 class="profile-name">{{ dataUser.UserName || 'Student Name' }}</h1>
+          <p class="profile-title">Computer Science Student</p>
+          <div class="profile-meta">
+            <span class="meta-item">
+              <i class="fa-solid fa-calendar-check"></i>
+              Joined March 2024
+            </span>
+            <span class="meta-item">
+              <i class="fa-solid fa-map-marker-alt"></i>
+              Cairo, Egypt
+            </span>
+          </div>
+          
+          <div class="profile-actions">
+            <button class="btn btn-primary" (click)="toggleEdit()">
+              <i class="fa-solid" [class]="isEditing ? 'fa-save' : 'fa-edit'"></i>
+              {{ isEditing ? 'Save Changes' : 'Edit Profile' }}
+            </button>
+            <button class="btn btn-outline">
+              <i class="fa-solid fa-share-alt"></i>
+              Share Profile
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Stats Dashboard -->
+      <div class="stats-dashboard">
+        <div class="stat-card">
+          <div class="stat-icon completed">
+            <i class="fa-solid fa-trophy"></i>
+          </div>
+          <div class="stat-content">
+            <span class="stat-number">{{ getCompletedCoursesCount() }}</span>
+            <span class="stat-label">Completed Courses</span>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon in-progress">
+            <i class="fa-solid fa-book-open"></i>
+          </div>
+          <div class="stat-content">
+            <span class="stat-number">{{ getInProgressCoursesCount() }}</span>
+            <span class="stat-label">In Progress</span>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon achievements">
+            <i class="fa-solid fa-medal"></i>
+          </div>
+          <div class="stat-content">
+            <span class="stat-number">{{ achievements.length }}</span>
+            <span class="stat-label">Achievements</span>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon progress">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          <div class="stat-content">
+            <span class="stat-number">{{ getTotalProgressPercentage() }}%</span>
+            <span class="stat-label">Avg Progress</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="profile-content">
+    <div class="content-layout">
+      <!-- Left Sidebar -->
+      <div class="sidebar">
+        <!-- About Section -->
+        <div class="profile-card">
+          <div class="card-header">
+            <div class="header-content">
+              <div class="header-icon">
+                <i class="fa-solid fa-user"></i>
+              </div>
+              <h3>About Me</h3>
+            </div>
+          </div>
+          
+          <div class="card-content">
+            <div class="info-section">
+              <label class="section-label">Bio</label>
+              <div *ngIf="!isEditing" class="info-text">{{ profile.bio }}</div>
+              <div *ngIf="isEditing" class="edit-container">
+                <textarea [(ngModel)]="profile.bio" class="modern-input" rows="4" placeholder="Tell us about yourself..."></textarea>
+              </div>
+            </div>
+
+            <div class="info-section">
+              <label class="section-label">Learning Goals</label>
+              <div *ngIf="!isEditing" class="info-text">{{ profile.goals }}</div>
+              <div *ngIf="isEditing" class="edit-container">
+                <textarea [(ngModel)]="profile.goals" class="modern-input" rows="3" placeholder="What are your learning objectives?"></textarea>
+              </div>
+            </div>
+
+            <div class="info-section">
+              <label class="section-label">Interests & Skills</label>
+              <div class="skills-container">
+                <span class="skill-tag" *ngFor="let interest of profile.interests">
+                  <i class="fa-solid fa-code" *ngIf="interest.includes('Development')"></i>
+                  <i class="fa-solid fa-chart-bar" *ngIf="interest.includes('Data')"></i>
+                  <i class="fa-solid fa-brain" *ngIf="interest.includes('Machine')"></i>
+                  <i class="fa-solid fa-paint-brush" *ngIf="interest.includes('Design')"></i>
+                  {{ interest }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="profile-card">
+          <div class="card-header">
+            <div class="header-content">
+              <div class="header-icon">
+                <i class="fa-solid fa-bolt"></i>
+              </div>
+              <h3>Quick Actions</h3>
+            </div>
+          </div>
+          
+          <div class="card-content">
+            <div class="quick-actions">
+              <button class="action-btn">
+                <i class="fa-solid fa-download"></i>
+                Download Certificate
+              </button>
+              <button class="action-btn">
+                <i class="fa-solid fa-share"></i>
+                Share Progress
+              </button>
+              <button class="action-btn">
+                <i class="fa-solid fa-star"></i>
+                Rate Courses
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content Area -->
+      <div class="main-content">
+        <!-- Learning Progress -->
+        <div class="profile-card">
+          <div class="card-header">
+            <div class="header-content">
+              <div class="header-icon">
+                <i class="fa-solid fa-chart-pie"></i>
+              </div>
+              <h3>Learning Analytics</h3>
+            </div>
+            <div class="header-actions">
+              <button class="action-icon">
+                <i class="fa-solid fa-expand"></i>
+              </button>
+            </div>
+          </div>
+          
+          <div class="card-content">
+            <div class="analytics-grid">
+              <div class="progress-widget">
+                <div class="circular-progress-container">
+                  <div class="circular-progress" [style.background]="'conic-gradient(#22c55e 0deg ' + (getTotalProgressPercentage() * 3.6) + 'deg, #f1f5f9 ' + (getTotalProgressPercentage() * 3.6) + 'deg 360deg)'">
+                    <div class="progress-inner">
+                      <span class="progress-value">{{ getTotalProgressPercentage() }}%</span>
+                      <span class="progress-text">Overall Progress</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="progress-breakdown">
+                <div class="breakdown-item">
+                  <div class="breakdown-header">
+                    <span class="breakdown-label">Courses Completed</span>
+                    <span class="breakdown-value">{{ getCompletedCoursesCount() }}/{{ courses.length }}</span>
+                  </div>
+                  <div class="breakdown-bar">
+                    <div class="bar-fill completed" [style.width.%]="(getCompletedCoursesCount() / courses.length) * 100"></div>
+                  </div>
+                </div>
+                
+                <div class="breakdown-item">
+                  <div class="breakdown-header">
+                    <span class="breakdown-label">Study Streak</span>
+                    <span class="breakdown-value">15 days</span>
+                  </div>
+                  <div class="breakdown-bar">
+                    <div class="bar-fill streak" style="width: 75%"></div>
+                  </div>
+                </div>
+                
+                <div class="breakdown-item">
+                  <div class="breakdown-header">
+                    <span class="breakdown-label">Avg. Score</span>
+                    <span class="breakdown-value">87%</span>
+                  </div>
+                  <div class="breakdown-bar">
+                    <div class="bar-fill score" style="width: 87%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- My Courses -->
+        <div class="profile-card">
+          <div class="card-header">
+            <div class="header-content">
+              <div class="header-icon">
+                <i class="fa-solid fa-graduation-cap"></i>
+              </div>
+              <h3>My Learning Journey</h3>
+            </div>
+            <div class="header-actions">
+              <select class="filter-select">
+                <option>All Courses</option>
+                <option>In Progress</option>
+                <option>Completed</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="card-content">
+            <div class="courses-grid">
+              <div class="course-card" *ngFor="let course of courses">
+                <div class="course-header">
+                  <div class="course-image">
+                    <img [src]="course.image" [alt]="course.title" onerror="this.src='Images/Course/default.png'">
+                    <div class="course-overlay">
+                      <button class="play-btn">
+                        <i class="fa-solid fa-play"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="course-badge" [class]="getCourseStatusClass(course.status)">
+                    {{ getCourseStatusText(course.status) }}
+                  </div>
+                </div>
+                
+                <div class="course-body">
+                  <div class="course-category">{{ course.category }}</div>
+                  <h4 class="course-title">{{ course.title }}</h4>
+                  <p class="course-instructor">
+                    <i class="fa-solid fa-user-tie"></i>
+                    {{ course.instructor }}
+                  </p>
+                  
+                  <div class="course-progress-section">
+                    <div class="progress-header">
+                      <span class="progress-label">Progress</span>
+                      <span class="progress-percentage">{{ course.progress }}%</span>
+                    </div>
+                    <div class="modern-progress-bar">
+                      <div class="progress-track">
+                        <div class="progress-fill" [style.width.%]="course.progress"></div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="course-footer">
+                    <div class="course-dates">
+                      <span class="date-item">
+                        <i class="fa-solid fa-calendar-plus"></i>
+                        {{ formatDate(course.enrolledDate) }}
+                      </span>
+                      <span *ngIf="course.completedDate" class="date-item completed-date">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        {{ formatDate(course.completedDate) }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Achievements -->
+        <div class="profile-card">
+          <div class="card-header">
+            <div class="header-content">
+              <div class="header-icon">
+                <i class="fa-solid fa-trophy"></i>
+              </div>
+              <h3>Achievements & Badges</h3>
+            </div>
+          </div>
+          
+          <div class="card-content">
+            <div class="achievements-showcase">
+              <div class="achievement-card" *ngFor="let achievement of achievements">
+                <div class="achievement-badge" [class]="achievement.category">
+                  <i [class]="getAchievementIcon(achievement)"></i>
+                </div>
+                <div class="achievement-info">
+                  <h4 class="achievement-title">{{ achievement.title }}</h4>
+                  <p class="achievement-description">{{ achievement.description }}</p>
+                  <span class="achievement-date">Earned {{ formatDate(achievement.dateEarned) }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Save Actions -->
+  <div class="floating-actions" *ngIf="isEditing">
+    <button class="fab fab-save" (click)="saveProfile()">
+      <i class="fa-solid fa-check"></i>
+    </button>
+    <button class="fab fab-cancel" (click)="cancelEdit()">
+      <i class="fa-solid fa-times"></i>
+    </button>
+  </div>
+</div> 
