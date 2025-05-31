@@ -22,21 +22,15 @@
               <img [src]="conversation.course.image" [alt]="conversation.course.name" 
                    onerror="this.src='Images/course-placeholder.jpg'">
             </div>
-            
-            <div class="avatar">
-              <img [src]="conversation.participant.avatar" [alt]="conversation.participant.name" 
-                   onerror="this.src='Images/avatars/default.jpg'">
-              <div class="online-indicator" *ngIf="conversation.participant.online"></div>
-            </div>
           </div>
           
           <div class="conversation-info">
             <div class="conversation-header">
-              <div class="participant-details">
-                <h4>{{ conversation.participant.name }}</h4>
-                <span class="role-badge" [class]="conversation.participant.role">
-                  {{ conversation.participant.role }}
-                </span>
+              <div class="course-details">
+                <div class="course-info" *ngIf="conversation.course">
+                  <span class="course-name">{{ conversation.course.name }}</span>
+                  <span class="course-code">{{ conversation.course.code }}</span>
+                </div>
               </div>
               <div class="conversation-meta">
                 <span class="time" *ngIf="conversation.lastMessage">
@@ -46,11 +40,6 @@
                   {{ conversation.unreadCount }}
                 </span>
               </div>
-            </div>
-            
-            <div class="course-info" *ngIf="conversation.course">
-              <span class="course-name">{{ conversation.course.name }}</span>
-              <span class="course-code">{{ conversation.course.code }}</span>
             </div>
             
             <p class="last-message" *ngIf="conversation.lastMessage">
@@ -68,29 +57,17 @@
                     <!-- Chat Header -->
       <div class="chat-header">
         <div class="participant-info">
-          <div class="avatar">
-            <img [src]="selectedConversation.participant.avatar" 
-                 [alt]="selectedConversation.participant.name"
-                 onerror="this.src='Images/avatars/default.jpg'">
-            <div class="online-indicator" *ngIf="selectedConversation.participant.online"></div>
+          <div class="course-image" *ngIf="selectedConversation.course">
+            <img [src]="selectedConversation.course.image" 
+                 [alt]="selectedConversation.course.name"
+                 onerror="this.src='Images/course-placeholder.jpg'">
           </div>
           
           <div class="info">
-            <h3>{{ selectedConversation.participant.name }}</h3>
+            <h3 *ngIf="selectedConversation.course">{{ selectedConversation.course.name }}</h3>
+            <p class="course-code" *ngIf="selectedConversation.course">{{ selectedConversation.course.code }}</p>
             <p class="status">{{ getStatusText(selectedConversation.participant) }}</p>
           </div>
-        </div>
-        
-        <div class="chat-actions">
-          <button class="btn-action">
-            <i class="fa-solid fa-phone"></i>
-          </button>
-          <button class="btn-action">
-            <i class="fa-solid fa-video"></i>
-          </button>
-          <button class="btn-action">
-            <i class="fa-solid fa-ellipsis-vertical"></i>
-          </button>
         </div>
       </div>
 
@@ -99,14 +76,21 @@
         <div class="message" 
              *ngFor="let message of selectedConversation.messages"
              [class.own-message]="isMessageFromCurrentUser(message)">
+          
+          <div class="message-avatar" *ngIf="!isMessageFromCurrentUser(message)">
+            <img [src]="getSenderAvatar(message)" 
+                 [alt]="getSenderName(message)"
+                 onerror="this.src='https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80'">
+          </div>
+
           <div class="message-content">
+            <div class="sender-name" 
+                 [style.color]="getSenderColor(message)">
+              {{ getSenderName(message) }}
+            </div>
+            
             <div class="message-bubble">
-              <p *ngIf="message.type === 'text'">{{ message.content }}</p>
-              
-              <div class="file-message" *ngIf="message.type === 'file'">
-                <i class="fa-solid fa-file"></i>
-                <span>{{ message.fileName }}</span>
-              </div>
+              <p>{{ message.content }}</p>
             </div>
             
             <div class="message-time">
@@ -120,10 +104,6 @@
       <!-- Message Input -->
       <div class="message-input-section">
         <div class="input-container">
-          <button class="btn-attachment" (click)="fileInput.click()">
-            <i class="fa-solid fa-paperclip"></i>
-          </button>
-          
           <input type="text" 
                  [(ngModel)]="newMessage" 
                  (keyup.enter)="sendMessage()"
@@ -145,8 +125,6 @@
                 (click)="addEmoji(emoji)" class="emoji">{{ emoji }}</span>
         </div>
       </div>
-      
-      <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;">
     </div>
 
     <!-- Loading State -->

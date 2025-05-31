@@ -16,9 +16,7 @@ interface Message {
   senderId: number;
   content: string;
   timestamp: Date;
-  type: 'text' | 'file' | 'image';
-  fileName?: string;
-  fileUrl?: string;
+  type: 'text';
 }
 
 interface Conversation {
@@ -45,10 +43,56 @@ export class StudentChatComponent {
   currentUser: User = {
     id: 1,
     name: 'Current Student',
-    avatar: 'Images/public/Images/dr.jpeg',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
     role: 'student',
     online: true
   };
+
+  // Additional users for group chats
+  allUsers: User[] = [
+    {
+      id: 1,
+      name: 'Current Student',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
+      role: 'student',
+      online: true
+    },
+    {
+      id: 2,
+      name: 'Dr. Sarah Wilson',
+      avatar: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
+      role: 'instructor',
+      online: true
+    },
+    {
+      id: 3,
+      name: 'Prof. Michael Chen',
+      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
+      role: 'instructor',
+      online: false
+    },
+    {
+      id: 4,
+      name: 'Alex Johnson',
+      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
+      role: 'student',
+      online: true
+    },
+    {
+      id: 5,
+      name: 'Emma Brown',
+      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b2e29d16?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
+      role: 'student',
+      online: true
+    },
+    {
+      id: 6,
+      name: 'Mike Davis',
+      avatar: 'https://images.unsplash.com/photo-1507019403270-cde5fb606b3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
+      role: 'student',
+      online: true
+    }
+  ];
 
   conversations: Conversation[] = [
     {
@@ -56,7 +100,7 @@ export class StudentChatComponent {
       participant: {
         id: 2,
         name: 'Dr. Sarah Wilson',
-        avatar: 'Images/dr.jpeg',
+        avatar: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
         role: 'instructor',
         online: true
       },
@@ -91,10 +135,9 @@ export class StudentChatComponent {
         {
           id: 4,
           senderId: 2,
-          content: 'I\'ve attached a reference document that might help you with the normalization process.',
+          content: 'I have shared a reference document in our course materials that might help you with the normalization process.',
           timestamp: new Date('2024-03-12T11:21:00'),
-          type: 'file',
-          fileName: 'Normalization_Guide.pdf'
+          type: 'text'
         }
       ]
     },
@@ -103,7 +146,7 @@ export class StudentChatComponent {
       participant: {
         id: 3,
         name: 'Prof. Michael Chen',
-        avatar: 'Images/dr.jpeg',
+        avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
         role: 'instructor',
         online: false,
         lastSeen: new Date('2024-03-12T09:45:00')
@@ -136,7 +179,7 @@ export class StudentChatComponent {
       participant: {
         id: 4,
         name: 'Alex Johnson',
-        avatar: 'Images/dr.jpeg',
+        avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
         role: 'student',
         online: true
       },
@@ -167,6 +210,13 @@ export class StudentChatComponent {
           content: 'Perfect! Should we invite Emma and Mike as well?',
           timestamp: new Date('2024-03-12T15:00:00'),
           type: 'text'
+        },
+        {
+          id: 10,
+          senderId: 1,
+          content: 'Absolutely! The more the better. I\'ll create a group chat for us.',
+          timestamp: new Date('2024-03-12T15:05:00'),
+          type: 'text'
         }
       ]
     },
@@ -175,7 +225,7 @@ export class StudentChatComponent {
       participant: {
         id: 5,
         name: 'Study Group - AI Course',
-        avatar: 'Images/dr.jpeg',
+        avatar: 'https://images.unsplash.com/photo-1566492031773-4f4e44671d66?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
         role: 'student',
         online: true
       },
@@ -187,17 +237,31 @@ export class StudentChatComponent {
       unreadCount: 5,
       messages: [
         {
-          id: 10,
-          senderId: 4,
+          id: 11,
+          senderId: 5,
           content: 'Has anyone started working on the machine learning project?',
           timestamp: new Date('2024-03-12T13:20:00'),
           type: 'text'
         },
         {
-          id: 11,
+          id: 12,
           senderId: 6,
           content: 'I\'ve chosen the dataset and started with data preprocessing. What about you guys?',
           timestamp: new Date('2024-03-12T13:25:00'),
+          type: 'text'
+        },
+        {
+          id: 13,
+          senderId: 1,
+          content: 'Still deciding between image classification and NLP. Any recommendations?',
+          timestamp: new Date('2024-03-12T13:30:00'),
+          type: 'text'
+        },
+        {
+          id: 14,
+          senderId: 5,
+          content: 'Image classification might be easier to start with. Lots of good tutorials available.',
+          timestamp: new Date('2024-03-12T13:35:00'),
           type: 'text'
         }
       ]
@@ -228,10 +292,10 @@ export class StudentChatComponent {
     // Mark messages as read
     conversation.unreadCount = 0;
     
-    // Scroll to bottom smoothly after selection
+    // Scroll to bottom smoothly after selection with delay
     setTimeout(() => {
       this.scrollToBottom();
-    }, 150);
+    }, 300);
   }
 
   private scrollToBottom() {
@@ -259,13 +323,10 @@ export class StudentChatComponent {
     this.selectedConversation.lastMessage = message;
     this.newMessage = '';
 
-    // Scroll to bottom
+    // Smooth scroll to bottom with improved timing
     setTimeout(() => {
-      const messagesContainer = document.querySelector('.messages-container');
-      if (messagesContainer) {
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-      }
-    }, 100);
+      this.scrollToBottom();
+    }, 150);
   }
 
   formatTime(date: Date): string {
@@ -306,24 +367,6 @@ export class StudentChatComponent {
     return message.senderId === this.currentUser.id;
   }
 
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (file && this.selectedConversation) {
-      // In a real app, you would upload the file to a server
-      const message: Message = {
-        id: Date.now(),
-        senderId: this.currentUser.id,
-        content: `Shared a file: ${file.name}`,
-        timestamp: new Date(),
-        type: 'file',
-        fileName: file.name
-      };
-
-      this.selectedConversation.messages.push(message);
-      this.selectedConversation.lastMessage = message;
-    }
-  }
-
   addEmoji(emoji: string) {
     this.newMessage += emoji;
     this.showEmojiPicker = false;
@@ -343,5 +386,38 @@ export class StudentChatComponent {
       }
     }
     return 'Offline';
+  }
+
+  getSenderName(message: Message): string {
+    const sender = this.allUsers.find(user => user.id === message.senderId);
+    if (sender) {
+      return sender.id === this.currentUser.id ? 'You' : sender.name;
+    }
+    return 'Unknown User';
+  }
+
+  getSenderAvatar(message: Message): string {
+    const sender = this.allUsers.find(user => user.id === message.senderId);
+    if (sender) {
+      return sender.avatar;
+    }
+    
+    // Default avatar for unknown users
+    return 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80';
+  }
+
+  getSenderColor(message: Message): string {
+    // Generate a consistent color for each sender based on their ID
+    const colors = [
+      '#22c55e', '#3b82f6', '#8b5cf6', '#ef4444', 
+      '#f59e0b', '#10b981', '#6366f1', '#ec4899',
+      '#84cc16', '#06b6d4', '#f97316', '#8b5cf6'
+    ];
+    
+    if (message.senderId === this.currentUser.id) {
+      return '#22c55e'; // Green for current user
+    }
+    
+    return colors[message.senderId % colors.length];
   }
 } 
