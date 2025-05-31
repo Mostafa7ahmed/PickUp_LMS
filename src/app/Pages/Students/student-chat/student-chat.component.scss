@@ -1,7 +1,7 @@
 .student-chat-container {
-  padding: 20px;
+  margin-top: 10px;
   background-color: #f8fafc;
-  min-height: 100vh;
+  min-height: calc(100vh - 80px);
   display: flex;
   flex-direction: column;
 
@@ -87,7 +87,7 @@
             transition: border-color 0.2s;
 
             &:focus {
-              border-color: #8b5cf6;
+              border-color: #4caf4fc9;
             }
 
             &::placeholder {
@@ -114,8 +114,8 @@
           }
 
           &.active {
-            background-color: #ede9fe;
-            border-right: 3px solid #8b5cf6;
+            background-color: #4caf4f1f;
+            border-right: 3px solid #4caf4fc9;
           }
 
           .avatar {
@@ -216,6 +216,8 @@
     .chat-area {
       display: flex;
       flex-direction: column;
+        justify-content: space-between;
+
 
       .chat-header {
         padding: 20px 24px;
@@ -296,7 +298,27 @@
         flex: 1;
         padding: 20px 24px;
         overflow-y: auto;
-        max-height: 500px;
+
+        max-height: 690px;
+        
+  /* تخصيص الـ Scrollbar */
+  &::-webkit-scrollbar {
+    width: 8px; /* عرض الاسكرول */
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1; /* لون الخلفية */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #4caf4fc9; /* لون الاسكرول نفسه */
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #4caf50; /* لما تحط الماوس عليه */
+  }
+        
 
         .message {
           margin-bottom: 16px;
@@ -309,7 +331,7 @@
               align-items: flex-end;
 
               .message-bubble {
-                background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+                background: linear-gradient(135deg, #4caf4fc9 0%, #4caf4fc9 100%);
                 color: white;
               }
             }
@@ -398,7 +420,7 @@
           }
 
           .btn-send {
-            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            background: linear-gradient(135deg, #4caf4fc9 0%, #4caf4fc9 100%);
             color: white;
             border: none;
             padding: 8px 12px;
@@ -408,7 +430,7 @@
 
             &:hover:not(:disabled) {
               transform: translateY(-1px);
-              box-shadow: 0 4px 8px rgba(139, 92, 246, 0.3);
+              box-shadow: 0 4px 8px rgba(92, 246, 138, 0.3);
             }
 
             &:disabled {

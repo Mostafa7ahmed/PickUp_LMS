@@ -1,15 +1,5 @@
 <div class="student-chat-container">
-  <!-- Header Section -->
-  <div class="header-section">
-    <div class="title-area">
-      <h1><i class="fa-solid fa-comment-dots me-3"></i>Messages</h1>
-      <p>Connect with instructors and classmates</p>
-    </div>
-    
-    <div class="unread-badge" *ngIf="getTotalUnreadCount() > 0">
-      {{ getTotalUnreadCount() }} unread
-    </div>
-  </div>
+
 
   <div class="chat-layout">
     <!-- Conversations Sidebar -->
@@ -60,7 +50,8 @@
 
     <!-- Chat Area -->
     <div class="chat-area" *ngIf="selectedConversation">
-      <!-- Chat Header -->
+             <div class="chatWith">
+                    <!-- Chat Header -->
       <div class="chat-header">
         <div class="participant-info">
           <div class="avatar">
@@ -110,6 +101,7 @@
           </div>
         </div>
       </div>
+             </div>
 
       <!-- Message Input -->
       <div class="message-input-section">
@@ -140,7 +132,6 @@
         </div>
       </div>
       
-      <!-- Hidden File Input -->
       <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;">
     </div>
 
