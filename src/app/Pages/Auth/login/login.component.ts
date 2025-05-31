@@ -34,29 +34,38 @@ export class LoginComponent {
 
   LoginSubmit(){
     this.isLoading = true;
-    if (this.loginForm.valid) {
-      this._loginService.setLoginForm(this.loginForm.value).subscribe({
-        next: (res) => {
-          console.log(res);
-          this.isLoading = false;
-          localStorage.setItem("UserAuth", res.result.jwt);
-          localStorage.setItem("refreshToken", res.result.refreshToken);
-             this.userDecode =this._loginService.saveUserAuth()!;
 
-                localStorage.setItem("roles", this.userDecode.roles); 
+  if (this.loginForm.valid) {
+    this._loginService.setLoginForm(this.loginForm.value).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.isLoading = false;
 
+        // Save tokens
+        localStorage.setItem("UserAuth", res.result.jwt);
+        localStorage.setItem("refreshToken", res.result.refreshToken);
 
-             this._loginService.saveUserAuth();
-            console.log("message"+ this.userDecode.UserType)
-             this.message.success(res.message);
-          this._Router.navigate([`/${this.userDecode.roles}/home${this.userDecode.roles}`]);
+        // Decode and store user info
+        this.userDecode = this._loginService.saveUserAuth();
+        if (this.userDecode) {
+          localStorage.setItem("roles", this.userDecode.roles);
+          console.log("message: " + this.userDecode.UserType);
 
+          // Success message
+          this.message.success(res.message);
 
-
-
-
-          
-        },
+          // Redirect based on user type
+          if (this.userDecode.roles === 'Instructor') {
+            this._Router.navigate([`/home${this.userDecode.roles}`]);
+          } else if (this.userDecode.roles === 'Student') {
+            this._Router.navigate([`/${this.userDecode.roles}/home${this.userDecode.roles}`]);
+          } else {
+            this._Router.navigate(['/landingpage']);
+          }
+        } else {
+          this.message.error("User decode failed.");
+        }
+      },
         error: (err: HttpErrorResponse) => {
           this.MessageUseName =err.error.message;
           console.log(this.MessageUseName);
