@@ -14,7 +14,7 @@ export class CourseService {
       instructor: 'Dr. Sarah Wilson',
       description: 'Master advanced Angular concepts including RxJS, state management, and performance optimization.',
       image: 'Images/Course/Image+Background.png',
-      progress: 75,
+      progress: 90,
       totalLessons: 24,
       completedLessons: 18,
       duration: '8 weeks',

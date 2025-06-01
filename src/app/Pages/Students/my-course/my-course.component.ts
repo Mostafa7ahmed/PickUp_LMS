@@ -18,6 +18,7 @@ export class MyCourseComponent implements OnInit {
   courses: IcourseStudent[] = [];
   filterBy: string = 'all';
   sortBy: string = 'progress';
+searchTerm: string = '';
 
   showInfoCoupon = false;
   constructor(private courseService: CourseService) {}
@@ -86,6 +87,14 @@ get filteredCourses() {
     } else if (this.filterBy === 'not-started') {
       filtered = this.courses.filter(course => course.progress === 0);
     }
+  }
+
+  if (this.searchTerm.trim() !== '') {
+    const term = this.searchTerm.toLowerCase();
+    filtered = filtered.filter(course =>
+      course.title.toLowerCase().includes(term) ||
+      course.description?.toLowerCase().includes(term)
+    );
   }
 
   return filtered;

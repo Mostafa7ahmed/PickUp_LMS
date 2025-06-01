@@ -304,10 +304,16 @@
 
   .empty-state {
     text-align: center;
-    padding: 60px 20px;
+    /* padding: 60px 20px; */
     background: white;
+    display: flex
+;
     border-radius: 16px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    height: calc(100vh - 374px);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 
     .empty-icon {
       font-size: 4rem;
@@ -331,7 +337,7 @@
     }
 
     .btn-explore {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
       color: white;
       border: none;
       padding: 12px 24px;
