@@ -51,7 +51,12 @@ export class SidebarStudentComponent {
     {
       name: 'Course',
       Icon: 'fa-solid fa-person-chalkboard',
-      routes: "course"
+      routes: "myCourse"
+    },
+   {
+      name: 'Discover Courses',
+      Icon: 'fa-solid fa-compass',
+      routes: "myCourse"
     },
 
     {

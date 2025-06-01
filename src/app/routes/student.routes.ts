@@ -5,6 +5,7 @@ import { notloginguardsGuard } from '../Core/Guards/notloginguards.guard';
 
 import { HomepageStudentComponent } from '../Pages/Students/homepage-student/homepage-student.component';
 import { HomestudentComponent } from '../Pages/Students/homestudent/homestudent.component';
+import { MyCourseComponent } from '../Pages/Students/my-course/my-course.component';
 
 export const studentRoutes: Routes = [
     {
@@ -14,6 +15,8 @@ export const studentRoutes: Routes = [
         children: [
             { path: '', redirectTo: 'homeStudent', pathMatch: 'full' },
             { path: "homeStudent", title: "Home Student", component: HomepageStudentComponent },
+            { path: "myCourse", title: "My Course", component: MyCourseComponent },
+
             { path: "**", title: "notFound", component: HomestudentComponent },
 
         ]
