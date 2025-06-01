@@ -20,6 +20,7 @@ export const routes: Routes = [
       {
         path: "LandingPage",
         title: "LMS Pick Up",
+        canActivate: [isloginguardsGuard],
         component: LandingpageComponent,
 
     },
