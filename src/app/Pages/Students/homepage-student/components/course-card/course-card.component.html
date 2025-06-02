@@ -3,35 +3,61 @@
     <h2>Enroll Courses</h2>
     <a class="view-all" >View All →</a>
   </div>
+  <!-- Courses Grid -->
+  <div class="courses-grid">
+    <div class="course-card" *ngFor="let course of courses">
+      <div class="course-image">
+        <img
+          [src]="course.image"
+          [alt]="course.title"
+          onerror="this.src='Images/Course/Image+Background.png'"
+        />
 
-    <div class="card-container">
-  <div class="card" *ngFor="let course of courses">
-    <div class="image-wrapper">
-      <img [src]="course.image" alt="Course image" />
-      <span class="tag" [ngClass]="course.tagType">{{ course.tag }}</span>
-    </div>
-    <div class="card-body">
-      <div class="instructor">
-        <img src="https://i.pravatar.cc/40" alt="avatar" class="avatar" />
-        <div>
-          <h4>{{ course.instructorName }}</h4>
-          <p>{{ course.instructorTitle }}</p>
+        <div class="category-badge">{{ course.category }}</div>
+      </div>
+
+      <div class="course-content">
+        <h3 class="course-title">{{ course.title }}</h3>
+        <p class="course-instructor">
+          <i class="fa-solid fa-user-tie"></i>
+          {{ course.instructor }}
+        </p>
+        <p class="course-description">{{ course.description }}</p>
+
+        <div class="course-stats">
+          <div class="stat">
+            <i class="fa-solid fa-play-circle"></i>
+            <span
+              >{{ course.completedLessons }}/{{
+                course.totalLessons
+              }}
+              lessons</span
+            >
+          </div>
+          <div class="stat">
+            <i class="fa-solid fa-clock"></i>
+            <span>{{ course.duration }}</span>
+          </div>
+          <div class="stat">
+            <i class="fa-solid fa-star"></i>
+            <span>{{ course.rating }}</span>
+          </div>
+        </div>
+
+
+
+        <div class="course-actions">
+          <button
+            class="btn-continue"
+          >
+            <i class="fa-solid fa-play"></i>
+          Enroll Now          </button>
+          <button class="btn-menu">
+            <i class="fa-solid fa-ellipsis-vertical"></i>
+          </button>
         </div>
       </div>
-      <h3>{{ course.title }}</h3>
-      <p class="details">
-        🕒 {{ course.duration }} &nbsp; • &nbsp; 📘 {{ course.lessons }} lessons
-      </p>
-      <p class="rating">
-        ⭐ {{ course.rating }} ({{ course.reviews }} reviews)
-      </p>
-      <div class="price-row d-flex justify-content-between align-items-center">
-        <span class="price">${{ course.price }}</span>
-        <span class="old-price">${{ course.oldPrice }}</span>
-      </div>
-      <button class="enroll-btn"><i class="fa-solid fa-cart-shopping mx-2"></i> Enroll Now</button>
     </div>
   </div>
-</div>
 
 </div>

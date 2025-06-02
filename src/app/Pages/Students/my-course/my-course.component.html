@@ -44,7 +44,7 @@
             class="icon-box"
             [ngStyle]="{ 'background-color': getColor(filterBy) }"
           >
-            <i class="fa-solid fa-filter"></i>
+            <i class="fa-solid "  [ngClass]="getIcon(filterBy)"></i>
           </span>
           <span class="option-text ms-2">{{ getLabel(filterBy) }}</span>
           <i class="fa-solid fa-chevron-down ms-auto"></i>

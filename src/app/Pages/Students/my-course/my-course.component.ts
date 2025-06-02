@@ -58,11 +58,11 @@ getLabel(value: string): string {
 
 getColor(value: string): string {
   switch (value) {
-    case 'all': return '#6c757d';
-    case 'in-progress': return '#ffc107';
-    case 'completed': return '#28a745';
-    case 'not-started': return '#dc3545';
-    default: return '#6c757d';
+    case 'all': return '#298dba';
+    case 'in-progress': return '#dfde0d';
+    case 'completed': return '#10b981';
+    case 'not-started': return '#a0151e';
+    default: return '#515f32';
   }
 }
 getIcon(value: string): string {
