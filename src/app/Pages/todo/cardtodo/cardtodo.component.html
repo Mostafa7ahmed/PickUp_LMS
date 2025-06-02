@@ -1,4 +1,4 @@
-<div class="d-flex align-items-center justify-content-between gap-5 ">
+<div class="d-flex align-items-center  gap-3 ">
     @for(  todo of stages; track todo ) {
 <div class="cardKanban " >
   <div class="headerCard d-flex  px-2 justify-content-between align-items-center" 
@@ -34,8 +34,51 @@
         <app-card-stage  [course]="course" [courseColor]="stageColumn.color" cdkDrag></app-card-stage>
       } -->
 
-  <div class="cardBodyKanban">
+  <div class="cardBodyKanban pt-3">
+    @for (stage of todo.tasks; track stage.id) {
+<div class="cardStage ">
+    <div class="contentStage p-2   ">
+      <div class="headerStage d-flex justify-content-between align-items-center mb-2">
+        <h3  >{{stage.title}}</h3>
+ 
 
+      </div>
+      <div class="medialContentStage d-flex gap-1 flex-column">
+        <p class="m-0"><i class="fa-solid fa-user me-1"></i> {{stage.course}}</p>
+        <div class="dateStage d-flex gap-2">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <p class="date m-0">{{stage.dueDate | date }}</p>
+        </div>
+  
+        <!-- <div class="d-flex align-items-center justify-content-between">
+          <p class="m-0"><i class="fa-solid fa-sack-dollar me-1"></i> {{course.price}} </p>
+          <p class="m-0">{{course.totalProfit}} <i class="fa-solid fa-sack-dollar me-1"></i>  </p>
+         </div> -->
+      </div>
+      <!-- <div class="footerContentStage">
+        <hr class="m-0 my-1">
+        <div class="stats-container d-flex align-items-center justify-content-between">
+          <div class="leftStates">
+            <div class="stat"><i class="fas fa-user-check" ></i> {{course.studentsCompletedCourse}}</div>
+            <div class="stat"><i class="fas fa-box"></i> {{course.lessonseCount}}</div>
+            <div class="stat"><i class="fas fa-star"></i> {{course.rating}}</div>
+            <div class="stat"><i class="fas fa-thumbs-up"></i> {{course.likesCount  }}</div>
+          </div>
+          <div class="rightStates">
+            <div class="stat"><i class="fas fa-comment-dots" ></i> {{course.numberOfUnReadedMessages  }}</div>
+          </div>
+ 
+
+      </div>
+      
+      </div> -->
+
+
+
+    </div>
+    <div class="lineStage" [ngStyle]="{ 'background-color': todo.color}"></div>
+
+  </div>      } 
 
   </div>
 

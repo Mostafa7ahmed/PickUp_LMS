@@ -1,14 +1,16 @@
 export interface Task {
-    id: any;
-    title: string;
-    description: string;
-    priority: string;
-    priorityClass: string;
-    image?: string;
-    date: Date;
-    comments: number;
-    views: number;
-}
+  id: number;
+  title: string;
+  description: string;
+  priority: 'Low' | 'Medium' | 'High';
+  priorityClass: string;
+  dueDate: Date;
+  course?: string;
+  type: 'course-prep' | 'grading' | 'administrative' | 'meeting' | 'personal';
+  completed: boolean;
+  status: 'todo' | 'in-progress' | 'review' | 'completed';
+
+}   
 
 export interface TaskColumn {
     id: any;
@@ -21,4 +23,6 @@ export interface StageTodo {
   color: string;
 bgColor?: string;
   icon: string; 
+    tasks?: Task[] ;
+
 }
