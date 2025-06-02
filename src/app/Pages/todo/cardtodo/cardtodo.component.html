@@ -1,0 +1,45 @@
+<div class="d-flex align-items-center justify-content-between gap-5 ">
+    @for(  todo of stages; track todo ) {
+<div class="cardKanban " >
+  <div class="headerCard d-flex  px-2 justify-content-between align-items-center" 
+    [ngStyle]="{ 'border-color': todo.bgColor}"
+   >
+    <div class="stageProcess d-flex gap-3 align-items-center">
+        <div class="icon"     [ngStyle]="{ 'background-color': todo.bgColor}">
+            <i [class]="todo.icon"  [ngStyle]="{ 'color': todo.color}"></i>
+        </div>
+      <div class="stageTitle">
+        <div class="stageName d-flex gap-2 align-items-center">
+          <p class="m-0">{{todo.name}}</p> 
+          <div class="stageNumberCourses">
+            <span class="numberOfStage">{{todo.stageNumber}}</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="addStage">  
+      <i class="fa fa-plus fs-4" aria-hidden="true"></i>
+    </div>
+
+
+  </div>
+
+
+
+
+  <!-- @for (course of stageColumn.courses; track course.courseId) {
+        <app-card-stage  [course]="course" [courseColor]="stageColumn.color" cdkDrag></app-card-stage>
+      } -->
+
+  <div class="cardBodyKanban">
+
+
+  </div>
+
+</div>
+
+}
+</div>

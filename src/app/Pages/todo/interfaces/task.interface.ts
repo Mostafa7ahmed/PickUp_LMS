@@ -15,3 +15,10 @@ export interface TaskColumn {
     title: string;
     tasks: Task[];
 }
+export interface StageTodo {
+  name: string;
+  stageNumber: number;
+  color: string;
+bgColor?: string;
+  icon: string; 
+}
