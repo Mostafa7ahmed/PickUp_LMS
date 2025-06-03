@@ -1,75 +1,69 @@
 <div class="instructor-todo-page">
   <div class="mt-3">
-  <div class="Board">
-
-        <div class="header">
-            <div class="text">
-                <div class="head">
-                    <div class="icon"><i class="fa-solid fa-list-check"></i></div>
-                    <div class="name">Task Management</div>
-                </div>
-                <div class="description">
-                    <p>Manage and track your tasks easily and efficiently.</p>
-                </div>
-            </div>
+    <div class="Board">
+      <div class="header">
+        <div class="text">
+          <div class="head">
+            <div class="icon"><i class="fa-solid fa-list-check"></i></div>
+            <div class="name">Task Management</div>
+          </div>
+          <div class="description">
+            <p>Manage and track your tasks easily and efficiently.</p>
+          </div>
         </div>
+      </div>
+    </div>
 
-    </div>
-<div class="searchBoard mb-0 p-3">
-        <div class="search-input">
-            <input type="text"                      [(ngModel)]="searchTerm"   placeholder="Search tasks...">
-            <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+    <div class="searchBoard mb-0 p-3">
+      <div class="search-input">
+        <input type="text" [(ngModel)]="searchTerm" placeholder="Search tasks...">
+        <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+      </div>
+      <button (click)="openAddTaskPopup()">
+        <div class="icon">
+          <i class="fa-solid fa-plus"></i>
         </div>
-        <button  (click)="openAddTaskPopup()">
-            <div class="icon">
-                <i class="fa-solid fa-plus"></i>
-            </div>
-            <span>Add New Task</span>
-        </button>
+        <span>Add New Task</span>
+      </button>
     </div>
- 
 
     <div class="row mt-3">
       <div class="col-lg-12">
-
         <div class="todo-card">
           <div class="controls-section pt-3">
-          <div class="filter-tabs">
-            <button class="tab-btn" 
-                    [class.active]="activeFilter === 'all'"
-                    (click)="setFilter('all')">
-              <i class="fa-solid fa-list"></i>
-              All Tasks
-            </button>
-            <button class="tab-btn" 
-                    [class.active]="activeFilter === 'teaching'"
-                    (click)="setFilter('teaching')">
-              <i class="fa-solid fa-chalkboard-teacher"></i>
-              Teaching
-            </button>
-                     <button class="tab-btn" 
-                    [class.active]="activeFilter === 'personal'"
-                    (click)="setFilter('personal')">
-              <i class="fa-solid fa-chalkboard-teacher"></i>
-              Personal
-            </button>
-            <button class="tab-btn" 
-                    [class.active]="activeFilter === 'grading'"
-                    (click)="setFilter('grading')">
-              <i class="fa-solid fa-clipboard-check"></i>
-              Grading
-            </button>
-            <button class="tab-btn" 
-                    [class.active]="activeFilter === 'administrative'"
-                    (click)="setFilter('administrative')">
-              <i class="fa-solid fa-briefcase"></i>
-              Administrative
-            </button>
+            <div class="filter-tabs">
+              <button class="tab-btn" 
+                      [class.active]="activeFilter === 'all'"
+                      (click)="setFilter('all')">
+                <i class="fa-solid fa-list"></i>
+                All Tasks
+              </button>
+              <button class="tab-btn" 
+                      [class.active]="activeFilter === 'teaching'"
+                      (click)="setFilter('teaching')">
+                <i class="fa-solid fa-chalkboard-teacher"></i>
+                Teaching
+              </button>
+              <button class="tab-btn" 
+                      [class.active]="activeFilter === 'personal'"
+                      (click)="setFilter('personal')">
+                <i class="fa-solid fa-user"></i>
+                Personal
+              </button>
+              <button class="tab-btn" 
+                      [class.active]="activeFilter === 'grading'"
+                      (click)="setFilter('grading')">
+                <i class="fa-solid fa-clipboard-check"></i>
+                Grading
+              </button>
+              <button class="tab-btn" 
+                      [class.active]="activeFilter === 'administrative'"
+                      (click)="setFilter('administrative')">
+                <i class="fa-solid fa-briefcase"></i>
+                Administrative
+              </button>
+            </div>
           </div>
-
- 
-        </div>
-
 
           <div class="task-list">
             <div class="task-item" 
@@ -132,85 +126,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Add/Edit Task Modal -->
-  <div class="modal-overlay" *ngIf="showTaskModal" (click)="closeTaskModal()">
-    <div class="task-modal" (click)="$event.stopPropagation()">
-      <div class="modal-header">
-        <h3>
-          <i [class]="isEditMode ? 'fa-solid fa-edit' : 'fa-solid fa-plus-circle'"></i>
-          {{ isEditMode ? 'Edit Task' : 'Add New Task' }}
-        </h3>
-        <button class="btn-close" (click)="closeTaskModal()">
-          <i class="fa-solid fa-times"></i>
-        </button>
-      </div>
-      
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="taskTitle">Task Title *</label>
-          <input type="text" 
-                 id="taskTitle"
-                 [(ngModel)]="taskForm.title" 
-                 placeholder="Enter task title..."
-                 class="form-control"
-                 [class.error]="!taskForm.title.trim() && showValidation">
-        </div>
-        
-        <div class="form-group">
-          <label for="taskDescription">Description</label>
-          <textarea id="taskDescription"
-                    [(ngModel)]="taskForm.description" 
-                    placeholder="Task description (optional)..."
-                    class="form-control"
-                    rows="3"></textarea>
-        </div>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label for="taskType">Type</label>
-            <select id="taskType" [(ngModel)]="taskForm.type" class="form-control">
-              <option value="teaching">Teaching</option>
-              <option value="grading">Grading</option>
-              <option value="administrative">Administrative</option>
-              <option value="meeting">Meeting</option>
-              <option value="personal">Personal</option>
-            </select>
-          </div>
-          
-          <div class="form-group">
-            <label for="taskPriority">Priority</label>
-            <select id="taskPriority" [(ngModel)]="taskForm.priority" class="form-control">
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-              <option value="urgent">Urgent</option>
-            </select>
-          </div>
-        </div>
-        
-        <div class="form-group">
-          <label for="taskDueDate">Due Date</label>
-          <input type="date" 
-                 id="taskDueDate"
-                 [(ngModel)]="taskForm.dueDate" 
-                 class="form-control">
-        </div>
-      </div>
-      
-      <div class="modal-footer">
-        <button class="btn-cancel" (click)="closeTaskModal()">
-          Cancel
-        </button>
-        <button class="btn-save" 
-                (click)="saveTask()"
-                [disabled]="!taskForm.title.trim()">
-          <i [class]="isEditMode ? 'fa-solid fa-save' : 'fa-solid fa-plus'"></i>
-          {{ isEditMode ? 'Update Task' : 'Add Task' }}
-        </button>
       </div>
     </div>
   </div>

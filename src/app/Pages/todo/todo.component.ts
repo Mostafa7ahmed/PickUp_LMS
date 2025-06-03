@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { Router, RouterOutlet, ActivatedRoute } from '@angular/router';
 
 interface InstructorTask {
   id: number;
@@ -17,31 +18,14 @@ interface InstructorTask {
 @Component({
   selector: 'app-todo',
   standalone: true,
-  imports: [CommonModule, FormsModule, TranslateModule],
+  imports: [CommonModule, FormsModule, TranslateModule, RouterOutlet],
   templateUrl: './todo.component.html',
   styleUrl: './todo.component.scss'
 })
-export class TodoComponent {
-  
+export class TodoComponent implements OnInit, OnDestroy {
   // Filter and search
   activeFilter: string = 'all';
   searchTerm: string = '';
-  
-  // Modal state
-  showTaskModal: boolean = false;
-  isEditMode: boolean = false;
-  editingTaskId: number | null = null;
-  showValidation: boolean = false;
-  
-  // Task form for modal
-  taskForm = {
-    title: '',
-    description: '',
-    type: 'teaching' as 'teaching' | 'grading' | 'administrative' | 'meeting' | 'personal',
-    priority: 'medium' as 'low' | 'medium' | 'high' | 'urgent',
-    dueDate: '',
-    completed: false
-  };
   
   // Sample tasks for instructor
   tasks: InstructorTask[] = [
@@ -74,132 +58,31 @@ export class TodoComponent {
       dueDate: '2024-03-22',
       completed: true,
       createdAt: new Date('2024-03-13')
-    },
-    {
-      id: 4,
-      title: 'Student consultation hours',
-      description: 'Office hours for project guidance',
-      type: 'teaching',
-      priority: 'low',
-      dueDate: '2024-03-21',
-      completed: false,
-      createdAt: new Date('2024-03-16')
-    },
-    {
-      id: 5,
-      title: 'Update course syllabus',
-      description: 'Add new assignments and reading materials',
-      type: 'administrative',
-      priority: 'medium',
-      dueDate: '2024-03-25',
-      completed: false,
-      createdAt: new Date('2024-03-12')
-    },
-    {
-      id: 6,
-      title: 'Review student project proposals',
-      description: 'Provide feedback on 15 project proposals',
-      type: 'grading',
-      priority: 'high',
-      dueDate: '2024-03-19',
-      completed: true,
-      createdAt: new Date('2024-03-11')
     }
   ];
 
+  constructor(private router: Router, private route: ActivatedRoute) {}
+
   ngOnInit(): void {
-    // Set default due date to tomorrow
-    this.setDefaultDueDate();
-    // Add event listener to handle opening the add task form when triggered from the navbar
+    // Add event listener for external task form trigger
     window.addEventListener('openAddTaskForm', this.openAddTaskForm.bind(this));
   }
 
-  private setDefaultDueDate(): void {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    this.taskForm.dueDate = tomorrow.toISOString().split('T')[0];
+  ngOnDestroy(): void {
+    // Clean up event listener
+    window.removeEventListener('openAddTaskForm', this.openAddTaskForm.bind(this));
   }
 
-  // Modal methods
+  openAddTaskForm(): void {
+    this.openAddTaskPopup();
+  }
+
   openAddTaskPopup(): void {
-    this.isEditMode = false;
-    this.editingTaskId = null;
-    this.showValidation = false;
-    this.resetTaskForm();
-    this.setDefaultDueDate();
-    this.showTaskModal = true;
+    this.router.navigate(['/Student', { outlets: { dialog: ['addTask'] } }]);
   }
 
   openEditTaskPopup(task: InstructorTask): void {
-    this.isEditMode = true;
-    this.editingTaskId = task.id;
-    this.showValidation = false;
-    this.taskForm = {
-      title: task.title,
-      description: task.description || '',
-      type: task.type,
-      priority: task.priority,
-      dueDate: task.dueDate,
-      completed: task.completed
-    };
-    this.showTaskModal = true;
-  }
-
-  closeTaskModal(): void {
-    this.showTaskModal = false;
-    this.isEditMode = false;
-    this.editingTaskId = null;
-    this.showValidation = false;
-    this.resetTaskForm();
-  }
-
-  private resetTaskForm(): void {
-    this.taskForm = {
-      title: '',
-      description: '',
-      type: 'teaching',
-      priority: 'medium',
-      dueDate: '',
-      completed: false
-    };
-  }
-
-  saveTask(): void {
-    if (!this.taskForm.title.trim()) {
-      this.showValidation = true;
-      return;
-    }
-
-    if (this.isEditMode && this.editingTaskId) {
-      // Update existing task
-      const taskIndex = this.tasks.findIndex(t => t.id === this.editingTaskId);
-      if (taskIndex !== -1) {
-        this.tasks[taskIndex] = {
-          ...this.tasks[taskIndex],
-          title: this.taskForm.title.trim(),
-          description: this.taskForm.description.trim(),
-          type: this.taskForm.type,
-          priority: this.taskForm.priority,
-          dueDate: this.taskForm.dueDate,
-          completed: this.taskForm.completed
-        };
-      }
-    } else {
-      // Add new task
-      const newTask: InstructorTask = {
-        id: Date.now(),
-        title: this.taskForm.title.trim(),
-        description: this.taskForm.description.trim(),
-        type: this.taskForm.type,
-        priority: this.taskForm.priority,
-        dueDate: this.taskForm.dueDate,
-        completed: false,
-        createdAt: new Date()
-      };
-      this.tasks.unshift(newTask);
-    }
-
-    this.closeTaskModal();
+    console.log('Edit task:', task);
   }
 
   // Filter methods
@@ -217,50 +100,27 @@ export class TodoComponent {
   }
 
   getFilteredTasks(): InstructorTask[] {
-    let filtered = this.tasks;
+    let filteredTasks = [...this.tasks];
 
-    // Apply type filter
     if (this.activeFilter !== 'all') {
-      filtered = filtered.filter(task => task.type === this.activeFilter);
+      filteredTasks = filteredTasks.filter(task => task.type === this.activeFilter);
     }
 
-    // Apply search filter
     if (this.searchTerm.trim()) {
       const searchLower = this.searchTerm.toLowerCase();
-      filtered = filtered.filter(task => 
+      filteredTasks = filteredTasks.filter(task => 
         task.title.toLowerCase().includes(searchLower) ||
         task.description?.toLowerCase().includes(searchLower)
       );
     }
 
-    // Sort by priority and due date
-    return filtered.sort((a, b) => {
-      // Completed tasks go to bottom
-      if (a.completed !== b.completed) {
-        return a.completed ? 1 : -1;
-      }
-      
-      // Sort by priority
-      const priorityOrder = { urgent: 4, high: 3, medium: 2, low: 1 };
-      const priorityDiff = priorityOrder[b.priority] - priorityOrder[a.priority];
+    // Sort tasks by priority and due date
+    return filteredTasks.sort((a, b) => {
+      const priorityOrder = { urgent: 0, high: 1, medium: 2, low: 3 };
+      const priorityDiff = priorityOrder[a.priority] - priorityOrder[b.priority];
       if (priorityDiff !== 0) return priorityDiff;
-      
-      // Sort by due date
       return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
     });
-  }
-
-  // Statistics methods
-  getTotalTasks(): number {
-    return this.tasks.length;
-  }
-
-  getCompletedTasks(): number {
-    return this.tasks.filter(task => task.completed).length;
-  }
-
-  getPendingTasks(): number {
-    return this.tasks.filter(task => !task.completed).length;
   }
 
   // Task management methods
@@ -291,7 +151,7 @@ export class TodoComponent {
 
   getPriorityIcon(priority: string): string {
     switch (priority) {
-      case 'urgent': return 'fa-solid fa-exclamation-triangle';
+      case 'urgent': return 'fa-solid fa-exclamation-circle';
       case 'high': return 'fa-solid fa-arrow-up';
       case 'medium': return 'fa-solid fa-minus';
       case 'low': return 'fa-solid fa-arrow-down';
@@ -300,53 +160,31 @@ export class TodoComponent {
   }
 
   isOverdue(dueDate: string): boolean {
-    if (!dueDate) return false;
     const today = new Date();
-    const due = new Date(dueDate);
     today.setHours(0, 0, 0, 0);
-    due.setHours(0, 0, 0, 0);
-    return due < today;
+    return new Date(dueDate) < today;
   }
 
   formatDueDate(dueDate: string): string {
-    if (!dueDate) return 'No due date';
-    
     const today = new Date();
-    const due = new Date(dueDate);
-    const diffTime = due.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const dueDateTime = new Date(dueDate);
 
-    if (diffDays === 0) return 'Due today';
-    if (diffDays === 1) return 'Due tomorrow';
-    if (diffDays === -1) return 'Due yesterday';
-    if (diffDays < 0) return `Overdue by ${Math.abs(diffDays)} days`;
-    if (diffDays <= 7) return `Due in ${diffDays} days`;
-    
-    return due.toLocaleDateString();
+    if (dueDateTime.getTime() === today.getTime()) return 'Today';
+    if (dueDateTime.getTime() === tomorrow.getTime()) return 'Tomorrow';
+    return dueDateTime.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   }
 
   getEmptyStateMessage(): string {
     switch (this.activeFilter) {
-      case 'teaching': return 'No teaching tasks found. Add a new lesson preparation or student activity.';
-      case 'grading': return 'No grading tasks found. All caught up with your grading!';
-      case 'administrative': return 'No administrative tasks found. Stay organized!';
+      case 'teaching': return 'No teaching tasks found. Add a teaching task to get started!';
+      case 'grading': return 'No grading tasks found. Add a grading task to get started!';
+      case 'administrative': return 'No administrative tasks found. Add an administrative task to get started!';
+      case 'meeting': return 'No meeting tasks found. Add a meeting task to get started!';
+      case 'personal': return 'No personal tasks found. Add a personal task to get started!';
       default: return 'No tasks found. Add your first task to get started!';
     }
-  }
-
-  ngOnDestroy(): void {
-    // Clean up event listener
-    window.removeEventListener('openAddTaskForm', this.openAddTaskForm.bind(this));
-  }
-
-  openAddTaskForm(): void {
-    this.openAddTaskPopup();
-    // Scroll to the modal or form
-    setTimeout(() => {
-      const modalElement = document.querySelector('.task-modal');
-      if (modalElement) {
-        modalElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    }, 100);
   }
 }

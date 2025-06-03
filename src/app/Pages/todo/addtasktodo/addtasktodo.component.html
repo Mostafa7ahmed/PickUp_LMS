@@ -1,1 +1,71 @@
-<p>addtasktodo works!</p>
+<div class="add-task-page">
+  <div class="task-form">
+  <app-top-pop [NamePopup]="'Create ToDo'" NameIcon="fa-solid fa-list-check" (isVisibleChange)="closeDialog()"></app-top-pop>
+    
+    <div class="form-body ">
+      <div class="bgCard form-group ">
+      <app-text-header [title]="'Task Title'" [bgColor]="'#ec8950'"></app-text-header>
+  
+        <input type="text" 
+               id="taskTitle"
+               [(ngModel)]="taskForm.title" 
+               placeholder="Enter task title..."
+               class="form-control mt-2"
+               [class.error]="!taskForm.title.trim() && showValidation">
+      </div>
+      
+      <div class="form-group">
+              <app-text-header [title]="'Description'" ></app-text-header>
+
+        <textarea id="taskDescription"
+                  [(ngModel)]="taskForm.description" 
+                  placeholder="Task description (optional)..."
+               class="form-control mt-2"
+                  rows="3"></textarea>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+                <app-text-header [title]="'Type'" [bgColor]="'#f4d7c5'"></app-text-header>
+
+          <select id="taskType" [(ngModel)]="taskForm.type" class="form-control mt-2">
+            <option value="teaching">Teaching</option>
+            <option value="grading">Grading</option>
+            <option value="administrative">Administrative</option>
+            <option value="meeting">Meeting</option>
+            <option value="personal">Personal</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+         <app-text-header [title]="'Priority'" [bgColor]="'#40de74'"></app-text-header>
+
+          <select id="taskPriority" [(ngModel)]="taskForm.priority" class="form-control mt-2">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+            <option value="urgent">Urgent</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="form-group">
+     <app-text-header [title]="'Due Date'" [bgColor]="'#ca6438'"></app-text-header>
+
+        <input type="date" 
+               id="taskDueDate"
+               [(ngModel)]="taskForm.dueDate" 
+               class="form-control mt-2">
+      </div>
+    </div>
+    
+  <div class="footerCourse bg-white rounded-1">
+    <div class="btnsCourse">
+      <button >
+        <span >Create</span>
+      </button>
+
+    </div>
+  </div>
+  </div>
+</div>

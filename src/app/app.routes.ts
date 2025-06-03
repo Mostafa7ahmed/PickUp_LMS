@@ -6,6 +6,7 @@ import { InstructorRegisterComponent } from './Pages/Auth/instructor-register/in
 import { StudentRegisterComponent } from './Pages/Auth/student-register/student-register.component';
 import { ConfirmEmailComponent } from './Components/confirm-email/confirm-email.component';
 import { isloginguardsGuard } from './Core/Guards/isloginguards.guard';
+// Todo components moved to student routes
 
 import { ForgotpasswordComponent } from './Pages/Auth/forgotpassword/forgotpassword.component';
 import { ChangepasswordComponent } from './Pages/Auth/changepassword/changepassword.component';
@@ -69,7 +70,7 @@ export const routes: Routes = [
         title: "ConfirmEmail",
         component: ConfirmEmailComponent,
         canActivate: [isloginguardsGuard],
-    },
+    },    // Todo routes moved to student.routes.ts
     ...studentRoutes,
     ...instructorRoutes,
    
