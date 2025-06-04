@@ -8,6 +8,8 @@ import { HomestudentComponent } from '../Pages/Students/homestudent/homestudent.
 import { MyCourseComponent } from '../Pages/Students/my-course/my-course.component';
 import { TodoComponent } from '../Pages/todo/todo.component';
 import { AddtasktodoComponent } from '../Pages/todo/addtasktodo/addtasktodo.component';
+import { TodostdutentComponent } from '../Pages/Students/todostdutent/todostdutent.component';
+import { AddTaskStudentComponent } from '../Pages/Students/todostdutent/components/add-task-student/add-task-student.component';
 
 export const studentRoutes: Routes = [
     {
@@ -20,11 +22,11 @@ export const studentRoutes: Routes = [
             { path: "myCourse", title: "My Course", component: MyCourseComponent },            { 
                 path: "Todo", 
                 title: "Task Management", 
-                component: TodoComponent
+                component: TodostdutentComponent
             },
             { 
-                path: "addTask",
-                component: AddtasktodoComponent,
+                path: "taskTodoStudent",
+                component: AddTaskStudentComponent,
                 outlet: 'dialog'
             },
 

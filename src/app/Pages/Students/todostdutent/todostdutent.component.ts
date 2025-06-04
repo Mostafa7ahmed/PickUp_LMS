@@ -1,69 +1,29 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
-import { Router, RouterOutlet, ActivatedRoute } from '@angular/router';
-
-interface InstructorTask {
-  id: number;
-  title: string;
-  description?: string;
-  type: 'teaching' | 'grading' | 'administrative' | 'meeting' | 'personal';
-  priority: 'low' | 'medium' | 'high' | 'urgent';
-  dueDate: string;
-  completed: boolean;
-  createdAt: Date;
-}
+import { ActivatedRoute, Router } from '@angular/router';
+import { IStudentTask } from './core/interface/istudent-task';
+import { GetallTaskStudentService } from './core/service/getall-task-student.service';
 
 @Component({
-  selector: 'app-todo',
+  selector: 'app-todostdutent',
   standalone: true,
-  imports: [CommonModule, FormsModule, TranslateModule],
-  templateUrl: './todo.component.html',
-  styleUrl: './todo.component.scss'
+  imports: [CommonModule, FormsModule],
+  templateUrl: './todostdutent.component.html',
+  styleUrl: './todostdutent.component.scss'
 })
-export class TodoComponent implements OnInit, OnDestroy {
+export class TodostdutentComponent implements OnInit, OnDestroy  {
+  // Filter and search
   activeFilter: string = 'all';
   searchTerm: string = '';
   
-  tasks: InstructorTask[] = [
-    {
-      id: 1,
-      title: 'Prepare lecture slides for Web Development',
-      description: 'Create slides for React components and state management',
-      type: 'teaching',
-      priority: 'high',
-      dueDate: '2024-03-20',
-      completed: false,
-      createdAt: new Date('2024-03-15')
-    },
-    {
-      id: 2,
-      title: 'Grade midterm exams',
-      description: 'Grade JavaScript fundamentals midterm exams for 45 students',
-      type: 'grading',
-      priority: 'urgent',
-      dueDate: '2024-03-18',
-      completed: false,
-      createdAt: new Date('2024-03-14')
-    },
-    {
-      id: 3,
-      title: 'Faculty meeting preparation',
-      description: 'Prepare curriculum update proposal',
-      type: 'administrative',
-      priority: 'medium',
-      dueDate: '2024-03-22',
-      completed: true,
-      createdAt: new Date('2024-03-13')
-    }
-  ];
+  tasks: IStudentTask[] = [ ];
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute , private _getallTaskStudentService:GetallTaskStudentService ) {}
 
   ngOnInit(): void {
-    // Add event listener for external task form trigger
     window.addEventListener('openAddTaskForm', this.openAddTaskForm.bind(this));
+    this.tasks = this._getallTaskStudentService.tasks
   }
 
   ngOnDestroy(): void {
@@ -75,10 +35,10 @@ export class TodoComponent implements OnInit, OnDestroy {
   }
 
   openAddTaskPopup(): void {
-    this.router.navigate(['/Student', { outlets: { dialog: ['addTask'] } }]);
+    this.router.navigate(['/Student', { outlets: { dialog: ['taskTodoStudent'] } }]);
   }
 
-  openEditTaskPopup(task: InstructorTask): void {
+  openEditTaskPopup(task: IStudentTask): void {
     console.log('Edit task:', task);
   }
 
@@ -87,16 +47,9 @@ export class TodoComponent implements OnInit, OnDestroy {
     this.activeFilter = filter;
   }
 
-  getFilterTitle(): string {
-    switch (this.activeFilter) {
-      case 'teaching': return 'Teaching Tasks';
-      case 'grading': return 'Grading Tasks';
-      case 'administrative': return 'Administrative Tasks';
-      default: return 'All Tasks';
-    }
-  }
 
-  getFilteredTasks(): InstructorTask[] {
+
+  getFilteredTasks(): IStudentTask[] {
     let filteredTasks = [...this.tasks];
 
     if (this.activeFilter !== 'all') {
@@ -121,25 +74,21 @@ export class TodoComponent implements OnInit, OnDestroy {
   }
 
   // Task management methods
-  updateTaskStatus(task: InstructorTask): void {
-    // Task status is already updated via two-way binding
-    // You could add additional logic here like saving to backend
-  }
 
-  deleteTask(task: InstructorTask): void {
+
+  deleteTask(task: IStudentTask): void {
     this.tasks = this.tasks.filter(t => t.id !== task.id);
   }
 
   // Utility methods
-  trackByTaskId(index: number, task: InstructorTask): number {
+  trackByTaskId(index: number, task: IStudentTask): number {
     return task.id;
   }
 
   getTaskTypeIcon(type: string): string {
     switch (type) {
-      case 'teaching': return 'fa-solid fa-chalkboard-teacher';
-      case 'grading': return 'fa-solid fa-clipboard-check';
-      case 'administrative': return 'fa-solid fa-briefcase';
+      case 'Exam': return 'fa-solid fa-chalkboard-teacher';
+      case 'Task': return 'fa-solid fa-clipboard-check';
       case 'meeting': return 'fa-solid fa-users';
       case 'personal': return 'fa-solid fa-user';
       default: return 'fa-solid fa-tasks';
@@ -176,9 +125,8 @@ export class TodoComponent implements OnInit, OnDestroy {
 
   getEmptyStateMessage(): string {
     switch (this.activeFilter) {
-      case 'teaching': return 'No teaching tasks found. Add a teaching task to get started!';
-      case 'grading': return 'No grading tasks found. Add a grading task to get started!';
-      case 'administrative': return 'No administrative tasks found. Add an administrative task to get started!';
+      case 'Exam': return 'No Exam tasks found. Add a Exam task to get started!';
+      case 'Task': return 'No Task tasks found. Add a Task task to get started!';
       case 'meeting': return 'No meeting tasks found. Add a meeting task to get started!';
       case 'personal': return 'No personal tasks found. Add a personal task to get started!';
       default: return 'No tasks found. Add your first task to get started!';
