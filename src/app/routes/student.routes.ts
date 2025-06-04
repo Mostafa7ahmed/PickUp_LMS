@@ -10,6 +10,7 @@ import { TodoComponent } from '../Pages/todo/todo.component';
 import { AddtasktodoComponent } from '../Pages/todo/addtasktodo/addtasktodo.component';
 import { TodostdutentComponent } from '../Pages/Students/todostdutent/todostdutent.component';
 import { AddTaskStudentComponent } from '../Pages/Students/todostdutent/components/add-task-student/add-task-student.component';
+import { ChangePasswordPopupComponent } from '../Pages/Auth/change-password-popup/change-password-popup.component';
 
 export const studentRoutes: Routes = [
     {
@@ -27,6 +28,11 @@ export const studentRoutes: Routes = [
             { 
                 path: "taskTodoStudent",
                 component: AddTaskStudentComponent,
+                outlet: 'dialog'
+            },
+              { 
+                path: "ChangePasswordPopup",
+                component: ChangePasswordPopupComponent,
                 outlet: 'dialog'
             },
 
