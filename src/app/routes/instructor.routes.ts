@@ -23,7 +23,8 @@ import { ViewTopicandStageComponent } from '../Pages/Topics/Components/view-topi
 import { EditStageComponent } from '../Pages/Stages/Components/edit-stage/edit-stage.component';
 import { AddStageComponent } from '../Pages/Stages/Components/add-stage/add-stage.component';
 import { HomeinstructorComponent } from '../Pages/Instructor/homeinstructor/homeinstructor.component';
-import { TodoComponent } from '../Pages/todo/todo.component';
+import { TodoInstructorComponent } from '../Pages/Instructor/todo-instructor/todo-instructor.component';
+import { AddtasktodoComponent } from '../Pages/Instructor/todo-instructor/components/addtasktodo/addtasktodo.component';
 export const instructorRoutes: Routes = [
     {
         path: '',
@@ -35,7 +36,9 @@ export const instructorRoutes: Routes = [
             { path: "myprofile", title: "porfile", component: PorfileComponent },
             { path: 'ChangePasswordPopup', outlet: 'dialog', component: ChangePasswordPopupComponent },
             { path: "course", title: "Course", component: CoursesComponent },
-            { path: "todo", title: "Task Management", component: TodoComponent },
+            { path: "todo", title: "Task Management", component: TodoInstructorComponent },
+
+            { path: 'addTaskInstrcutor', outlet: 'dialog', component: AddtasktodoComponent },
 
             { path: "quizlist", title: "Quiz List", component: QuizlistComponent },
             { path: "course/:topicId/:activeTab", component: CoursesComponent, data: { defaultTab: "1" } },

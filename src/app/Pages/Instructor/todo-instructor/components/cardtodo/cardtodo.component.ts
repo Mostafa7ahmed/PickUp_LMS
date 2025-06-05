@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { StageTodo } from '../interfaces/task.interface';
 import { CommonModule } from '@angular/common';
 
 @Component({

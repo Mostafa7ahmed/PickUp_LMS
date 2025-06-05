@@ -6,8 +6,6 @@ import { notloginguardsGuard } from '../Core/Guards/notloginguards.guard';
 import { HomepageStudentComponent } from '../Pages/Students/homepage-student/homepage-student.component';
 import { HomestudentComponent } from '../Pages/Students/homestudent/homestudent.component';
 import { MyCourseComponent } from '../Pages/Students/my-course/my-course.component';
-import { TodoComponent } from '../Pages/todo/todo.component';
-import { AddtasktodoComponent } from '../Pages/todo/addtasktodo/addtasktodo.component';
 import { TodostdutentComponent } from '../Pages/Students/todostdutent/todostdutent.component';
 import { AddTaskStudentComponent } from '../Pages/Students/todostdutent/components/add-task-student/add-task-student.component';
 import { ChangePasswordPopupComponent } from '../Pages/Auth/change-password-popup/change-password-popup.component';

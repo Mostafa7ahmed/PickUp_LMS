@@ -2,8 +2,10 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { TopPopComponent } from '../../../Components/top-pop/top-pop.component';
-import { TextHeaderComponent } from '../../Courses/Components/text-header/text-header.component';
+import { TextHeaderComponent } from '../../../../Courses/Components/text-header/text-header.component';
+import { TopPopComponent } from '../../../../../Components/top-pop/top-pop.component';
+
+
 
 interface TaskForm {
   title: string;
@@ -55,7 +57,7 @@ export class AddtasktodoComponent {
   }
 
   closeDialog(): void {
-    this.router.navigate(['/Student', { outlets: { dialog: null } }]);
+    this.router.navigate([{ outlets: { dialog: null } }]);
   }
 
   cancel(): void {
