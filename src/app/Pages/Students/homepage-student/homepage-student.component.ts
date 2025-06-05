@@ -4,11 +4,12 @@ import { AssignmentsComponent } from "./components/assignments/assignments.compo
 import { TodoComponent } from "./components/todo/todo.component";
 import { ResourcesComponent } from "./components/resources/resources.component";
 import { CourseCardComponent } from "./components/course-card/course-card.component";
+import { DiscoverCardsComponent } from "./components/discover-cards/discover-cards.component";
 
 @Component({
   selector: 'app-homepage-student',
   standalone: true,
-  imports: [MyCoursesComponent, AssignmentsComponent, TodoComponent, ResourcesComponent, CourseCardComponent],
+  imports: [MyCoursesComponent, AssignmentsComponent, TodoComponent, ResourcesComponent, CourseCardComponent, DiscoverCardsComponent],
   templateUrl: './homepage-student.component.html',
   styleUrl: './homepage-student.component.scss'
 })

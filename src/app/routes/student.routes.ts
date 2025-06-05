@@ -9,6 +9,7 @@ import { MyCourseComponent } from '../Pages/Students/my-course/my-course.compone
 import { TodostdutentComponent } from '../Pages/Students/todostdutent/todostdutent.component';
 import { AddTaskStudentComponent } from '../Pages/Students/todostdutent/components/add-task-student/add-task-student.component';
 import { ChangePasswordPopupComponent } from '../Pages/Auth/change-password-popup/change-password-popup.component';
+import { DiscoverCourseComponent } from '../Pages/Students/discover-course/discover-course.component';
 
 export const studentRoutes: Routes = [
     {
@@ -18,17 +19,19 @@ export const studentRoutes: Routes = [
         children: [
             { path: '', redirectTo: 'homeStudent', pathMatch: 'full' },
             { path: "homeStudent", title: "Home Student", component: HomepageStudentComponent },
-            { path: "myCourse", title: "My Course", component: MyCourseComponent },            { 
-                path: "Todo", 
-                title: "Task Management", 
+            { path: "myCourse", title: "My Course", component: MyCourseComponent },
+            { path: "DiscoverCourses", title: "My Course", component: DiscoverCourseComponent },
+            {
+                path: "Todo",
+                title: "Task Management",
                 component: TodostdutentComponent
             },
-            { 
+            {
                 path: "taskTodoStudent",
                 component: AddTaskStudentComponent,
                 outlet: 'dialog'
             },
-              { 
+            {
                 path: "ChangePasswordPopup",
                 component: ChangePasswordPopupComponent,
                 outlet: 'dialog'

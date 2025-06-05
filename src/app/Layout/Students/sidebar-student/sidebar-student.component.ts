@@ -56,7 +56,7 @@ export class SidebarStudentComponent {
    {
       name: 'Discover Courses',
       Icon: 'fa-solid fa-compass',
-      routes: "myCourse"
+      routes: "DiscoverCourses"
     },
 
     {

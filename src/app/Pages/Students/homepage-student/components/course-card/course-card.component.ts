@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { IcourseStudent } from '../../../my-course/core/interface/icourse-student';
+import { IcourseStudent, IDicoverCourse } from '../../../my-course/core/interface/icourse-student';
 import { CourseService } from '../../../my-course/core/service/course.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { CourseService } from '../../../my-course/core/service/course.service';
   styleUrl: './course-card.component.scss'
 })
 export class CourseCardComponent implements OnInit {
-  courses: IcourseStudent[] = [];
+  courses: IDicoverCourse[] = [];
 
 
   showInfoCoupon = false;
