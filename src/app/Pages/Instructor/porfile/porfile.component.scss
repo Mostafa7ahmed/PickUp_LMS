@@ -116,9 +116,9 @@
     overflow-y: auto;
     scrollbar-width: none;
   .followers-list {
-  gap: 2rem;
+  gap: 3rem;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
   flex-wrap: wrap;
 
 
