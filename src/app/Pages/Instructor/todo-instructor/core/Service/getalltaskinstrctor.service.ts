@@ -32,11 +32,41 @@ export class GetalltaskinstrctorService {
       id: 3,
       title: 'Faculty meeting preparation',
       description: 'Prepare curriculum update proposal',
-      type: 'administrative',
+      type: 'meeting',
       priority: 'medium',
       dueDate: '2024-03-22',
       completed: true,
       createdAt: new Date('2024-03-13')
+    },
+    {
+      id: 4,
+      title: 'Student consultation hours',
+      description: 'Office hours for project guidance',
+      type: 'teaching',
+      priority: 'low',
+      dueDate: '2024-03-21',
+      completed: false,
+      createdAt: new Date('2024-03-16')
+    },
+    {
+      id: 5,
+      title: 'Update course syllabus',
+      description: 'Add new assignments and reading materials',
+      type: 'administrative',
+      priority: 'medium',
+      dueDate: '2024-03-25',
+      completed: false,
+      createdAt: new Date('2024-03-12')
+    },
+    {
+      id: 6,
+      title: 'Review student project proposals',
+      description: 'Provide feedback on 15 project proposals',
+      type: 'personal',
+      priority: 'high',
+      dueDate: '2024-03-19',
+      completed: true,
+      createdAt: new Date('2024-03-11')
     }
   ];
 

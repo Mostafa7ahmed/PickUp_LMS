@@ -6,7 +6,7 @@
 
         <div class="nav-Left">
             <div   class="header-actions d-flex gap-3 cr">
-                <div   class="search-container activitiesDropDown"><svg
+                <!-- <div   class="search-container activitiesDropDown"><svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="20" height="20" viewBox="0 0 20 20" fill="none">
                         <path 
@@ -16,7 +16,7 @@
                             d="M18.3333 18.957C18.1749 18.957 18.0166 18.8987 17.8915 18.7737L16.2246 17.1067C15.9829 16.865 15.9829 16.465 16.2246 16.2233C16.4663 15.9816 16.8664 15.9816 17.1081 16.2233L18.775 17.8902C19.0167 18.1319 19.0167 18.532 18.775 18.7737C18.65 18.8987 18.4916 18.957 18.3333 18.957Z"
                             fill="#A1A5B7"></path>
                     </svg>
-                </div>
+                </div> -->
                 <div class="divider"></div>
                 <div class="action  position-relative quickActionsDropDown" (click)="toggleAddMenu()"><svg 
                        xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -34,7 +34,7 @@
                       <li (click)="addTopic()"><i class="fa-solid fa-briefcase"></i> {{"AddSection.addTopic" | translate }}</li>
                       <li (click)="addCourse()" ><i class="fa-solid fa-bullhorn"></i> {{"AddSection.addCourse" | translate }}</li>
                       <li (click)="addCoupan()"><i class="fa-solid fa-user-plus"></i>{{"AddSection.addStage" | translate }}</li>
-                      <li (click)="addCoupan()"><i class="fa-solid fa-user-group"></i>{{"AddSection.addLesson" | translate }}</li>
+                      <li (click)="addLesson()"><i class="fa-solid fa-user-group"></i>{{"AddSection.addLesson" | translate }}</li>
                     </ul>
                   </div>
                 <div class=" position-relative activitiesDropDown" (click)="addTask()">

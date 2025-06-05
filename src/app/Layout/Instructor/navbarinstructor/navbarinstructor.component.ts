@@ -57,11 +57,15 @@ export class NavbarinstructorComponent {
   toggleAddMenu() {
     this.isAddMenuOpen = !this.isAddMenuOpen;
     this.isAccountMenuOpen = false;
+        this.isNotificationsMenuOpen = false;
+
   }
 
   toggleAccountMenu() {
     this.isAccountMenuOpen = !this.isAccountMenuOpen;
     this.isAddMenuOpen = false;
+        this.isNotificationsMenuOpen = false;
+
   }
   isNotificationsMenuOpen = false;
   notifications: Notification[] = [];
@@ -152,6 +156,8 @@ export class NavbarinstructorComponent {
   }
   addTask() {
       this.isAddMenuOpen = false;
+          this.isNotificationsMenuOpen = false;
+
 
     this.router.navigate([{ outlets: { dialog: ['addTaskInstrcutor'] } }]);
   }
