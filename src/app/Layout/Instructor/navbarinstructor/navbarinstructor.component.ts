@@ -5,13 +5,16 @@ import { Decode } from '../../../Core/Interface/user';
 import { TranslationService } from '../../../Core/Services/translation.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { GetallnotifactionService } from './core/service/getallnotifaction.service';
+import { Notification } from '../../Students/navbar-student/core/interface/notification';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbarinstructor',
   standalone: true,
-  imports: [RouterLink, TranslateModule],
+  imports: [RouterLink, TranslateModule , CommonModule],
   templateUrl: './navbarinstructor.component.html',
-  styleUrl: './navbarinstructor.component.scss',
+  styleUrl: '../../Students/navbar-student/navbar-student.component.scss',
 })
 export class NavbarinstructorComponent {
   private readonly _MytranslationService = inject(TranslationService);
@@ -19,7 +22,8 @@ export class NavbarinstructorComponent {
   private _LoginService = inject(LoginService);
   private _NzMessageService = inject(NzMessageService);
   private router = inject(Router);
-
+  private _getallnotifactionService = inject(GetallnotifactionService);
+  constructor(private eRef: ElementRef, private translate: TranslateService) {}
   dataUser: Decode = {} as Decode;
 
   openPopup() {
@@ -42,12 +46,13 @@ export class NavbarinstructorComponent {
 
   ngOnInit() {
     this.dataUser = this._LoginService.saveUserAuth();
+        this.notifications = this._getallnotifactionService.notifications
+
   }
 
   isAddMenuOpen = false;
   isAccountMenuOpen = false;
 
-  constructor(private eRef: ElementRef, private translate: TranslateService) {}
 
   toggleAddMenu() {
     this.isAddMenuOpen = !this.isAddMenuOpen;
@@ -58,7 +63,67 @@ export class NavbarinstructorComponent {
     this.isAccountMenuOpen = !this.isAccountMenuOpen;
     this.isAddMenuOpen = false;
   }
+  isNotificationsMenuOpen = false;
+  notifications: Notification[] = [];
+  toggleNotificationsMenu() {
+    this.isNotificationsMenuOpen = !this.isNotificationsMenuOpen;
+    this.isAccountMenuOpen = false;
+    this.isAddMenuOpen = false;
+  }
 
+
+  get unreadNotificationsCount(): number {
+    return this.notifications.filter(n => !n.isRead).length;
+  }
+
+  markAsRead(notification: Notification): void {
+    notification.isRead = true;
+    if (notification.actionUrl) {
+      this.router.navigate([notification.actionUrl]);
+    }
+    this.isNotificationsMenuOpen = false;
+  }
+
+  markAllAsRead(): void {
+    this.notifications.forEach(n => n.isRead = true);
+  }
+
+  viewAllNotifications(): void {
+    this.isNotificationsMenuOpen = false;
+
+    console.log('Full notifications page - component not yet created');
+  }
+
+
+  getNotificationIcon(type: string): string {
+    const iconMap: Record<string, string> = {
+      'course': 'fa-solid fa-graduation-cap',
+      'assignment': 'fa-solid fa-tasks',
+      'grade': 'fa-solid fa-star',
+      'announcement': 'fa-solid fa-bullhorn',
+      'info': 'fa-solid fa-info-circle',
+      'success': 'fa-solid fa-check-circle',
+      'warning': 'fa-solid fa-exclamation-triangle',
+      'error': 'fa-solid fa-times-circle'
+    };
+    return iconMap[type] || 'fa-solid fa-bell';
+  }
+
+  getTimeAgo(date: Date): string {
+    const now = new Date();
+    const diffInMs = now.getTime() - date.getTime();
+    const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+    const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+    if (diffInMinutes < 60) {
+      return `${diffInMinutes}m ago`;
+    } else if (diffInHours < 24) {
+      return `${diffInHours}h ago`;
+    } else {
+      return `${diffInDays}d ago`;
+    }
+  }
   @HostListener('document:click', ['$event'])
   closeMenus(event: Event) {
     if (!this.eRef.nativeElement.contains(event.target)) {

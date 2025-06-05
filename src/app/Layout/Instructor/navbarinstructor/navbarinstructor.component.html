@@ -56,8 +56,10 @@
                     </svg>
                 </div>
           
-                <div class="action position-relative notifications-list">
+              
+         <div class="action position-relative notifications-list"     (click)="toggleNotificationsMenu()">
                     <svg 
+                    
                         id="action-relative-notfications-svg" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                         viewBox="0 0 20 20" fill="none">
                         <path 
@@ -70,6 +72,48 @@
                             d="M10.7998 19.0833C9.90811 19.0833 9.03311 18.7167 8.39978 18.0834C7.76645 17.45 7.39978 16.575 7.39978 15.6833H8.64978C8.64978 16.25 8.88311 16.8 9.28311 17.2C9.68311 17.6 10.2331 17.8333 10.7998 17.8333C11.9831 17.8333 12.9498 16.8667 12.9498 15.6833H14.1998C14.1998 17.5583 12.6748 19.0833 10.7998 19.0833Z"
                             fill="#A1A5B7"></path>
                     </svg>
+                    
+                    <!-- Notification Badge -->
+                    <div class="notification-badge" *ngIf="unreadNotificationsCount > 0">
+                        {{ unreadNotificationsCount > 99 ? '99+' : unreadNotificationsCount }}
+                    </div>
+
+                    <!-- Notifications Dropdown -->
+                    <div class="notifications-dropdown" [class.open]="isNotificationsMenuOpen">
+                        <div class="dropdown-header">
+                            <h4><i class="fa-solid fa-bell me-2"></i>Notifications</h4>
+                            <button class="mark-all-read" (click)="markAllAsRead()" *ngIf="unreadNotificationsCount > 0">
+                                Mark all as read
+                            </button>
+                        </div>
+                        
+                        <div class="notifications-list" *ngIf="notifications.length > 0">
+                            <div class="notification-item" 
+                                 *ngFor="let notification of notifications" 
+                                 [class.unread]="!notification.isRead"
+                                 (click)="markAsRead(notification)">
+                                <div class="notification-icon" [class]="notification.type">
+                                    <i [class]="getNotificationIcon(notification.type)"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <h6>{{ notification.title }}</h6>
+                                    <p>{{ notification.message }}</p>
+                                    <span class="notification-time">{{ getTimeAgo(notification.createdAt) }}</span>
+                                </div>
+                                <div class="unread-indicator" *ngIf="!notification.isRead"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="no-notifications" *ngIf="notifications.length === 0">
+                            <div class="no-notifications-icon">
+                                <i class="fa-solid fa-bell-slash"></i>
+                            </div>
+                            <h5>No notifications</h5>
+                            <p>You're all caught up! Check back later for updates.</p>
+                        </div>
+                        
+                
+                    </div>
                 </div>
             </div>
             <div class="line"></div>
