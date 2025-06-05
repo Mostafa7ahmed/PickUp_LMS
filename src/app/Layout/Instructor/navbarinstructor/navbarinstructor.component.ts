@@ -11,10 +11,9 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   standalone: true,
   imports: [RouterLink, TranslateModule],
   templateUrl: './navbarinstructor.component.html',
-  styleUrl: './navbarinstructor.component.scss'
+  styleUrl: './navbarinstructor.component.scss',
 })
 export class NavbarinstructorComponent {
-
   private readonly _MytranslationService = inject(TranslationService);
   readonly _TranslateService = inject(TranslateService);
   private _LoginService = inject(LoginService);
@@ -29,28 +28,26 @@ export class NavbarinstructorComponent {
     this.router.navigate([{ outlets: { dialog: ['ChangePasswordPopup'] } }]);
   }
   routeProfile(): void {
-        this.toggleAccountMenu();
+    this.toggleAccountMenu();
 
-  this.router.navigate(['/myprofile']);
-}
-
+    this.router.navigate(['/myprofile']);
+  }
 
   logOut() {
     this.translate.get('LogOut.LOGOUT_SUCCESS').subscribe((res: string) => {
-      this._NzMessageService.success(res); 
+      this._NzMessageService.success(res);
     });
-    this._LoginService.SignOut()
+    this._LoginService.SignOut();
   }
 
   ngOnInit() {
-
     this.dataUser = this._LoginService.saveUserAuth();
   }
 
   isAddMenuOpen = false;
   isAccountMenuOpen = false;
 
-  constructor(private eRef: ElementRef ,    private translate: TranslateService) { }
+  constructor(private eRef: ElementRef, private translate: TranslateService) {}
 
   toggleAddMenu() {
     this.isAddMenuOpen = !this.isAddMenuOpen;
@@ -69,24 +66,38 @@ export class NavbarinstructorComponent {
       this.isAccountMenuOpen = false;
     }
   }
- ChangeLang(lang: string) {
+  ChangeLang(lang: string) {
     this.toggleAccountMenu();
 
     this.translate.get('Langaue.LANGUAGE_CHANGED').subscribe((res: string) => {
-      this._NzMessageService.success(res); 
+      this._NzMessageService.success(res);
     });
 
     this._MytranslationService.ChangeLang(lang);
 
-    this.translate.use(lang);  
+    this.translate.use(lang);
   }
-  addTopic() { this.toggleAddMenu(); this.router.navigate([{ outlets: { dialog: ['addTopic'] } }]); }
-  addCourse() { this.toggleAddMenu(); this.router.navigate([{ outlets: { dialog: ['addcourse'] } }]); }
+  addTopic() {
+    this.toggleAddMenu();
+    this.router.navigate([{ outlets: { dialog: ['addTopic'] } }]);
+  }
+  addCourse() {
+    this.toggleAddMenu();
+    this.router.navigate([{ outlets: { dialog: ['addcourse'] } }]);
+  }
+  addTask() {
+      this.isAddMenuOpen = false;
+
+    this.router.navigate([{ outlets: { dialog: ['addTaskInstrcutor'] } }]);
+  }
   addCoupan() {
-    this.toggleAddMenu(); this.router.navigate([{ outlets: { dialog: ['coupan', 205] } }]);
-
+    this.toggleAddMenu();
+    this.router.navigate([{ outlets: { dialog: ['coupan', 205] } }]);
   }
-
+  addLesson() {
+    this.toggleAddMenu();
+    this.router.navigate([{ outlets: { dialog: ['addLesson', 205] } }]);
+  }
   ToggleLang() {
     const currentLang = this._TranslateService.currentLang;
     const newLang = currentLang === 'en' ? 'ar' : 'en';
