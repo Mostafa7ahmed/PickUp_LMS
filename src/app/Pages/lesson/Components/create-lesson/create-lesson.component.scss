@@ -722,13 +722,17 @@ input[type="file"] {
 }
 
 .vedioName {
+  flex: 1;
+  min-width: 0; // This is important for text-overflow to work
+  
   .title {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 250px;
+    max-width: 100%;
     margin: 0;
-    line-height: 28px; // Match input height for smooth transition
+    line-height: 28px;
+    padding: 0 8px;
   }
 }
 
@@ -853,4 +857,28 @@ input[type="file"] {
     border-radius: 4px;
     background: #eee;
   }
+   &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  &.saveIcon {
+    color: #4CAF50;
+  }
+
+  &.cancelIcon {
+    color: #f44336;
+  }
+
+  &.lockIcon {
+    color: #666;
+
+    .fa-lock-open {
+      color: #4CAF50;
+    }
+
+    .fa-lock {
+      color: #f44336;
+    }
+  }
+
 }

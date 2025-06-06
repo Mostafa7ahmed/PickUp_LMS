@@ -182,33 +182,51 @@ export class CreateLessonComponent implements OnInit {
     }
   }
 
-  startEditingVideo(index: number, name: string) {
+  startEditingVideo(index: number, currentName: string) {
     this.editingVideoIndex = index;
-    this.editingVideoName = name;
-    // Focus the input after a short delay to allow for rendering
+    this.editingVideoName = currentName;
+    // Focus the input after a short delay to allow Angular to render it
     setTimeout(() => {
       const input = document.querySelector('.edit-video-name') as HTMLInputElement;
       if (input) {
         input.focus();
+        input.select();
       }
     }, 0);
   }
 
   saveVideoName(index: number) {
-    if (this.editingVideoName.trim()) {
-      this.lessonVideos[index] = {
-        ...this.lessonVideos[index],
+    if (this.editingVideoName?.trim()) {
+      // Create a new array with the updated video
+      const updatedVideos = [...this.lessonVideos];
+      updatedVideos[index] = {
+        ...updatedVideos[index],
         name: this.editingVideoName.trim()
       };
+      
+      // Update the array
+      this.lessonVideos = updatedVideos;
     }
-    this.editingVideoIndex = -1;
-    this.editingVideoName = '';
+    this.cancelEditingVideo();
   }
 
   cancelEditingVideo() {
     this.editingVideoIndex = -1;
     this.editingVideoName = '';
   }
+
+  toggleVideoPrivacy(index: number) {
+    // Create a new array with the updated video
+    const updatedVideos = [...this.lessonVideos];
+    updatedVideos[index] = {
+      ...updatedVideos[index],
+      free: !updatedVideos[index].free
+    };
+    
+    // Update the array
+    this.lessonVideos = updatedVideos;
+  }
+
   onVideoUpload(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {

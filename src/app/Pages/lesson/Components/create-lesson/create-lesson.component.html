@@ -178,9 +178,8 @@
             </div>
             <div class="informationVedio flex-grow-1 d-flex justify-content-between align-items-center">
               <div class="leftInfo">
-                <div class="vedioName d-flex gap-2 align-items-center">
-                  @if (editingVideoIndex !== i) {
-                    <p class="mb-0 title">{{video.name | splicText:25}}</p>
+                <div class="vedioName d-flex gap-2 align-items-center">                  @if (editingVideoIndex !== i) {
+                    <p class="mb-0 title" [pTooltip]="video.name">{{video.name}}</p>
                   } @else {
                     <div class="edit-name-container">
                       <input type="text" 
@@ -188,8 +187,12 @@
                              class="edit-video-name" 
                              (keyup.enter)="saveVideoName(i)"
                              (keyup.escape)="cancelEditingVideo()"
+                             (blur)="saveVideoName(i)"
                              maxlength="40"
-                             placeholder="Enter video name">
+                             #videoNameInput
+                             [value]="video.name"
+                             placeholder="Enter video name"
+                             autocomplete="off">
                     </div>
                   }
                 </div>
@@ -209,8 +212,10 @@
                   <div class="cancelIcon Icons" pTooltip="Cancel" tooltipPosition="top" (click)="cancelEditingVideo()">
                     <i class="fa-solid fa-times"></i>
                   </div>
-                </ng-container>
-                <div class="lockIcon Icons" pTooltip="Make Private Video" tooltipPosition="top">
+                </ng-container>                <div class="lockIcon Icons" 
+                     (click)="toggleVideoPrivacy(i)"
+                     [pTooltip]="video.free ? 'Make Private Video' : 'Make Free Video'" 
+                     tooltipPosition="top">
                   <i [class]="video.free ? 'fa-solid fa-lock-open' : 'fa-solid fa-lock'"></i>
                 </div>
               </div>
@@ -265,7 +270,7 @@
 
   <div class="footerCourse bg-white rounded-1">
     <div class="btnsCourse">
-      <button type="submit" [disabled]="!lessonForm.valid || !selectedCourse"  (click)="createLesson()">
+      <button type="submit"   (click)="createLesson()">
         <span>Create</span>
       </button>
     </div>
