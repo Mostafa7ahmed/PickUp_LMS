@@ -8,7 +8,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   height: 496px;
-  width: 650px;
+  width: 720px;
   z-index: 1000;
   box-shadow: 1px 1px 5px #0000001f;
   background-color: #F8F8F8;
@@ -41,6 +41,9 @@
 
 .leftLesson {
   width: 338px;
+  height: 400px;
+  scrollbar-width: none;
+  overflow-y: auto;
 
 }
 
@@ -593,4 +596,187 @@ input[type="file"] {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.file-list {
+  margin-top: 15px;
+  max-height: 250px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding: 10px;
+  border-radius: 8px;
+  background: #f8f9fa;
+  border: 1px solid #eaecf0;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  background: white;
+  border: 1px solid #e9ecef;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: #7ad34c;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+
+  .file-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+
+    .pdfIcons {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      background: #f8f9fa;
+
+      i {
+        font-size: 16px;
+        color: #6c757d;
+      }
+    }
+
+    .file-name {
+      font-size: 13px;
+      color: #111827;
+      font-weight: 500;
+    }
+  }
+
+  .file-actions {
+    display: flex;
+    gap: 8px;
+    margin: 0 12px;
+
+    .delete-icon {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--red-icon-hover);
+
+      &:hover {
+        background-color: rgba(220, 53, 69, 0.1);
+      }
+
+      i {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .file-size {
+    font-size: 12px;
+    color: #6b7280;
+    min-width: 60px;
+    text-align: right;
+  }
+}
+
+.uploaDfile {
+  .upload-box {
+    margin-bottom: 15px;
+    border: 1px dashed #c6d1dc;
+    background: #f9fafc;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: #7ad34c;
+      background: #f0f7f0;
+    }
+
+    i {
+      color: #6c757d;
+      transition: color 0.2s;
+    }
+
+    &:hover i {
+      color: #24C12B;
+    }
+  }
+}
+
+.edit-name-container {
+  flex: 1;
+  min-width: 200px;
+  max-width: 300px;
+
+  .edit-video-name {
+    width: 100%;
+    height: 28px;
+    padding: 4px 8px;
+    border: 1px solid #D3D6DC;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #111827;
+    background-color: #fff;
+    outline: none;
+    transition: all 0.2s ease;
+
+    &:focus {
+      border-color: #7ad34c;
+      box-shadow: 0 0 0 2px rgba(122, 211, 76, 0.1);
+    }
+
+    &::placeholder {
+      color: #D3D6DC;
+      font-size: 13px;
+    }
+  }
+}
+
+.vedioName {
+  .title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 250px;
+    margin: 0;
+    line-height: 28px; // Match input height for smooth transition
+  }
+}
+
+.video-preview {
+  .deleteIcon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    color: var(--red-icon-hover);
+
+    &:hover {
+      background-color: rgba(220, 53, 69, 0.1);
+    }
+  }
+
+  video {
+    border: 1px solid #eaecf0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    height: auto;
+    max-height: 200px;
+    width: 100%;
+    object-fit: cover;
+  }
 }

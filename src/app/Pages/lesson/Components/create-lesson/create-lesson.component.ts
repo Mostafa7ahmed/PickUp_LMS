@@ -1,7 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { TopPopComponent } from "../../../../Components/top-pop/top-pop.component";
 import { TextHeaderComponent } from "../../../Courses/Components/text-header/text-header.component";
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ListCourse } from '../../../Courses/Core/interface/icourses';
 import { SplicTextPipe } from '../../../Courses/Core/Pipes/splic-text.pipe';
 import { environment } from '../../../../Environments/environment';
@@ -15,110 +16,327 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
 import { ITag } from '../../../Courses/Core/interface/itags';
 import { TagesService } from '../../../Courses/Core/service/tages.service';
+import { AddlessonService } from '../../Core/Services/addlesson.service';
+import { ICreateLessonRequest, ILessonVideo, ILessonFile } from '../../Core/Interface/icreate-lesson';
+import { StreamService } from '../../../../Core/Services/stream.service';
+import { StreamType } from '../../../../Core/Interface/stream-type';
 
 @Component({
   selector: 'app-create-lesson',
   standalone: true,
-  imports: [TopPopComponent, TextHeaderComponent , TooltipModule,CommonModule , SplicTextPipe,MultiSelectModule,KeyFilterModule,DropdownModule, ButtonModule],
+  imports: [
+    TopPopComponent, 
+    TextHeaderComponent, 
+    TooltipModule, 
+    CommonModule, 
+    SplicTextPipe, 
+    MultiSelectModule, 
+    KeyFilterModule, 
+    DropdownModule, 
+    ButtonModule, 
+    ReactiveFormsModule,
+    FormsModule
+  ],
   templateUrl: './create-lesson.component.html',
   styleUrl: './create-lesson.component.scss'
 })
-export class CreateLessonComponent {
+export class CreateLessonComponent implements OnInit {
+  private _formBuilder = inject(FormBuilder);
+  private _paginateCoursesService = inject(ListCourseService);
+  private _TagesService = inject(TagesService);
+  private _addLessonService = inject(AddlessonService);
+  private _streamService = inject(StreamService);
+  private router = inject(Router);
+  private _activatedRoute = inject(ActivatedRoute);
+
+  lessonForm = this._formBuilder.group({
+    name: ['', Validators.required],
+    description: ['', Validators.required],
+    photoUrl: ['', Validators.required],
+    introductionVideoUrl: ['', Validators.required],
+    tags: [[] as ITag[]],
+    fileUrls: [[] as string[]]
+  });
 
   showDropdownCourse = false;
   selectedCourse: ListCourse | null = null; 
   baseUrl: string = environment.baseUrlFiles;
   paginationCoursesResponse: IPaginationResponse<ListCourse> = {} as IPaginationResponse<ListCourse>;
-  private _paginateCoursesService = inject(ListCourseService); 
-    tagsListResponse: IPaginationResponse<ITag> = {} as IPaginationResponse<ITag>;
-    private _TagesService = inject(TagesService);
-    private router = inject(Router);
-  
-  private _activatedRoute= inject(ActivatedRoute);
+  tagsListResponse: IPaginationResponse<ITag> = {} as IPaginationResponse<ITag>;
   isLoadCourse = false;
+  uploadedFiles: ILessonFile[] = [];
+  lessonVideos: ILessonVideo[] = [];
+  imagePreview: string | null = null;
+  introVideoPreview: string | null = null;
+  editingVideoIndex: number = -1;
+  editingVideoName: string = '';
 
+  isImageLoading = false;
+  isIntroVideoLoading = false;
+  isVideoUploading = false;
+  isFileUploading = false;
+
+  toggleDropdownCourse() {
+    this.showDropdownCourse = !this.showDropdownCourse;
+  }
   
-    toggleDropdownCourse() {
-      this.showDropdownCourse = !this.showDropdownCourse;
+  selectCourse(course: ListCourse) {
+    this.selectedCourse = course;
+    this.showDropdownCourse = false;
+  }
+
+  removeCourse() {
+    this.selectedCourse = null;
+    this.showDropdownCourse = false;
+  }
+
+  getCourse() {
+    const routeCourseId = +this._activatedRoute.snapshot.paramMap.get('courseId')!;
+  
+    this._paginateCoursesService.getCourses().subscribe((response) => {
+      this.paginationCoursesResponse = response;
+      this.isLoadCourse = true;
+  
+      const defaultCourse = this.paginationCoursesResponse.result.find(
+        (course) => course.id === routeCourseId
+      );
+  
+      if (defaultCourse) {
+        this.selectCourse(defaultCourse);
+      }
+    });
+  }
+
+  getTagsList() {
+    this._TagesService.getTags().subscribe(response => {
+      if (response.success) {
+        this.tagsListResponse = response;
+      }
+    });
+  }
+
+  addTags(input: HTMLInputElement): void {
+    const value = input.value.trim();
+    if (!value || this.tagsListResponse.result.some((tag: any) => tag.name === value)) {
+      return;
     }
   
-    selectCourse(course: ListCourse) {
-      this.selectedCourse = course;
-      this.showDropdownCourse = false;
-    }
+    const newTag = {
+      id: null,
+      instructorId: 1,
+      name: value,
+      createdOn: null
+    };
+  
+    this.tagsListResponse.result.unshift(newTag);
+    input.value = ''; 
+  }
 
-    removeCourse() {
-      this.selectedCourse = null;
-      this.showDropdownCourse = false;
-    }
-
-    getCourse() {
-      const routeCoupanId = +this._activatedRoute.snapshot.paramMap.get('courseId')!;
-    
-      this._paginateCoursesService.getCourses().subscribe((response) => {
-        this.paginationCoursesResponse = response;
-        this.isLoadCourse = true;
-        console.log("first")
-        console.log(this.paginationCoursesResponse.result)
-    
-        const defaultCourse = this.paginationCoursesResponse.result.find(
-          (course) => course.id === routeCoupanId
-        );
-    
-        if (defaultCourse) {
-          this.selectCourse(defaultCourse);
-        } else {
-          const fallbackCourse = this.paginationCoursesResponse.result.find(
-            (course) => course.id === 205
-          );
-          if (fallbackCourse) {
-            this.selectCourse(fallbackCourse);
+  onFileSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      this.isImageLoading = true;
+      this._streamService.upload(file, StreamType.photo).subscribe({
+        next: (response) => {
+          if (response.body?.success) {
+            const result = response.body.result;
+            const url = result.url;
+            const displayUrl = environment.baseUrlFiles + url;
+            this.imagePreview = displayUrl;
+            this.lessonForm.patchValue({ photoUrl: url }); // Save original URL in form
           }
+        },
+        error: (error) => {
+          console.error('Error uploading image:', error);
+        },
+        complete: () => {
+          this.isImageLoading = false;
         }
       });
     }
-    getTagsList() {
-      this._TagesService.getTags().subscribe(response => {
-        if (response.success) {
-          this.tagsListResponse = response;
-  
+  }
+
+  onFileSelectedVideo(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      this.isIntroVideoLoading = true;
+      this._streamService.upload(file, StreamType.video).subscribe({
+        next: (response) => {
+          if (response.body?.success) {
+            const result = response.body.result;
+            const url = result.url;
+            const displayUrl = environment.baseUrlFiles + url;
+            this.introVideoPreview = displayUrl;
+            this.lessonForm.patchValue({ introductionVideoUrl: url }); // Save original URL in form
+          }
+        },
+        error: (error) => {
+          console.error('Error uploading video:', error);
+        },
+        complete: () => {
+          this.isIntroVideoLoading = false;
         }
       });
     }
-    addTags(input: HTMLInputElement): void {
-      const value = input.value.trim();
-      if (!value || this.tagsListResponse.result.some((tag: any) => tag.name === value)) {
-        return;
+  }
+
+  startEditingVideo(index: number, name: string) {
+    this.editingVideoIndex = index;
+    this.editingVideoName = name;
+    // Focus the input after a short delay to allow for rendering
+    setTimeout(() => {
+      const input = document.querySelector('.edit-video-name') as HTMLInputElement;
+      if (input) {
+        input.focus();
       }
-    
-      const newTag = {
-        id: null,
-        instructorId: 1,
-        name: value,
-        createdOn: null
+    }, 0);
+  }
+
+  saveVideoName(index: number) {
+    if (this.editingVideoName.trim()) {
+      this.lessonVideos[index] = {
+        ...this.lessonVideos[index],
+        name: this.editingVideoName.trim()
       };
-    
-      this.tagsListResponse.result.unshift(newTag);
-      input.value = ''; 
+    }
+    this.editingVideoIndex = -1;
+    this.editingVideoName = '';
+  }
+
+  cancelEditingVideo() {
+    this.editingVideoIndex = -1;
+    this.editingVideoName = '';
+  }
+  onVideoUpload(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      this.isVideoUploading = true;
+      const video: ILessonVideo = {
+        id: this.lessonVideos.length + 1,
+        videoUrl: '', // Will be set after upload
+        free: false,
+        name: file.name.substring(0, 40) // Limit initial name to 40 chars
+      };
+      
+      this._streamService.upload(file, StreamType.video).subscribe({
+        next: (response) => {
+          if (response.body?.success) {
+            const result = response.body.result;
+            const serverUrl = result.url;
+            this.lessonVideos.push({
+              ...video,
+              videoUrl: serverUrl, // Store the server URL
+              displayUrl: environment.baseUrlFiles + serverUrl, // Only for display purposes
+            });
+          }
+        },
+        error: (error) => {
+          console.error('Error uploading video:', error);
+        },
+        complete: () => {
+          this.isVideoUploading = false;
+        }
+      });
+    }
+  }
+
+  onLessonFilesUpload(event: Event): void {
+    const files = (event.target as HTMLInputElement).files;
+    if (files) {
+      this.isFileUploading = true;
+      let completedUploads = 0;
+      const totalFiles = files.length;
+
+      Array.from(files).forEach(file => {
+        this._streamService.upload(file, StreamType.file).subscribe({
+          next: (response) => {
+            if (response.body?.success) {
+              const result = response.body.result;
+              const url = result.url;
+              this.uploadedFiles.push({
+                name: result.name || file.name,
+                url: url, // Store original URL
+                displayUrl: environment.baseUrlFiles + url, // Add display URL
+                size: result.size ? Math.round(result.size / 1024) : Math.round(file.size / 1024)
+              });
+              this.lessonForm.patchValue({
+                fileUrls: [...this.uploadedFiles.map(f => f.url)] // Use original URLs for form
+              });
+            }
+          },
+          error: (error) => {
+            console.error('Error uploading file:', error);
+          },
+          complete: () => {
+            completedUploads++;
+            if (completedUploads === totalFiles) {
+              this.isFileUploading = false;
+            }
+          }
+        });
+      });
+    }
+  }
+
+  removeFile(index: number, url: string) {
+    this.uploadedFiles = this.uploadedFiles.filter((_, i) => i !== index);
+    this.lessonForm.patchValue({
+      fileUrls: [...this.uploadedFiles.map(f => f.url)]
+    });
+  }
+
+  removeVideo(index: number) {
+    this.lessonVideos = this.lessonVideos.filter((_, i) => i !== index);
+  }
+
+  removeIntroVideo(): void {
+    this.introVideoPreview = null;
+    this.lessonForm.patchValue({ introductionVideoUrl: '' });
+  }
+  createLesson() {
+    if (!this.selectedCourse) {
+      return;
     }
 
-    imagePreview: string | null = null;
+    const formValue = this.lessonForm.value;
+    const lessonData: ICreateLessonRequest = {
+      courseId: this.selectedCourse.id,
+      name: formValue.name || '',
+      description: formValue.description || '',
+      photoUrl: formValue.photoUrl || '',
+      introductionVideoUrl: formValue.introductionVideoUrl || '',
+      fileUrls: (formValue.fileUrls || []).filter(url => url !== null && url !== undefined), // Filter out null values
+      videos: this.lessonVideos.map(video => ({
+        id: video.id,
+        videoUrl: video.videoUrl, // Keep only the original URL
+        free: video.free,
+        name: video.name
+      })),
+      tags: (formValue.tags || []).map((tag: ITag) => ({
+        id: tag.id || 0,
+        name: tag.name
+      }))
+    };
+    console.log( lessonData);
 
-    onFileSelected(event: Event): void {
-      const file = (event.target as HTMLInputElement).files?.[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          this.imagePreview = reader.result as string;
-        };
-        reader.readAsDataURL(file);
+    this._addLessonService.createLesson(lessonData).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.closePopup();
+        }
+      },
+      error: (error) => {
+        console.error('Error creating lesson:', error);
       }
-}
-    closePopup() {
-      this.router.navigate([{ outlets: { dialog: null } }]);
-    }
-    ngOnInit() {
-      this.getCourse();
-      this.getTagsList();
-    }
+    });
+  }
+
+  closePopup() {
+    this.router.navigate([{ outlets: { dialog: null } }]);
+  }
+
+  ngOnInit() {
+    this.getCourse();
+    this.getTagsList();
+  }
 }
