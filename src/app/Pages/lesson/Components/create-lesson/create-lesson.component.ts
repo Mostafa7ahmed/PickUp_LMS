@@ -184,8 +184,6 @@ export class CreateLessonComponent implements OnInit {
 
   startEditingVideo(index: number, currentName: string) {
     this.editingVideoIndex = index;
-    this.editingVideoName = currentName;
-    // Focus the input after a short delay to allow Angular to render it
     setTimeout(() => {
       const input = document.querySelector('.edit-video-name') as HTMLInputElement;
       if (input) {
@@ -196,35 +194,19 @@ export class CreateLessonComponent implements OnInit {
   }
 
   saveVideoName(index: number) {
-    if (this.editingVideoName?.trim()) {
-      // Create a new array with the updated video
-      const updatedVideos = [...this.lessonVideos];
-      updatedVideos[index] = {
-        ...updatedVideos[index],
-        name: this.editingVideoName.trim()
-      };
-      
-      // Update the array
-      this.lessonVideos = updatedVideos;
+    const videoName = this.lessonVideos[index].name;
+    if (videoName && videoName.trim()) {
+      // Name is already updated in the array due to two-way binding
+      this.editingVideoIndex = -1;
     }
-    this.cancelEditingVideo();
   }
 
   cancelEditingVideo() {
     this.editingVideoIndex = -1;
-    this.editingVideoName = '';
   }
 
   toggleVideoPrivacy(index: number) {
-    // Create a new array with the updated video
-    const updatedVideos = [...this.lessonVideos];
-    updatedVideos[index] = {
-      ...updatedVideos[index],
-      free: !updatedVideos[index].free
-    };
-    
-    // Update the array
-    this.lessonVideos = updatedVideos;
+    this.lessonVideos[index].free = !this.lessonVideos[index].free;
   }
 
   onVideoUpload(event: Event): void {
