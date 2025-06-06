@@ -37,9 +37,7 @@ export const instructorRoutes: Routes = [
             { path: 'ChangePasswordPopup', outlet: 'dialog', component: ChangePasswordPopupComponent },
             { path: "course", title: "Course", component: CoursesComponent },
             { path: "todo", title: "Task Management", component: TodoInstructorComponent },
-
             { path: 'addTaskInstrcutor', outlet: 'dialog', component: AddtasktodoComponent },
-
             { path: "quizlist", title: "Quiz List", component: QuizlistComponent },
             { path: "course/:topicId/:activeTab", component: CoursesComponent, data: { defaultTab: "1" } },
             { path: "ViewCourse/:courseId", component: ViewCourseComponent },
