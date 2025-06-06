@@ -78,9 +78,10 @@
         </div>
       </div>
 
+      <!-- Introduction Video -->
       <div class="courseSelect mt-2 lessonCover">
         <app-text-header [title]="'Introduction Video'" [bgColor]="'#40CDF4'"></app-text-header>
-        <div class="upload-container mt-2" *ngIf="!introVideoPreview">
+        <div class="upload-container mt-2" *ngIf="!introVideoPreview && !isIntroVideoLoading">
           <label for="introVideo">
             <i class="fa-solid fa-video mx-2"></i>
             Upload lesson introduction video
@@ -88,7 +89,16 @@
           <input type="file" id="introVideo" accept="video/*" (change)="onFileSelectedVideo($event)" hidden>
         </div>
 
-        <div class="video-preview mt-3" *ngIf="introVideoPreview">
+        <!-- Introduction Video Skeleton -->
+        <div class="video-preview mt-3 skeleton" *ngIf="isIntroVideoLoading">
+          <div class="rounded"></div>
+          <div class="d-flex justify-content-end mt-2">
+            <div class="deleteIcon"></div>
+          </div>
+        </div>
+
+        <!-- Introduction Video Preview -->
+        <div class="video-preview mt-3" *ngIf="introVideoPreview && !isIntroVideoLoading">
           <video controls class="w-100 rounded">
             <source [src]="introVideoPreview" type="video/mp4">
             Your browser does not support HTML5 video.
@@ -129,6 +139,7 @@
         </div>
       </div>
 
+      <!-- Videos Section -->
       <div class="courseSelect mt-2">
         <app-text-header [title]="'Videos'" [bgColor]="'#F3C048A6'"></app-text-header>
         <div class="upload-container mt-2">
@@ -138,7 +149,27 @@
           <input type="file" id="lessonVideo" accept="video/*" (change)="onVideoUpload($event)" hidden>
         </div>
 
+        <!-- Video Upload Skeleton -->
         <div class="mt-3 arrayVedios d-flex flex-column gap-2">
+          <div *ngIf="isVideoUploading" class="drag skeleton d-flex align-items-center gap-2">
+            <div class="dragIcon">
+              <span class="icon"></span>
+            </div>
+            <div class="informationVedio flex-grow-1 d-flex justify-content-between align-items-center">
+              <div class="leftInfo">
+                <div class="vedioName d-flex gap-2 align-items-center">
+                  <p class="mb-0 title"></p>
+                </div>
+              </div>
+              <div class="rightInfo d-flex flex-row-reverse align-items-center gap-2">
+                <div class="Icons"></div>
+                <div class="Icons"></div>
+                <div class="Icons"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actual Videos List -->
           <div *ngFor="let video of lessonVideos; let i = index" class="drag d-flex align-items-center gap-2">
             <div class="dragIcon">
               <span class="icon">
@@ -195,9 +226,21 @@
           </label>
           <input type="file" multiple accept=".pdf, .doc, .docx, .xls, .xlsx, .txt, .pptx, .ppt, .csv" 
                  id="fileInput" (change)="onLessonFilesUpload($event)" hidden>
-          <div class="file-list">
-            <div *ngFor="let file of uploadedFiles; let i = index" class="file-item">
+          <div class="file-list" *ngIf="uploadedFiles.length > 0 || isFileUploading">
+            <!-- Skeleton loader -->
+            <div *ngIf="isFileUploading" class="file-item skeleton ">
               <div class="file-info">
+                <div class="pdfIcons skeleton-icon"></div>
+                <span class="file-name skeleton-text"></span>
+              </div>
+              <div class="file-actions">
+                <div class="delete-icon skeleton-icon"></div>
+              </div>
+              <div class="file-size skeleton-text"></div>
+            </div>
+            <!-- Actual files -->
+            <div *ngFor="let file of uploadedFiles; let i = index" class="file-item"  >
+              <div class="file-info"> 
                 <div class="pdfIcons">
                   <i class="fa-file-lines fa-solid"></i>
                 </div>
@@ -214,6 +257,8 @@
             </div>
           </div>
         </div>
+
+ 
       </div>
     </div>
   </form>

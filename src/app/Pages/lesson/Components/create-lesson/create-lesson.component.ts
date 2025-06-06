@@ -160,21 +160,23 @@ export class CreateLessonComponent implements OnInit {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
       this.isIntroVideoLoading = true;
+      
       this._streamService.upload(file, StreamType.video).subscribe({
         next: (response) => {
           if (response.body?.success) {
             const result = response.body.result;
             const url = result.url;
-            const displayUrl = environment.baseUrlFiles + url;
-            this.introVideoPreview = displayUrl;
-            this.lessonForm.patchValue({ introductionVideoUrl: url }); // Save original URL in form
+            // Show skeleton for a brief moment after successful upload
+            setTimeout(() => {
+              const displayUrl = environment.baseUrlFiles + url;
+              this.introVideoPreview = displayUrl;
+              this.lessonForm.patchValue({ introductionVideoUrl: url });
+              this.isIntroVideoLoading = false;
+            }, 800);
           }
         },
         error: (error) => {
           console.error('Error uploading video:', error);
-        },
-        complete: () => {
-          this.isIntroVideoLoading = false;
         }
       });
     }
@@ -213,9 +215,9 @@ export class CreateLessonComponent implements OnInit {
       this.isVideoUploading = true;
       const video: ILessonVideo = {
         id: this.lessonVideos.length + 1,
-        videoUrl: '', // Will be set after upload
+        videoUrl: '',
         free: false,
-        name: file.name.substring(0, 40) // Limit initial name to 40 chars
+        name: file.name.substring(0, 40)
       };
       
       this._streamService.upload(file, StreamType.video).subscribe({
@@ -223,18 +225,19 @@ export class CreateLessonComponent implements OnInit {
           if (response.body?.success) {
             const result = response.body.result;
             const serverUrl = result.url;
-            this.lessonVideos.push({
-              ...video,
-              videoUrl: serverUrl, // Store the server URL
-              displayUrl: environment.baseUrlFiles + serverUrl, // Only for display purposes
-            });
+            // Show skeleton for a brief moment after successful upload
+            setTimeout(() => {
+              this.lessonVideos.push({
+                ...video,
+                videoUrl: serverUrl,
+                displayUrl: environment.baseUrlFiles + serverUrl,
+              });
+              this.isVideoUploading = false;
+            }, 800);
           }
         },
         error: (error) => {
           console.error('Error uploading video:', error);
-        },
-        complete: () => {
-          this.isVideoUploading = false;
         }
       });
     }
@@ -253,21 +256,26 @@ export class CreateLessonComponent implements OnInit {
             if (response.body?.success) {
               const result = response.body.result;
               const url = result.url;
-              this.uploadedFiles.push({
-                name: result.name || file.name,
-                url: url, // Store original URL
-                displayUrl: environment.baseUrlFiles + url, // Add display URL
-                size: result.size ? Math.round(result.size / 1024) : Math.round(file.size / 1024)
-              });
-              this.lessonForm.patchValue({
-                fileUrls: [...this.uploadedFiles.map(f => f.url)] // Use original URLs for form
-              });
+              // Short delay to show the skeleton loader
+              setTimeout(() => {
+                this.uploadedFiles.push({
+                  name: result.name || file.name,
+                  url: url,
+                  displayUrl: environment.baseUrlFiles + url,
+                  size: result.size ? Math.round(result.size / 1024) : Math.round(file.size / 1024)
+                });
+                this.lessonForm.patchValue({
+                  fileUrls: [...this.uploadedFiles.map(f => f.url)]
+                });
+                completedUploads++;
+                if (completedUploads === totalFiles) {
+                  this.isFileUploading = false;
+                }
+              }, 800); // Show skeleton for 800ms after successful upload
             }
           },
           error: (error) => {
             console.error('Error uploading file:', error);
-          },
-          complete: () => {
             completedUploads++;
             if (completedUploads === totalFiles) {
               this.isFileUploading = false;

@@ -1,4 +1,4 @@
-// 
+//
 
 .ShowPopup {
   padding: 0;
@@ -11,20 +11,18 @@
   width: 720px;
   z-index: 1000;
   box-shadow: 1px 1px 5px #0000001f;
-  background-color: #F8F8F8;
+  background-color: #f8f8f8;
   visibility: visible;
 
   &::-webkit-scrollbar {
     display: none;
   }
 
-  transition: .5s opacity ease-in-out,
-  .5s margin ease-in-out;
+  transition: 0.5s opacity ease-in-out, 0.5s margin ease-in-out;
   z-index: 800;
   opacity: 2;
   visibility: visible;
   animation: grow 0.5s ease-out;
-
 }
 
 @keyframes grow {
@@ -44,9 +42,7 @@
   height: 400px;
   scrollbar-width: none;
   overflow-y: auto;
-
 }
-
 
 .ShowPopup .createLesson {
   padding: 10px;
@@ -70,11 +66,10 @@
   height: 100%;
   width: 100%;
   padding: 0 0 15px 0;
-  max-height:420px;
+  max-height: 420px;
 
   overflow: auto;
   scrollbar-width: none;
-
 }
 .createLesson .courseSelect {
   border-radius: 6px;
@@ -103,7 +98,7 @@
       align-items: center;
       justify-content: center;
 
-      >i {
+      > i {
         font-size: 12px;
         color: #6b7280;
       }
@@ -192,7 +187,7 @@
     border: 0.75px solid #ebebeb;
     border-radius: 4px;
 
-    >i {
+    > i {
       color: #898995;
       font-size: 10px;
     }
@@ -215,7 +210,8 @@
   padding-inline-end: 4px;
   z-index: 106;
   border: 1px solid var(--Gray-200, #eaecf0);
-  box-shadow: 0 20px 24px -4px rgba(0, 0, 0, 0.0784313725), 0 8px 8px -4px rgba(0, 0, 0, 0.031372549);
+  box-shadow: 0 20px 24px -4px rgba(0, 0, 0, 0.0784313725),
+    0 8px 8px -4px rgba(0, 0, 0, 0.031372549);
   animation: movingDown 0.5s ease-in-out;
 }
 
@@ -293,7 +289,6 @@
 
   100% {
     opacity: 1;
-
   }
 }
 
@@ -304,33 +299,30 @@
   line-height: normal;
 }
 
-
 .lessonData .input_Couser {
   padding: 8px;
   font-size: 14px;
   width: 100%;
   border-radius: 4px;
-  border: .75px solid #D3D6DC;
+  border: 0.75px solid #d3d6dc;
   background: #fff;
   font-weight: 500;
   line-height: normal;
   cursor: text;
   height: 32px;
   outline: none;
-
 }
 
 .lessonData .lessonName .input_Couser::placeholder {
-  color: #D3D6DC;
+  color: #d3d6dc;
   font-size: 14px;
   font-weight: 500;
   line-height: normal;
 }
 
 .lessonData .lessonName .input_Couser:focus {
-  border: .75px solid #7ad34c;
+  border: 0.75px solid #7ad34c;
 }
-
 
 .textarea_course {
   width: 100%;
@@ -338,7 +330,7 @@
   padding: 8px;
   font-size: 14px;
   border-radius: 4px;
-  border: .75px solid #D3D6DC;
+  border: 0.75px solid #d3d6dc;
   background: #fff;
   font-weight: 500;
   line-height: normal;
@@ -351,9 +343,8 @@
   }
 
   &:focus {
-    border: .75px solid #7ad34c;
+    border: 0.75px solid #7ad34c;
   }
-
 }
 
 .upload-container {
@@ -363,8 +354,8 @@
   display: flex;
   justify-content: center;
   border: 2px dashed #d3d3d3;
-  background: #F9FAFC;
-  border: 0.5px dashed #C6D1DC
+  background: #f9fafc;
+  border: 0.5px dashed #c6d1dc;
 }
 
 .upload-container label {
@@ -397,14 +388,14 @@ input[type="file"] {
 }
 
 .informationVedio {
-  border: 0.5px solid #E1E1E1;
+  border: 0.5px solid #e1e1e1;
   background-color: var(--white);
   border-radius: 6px;
   padding: 5px 10px;
 
   .number {
     font-size: 13px;
-    color: #6B7280;
+    color: #6b7280;
     font-family: var(--font-family-2);
     font-weight: 600;
   }
@@ -415,35 +406,31 @@ input[type="file"] {
     font-family: var(--font-family-1);
     font-weight: 600;
   }
-  .rightInfo{
-    .Icons{
+  .rightInfo {
+    .Icons {
       font-size: 13px;
-      cursor: pointer;    }
-    .deleteIcon{
+      cursor: pointer;
+    }
+    .deleteIcon {
       color: var(--red-icon-hover);
-
     }
-    .editIcon{
+    .editIcon {
       color: var(--green2);
-
     }
-    .lockIcon{
+    .lockIcon {
       color: #3e97ff;
     }
   }
-
 }
 
 .drag .dragIcon span.icon i {
   color: #3f3d5661;
-
 }
 
 .drag .dragIcon:hover span.icon i {
-  color: #3F3D56;
-
+  color: #3f3d56;
 }
-.arrayVedios{
+.arrayVedios {
   display: flex;
   gap: 10px;
   max-height: 200px;
@@ -456,14 +443,13 @@ input[type="file"] {
   }
 }
 
-:host ::ng-deep  .add-Course .cdk-virtual-scrollable {
+:host ::ng-deep .add-Course .cdk-virtual-scrollable {
   height: 100px !important;
   overflow-y: auto;
 
   &::-webkit-scrollbar {
     display: none;
   }
-
 }
 
 .addTags input {
@@ -478,15 +464,13 @@ input[type="file"] {
   margin-right: 10px;
 }
 
-:host ::ng-deep  .add-Course .tags .p-select {
+:host ::ng-deep .add-Course .tags .p-select {
   height: 32px !important;
   border: 1px solid #ddd !important;
   box-shadow: none !important;
-
-
 }
 
-:host ::ng-deep  .add-Course .p-select-list-container {
+:host ::ng-deep .add-Course .p-select-list-container {
   scrollbar-width: none;
 }
 
@@ -496,12 +480,12 @@ input[type="file"] {
   border-radius: 4px;
   border: none;
 
-  background-color: #DFEFE0;
+  background-color: #dfefe0;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #24C12B;
+  color: #24c12b;
 }
 .upload-container {
   width: 100%;
@@ -522,7 +506,6 @@ input[type="file"] {
   color: #6c757d;
   transition: 0.3s;
   padding-left: 50px;
-
 }
 
 .upload-box:hover {
@@ -532,8 +515,6 @@ input[type="file"] {
 .hidden-input {
   display: none;
 }
-
-
 
 .containerCheck input {
   display: none;
@@ -557,16 +538,15 @@ input[type="file"] {
   font-weight: 700;
   color: #fff !important;
   border-radius: 4px;
-  border: .542px solid rgba(131, 137, 159, .2);
-  background-color: #24C12B;
+  border: 0.542px solid rgba(131, 137, 159, 0.2);
+  background-color: #24c12b;
 
   &:disabled {
     background-color: #24c12c8e;
     cursor: not-allowed;
   }
-
 }
-.photoUrl{
+.photoUrl {
   position: absolute;
   top: 5px;
   inset-inline-end: 14px;
@@ -625,7 +605,6 @@ input[type="file"] {
   transition: all 0.2s ease;
 
   &:hover {
-    border-color: #7ad34c;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   }
 
@@ -699,7 +678,6 @@ input[type="file"] {
     transition: all 0.2s ease;
 
     &:hover {
-      border-color: #7ad34c;
       background: #f0f7f0;
     }
 
@@ -709,7 +687,7 @@ input[type="file"] {
     }
 
     &:hover i {
-      color: #24C12B;
+      color: #24c12b;
     }
   }
 }
@@ -723,7 +701,7 @@ input[type="file"] {
     width: 100%;
     height: 28px;
     padding: 4px 8px;
-    border: 1px solid #D3D6DC;
+    border: 1px solid #d3d6dc;
     border-radius: 4px;
     font-size: 13px;
     color: #111827;
@@ -737,7 +715,7 @@ input[type="file"] {
     }
 
     &::placeholder {
-      color: #D3D6DC;
+      color: #d3d6dc;
       font-size: 13px;
     }
   }
@@ -778,5 +756,101 @@ input[type="file"] {
     max-height: 200px;
     width: 100%;
     object-fit: cover;
+  }
+}
+
+// Skeleton Animation
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: #f6f7f8;
+
+  &::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0,
+      rgba(255, 255, 255, 0.2) 20%,
+      rgba(255, 255, 255, 0.5) 60%,
+      rgba(255, 255, 255, 0)
+    );
+    animation: shimmer 2s infinite;
+    content: '';
+  }
+}
+
+// Video Skeleton Styles
+.video-skeleton {
+  width: 100%;
+  height: 200px;
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+// Video Item Skeleton
+.drag.skeleton {
+  .dragIcon {
+    .icon {
+      @extend .skeleton;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #eee;
+    }
+  }
+
+  .informationVedio {
+    .leftInfo {
+      .title {
+        @extend .skeleton;
+        width: 200px;
+        height: 20px;
+        background: #eee;
+        border-radius: 4px;
+      }
+    }
+
+    .rightInfo {
+      .Icons {
+        @extend .skeleton;
+        width: 24px;
+        height: 24px;
+        border-radius: 4px;
+        background: #eee;
+      }
+    }
+  }
+}
+
+// Introduction Video Skeleton
+.video-preview.skeleton {
+  .rounded {
+    @extend .skeleton;
+    width: 100%;
+    height: 200px;
+    border-radius: 8px;
+    background: #eee;
+  }
+
+  .deleteIcon {
+    @extend .skeleton;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    background: #eee;
   }
 }
