@@ -220,7 +220,7 @@
 
   <div class="footerCourse bg-white rounded-1">
     <div class="btnsCourse">
-      <button type="submit"  (click)="createLesson()">
+      <button type="submit" [disabled]="!lessonForm.valid || !selectedCourse"  (click)="createLesson()">
         <span>Create</span>
       </button>
     </div>
