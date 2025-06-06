@@ -4,6 +4,33 @@
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 24px;
     margin-bottom: 24px;
+    
+    .instructor-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .instructor-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center;
+        background-color: #e5e7eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #9ca3af;
+        font-size: 0.9rem;
+      }
+
+      .instructor-name {
+        font-size: 0.9rem;
+        color: #374151;
+        font-weight: 500;
+      }
+    }
+
 
     .course-card {
       background: white;
@@ -27,6 +54,18 @@
         &:hover img {
           transform: scale(1.05);
         }
+         .discount-badge {
+      position: absolute;
+      top: 12px;
+      right:  12px;
+      background: #ef4444;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
 
         .progress-overlay {
           position: absolute;
@@ -194,6 +233,84 @@
               background: #e5e7eb;
             }
           }
+        }
+      }
+    }
+  }
+
+
+    .course-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+    border-top: 1px solid #f3f4f6;
+
+    .price-section {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+
+      .original-price {
+        font-size: 0.9rem;
+        color: #9ca3af;
+        text-decoration: line-through;
+      }
+
+      .current-price {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #22c55e;
+      }
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+
+      button {
+        border: none;
+        border-radius: 8px;
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+      }
+
+      .btn-enroll {
+        background: #22c55e;
+        color: white;
+
+        &:hover {
+          background: #16a34a;
+          transform: translateY(-1px);
+        }
+      }
+
+      .btn-continue {
+        background: #3b82f6;
+        color: white;
+
+        &:hover {
+          background: #2563eb;
+          transform: translateY(-1px);
+        }
+      }
+
+      .btn-details {
+        background: #f3f4f6;
+        color: #6b7280;
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        justify-content: center;
+
+        &:hover {
+          background: #e5e7eb;
+          color: #374151;
         }
       }
     }

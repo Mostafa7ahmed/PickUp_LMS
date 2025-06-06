@@ -11,15 +11,21 @@
         />
 
         <div class="category-badge">{{ course.category }}</div>
+            <div *ngIf="course.discount" class="discount-badge">
+              {{ course.discount }}% OFF
+            </div>
         
       </div>
 
       <div class="course-content">
         <h3 class="course-title">{{ course.title }}</h3>
-        <p class="course-instructor">
-          <i class="fa-solid fa-user-tie"></i>
-          {{ course.instructor }}
-        </p>
+        <div class="instructor-info">
+                <div class="instructor-avatar" [style.background-image]="'url(' + course.instructorPhoto + ')'">
+                  <!-- Fallback -->
+                  <i *ngIf="!course.instructorPhoto" class="fa-solid fa-user"></i>
+                </div>
+                <span class="instructor-name">{{ course.instructor }}</span>
+              </div>
         <p class="course-description">{{ course.description }}</p>
 
         <div class="course-stats">
@@ -44,16 +50,33 @@
 
 
 
-        <div class="course-actions">
-          <button
-            class="btn-continue"
-          >
-            <i class="fa-solid fa-play"></i>
-          Enroll Now          </button>
-          <button class="btn-menu">
-            <i class="fa-solid fa-ellipsis-vertical"></i>
-          </button>
-        </div>
+          <div class="course-footer">
+              <div class="price-section">
+                <div *ngIf="course.originalPrice && course.discount" class="original-price">
+                  ${{ formatPrice(course.originalPrice) }}
+                </div>
+                <div class="current-price">
+                  ${{ formatPrice(course.price) }}
+                </div>
+              </div>
+
+              <div class="action-buttons">
+                <button 
+                  class="btn-enroll"
+                >
+                  <i class="fa-solid fa-graduation-cap me-1"></i>
+                  Enroll Now
+                </button>
+                
+     
+
+                <button 
+                  class="btn-details"
+                >
+                  <i class="fa-solid fa-info-circle"></i>
+                </button>
+              </div>
+            </div>
       </div>
     </div>
   </div>

@@ -15,13 +15,13 @@ export interface IcourseStudent {
 }
 
 export interface IDicoverCourse {
-     id: number;
+   id: number;
   title: string;
   instructor: string;
   description: string;
   image: string;
   discount: number;
-
+instructorPhoto: string;
   totalLessons: number;
   completedLessons: number;
   duration: string;
