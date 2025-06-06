@@ -82,9 +82,7 @@ export class NavbarStudentComponent {
 
   markAsRead(notification: Notification): void {
     notification.isRead = true;
-    if (notification.actionUrl) {
-      this.router.navigate([notification.actionUrl]);
-    }
+
     this.isNotificationsMenuOpen = false;
   }
 
