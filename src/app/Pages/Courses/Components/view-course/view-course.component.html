@@ -300,17 +300,8 @@
                         </div>
                         <p>{{'ViewCourse.Coupon' | translate}}</p>
                     </p-button>
-                    <img src="https://s3.dinarcrm.com/assets/img/contacts/Line-229.svg">
                 </div>
-                <div class="justify-content-between tabs" [class.activeHeader]="value == 4">
-                    <p-button (onClick)="value = 4" class="tab tab-active" rounded="true" styleClass="tabHeader">
-                        <div class="tab-icon">
-                            <i class="fa-chat-icons fa-kit"></i>
-                        </div>
-                        <p>{{'ViewCourse.Chat' | translate}}</p>
-                    </p-button>
 
-                </div>
 
             </div>
             <div class="stream-scroll-holder">
@@ -336,13 +327,7 @@
                             <p-tabpanel [value]="3">
                                 <app-card-coupon [courseId]="CourseId"></app-card-coupon>
                             </p-tabpanel>
-                            <p-tabpanel [value]="4">
-                                <div class="d-flex flex-column align-items-center justify-content-center m-0 tabView">
-                                    <img src="Images/message_empty.svg" alt="" width="190px">
-                                    <p>{{'ViewCourse.NoChat' | translate}}</p>
-
-                                </div>
-                            </p-tabpanel>
+                 
 
                         </p-tabpanels>
                     </p-tabs>

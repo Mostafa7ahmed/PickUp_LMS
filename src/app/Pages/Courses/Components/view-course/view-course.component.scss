@@ -595,6 +595,8 @@
       border-bottom: 1px solid #ebebeb;
       background: var(--white, #fff);
       padding: 6px 8px;
+      justify-content: space-between;
+      align-items: center;
       height: 44px;
       .tabs {
         display: flex;
