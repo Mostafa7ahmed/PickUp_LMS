@@ -14,6 +14,7 @@ import { ChangepasswordComponent } from './Pages/Auth/changepassword/changepassw
 import { instructorRoutes } from './routes/instructor.routes';
 import { studentRoutes } from './routes/student.routes';
 import { LandingpageComponent } from './Pages/landingpage/landingpage.component';
+import { LessonViewComponent } from './Pages/lesson-view/lesson-view.component';
 
 export const routes: Routes = [
 
@@ -77,6 +78,11 @@ export const routes: Routes = [
         component: ConfirmEmailComponent,
         canActivate: [isloginguardsGuard],
     },    // Todo routes moved to student.routes.ts
+    {
+        path: "viewLesson/:id",
+        title: "View Lesson",
+        component: LessonViewComponent
+    },
     ...studentRoutes,
     ...instructorRoutes,
    

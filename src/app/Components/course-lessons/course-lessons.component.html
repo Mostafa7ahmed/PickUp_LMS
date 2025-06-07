@@ -1,0 +1,219 @@
+<div class="course-lessons-container">
+  <!-- Header with Controls -->
+  <div class="lessons-header">
+    <div class="header-left">
+      <h3>
+        <i class="fas fa-play-circle"></i>
+        Course Lessons
+        @if(paginationInfo.totalCount > 0) {
+          <span class="lesson-count">({{ paginationInfo.totalCount }} lessons)</span>
+        }
+      </h3>
+    </div>
+    
+    <div class="header-controls">
+      <!-- Page Size Selector -->
+      <div class="control-group">
+        <label for="pageSize">Show:</label>
+        <select 
+          id="pageSize" 
+          [(ngModel)]="pageSize" 
+          (change)="onPageSizeChange()"
+          class="form-select"
+        >
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+        </select>
+      </div>
+
+      <!-- Order Direction -->
+      <div class="control-group">
+        <label for="orderDirection">Order:</label>
+        <select 
+          id="orderDirection" 
+          [(ngModel)]="orderDirection" 
+          (change)="onOrderDirectionChange()"
+          class="form-select"
+        >
+          <option [value]="OrderDirection.Ascending">Ascending</option>
+          <option [value]="OrderDirection.Descending">Descending</option>
+        </select>
+      </div>
+
+      <!-- Order Before Pagination -->
+      <div class="control-group">
+        <label class="checkbox-label">
+          <input 
+            type="checkbox" 
+            [(ngModel)]="orderBeforPagination"
+            (change)="onOrderBeforePaginationChange()"
+          />
+          Order before pagination
+        </label>
+      </div>
+
+      <!-- Refresh Button -->
+      <button 
+        class="btn btn-refresh" 
+        (click)="refresh()" 
+        [disabled]="isLoading"
+        title="Refresh lessons"
+      >
+        <i class="fas fa-sync-alt" [class.fa-spin]="isLoading"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  @if(isLoading) {
+    <div class="loading-container">
+      <div class="loading-spinner">
+        <i class="fas fa-spinner fa-spin"></i>
+        <span>Loading lessons...</span>
+      </div>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if(error && !isLoading) {
+    <div class="error-container">
+      <div class="error-message">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>{{ error }}</span>
+        <button class="btn btn-retry" (click)="refresh()">
+          <i class="fas fa-redo"></i>
+          Retry
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- Lessons List -->
+  @if(!isLoading && !error && lessons.length > 0) {
+    <div class="lessons-list">
+      @for(lesson of lessons; track lesson.id) {
+        <div class="lesson-card" (click)="viewLesson(lesson)" title="Click to view lesson details">
+          <div class="lesson-order">
+            <span class="order-number">{{ lesson.order }}</span>
+          </div>
+          
+          <div class="lesson-content">
+            <div class="lesson-header">
+              <div class="lesson-title-row">
+                <h4 class="lesson-name">{{ lesson.name }}</h4>
+                <i class="fas fa-chevron-right lesson-arrow"></i>
+              </div>
+              <div class="lesson-stats">
+                <span class="stat-item">
+                  <i class="fas fa-video"></i>
+                  {{ lesson.videosCount }} video{{ lesson.videosCount !== 1 ? 's' : '' }}
+                </span>
+                <span class="stat-item">
+                  <i class="fas fa-clock"></i>
+                  {{ formatDuration(lesson.durationInMinutes) }}
+                </span>
+                <span class="stat-item">
+                  <i class="fas fa-eye"></i>
+                  {{ formatViews(lesson.viewsCount) }} views
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="lesson-actions" (click)="$event.stopPropagation()">
+            <button class="btn btn-view" title="View lesson" (click)="viewLesson(lesson)">
+              <i class="fas fa-eye"></i>
+              <span>View</span>
+            </button>
+            <button class="btn btn-play" title="Play lesson" (click)="playLesson(lesson)">
+              <i class="fas fa-play"></i>
+              <span>Play</span>
+            </button>
+            <button class="btn btn-info" title="Lesson details" (click)="viewLessonDetails(lesson)">
+              <i class="fas fa-info-circle"></i>
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Pagination -->
+    @if(showPagination && paginationInfo.totalPages > 1) {
+      <div class="pagination-container">
+        <div class="pagination-info">
+          <span>
+            Showing {{ (currentPage - 1) * pageSize + 1 }} to 
+            {{ Math.min(currentPage * pageSize, paginationInfo.totalCount) }} 
+            of {{ paginationInfo.totalCount }} lessons
+          </span>
+        </div>
+
+        <div class="pagination-controls">
+          <!-- First Page -->
+          <button 
+            class="btn btn-page" 
+            (click)="goToFirstPage()" 
+            [disabled]="!paginationInfo.movePrevious"
+            title="First page"
+          >
+            <i class="fas fa-angle-double-left"></i>
+          </button>
+
+          <!-- Previous Page -->
+          <button 
+            class="btn btn-page" 
+            (click)="previousPage()" 
+            [disabled]="!paginationInfo.movePrevious"
+            title="Previous page"
+          >
+            <i class="fas fa-angle-left"></i>
+          </button>
+
+          <!-- Page Numbers -->
+          @for(page of getPageNumbers(); track page) {
+            <button 
+              class="btn btn-page" 
+              [class.active]="page === currentPage"
+              (click)="onPageChange(page)"
+            >
+              {{ page }}
+            </button>
+          }
+
+          <!-- Next Page -->
+          <button 
+            class="btn btn-page" 
+            (click)="nextPage()" 
+            [disabled]="!paginationInfo.moveNext"
+            title="Next page"
+          >
+            <i class="fas fa-angle-right"></i>
+          </button>
+
+          <!-- Last Page -->
+          <button 
+            class="btn btn-page" 
+            (click)="goToLastPage()" 
+            [disabled]="!paginationInfo.moveNext"
+            title="Last page"
+          >
+            <i class="fas fa-angle-double-right"></i>
+          </button>
+        </div>
+      </div>
+    }
+  }
+
+  <!-- Empty State -->
+  @if(!isLoading && !error && lessons.length === 0) {
+    <div class="empty-state">
+      <div class="empty-content">
+        <i class="fas fa-video-slash"></i>
+        <h4>No lessons found</h4>
+        <p>This course doesn't have any lessons yet.</p>
+      </div>
+    </div>
+  }
+</div>

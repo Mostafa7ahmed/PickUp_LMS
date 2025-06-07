@@ -5,7 +5,6 @@ import { environment } from '../../Environments/environment';
 import { IResponseOf } from '../Shared/Interface/irespose';
 import { 
   IWallet, 
-  IWalletResponse, 
   IAddFundsRequest, 
   IWithdrawRequest,
   IWalletTransaction 
