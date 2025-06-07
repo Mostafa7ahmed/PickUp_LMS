@@ -1,0 +1,211 @@
+<div class="lesson-view-container">
+  <!-- Header -->
+  <div class="lesson-header">
+    <div class="header-left">
+      <button class="btn btn-back" (click)="goBack()">
+        <i class="fas fa-arrow-left"></i>
+        Back
+      </button>
+      <div class="breadcrumb">
+        <span class="breadcrumb-item">Lessons</span>
+        <i class="fas fa-chevron-right"></i>
+        <span class="breadcrumb-item active">
+          @if(lessonDetail) {
+            {{ lessonDetail.name }}
+          } @else {
+            Lesson {{ lessonId }}
+          }
+        </span>
+      </div>
+    </div>
+    
+    @if(lessonDetail && !isLoading) {
+      <div class="header-actions">
+        <button class="btn btn-secondary" (click)="editLesson()">
+          <i class="fas fa-edit"></i>
+          Edit Lesson
+        </button>
+        <button class="btn btn-danger" (click)="deleteLesson()">
+          <i class="fas fa-trash"></i>
+          Delete
+        </button>
+      </div>
+    }
+  </div>
+
+  <!-- Loading State -->
+  @if(isLoading) {
+    <div class="loading-container">
+      <div class="loading-spinner">
+        <i class="fas fa-spinner fa-spin"></i>
+        <h3>Loading lesson details...</h3>
+        <p>Please wait while we fetch the lesson information.</p>
+      </div>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if(error && !isLoading) {
+    <div class="error-container">
+      <div class="error-content">
+        <div class="error-icon">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        
+        <h3>Unable to Load Lesson</h3>
+        <p class="error-message">{{ error }}</p>
+        
+        @if(apiError) {
+          <div class="api-error-details">
+            <h4>Error Details:</h4>
+            <div class="error-info">
+              <p><strong>Status Code:</strong> {{ apiError.statusCode }}</p>
+              <p><strong>Message:</strong> {{ apiError.message }}</p>
+              
+              @if(getErrorMessages().length > 0) {
+                <div class="error-messages">
+                  <h5>Validation Errors:</h5>
+                  <ul>
+                    @for(message of getErrorMessages(); track message) {
+                      <li>{{ message }}</li>
+                    }
+                  </ul>
+                </div>
+              }
+            </div>
+          </div>
+        }
+        
+        <div class="error-actions">
+          <button class="btn btn-primary" (click)="retry()">
+            <i class="fas fa-redo"></i>
+            Try Again
+          </button>
+          <button class="btn btn-secondary" (click)="goBack()">
+            <i class="fas fa-arrow-left"></i>
+            Go Back
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Lesson Content -->
+  @if(lessonDetail && !isLoading && !error) {
+    <div class="lesson-content">
+      <!-- Lesson Info Card -->
+      <div class="lesson-info-card">
+        <div class="card-header">
+          <div class="lesson-title">
+            <h1>{{ lessonDetail.name }}</h1>
+            <div class="lesson-meta">
+              <span class="meta-item">
+                <i class="fas fa-sort-numeric-up"></i>
+                Order: {{ lessonDetail.order }}
+              </span>
+              <span class="meta-item">
+                <i class="fas fa-user-tie"></i>
+                Instructor ID: {{ lessonDetail.instructorId }}
+              </span>
+              <span class="meta-item">
+                <i class="fas fa-calendar-alt"></i>
+                Created: {{ formatDate(lessonDetail.createdOn) }}
+              </span>
+            </div>
+          </div>
+          
+          <div class="lesson-id-badge">
+            <span class="badge">ID: {{ lessonDetail.id }}</span>
+          </div>
+        </div>
+        
+        <div class="card-body">
+          <div class="lesson-description">
+            <h3>
+              <i class="fas fa-align-left"></i>
+              Description
+            </h3>
+            @if(lessonDetail.description) {
+              <div class="description-content">
+                {{ lessonDetail.description }}
+              </div>
+            } @else {
+              <div class="no-description">
+                <i class="fas fa-info-circle"></i>
+                No description available for this lesson.
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Lesson Details Grid -->
+      <div class="lesson-details-grid">
+        <div class="detail-card">
+          <div class="detail-icon">
+            <i class="fas fa-hashtag"></i>
+          </div>
+          <div class="detail-content">
+            <h4>Lesson ID</h4>
+            <p>{{ lessonDetail.id }}</p>
+          </div>
+        </div>
+
+        <div class="detail-card">
+          <div class="detail-icon">
+            <i class="fas fa-sort-numeric-up"></i>
+          </div>
+          <div class="detail-content">
+            <h4>Order</h4>
+            <p>{{ lessonDetail.order }}</p>
+          </div>
+        </div>
+
+        <div class="detail-card">
+          <div class="detail-icon">
+            <i class="fas fa-user-tie"></i>
+          </div>
+          <div class="detail-content">
+            <h4>Instructor ID</h4>
+            <p>{{ lessonDetail.instructorId }}</p>
+          </div>
+        </div>
+
+        <div class="detail-card">
+          <div class="detail-icon">
+            <i class="fas fa-calendar-plus"></i>
+          </div>
+          <div class="detail-content">
+            <h4>Created On</h4>
+            <p>{{ formatDate(lessonDetail.createdOn) }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="lesson-actions">
+        <div class="action-group">
+          <h3>Lesson Actions</h3>
+          <div class="action-buttons">
+            <button class="btn btn-primary">
+              <i class="fas fa-play"></i>
+              Start Lesson
+            </button>
+            <button class="btn btn-info">
+              <i class="fas fa-video"></i>
+              Manage Videos
+            </button>
+            <button class="btn btn-success">
+              <i class="fas fa-file-alt"></i>
+              View Materials
+            </button>
+            <button class="btn btn-warning" (click)="editLesson()">
+              <i class="fas fa-edit"></i>
+              Edit Lesson
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

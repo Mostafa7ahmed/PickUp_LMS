@@ -1,0 +1,86 @@
+<div class="demo-container">
+  <div class="demo-header">
+    <h2>Course Lessons Demo</h2>
+    <p>This demo shows how to use the course lessons component with the API endpoint.</p>
+  </div>
+
+  <div class="demo-controls">
+    <div class="control-section">
+      <h3>Demo Controls</h3>
+      
+      <div class="control-group">
+        <label for="courseSelect">Select Course:</label>
+        <select 
+          id="courseSelect" 
+          [(ngModel)]="selectedCourseId" 
+          (change)="onCourseChange()"
+          class="form-control"
+        >
+          @for(course of sampleCourses; track course.id) {
+            <option [value]="course.id">{{ course.name }} (ID: {{ course.id }})</option>
+          }
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label for="pageSizeSelect">Page Size:</label>
+        <select 
+          id="pageSizeSelect" 
+          [(ngModel)]="pageSize" 
+          class="form-control"
+        >
+          <option value="5">5 lessons per page</option>
+          <option value="10">10 lessons per page</option>
+          <option value="20">20 lessons per page</option>
+          <option value="50">50 lessons per page</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label class="checkbox-label">
+          <input 
+            type="checkbox" 
+            [(ngModel)]="showPagination"
+          />
+          Show Pagination
+        </label>
+      </div>
+
+      <div class="control-group">
+        <label class="checkbox-label">
+          <input 
+            type="checkbox" 
+            [(ngModel)]="autoLoad"
+          />
+          Auto Load on Course Change
+        </label>
+      </div>
+    </div>
+
+    <div class="api-info">
+      <h3>API Information</h3>
+      <div class="api-details">
+        <p><strong>Endpoint:</strong></p>
+        <code>GET /lesson/course-lessons</code>
+        
+        <p><strong>Parameters:</strong></p>
+        <ul>
+          <li><code>courseId</code>: {{ selectedCourseId }}</li>
+          <li><code>pageNumber</code>: Dynamic (based on pagination)</li>
+          <li><code>pageSize</code>: {{ pageSize }}</li>
+          <li><code>orderBeforPagination</code>: true/false</li>
+          <li><code>orderDirection</code>: 0 (Ascending) / 1 (Descending)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-content">
+    <app-course-lessons
+      [courseId]="selectedCourseId"
+      [showPagination]="showPagination"
+      [pageSize]="pageSize"
+      [autoLoad]="autoLoad">
+    </app-course-lessons>
+  </div>
+</div>

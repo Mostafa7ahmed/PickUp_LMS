@@ -1,8 +1,18 @@
 import { CommonModule } from '@angular/common';
+<<<<<<< HEAD
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LoginService } from '../../../Core/Services/login.service';
 import { Decode } from '../../../Core/Interface/user';
+=======
+import { Component, OnInit, inject, OnDestroy } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Router, NavigationEnd } from '@angular/router';
+import { InstructorProfileService } from './core/services/instructor-profile.service';
+import { IInstructorProfile } from './core/interfaces/instructor-profile.interface';
+import { filter, Subscription } from 'rxjs';
+import { environment } from '../../../Environments/environment';
+>>>>>>> 95dcfafd060ca53bafcd474026778f589261ec07
 
 export interface Follower {
   name: string;
@@ -29,6 +39,7 @@ export interface InstructorStats {
   templateUrl: './porfile.component.html',
   styleUrl: './porfile.component.scss'
 })
+<<<<<<< HEAD
 export class PorfileComponent implements OnInit {
   private _LoginService = inject(LoginService);
   dataUser: Decode = {} as Decode;
@@ -169,6 +180,18 @@ export class PorfileComponent implements OnInit {
   }
 =======
 followers: Follower[] = [
+=======
+export class PorfileComponent implements OnInit, OnDestroy {
+  private router = inject(Router);
+  private instructorProfileService = inject(InstructorProfileService);
+  private subscription = new Subscription();
+
+  searchText = '';
+  instructorProfile: IInstructorProfile | null = null;
+  isLoading = false;
+
+  followers: Follower[] = [
+>>>>>>> 95dcfafd060ca53bafcd474026778f589261ec07
   { name: 'Nehad Naiem', title: 'Data Analyst at TechCorp', image: 'https://randomuser.me/api/portraits/women/44.jpg' },
   { name: 'Mohamed Yasser', title: 'ML Engineer at AI Solutions', image: 'https://randomuser.me/api/portraits/men/32.jpg' },
   { name: 'Mahmoud Gamal', title: 'Student at MIT', image: 'https://randomuser.me/api/portraits/men/45.jpg' },
@@ -195,6 +218,54 @@ followers: Follower[] = [
   { name: 'James Brown', title: 'Full Stack Developer', image: 'https://randomuser.me/api/portraits/men/53.jpg' },
 ];
 >>>>>>> 64669af2d189050710502789c0020a0a1285f09a
+
+  ngOnInit(): void {
+    this.loadInstructorProfile();
+
+    // Listen for navigation events to reload profile when returning from manage dialog
+    this.subscription.add(
+      this.router.events
+        .pipe(filter(event => event instanceof NavigationEnd))
+        .subscribe((event: NavigationEnd) => {
+          if (event.url === '/myprofile') {
+            this.loadInstructorProfile();
+          }
+        })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  loadInstructorProfile(): void {
+    this.isLoading = true;
+    this.instructorProfileService.getInstructorProfile().subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.instructorProfile = response.result;
+        }
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading instructor profile:', error);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  openManageProfile(): void {
+    this.router.navigate([{ outlets: { dialog: ['manageProfile'] } }]);
+  }
+
+  getPhotoUrl(photoPath: string): string {
+    // If it's already a full URL, return as is
+    if (photoPath.startsWith('http')) {
+      return photoPath;
+    }
+    // Otherwise, prepend the base URL
+    return environment.baseUrlFiles + photoPath;
+  }
 
   filteredFollowers(): Follower[] {
     return this.followers.filter(f =>

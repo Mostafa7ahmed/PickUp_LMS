@@ -357,4 +357,8 @@ export class NavbarinstructorComponent {
     const newLang = currentLang === 'en' ? 'ar' : 'en';
     this.ChangeLang(newLang);
   }
+
+  openWalletPopup(): void {
+    this.router.navigate([{ outlets: { dialog: ['wallet'] } }]);
+  }
 }

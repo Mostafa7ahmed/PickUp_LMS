@@ -29,6 +29,7 @@
   <!-- Enhanced Profile Header -->
   <div class="profile-header">
     <div class="imageAva">
+<<<<<<< HEAD
       <img class="avatar" src="Images/dr.jpeg" alt="Profile Image" />
       <div class="avatar-badge">
         <i class="fa-solid fa-graduation-cap"></i>
@@ -117,6 +118,61 @@
       </div>
     </div>
   </div>
+=======
+      @if(instructorProfile?.photo) {
+        <img class="avatar" [src]="getPhotoUrl(instructorProfile!.photo)" alt="Profile Image" />
+      } @else {
+        <img class="avatar" src="Images/dr.jpeg" alt="Profile Image" />
+      }
+    </div>
+    <div class="info">
+      @if(isLoading) {
+        <div class="loading-placeholder">
+          <div class="skeleton-text skeleton-title"></div>
+          <div class="skeleton-text skeleton-subtitle"></div>
+        </div>
+      } @else {
+        <h2>{{ instructorProfile?.name || 'Dr. Amr Mausad' }}</h2>
+        <p>Senior Data Science Instructor | AI Researcher</p>
+        @if(instructorProfile?.email) {
+          <p class="email-info">
+            <i class="fas fa-envelope"></i>
+            {{ instructorProfile!.email }}
+          </p>
+        }
+        <div class="social mt-2">
+          @if(instructorProfile?.linkedIn) {
+            <a [href]="instructorProfile!.linkedIn" target="_blank">
+              <i class="fab fa-linkedin"></i>LinkedIn
+            </a>
+          }
+          @if(instructorProfile?.twitter) {
+            <a [href]="instructorProfile!.twitter" target="_blank">
+              <i class="fab fa-twitter"></i>Twitter
+            </a>
+          }
+          @if(instructorProfile?.instagram) {
+            <a [href]="instructorProfile!.instagram" target="_blank">
+              <i class="fab fa-instagram"></i>Instagram
+            </a>
+          }
+          @if(!instructorProfile?.linkedIn && !instructorProfile?.twitter && !instructorProfile?.instagram) {
+            <a><i class="fab fa-linkedin"></i>linkedin</a>
+            <a><i class="fab fa-twitter"></i>twitter</a>
+            <a><i class="fab fa-instagram"></i>instagram</a>
+          }
+        </div>
+      }
+    </div>
+    <button class="manage-btn" (click)="openManageProfile()">
+      <i class="fa-solid fa-gear"></i> Manage
+    </button>
+  </div>
+
+  <p class="bio">
+    With over 15 years of experience in data science and machine learning, I specialize in making complex technical concepts accessible to learners of all levels. My research focuses on practical applications of AI in business and healthcare.
+  </p>
+>>>>>>> 95dcfafd060ca53bafcd474026778f589261ec07
 
   <!-- Enhanced Followers Section -->
   <div class="followers mt-2">

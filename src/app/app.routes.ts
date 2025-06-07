@@ -13,6 +13,7 @@ import { isloginguardsGuard } from './Core/Guards/isloginguards.guard';
 import { ForgotpasswordComponent } from './Pages/Auth/forgotpassword/forgotpassword.component';
 import { ChangepasswordComponent } from './Pages/Auth/changepassword/changepassword.component';
 import { LandingpageComponent } from './Pages/landingpage/landingpage.component';
+import { LessonViewComponent } from './Pages/lesson-view/lesson-view.component';
 
 // Import route modules
 import { instructorRoutes } from './routes/instructor.routes';
@@ -35,6 +36,12 @@ export const routes: Routes = [
     },
     
     // Authentication routes
+    {
+        path: "landing-preview",
+        title: "Landing Page Preview",
+        component: LandingpageComponent,
+        // No guard - allows viewing even when logged in
+    },
     {
         path: "login",
         title: "Login",
@@ -82,7 +89,15 @@ export const routes: Routes = [
     // Role-based routes
 =======
     },    // Todo routes moved to student.routes.ts
+<<<<<<< HEAD
 >>>>>>> 64669af2d189050710502789c0020a0a1285f09a
+=======
+    {
+        path: "viewLesson/:id",
+        title: "View Lesson",
+        component: LessonViewComponent
+    },
+>>>>>>> 95dcfafd060ca53bafcd474026778f589261ec07
     ...studentRoutes,
     ...instructorRoutes,
     
