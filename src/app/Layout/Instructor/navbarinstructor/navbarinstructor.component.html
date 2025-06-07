@@ -6,7 +6,7 @@
 
         <div class="nav-Left">
             <div   class="header-actions d-flex gap-3 cr">
-                <div   class="search-container activitiesDropDown"><svg
+                <!-- <div   class="search-container activitiesDropDown"><svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="20" height="20" viewBox="0 0 20 20" fill="none">
                         <path 
@@ -16,7 +16,7 @@
                             d="M18.3333 18.957C18.1749 18.957 18.0166 18.8987 17.8915 18.7737L16.2246 17.1067C15.9829 16.865 15.9829 16.465 16.2246 16.2233C16.4663 15.9816 16.8664 15.9816 17.1081 16.2233L18.775 17.8902C19.0167 18.1319 19.0167 18.532 18.775 18.7737C18.65 18.8987 18.4916 18.957 18.3333 18.957Z"
                             fill="#A1A5B7"></path>
                     </svg>
-                </div>
+                </div> -->
                 <div class="divider"></div>
                 <div class="action  position-relative quickActionsDropDown" (click)="toggleAddMenu()"><svg 
                        xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -33,11 +33,19 @@
                     <ul class="menu">
                       <li (click)="addTopic()"><i class="fa-solid fa-briefcase"></i> {{"AddSection.addTopic" | translate }}</li>
                       <li (click)="addCourse()" ><i class="fa-solid fa-bullhorn"></i> {{"AddSection.addCourse" | translate }}</li>
+<<<<<<< HEAD
                       <li (click)="addCoupon()"><i class="fa-solid fa-user-plus"></i>{{"AddSection.addStage" | translate }}</li>
                       <li><i class="fa-solid fa-user-group"></i>{{"AddSection.addLesson" | translate }}</li>
                     </ul>
                   </div>
                 <div class=" position-relative activitiesDropDown" (click)="navigateToTodoAndAddTask()">
+=======
+                      <li (click)="addCoupan()"><i class="fa-solid fa-user-plus"></i>{{"AddSection.addStage" | translate }}</li>
+                      <li (click)="addLesson()"><i class="fa-solid fa-user-group"></i>{{"AddSection.addLesson" | translate }}</li>
+                    </ul>
+                  </div>
+                <div class=" position-relative activitiesDropDown" (click)="addTask()">
+>>>>>>> 64669af2d189050710502789c0020a0a1285f09a
                     <svg 
                             id="action-relative-svg" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                             viewBox="0 0 20 20" fill="none" class="stroke-colored">
@@ -55,27 +63,15 @@
                             </path>
                     </svg>
                 </div>
-                <div   class="action position-relative messages-drop-down">
+          
+              
+         <div class="action position-relative notifications-list"     (click)="toggleNotificationsMenu()">
                     <svg 
-                        id="action-relative-svg" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                        viewBox="0 0 20 20" fill="none">
-                        <path 
-                            d="M14.1689 17.7111H5.83422C5.4925 17.7111 5.20913 17.4277 5.20913 17.086C5.20913 16.7442 5.4925 16.4609 5.83422 16.4609H14.1689C16.5526 16.4609 17.7111 15.3024 17.7111 12.9187V7.08441C17.7111 4.7007 16.5526 3.54219 14.1689 3.54219H5.83422C3.45052 3.54219 2.292 4.7007 2.292 7.08441C2.292 7.42613 2.00863 7.7095 1.66691 7.7095C1.32519 7.7095 1.04181 7.42613 1.04181 7.08441C1.04181 4.04227 2.79208 2.29199 5.83422 2.29199H14.1689C17.211 2.29199 18.9613 4.04227 18.9613 7.08441V12.9187C18.9613 15.9608 17.211 17.7111 14.1689 17.7111Z"
-                            fill="#A1A5B7"></path>
-                        <path 
-                            d="M10.0014 10.7266C9.30129 10.7266 8.59285 10.5099 8.0511 10.0681L5.44235 7.98446C5.17564 7.76776 5.12564 7.37603 5.34234 7.10932C5.55904 6.84261 5.95076 6.79261 6.21747 7.00931L8.82621 9.09297C9.45964 9.60138 10.5348 9.60138 11.1682 9.09297L13.777 7.00931C14.0437 6.79261 14.4437 6.83428 14.6521 7.10932C14.8688 7.37603 14.8271 7.77609 14.5521 7.98446L11.9434 10.0681C11.4099 10.5099 10.7015 10.7266 10.0014 10.7266Z"
-                            fill="#A1A5B7"></path>
-                        <path 
-                            d="M6.66769 14.3771H1.66691C1.32519 14.3771 1.04181 14.0938 1.04181 13.7521C1.04181 13.4103 1.32519 13.127 1.66691 13.127H6.66769C7.00941 13.127 7.29279 13.4103 7.29279 13.7521C7.29279 14.0938 7.00941 14.3771 6.66769 14.3771Z"
-                            fill="#A1A5B7"></path>
-                        <path 
-                            d="M4.1673 11.0434H1.66691C1.32519 11.0434 1.04181 10.76 1.04181 10.4183C1.04181 10.0766 1.32519 9.79321 1.66691 9.79321H4.1673C4.50902 9.79321 4.7924 10.0766 4.7924 10.4183C4.7924 10.76 4.50902 11.0434 4.1673 11.0434Z"
-                            fill="#A1A5B7"></path>
-                    </svg>
-                </div>
-                <div class="action position-relative notifications-list">
-                    <svg 
+<<<<<<< HEAD
                         (click)="toggleNotificationsMenu()"
+=======
+                    
+>>>>>>> 64669af2d189050710502789c0020a0a1285f09a
                         id="action-relative-notfications-svg" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                         viewBox="0 0 20 20" fill="none">
                         <path 
@@ -128,11 +124,15 @@
                             <p>You're all caught up! Check back later for updates.</p>
                         </div>
                         
+<<<<<<< HEAD
                         <div class="dropdown-footer" *ngIf="notifications.length > 0">
                             <button class="view-all-btn" (click)="viewAllNotifications()">
                                 View All Notifications
                             </button>
                         </div>
+=======
+                
+>>>>>>> 64669af2d189050710502789c0020a0a1285f09a
                     </div>
                 </div>
             </div>

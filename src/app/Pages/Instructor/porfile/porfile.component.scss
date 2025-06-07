@@ -612,6 +612,22 @@
   }
 
   .followers-list {
+<<<<<<< HEAD
+=======
+  gap: 3rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+
+
+  .follower-card {
+    width: 395px;
+    height: 82px;
+    border-radius: 16px;
+    padding: 17px;
+    border: 1px solid #E5E7EB;
+>>>>>>> 64669af2d189050710502789c0020a0a1285f09a
     display: flex;
     flex-direction: column;
     gap: 16px;

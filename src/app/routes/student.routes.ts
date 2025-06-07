@@ -7,6 +7,7 @@ import { EnrollCoursePopupComponent } from '../Pages/enrollment/enroll-course-po
 
 // Student Components
 import { HomepageStudentComponent } from '../Pages/Students/homepage-student/homepage-student.component';
+<<<<<<< HEAD
 import { StudentCoursesComponent } from '../Pages/Students/student-courses/student-courses.component';
 import { StudentTodoComponent } from '../Pages/Students/student-todo/student-todo.component';
 import { StudentChatComponent } from '../Pages/Students/student-chat/student-chat.component';
@@ -17,6 +18,14 @@ import { StudentProfileComponent } from '../Pages/Students/student-profile/stude
 // import { StudentProgressComponent } from '../Pages/Students/student-progress/student-progress.component';
 // import { StudentQuizzesComponent } from '../Pages/Students/student-quizzes/student-quizzes.component';
 // import { StudentCertificatesComponent } from '../Pages/Students/student-certificates/student-certificates.component';
+=======
+import { HomestudentComponent } from '../Pages/Students/homestudent/homestudent.component';
+import { MyCourseComponent } from '../Pages/Students/my-course/my-course.component';
+import { TodostdutentComponent } from '../Pages/Students/todostdutent/todostdutent.component';
+import { AddTaskStudentComponent } from '../Pages/Students/todostdutent/components/add-task-student/add-task-student.component';
+import { ChangePasswordPopupComponent } from '../Pages/Auth/change-password-popup/change-password-popup.component';
+import { DiscoverCourseComponent } from '../Pages/Students/discover-course/discover-course.component';
+>>>>>>> 64669af2d189050710502789c0020a0a1285f09a
 
 export const studentRoutes: Routes = [
     {
@@ -24,6 +33,7 @@ export const studentRoutes: Routes = [
         component: RouteStuddentsComponent,
         canActivate: [notloginguardsGuard('Student'), studentOnlyGuard],
         children: [
+<<<<<<< HEAD
             // Default redirect
             { 
                 path: '', 
@@ -132,6 +142,29 @@ export const studentRoutes: Routes = [
                 path: '**', 
                 redirectTo: 'homeStudent'
             }
+=======
+            { path: '', redirectTo: 'homeStudent', pathMatch: 'full' },
+            { path: "homeStudent", title: "Home Student", component: HomepageStudentComponent },
+            { path: "myCourse", title: "My Course", component: MyCourseComponent },
+            { path: "DiscoverCourses", title: "My Course", component: DiscoverCourseComponent },
+            {
+                path: "Todo",
+                title: "Task Management",
+                component: TodostdutentComponent
+            },
+            {
+                path: "taskTodoStudent",
+                component: AddTaskStudentComponent,
+                outlet: 'dialog'
+            },
+            {
+                path: "ChangePasswordPopup",
+                component: ChangePasswordPopupComponent,
+                outlet: 'dialog'
+            },
+
+            { path: "**", title: "notFound", component: HomestudentComponent },
+>>>>>>> 64669af2d189050710502789c0020a0a1285f09a
         ]
     }
 ];

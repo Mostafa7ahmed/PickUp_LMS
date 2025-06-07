@@ -10,7 +10,11 @@
                 <div class="divider"></div>
 
             
+<<<<<<< HEAD
                 <div class=" position-relative activitiesDropDown" (click)="navigateToTodoAndAddTask()">
+=======
+                <div class=" position-relative activitiesDropDown" (click)="openAddTaskPopup()" >
+>>>>>>> 64669af2d189050710502789c0020a0a1285f09a
                     <svg 
                             id="action-relative-svg" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                             viewBox="0 0 20 20" fill="none" class="stroke-colored">
@@ -29,9 +33,13 @@
                     </svg>
                 </div>
 
-                <div class="action position-relative notifications-list">
+         <div class="action position-relative notifications-list"     (click)="toggleNotificationsMenu()">
                     <svg 
+<<<<<<< HEAD
                         (click)="toggleNotificationsMenu()"
+=======
+                    
+>>>>>>> 64669af2d189050710502789c0020a0a1285f09a
                         id="action-relative-notfications-svg" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                         viewBox="0 0 20 20" fill="none">
                         <path 
@@ -84,11 +92,15 @@
                             <p>You're all caught up! Check back later for updates.</p>
                         </div>
                         
+<<<<<<< HEAD
                         <div class="dropdown-footer" *ngIf="notifications.length > 0">
                             <button class="view-all-btn" (click)="viewAllNotifications()">
                                 View All Notifications
                             </button>
                         </div>
+=======
+                
+>>>>>>> 64669af2d189050710502789c0020a0a1285f09a
                     </div>
                 </div>
             </div>

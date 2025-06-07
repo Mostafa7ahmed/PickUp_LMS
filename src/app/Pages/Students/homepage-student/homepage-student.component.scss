@@ -4,8 +4,8 @@
     position: relative;
     background:
         linear-gradient(90deg, #29B865 36%, #27AE60 64.9%, #2ECC71 95.67%);
-
-
+ margin-bottom: 2.5rem !important;
+  
 
 }
 
@@ -49,11 +49,15 @@
 
     .nameInstrctor p {
         font-family: var(--font-family-2);
-        font-weight: 400;
+        font-weight: 500;
         font-size: 14px;
         line-height: 100%;
         margin-top: 8px;
         color: var(--white);
+            background: rgb(0 0 0 / 26%);
+    padding: 10px;
+    border-radius: 7px;
+
     }
 }
 

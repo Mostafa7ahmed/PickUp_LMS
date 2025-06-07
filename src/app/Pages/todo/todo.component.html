@@ -1,230 +1,33 @@
-<div class="instructor-todo-page">
-  <div class="container-fluid">
-    <!-- Page Header -->
-    <div class="page-header">
-      <div class="header-content">
-        <div class="title-section">
-          <div class="icon-title">
-            <i class="fa-solid fa-list-check"></i>
-            <h1>Task Management</h1>
-          </div>
-          <p>Manage and track your teaching tasks efficiently.</p>
-        </div>
-        
-        <!-- Quick Stats -->
-        <div class="quick-stats">
-          <div class="stat-item">
-            <div class="stat-number">{{ getTotalTasks() }}</div>
-            <div class="stat-label">Total</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">{{ getCompletedTasks() }}</div>
-            <div class="stat-label">Completed</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">{{ getPendingTasks() }}</div>
-            <div class="stat-label">Pending</div>
-          </div>
-        </div>
-      </div>
-    </div>
+<div class="topics mt-3">
+    <div class="Board">
 
-    <!-- Main Content -->
-    <div class="row">
-      <!-- Left Column - Todo Lists -->
-      <div class="col-lg-12">
-        <!-- Filter Tabs and Add Button -->
-        <div class="controls-section">
-          <div class="filter-tabs">
-            <button class="tab-btn" 
-                    [class.active]="activeFilter === 'all'"
-                    (click)="setFilter('all')">
-              <i class="fa-solid fa-list"></i>
-              All Tasks
-            </button>
-            <button class="tab-btn" 
-                    [class.active]="activeFilter === 'teaching'"
-                    (click)="setFilter('teaching')">
-              <i class="fa-solid fa-chalkboard-teacher"></i>
-              Teaching
-            </button>
-            <button class="tab-btn" 
-                    [class.active]="activeFilter === 'grading'"
-                    (click)="setFilter('grading')">
-              <i class="fa-solid fa-clipboard-check"></i>
-              Grading
-            </button>
-            <button class="tab-btn" 
-                    [class.active]="activeFilter === 'administrative'"
-                    (click)="setFilter('administrative')">
-              <i class="fa-solid fa-briefcase"></i>
-              Administrative
-            </button>
-          </div>
-
-          <button class="btn-add-task-main" (click)="openAddTaskPopup()">
-            <i class="fa-solid fa-plus"></i>
-            Add New Task
-          </button>
-        </div>
-
-        <!-- Todo Card -->
-        <div class="todo-card">
-          <div class="card-header">
-            <h3>
-              <i class="fa-solid fa-tasks"></i>
-              {{ getFilterTitle() }}
-            </h3>
-            <div class="search-box">
-              <i class="fa-solid fa-search"></i>
-              <input type="text" 
-                     [(ngModel)]="searchTerm" 
-                     placeholder="Search tasks..."
-                     class="search-input">
-            </div>
-          </div>
-
-          <div class="task-list">
-            <div class="task-item" 
-                 *ngFor="let task of getFilteredTasks(); trackBy: trackByTaskId">
-              <div class="task-content">
-                <div class="task-checkbox">
-                  <input type="checkbox" 
-                         [id]="'task-' + task.id"
-                         [(ngModel)]="task.completed"
-                         (change)="updateTaskStatus(task)"
-                         class="form-check-input">
-                  <label [for]="'task-' + task.id" class="checkbox-label"></label>
+        <div class="header">
+            <div class="text">
+                <div class="head">
+                    <div class="icon"><i class="fa-solid fa-list-check"></i></div>
+                    <div class="name">Task Management</div>
                 </div>
-                
-                <div class="task-details" [class.completed]="task.completed">
-                  <h4 class="task-title">{{ task.title }}</h4>
-                  <p class="task-description" *ngIf="task.description">{{ task.description }}</p>
-                  
-                  <div class="task-meta">
-                    <span class="task-type" [class]="'type-' + task.type">
-                      <i [class]="getTaskTypeIcon(task.type)"></i>
-                      {{ task.type | titlecase }}
-                    </span>
-                    
-                    <span class="task-priority" [class]="'priority-' + task.priority">
-                      <i [class]="getPriorityIcon(task.priority)"></i>
-                      {{ task.priority | titlecase }}
-                    </span>
-                    
-                    <span class="task-due-date" 
-                          [class.overdue]="isOverdue(task.dueDate) && !task.completed">
-                      <i class="fa-solid fa-calendar"></i>
-                      {{ formatDueDate(task.dueDate) }}
-                    </span>
-                  </div>
+                <div class="description">
+                    <p>Manage and track your tasks easily and efficiently.</p>
                 </div>
-              </div>
-              
-              <div class="task-actions">
-                <button class="action-btn edit-btn" 
-                        (click)="openEditTaskPopup(task)"
-                        title="Edit Task">
-                  <i class="fa-solid fa-edit"></i>
-                </button>
-                <button class="action-btn delete-btn" 
-                        (click)="deleteTask(task)"
-                        title="Delete Task">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </div>
             </div>
+        </div>
 
-            <!-- Empty State -->
-            <div class="empty-state" *ngIf="getFilteredTasks().length === 0">
-              <div class="empty-content">
-                <img src="Images/Course/file.png" alt="No tasks" class="empty-image">
-                <h4>No tasks found</h4>
-                <p>{{ getEmptyStateMessage() }}</p>
-              </div>
+    </div>
+    <div class="searchBoard">
+        <div class="search-input">
+            <input type="text" placeholder="Search tasks...">
+            <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+        </div>
+        <button >
+            <div class="icon">
+                <i class="fa-solid fa-plus"></i>
             </div>
-          </div>
-        </div>
-      </div>
+            <span>Add New Task</span>
+        </button>
     </div>
-  </div>
+    <div class="mt-2">
+        <app-alltask></app-alltask>
+    </div>
 
-  <!-- Add/Edit Task Modal -->
-  <div class="modal-overlay" *ngIf="showTaskModal" (click)="closeTaskModal()">
-    <div class="task-modal" (click)="$event.stopPropagation()">
-      <div class="modal-header">
-        <h3>
-          <i [class]="isEditMode ? 'fa-solid fa-edit' : 'fa-solid fa-plus-circle'"></i>
-          {{ isEditMode ? 'Edit Task' : 'Add New Task' }}
-        </h3>
-        <button class="btn-close" (click)="closeTaskModal()">
-          <i class="fa-solid fa-times"></i>
-        </button>
-      </div>
-      
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="taskTitle">Task Title *</label>
-          <input type="text" 
-                 id="taskTitle"
-                 [(ngModel)]="taskForm.title" 
-                 placeholder="Enter task title..."
-                 class="form-control"
-                 [class.error]="!taskForm.title.trim() && showValidation">
-        </div>
-        
-        <div class="form-group">
-          <label for="taskDescription">Description</label>
-          <textarea id="taskDescription"
-                    [(ngModel)]="taskForm.description" 
-                    placeholder="Task description (optional)..."
-                    class="form-control"
-                    rows="3"></textarea>
-        </div>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label for="taskType">Type</label>
-            <select id="taskType" [(ngModel)]="taskForm.type" class="form-control">
-              <option value="teaching">Teaching</option>
-              <option value="grading">Grading</option>
-              <option value="administrative">Administrative</option>
-              <option value="meeting">Meeting</option>
-              <option value="personal">Personal</option>
-            </select>
-          </div>
-          
-          <div class="form-group">
-            <label for="taskPriority">Priority</label>
-            <select id="taskPriority" [(ngModel)]="taskForm.priority" class="form-control">
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-              <option value="urgent">Urgent</option>
-            </select>
-          </div>
-        </div>
-        
-        <div class="form-group">
-          <label for="taskDueDate">Due Date</label>
-          <input type="date" 
-                 id="taskDueDate"
-                 [(ngModel)]="taskForm.dueDate" 
-                 class="form-control">
-        </div>
-      </div>
-      
-      <div class="modal-footer">
-        <button class="btn-cancel" (click)="closeTaskModal()">
-          Cancel
-        </button>
-        <button class="btn-save" 
-                (click)="saveTask()"
-                [disabled]="!taskForm.title.trim()">
-          <i [class]="isEditMode ? 'fa-solid fa-save' : 'fa-solid fa-plus'"></i>
-          {{ isEditMode ? 'Update Task' : 'Add Task' }}
-        </button>
-      </div>
-    </div>
   </div>
-</div>

@@ -48,9 +48,20 @@ export class SidebarStudentComponent {
       routes: "/Student/homeStudent"
     },
     {
+<<<<<<< HEAD
       name: 'My Courses',
       Icon: 'fa-solid fa-graduation-cap',
       routes: "/Student/courses"
+=======
+      name: 'Course',
+      Icon: 'fa-solid fa-person-chalkboard',
+      routes: "myCourse"
+    },
+   {
+      name: 'Discover Courses',
+      Icon: 'fa-solid fa-compass',
+      routes: "DiscoverCourses"
+>>>>>>> 64669af2d189050710502789c0020a0a1285f09a
     },
     {
       name: 'Discover Courses',
