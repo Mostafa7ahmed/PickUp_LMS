@@ -51,9 +51,9 @@ export class CreateLessonComponent implements OnInit {
 
   lessonForm = this._formBuilder.group({
     name: ['', Validators.required],
-    description: ['', Validators.required],
-    photoUrl: ['', Validators.required],
-    introductionVideoUrl: ['', Validators.required],
+    description: [''],
+    photoUrl: [''],
+    introductionVideoUrl: [''],
     tags: [[] as ITag[]],
     fileUrls: [[] as string[]]
   });
@@ -209,39 +209,33 @@ export class CreateLessonComponent implements OnInit {
     this.lessonVideos[index].free = !this.lessonVideos[index].free;
   }
 
-  onVideoUpload(event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      this.isVideoUploading = true;
-      const video: ILessonVideo = {
-        id: this.lessonVideos.length + 1,
-        videoUrl: '',
-        free: false,
-        name: file.name.substring(0, 40)
-      };
-      
-      this._streamService.upload(file, StreamType.video).subscribe({
-        next: (response) => {
-          if (response.body?.success) {
-            const result = response.body.result;
-            const serverUrl = result.url;
-            // Show skeleton for a brief moment after successful upload
-            setTimeout(() => {
-              this.lessonVideos.push({
-                ...video,
-                videoUrl: serverUrl,
-                displayUrl: environment.baseUrlFiles + serverUrl,
-              });
-              this.isVideoUploading = false;
-            }, 800);
-          }
-        },
-        error: (error) => {
-          console.error('Error uploading video:', error);
+onVideoUpload(event: Event): void {
+  const file = (event.target as HTMLInputElement).files?.[0];
+  if (file) {
+    this.isVideoUploading = true;
+    this._streamService.upload(file, StreamType.video).subscribe({
+      next: (response) => {
+        if (response.body?.success) {
+          const result = response.body.result;
+          // Use id from backend response
+          setTimeout(() => {
+            this.lessonVideos.push({
+              id: result.id,
+              videoUrl: result.url,
+              displayUrl: environment.baseUrlFiles + result.url,
+              free: false,
+              name: result.name || file.name.substring(0, 40)
+            });
+            this.isVideoUploading = false;
+          }, 800);
         }
-      });
-    }
+      },
+      error: (error) => {
+        console.error('Error uploading video:', error);
+      }
+    });
   }
+}
 
   onLessonFilesUpload(event: Event): void {
     const files = (event.target as HTMLInputElement).files;

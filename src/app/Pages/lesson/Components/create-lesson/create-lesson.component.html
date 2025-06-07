@@ -184,6 +184,7 @@
                     <div class="edit-name-container">
                       <input type="text" 
                              [(ngModel)]="video.name" 
+                             value="{{video.name}}"
                              class="edit-video-name" 
                              (keyup.enter)="saveVideoName(i)"
                              (keyup.escape)="cancelEditingVideo()"
