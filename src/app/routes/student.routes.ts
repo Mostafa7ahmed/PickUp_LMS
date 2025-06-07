@@ -18,14 +18,12 @@ import { StudentProfileComponent } from '../Pages/Students/student-profile/stude
 // import { StudentProgressComponent } from '../Pages/Students/student-progress/student-progress.component';
 // import { StudentQuizzesComponent } from '../Pages/Students/student-quizzes/student-quizzes.component';
 // import { StudentCertificatesComponent } from '../Pages/Students/student-certificates/student-certificates.component';
-=======
 import { HomestudentComponent } from '../Pages/Students/homestudent/homestudent.component';
 import { MyCourseComponent } from '../Pages/Students/my-course/my-course.component';
 import { TodostdutentComponent } from '../Pages/Students/todostdutent/todostdutent.component';
 import { AddTaskStudentComponent } from '../Pages/Students/todostdutent/components/add-task-student/add-task-student.component';
 import { ChangePasswordPopupComponent } from '../Pages/Auth/change-password-popup/change-password-popup.component';
 import { DiscoverCourseComponent } from '../Pages/Students/discover-course/discover-course.component';
->>>>>>> 64669af2d189050710502789c0020a0a1285f09a
 
 export const studentRoutes: Routes = [
     {
@@ -33,7 +31,6 @@ export const studentRoutes: Routes = [
         component: RouteStuddentsComponent,
         canActivate: [notloginguardsGuard('Student'), studentOnlyGuard],
         children: [
-<<<<<<< HEAD
             // Default redirect
             { 
                 path: '', 
@@ -142,7 +139,6 @@ export const studentRoutes: Routes = [
                 path: '**', 
                 redirectTo: 'homeStudent'
             }
-=======
             { path: '', redirectTo: 'homeStudent', pathMatch: 'full' },
             { path: "homeStudent", title: "Home Student", component: HomepageStudentComponent },
             { path: "myCourse", title: "My Course", component: MyCourseComponent },
@@ -164,7 +160,6 @@ export const studentRoutes: Routes = [
             },
 
             { path: "**", title: "notFound", component: HomestudentComponent },
->>>>>>> 64669af2d189050710502789c0020a0a1285f09a
         ]
     }
 ];
