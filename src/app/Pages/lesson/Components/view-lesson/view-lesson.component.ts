@@ -190,4 +190,33 @@ export class ViewLessonComponent {
       color: '#F87171'
     }
   ];
+
+    openedIndex: number | null = null;
+
+  Viewvideos = [
+    {
+      title: 'Python Basics',
+      thumbnail: 'assets/images/video1.jpg',
+      videoUrl: 'https://example.com/video1.mp4'
+    },
+    {
+      title: 'Variables and Data Types',
+      thumbnail: 'assets/images/video2.jpg',
+      videoUrl: 'https://example.com/video2.mp4'
+    },
+    {
+      title: 'Control Flow',
+      thumbnail: 'assets/images/video3.jpg',
+      videoUrl: 'https://example.com/video3.mp4'
+    },
+    {
+      title: 'Functions and Modules',
+      thumbnail: 'assets/images/video4.jpg',
+      videoUrl: 'https://example.com/video4.mp4'
+    }
+  ];
+
+  toggle(index: number) {
+    this.openedIndex = this.openedIndex === index ? null : index;
+  }
 }

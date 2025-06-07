@@ -1,182 +1,218 @@
 <div class="viewLesson mt-2">
-    <div class="cover">
-        <img src="Images/CardProfile.png" alt="Cover Image" width="100%" height="100%" />
-        <div class="informainon d-flex justify-content-between">
-            <div class="IconBack position-absolute">
-                <a class="d-flex align-items-center gap-2 text-white " (click)="goBackToCourse()"
-                    style="cursor:pointer;">
-                    <i class="fa-solid fa-arrow-left"></i>
-                    <p>Back Course</p>
-                </a>
-            </div>
-            <div class="rightInfo">
-                <h2>Lesson Title</h2>
-                <div class="tagsShow">
-                    <p class="tag">#Tag1 web </p>
-                    <p class="tag">#Tag1 web </p>
-                    <p class="tag">#Tag1 web </p>
-                    <p class="tag">#Tag1 web </p>
+  <div class="cover">
+    <img
+      src="Images/CardProfile.png"
+      alt="Cover Image"
+      width="100%"
+      height="100%"
+    />
+    <div class="informainon d-flex justify-content-between">
+      <div class="IconBack position-absolute">
+        <a
+          class="d-flex align-items-center gap-2 text-white"
+          (click)="goBackToCourse()"
+          style="cursor: pointer"
+        >
+          <i class="fa-solid fa-arrow-left"></i>
+          <p>Back Course</p>
+        </a>
+      </div>
+      <div class="rightInfo">
+        <h2>Lesson Title</h2>
+        <div class="tagsShow">
+          <p class="tag">#Tag1 web</p>
+          <p class="tag">#Tag1 web</p>
+          <p class="tag">#Tag1 web</p>
+          <p class="tag">#Tag1 web</p>
 
-                    <p class="tag">#Tag1 web </p>
-
-                </div>
-            </div>
-            <div class="leftInfo">
-                <img src="Images/create-videos-online-courses-cover-coursifyme.jpg" alt="">
-            </div>
-
+          <p class="tag">#Tag1 web</p>
         </div>
+      </div>
+      <div class="leftInfo">
+        <img
+          src="Images/create-videos-online-courses-cover-coursifyme.jpg"
+          alt=""
+        />
+      </div>
     </div>
-    <div class="headerCover mt-2">
-        <div class="tabs">
-            <p-button (onClick)="value = 0" class="tab tab-active " [class.activeHeader]="value == 0"
-                styleClass="tabHeader">
-                <div class="tab-icon">
-                    <i class="fa-brands fa-wpexplorer"></i>
-                </div>
-                <p>Overview</p>
-            </p-button>
-            <p-button (onClick)="value = 1" class="tab tab-active" [class.activeHeader]="value == 1"
-                styleClass="tabHeader">
-                <div class="tab-icon">
-                    <i class="fa-kit fa-stream-icon-cp"></i>
-                </div>
-                <p>Videos</p>
-            </p-button>
-
-
-
-
+  </div>
+  <div class="headerCover mt-2">
+    <div class="tabs">
+      <p-button
+        (onClick)="value = 0"
+        class="tab tab-active"
+        [class.activeHeader]="value == 0"
+        styleClass="tabHeader"
+      >
+        <div class="tab-icon">
+          <i class="fa-brands fa-wpexplorer"></i>
         </div>
-
-
+        <p>Overview</p>
+      </p-button>
+      <p-button
+        (onClick)="value = 1"
+        class="tab tab-active"
+        [class.activeHeader]="value == 1"
+        styleClass="tabHeader"
+      >
+        <div class="tab-icon">
+          <i class="fa-kit fa-stream-icon-cp"></i>
+        </div>
+        <p>Videos</p>
+      </p-button>
     </div>
-    <div class="ContentCourse  mb-4 d-flex  gap-3 align-items-start">
-        <div class="leftContent ">
-            <p-tabs [value]="value">
+  </div>
+  <div class="ContentCourse mb-4 d-flex gap-3 align-items-start">
+    <div class="leftContent">
+      <p-tabs [value]="value">
+        <p-tabpanels>
+          <p-tabpanel [value]="0">
+            <div class="course-info">
+              <h2 class="section-title">About This Course</h2>
+              <p class="description">
+                Comprehensive course covering all aspects of modern web
+                development
+              </p>
 
-                <p-tabpanels>
-                    <p-tabpanel [value]="0">
-                        <div class="course-info">
-                            <h2 class="section-title">About This Course</h2>
-                            <p class="description">
-                                Comprehensive course covering all aspects of modern web development
-                            </p>
+              <div class="course-header">
+                <div class="icon"><span>&lt;/&gt;</span></div>
+                <h3 class="course-title">
+                  CS 301: Data Structures &amp; Algorithms
+                </h3>
+              </div>
 
-                            <div class="course-header">
-                                <div class="icon"><span>&lt;/&gt;</span></div>
-                                <h3 class="course-title">CS 301: Data Structures &amp; Algorithms</h3>
-                            </div>
-
-                            <div class="course-stats">
-                                <div class="stat-card">
-                                    <div class="icon">
-                                        <i class="fas fa-video stat-icon"></i>
-
-                                    </div>
-                                    <div class="data">
-                                        <h4 class="stat-number">24</h4>
-                                        <p class="stat-label">Video Lessons</p>
-                                    </div>
-
-                                </div>
-
-                                <div class="stat-card">
-                                    <div class="icon">
-                                        <i class="fas fa-gift stat-icon"></i>
-
-                                    </div>
-                                    <div class="data">
-                                        <h4 class="stat-number">12</h4>
-                                        <p class="stat-label">Free Lesson</p>
-                                    </div>
-
-                                </div>
-
-                                <div class="stat-card">
-                                    <div class="icon">
-                                        <i class="fas fa-lock stat-icon"></i>
-
-                                    </div>
-                                    <div class="data">
-                                        <h4 class="stat-number">32</h4>
-                                        <p class="stat-label">Paid Lesson</p>
-                                    </div>
-
-                                </div>
-
-                                <div class="stat-card">
-                                    <div class="icon">
-                                        <i class="fas fa-folder-open stat-icon"></i>
-
-                                    </div>
-                                    <div class="data">
-                                        <h4 class="stat-number">32</h4>
-                                        <p class="stat-label">Resources</p>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="course-introVideo   mt-2">
-                            <h2 class="section-title">Course Preview Video</h2>
-                            <video #player controls crossorigin playsinline
-                                poster="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/311843542/original/8c9c677c05b80b431b4f10624d089f5c0c5c2732/do-the-best-poster-design.png">
-                                <source
-                                    src="https://vgfdprgqzkwvoxsnfdlr.supabase.co/storage/v1/object/public/pickup/instructor/42/video/.mp4/7524e9a5-bcce-45a9-994a-69eb239846d6.mp4"
-                                    type="video/mp4" />
-                            </video>
-
-                        </div>
-
-
-                    </p-tabpanel>
-                    <p-tabpanel [value]="1">
-                        <div class="d-flex flex-column align-items-center justify-content-center m-0 tabView">
-                            <img src="Images/Email_empty.svg" alt="" width="190px">
-
-                        </div>
-                    </p-tabpanel>
-
-
-                </p-tabpanels>
-            </p-tabs>
-        </div>
-        <div class="rightContent mt-2">
-                    <div class="box">
-            <h4>Course Videos</h4>
-            <ul class="videos">
-                <li *ngFor="let video of videos" [class.locked]="video.isLocked">
-                    <p>   <i class="fa-solid mx-1" [ngClass]="video.icon"></i>{{ video.title }}</p>
-                 
-                    <span class="tag" [ngClass]="{ 'free': !video.isLocked, 'premium': video.isLocked }">
-                        {{ video.status }}
-                    </span>
-                </li>
-            </ul>
-        </div>
-
-        <div class="box resources">
-            <h5>Downloadable Resources</h5>
-            <div class="resources-list">
-  <div class="resource" *ngFor="let item of resources">
-                <div class="icon" [style.backgroundColor]="item.color">
-                    <i class="fa-solid" [ngClass]="item.icon"></i>
+              <div class="course-stats">
+                <div class="stat-card">
+                  <div class="icon">
+                    <i class="fas fa-video stat-icon"></i>
+                  </div>
+                  <div class="data">
+                    <h4 class="stat-number">24</h4>
+                    <p class="stat-label">Video Lessons</p>
+                  </div>
                 </div>
-                <div class="details">
-                    <strong>{{ item.title }}</strong>
-                    <p>{{ item.type }} • {{ item.size }}</p>
+
+                <div class="stat-card">
+                  <div class="icon">
+                    <i class="fas fa-gift stat-icon"></i>
+                  </div>
+                  <div class="data">
+                    <h4 class="stat-number">12</h4>
+                    <p class="stat-label">Free Lesson</p>
+                  </div>
                 </div>
-                <button><i class="fa-solid fa-download"></i></button>
-            </div>
-            </div>
-          
-        </div>
-        </div>
-  
 
+                <div class="stat-card">
+                  <div class="icon">
+                    <i class="fas fa-lock stat-icon"></i>
+                  </div>
+                  <div class="data">
+                    <h4 class="stat-number">32</h4>
+                    <p class="stat-label">Paid Lesson</p>
+                  </div>
+                </div>
 
+                <div class="stat-card">
+                  <div class="icon">
+                    <i class="fas fa-folder-open stat-icon"></i>
+                  </div>
+                  <div class="data">
+                    <h4 class="stat-number">32</h4>
+                    <p class="stat-label">Resources</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="course-introVideo mt-2">
+              <h2 class="section-title">Course Preview Video</h2>
+              <video
+                #player
+                controls
+                crossorigin
+                playsinline
+                poster="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/311843542/original/8c9c677c05b80b431b4f10624d089f5c0c5c2732/do-the-best-poster-design.png"
+              >
+                <source
+                  src="https://vgfdprgqzkwvoxsnfdlr.supabase.co/storage/v1/object/public/pickup/instructor/42/video/.mp4/7524e9a5-bcce-45a9-994a-69eb239846d6.mp4"
+                  type="video/mp4"
+                />
+              </video>
+            </div>
+          </p-tabpanel>
+          <p-tabpanel [value]="1">
+            <div class="accordion-container">
+              <div
+                class="accordion-item"
+                *ngFor="let video of Viewvideos; let i = index"
+              >
+                <div class="accordion-header" (click)="toggle(i)">
+                  <div class="index-circle">{{ i + 1 }}</div>
+                  <div class="video-title">{{ video.title }}</div>
+                  <i
+                    class="fa-solid"
+                    [ngClass]="{
+                      'fa-chevron-up': openedIndex === i,
+                      'fa-chevron-down': openedIndex !== i
+                    }"
+                  ></i>
+                </div>
+
+                <div class="accordion-content" *ngIf="openedIndex === i">
+                  <div class="video-wrapper">
+                    <video
+                controls
+                crossorigin
+                playsinline
+                poster="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/311843542/original/8c9c677c05b80b431b4f10624d089f5c0c5c2732/do-the-best-poster-design.png"
+              >
+                <source
+                  src="https://vgfdprgqzkwvoxsnfdlr.supabase.co/storage/v1/object/public/pickup/instructor/42/video/.mp4/7524e9a5-bcce-45a9-994a-69eb239846d6.mp4"
+                  type="video/mp4"
+                />
+              </video>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p-tabpanel>
+        </p-tabpanels>
+      </p-tabs>
     </div>
+    <div class="rightContent mt-2">
+      <div class="box">
+        <h4>Course Videos</h4>
+        <ul class="videos">
+          <li *ngFor="let video of videos" [class.locked]="video.isLocked">
+            <p>
+              <i class="fa-solid mx-1" [ngClass]="video.icon"></i
+              >{{ video.title }}
+            </p>
 
+            <span
+              class="tag"
+              [ngClass]="{ free: !video.isLocked, premium: video.isLocked }"
+            >
+              {{ video.status }}
+            </span>
+          </li>
+        </ul>
+      </div>
 
+      <div class="box resources">
+        <h5>Downloadable Resources</h5>
+        <div class="resources-list">
+          <div class="resource" *ngFor="let item of resources">
+            <div class="icon" [style.backgroundColor]="item.color">
+              <i class="fa-solid" [ngClass]="item.icon"></i>
+            </div>
+            <div class="details">
+              <strong>{{ item.title }}</strong>
+              <p>{{ item.type }} • {{ item.size }}</p>
+            </div>
+            <button><i class="fa-solid fa-download"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
