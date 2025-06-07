@@ -6,12 +6,10 @@ import { InstructorProfileService } from './core/services/instructor-profile.ser
 import { IInstructorProfile } from './core/interfaces/instructor-profile.interface';
 import { filter, Subscription } from 'rxjs';
 import { environment } from '../../../Environments/environment';
+import { ListCourse } from '../../Courses/Core/interface/icourses';
+import { IPaginationResponse } from '../../../Core/Shared/Interface/irespose';
 
-export interface Follower {
-  name: string;
-  title: string;
-  image: string;
-}
+
 @Component({
   selector: 'app-porfile',
   standalone: true,
@@ -24,39 +22,14 @@ export class PorfileComponent implements OnInit, OnDestroy {
   private instructorProfileService = inject(InstructorProfileService);
   private subscription = new Subscription();
 
-  searchText = '';
   instructorProfile: IInstructorProfile | null = null;
+  instructorCourses: ListCourse[] = [];
+  coursesLoading = false;
   isLoading = false;
-
-  followers: Follower[] = [
-  { name: 'Nehad Naiem', title: 'Data Analyst at TechCorp', image: 'https://randomuser.me/api/portraits/women/44.jpg' },
-  { name: 'Mohamed Yasser', title: 'ML Engineer at AI Solutions', image: 'https://randomuser.me/api/portraits/men/32.jpg' },
-  { name: 'Mahmoud Gamal', title: 'Student at MIT', image: 'https://randomuser.me/api/portraits/men/45.jpg' },
-  { name: 'Sarah Johnson', title: 'Data Scientist at HealthTech', image: 'https://randomuser.me/api/portraits/women/68.jpg' },
-  { name: 'Olivia Martinez', title: 'AI Researcher at Google', image: 'https://randomuser.me/api/portraits/women/22.jpg' },
-  { name: 'Robert Taylor', title: 'CTO at DataWorks', image: 'https://randomuser.me/api/portraits/men/65.jpg' },
-  { name: 'Amina Ali', title: 'Student at Stanford', image: 'https://randomuser.me/api/portraits/women/30.jpg' },
-  { name: 'Kareem Abdallah', title: 'AI Intern at OpenAI', image: 'https://randomuser.me/api/portraits/men/28.jpg' },
-  { name: 'Lana Rose', title: 'ML Research Assistant', image: 'https://randomuser.me/api/portraits/women/16.jpg' },
-  { name: 'Ahmed Tarek', title: 'Data Engineer at IBM', image: 'https://randomuser.me/api/portraits/men/40.jpg' },
-  { name: 'Fatima Zahra', title: 'AI Ethics Researcher', image: 'https://randomuser.me/api/portraits/women/55.jpg' },
-  { name: 'James Brown', title: 'Full Stack Developer', image: 'https://randomuser.me/api/portraits/men/53.jpg' },
-    { name: 'Nehad Naiem', title: 'Data Analyst at TechCorp', image: 'https://randomuser.me/api/portraits/women/44.jpg' },
-  { name: 'Mohamed Yasser', title: 'ML Engineer at AI Solutions', image: 'https://randomuser.me/api/portraits/men/32.jpg' },
-  { name: 'Mahmoud Gamal', title: 'Student at MIT', image: 'https://randomuser.me/api/portraits/men/45.jpg' },
-  { name: 'Sarah Johnson', title: 'Data Scientist at HealthTech', image: 'https://randomuser.me/api/portraits/women/68.jpg' },
-  { name: 'Olivia Martinez', title: 'AI Researcher at Google', image: 'https://randomuser.me/api/portraits/women/22.jpg' },
-  { name: 'Robert Taylor', title: 'CTO at DataWorks', image: 'https://randomuser.me/api/portraits/men/65.jpg' },
-  { name: 'Amina Ali', title: 'Student at Stanford', image: 'https://randomuser.me/api/portraits/women/30.jpg' },
-  { name: 'Kareem Abdallah', title: 'AI Intern at OpenAI', image: 'https://randomuser.me/api/portraits/men/28.jpg' },
-  { name: 'Lana Rose', title: 'ML Research Assistant', image: 'https://randomuser.me/api/portraits/women/16.jpg' },
-  { name: 'Ahmed Tarek', title: 'Data Engineer at IBM', image: 'https://randomuser.me/api/portraits/men/40.jpg' },
-  { name: 'Fatima Zahra', title: 'AI Ethics Researcher', image: 'https://randomuser.me/api/portraits/women/55.jpg' },
-  { name: 'James Brown', title: 'Full Stack Developer', image: 'https://randomuser.me/api/portraits/men/53.jpg' },
-];
 
   ngOnInit(): void {
     this.loadInstructorProfile();
+    this.loadInstructorCourses();
 
     // Listen for navigation events to reload profile when returning from manage dialog
     this.subscription.add(
@@ -65,6 +38,7 @@ export class PorfileComponent implements OnInit, OnDestroy {
         .subscribe((event: NavigationEnd) => {
           if (event.url === '/myprofile') {
             this.loadInstructorProfile();
+            this.loadInstructorCourses();
           }
         })
     );
@@ -90,8 +64,38 @@ export class PorfileComponent implements OnInit, OnDestroy {
     });
   }
 
+  loadInstructorCourses(): void {
+    this.coursesLoading = true;
+    this.instructorProfileService.getInstructorCourses().subscribe({
+      next: (response: IPaginationResponse<ListCourse>) => {
+        if (response.success) {
+          this.instructorCourses = response.result;
+        }
+        this.coursesLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading instructor courses:', error);
+        this.coursesLoading = false;
+      }
+    });
+  }
+
   openManageProfile(): void {
     this.router.navigate([{ outlets: { dialog: ['manageProfile'] } }]);
+  }
+
+  createNewCourse(): void {
+    this.router.navigate([{ outlets: { dialog: ['addcourse'] } }]);
+  }
+
+  viewCourse(courseId: number): void {
+    this.router.navigate(['/ViewCourse', courseId]);
+  }
+
+  editCourse(courseId: number): void {
+    // Navigate to edit course - you can implement this based on your edit course route
+    console.log('Edit course:', courseId);
+    // Example: this.router.navigate([{ outlets: { dialog: ['editcourse', courseId] } }]);
   }
 
   getPhotoUrl(photoPath: string): string {
@@ -101,11 +105,5 @@ export class PorfileComponent implements OnInit, OnDestroy {
     }
     // Otherwise, prepend the base URL
     return environment.baseUrlFiles + photoPath;
-  }
-
-  filteredFollowers(): Follower[] {
-    return this.followers.filter(f =>
-      f.name.toLowerCase().includes(this.searchText.toLowerCase())
-    );
   }
 }

@@ -1,3 +1,5 @@
+import { ListCourse } from '../../../../Courses/Core/interface/icourses';
+
 export interface IInstructorProfile {
   id: number;
   instructorId: number;
@@ -7,6 +9,11 @@ export interface IInstructorProfile {
   instagram: string;
   twitter: string;
   linkedIn: string;
+}
+
+export interface IInstructorProfileWithCourses extends IInstructorProfile {
+  courses?: ListCourse[];
+  totalCourses?: number;
 }
 
 export interface IUpdateInstructorProfile {
