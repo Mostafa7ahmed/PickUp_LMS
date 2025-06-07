@@ -10,6 +10,8 @@ import { TodostdutentComponent } from '../Pages/Students/todostdutent/todostdute
 import { AddTaskStudentComponent } from '../Pages/Students/todostdutent/components/add-task-student/add-task-student.component';
 import { ChangePasswordPopupComponent } from '../Pages/Auth/change-password-popup/change-password-popup.component';
 import { DiscoverCourseComponent } from '../Pages/Students/discover-course/discover-course.component';
+import { EnrollmentPopupComponent } from '../Pages/Students/discover-course/components/enrollment-popup/enrollment-popup.component';
+import { WalletPopupComponent } from '../Components/wallet-popup/wallet-popup.component';
 
 export const studentRoutes: Routes = [
     {
@@ -34,6 +36,16 @@ export const studentRoutes: Routes = [
             {
                 path: "ChangePasswordPopup",
                 component: ChangePasswordPopupComponent,
+                outlet: 'dialog'
+            },
+            {
+                path: "enrollCourse",
+                component: EnrollmentPopupComponent,
+                outlet: 'dialog'
+            },
+            {
+                path: "wallet",
+                component: WalletPopupComponent,
                 outlet: 'dialog'
             },
 

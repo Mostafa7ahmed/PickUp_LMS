@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, inject, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router, NavigationEnd } from '@angular/router';
+import { InstructorProfileService } from './core/services/instructor-profile.service';
+import { IInstructorProfile } from './core/interfaces/instructor-profile.interface';
+import { filter, Subscription } from 'rxjs';
+import { environment } from '../../../Environments/environment';
 
 export interface Follower {
   name: string;
@@ -14,9 +19,16 @@ export interface Follower {
   templateUrl: './porfile.component.html',
   styleUrl: './porfile.component.scss'
 })
-export class PorfileComponent {
+export class PorfileComponent implements OnInit, OnDestroy {
+  private router = inject(Router);
+  private instructorProfileService = inject(InstructorProfileService);
+  private subscription = new Subscription();
+
   searchText = '';
-followers: Follower[] = [
+  instructorProfile: IInstructorProfile | null = null;
+  isLoading = false;
+
+  followers: Follower[] = [
   { name: 'Nehad Naiem', title: 'Data Analyst at TechCorp', image: 'https://randomuser.me/api/portraits/women/44.jpg' },
   { name: 'Mohamed Yasser', title: 'ML Engineer at AI Solutions', image: 'https://randomuser.me/api/portraits/men/32.jpg' },
   { name: 'Mahmoud Gamal', title: 'Student at MIT', image: 'https://randomuser.me/api/portraits/men/45.jpg' },
@@ -42,6 +54,54 @@ followers: Follower[] = [
   { name: 'Fatima Zahra', title: 'AI Ethics Researcher', image: 'https://randomuser.me/api/portraits/women/55.jpg' },
   { name: 'James Brown', title: 'Full Stack Developer', image: 'https://randomuser.me/api/portraits/men/53.jpg' },
 ];
+
+  ngOnInit(): void {
+    this.loadInstructorProfile();
+
+    // Listen for navigation events to reload profile when returning from manage dialog
+    this.subscription.add(
+      this.router.events
+        .pipe(filter(event => event instanceof NavigationEnd))
+        .subscribe((event: NavigationEnd) => {
+          if (event.url === '/myprofile') {
+            this.loadInstructorProfile();
+          }
+        })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  loadInstructorProfile(): void {
+    this.isLoading = true;
+    this.instructorProfileService.getInstructorProfile().subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.instructorProfile = response.result;
+        }
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading instructor profile:', error);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  openManageProfile(): void {
+    this.router.navigate([{ outlets: { dialog: ['manageProfile'] } }]);
+  }
+
+  getPhotoUrl(photoPath: string): string {
+    // If it's already a full URL, return as is
+    if (photoPath.startsWith('http')) {
+      return photoPath;
+    }
+    // Otherwise, prepend the base URL
+    return environment.baseUrlFiles + photoPath;
+  }
 
   filteredFollowers(): Follower[] {
     return this.followers.filter(f =>

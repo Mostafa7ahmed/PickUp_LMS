@@ -26,6 +26,12 @@ export const routes: Routes = [
 
     },
     {
+        path: "landing-preview",
+        title: "Landing Page Preview",
+        component: LandingpageComponent,
+        // No guard - allows viewing even when logged in
+    },
+    {
         path: "login",
         title: "Login",
         canActivate: [isloginguardsGuard],

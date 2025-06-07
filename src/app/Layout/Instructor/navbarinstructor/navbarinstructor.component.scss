@@ -64,6 +64,28 @@
 
 }
 
+.wallet-icon {
+    border-radius: 6.8px;
+    border: .85px solid #e0e3e9;
+    background: #fff;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+
+    &:hover {
+        background-color: #24c12b2b;
+        border-color: #24c12c8e;
+
+        svg path {
+            fill: #24c12c !important;
+        }
+    }
+}
+
 .activitiesDropDown {
     border-radius: 6.8px;
     border: .85px solid #e0e3e9;

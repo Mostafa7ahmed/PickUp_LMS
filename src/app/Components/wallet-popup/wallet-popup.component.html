@@ -1,0 +1,316 @@
+@if(isVisible) {
+  <div class="overlay"></div>
+  <div class="wallet-popup">
+    <app-top-pop 
+      [NamePopup]="'My Wallet'" 
+      [NameIcon]="'fa-solid fa-wallet'"
+      [bgColor]="'#00c8531a'"
+      [ColorIcon]="'#00c853'"
+      (isVisibleChange)="closePopup()">
+    </app-top-pop>
+    
+    <div class="popup-body">
+      @if(isLoading) {
+        <div class="loading-section">
+          <i class="fas fa-spinner fa-spin"></i>
+          <span>Loading wallet information...</span>
+        </div>
+      } @else if(walletData) {
+        <div class="content-wrapper">
+          
+          <!-- Wallet Overview Header -->
+          <div class="wallet-header">
+            <div class="balance-card">
+              <div class="balance-info">
+                <h3>Current Balance</h3>
+                <div class="balance-amount">
+                  {{ formatCurrency(walletData.balance) }}
+                </div>
+                <p class="last-updated">
+                  User ID: {{ walletData.userId }}
+                  @if(walletData.creditCard) {
+                    <br>Card: ****{{ walletData.creditCard.slice(-4) }}
+                  }
+                </p>
+              </div>
+              <div class="wallet-icon">
+                <i class="fas fa-wallet"></i>
+              </div>
+            </div>
+            
+            <div class="wallet-stats">
+              <div class="stat-item">
+                <div class="stat-value">{{ formatCurrency(getTotalIncome()) }}</div>
+                <div class="stat-label">Total Income</div>
+                <i class="fas fa-arrow-up stat-icon income"></i>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">{{ formatCurrency(getTotalExpenses()) }}</div>
+                <div class="stat-label">Total Expenses</div>
+                <i class="fas fa-arrow-down stat-icon expense"></i>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">{{ getPendingTransactions() }}</div>
+                <div class="stat-label">Pending</div>
+                <i class="fas fa-clock stat-icon pending"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab Navigation -->
+          <div class="tab-navigation">
+            <button 
+              class="tab-btn" 
+              [class.active]="activeTab === 'overview'"
+              (click)="setActiveTab('overview')"
+            >
+              <i class="fas fa-chart-line"></i>
+              Overview
+            </button>
+            <button 
+              class="tab-btn" 
+              [class.active]="activeTab === 'addFunds'"
+              (click)="setActiveTab('addFunds')"
+            >
+              <i class="fas fa-plus"></i>
+              Add Funds
+            </button>
+            <button 
+              class="tab-btn" 
+              [class.active]="activeTab === 'withdraw'"
+              (click)="setActiveTab('withdraw')"
+            >
+              <i class="fas fa-minus"></i>
+              Withdraw
+            </button>
+            <button 
+              class="tab-btn" 
+              [class.active]="activeTab === 'history'"
+              (click)="setActiveTab('history')"
+            >
+              <i class="fas fa-history"></i>
+              History
+            </button>
+          </div>
+
+          <!-- Tab Content -->
+          <div class="tab-content">
+            
+            <!-- Overview Tab -->
+            @if(activeTab === 'overview') {
+              <div class="overview-tab">
+                <h4>Recent Transactions</h4>
+                @if(recentTransactions.length > 0) {
+                  <div class="transactions-list">
+                    @for(transaction of recentTransactions; track transaction.id) {
+                      <div class="transaction-item">
+                        <div class="transaction-icon" [class]="getTransactionTypeColor(transaction.type)">
+                          <i [class]="getTransactionTypeIcon(transaction.type)"></i>
+                        </div>
+                        <div class="transaction-details">
+                          <h6>{{ transaction.description }}</h6>
+                          <p>{{ formatDate(transaction.createdAt) }}</p>
+                        </div>
+                        <div class="transaction-amount" [class]="getTransactionTypeColor(transaction.type)">
+                          {{ transaction.type === TransactionType.Deposit || transaction.type === TransactionType.Earning || transaction.type === TransactionType.Refund ? '+' : '-' }}{{ formatCurrency(Math.abs(transaction.amount)) }}
+                        </div>
+                        <div class="transaction-status">
+                          <span class="status-badge" [class]="getStatusBadgeClass(transaction.status)">
+                            {{ TransactionStatus[transaction.status] }}
+                          </span>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                } @else {
+                  <div class="no-transactions">
+                    <i class="fas fa-receipt"></i>
+                    <h5>No transactions yet</h5>
+                    <p>Your transaction history will appear here</p>
+                  </div>
+                }
+              </div>
+            }
+
+            <!-- Add Funds Tab -->
+            @if(activeTab === 'addFunds') {
+              <div class="add-funds-tab">
+                <h4>Add Funds to Wallet</h4>
+                <form [formGroup]="addFundsForm" (ngSubmit)="addFunds()" class="funds-form">
+                  <div class="form-group">
+                    <label for="addAmount">Amount to Add</label>
+                    <div class="amount-input">
+                      <span class="currency-symbol">$</span>
+                      <input 
+                        type="number" 
+                        id="addAmount"
+                        formControlName="amount"
+                        class="form-control"
+                        placeholder="0.00"
+                        min="1"
+                        max="10000"
+                        step="0.01"
+                      />
+                    </div>
+                    @if(addFundsForm.get('amount')?.errors && addFundsForm.get('amount')?.touched) {
+                      <div class="error-message">
+                        @if(addFundsForm.get('amount')?.errors?.['required']) {
+                          Amount is required
+                        }
+                        @if(addFundsForm.get('amount')?.errors?.['min']) {
+                          Minimum amount is $1
+                        }
+                        @if(addFundsForm.get('amount')?.errors?.['max']) {
+                          Maximum amount is $10,000
+                        }
+                      </div>
+                    }
+                  </div>
+
+                  <div class="quick-amounts">
+                    <button type="button" class="quick-amount-btn" (click)="addFundsForm.patchValue({amount: 25})">$25</button>
+                    <button type="button" class="quick-amount-btn" (click)="addFundsForm.patchValue({amount: 50})">$50</button>
+                    <button type="button" class="quick-amount-btn" (click)="addFundsForm.patchValue({amount: 100})">$100</button>
+                    <button type="button" class="quick-amount-btn" (click)="addFundsForm.patchValue({amount: 250})">$250</button>
+                  </div>
+
+                  @if(transactionMessage) {
+                    <div class="transaction-message" [class.success]="transactionSuccess" [class.error]="!transactionSuccess">
+                      <i [class]="transactionSuccess ? 'fas fa-check-circle' : 'fas fa-exclamation-circle'"></i>
+                      {{ transactionMessage }}
+                    </div>
+                  }
+
+                  <button 
+                    type="submit" 
+                    class="btn btn-primary"
+                    [disabled]="addFundsForm.invalid || isProcessingTransaction"
+                  >
+                    @if(isProcessingTransaction) {
+                      <i class="fas fa-spinner fa-spin"></i>
+                      Processing...
+                    } @else {
+                      <i class="fas fa-plus"></i>
+                      Add Funds
+                    }
+                  </button>
+                </form>
+              </div>
+            }
+
+            <!-- Withdraw Tab -->
+            @if(activeTab === 'withdraw') {
+              <div class="withdraw-tab">
+                <h4>Withdraw Funds</h4>
+                <div class="available-balance">
+                  Available Balance: <strong>{{ formatCurrency(walletData.balance) }}</strong>
+                </div>
+                
+                <form [formGroup]="withdrawForm" (ngSubmit)="withdrawFunds()" class="funds-form">
+                  <div class="form-group">
+                    <label for="withdrawAmount">Amount to Withdraw</label>
+                    <div class="amount-input">
+                      <span class="currency-symbol">$</span>
+                      <input 
+                        type="number" 
+                        id="withdrawAmount"
+                        formControlName="amount"
+                        class="form-control"
+                        placeholder="0.00"
+                        min="1"
+                        [max]="walletData.balance"
+                        step="0.01"
+                      />
+                    </div>
+                    @if(withdrawForm.get('amount')?.errors && withdrawForm.get('amount')?.touched) {
+                      <div class="error-message">
+                        @if(withdrawForm.get('amount')?.errors?.['required']) {
+                          Amount is required
+                        }
+                        @if(withdrawForm.get('amount')?.errors?.['min']) {
+                          Minimum withdrawal is $1
+                        }
+                        @if(withdrawForm.get('amount')?.errors?.['max']) {
+                          Amount exceeds available balance
+                        }
+                      </div>
+                    }
+                  </div>
+
+                  @if(transactionMessage) {
+                    <div class="transaction-message" [class.success]="transactionSuccess" [class.error]="!transactionSuccess">
+                      <i [class]="transactionSuccess ? 'fas fa-check-circle' : 'fas fa-exclamation-circle'"></i>
+                      {{ transactionMessage }}
+                    </div>
+                  }
+
+                  <button 
+                    type="submit" 
+                    class="btn btn-danger"
+                    [disabled]="withdrawForm.invalid || isProcessingTransaction || walletData.balance <= 0"
+                  >
+                    @if(isProcessingTransaction) {
+                      <i class="fas fa-spinner fa-spin"></i>
+                      Processing...
+                    } @else {
+                      <i class="fas fa-minus"></i>
+                      Withdraw Funds
+                    }
+                  </button>
+                </form>
+              </div>
+            }
+
+            <!-- History Tab -->
+            @if(activeTab === 'history') {
+              <div class="history-tab">
+                <h4>Transaction History</h4>
+                @if(recentTransactions.length > 0) {
+                  <div class="transactions-list detailed">
+                    @for(transaction of recentTransactions; track transaction.id) {
+                      <div class="transaction-item detailed">
+                        <div class="transaction-icon" [class]="getTransactionTypeColor(transaction.type)">
+                          <i [class]="getTransactionTypeIcon(transaction.type)"></i>
+                        </div>
+                        <div class="transaction-details">
+                          <h6>{{ transaction.description }}</h6>
+                          <p>{{ formatDate(transaction.createdAt) }}</p>
+                          @if(transaction.reference) {
+                            <small>Ref: {{ transaction.reference }}</small>
+                          }
+                        </div>
+                        <div class="transaction-amount" [class]="getTransactionTypeColor(transaction.type)">
+                          {{ transaction.type === TransactionType.Deposit || transaction.type === TransactionType.Earning || transaction.type === TransactionType.Refund ? '+' : '-' }}{{ formatCurrency(Math.abs(transaction.amount)) }}
+                        </div>
+                        <div class="transaction-status">
+                          <span class="status-badge" [class]="getStatusBadgeClass(transaction.status)">
+                            {{ TransactionStatus[transaction.status] }}
+                          </span>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                } @else {
+                  <div class="no-transactions">
+                    <i class="fas fa-receipt"></i>
+                    <h5>No transaction history</h5>
+                    <p>Your transaction history will appear here</p>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      } @else {
+        <div class="error-section">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>Unable to load wallet information</span>
+          <button class="btn btn-primary" (click)="loadWalletData()">
+            <i class="fas fa-refresh"></i>
+            Retry
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+}

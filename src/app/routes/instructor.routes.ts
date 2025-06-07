@@ -26,6 +26,8 @@ import { HomeinstructorComponent } from '../Pages/Instructor/homeinstructor/home
 import { TodoInstructorComponent } from '../Pages/Instructor/todo-instructor/todo-instructor.component';
 import { AddtasktodoComponent } from '../Pages/Instructor/todo-instructor/components/addtasktodo/addtasktodo.component';
 import { ViewLessonComponent } from '../Pages/lesson/Components/view-lesson/view-lesson.component';
+import { ManageProfileComponent } from '../Pages/Instructor/porfile/components/manage-profile/manage-profile.component';
+import { WalletPopupComponent } from '../Components/wallet-popup/wallet-popup.component';
 export const instructorRoutes: Routes = [
     {
         path: '',
@@ -36,6 +38,8 @@ export const instructorRoutes: Routes = [
             { path: "homeInstructor", title: "Home Instrctor", component: HomeComponent },
             { path: "myprofile", title: "porfile", component: PorfileComponent },
             { path: 'ChangePasswordPopup', outlet: 'dialog', component: ChangePasswordPopupComponent },
+            { path: 'manageProfile', outlet: 'dialog', component: ManageProfileComponent },
+            { path: 'wallet', outlet: 'dialog', component: WalletPopupComponent },
             { path: "course", title: "Course", component: CoursesComponent },
             { path: "todo", title: "Task Management", component: TodoInstructorComponent },
             { path: 'addTaskInstrcutor', outlet: 'dialog', component: AddtasktodoComponent },
