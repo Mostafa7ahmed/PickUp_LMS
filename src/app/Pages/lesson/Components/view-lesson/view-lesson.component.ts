@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-view-lesson',
@@ -8,5 +9,9 @@ import { Component } from '@angular/core';
   styleUrl: './view-lesson.component.scss'
 })
 export class ViewLessonComponent {
+  constructor(private location: Location) {}
 
+  goBackToCourse() {
+    this.location.back();
+  }
 }

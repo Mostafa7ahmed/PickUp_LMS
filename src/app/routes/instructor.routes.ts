@@ -25,6 +25,7 @@ import { AddStageComponent } from '../Pages/Stages/Components/add-stage/add-stag
 import { HomeinstructorComponent } from '../Pages/Instructor/homeinstructor/homeinstructor.component';
 import { TodoInstructorComponent } from '../Pages/Instructor/todo-instructor/todo-instructor.component';
 import { AddtasktodoComponent } from '../Pages/Instructor/todo-instructor/components/addtasktodo/addtasktodo.component';
+import { ViewLessonComponent } from '../Pages/lesson/Components/view-lesson/view-lesson.component';
 export const instructorRoutes: Routes = [
     {
         path: '',
@@ -49,6 +50,7 @@ export const instructorRoutes: Routes = [
             { path: 'addcourse', outlet: 'dialog', component: AddCoursesComponent },
             { path: 'addLesson/:courseId', outlet: 'dialog', component: CreateLessonComponent },
             { path: 'coupan/:CoupanId', outlet: 'dialog', component: CouponCourseComponent },
+            { path: 'viewLesson/:lessonId', title:"View Lesson", component: ViewLessonComponent },
             { path: 'viewCoupon/:CoupanId', outlet: 'dialog', component: ViewCouponComponent },
             { path: 'Couponslist', title: "Coupons", component: CouponListComponent },
             { path: 'ViewTopic/:id', outlet: 'dialog', component: ViewTopicandStageComponent },

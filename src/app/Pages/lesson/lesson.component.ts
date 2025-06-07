@@ -2,11 +2,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { IPaginationResponse } from '../../Core/Shared/Interface/irespose';
 import { ILessonList } from './Core/Interface/ilesson-list';
 import { ListLessonService } from './Core/Services/list-lesson.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-lesson',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './lesson.component.html',
   styleUrl: './lesson.component.scss'
 })
