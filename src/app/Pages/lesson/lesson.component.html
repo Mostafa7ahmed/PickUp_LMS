@@ -1,13 +1,13 @@
-<!-- <div class="lessons">
+<div class="lessons">
     @for (lesson of ListLessonData.result; track lesson.id) {
     <div class="lessonCard">
         <div class="drag">
             <span class="icon">
-                <i class="fa-solid fa-grip-vertical"></i>
+              <span class="number">{{$index+1}} : </span>
+
             </span>
         </div>
         <div class="leftCardLesson">
-            <span class="number">#{{$index+1}} : </span>
             <span class="title">{{lesson.name}}</span>
 
         </div>
@@ -37,8 +37,8 @@
                 <div class="line"></div>
             </div>
             <div class="view">
-                <button>
-
+                <button routerLink="/viewLesson/{{lesson.id}}">
+            
                     <span class="text">View Details</span>
                 </button>
             </div>
@@ -57,10 +57,10 @@
     }
 
 
-</div> -->
+</div>
 
 
-<div class="lessons">
+<!-- <div class="lessons">
 @for (lessom of [1,2,3,4,5,8,8,8,8,81,2,3,4,5,8,8,8,8,8,8]; track $index) {
     <div class="lessonCard">
 
@@ -108,4 +108,4 @@
 }
 
 
-</div>
+</div> -->

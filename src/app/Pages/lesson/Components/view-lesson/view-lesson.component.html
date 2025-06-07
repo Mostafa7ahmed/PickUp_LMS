@@ -3,7 +3,8 @@
         <img src="Images/CardProfile.png" alt="Cover Image" width="100%" height="100%" />
         <div class="informainon d-flex justify-content-between">
             <div class="IconBack position-absolute">
-                <a class="d-flex align-items-center gap-2 text-white " (click)="goBackToCourse()" style="cursor:pointer;">
+                <a class="d-flex align-items-center gap-2 text-white " (click)="goBackToCourse()"
+                    style="cursor:pointer;">
                     <i class="fa-solid fa-arrow-left"></i>
                     <p>Back Course</p>
                 </a>
@@ -26,6 +27,50 @@
 
         </div>
     </div>
+    <div class="headerCover mt-2">
+        <div class="tabs">
+            <p-button (onClick)="value = 0" class="tab tab-active " [class.activeHeader]="value == 0"
+                styleClass="tabHeader">
+                <div class="tab-icon">
+                    <i class="fa-brands fa-wpexplorer"></i>
+                </div>
+                <p>Overview</p>
+            </p-button>
+            <p-button (onClick)="value = 1" class="tab tab-active" [class.activeHeader]="value == 1"
+                styleClass="tabHeader">
+                <div class="tab-icon">
+                    <i class="fa-kit fa-stream-icon-cp"></i>
+                </div>
+                <p>Videos</p>
+            </p-button>
 
-    
+
+
+
+        </div>
+
+
+    </div>
+    <div class="ContentCourse">
+        <div class="leftContent">
+                                <p-tabs [value]="value">
+
+                        <p-tabpanels>
+                            <p-tabpanel [value]="0">
+            
+                            </p-tabpanel>
+                            <p-tabpanel [value]="1">
+                                <div class="d-flex flex-column align-items-center justify-content-center m-0 tabView">
+                                    <img src="Images/Email_empty.svg" alt="" width="190px">
+
+                                </div>
+                            </p-tabpanel>
+                    
+
+                        </p-tabpanels>
+                    </p-tabs>
+        </div>
+    </div>
+
+
 </div>
