@@ -59,14 +59,14 @@ export class InstructorChatComponent {
         {
           id: 2,
           name: 'Alice Johnson',
-          avatar: 'Images/avatars/student1.jpg',
+          avatar: 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
           role: 'student',
           online: true
         },
         {
           id: 3,
           name: 'Bob Smith',
-          avatar: 'Images/avatars/student2.jpg',
+          avatar: 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
           role: 'student',
           online: false,
           lastSeen: new Date('2024-03-12T09:30:00')
@@ -74,7 +74,7 @@ export class InstructorChatComponent {
         {
           id: 4,
           name: 'Carol Davis',
-          avatar: 'Images/avatars/student3.jpg',
+          avatar: 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
           role: 'student',
           online: true
         }
