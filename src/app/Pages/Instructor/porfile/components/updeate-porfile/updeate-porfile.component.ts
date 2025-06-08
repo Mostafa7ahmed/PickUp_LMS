@@ -8,11 +8,12 @@ import { TopPopComponent } from '../../../../../Components/top-pop/top-pop.compo
 import { StreamService } from '../../../../../Core/Services/stream.service';
 import { StreamType } from '../../../../../Core/Interface/stream-type';
 import { environment } from '../../../../../Environments/environment';
+import { TextHeaderComponent } from "../../../../Courses/Components/text-header/text-header.component";
 
 @Component({
   selector: 'app-updeate-porfile',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TopPopComponent],
+  imports: [CommonModule, ReactiveFormsModule, TopPopComponent, TextHeaderComponent],
   templateUrl: './updeate-porfile.component.html',
   styleUrl: './updeate-porfile.component.scss'
 })
@@ -35,6 +36,7 @@ export class UpdeatePorfileComponent {
   constructor() {
     this.profileForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
+       bio: ['', [Validators.minLength(2)]],
       instagram: [''],
       twitter: [''],
       linkedIn: [''],
