@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { RouteStuddentsComponent } from '../Layout/Students/route-studdents/route-studdents.component';
-import { studentGuard } from '../Core/Guards/student.guard';
 import { notloginguardsGuard } from '../Core/Guards/notloginguards.guard';
 
 import { HomepageStudentComponent } from '../Pages/Students/homepage-student/homepage-student.component';
@@ -10,6 +9,8 @@ import { TodostdutentComponent } from '../Pages/Students/todostdutent/todostdute
 import { AddTaskStudentComponent } from '../Pages/Students/todostdutent/components/add-task-student/add-task-student.component';
 import { ChangePasswordPopupComponent } from '../Pages/Auth/change-password-popup/change-password-popup.component';
 import { DiscoverCourseComponent } from '../Pages/Students/discover-course/discover-course.component';
+import { WalletPopupInstructorComponent } from '../Pages/Instructor/wallet-popup-instructor/wallet-popup-instructor.component';
+import { PorfileComponent } from '../Pages/Instructor/porfile/porfile.component';
 
 export const studentRoutes: Routes = [
     {
@@ -36,6 +37,8 @@ export const studentRoutes: Routes = [
                 component: ChangePasswordPopupComponent,
                 outlet: 'dialog'
             },
+          { path: 'wallet', outlet: 'dialog', component: WalletPopupInstructorComponent },
+            { path: "myprofile", title: "porfile", component: PorfileComponent },
 
             { path: "**", title: "notFound", component: HomestudentComponent },
         ]

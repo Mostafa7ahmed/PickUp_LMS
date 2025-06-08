@@ -147,7 +147,9 @@ export class NavbarStudentComponent {
   openAddTaskPopup(): void {
     this.router.navigate(['/Student', { outlets: { dialog: ['taskTodoStudent'] } }]);
   }
-
+  openWalletPopup(): void {
+    this.router.navigate(['/Student', { outlets: { dialog: ['wallet'] } }]);
+  }
   ToggleLang() {
     const currentLang = this._TranslateService.currentLang;
     const newLang = currentLang === 'en' ? 'ar' : 'en';
