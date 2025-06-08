@@ -8,12 +8,13 @@ import { filter, Subscription } from 'rxjs';
 import { environment } from '../../../Environments/environment';
 import { ListCourse } from '../../Courses/Core/interface/icourses';
 import { IPaginationResponse } from '../../../Core/Shared/Interface/irespose';
+import { SplicTextPipe } from '../../Courses/Core/Pipes/splic-text.pipe';
 
 
 @Component({
   selector: 'app-porfile',
   standalone: true,
-  imports: [FormsModule , CommonModule ],
+  imports: [FormsModule , CommonModule , SplicTextPipe ],
   templateUrl: './porfile.component.html',
   styleUrl: './porfile.component.scss'
 })

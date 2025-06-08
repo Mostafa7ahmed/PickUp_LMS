@@ -71,33 +71,72 @@
         <div class="skeleton-text skeleton-title"></div>
       </div>
     } @else if(instructorCourses.length > 0) {
-      <div class="courses-grid">
-        <div class="course-card" *ngFor="let course of instructorCourses" (click)="viewCourse(course.id)">
-          <div class="course-image">
-            @if(course.photoUrl) {
-              <img [src]="getPhotoUrl(course.photoUrl)" alt="{{ course.name }}" />
-            } @else {
-              <div class="placeholder-image">
-                <i class="fas fa-book"></i>
-              </div>
-            }
-            <div class="course-overlay">
-              <i class="fas fa-eye"></i>
-            </div>
+        <div class="courses-grid">
+    <div class="course-card" *ngFor="let course of instructorCourses">
+      <div class="course-image">
+        <img
+    [src]="getPhotoUrl(course.photoUrl)" alt="{{ course.name  }}" 
+          onerror="this.src='Images/Course/Image+Background.png'"
+        />
+
+        <div class="category-badge">C# Topic</div>
+ 
+        
+      </div>
+
+      <div class="course-content">
+        <h3 class="course-title">{{ course.name | splicText :30 }}</h3>
+
+        <p class="course-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio dolorum deserunt, eligendi sunt laboriosam modi.</p>
+
+        <div class="course-stats">
+          <div class="stat">
+            <i class="fa-solid fa-play-circle"></i>
+            <span
+              >15 
+              lessons</span
+            >
           </div>
-          <div class="course-info">
-            <h4>{{ course.name }}</h4>
-            <div class="course-stats">
-              <span class="price">${{ course.price }}</span>
-              <span class="enrollments">{{ course.enrollmentCount }} students</span>
-              <span class="coupons">{{ course.couponsCount }} coupons</span>
-            </div>
-            <div class="course-date">
-              Created: {{ course.createdOn | date:'shortDate' }}
-            </div>
+          <div class="stat">
+            <i class="fa-solid fa-clock"></i>
+            <span>8</span>
+          </div>
+          <div class="stat">
+            <i class="fa-solid fa-star"></i>
+            <span>10</span>
           </div>
         </div>
+
+
+
+          <div class="course-footer">
+              <div class="price-section">
+                <!-- <div *ngIf="course.originalPrice && course.discount" class="original-price">
+                  ${{ formatPrice(course.originalPrice) }}
+                </div> -->
+                <div class="current-price">
+                  ${{ course.price}}
+                </div>
+              </div>
+
+              <div class="action-buttons">
+       
+                
+     
+
+                <button 
+                  class="btn-details"
+                  (click)="viewCourse(course.id)"
+                >
+                  <i class="fa-solid fa-info-circle"></i>
+                </button>
+              </div>
+            </div>
       </div>
+    </div>
+  </div>
+
+   
     } @else {
       <div class="no-courses">
         <i class="fas fa-book-open"></i>
