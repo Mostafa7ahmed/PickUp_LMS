@@ -169,6 +169,9 @@ export class NavbarinstructorComponent {
     this.toggleAddMenu();
     this.router.navigate([{ outlets: { dialog: ['addLesson', 205] } }]);
   }
+  openWalletPopup(): void {
+    this.router.navigate([{ outlets: { dialog: ['wallet'] } }]);
+  }
   ToggleLang() {
     const currentLang = this._TranslateService.currentLang;
     const newLang = currentLang === 'en' ? 'ar' : 'en';
