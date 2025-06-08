@@ -5,54 +5,105 @@
   
   <div class="profile-header">
     <div class="imageAva">
-            <img class="avatar" src="Images/dr.jpeg" alt="Profile Image" />
-
+      @if(instructorProfile?.photo) {
+        <img class="avatar" [src]="getPhotoUrl(instructorProfile!.photo)" alt="Profile Image" />
+      } @else {
+        <img class="avatar" src="Images/dr.jpeg" alt="Profile Image" />
+      }
     </div>
     <div class="info">
-      <h2>Dr. Amr Mausad</h2>
-      <p>Senior Data Science Instructor | AI Researcher</p>
-      <div class="social mt-2">
-        <a><i class="fab fa-linkedin"></i>linkedin</a>
-        <a ><i class="fab fa-twitter"></i>twitter</a>
-        <a ><i class="fab fa-instagram"></i>instagram</a>
-        <a ><i class="fas fa-envelope"></i>Email</a>
-      </div>
+      @if(isLoading) {
+        <div class="loading-placeholder">
+          <div class="skeleton-text skeleton-title"></div>
+          <div class="skeleton-text skeleton-subtitle"></div>
+        </div>
+      } @else {
+        <h2>{{ instructorProfile?.name || 'Dr. Amr Mausad' }}</h2>
+        <p>Senior Data Science Instructor | AI Researcher</p>
+        @if(instructorProfile?.email) {
+          <p class="email-info">
+            <i class="fas fa-envelope"></i>
+            {{ instructorProfile!.email }}
+          </p>
+        }
+        <div class="social mt-2">
+          @if(instructorProfile?.linkedIn) {
+            <a [href]="instructorProfile!.linkedIn" target="_blank">
+              <i class="fab fa-linkedin"></i>LinkedIn
+            </a>
+          }
+          @if(instructorProfile?.twitter) {
+            <a [href]="instructorProfile!.twitter" target="_blank">
+              <i class="fab fa-twitter"></i>Twitter
+            </a>
+          }
+          @if(instructorProfile?.instagram) {
+            <a [href]="instructorProfile!.instagram" target="_blank">
+              <i class="fab fa-instagram"></i>Instagram
+            </a>
+          }
+          @if(!instructorProfile?.linkedIn && !instructorProfile?.twitter && !instructorProfile?.instagram) {
+            <a><i class="fab fa-linkedin"></i>linkedin</a>
+            <a><i class="fab fa-twitter"></i>twitter</a>
+            <a><i class="fab fa-instagram"></i>instagram</a>
+          }
+        </div>
+      }
     </div>
-    <button class="manage-btn"> <i class="fa-solid fa-gear"></i> Manage</button>
+    <button class="manage-btn" (click)="openManageProfile()">
+      <i class="fa-solid fa-gear"></i> Manage
+    </button>
   </div>
 
-  <p class="bio">
-With over 15 years of experience in data science and machine learning, I specialize in making complex technical concepts accessible to learners of all levels. My research
-focuses on practical applications of AI in business and healthcare.  </p>
 
-  <div class="followers mt-2">
 
+  <!-- My Courses Section -->
+  <div class="my-courses mt-4">
     <div class="title">
-      <p class="text mb-3">Followers ({{ followers.length }})</p>
+      <p class="text mb-3">My Courses ({{ instructorCourses.length }})</p>
       <div class="line"></div>
     </div>
-    <div class="searchStudents  mb-3">
-      <div class="leftSearch">
-        <h5>People Following <span class="titleNAme">Dr. Amr mausad</span></h5>
-      </div>
-      <div class="rightSearch">
-        <input type="text" placeholder="Search by name or title" [(ngModel)]="searchText" />
-      </div>
 
-    </div>
-
-   <div class="followersList">
-      <div class="followers-list">
-      <div
-        class="follower-card" *ngFor="let follower of filteredFollowers()">
-        <img [src]="follower.image" alt="Avatar" />
-        <div>
-          <h4 class="nameStudent">{{ follower.name }}</h4>
-          <p>{{ follower.title }}</p>
+    @if(coursesLoading) {
+      <div class="loading-placeholder">
+        <div class="skeleton-text skeleton-title"></div>
+        <div class="skeleton-text skeleton-subtitle"></div>
+        <div class="skeleton-text skeleton-title"></div>
+      </div>
+    } @else if(instructorCourses.length > 0) {
+      <div class="courses-grid">
+        <div class="course-card" *ngFor="let course of instructorCourses" (click)="viewCourse(course.id)">
+          <div class="course-image">
+            @if(course.photoUrl) {
+              <img [src]="getPhotoUrl(course.photoUrl)" alt="{{ course.name }}" />
+            } @else {
+              <div class="placeholder-image">
+                <i class="fas fa-book"></i>
+              </div>
+            }
+            <div class="course-overlay">
+              <i class="fas fa-eye"></i>
+            </div>
+          </div>
+          <div class="course-info">
+            <h4>{{ course.name }}</h4>
+            <div class="course-stats">
+              <span class="price">${{ course.price }}</span>
+              <span class="enrollments">{{ course.enrollmentCount }} students</span>
+              <span class="coupons">{{ course.couponsCount }} coupons</span>
+            </div>
+            <div class="course-date">
+              Created: {{ course.createdOn | date:'shortDate' }}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-
-   </div>
+    } @else {
+      <div class="no-courses">
+        <i class="fas fa-book-open"></i>
+        <p>No courses created yet</p>
+        <button class="btn btn-primary" (click)="createNewCourse()">Create Your First Course</button>
+      </div>
+    }
   </div>
 </div>

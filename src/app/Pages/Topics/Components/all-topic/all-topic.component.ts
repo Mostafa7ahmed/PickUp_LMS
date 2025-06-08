@@ -9,12 +9,12 @@ import { PaginateTopicService } from '../../Service/paginate-topic.service';
 import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose';
 import { TopicResult } from '../../Core/Interface/itopic';
 import { CommonModule, DatePipe } from '@angular/common';
-import { filter, Subscription } from 'rxjs';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { SetDefaultTopicService } from '../../Service/set-default-topic.service';
 import { TooltipModule } from 'primeng/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { DeleteTopicComponent } from '../delete-topic/delete-topic.component';
+import { filter, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-all-topic',
@@ -25,14 +25,10 @@ import { DeleteTopicComponent } from '../delete-topic/delete-topic.component';
 })
 export class AllTopicComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
+    private subscriptioncall = new Subscription();
+
   constructor(private router: Router) {
-    this.router.events
-    .pipe(filter((event) => event instanceof NavigationEnd))
-    .subscribe((event: any) => {
-      if (event.url === '/topics') {
-        this.getAllTopics();
-      }
-    });
+
   }
 
   //Values
@@ -99,7 +95,17 @@ export class AllTopicComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getAllTopics();
+     this.subscriptioncall.add(
+      this.router.events
+        .pipe(filter(event => event instanceof NavigationEnd))
+        .subscribe((event: NavigationEnd) => {
+          if (event.url === '/topics') {
+            this.getAllTopics();
+          }
+        })
+    );
   }
+
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

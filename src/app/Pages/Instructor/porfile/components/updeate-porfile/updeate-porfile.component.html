@@ -1,0 +1,187 @@
+@if(isVisible) {
+  <div class="overlay"></div>
+  <div class="manage-profile-popup">
+    <app-top-pop 
+      [NamePopup]="'Manage Profile'" 
+      [NameIcon]="'fa-solid fa-user-edit'"
+      (isVisibleChange)="closePopup()">
+    </app-top-pop>
+    
+    <div class="popup-body">
+      <div class="content-wrapper">
+        <div class="header-section">
+          <h3>Update Your Profile Information</h3>
+          <p>Keep your profile information up to date to help students connect with you</p>
+        </div>
+        
+        <div class="form-section">
+          @if(isLoading) {
+            <div class="loading-spinner">
+              <i class="fas fa-spinner fa-spin"></i>
+              <span>Loading profile...</span>
+            </div>
+          } @else {
+            <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+              
+              <!-- Name Field -->
+              <div class="form-group">
+                <label for="name" class="form-label">
+                  <i class="fas fa-user"></i>
+                  Full Name *
+                </label>
+                <input 
+                  type="text" 
+                  id="name"
+                  formControlName="name"
+                  class="form-control"
+                  placeholder="Enter your full name"
+                  [class.error]="getFieldError('name')"
+                />
+                @if(getFieldError('name')) {
+                  <span class="error-message">{{ getFieldError('name') }}</span>
+                }
+              </div>
+
+              <!-- Social Media Fields -->
+              <div class="social-section">
+                <h4>Social Media Links</h4>
+                
+                <div class="form-group">
+                  <label for="instagram" class="form-label">
+                    <i class="fab fa-instagram"></i>
+                    Instagram
+                  </label>
+                  <input 
+                    type="text" 
+                    id="instagram"
+                    formControlName="instagram"
+                    class="form-control"
+                    placeholder="Instagram username or URL"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="twitter" class="form-label">
+                    <i class="fab fa-twitter"></i>
+                    Twitter
+                  </label>
+                  <input 
+                    type="text" 
+                    id="twitter"
+                    formControlName="twitter"
+                    class="form-control"
+                    placeholder="Twitter username or URL"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="linkedIn" class="form-label">
+                    <i class="fab fa-linkedin"></i>
+                    LinkedIn
+                  </label>
+                  <input 
+                    type="text" 
+                    id="linkedIn"
+                    formControlName="linkedIn"
+                    class="form-control"
+                    placeholder="LinkedIn profile URL"
+                  />
+                </div>
+              </div>
+
+              <!-- Photo Upload Field -->
+              <div class="form-group">
+                <label class="form-label">
+                  <i class="fas fa-camera"></i>
+                  Profile Photo
+                </label>
+
+                <div class="photo-upload-section">
+                  <!-- Photo Preview -->
+                  @if(photoPreview) {
+                    <div class="photo-preview">
+                      <img [src]="photoPreview" alt="Profile Preview" class="preview-image">
+                      <div class="photo-overlay">
+                        <button
+                          type="button"
+                          class="btn-change-photo"
+                          (click)="triggerPhotoUpload()"
+                          [disabled]="isUploadingPhoto"
+                        >
+                          <i class="fas fa-camera"></i>
+                          Change
+                        </button>
+                        <button
+                          type="button"
+                          class="btn-remove-photo"
+                          (click)="removePhoto()"
+                          [disabled]="isUploadingPhoto"
+                        >
+                          <i class="fas fa-trash"></i>
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  } @else {
+                    <!-- Upload Area -->
+                    <div class="photo-upload-area" (click)="triggerPhotoUpload()">
+                      @if(isUploadingPhoto) {
+                        <div class="upload-loading">
+                          <i class="fas fa-spinner fa-spin"></i>
+                          <span>Uploading...</span>
+                        </div>
+                      } @else {
+                        <div class="upload-placeholder">
+                          <i class="fas fa-camera"></i>
+                          <span>Click to upload photo</span>
+                          <small>JPG, PNG, GIF up to 10MB</small>
+                        </div>
+                      }
+                    </div>
+                  }
+
+                  <!-- Hidden File Input -->
+                  <input
+                    type="file"
+                    #fileInput
+                    accept="image/*"
+                    (change)="onPhotoSelected($event)"
+                    style="display: none;"
+                  />
+
+                  <!-- Hidden form control for photo URL -->
+                  <input type="hidden" formControlName="photo" />
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="action-buttons">
+                <button 
+                  type="button" 
+                  class="btn btn-cancel"
+                  (click)="closePopup()"
+                  [disabled]="isSubmitting"
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit" 
+                  class="btn btn-save"
+                  [disabled]="isSubmitting || profileForm.invalid"
+                >
+                  @if(isSubmitting) {
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Saving...
+                  } @else {
+                    <i class="fas fa-save"></i>
+                    Save Changes
+                  }
+                </button>
+              </div>
+            </form>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+}

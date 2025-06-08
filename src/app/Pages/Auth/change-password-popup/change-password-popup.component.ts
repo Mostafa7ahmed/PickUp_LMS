@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component,  inject } from '@angular/core';
 import { TopPopComponent } from "../../../Components/top-pop/top-pop.component";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ForgotPasswordService } from '../../../Core/Services/forgot-password.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule , Location } from '@angular/common';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
 import { LoginService } from '../../../Core/Services/login.service';
@@ -25,7 +25,7 @@ export class ChangePasswordPopupComponent {
   private readonly router = inject(Router);
   private _LoginService = inject(LoginService);
 
-  constructor(private fb: FormBuilder, private userService: ForgotPasswordService , private nzMessageService: NzMessageService) {
+  constructor(private location: Location, private fb: FormBuilder, private userService: ForgotPasswordService , private nzMessageService: NzMessageService) {
     this.changePasswordForm = this.fb.group({
       oldPassword: ['',    [
         Validators.required,
@@ -84,6 +84,6 @@ export class ChangePasswordPopupComponent {
 
 
   closePopup() {
-    this.router.navigate([{ outlets: { dialog: null } }]);
+    this.location.back();
   }
 }

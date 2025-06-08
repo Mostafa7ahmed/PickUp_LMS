@@ -27,6 +27,7 @@ import { TodoInstructorComponent } from '../Pages/Instructor/todo-instructor/tod
 import { AddtasktodoComponent } from '../Pages/Instructor/todo-instructor/components/addtasktodo/addtasktodo.component';
 import { ViewLessonComponent } from '../Pages/lesson/Components/view-lesson/view-lesson.component';
 import { WalletPopupInstructorComponent } from '../Pages/Instructor/wallet-popup-instructor/wallet-popup-instructor.component';
+import { UpdeatePorfileComponent } from '../Pages/Instructor/porfile/components/updeate-porfile/updeate-porfile.component';
 export const instructorRoutes: Routes = [
     {
         path: '',
@@ -46,6 +47,7 @@ export const instructorRoutes: Routes = [
             { path: "topics", title: "topic", component: TopicsComponent },
             { path: 'addTopic', outlet: 'dialog', component: AddTopicComponent },
             { path: 'wallet', outlet: 'dialog', component: WalletPopupInstructorComponent },
+            { path: 'manageProfile', outlet: 'dialog', component: UpdeatePorfileComponent },
 
             { path: 'addQuiz', outlet: 'dialog', component: AddquizlistComponent },
             { path: 'deleteTopic/:deleteId', outlet: 'dialog2', component: DeleteTopicComponent },

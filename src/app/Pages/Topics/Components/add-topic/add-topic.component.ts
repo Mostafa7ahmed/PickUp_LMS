@@ -1,5 +1,6 @@
+import { Topic } from './../../../Courses/Core/interface/view-course';
 import { TopicResult } from './../../Core/Interface/itopic';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TopPopComponent } from '../../../../Components/top-pop/top-pop.component';
@@ -50,6 +51,7 @@ export class AddTopicComponent implements OnInit {
   private _FormBuilder = inject(FormBuilder);
   private _AddTopicService = inject(AddTopicService);
   private _AddStageTopicService = inject(AddStageTopicService);
+private location = inject(Location);
 
   
 
@@ -91,8 +93,9 @@ export class AddTopicComponent implements OnInit {
     this.ishowTab = !this.ishowTab;
   }
   closePopup() {
-    this.router.navigate([{ outlets: { dialog: null } }]);
-  }
+      this.router.navigate([{ outlets: { dialog: null } }]).then(() => {
+                      this.router.navigate(['/topics']);
+          });  }
 
 
   submitFormTopic() {
@@ -117,6 +120,7 @@ export class AddTopicComponent implements OnInit {
             this.topicResult.result = res.result;
             this.topicID = this.topicResult.result.id;
             this.stageForm.patchValue({ topicId: this.topicID });
+
 
             this.isnext = false;
           }
@@ -197,7 +201,8 @@ export class AddTopicComponent implements OnInit {
         if (res.success) {
           console.log(res);
           this.isLoad = false;
-          this.closePopup()
+                this.location.back();
+                this.closePopup();
         }
 
       },
