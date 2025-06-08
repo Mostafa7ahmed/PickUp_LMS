@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { WalletService } from '../../../Core/Services/wallet.service';
 import { IWallet, IWalletTransaction, TransactionStatus, TransactionType } from '../../../Core/Interface/iwallet';
 import { TopPopComponent } from '../../../Components/top-pop/top-pop.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
@@ -20,6 +20,7 @@ export class WalletPopupInstructorComponent {
   private walletService = inject(WalletService);
     private message = inject(NzMessageService);
 
+    private Location = inject(Location);
 
   walletData: IWallet | null = null;
   recentTransactions: IWalletTransaction[] = [];
@@ -171,7 +172,7 @@ export class WalletPopupInstructorComponent {
 
   closePopup(): void {
     this.isVisible = false;
-    this.router.navigate([{ outlets: { dialog: null } }]);
+    this.Location.back();
     this.audio.pause()
 
   }
