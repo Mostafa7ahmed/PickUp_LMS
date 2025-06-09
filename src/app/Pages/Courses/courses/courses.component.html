@@ -77,7 +77,7 @@
             <div class="search-container-right d-flex gap-3">
               <div class="inputSearch">
 
-                <input type="text" placeholder="Search for courses"[placeholder]="'course.mainContent.SearchPlaceholder' | translate">
+                <input type="text" [(ngModel)]="searchTerm" (keyup)="onSearchChange($event)" [placeholder]="'course.mainContent.SearchPlaceholder' | translate">
               </div>
               <div class="advanced-filter-container">
 
