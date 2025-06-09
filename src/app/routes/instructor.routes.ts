@@ -42,7 +42,7 @@ export const instructorRoutes: Routes = [
             { path: "todo", title: "Task Management", component: TodoInstructorComponent },
             { path: 'addTaskInstrcutor', outlet: 'dialog', component: AddtasktodoComponent },
             { path: "quizlist", title: "Quiz List", component: QuizlistComponent },
-            { path: "course/:topicId/:activeTab", component: CoursesComponent, data: { defaultTab: "1" } },
+            { path: "course/:topicId", component: CoursesComponent},
             { path: "ViewCourse/:courseId", component: ViewCourseComponent },
             { path: "topics", title: "topic", component: TopicsComponent },
             { path: 'addTopic', outlet: 'dialog', component: AddTopicComponent },

@@ -42,14 +42,7 @@ export class CoursesComponent implements OnInit {
   private router = inject(Router);
   private _ActivatedRoute = inject(ActivatedRoute);
   constructor(private eRef: ElementRef) {
-    this.router.events
-    .pipe(filter((event) => event instanceof NavigationEnd))
-    .subscribe((event: any) => {
-    if (event.url.includes('/course')) {
-      this.getListTopics(this.topicIdFromRoute);
-      this.getAllKanbans(this.selectedTopicId)
-    }
-    });
+ 
   }
 
 
@@ -125,7 +118,7 @@ iselectedStage : boolean = false;
 
   changeTab(value: number): void {
     this.valueheader = value;
-    this.router.navigate(['/course', this.topicIdFromRoute, this.valueheader]);
+
 
   }
   changeInnerTab(value: number): void {
@@ -143,7 +136,6 @@ iselectedStage : boolean = false;
     console.log(option.id)
     this.selectedTopicId = option.id;
     this.topicIdFromRoute = option.id;
-    this.router.navigate(['/course', option.id, this.valueheader]);
     
     this.getAllKanbans(option.id)
     this.fetchCourses({}, option.id, this.valueTable);
