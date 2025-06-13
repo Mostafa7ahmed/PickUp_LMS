@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { TrueFalseComponent } from "../true-false/true-false.component";
 import { ShortAnswerComponent } from "../short-answer/short-answer.component";
 import { MultipleChoiceComponent } from "../multiple-choice/multiple-choice.component";
+import { QuizService } from '../../Core/services/quiz.service';
 
 @Component({
   selector: 'app-addquizlist',
@@ -24,6 +25,7 @@ import { MultipleChoiceComponent } from "../multiple-choice/multiple-choice.comp
 export class AddquizlistComponent implements OnInit {
   paginationCoursesResponse: IPaginationResponse<ListCourse> = {} as IPaginationResponse<ListCourse>;
   private router = inject(Router);
+  private quizService = inject(QuizService);
   showFirstPopup = true;
   showSecondPopup = false;
   private _paginateCoursesService = inject(ListCourseService);
@@ -37,6 +39,17 @@ changeValue(val: number) {
   selectedDiscountType: number = 1;
   baseUrl: string = environment.baseUrlFiles;
   isLoadCourse = false;
+
+  // Quiz details
+  quizTitle = '';
+  quizDescription = '';
+  quizDuration = 30;
+  quizDifficulty: 'easy' | 'medium' | 'hard' = 'medium';
+
+  // Lesson selection (placeholder for future implementation)
+  selectedLesson: any = null;
+  showDropdownLesson = false;
+  lessons: any[] = [];
   discountTypes: any[] = [
     { label: 'Hours', value: 1 },
     { label: 'Minutes', value: 0 }
@@ -52,6 +65,39 @@ changeValue(val: number) {
   selectCourse(course: ListCourse) {
     this.selectedCourse = course;
     this.showDropdownCourse = false;
+
+    // Load lessons for selected course (placeholder)
+    this.loadLessonsForCourse(course.id);
+  }
+
+  // Lesson selection methods
+  toggleDropdownLesson() {
+    this.showDropdownLesson = !this.showDropdownLesson;
+  }
+
+  removeLesson() {
+    this.selectedLesson = null;
+    this.showDropdownLesson = false;
+  }
+
+  selectLesson(lesson: any) {
+    this.selectedLesson = lesson;
+    this.showDropdownLesson = false;
+  }
+
+  // Load lessons for course (placeholder - replace with actual API call)
+  loadLessonsForCourse(courseId: number) {
+    // TODO: Replace with actual API call using courseId
+    console.log('Loading lessons for course:', courseId);
+
+    // Placeholder lessons data
+    this.lessons = [
+      { id: 1, name: 'Introduction to Programming', duration: '45 min' },
+      { id: 2, name: 'Variables and Data Types', duration: '30 min' },
+      { id: 3, name: 'Control Structures', duration: '60 min' },
+      { id: 4, name: 'Functions and Methods', duration: '50 min' },
+      { id: 5, name: 'Object-Oriented Programming', duration: '75 min' }
+    ];
   }
   getCourse() {
 
@@ -164,6 +210,12 @@ removeMultipleChoiceQuestion(index: number) {
       return;
     }
 
+    // Validate quiz title
+    if (!this.quizTitle.trim()) {
+      alert('Please enter a quiz title.');
+      return;
+    }
+
     this.showFirstPopup = false;
     setTimeout(() => {
       this.showSecondPopup = true;
@@ -268,10 +320,15 @@ removeMultipleChoiceQuestion(index: number) {
     return questions;
   }
 
-  // Method to save all questions
+  // Method to save all questions and create quiz
   saveQuestions() {
     if (!this.selectedCourse) {
       alert('Please select a course first.');
+      return;
+    }
+
+    if (!this.quizTitle.trim()) {
+      alert('Please enter a quiz title.');
       return;
     }
 
@@ -308,12 +365,30 @@ removeMultipleChoiceQuestion(index: number) {
       }
     }
 
-    // Here you would call your service to save the questions
-    // Example: this._quizService.saveQuestions(questions).subscribe(...)
+    // Create new quiz
+    const newQuiz = this.quizService.addQuiz({
+      title: this.quizTitle.trim(),
+      description: this.quizDescription.trim() || `Quiz for ${this.selectedCourse.name}`,
+      questionsCount: questions.length,
+      duration: this.quizDuration,
+      difficulty: this.quizDifficulty,
+      status: 'draft' as const,
+      tags: [this.selectedCourse.name, 'Course Quiz'],
+      courseId: this.selectedCourse.id,
+      courseName: this.selectedCourse.name,
+      attempts: 0,
+      createdDate: new Date().toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      })
+    });
 
-    // For now, just log the data
-    console.log('✅ All questions validated successfully!');
-    alert(`${questions.length} questions prepared for saving!\n\nData structure matches backend requirements.`);
+    console.log('✅ Quiz created successfully!', newQuiz);
+
+    // Show success message and close popup
+    alert(`Quiz "${newQuiz.title}" created successfully with ${questions.length} questions!`);
+    this.closePopup();
   }
 
 

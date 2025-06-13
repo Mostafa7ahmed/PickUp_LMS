@@ -1,8 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ListCourse } from '../../../Courses/Core/interface/icourses';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { QuizService, Quiz } from '../../Core/services/quiz.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cardqiuz',
@@ -11,111 +13,52 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './cardqiuz.component.html',
   styleUrl: './cardqiuz.component.scss'
 })
-export class CardqiuzComponent {
+export class CardqiuzComponent implements OnInit, OnDestroy {
 
   private router = inject(Router);
+  private quizService = inject(QuizService);
 
   // Search and filter properties
   searchTerm = '';
 
   // Delete confirmation dialog
   showDeleteDialog = false;
-  quizToDelete: any = null;
+  quizToDelete: Quiz | null = null;
 
-  // Sample quiz data
-  sampleQuizzes = [
-    {
-      id: 1,
-      title: 'JavaScript Fundamentals',
-      description: 'Test your knowledge of JavaScript basics including variables, functions, and DOM manipulation.',
-      questionsCount: 25,
-      duration: 30,
-      attempts: 156,
-      status: 'published',
-      difficulty: 'easy',
-      tags: ['JavaScript', 'Programming', 'Web Dev'],
-      createdDate: 'Jan 15, 2024'
-    },
-    {
-      id: 2,
-      title: 'React Advanced Concepts',
-      description: 'Advanced React concepts including hooks, context, and performance optimization techniques.',
-      questionsCount: 40,
-      duration: 45,
-      attempts: 89,
-      status: 'draft',
-      difficulty: 'hard',
-      tags: ['React', 'Frontend', 'Advanced'],
-      createdDate: 'Jan 20, 2024'
-    },
-    {
-      id: 3,
-      title: 'CSS Grid & Flexbox',
-      description: 'Master modern CSS layout techniques with Grid and Flexbox for responsive design.',
-      questionsCount: 18,
-      duration: 25,
-      attempts: 234,
-      status: 'published',
-      difficulty: 'medium',
-      tags: ['CSS', 'Layout', 'Design'],
-      createdDate: 'Jan 10, 2024'
-    },
-    {
-      id: 4,
-      title: 'Node.js Backend Development',
-      description: 'Learn server-side development with Node.js, Express, and database integration.',
-      questionsCount: 35,
-      duration: 50,
-      attempts: 67,
-      status: 'scheduled',
-      difficulty: 'hard',
-      tags: ['Node.js', 'Backend', 'API'],
-      createdDate: 'Jan 25, 2024'
-    },
-    {
-      id: 5,
-      title: 'HTML5 & Semantic Web',
-      description: 'Understanding HTML5 features, semantic elements, and accessibility best practices.',
-      questionsCount: 20,
-      duration: 20,
-      attempts: 312,
-      status: 'published',
-      difficulty: 'easy',
-      tags: ['HTML', 'Semantic', 'Accessibility'],
-      createdDate: 'Jan 5, 2024'
-    },
-    {
-      id: 6,
-      title: 'TypeScript Deep Dive',
-      description: 'Advanced TypeScript features including generics, decorators, and type manipulation.',
-      questionsCount: 30,
-      duration: 40,
-      attempts: 45,
-      status: 'draft',
-      difficulty: 'hard',
-      tags: ['TypeScript', 'Advanced', 'Types'],
-      createdDate: 'Jan 30, 2024'
-    }
-  ];
+  // Quiz data
+  sampleQuizzes: Quiz[] = [];
+  private quizSubscription: Subscription = new Subscription();
+
+  ngOnInit() {
+    // Subscribe to quiz changes
+    this.quizSubscription = this.quizService.getQuizzes().subscribe(quizzes => {
+      this.sampleQuizzes = quizzes;
+    });
+  }
+
+  ngOnDestroy() {
+    this.quizSubscription.unsubscribe();
+  }
 
   openPopup() {
     this.router.navigate([{ outlets: { dialog: ['addQuiz'] } }]);
   }
 
   deleteQuiz(quizId: number, event: Event) {
-    event.stopPropagation(); 
+    event.stopPropagation();
 
-    this.quizToDelete = this.sampleQuizzes.find(quiz => quiz.id === quizId);
+    const quiz = this.sampleQuizzes.find(quiz => quiz.id === quizId);
+    this.quizToDelete = quiz || null;
     this.showDeleteDialog = true;
   }
 
   confirmDelete() {
     if (this.quizToDelete) {
-      this.sampleQuizzes = this.sampleQuizzes.filter(quiz => quiz.id !== this.quizToDelete.id);
+      const success = this.quizService.deleteQuiz(this.quizToDelete.id);
 
-      this.showSuccessMessage(`Quiz "${this.quizToDelete.title}" has been deleted successfully.`);
-
-
+      if (success) {
+        this.showSuccessMessage(`Quiz "${this.quizToDelete.title}" has been deleted successfully.`);
+      }
     }
 
     this.cancelDelete();
@@ -136,23 +79,16 @@ export class CardqiuzComponent {
   }
 
   // Duplicate quiz
-  duplicateQuiz(quiz: any, event: Event) {
+  duplicateQuiz(quiz: Quiz, event: Event) {
     event.stopPropagation();
 
-    const duplicatedQuiz = {
+    this.quizService.addQuiz({
       ...quiz,
-      id: Math.max(...this.sampleQuizzes.map(q => q.id)) + 1,
       title: `${quiz.title} (Copy)`,
-      status: 'draft',
-      attempts: 0,
-      createdDate: new Date().toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      })
-    };
+      status: 'draft' as const,
+      attempts: 0
+    });
 
-    this.sampleQuizzes.unshift(duplicatedQuiz);
     this.showSuccessMessage(`Quiz "${quiz.title}" has been duplicated successfully.`);
   }
 

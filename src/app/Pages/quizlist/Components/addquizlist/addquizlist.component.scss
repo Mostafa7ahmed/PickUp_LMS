@@ -204,6 +204,35 @@
     opacity: 1;
     visibility: visible;
   }
+
+  // Quiz settings styles
+  .quiz-settings {
+    .Course_name select {
+      padding: 8px;
+      font-size: 14px;
+      width: 100%;
+      border-radius: 4px;
+      border: 0.75px solid #d3d6dc;
+      background: #fff;
+      font-weight: 500;
+      line-height: normal;
+      cursor: pointer;
+      height: 32px;
+      outline: none;
+
+      &:focus {
+        border-color: #24c12b;
+        box-shadow: 0 0 0 2px rgba(36, 193, 43, 0.1);
+      }
+    }
+
+    .Course_name input[type="number"] {
+      &:focus {
+        border-color: #24c12b;
+        box-shadow: 0 0 0 2px rgba(36, 193, 43, 0.1);
+      }
+    }
+  }
 }
 
 .dropdown {
