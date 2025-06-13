@@ -501,3 +501,198 @@
   .add-new-card .add-icon {
     animation: pulse 2s infinite;
   }
+
+// Delete Confirmation Dialog
+.delete-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease-out;
+
+  .delete-dialog {
+    background: white;
+    border-radius: 16px;
+    width: 480px;
+    max-width: 90vw;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    animation: slideInUp 0.3s ease-out;
+
+    .dialog-header {
+      padding: 24px 24px 16px;
+      text-align: center;
+
+      .warning-icon {
+        width: 64px;
+        height: 64px;
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px;
+
+        i {
+          color: #d97706;
+          font-size: 28px;
+        }
+      }
+
+      h3 {
+        font-size: 20px;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0;
+      }
+    }
+
+    .dialog-body {
+      padding: 0 24px 24px;
+      text-align: center;
+
+      p {
+        color: #64748b;
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 12px;
+
+        strong {
+          color: #1e293b;
+          font-weight: 600;
+        }
+      }
+
+      .warning-text {
+        color: #dc2626;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 20px;
+      }
+
+      .quiz-info {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 16px;
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        margin-bottom: 8px;
+
+        .info-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          color: #64748b;
+          font-size: 14px;
+
+          i {
+            color: #94a3b8;
+            font-size: 16px;
+          }
+        }
+      }
+    }
+
+    .dialog-footer {
+      padding: 0 24px 24px;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+
+      .btn-cancel {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        color: #475569;
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        &:hover {
+          background: #e2e8f0;
+          border-color: #cbd5e1;
+        }
+      }
+
+      .btn-delete {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        border: none;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+
+        &:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+        }
+      }
+    }
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+// Toast styles
+:host ::ng-deep .toast {
+  .toast-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    i {
+      font-size: 18px;
+    }
+  }
+}

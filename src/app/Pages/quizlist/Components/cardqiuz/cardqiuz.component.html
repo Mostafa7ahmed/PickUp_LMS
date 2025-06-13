@@ -42,13 +42,13 @@
           <span class="status-text">{{quiz.status}}</span>
         </div>
         <div class="quiz-actions">
-          <button class="action-btn" title="Edit">
+          <button class="action-btn" title="Edit Quiz" (click)="editQuiz(quiz.id, $event)">
             <i class="fas fa-edit"></i>
           </button>
-          <button class="action-btn" title="Duplicate">
+          <button class="action-btn" title="Duplicate Quiz" (click)="duplicateQuiz(quiz, $event)">
             <i class="fas fa-copy"></i>
           </button>
-          <button class="action-btn delete-btn" title="Delete">
+          <button class="action-btn delete-btn" title="Delete Quiz" (click)="deleteQuiz(quiz.id, $event)">
             <i class="fas fa-trash"></i>
           </button>
         </div>
@@ -93,11 +93,11 @@
           </div>
         </div>
         <div class="quiz-actions-footer">
-          <button class="btn-preview">
+          <button class="btn-preview" (click)="previewQuiz(quiz.id, $event)">
             <i class="fas fa-eye"></i>
             Preview
           </button>
-          <button class="btn-start">
+          <button class="btn-start" (click)="startQuiz(quiz.id, $event)">
             <i class="fas fa-play"></i>
             Start
           </button>
@@ -121,4 +121,42 @@
     </button>
   </div>
 
+  <!-- Delete Confirmation Dialog -->
+  <div class="delete-dialog-overlay" *ngIf="showDeleteDialog" (click)="cancelDelete()">
+    <div class="delete-dialog" (click)="$event.stopPropagation()">
+      <div class="dialog-header">
+        <div class="warning-icon">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <h3>Delete Quiz</h3>
+      </div>
+
+      <div class="dialog-body">
+        <p>Are you sure you want to delete <strong>"{{quizToDelete?.title}}"</strong>?</p>
+        <p class="warning-text">This action cannot be undone. All quiz data, questions, and results will be permanently deleted.</p>
+
+        <div class="quiz-info" *ngIf="quizToDelete">
+          <div class="info-item">
+            <i class="fas fa-question-circle"></i>
+            <span>{{quizToDelete.questionsCount}} Questions</span>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-users"></i>
+            <span>{{quizToDelete.attempts}} Attempts</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dialog-footer">
+        <button class="btn-cancel" (click)="cancelDelete()">
+          <i class="fas fa-times"></i>
+          Cancel
+        </button>
+        <button class="btn-delete" (click)="confirmDelete()">
+          <i class="fas fa-trash"></i>
+          Delete Quiz
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
