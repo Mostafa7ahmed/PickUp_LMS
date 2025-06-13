@@ -388,6 +388,8 @@
   justify-content: flex-end;
   align-items: center;
   padding: 10px 20px;
+  border-top: 1px solid #687f9362;
+ border-radius: 0 !important;  
 }
 
 .footerCourse .btnsCourse button {
@@ -581,7 +583,6 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 900px;
-  height: 700px;
   z-index: 1000;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   background-color: #ffffff;
@@ -603,7 +604,6 @@
 .headerExam {
   display: flex;
   gap: 20px;
-  padding: 20px;
   background: white;
 }
 
@@ -632,8 +632,8 @@
   .quiz-info {
     width: 100%;
     height: 56px;
-    border: 1px dashed #d1d5db;
-    background: #f9fafb;
+    background-color: #f5fff5;
+    border: 1px dashed #999;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -643,14 +643,14 @@
     .quiz-icon {
       width: 32px;
       height: 32px;
-      background: #e5e7eb;
+    background: #999;
       border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
 
       i {
-        color: #6b7280;
+        color: #fff;
         font-size: 14px;
       }
     }
@@ -677,8 +677,8 @@
   .course-card {
     width: 100%;
     height: 56px;
-    border: 1px dashed #d1d5db;
-    background: #f9fafb;
+    background-color: #f5fff5;
+    border: 1px dashed #999;
     display: flex;
     align-items: center;
     justify-content: space-between;
