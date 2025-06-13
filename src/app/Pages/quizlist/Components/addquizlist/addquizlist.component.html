@@ -1,4 +1,4 @@
-<div class="overlay"></div>
+<div class="overlay" *ngIf="showFirstPopup || showSecondPopup"></div>
 <div class="ShowPopup" [class.show]="showFirstPopup">
   <app-top-pop [NamePopup]="'Create Quiz'" NameIcon="fa-solid fa-file-circle-plus" bgColor="#24C12B33"
     ColorIcon="#24C12B99" (isVisibleChange)="closePopup()"></app-top-pop>
@@ -165,14 +165,14 @@
   </div>
   <div class="footerCourse bg-white rounded-1">
     <div class="btnsCourse">
-      <button (click)="nextPopup()">
+      <button (click)="nextPopup()" [disabled]="!selectedCourse">
         <span>Next</span>
       </button>
     </div>
   </div>
 </div>
 
-<div class="ShowPopupTwo" [class.show]="!showSecondPopup">
+<div class="ShowPopupTwo" [class.show]="showSecondPopup">
 
   <app-top-pop [NamePopup]="'Form question '" NameIcon="fa-solid fa-text-slash" bgColor="#24C12B33"
     ColorIcon="#24C12B99" (isVisibleChange)="closePopup()"></app-top-pop>
@@ -220,16 +220,14 @@
 
             <div class="course-stats">
               <div class="stat-item">
-                <span class="stat-value">5000.00</span>
+                <span class="stat-value">{{ selectedCourse.price}}</span>
                 <i class="fas fa-dollar-sign text-success"></i>
               </div>
               <div class="stat-item">
-                <span class="stat-value">1,000</span>
+                <span class="stat-value">{{ selectedCourse.enrollmentCount}}</span>
                 <i class="fas fa-graduation-cap text-primary"></i>
               </div>
-              <div class="stat-item">
-                <span class="stat-value">90</span>
-              </div>
+     
             </div>
           </div>
         </div>
@@ -237,8 +235,7 @@
       </div>
     </div>
     <div class="HeaderQuiz mt-2 p-2">
-      <div class="HeaderQuiz mt-2 p-2 justify-content-between align-items-center w-100">
-        <div class="tabs d-flex gap-2 align-content-center">
+          <div class="tabs d-flex gap-2 align-content-center">
           <button class="btnTab" (click)="changeValue(0)" [class.btnActive]="value == 0">
             True and false
             <span class="badge-count" *ngIf="trueFalseQuestions.length > 0">{{trueFalseQuestions.length}}</span>
@@ -261,7 +258,6 @@
             New section
           </button>
         </div>
-      </div>
 
     </div>
 
@@ -318,5 +314,18 @@
           </div>
         </ng-container>
       </div>
+  </div>
+
+  <div class="footerCourse bg-white rounded-1">
+    <div class="btnsCourse d-flex justify-content-between">
+      <button class="btn-back" (click)="goBack()">
+        <i class="fas fa-arrow-left me-2"></i>
+        <span>Back</span>
+      </button>
+      <button class="btn-save" (click)="saveQuestions()">
+        <i class="fas fa-save me-2"></i>
+        <span>Save Quiz</span>
+      </button>
+    </div>
   </div>
 </div>

@@ -409,7 +409,44 @@
     background-color: #24c12c8e;
     cursor: not-allowed;
   }
+}
 
+.btn-back {
+  background-color: #6b7280 !important;
+  color: white !important;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: #4b5563 !important;
+    transform: translateY(-1px);
+  }
+}
+
+.btn-save {
+  background-color: #10b981 !important;
+  color: white !important;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: #059669 !important;
+    transform: translateY(-1px);
+  }
 }
 
 .seletDiscound {
@@ -749,7 +786,7 @@
         border: none;
         background-color: transparent;
         padding: 8px 20px;
-        border-radius: 20px;
+        border-radius: 8px;
         font-weight: 400;
         font-size: 14px;
         color: #6b7280;
@@ -837,8 +874,10 @@
 }
 
 .questions-container {
-  padding: 20px;
-  min-height: 400px;
+    padding: 12px 0px;
+    height: 350px;
+    overflow: scroll;
+    scrollbar-width: none;
 
   .question-wrapper {
     animation: slideIn 0.3s ease-out;
@@ -895,26 +934,3 @@
   }
 }
 
-.contentExam {
-  height: 550px;
-  overflow-y: auto;
-  background: #f9fafb;
-
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 3px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
-    border-radius: 3px;
-
-    &:hover {
-      background: #a8a8a8;
-    }
-  }
-}

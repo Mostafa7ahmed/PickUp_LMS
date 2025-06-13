@@ -24,7 +24,7 @@ import { MultipleChoiceComponent } from "../multiple-choice/multiple-choice.comp
 export class AddquizlistComponent implements OnInit {
   paginationCoursesResponse: IPaginationResponse<ListCourse> = {} as IPaginationResponse<ListCourse>;
   private router = inject(Router);
-  showFirstPopup = false;
+  showFirstPopup = true;
   showSecondPopup = false;
   private _paginateCoursesService = inject(ListCourseService);
 value = 0;
@@ -158,6 +158,12 @@ removeMultipleChoiceQuestion(index: number) {
   this.multipleChoiceQuestions.removeAt(index);
 }
   nextPopup() {
+    // Validate that a course is selected
+    if (!this.selectedCourse) {
+      alert('Please select a course first.');
+      return;
+    }
+
     this.showFirstPopup = false;
     setTimeout(() => {
       this.showSecondPopup = true;
@@ -165,7 +171,18 @@ removeMultipleChoiceQuestion(index: number) {
   }
 
   closePopup() {
-    this.router.navigate([{ outlets: { dialog: null } }]);
+    this.showFirstPopup = false;
+    this.showSecondPopup = false;
+    setTimeout(() => {
+      this.router.navigate([{ outlets: { dialog: null } }]);
+    }, 300);
+  }
+
+  goBack() {
+    this.showSecondPopup = false;
+    setTimeout(() => {
+      this.showFirstPopup = true;
+    }, 300);
   }
 
   ngOnInit(): void {
