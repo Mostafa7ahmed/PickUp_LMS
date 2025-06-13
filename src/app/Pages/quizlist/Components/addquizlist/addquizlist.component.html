@@ -65,64 +65,16 @@
     </div>
 
     <div class="courseSelect mt-2">
-      <app-text-header [title]="'Lessons'"></app-text-header>
+      <app-text-header [title]="' Lessons'"></app-text-header>
 
-      <div *ngIf="!selectedLesson" class="selectcard mt-3 my-2" (click)="toggleDropdownLesson()">
+      <div class="selectcard mt-3 my-2">
         <div class="icon">
-          <i class="fas fa-play-circle"></i>
+          <i class="fas fa-book"></i>
         </div>
         <div class="text">
-          <p>Click to Add Lesson (Optional)</p>
+          <p>Click to Add Lessons</p>
         </div>
       </div>
-
-      <div *ngIf="selectedLesson" class="mt-3">
-        <div class="course-card px-2 py-1 position-relative">
-          <div class="d-flex align-items-center gap-1">
-            <div class="lesson-icon">
-              <i class="fas fa-play-circle text-primary"></i>
-            </div>
-            <div class="course-info">
-              <h5 class="mb-1 fw-bold">
-                {{ selectedLesson.name }}
-              </h5>
-              <p class="date mb-0">
-                <i class="fas fa-clock"></i>
-                {{ selectedLesson.duration }}
-              </p>
-            </div>
-          </div>
-
-          <button class="closeBtn position-absolute" (click)="removeLesson()">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-      </div>
-
-      <div *ngIf="showDropdownLesson && lessons.length > 0" class="dropdown bg-white border rounded p-2 mt-2">
-        <div *ngFor="let lesson of lessons"
-          class="lead-item d-flex justify-content-between align-items-center p-2 border-bottom cursor-pointer"
-          (click)="selectLesson(lesson)">
-          <div class="info_course d-flex gap-2 align-items-center">
-            <div class="lesson-icon">
-              <i class="fas fa-play-circle text-primary"></i>
-            </div>
-            <div class="info">
-              <h5 class="name">{{ lesson.name }}</h5>
-              <p class="price">{{ lesson.duration }}</p>
-            </div>
-          </div>
-          <div class="deals-btn">Lesson</div>
-        </div>
-      </div>
-
-      <div *ngIf="showDropdownLesson && lessons.length === 0" class="dropdown bg-white border rounded p-2 mt-2">
-        <div class="text-center p-3">
-          <i class="fas fa-info-circle text-muted"></i>
-          <p class="mb-0 text-muted">No lessons available for this course</p>
-        </div>
-      </div>
-    </div>
       <!-- 
         <div *ngIf="selectedCourse" class="mt-3">
           <div class="course-card px-2 py-1 position-relative">
@@ -165,18 +117,21 @@
     <div class="courseSelect mt-2">
       <app-text-header [title]="'Discount'" [bgColor]="'#ff6584ab'">
       </app-text-header>
-      <div class="checkDicound d-flex gap-2 align-items-center mt-3 justify-content-between">
-        <div class="seletDiscound">
-          <p-select [options]="discountTypes" optionLabel="label" optionValue="value"
-            [(ngModel)]="selectedDiscountType">
-          </p-select>
+        <div class="quiz-settings d-flex gap-3 mt-3">
+          <div class="Course_name flex-grow-1">
+            <label for="quiz_duration">Duration (minutes)</label>
+            <input type="number" id="quiz_duration" placeholder="30" class="input_Couser" [(ngModel)]="quizDuration" min="1" max="300">
+          </div>
+          <div class="Course_name flex-grow-1">
+            <label for="quiz_difficulty">Difficulty</label>
+            <select id="quiz_difficulty" class="input_Couser" [(ngModel)]="quizDifficulty">
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
         </div>
-        <div class="valuDiscound">
-          <input type="number" class="input_Couser" placeholder="Enter Time Value">
-          <span class="price">
-            {{ selectedDiscountType === 1 ? 'h' : 'm' }} </span>
-        </div>
-      </div>
+
 
 
     </div>
@@ -198,21 +153,7 @@
           <textarea class="input_Couser textarea_course" id="Course_description" placeholder="Enter quiz description (optional)" [(ngModel)]="quizDescription"></textarea>
         </div>
 
-        <div class="quiz-settings d-flex gap-3 mt-3">
-          <div class="Course_name flex-grow-1">
-            <label for="quiz_duration">Duration (minutes)</label>
-            <input type="number" id="quiz_duration" placeholder="30" class="input_Couser" [(ngModel)]="quizDuration" min="1" max="300">
-          </div>
-          <div class="Course_name flex-grow-1">
-            <label for="quiz_difficulty">Difficulty</label>
-            <select id="quiz_difficulty" class="input_Couser" [(ngModel)]="quizDifficulty">
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="hard">Hard</option>
-            </select>
-          </div>
-        </div>
-
+ 
 
 
 
