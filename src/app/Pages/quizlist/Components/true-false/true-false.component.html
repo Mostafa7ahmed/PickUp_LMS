@@ -1,0 +1,39 @@
+<div class="question-card border rounded p-3 mb-3" [formGroup]="formGroup">
+  <div class="question-header d-flex justify-content-between align-items-center mb-3">
+    <h6 class="mb-0 text-primary">
+      <i class="fas fa-question-circle me-2"></i>
+      Question {{ questionIndex + 1 }}
+    </h6>
+    <button type="button" class="btn btn-sm btn-outline-danger" (click)="onRemove()">
+      <i class="fas fa-trash"></i>
+    </button>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label fw-bold">Question Text</label>
+    <textarea class="form-control" formControlName="text" rows="2" placeholder="Enter your question here..."></textarea>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label fw-bold">Hint (Optional)</label>
+    <input type="text" class="form-control" formControlName="hint" placeholder="Enter a hint for this question...">
+  </div>
+
+  <div class="options" formGroupName="trueAndFalse">
+    <label class="form-label fw-bold">Correct Answer</label>
+    <div class="d-flex gap-3">
+      <div class="form-check">
+        <input class="form-check-input" type="radio" formControlName="answer" [value]="true" id="true_{{questionIndex}}">
+        <label class="form-check-label text-success fw-bold" for="true_{{questionIndex}}">
+          <i class="fas fa-check me-1"></i>True
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" formControlName="answer" [value]="false" id="false_{{questionIndex}}">
+        <label class="form-check-label text-danger fw-bold" for="false_{{questionIndex}}">
+          <i class="fas fa-times me-1"></i>False
+        </label>
+      </div>
+    </div>
+  </div>
+</div>

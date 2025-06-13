@@ -1,0 +1,51 @@
+.question-card {
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: #007bff;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+  }
+
+  .question-header {
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 10px;
+
+    h6 {
+      color: #007bff;
+      font-weight: 600;
+    }
+  }
+
+  .form-label {
+    color: #495057;
+    font-size: 14px;
+  }
+
+  .form-control {
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+
+    &:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+  }
+
+  .options {
+    .form-check {
+      margin-bottom: 10px;
+
+      .form-check-input:checked {
+        background-color: #28a745;
+        border-color: #28a745;
+      }
+
+      .form-check-label {
+        margin-left: 8px;
+        cursor: pointer;
+      }
+    }
+  }
+}

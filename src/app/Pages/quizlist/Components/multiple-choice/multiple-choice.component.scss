@@ -1,0 +1,110 @@
+.question-card {
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: #6f42c1;
+    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.15);
+  }
+
+  .question-header {
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 10px;
+
+    h6 {
+      color: #6f42c1;
+      font-weight: 600;
+    }
+  }
+
+  .form-label {
+    color: #495057;
+    font-size: 14px;
+  }
+
+  .form-control {
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+
+    &:focus {
+      border-color: #6f42c1;
+      box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
+    }
+  }
+
+  .choices-section {
+    background: #f3f0ff;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #6f42c1;
+
+    .choice-item {
+      background: white;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #e9ecef;
+      transition: all 0.2s ease;
+      position: relative;
+
+      &:hover {
+        border-color: #6f42c1;
+        box-shadow: 0 2px 8px rgba(111, 66, 193, 0.1);
+      }
+
+      .choice-number {
+        font-weight: 600;
+        color: #6f42c1;
+        min-width: 20px;
+        font-size: 14px;
+      }
+
+      .form-check-input:checked {
+        background-color: #28a745;
+        border-color: #28a745;
+      }
+
+      .form-check-label {
+        cursor: pointer;
+      }
+
+      .btn-outline-danger {
+        border-color: #dc3545;
+        color: #dc3545;
+
+        &:hover:not(:disabled) {
+          background-color: #dc3545;
+          color: white;
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+    }
+
+    .choices-info {
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 6px;
+      border-left: 3px solid #6f42c1;
+    }
+  }
+}
+
+// Animation for new choices
+.choice-item {
+  animation: slideInChoice 0.3s ease-out;
+}
+
+@keyframes slideInChoice {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
