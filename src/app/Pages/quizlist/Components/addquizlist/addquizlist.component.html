@@ -234,86 +234,211 @@
 
       </div>
     </div>
-    <div class="HeaderQuiz mt-2 p-2">
-          <div class="tabs d-flex gap-2 align-content-center">
-          <button class="btnTab" (click)="changeValue(0)" [class.btnActive]="value == 0">
-            True and false
-            <span class="badge-count" *ngIf="trueFalseQuestions.length > 0">{{trueFalseQuestions.length}}</span>
-          </button>
-          <button class="btnTab" (click)="changeValue(1)" [class.btnActive]="value == 1">
-            Short answer
-            <span class="badge-count" *ngIf="shortAnswerQuestions.length > 0">{{shortAnswerQuestions.length}}</span>
-          </button>
-          <button class="btnTab" (click)="changeValue(2)" [class.btnActive]="value == 2">
-            Multiple choice
-            <span class="badge-count" *ngIf="multipleChoiceQuestions.length > 0">{{multipleChoiceQuestions.length}}</span>
-          </button>
-        </div>
-        <div class="action d-flex gap-2 align-items-center">
-          <div class="view-toggle">
-            <i class="fas fa-eye text-success"></i>
+
+    <!-- Quiz Sections Display -->
+    <div class="quiz-sections-container">
+
+      <!-- Existing Sections -->
+      <div *ngFor="let section of sections; let i = index" class="quiz-section-card" [class.active-section]="section.isActive">
+        <div class="section-header" (click)="toggleSection(i)">
+          <div class="section-left">
+            <div class="section-icon">
+              <i class="fas fa-grip-vertical"></i>
+            </div>
+            <div class="section-info">
+              <h6 class="section-name">
+                {{section.name}}
+                <span class="active-badge" *ngIf="section.isActive">Active</span>
+              </h6>
+            </div>
           </div>
-          <button class="btn-new-section" (click)="addQuestion()">
-            <i class="fas fa-plus"></i>
-            New section
-          </button>
+          <div class="section-actions">
+            <button class="action-btn activate-btn" (click)="setActiveSection(i, $event)" title="Set as Active Section" *ngIf="!section.isActive">
+              <i class="fas fa-target"></i>
+            </button>
+            <button class="action-btn copy-btn" title="Copy Section">
+              <i class="fas fa-copy"></i>
+            </button>
+            <button class="action-btn delete-btn" (click)="removeSection(i, $event)" title="Delete Section">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
         </div>
+
+        <div class="section-content" [class.collapsed]="section.collapsed">
+          <div class="questions-list">
+            <div *ngFor="let question of section.questions; let qi = index" class="question-item">
+              <div class="question-content">
+                <div class="question-text">{{question.text}}</div>
+                <div class="question-options" *ngIf="section.type === 0">
+                  <div class="option" [class.selected]="question.trueAndFalse?.answer === true">
+                    <span class="option-icon true-icon">
+                      <i class="fas fa-check"></i>
+                    </span>
+                    <span>True</span>
+                  </div>
+                  <div class="option" [class.selected]="question.trueAndFalse?.answer === false">
+                    <span class="option-icon false-icon">
+                      <i class="fas fa-times"></i>
+                    </span>
+                    <span>False</span>
+                  </div>
+                </div>
+              </div>
+              <div class="question-actions">
+                <select class="difficulty-select">
+                  <option value="easy">Easy</option>
+                  <option value="medium">Medium</option>
+                  <option value="hard">Hard</option>
+                </select>
+                <button class="action-btn copy-btn">
+                  <i class="fas fa-copy"></i>
+                </button>
+                <button class="action-btn delete-btn">
+                  <i class="fas fa-trash"></i>
+                </button>
+                <button class="action-btn more-btn">
+                  <i class="fas fa-ellipsis-h"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add New Section Button -->
+      <div class="add-section-btn" *ngIf="sections.length > 0">
+        <button class="btn-new-section" (click)="startNewSection()">
+          <i class="fas fa-plus me-2"></i>
+          New section
+        </button>
+      </div>
 
     </div>
 
-
-          <div class="questions-container">
-        <ng-container *ngIf="value == 0">
-          <div *ngIf="trueFalseQuestions.length === 0" class="empty-state">
-            <div class="empty-icon">
-              <i class="fas fa-question-circle"></i>
-            </div>
-            <h3>No questions yet</h3>
-            <p>Click "New section" to add your first True/False question.</p>
+    <!-- Section Creation Form -->
+    <div class="section-creation-form" *ngIf="showSectionForm">
+      <div class="form-card">
+        <div class="form-header">
+          <h6>Create New Section</h6>
+          <button class="close-btn" (click)="cancelSectionCreation()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="form-body">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="currentSectionName"
+            placeholder="Enter section name..."
+            maxlength="100">
+          <div class="form-actions">
+            <button class="btn-cancel" (click)="cancelSectionCreation()">Cancel</button>
+            <button class="btn-create" (click)="createNewSection()" [disabled]="!currentSectionName">
+              Create Section
+            </button>
           </div>
-          <div *ngFor="let question of trueFalseQuestions.controls; let i = index" class="question-wrapper">
-            <app-true-false
-              [formGroup]="$any(question)"
-              [questionIndex]="i"
-              (removeQuestion)="removeTrueFalseQuestion(i)">
-            </app-true-false>
-          </div>
-        </ng-container>
-
-        <ng-container *ngIf="value == 1">
-          <div *ngIf="shortAnswerQuestions.length === 0" class="empty-state">
-            <div class="empty-icon">
-              <i class="fas fa-edit"></i>
-            </div>
-            <h3>No questions yet</h3>
-            <p>Click "New section" to add your first Short Answer question.</p>
-          </div>
-          <div *ngFor="let question of shortAnswerQuestions.controls; let i = index" class="question-wrapper">
-            <app-short-answer
-              [formGroup]="$any(question)"
-              [questionIndex]="i"
-              (removeQuestion)="removeShortAnswerQuestion(i)">
-            </app-short-answer>
-          </div>
-        </ng-container>
-
-        <ng-container *ngIf="value == 2">
-          <div *ngIf="multipleChoiceQuestions.length === 0" class="empty-state">
-            <div class="empty-icon">
-              <i class="fas fa-list"></i>
-            </div>
-            <h3>No questions yet</h3>
-            <p>Click "New section" to add your first Multiple Choice question.</p>
-          </div>
-          <div *ngFor="let question of multipleChoiceQuestions.controls; let i = index" class="question-wrapper">
-            <app-multiple-choice
-              [formGroup]="$any(question)"
-              [questionIndex]="i"
-              (removeQuestion)="removeMultipleChoiceQuestion(i)">
-            </app-multiple-choice>
-          </div>
-        </ng-container>
+        </div>
       </div>
+    </div>
+
+    <!-- Show section form initially if no sections exist -->
+    <div *ngIf="sections.length === 0 && !showSectionForm" class="initial-state">
+      <div class="welcome-message text-center p-4">
+        <i class="fas fa-folder-plus fa-3x text-primary mb-3"></i>
+        <h5 class="text-primary">Create Your First Section</h5>
+        <p class="text-muted">Start by creating a section to organize your questions</p>
+        <button class="btn btn-primary" (click)="startNewSection()">
+          <i class="fas fa-plus me-2"></i>
+          Create Section
+        </button>
+      </div>
+    </div>
+
+    <!-- Questions Interface - Only show when section form is shown or sections exist -->
+    <div class="questions-interface" *ngIf="showSectionForm || sections.length > 0">
+      <div class="HeaderQuiz mt-2 p-2">
+            <div class="tabs d-flex gap-2 align-content-center">
+            <button class="btnTab" (click)="changeValue(0)" [class.btnActive]="value == 0">
+              True and false
+              <span class="badge-count" *ngIf="trueFalseQuestions.length > 0">{{trueFalseQuestions.length}}</span>
+            </button>
+            <button class="btnTab" (click)="changeValue(1)" [class.btnActive]="value == 1">
+              Short answer
+              <span class="badge-count" *ngIf="shortAnswerQuestions.length > 0">{{shortAnswerQuestions.length}}</span>
+            </button>
+            <button class="btnTab" (click)="changeValue(2)" [class.btnActive]="value == 2">
+              Multiple choice
+              <span class="badge-count" *ngIf="multipleChoiceQuestions.length > 0">{{multipleChoiceQuestions.length}}</span>
+            </button>
+          </div>
+          <div class="action d-flex gap-2 align-items-center">
+            <div class="view-toggle">
+              <i class="fas fa-eye text-success"></i>
+            </div>
+            <button class="btn-new-section" (click)="addQuestion()" [disabled]="!showSectionForm">
+              <i class="fas fa-plus"></i>
+              Add Question
+            </button>
+          </div>
+      </div>
+
+      <div class="questions-container">
+          <ng-container *ngIf="value == 0">
+            <div *ngIf="trueFalseQuestions.length === 0" class="empty-state">
+              <div class="empty-icon">
+                <i class="fas fa-question-circle"></i>
+              </div>
+              <h3>No questions yet</h3>
+              <p>Add questions, then click "Create Section" to save them.</p>
+            </div>
+            <div *ngFor="let question of trueFalseQuestions.controls; let i = index" class="question-wrapper">
+              <app-true-false
+                [formGroup]="$any(question)"
+                [questionIndex]="i"
+                (removeQuestion)="removeTrueFalseQuestion(i)">
+              </app-true-false>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="value == 1">
+            <div *ngIf="shortAnswerQuestions.length === 0" class="empty-state">
+              <div class="empty-icon">
+                <i class="fas fa-edit"></i>
+              </div>
+              <h3>No questions yet</h3>
+              <p>Add questions, then click "Create Section" to save them.</p>
+            </div>
+            <div *ngFor="let question of shortAnswerQuestions.controls; let i = index" class="question-wrapper">
+              <app-short-answer
+                [formGroup]="$any(question)"
+                [questionIndex]="i"
+                (removeQuestion)="removeShortAnswerQuestion(i)">
+              </app-short-answer>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="value == 2">
+            <div *ngIf="multipleChoiceQuestions.length === 0" class="empty-state">
+              <div class="empty-icon">
+                <i class="fas fa-list"></i>
+              </div>
+              <h3>No questions yet</h3>
+              <p>Add questions, then click "Create Section" to save them.</p>
+            </div>
+            <div *ngFor="let question of multipleChoiceQuestions.controls; let i = index" class="question-wrapper">
+              <app-multiple-choice
+                [formGroup]="$any(question)"
+                [questionIndex]="i"
+                (removeQuestion)="removeMultipleChoiceQuestion(i)">
+              </app-multiple-choice>
+            </div>
+          </ng-container>
+        </div>
+    </div>
+
+
+
   </div>
 
   <div class="footerCourse bg-white rounded-1">
@@ -322,10 +447,15 @@
         <i class="fas fa-arrow-left me-2"></i>
         <span>Back</span>
       </button>
-      <button class="btn-save" (click)="saveQuestions()">
-        <i class="fas fa-save me-2"></i>
-        <span>Save Quiz</span>
-      </button>
+      <div class="save-buttons d-flex gap-2">
+        <button
+          class="btn-save-all"
+          (click)="saveAllSections()"
+          [disabled]="sections.length === 0">
+          <i class="fas fa-save me-2"></i>
+          <span>Save Quiz ({{sections.length}} sections)</span>
+        </button>
+      </div>
     </div>
   </div>
 </div>
