@@ -683,6 +683,23 @@ removeMultipleChoiceQuestion(index: number) {
     alert(`Now adding questions to "${this.sections[index].name}" section.`);
   }
 
+  // Helper methods for template
+  hasActiveSection(): boolean {
+    return this.sections.some(s => s.isActive);
+  }
+
+  getActiveSection() {
+    return this.sections.find(s => s.isActive);
+  }
+
+  canAddQuestion(): boolean {
+    return this.showSectionForm || this.hasActiveSection();
+  }
+
+  shouldShowAddToSectionButton(): boolean {
+    return this.hasActiveSection() && this.getCurrentTabQuestions().length > 0;
+  }
+
   createMultipleSections(sections: any[], currentIndex: number) {
     if (currentIndex >= sections.length) {
       alert(`✅ All sections created successfully!\nCreated ${sections.length} sections with questions.`);

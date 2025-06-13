@@ -909,6 +909,36 @@
           font-size: 12px;
         }
       }
+
+      .btn-add-to-section {
+        background: #3b82f6;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s ease;
+
+        &:hover:not(:disabled) {
+          background: #2563eb;
+          transform: translateY(-1px);
+        }
+
+        &:disabled {
+          background: #9ca3af;
+          cursor: not-allowed;
+          transform: none;
+        }
+
+        i {
+          font-size: 12px;
+        }
+      }
     }
 }
 
@@ -1030,6 +1060,17 @@
     border-radius: 8px;
     margin-bottom: 16px;
     overflow: hidden;
+    transition: all 0.2s ease;
+
+    &.active-section {
+      border-color: #10b981;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
+
+      .section-header {
+        background: #f0fdf4;
+        border-bottom-color: #10b981;
+      }
+    }
 
     .section-header {
       display: flex;
@@ -1064,6 +1105,20 @@
             font-weight: 600;
             color: #374151;
             margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            .active-badge {
+              background: #10b981;
+              color: white;
+              font-size: 10px;
+              font-weight: 500;
+              padding: 2px 6px;
+              border-radius: 10px;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+            }
           }
         }
       }
@@ -1088,6 +1143,15 @@
           &:hover {
             background: #d1d5db;
             color: #374151;
+          }
+
+          &.activate-btn {
+            background: #f59e0b;
+            color: white;
+
+            &:hover {
+              background: #d97706;
+            }
           }
 
           &.add-btn {

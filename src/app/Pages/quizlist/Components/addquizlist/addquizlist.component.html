@@ -376,9 +376,13 @@
             <div class="view-toggle">
               <i class="fas fa-eye text-success"></i>
             </div>
-            <button class="btn-new-section" (click)="addQuestion()" [disabled]="!showSectionForm">
+            <button class="btn-new-section" (click)="addQuestion()" [disabled]="!canAddQuestion()">
               <i class="fas fa-plus"></i>
               Add Question
+            </button>
+            <button class="btn-add-to-section" (click)="addQuestionsToActiveSection()" *ngIf="shouldShowAddToSectionButton()">
+              <i class="fas fa-arrow-right"></i>
+              Add to Section
             </button>
           </div>
       </div>
