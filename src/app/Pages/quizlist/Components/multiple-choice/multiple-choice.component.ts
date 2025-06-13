@@ -1,18 +1,33 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { trigger, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-multiple-choice',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, FormsModule],
   templateUrl: './multiple-choice.component.html',
-  styleUrl: './multiple-choice.component.scss'
+  styleUrl: './multiple-choice.component.scss',
+  animations: [
+    trigger('slideDown', [
+      transition(':enter', [
+        style({ height: '0', opacity: '0', overflow: 'hidden' }),
+        animate('300ms ease-in-out', style({ height: '*', opacity: '1' }))
+      ]),
+      transition(':leave', [
+        style({ height: '*', opacity: '1', overflow: 'hidden' }),
+        animate('300ms ease-in-out', style({ height: '0', opacity: '0' }))
+      ])
+    ])
+  ]
 })
 export class MultipleChoiceComponent {
   @Input() formGroup!: FormGroup;
   @Input() questionIndex!: number;
   @Output() removeQuestion = new EventEmitter<number>();
+
+  showHint = false;
 
   get choices(): FormArray {
     return this.formGroup.get('multipleChoise') as FormArray;
@@ -20,6 +35,14 @@ export class MultipleChoiceComponent {
 
   onRemove() {
     this.removeQuestion.emit(this.questionIndex);
+  }
+
+  copyQuestion() {
+    console.log('Copy question', this.questionIndex);
+  }
+
+  toggleHint() {
+    this.showHint = !this.showHint;
   }
 
   onCorrectChange(index: number) {

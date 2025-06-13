@@ -182,62 +182,55 @@
       <div class="leftExam">
         <div class="examCreate">
           <app-text-header [title]="'Quiz'" [bgColor]="'#6625259C'"> </app-text-header>
-          <div class="contentExam mt-2">
-            <div class="leftContent">
-              <div class="Icon">
-                <i class="fa-solid fa-file-invoice"></i>
-              </div>
-
+          <div class="quiz-info mt-2">
+            <div class="quiz-icon">
+              <i class="fa-solid fa-file-invoice"></i>
             </div>
-            <div class="rightContent">
-              <div class="Info">
-                <h5>Quiz one</h5>
-                <p class="date mb-0">
-                  <i class="fas fa-clock"></i>
-                  20/5/2028
-                </p>
-              </div>
+            <div class="quiz-details">
+              <h5>Quiz one</h5>
+              <p class="date mb-0">
+                <i class="fas fa-clock"></i>
+                Mon, Jan 31, 2025
+              </p>
             </div>
-
-
           </div>
-
         </div>
 
       </div>
       <div class="rigntExam">
         <div class="CourseCreate">
           <app-text-header [title]="'Courses '" [bgColor]="'#6625259C'"> </app-text-header>
-          <div class="course-card mt-2">
-            <div class="d-flex align-items-center gap-1">
-              <div class="images">
+          <div class="course-card mt-2" *ngIf="selectedCourse">
+            <div class="d-flex align-items-center gap-2">
+              <div class="course-image">
                 <img class="rounded-circle"
-                  [src]="baseUrl +'instructor/42/photo/.jpg/e664f88c-7466-4ae5-a984-69d2eb7a54f7.jpg'" height="30"
+                  [src]="baseUrl + selectedCourse.photoUrl" height="30"
                   width="30" />
               </div>
               <div class="course-info">
                 <h5 class="mb-1 fw-bold">
-                  C# Topic Rev
+                  {{ selectedCourse.name | splicText : 20 }}
                 </h5>
                 <p class="date mb-0">
                   <i class="fas fa-clock"></i>
-                  20/5/2028
+                  Mon, Jan 31, 2025
                 </p>
               </div>
             </div>
 
-            <div class="course-details text-end d-flex flex-column align-items-end justify-content-end">
-              <p class="price">
-                1555
+            <div class="course-stats">
+              <div class="stat-item">
+                <span class="stat-value">5000.00</span>
                 <i class="fas fa-dollar-sign text-success"></i>
-              </p>
-              <p class="students">
-                1555
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">1,000</span>
                 <i class="fas fa-graduation-cap text-primary"></i>
-              </p>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">90</span>
+              </div>
             </div>
-
-
           </div>
         </div>
 
@@ -245,27 +238,27 @@
     </div>
     <div class="HeaderQuiz mt-2 p-2">
       <div class="HeaderQuiz mt-2 p-2 justify-content-between align-items-center w-100">
-        <div class="tabs d-flex gap-3 align-content-center">
+        <div class="tabs d-flex gap-2 align-content-center">
           <button class="btnTab" (click)="changeValue(0)" [class.btnActive]="value == 0">
-            <i class="fas fa-check-circle me-1"></i>
             True and false
-            <span class="badge bg-secondary ms-1" *ngIf="trueFalseQuestions.length > 0">{{trueFalseQuestions.length}}</span>
+            <span class="badge-count" *ngIf="trueFalseQuestions.length > 0">{{trueFalseQuestions.length}}</span>
           </button>
           <button class="btnTab" (click)="changeValue(1)" [class.btnActive]="value == 1">
-            <i class="fas fa-edit me-1"></i>
             Short answer
-            <span class="badge bg-secondary ms-1" *ngIf="shortAnswerQuestions.length > 0">{{shortAnswerQuestions.length}}</span>
+            <span class="badge-count" *ngIf="shortAnswerQuestions.length > 0">{{shortAnswerQuestions.length}}</span>
           </button>
           <button class="btnTab" (click)="changeValue(2)" [class.btnActive]="value == 2">
-            <i class="fas fa-list me-1"></i>
             Multiple choice
-            <span class="badge bg-secondary ms-1" *ngIf="multipleChoiceQuestions.length > 0">{{multipleChoiceQuestions.length}}</span>
+            <span class="badge-count" *ngIf="multipleChoiceQuestions.length > 0">{{multipleChoiceQuestions.length}}</span>
           </button>
         </div>
-        <div class="action d-flex gap-2">
-          <button class="btn btn-success m-0" (click)="addQuestion()">+ Add Question</button>
-          <button class="btn btn-primary m-0" (click)="saveQuestions()">
-            <i class="fas fa-save me-1"></i>Save Questions
+        <div class="action d-flex gap-2 align-items-center">
+          <div class="view-toggle">
+            <i class="fas fa-eye text-success"></i>
+          </div>
+          <button class="btn-new-section" (click)="addQuestion()">
+            <i class="fas fa-plus"></i>
+            New section
           </button>
         </div>
       </div>
@@ -273,14 +266,16 @@
     </div>
 
 
-          <div class="questions mt-3">
+          <div class="questions-container">
         <ng-container *ngIf="value == 0">
-          <div *ngIf="trueFalseQuestions.length === 0" class="no-questions text-center py-4">
-            <i class="fas fa-question-circle fa-3x text-muted mb-3"></i>
-            <h5 class="text-muted">No True/False questions yet</h5>
-            <p class="text-muted">Click "Add Question" to create your first True/False question.</p>
+          <div *ngIf="trueFalseQuestions.length === 0" class="empty-state">
+            <div class="empty-icon">
+              <i class="fas fa-question-circle"></i>
+            </div>
+            <h3>No questions yet</h3>
+            <p>Click "New section" to add your first True/False question.</p>
           </div>
-          <div *ngFor="let question of trueFalseQuestions.controls; let i = index" class="question-wrapper mb-3">
+          <div *ngFor="let question of trueFalseQuestions.controls; let i = index" class="question-wrapper">
             <app-true-false
               [formGroup]="$any(question)"
               [questionIndex]="i"
@@ -290,12 +285,14 @@
         </ng-container>
 
         <ng-container *ngIf="value == 1">
-          <div *ngIf="shortAnswerQuestions.length === 0" class="no-questions text-center py-4">
-            <i class="fas fa-edit fa-3x text-muted mb-3"></i>
-            <h5 class="text-muted">No Short Answer questions yet</h5>
-            <p class="text-muted">Click "Add Question" to create your first Short Answer question.</p>
+          <div *ngIf="shortAnswerQuestions.length === 0" class="empty-state">
+            <div class="empty-icon">
+              <i class="fas fa-edit"></i>
+            </div>
+            <h3>No questions yet</h3>
+            <p>Click "New section" to add your first Short Answer question.</p>
           </div>
-          <div *ngFor="let question of shortAnswerQuestions.controls; let i = index" class="question-wrapper mb-3">
+          <div *ngFor="let question of shortAnswerQuestions.controls; let i = index" class="question-wrapper">
             <app-short-answer
               [formGroup]="$any(question)"
               [questionIndex]="i"
@@ -305,12 +302,14 @@
         </ng-container>
 
         <ng-container *ngIf="value == 2">
-          <div *ngIf="multipleChoiceQuestions.length === 0" class="no-questions text-center py-4">
-            <i class="fas fa-list fa-3x text-muted mb-3"></i>
-            <h5 class="text-muted">No Multiple Choice questions yet</h5>
-            <p class="text-muted">Click "Add Question" to create your first Multiple Choice question.</p>
+          <div *ngIf="multipleChoiceQuestions.length === 0" class="empty-state">
+            <div class="empty-icon">
+              <i class="fas fa-list"></i>
+            </div>
+            <h3>No questions yet</h3>
+            <p>Click "New section" to add your first Multiple Choice question.</p>
           </div>
-          <div *ngFor="let question of multipleChoiceQuestions.controls; let i = index" class="question-wrapper mb-3">
+          <div *ngFor="let question of multipleChoiceQuestions.controls; let i = index" class="question-wrapper">
             <app-multiple-choice
               [formGroup]="$any(question)"
               [questionIndex]="i"
