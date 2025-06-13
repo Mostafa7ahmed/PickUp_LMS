@@ -31,4 +31,94 @@
 
           </div>
 
+          
+  <!-- Quiz Cards Grid -->
+  <div class="quiz-grid mt-3">
+    <!-- Sample Quiz Cards -->
+    <div class="quiz-card" *ngFor="let quiz of sampleQuizzes">
+      <div class="quiz-card-header">
+        <div class="quiz-status" [class]="'status-' + quiz.status">
+          <span class="status-dot"></span>
+          <span class="status-text">{{quiz.status}}</span>
+        </div>
+        <div class="quiz-actions">
+          <button class="action-btn" title="Edit">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="action-btn" title="Duplicate">
+            <i class="fas fa-copy"></i>
+          </button>
+          <button class="action-btn delete-btn" title="Delete">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="quiz-card-body">
+        <div class="quiz-icon">
+          <i class="fas fa-clipboard-list"></i>
+        </div>
+        <h3 class="quiz-title">{{quiz.title}}</h3>
+        <p class="quiz-description">{{quiz.description}}</p>
+
+        <div class="quiz-stats">
+          <div class="stat-item">
+            <i class="fas fa-question-circle"></i>
+            <span>{{quiz.questionsCount}} Questions</span>
+          </div>
+          <div class="stat-item">
+            <i class="fas fa-clock"></i>
+            <span>{{quiz.duration}} min</span>
+          </div>
+          <div class="stat-item">
+            <i class="fas fa-users"></i>
+            <span>{{quiz.attempts}} Attempts</span>
+          </div>
+        </div>
+
+        <div class="quiz-tags">
+          <span class="tag" *ngFor="let tag of quiz.tags">{{tag}}</span>
+        </div>
+      </div>
+
+      <div class="quiz-card-footer">
+        <div class="quiz-meta">
+          <div class="created-date">
+            <i class="fas fa-calendar"></i>
+            <span>{{quiz.createdDate}}</span>
+          </div>
+          <div class="difficulty" [class]="'difficulty-' + quiz.difficulty">
+            <i class="fas fa-signal"></i>
+            <span>{{quiz.difficulty}}</span>
+          </div>
+        </div>
+        <div class="quiz-actions-footer">
+          <button class="btn-preview">
+            <i class="fas fa-eye"></i>
+            Preview
+          </button>
+          <button class="btn-start">
+            <i class="fas fa-play"></i>
+            Start
+          </button>
+        </div>
+      </div>
+    </div>
+
+  
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="sampleQuizzes.length === 0">
+    <div class="empty-icon">
+      <i class="fas fa-clipboard-list"></i>
+    </div>
+    <h3>No Quizzes Yet</h3>
+    <p>Create your first quiz to get started with assessments</p>
+    <button class="btn-create-first" (click)="openPopup()">
+      <i class="fas fa-plus"></i>
+      Create Your First Quiz
+    </button>
+  </div>
+
 </div>
