@@ -26,12 +26,14 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
 
   // Quiz data
   sampleQuizzes: Quiz[] = [];
+  filteredQuizzes: Quiz[] = [];
   private quizSubscription: Subscription = new Subscription();
 
   ngOnInit() {
     // Subscribe to quiz changes
     this.quizSubscription = this.quizService.getQuizzes().subscribe(quizzes => {
       this.sampleQuizzes = quizzes;
+      this.applySearch(); // Apply search filter
       console.log('📋 Updated quiz list:', quizzes);
 
       // Storage info
@@ -49,6 +51,61 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.quizSubscription.unsubscribe();
+  }
+
+  // Search functionality
+  onSearchChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.searchTerm = target.value;
+    this.applySearch();
+  }
+
+  // Handle keyboard shortcuts
+  onSearchKeydown(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      this.clearSearch();
+      (event.target as HTMLInputElement).blur();
+    }
+  }
+
+  applySearch() {
+    if (!this.searchTerm.trim()) {
+      this.filteredQuizzes = [...this.sampleQuizzes];
+    } else {
+      const searchLower = this.searchTerm.toLowerCase().trim();
+      this.filteredQuizzes = this.sampleQuizzes.filter(quiz =>
+        quiz.title.toLowerCase().includes(searchLower) ||
+        quiz.description.toLowerCase().includes(searchLower) ||
+        quiz.tags.some(tag => tag.toLowerCase().includes(searchLower)) ||
+        quiz.difficulty.toLowerCase().includes(searchLower) ||
+        quiz.status.toLowerCase().includes(searchLower) ||
+        (quiz.courseName && quiz.courseName.toLowerCase().includes(searchLower))
+      );
+    }
+    console.log(`🔍 Search results: ${this.filteredQuizzes.length} quizzes found for "${this.searchTerm}"`);
+  }
+
+  clearSearch() {
+    this.searchTerm = '';
+    this.applySearch();
+  }
+
+  // Highlight search terms in text
+  highlightSearchTerm(text: string): string {
+    if (!this.searchTerm.trim()) {
+      return text;
+    }
+
+    const searchRegex = new RegExp(`(${this.searchTerm.trim()})`, 'gi');
+    return text.replace(searchRegex, '<mark class="search-highlight">$1</mark>');
+  }
+
+  // Get search placeholder based on results
+  getSearchPlaceholder(): string {
+    if (this.sampleQuizzes.length === 0) {
+      return 'No quizzes to search...';
+    }
+    return `Search ${this.sampleQuizzes.length} quizzes...`;
   }
 
   // Debug methods (for development)

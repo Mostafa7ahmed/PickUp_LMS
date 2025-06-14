@@ -26,7 +26,7 @@ interface QuizAnalytics {
   styleUrls: ['./widgetquizlist.component.scss' ]
 })
 export class WidgetquizlistComponent implements OnInit, OnDestroy {
-  @Input() showInfo = false;
+  @Input() showInfo = true;
 
   private quizService = inject(QuizService);
   private quizSubscription?: Subscription;

@@ -4,17 +4,63 @@
     padding: 0 20px ;
     border-radius: 6px;
 }
- .inputSearch  input{
-  border-radius: 6px;
-  border: 1px solid #E5E5E5;
-  width: 303px;
-  height: 36px;
-  padding: 4px 12px;
-  font-size: 13px !important;
-  outline: none;
-}
-.inputSearch  input:hover , .inputSearch  input:focus{
-  border: 1px solid #7ad34c;
+.inputSearch {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    font-size: 14px;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  input {
+    border-radius: 12px;
+    border: 2px solid #e2e8f0;
+    width: 320px;
+    height: 40px;
+    padding: 8px 40px 8px 40px;
+    font-size: 14px !important;
+    outline: none;
+    transition: all 0.3s ease;
+    background: white;
+
+    &:hover, &:focus {
+      border-color: #10b981;
+    }
+
+    &::placeholder {
+      color: #9ca3af;
+    }
+  }
+
+  .clear-search-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      color: #374151;
+      background: #f3f4f6;
+    }
+  }
 }
 
 .addCourse button {
@@ -56,6 +102,45 @@
 
 
 
+  // Search Results Info
+  .search-results-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 8px;
+    margin-bottom: 16px;
+
+    .results-count {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #0369a1;
+      font-size: 14px;
+      font-weight: 500;
+
+      i {
+        color: #0284c7;
+      }
+    }
+
+    .btn-clear-search-small {
+      background: none;
+      border: none;
+      color: #0369a1;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: #e0f2fe;
+      }
+    }
+  }
+
   // Quiz Grid
   .quiz-grid {
     display: grid;
@@ -86,23 +171,6 @@
         pointer-events: none;
       }
 
-      &:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.08);
-        border-color: #e2e8f0;
-
-        &:before {
-          opacity: 1;
-        }
-
-        .quiz-card-header .quiz-actions .action-btn {
-          transform: scale(1.1);
-        }
-
-        .quiz-icon {
-          transform: scale(1.05);
-        }
-      }
 
       // Quiz Card Header
       .quiz-card-header {
@@ -342,13 +410,10 @@
             &:hover {
               background: #e2e8f0;
               border-color: #cbd5e1;
-              transform: translateY(-1px);
               box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }
 
-            &:active {
-              transform: translateY(0);
-            }
+           
           }
 
           .btn-start {
@@ -381,7 +446,6 @@
             }
 
             &:hover {
-              transform: translateY(-2px);
               box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
 
               &:before {
@@ -408,12 +472,7 @@
       cursor: pointer;
       transition: all 0.3s ease;
 
-      &:hover {
-        border-color: #667eea;
-        background: #f0f4ff;
-        transform: translateY(-4px);
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-      }
+
 
       .add-new-content {
         text-align: center;
@@ -509,13 +568,41 @@
       line-height: 1.5;
       margin-bottom: 32px;
 
- 
+      strong {
+        color: #1e293b;
+        font-weight: 600;
+      }
     }
 
- 
+    .btn-clear-search {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      &:hover {
+        background: #5a67d8;
+        transform: translateY(-1px);
+      }
+    }
   }
 
-
+  // Search Highlighting
+  ::ng-deep .search-highlight {
+    background: #fef3c7;
+    color: #92400e;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-weight: 600;
+  }
 
   // Animations
   @keyframes fadeInUp {

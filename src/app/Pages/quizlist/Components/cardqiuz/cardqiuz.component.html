@@ -2,8 +2,21 @@
          <div class="search-container py-3 d-flex justify-content-between">
             <div class="search-container-right d-flex gap-3">
               <div class="inputSearch">
-
-                <input type="text" placeholder="Search for courses"[placeholder]="'Search For Quiz Name'">
+                <i class="fas fa-search search-icon"></i>
+                <input
+                  type="text"
+                  [placeholder]="getSearchPlaceholder()"
+                  [(ngModel)]="searchTerm"
+                  (input)="onSearchChange($event)"
+                  (keydown)="onSearchKeydown($event)"
+                  class="search-input">
+                <button
+                  *ngIf="searchTerm"
+                  class="clear-search-btn"
+                  (click)="clearSearch()"
+                  title="Clear search (ESC)">
+                  <i class="fas fa-times"></i>
+                </button>
               </div>
               <div class="advanced-filter-container">
 
@@ -33,11 +46,11 @@
 
           </div>
 
-          
+
   <!-- Quiz Cards Grid -->
-  <div class="quiz-grid mt-3">
+  <div class="quiz-grid mt-3 mb-4">
     <!-- Sample Quiz Cards -->
-    <div class="quiz-card" *ngFor="let quiz of sampleQuizzes">
+    <div class="quiz-card" *ngFor="let quiz of filteredQuizzes">
       <div class="quiz-card-header">
         <div class="quiz-status" [class]="'status-' + quiz.status">
           <span class="status-dot"></span>
@@ -109,13 +122,25 @@
   </div>
 
   <!-- Empty State -->
-  <div class="empty-state" *ngIf="sampleQuizzes.length === 0">
+  <div class="empty-state" *ngIf="filteredQuizzes.length === 0 && sampleQuizzes.length === 0">
     <div class="empty-icon">
       <i class="fas fa-clipboard-list"></i>
     </div>
     <h3>No Quizzes Yet</h3>
     <p>Create your first quiz to get started with assessments</p>
+  </div>
 
+  <!-- No Search Results -->
+  <div class="empty-state" *ngIf="filteredQuizzes.length === 0 && sampleQuizzes.length > 0 && searchTerm">
+    <div class="empty-icon">
+      <i class="fas fa-search"></i>
+    </div>
+    <h3>No Results Found</h3>
+    <p>No quizzes match your search for "<strong>{{searchTerm}}</strong>"</p>
+    <button class="btn-clear-search" (click)="clearSearch()">
+      <i class="fas fa-times"></i>
+      Clear Search
+    </button>
   </div>
 
   <!-- Delete Confirmation Dialog -->

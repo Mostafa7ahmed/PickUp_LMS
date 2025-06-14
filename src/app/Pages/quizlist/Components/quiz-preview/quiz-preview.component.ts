@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -12,7 +12,7 @@ import { TopPopComponent } from "../../../../Components/top-pop/top-pop.componen
   templateUrl: './quiz-preview.component.html',
   styleUrl: './quiz-preview.component.scss'
 })
-export class QuizPreviewComponent implements OnInit {
+export class QuizPreviewComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private quizService = inject(QuizService);
@@ -24,6 +24,8 @@ export class QuizPreviewComponent implements OnInit {
   score = 0;
   isPreviewMode = true;
   questions: QuizQuestion[] = [];
+  autoCloseCountdown = 5;
+  private countdownInterval?: any;
 
   // Fallback sample questions if no real questions available
   fallbackQuestions: QuizQuestion[] = [
@@ -96,7 +98,6 @@ export class QuizPreviewComponent implements OnInit {
         this.questions = this.quiz.questions;
         console.log('✅ Loaded real quiz questions:', this.questions);
 
-        // Check for True/False questions specifically
         const trueFalseQuestions = this.questions.filter(q => q.type === 'true-false');
         console.log('🔍 True/False questions found:', trueFalseQuestions);
       } else {
@@ -112,7 +113,20 @@ export class QuizPreviewComponent implements OnInit {
     this.isPreviewMode = mode !== 'start';
   }
 
+  ngOnDestroy() {
+    this.clearCountdown();
+  }
+
+  // Clear countdown timer
+  private clearCountdown() {
+    if (this.countdownInterval) {
+      clearInterval(this.countdownInterval);
+      this.countdownInterval = undefined;
+    }
+  }
+
   closePopup() {
+    this.clearCountdown();
     this.router.navigate([{ outlets: { dialog: null } }]);
   }
 
@@ -152,17 +166,12 @@ export class QuizPreviewComponent implements OnInit {
   // Quiz completion
   submitQuiz() {
     if (!this.isPreviewMode) {
-      if (!this.isQuizComplete()) {
-        const unanswered = this.questions.length - Object.keys(this.selectedAnswers).length;
-        const confirmSubmit = confirm(`You have ${unanswered} unanswered questions. Do you want to submit anyway?`);
-        if (!confirmSubmit) {
-          return;
-        }
-      }
+      // Calculate score and show results without confirmation
       this.calculateScore();
       this.showResults = true;
     } else {
-      alert('This is preview mode. Quiz submission is disabled.');
+      // Preview mode - just close the popup
+      this.closePopup();
     }
   }
 
@@ -183,6 +192,16 @@ export class QuizPreviewComponent implements OnInit {
     });
     this.score = Math.round((correct / this.questions.length) * 100);
     console.log(`Final score: ${correct}/${this.questions.length} = ${this.score}%`);
+
+    // Auto-close results with countdown
+    this.autoCloseCountdown = 5;
+    this.countdownInterval = setInterval(() => {
+      this.autoCloseCountdown--;
+      if (this.autoCloseCountdown <= 0) {
+        this.clearCountdown();
+        this.closePopup();
+      }
+    }, 1000);
   }
 
   restartQuiz() {
@@ -258,8 +277,5 @@ export class QuizPreviewComponent implements OnInit {
     return Object.keys(this.selectedAnswers).length === this.questions.length;
   }
 
-  canSubmitQuiz(): boolean {
-    // Always allow submission in preview mode or if at least one question is answered
-    return this.isPreviewMode || Object.keys(this.selectedAnswers).length > 0;
-  }
+
 }

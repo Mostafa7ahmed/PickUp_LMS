@@ -206,13 +206,10 @@ removeMultipleChoiceQuestion(index: number) {
   nextPopup() {
     // Validate that a course is selected
     if (!this.selectedCourse) {
-      alert('Please select a course first.');
       return;
     }
 
-    // Validate quiz title
     if (!this.quizTitle.trim()) {
-      alert('Please enter a quiz title.');
       return;
     }
 
@@ -323,12 +320,10 @@ removeMultipleChoiceQuestion(index: number) {
   // Method to save all questions and create quiz
   saveQuestions() {
     if (!this.selectedCourse) {
-      alert('Please select a course first.');
       return;
     }
 
     if (!this.quizTitle.trim()) {
-      alert('Please enter a quiz title.');
       return;
     }
 
@@ -339,14 +334,12 @@ removeMultipleChoiceQuestion(index: number) {
     console.log('📊 Multiple Choice questions:', this.multipleChoiceQuestions.value);
 
     if (questions.length === 0) {
-      alert('Please add at least one question before saving.');
       return;
     }
 
     // Validate questions
     const invalidQuestions = questions.filter(q => !q.text || q.text.trim() === '');
     if (invalidQuestions.length > 0) {
-      alert('Please fill in all question texts before saving.');
       return;
     }
 
@@ -356,14 +349,12 @@ removeMultipleChoiceQuestion(index: number) {
       // Check if has at least 2 choices
       const validChoices = mcq.multipleChoise.filter((choice: any) => choice.answer && choice.answer.trim());
       if (validChoices.length < 2) {
-        alert('Multiple choice questions must have at least 2 valid choices with text.');
         return;
       }
 
       // Check if has correct answer
       const hasCorrectAnswer = mcq.multipleChoise.some((choice: any) => choice.correct);
       if (!hasCorrectAnswer) {
-        alert('Please select a correct answer for all multiple choice questions.');
         return;
       }
     }
@@ -389,8 +380,6 @@ removeMultipleChoiceQuestion(index: number) {
 
     console.log('✅ Quiz created successfully!', newQuiz);
 
-    // Show success message and close popup
-    alert(`Quiz "${newQuiz.title}" created successfully with ${questions.length} questions!`);
     this.closePopup();
   }
 

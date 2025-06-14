@@ -164,8 +164,12 @@
         </div>
       </div>
 
+      <div class="auto-close-info" *ngIf="!isPreviewMode">
+        <p>Closing automatically in {{autoCloseCountdown}} seconds...</p>
+      </div>
+
       <div class="results-actions">
-        <button class="btn-restart" (click)="restartQuiz()">
+        <button class="btn-restart" (click)="restartQuiz()" *ngIf="!isPreviewMode">
           <i class="fas fa-redo"></i>
           Try Again
         </button>
@@ -221,7 +225,6 @@
         <button
           *ngIf="currentQuestionIndex === questions.length - 1"
           class="btn-submit"
-          [disabled]="!canSubmitQuiz()"
           (click)="submitQuiz()">
           <i class="fas fa-check"></i>
           {{isPreviewMode ? 'Finish Preview' : 'Submit Quiz'}}
