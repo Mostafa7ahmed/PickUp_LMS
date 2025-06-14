@@ -74,23 +74,10 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
   editQuiz(quizId: number, event: Event) {
     event.stopPropagation();
     console.log('Edit quiz:', quizId);
-    // Navigate to edit page or open edit modal
-    // this.router.navigate(['/quiz/edit', quizId]);
+
   }
 
   // Duplicate quiz
-  duplicateQuiz(quiz: Quiz, event: Event) {
-    event.stopPropagation();
-
-    this.quizService.addQuiz({
-      ...quiz,
-      title: `${quiz.title} (Copy)`,
-      status: 'draft' as const,
-      attempts: 0
-    });
-
-    this.showSuccessMessage(`Quiz "${quiz.title}" has been duplicated successfully.`);
-  }
 
   // Preview quiz
   previewQuiz(quizId: number, event: Event) {
