@@ -34,6 +34,10 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
       this.sampleQuizzes = quizzes;
       console.log('📋 Updated quiz list:', quizzes);
 
+      // Storage info
+      const storageInfo = this.quizService.getStorageInfo();
+      console.log(`📊 Quiz Storage: ${storageInfo.count} quizzes, ${storageInfo.size}`);
+
       // Check for quizzes with questions
       quizzes.forEach(quiz => {
         if (quiz.questions && quiz.questions.length > 0) {
@@ -45,6 +49,82 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.quizSubscription.unsubscribe();
+  }
+
+  // Debug methods (for development)
+  clearAllQuizzes() {
+    if (confirm('Are you sure you want to clear all quizzes? This cannot be undone.')) {
+      this.quizService.clearAllQuizzes();
+      console.log('🗑️ All quizzes cleared!');
+    }
+  }
+
+  logStorageInfo() {
+    const info = this.quizService.getStorageInfo();
+    console.log('📊 Storage Info:', info);
+    console.log('📋 All Quizzes:', this.sampleQuizzes);
+  }
+
+  // Create sample quiz for testing
+  createSampleQuiz() {
+    const sampleQuestions = [
+      {
+        courseId: 1,
+        quizId: 0,
+        quizSectionId: 0,
+        order: 1,
+        hint: 'Think about JavaScript basics',
+        text: 'JavaScript is a compiled programming language.',
+        trueAndFalse: {
+          answer: false
+        }
+      },
+      {
+        courseId: 1,
+        quizId: 0,
+        quizSectionId: 0,
+        order: 2,
+        hint: 'Consider modern web development',
+        text: 'React is a JavaScript library for building user interfaces.',
+        trueAndFalse: {
+          answer: true
+        }
+      },
+      {
+        courseId: 1,
+        quizId: 0,
+        quizSectionId: 0,
+        order: 3,
+        hint: 'Think about array methods',
+        text: 'Which method adds an element to the end of an array?',
+        multipleChoise: [
+          { answer: 'push()', correct: true },
+          { answer: 'pop()', correct: false },
+          { answer: 'shift()', correct: false },
+          { answer: 'unshift()', correct: false }
+        ]
+      }
+    ];
+
+    const newQuiz = this.quizService.addQuizWithQuestions({
+      title: 'Sample JavaScript Quiz',
+      description: 'A sample quiz to test the localStorage functionality',
+      questionsCount: sampleQuestions.length,
+      duration: 15,
+      difficulty: 'medium',
+      status: 'published' as const,
+      tags: ['JavaScript', 'Sample', 'Test'],
+      courseId: 1,
+      courseName: 'JavaScript Fundamentals',
+      attempts: 0,
+      createdDate: new Date().toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      })
+    }, sampleQuestions);
+
+    console.log('✅ Sample quiz created:', newQuiz);
   }
 
   openPopup() {

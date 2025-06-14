@@ -34,84 +34,42 @@ export interface Quiz {
   providedIn: 'root'
 })
 export class QuizService {
-  private quizzesSubject = new BehaviorSubject<Quiz[]>([
-    {
-      id: 1,
-      title: 'JavaScript Fundamentals',
-      description: 'Test your knowledge of JavaScript basics including variables, functions, and DOM manipulation.',
-      questionsCount: 25,
-      duration: 30,
-      attempts: 156,
-      status: 'published',
-      difficulty: 'easy',
-      tags: ['JavaScript', 'Programming', 'Web Dev'],
-      createdDate: 'Jan 15, 2024'
-    },
-    {
-      id: 2,
-      title: 'React Advanced Concepts',
-      description: 'Advanced React concepts including hooks, context, and performance optimization techniques.',
-      questionsCount: 40,
-      duration: 45,
-      attempts: 89,
-      status: 'draft',
-      difficulty: 'hard',
-      tags: ['React', 'Frontend', 'Advanced'],
-      createdDate: 'Jan 20, 2024'
-    },
-    {
-      id: 3,
-      title: 'CSS Grid & Flexbox',
-      description: 'Master modern CSS layout techniques with Grid and Flexbox for responsive design.',
-      questionsCount: 18,
-      duration: 25,
-      attempts: 234,
-      status: 'published',
-      difficulty: 'medium',
-      tags: ['CSS', 'Layout', 'Design'],
-      createdDate: 'Jan 10, 2024'
-    },
-    {
-      id: 4,
-      title: 'Node.js Backend Development',
-      description: 'Learn server-side development with Node.js, Express, and database integration.',
-      questionsCount: 35,
-      duration: 50,
-      attempts: 67,
-      status: 'scheduled',
-      difficulty: 'hard',
-      tags: ['Node.js', 'Backend', 'API'],
-      createdDate: 'Jan 25, 2024'
-    },
-    {
-      id: 5,
-      title: 'HTML5 & Semantic Web',
-      description: 'Understanding HTML5 features, semantic elements, and accessibility best practices.',
-      questionsCount: 20,
-      duration: 20,
-      attempts: 312,
-      status: 'published',
-      difficulty: 'easy',
-      tags: ['HTML', 'Semantic', 'Accessibility'],
-      createdDate: 'Jan 5, 2024'
-    },
-    {
-      id: 6,
-      title: 'TypeScript Deep Dive',
-      description: 'Advanced TypeScript features including generics, decorators, and type manipulation.',
-      questionsCount: 30,
-      duration: 40,
-      attempts: 45,
-      status: 'draft',
-      difficulty: 'hard',
-      tags: ['TypeScript', 'Advanced', 'Types'],
-      createdDate: 'Jan 30, 2024'
-    }
-  ]);
-
+  private readonly STORAGE_KEY = 'quizzes_data';
+  private quizzesSubject = new BehaviorSubject<Quiz[]>([]);
   public quizzes$ = this.quizzesSubject.asObservable();
 
-  constructor() { }
+  constructor() {
+    this.loadQuizzesFromStorage();
+  }
+
+  // Load quizzes from localStorage
+  private loadQuizzesFromStorage(): void {
+    try {
+      const storedQuizzes = localStorage.getItem(this.STORAGE_KEY);
+      if (storedQuizzes) {
+        const quizzes = JSON.parse(storedQuizzes);
+        this.quizzesSubject.next(quizzes);
+        console.log('📂 Loaded quizzes from localStorage:', quizzes);
+      } else {
+        // Initialize with empty array
+        this.quizzesSubject.next([]);
+        console.log('📂 No quizzes found in localStorage, starting fresh');
+      }
+    } catch (error) {
+      console.error('❌ Error loading quizzes from localStorage:', error);
+      this.quizzesSubject.next([]);
+    }
+  }
+
+  // Save quizzes to localStorage
+  private saveQuizzesToStorage(quizzes: Quiz[]): void {
+    try {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(quizzes));
+      console.log('💾 Saved quizzes to localStorage:', quizzes);
+    } catch (error) {
+      console.error('❌ Error saving quizzes to localStorage:', error);
+    }
+  }
 
   // Get all quizzes
   getQuizzes(): Observable<Quiz[]> {
@@ -139,6 +97,7 @@ export class QuizService {
 
     const updatedQuizzes = [newQuiz, ...currentQuizzes];
     this.quizzesSubject.next(updatedQuizzes);
+    this.saveQuizzesToStorage(updatedQuizzes);
     return newQuiz;
   }
 
@@ -197,10 +156,12 @@ export class QuizService {
   updateQuiz(id: number, updates: Partial<Quiz>): boolean {
     const currentQuizzes = this.getCurrentQuizzes();
     const index = currentQuizzes.findIndex(q => q.id === id);
-    
+
     if (index !== -1) {
       currentQuizzes[index] = { ...currentQuizzes[index], ...updates };
-      this.quizzesSubject.next([...currentQuizzes]);
+      const updatedQuizzes = [...currentQuizzes];
+      this.quizzesSubject.next(updatedQuizzes);
+      this.saveQuizzesToStorage(updatedQuizzes);
       return true;
     }
     return false;
@@ -210,9 +171,10 @@ export class QuizService {
   deleteQuiz(id: number): boolean {
     const currentQuizzes = this.getCurrentQuizzes();
     const filteredQuizzes = currentQuizzes.filter(q => q.id !== id);
-    
+
     if (filteredQuizzes.length !== currentQuizzes.length) {
       this.quizzesSubject.next(filteredQuizzes);
+      this.saveQuizzesToStorage(filteredQuizzes);
       return true;
     }
     return false;
@@ -251,5 +213,22 @@ export class QuizService {
       return this.getCurrentQuizzes();
     }
     return this.getCurrentQuizzes().filter(quiz => quiz.difficulty === difficulty);
+  }
+
+  // Clear all quizzes (for testing/reset)
+  clearAllQuizzes(): void {
+    this.quizzesSubject.next([]);
+    this.saveQuizzesToStorage([]);
+    console.log('🗑️ All quizzes cleared from localStorage');
+  }
+
+  // Get storage info (for debugging)
+  getStorageInfo(): { count: number, size: string } {
+    const quizzes = this.getCurrentQuizzes();
+    const dataString = JSON.stringify(quizzes);
+    return {
+      count: quizzes.length,
+      size: `${(dataString.length / 1024).toFixed(2)} KB`
+    };
   }
 }
