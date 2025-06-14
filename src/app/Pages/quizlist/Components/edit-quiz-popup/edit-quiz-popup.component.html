@@ -1,0 +1,26 @@
+<div class="overlay"></div>
+<div class="ShowPopup">
+  <app-top-pop [NamePopup]="'Edit Quiz'" (isVisibleChange)="onClose()"></app-top-pop>
+  <form [formGroup]="editQuizForm" (ngSubmit)="onSubmit()" class="content p-2">
+    <div class="mainSelet courseSelect mt-2">
+      <label class="section-label">Quiz Name</label>
+      <input formControlName="name" class="input_Couser" required placeholder="Enter Quiz name">
+      <label class="section-label mt-2">Description</label>
+      <textarea formControlName="description" class="input_Couser textarea_course" placeholder="Description"></textarea>
+      <div class="d-flex gap-2 align-items-center mt-2">
+        <label>Duration:</label>
+        <input type="number" formControlName="duration" class="input_Couser" style="width: 80px;">
+        <select formControlName="durationType" class="input_Couser" style="width: 100px;">
+          <option [value]="0">Minutes</option>
+          <option [value]="1">Hours</option>
+        </select>
+      </div>
+    </div>
+    <div class="footerCourse bg-white rounded-1 mt-3">
+      <div class="btnsCourse">
+        <button type="button" (click)="onClose()">Cancel</button>
+        <button type="submit" [disabled]="!editQuizForm.valid">Save</button>
+      </div>
+    </div>
+  </form>
+</div>

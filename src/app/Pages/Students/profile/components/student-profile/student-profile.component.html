@@ -1,0 +1,106 @@
+<div class="profile-card">
+  <div class="cover">
+    <div class="cover-green"></div>
+    <!-- <img src="Images/CardProfile.png" alt="Cover Image" width="100%" height="100%"/> -->
+  </div>
+  
+  <div class="profile-header">
+    <div class="imageAva">
+      <img class="avatar" [src]="student.avatar" alt="Profile Image" />
+    </div>
+    <div class="info">
+      <h2>{{ student.name }}</h2>
+      <p class="student-title">Student | Lifelong Learner</p>
+      <p class="email-info">
+        <i class="fas fa-envelope"></i>
+        {{ student.email }}
+      </p>
+      <div class="social mt-2">
+        <a href="#"><i class="fab fa-linkedin"></i>LinkedIn</a>
+        <a href="#"><i class="fab fa-twitter"></i>Twitter</a>
+        <a href="#"><i class="fab fa-instagram"></i>Instagram</a>
+      </div>
+    </div>
+    <button class="manage-btn" (click)="editProfile()">
+      <i class="fa-solid fa-gear"></i> Edit Profile
+    </button>
+  </div>
+
+  <div class="learning-stats">
+    <div class="title">
+      <p class="text mb-3">Learning Progress</p>
+      <div class="line"></div>
+    </div>
+    
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon enrolled">
+          <i class="fa-solid fa-book"></i>
+        </div>
+        <div class="stat-content">
+          <h3>{{ student.enrolledCourses }}</h3>
+          <p>Enrolled Courses</p>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon completed">
+          <i class="fa-solid fa-check-circle"></i>
+        </div>
+        <div class="stat-content">
+          <h3>{{ student.completedCourses }}</h3>
+          <p>Completed Courses</p>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon progress">
+          <i class="fa-solid fa-chart-line"></i>
+        </div>
+        <div class="stat-content">
+          <h3>{{ student.progress }}%</h3>
+          <p>Overall Progress</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="achievements-section">
+    <div class="title">
+      <p class="text mb-3">Achievements</p>
+      <div class="line"></div>
+    </div>
+    
+    <div class="achievements-grid">
+      <div class="achievement">
+        <div class="achievement-icon">
+          <i class="fa-solid fa-award"></i>
+        </div>
+        <div class="achievement-info">
+          <h4>Fast Learner</h4>
+          <p>Completed 5 lessons in one day</p>
+        </div>
+      </div>
+      
+      <div class="achievement">
+        <div class="achievement-icon">
+          <i class="fa-solid fa-fire"></i>
+        </div>
+        <div class="achievement-info">
+          <h4>On Fire</h4>
+          <p>7 day study streak</p>
+        </div>
+      </div>
+      
+      <div class="achievement">
+        <div class="achievement-icon locked">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+        <div class="achievement-info">
+          <h4>Course Master</h4>
+          <p>Complete your first course to unlock</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
