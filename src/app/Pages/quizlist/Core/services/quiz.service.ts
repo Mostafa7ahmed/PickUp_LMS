@@ -1,6 +1,17 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
+export interface QuizQuestion {
+  id: number;
+  type: 'true-false' | 'multiple-choice' | 'short-answer';
+  question: string;
+  options?: string[];
+  correctAnswer: any;
+  explanation?: string;
+  difficulty?: 'easy' | 'medium' | 'hard';
+  order: number;
+}
+
 export interface Quiz {
   id: number;
   title: string;
@@ -16,6 +27,7 @@ export interface Quiz {
   courseName?: string;
   lessonId?: number;
   lessonName?: string;
+  questions?: QuizQuestion[];
 }
 
 @Injectable({
@@ -118,16 +130,67 @@ export class QuizService {
       ...quiz,
       id: Math.max(...currentQuizzes.map(q => q.id), 0) + 1,
       attempts: 0,
-      createdDate: new Date().toLocaleDateString('en-US', { 
-        year: 'numeric', 
-        month: 'short', 
-        day: 'numeric' 
+      createdDate: new Date().toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
       })
     };
-    
+
     const updatedQuizzes = [newQuiz, ...currentQuizzes];
     this.quizzesSubject.next(updatedQuizzes);
     return newQuiz;
+  }
+
+  // Add quiz with questions
+  addQuizWithQuestions(quizData: Omit<Quiz, 'id'>, questions: any[]): Quiz {
+    const quiz = this.addQuiz(quizData);
+
+    // Convert questions to QuizQuestion format
+    const formattedQuestions: QuizQuestion[] = questions.map((q, index) => {
+      const questionType = this.getQuestionType(q);
+      const correctAnswer = this.getCorrectAnswer(q);
+
+      console.log(`🔄 Converting question ${index + 1}:`, {
+        original: q,
+        type: questionType,
+        correctAnswer: correctAnswer
+      });
+
+      return {
+        id: index + 1,
+        type: questionType,
+        question: q.text || q.question || '',
+        options: q.multipleChoise ? q.multipleChoise.map((choice: any) => choice.answer) : undefined,
+        correctAnswer: correctAnswer,
+        explanation: q.explanation || '',
+        difficulty: q.difficulty || 'medium',
+        order: q.order || index + 1
+      };
+    });
+
+    // Update quiz with questions
+    this.updateQuiz(quiz.id, { questions: formattedQuestions });
+
+    return { ...quiz, questions: formattedQuestions };
+  }
+
+  // Helper methods for question conversion
+  private getQuestionType(question: any): 'true-false' | 'multiple-choice' | 'short-answer' {
+    if (question.trueAndFalse !== undefined) return 'true-false';
+    if (question.multipleChoise && question.multipleChoise.length > 0) return 'multiple-choice';
+    return 'short-answer';
+  }
+
+  private getCorrectAnswer(question: any): any {
+    if (question.trueAndFalse !== undefined) {
+      return question.trueAndFalse.answer;
+    }
+    if (question.multipleChoise && question.multipleChoise.length > 0) {
+      const correctIndex = question.multipleChoise.findIndex((choice: any) => choice.correct);
+      return correctIndex >= 0 ? correctIndex : 0;
+    }
+    return question.shortAnswer?.answer || '';
   }
 
   // Update quiz

@@ -333,7 +333,10 @@ removeMultipleChoiceQuestion(index: number) {
     }
 
     const questions = this.prepareQuestionData();
-    console.log('Questions to save:', questions);
+    console.log('📝 Questions to save:', questions);
+    console.log('📊 True/False questions:', this.trueFalseQuestions.value);
+    console.log('📊 Short Answer questions:', this.shortAnswerQuestions.value);
+    console.log('📊 Multiple Choice questions:', this.multipleChoiceQuestions.value);
 
     if (questions.length === 0) {
       alert('Please add at least one question before saving.');
@@ -365,8 +368,8 @@ removeMultipleChoiceQuestion(index: number) {
       }
     }
 
-    // Create new quiz
-    const newQuiz = this.quizService.addQuiz({
+    // Create new quiz with questions
+    const newQuiz = this.quizService.addQuizWithQuestions({
       title: this.quizTitle.trim(),
       description: this.quizDescription.trim() || `Quiz for ${this.selectedCourse.name}`,
       questionsCount: questions.length,
@@ -382,7 +385,7 @@ removeMultipleChoiceQuestion(index: number) {
         month: 'short',
         day: 'numeric'
       })
-    });
+    }, questions);
 
     console.log('✅ Quiz created successfully!', newQuiz);
 

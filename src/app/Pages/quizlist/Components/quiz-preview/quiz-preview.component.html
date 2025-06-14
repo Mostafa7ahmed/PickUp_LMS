@@ -1,0 +1,237 @@
+<div class="quiz-overlay" (click)="closePopup()">
+  <div class="quiz-popup" (click)="$event.stopPropagation()">
+    
+    <!-- Header -->
+    <div class="quiz-header">
+      <div class="quiz-info">
+        <div class="quiz-icon">
+          <i class="fas fa-clipboard-list"></i>
+        </div>
+        <div class="quiz-details">
+          <h2>{{quiz?.title || 'Sample Quiz'}}</h2>
+          <div class="quiz-meta">
+            <span class="duration">
+              <i class="fas fa-clock"></i>
+              {{quiz?.duration || 30}} min
+            </span>
+            <span class="difficulty" [class]="'difficulty-' + (quiz?.difficulty || 'medium')">
+              <i class="fas fa-signal"></i>
+              {{quiz?.difficulty || 'Medium'}}
+            </span>
+            <span class="questions-count">
+              <i class="fas fa-question-circle"></i>
+              {{questions.length}} Questions
+            </span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="quiz-actions">
+        <div class="mode-badge" [class.preview-mode]="isPreviewMode" [class.start-mode]="!isPreviewMode">
+          <i class="fas" [class.fa-eye]="isPreviewMode" [class.fa-play]="!isPreviewMode"></i>
+          {{isPreviewMode ? 'Preview Mode' : 'Quiz Mode'}}
+        </div>
+        <button class="close-btn" (click)="closePopup()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-section" *ngIf="!showResults">
+      <div class="progress-info">
+        <span>Question {{currentQuestionIndex + 1}} of {{questions.length}}</span>
+        <span>{{getObjectKeys(selectedAnswers).length}}/{{questions.length}} Answered</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="((currentQuestionIndex + 1) / questions.length) * 100"></div>
+      </div>
+    </div>
+
+    <!-- Question Navigation -->
+    <div class="question-nav" *ngIf="!showResults">
+      <div class="nav-dots">
+        <button
+          *ngFor="let question of questions; let i = index"
+          class="nav-dot"
+          [class.active]="i === currentQuestionIndex"
+          [class.answered]="isAnswered(i)"
+          (click)="goToQuestion(i)">
+          {{i + 1}}
+        </button>
+      </div>
+    </div>
+
+    <!-- Quiz Content -->
+    <div class="quiz-content" *ngIf="!showResults && questions.length > 0">
+      <div class="question-container">
+        <div class="question-header">
+          <div class="question-type">
+            <i [class]="getQuestionTypeIcon(getCurrentQuestion().type)"></i>
+            <span>{{getQuestionTypeName(getCurrentQuestion().type)}}</span>
+          </div>
+          <div class="question-number">
+            Question {{currentQuestionIndex + 1}}
+          </div>
+        </div>
+
+        <div class="question-text">
+          {{getCurrentQuestion().question}}
+        </div>
+
+        <!-- Multiple Choice -->
+        <div class="answer-options" *ngIf="getCurrentQuestion().type === 'multiple-choice'">
+          <div 
+            *ngFor="let option of getCurrentQuestion().options; let i = index"
+            class="option"
+            [class.selected]="selectedAnswers[currentQuestionIndex] === i"
+            (click)="selectMultipleChoice(i)">
+            <div class="option-letter">{{getOptionLetter(i)}}</div>
+            <div class="option-text">{{option}}</div>
+            <div class="option-check">
+              <i class="fas fa-check"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- True/False -->
+        <div class="answer-options" *ngIf="getCurrentQuestion().type === 'true-false'">
+          <!-- Debug info -->
+          <div class="debug-info" style="background: #f0f9ff; padding: 8px; margin-bottom: 16px; border-radius: 4px; font-size: 12px;">
+            <strong>Debug:</strong> Type: {{getCurrentQuestion().type}}, Correct Answer: {{getCurrentQuestion().correctAnswer}}, Selected: {{selectedAnswers[currentQuestionIndex]}}
+          </div>
+
+          <div
+            class="option true-option"
+            [class.selected]="selectedAnswers[currentQuestionIndex] === true"
+            (click)="selectTrueFalse(true)">
+            <div class="option-icon">
+              <i class="fas fa-check"></i>
+            </div>
+            <div class="option-text">True</div>
+          </div>
+          <div
+            class="option false-option"
+            [class.selected]="selectedAnswers[currentQuestionIndex] === false"
+            (click)="selectTrueFalse(false)">
+            <div class="option-icon">
+              <i class="fas fa-times"></i>
+            </div>
+            <div class="option-text">False</div>
+          </div>
+        </div>
+
+        <!-- Short Answer -->
+        <div class="answer-input" *ngIf="getCurrentQuestion().type === 'short-answer'">
+          <textarea 
+            placeholder="Type your answer here..."
+            [(ngModel)]="selectedAnswers[currentQuestionIndex]"
+            class="answer-textarea">
+          </textarea>
+        </div>
+
+        <!-- Preview Mode Explanation -->
+        <div class="explanation-preview" *ngIf="isPreviewMode && getCurrentQuestion().explanation">
+          <div class="explanation-header">
+            <i class="fas fa-lightbulb"></i>
+            <span>Explanation (Preview Mode)</span>
+          </div>
+          <p>{{getCurrentQuestion().explanation}}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Screen -->
+    <div class="quiz-results" *ngIf="showResults">
+      <div class="results-header">
+        <div class="score-circle" [style.border-color]="getScoreColor()">
+          <div class="score-text" [style.color]="getScoreColor()">
+            {{score}}%
+          </div>
+        </div>
+        <h3>Quiz Completed!</h3>
+        <p>You scored {{score}}% on this quiz</p>
+      </div>
+
+      <div class="results-summary">
+        <div class="summary-item">
+          <i class="fas fa-check-circle text-success"></i>
+          <span>Correct: {{getCorrectAnswersCount()}}/{{questions.length}}</span>
+        </div>
+        <div class="summary-item">
+          <i class="fas fa-clock text-info"></i>
+          <span>Time: {{quiz?.duration || 30}} minutes</span>
+        </div>
+        <div class="summary-item">
+          <i class="fas fa-star" [style.color]="getScoreColor()"></i>
+          <span>Grade: {{score >= 80 ? 'Excellent' : score >= 60 ? 'Good' : 'Needs Improvement'}}</span>
+        </div>
+      </div>
+
+      <div class="results-actions">
+        <button class="btn-restart" (click)="restartQuiz()">
+          <i class="fas fa-redo"></i>
+          Try Again
+        </button>
+        <button class="btn-close" (click)="closePopup()">
+          <i class="fas fa-times"></i>
+          Close
+        </button>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-quiz-state" *ngIf="!showResults && questions.length === 0">
+      <div class="empty-content">
+        <div class="empty-icon">
+          <i class="fas fa-question-circle"></i>
+        </div>
+        <h3>No Questions Available</h3>
+        <p>This quiz doesn't have any questions yet. Please add questions to preview the quiz.</p>
+        <button class="btn-close-empty" (click)="closePopup()">
+          <i class="fas fa-times"></i>
+          Close
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer Navigation -->
+    <div class="quiz-footer" *ngIf="!showResults && questions.length > 0">
+      <div class="footer-left">
+        <button 
+          class="btn-nav" 
+          [disabled]="currentQuestionIndex === 0"
+          (click)="previousQuestion()">
+          <i class="fas fa-chevron-left"></i>
+          Previous
+        </button>
+      </div>
+
+      <div class="footer-center">
+        <span class="question-counter">
+          {{currentQuestionIndex + 1}} / {{questions.length}}
+        </span>
+      </div>
+
+      <div class="footer-right">
+        <button
+          *ngIf="currentQuestionIndex < questions.length - 1"
+          class="btn-nav btn-next"
+          (click)="nextQuestion()">
+          Next
+          <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <button
+          *ngIf="currentQuestionIndex === questions.length - 1"
+          class="btn-submit"
+          [disabled]="!canSubmitQuiz()"
+          (click)="submitQuiz()">
+          <i class="fas fa-check"></i>
+          {{isPreviewMode ? 'Finish Preview' : 'Submit Quiz'}}
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

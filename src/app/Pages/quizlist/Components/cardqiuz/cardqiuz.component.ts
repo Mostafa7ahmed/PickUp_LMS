@@ -1,6 +1,5 @@
 import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { ListCourse } from '../../../Courses/Core/interface/icourses';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { QuizService, Quiz } from '../../Core/services/quiz.service';
@@ -33,6 +32,14 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
     // Subscribe to quiz changes
     this.quizSubscription = this.quizService.getQuizzes().subscribe(quizzes => {
       this.sampleQuizzes = quizzes;
+      console.log('📋 Updated quiz list:', quizzes);
+
+      // Check for quizzes with questions
+      quizzes.forEach(quiz => {
+        if (quiz.questions && quiz.questions.length > 0) {
+          console.log(`Quiz "${quiz.title}" has ${quiz.questions.length} questions:`, quiz.questions);
+        }
+      });
     });
   }
 
@@ -83,15 +90,20 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
   previewQuiz(quizId: number, event: Event) {
     event.stopPropagation();
     console.log('Preview quiz:', quizId);
-    // Open preview modal or navigate to preview page
+    // Open preview modal
+    this.router.navigate([{ outlets: { dialog: ['quizPreview', quizId] } }], {
+      queryParams: { mode: 'preview' }
+    });
   }
 
   // Start quiz
   startQuiz(quizId: number, event: Event) {
     event.stopPropagation();
     console.log('Start quiz:', quizId);
-    // Navigate to quiz taking page
-    // this.router.navigate(['/quiz/take', quizId]);
+    // Open quiz in start mode
+    this.router.navigate([{ outlets: { dialog: ['quizPreview', quizId] } }], {
+      queryParams: { mode: 'start' }
+    });
   }
 
   // Show success message (you can replace this with a toast service)

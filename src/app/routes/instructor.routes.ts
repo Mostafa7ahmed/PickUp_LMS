@@ -12,6 +12,7 @@ import { ViewCourseComponent } from '../Pages/Courses/Components/view-course/vie
 import { TopicsComponent } from '../Pages/Topics/topics/topics.component';
 import { AddTopicComponent } from '../Pages/Topics/Components/add-topic/add-topic.component';
 import { AddquizlistComponent } from '../Pages/quizlist/Components/addquizlist/addquizlist.component';
+import { QuizPreviewComponent } from '../Pages/quizlist/Components/quiz-preview/quiz-preview.component';
 import { DeleteTopicComponent } from '../Pages/Topics/Components/delete-topic/delete-topic.component';
 import { EditTopicComponent } from '../Pages/Topics/Components/edit-topic/edit-topic.component';
 import { AddCoursesComponent } from '../Pages/Courses/Components/add-courses/add-courses.component';
@@ -50,6 +51,7 @@ export const instructorRoutes: Routes = [
             { path: 'manageProfile', outlet: 'dialog', component: UpdeatePorfileComponent },
 
             { path: 'addQuiz', outlet: 'dialog', component: AddquizlistComponent },
+            { path: 'quizPreview/:id', outlet: 'dialog', component: QuizPreviewComponent },
             { path: 'deleteTopic/:deleteId', outlet: 'dialog2', component: DeleteTopicComponent },
             { path: 'editTopic/:topicId', outlet: 'dialog', component: EditTopicComponent },
             { path: 'addcourse', outlet: 'dialog', component: AddCoursesComponent },
