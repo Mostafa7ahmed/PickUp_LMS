@@ -11,11 +11,12 @@
   z-index: 1000;
   backdrop-filter: blur(4px);
   animation: fadeIn 0.3s ease-out;
+
 }
 
 .quiz-popup {
-  background: white;
-  border-radius: 20px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
   width: 90vw;
   max-width: 800px;
   height: 90vh;
@@ -29,12 +30,13 @@
 
 // Header
 .quiz-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 24px;
+  background: #fff;
+  padding: 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 13px 13px 0px 13px ;
+  border-radius: 8px;
 
   .quiz-info {
     display: flex;
@@ -131,8 +133,12 @@
 
 // Progress Section
 .progress-section {
-  padding: 16px 24px;
-  border-bottom: 1px solid #f1f5f9;
+    padding: 16px 24px;
+    border-bottom: 1px solid #f1f5f9;
+    background: white;
+    margin: 13px 13px 0 13px;
+    border-radius: 8px;
+
 
   .progress-info {
     display: flex;
@@ -151,7 +157,7 @@
 
     .progress-fill {
       height: 100%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #10b981 0%, #1665348c 100%);
       transition: width 0.3s ease;
     }
   }
@@ -202,13 +208,15 @@
 
 // Quiz Content
 .quiz-content {
-  flex: 1;
-  padding: 24px;
-  overflow-y: auto;
-
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+    background: white;
+    margin: 13px;
+    border-radius: 8px;
+    scrollbar-width: none;
   .question-container {
-    max-width: 600px;
-    margin: 0 auto;
+
 
     .question-header {
       display: flex;
@@ -398,7 +406,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #f8fafc;
+    background: white;
 
   .footer-center {
     .question-counter {

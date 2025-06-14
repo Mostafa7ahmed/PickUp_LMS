@@ -8,7 +8,7 @@ import { TopPopComponent } from "../../../../Components/top-pop/top-pop.componen
 @Component({
   selector: 'app-quiz-preview',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TopPopComponent],
   templateUrl: './quiz-preview.component.html',
   styleUrl: './quiz-preview.component.scss'
 })
