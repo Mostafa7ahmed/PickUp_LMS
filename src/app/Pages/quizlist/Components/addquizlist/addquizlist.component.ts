@@ -18,7 +18,7 @@ import { QuizService } from '../../Core/services/quiz.service';
 @Component({
   selector: 'app-addquizlist',
   standalone: true,
-  imports: [TopPopComponent, CommonModule, FormsModule, TextHeaderComponent, Select, SplicTextPipe, TrueFalseComponent, ShortAnswerComponent, MultipleChoiceComponent],
+  imports: [TopPopComponent, CommonModule, FormsModule, TextHeaderComponent,  SplicTextPipe, TrueFalseComponent, ShortAnswerComponent, MultipleChoiceComponent],
   templateUrl: './addquizlist.component.html',
   styleUrl: './addquizlist.component.scss'
 })
