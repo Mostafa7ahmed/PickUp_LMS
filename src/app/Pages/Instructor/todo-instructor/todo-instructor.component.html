@@ -9,6 +9,10 @@
           </div>
           <div class="description">
             <p>Manage and track your tasks easily and efficiently.</p>
+            <!-- Debug Info (remove in production) -->
+            <small style="color: #6b7280; font-size: 12px;">
+              📊 Tasks: {{tasks.length}} | Loading: {{isLoading}} | Filter: {{activeFilter}}
+            </small>
           </div>
         </div>
       </div>
@@ -19,12 +23,20 @@
         <input type="text" [(ngModel)]="searchTerm" placeholder="Search tasks...">
         <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
       </div>
-      <button (click)="openAddTaskPopup()">
-        <div class="icon">
-          <i class="fa-solid fa-plus"></i>
-        </div>
-        <span>Add New Task</span>
-      </button>
+      <div class="action-buttons">
+        <button (click)="refreshTasks()" class="refresh-btn" [disabled]="isLoading">
+          <div class="icon">
+            <i class="fa-solid fa-refresh" [class.fa-spin]="isLoading"></i>
+          </div>
+          <span>Refresh</span>
+        </button>
+        <button (click)="openAddTaskPopup()">
+          <div class="icon">
+            <i class="fa-solid fa-plus"></i>
+          </div>
+          <span>Add New Task</span>
+        </button>
+      </div>
     </div>
 
     <div class="row mt-3">
@@ -38,68 +50,79 @@
                 <i class="fa-solid fa-list"></i>
                 All Tasks
               </button>
-              <button class="tab-btn" 
-                      [class.active]="activeFilter === 'teaching'"
-                      (click)="setFilter('teaching')">
-                <i class="fa-solid fa-chalkboard-teacher"></i>
-                Teaching
+              <button class="tab-btn"
+                      [class.active]="activeFilter === 'work'"
+                      (click)="setFilter('work')">
+                <i class="fa-solid fa-briefcase"></i>
+                Work
               </button>
-              <button class="tab-btn" 
+              <button class="tab-btn"
                       [class.active]="activeFilter === 'personal'"
                       (click)="setFilter('personal')">
                 <i class="fa-solid fa-user"></i>
                 Personal
               </button>
-                     <button class="tab-btn" 
+              <button class="tab-btn"
+                      [class.active]="activeFilter === 'study'"
+                      (click)="setFilter('study')">
+                <i class="fa-solid fa-book"></i>
+                Study
+              </button>
+              <button class="tab-btn"
                       [class.active]="activeFilter === 'meeting'"
                       (click)="setFilter('meeting')">
-                <i class="fa-solid fa-user"></i>
+                <i class="fa-solid fa-users"></i>
                 Meeting
               </button>
-              <button class="tab-btn" 
-                      [class.active]="activeFilter === 'grading'"
-                      (click)="setFilter('grading')">
-                <i class="fa-solid fa-clipboard-check"></i>
-                Grading
-              </button>
-              <button class="tab-btn" 
-                      [class.active]="activeFilter === 'administrative'"
-                      (click)="setFilter('administrative')">
-                <i class="fa-solid fa-briefcase"></i>
-                Administrative
+              <button class="tab-btn"
+                      [class.active]="activeFilter === 'other'"
+                      (click)="setFilter('other')">
+                <i class="fa-solid fa-tasks"></i>
+                Other
               </button>
             </div>
           </div>
 
           <div class="task-list">
-            <div class="task-item" 
-                 *ngFor="let task of getFilteredTasks(); trackBy: trackByTaskId">
+            <!-- Loading State -->
+            <div class="loading-state" *ngIf="isLoading">
+              <div class="loading-content">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading tasks...</p>
+              </div>
+            </div>
+
+            <!-- Tasks List -->
+            <div class="task-item"
+                 *ngFor="let task of getFilteredTasks(); trackBy: trackByTaskId"
+                 [style.display]="isLoading ? 'none' : 'flex'">
               <div class="task-content">
                 <div class="task-checkbox">
-                  <input type="checkbox" 
+                  <input type="checkbox"
                          [id]="'task-' + task.id"
-                         [(ngModel)]="task.completed"
+                         [checked]="task.isCompleted"
+                         (change)="toggleTaskCompletion(task)"
                          class="form-check-input">
                   <label [for]="'task-' + task.id" class="checkbox-label"></label>
                 </div>
-                
-                <div class="task-details" [class.completed]="task.completed">
-                  <h4 class="task-title">{{ task.title }}</h4>
+
+                <div class="task-details" [class.completed]="task.isCompleted">
+                  <h4 class="task-title">{{ task.name }}</h4>
                   <p class="task-description" *ngIf="task.description">{{ task.description }}</p>
                   
                   <div class="task-meta">
                     <span class="task-type" [class]="'type-' + task.type">
                       <i [class]="getTaskTypeIcon(task.type)"></i>
-                      {{ task.type | titlecase }}
+                      {{ getTaskTypeLabel(task.type) }}
                     </span>
-                    
+
                     <span class="task-priority" [class]="'priority-' + task.priority">
                       <i [class]="getPriorityIcon(task.priority)"></i>
-                      {{ task.priority | titlecase }}
+                      {{ getPriorityLabel(task.priority) }}
                     </span>
-                    
-                    <span class="task-due-date" 
-                          [class.overdue]="isOverdue(task.dueDate) && !task.completed">
+
+                    <span class="task-due-date"
+                          [class.overdue]="isOverdue(task.dueDate) && !task.isCompleted">
                       <i class="fa-solid fa-calendar"></i>
                       {{ formatDueDate(task.dueDate) }}
                     </span>
@@ -121,11 +144,15 @@
             </div>
 
             <!-- Empty State -->
-            <div class="empty-state" *ngIf="getFilteredTasks().length === 0">
+            <div class="empty-state" *ngIf="getFilteredTasks().length === 0 && !isLoading">
               <div class="empty-content">
                 <img src="Images/Course/file.png" alt="No tasks" class="empty-image">
                 <h4>No tasks found</h4>
                 <p>{{ getEmptyStateMessage() }}</p>
+                <button (click)="openAddTaskPopup()" class="btn-add-first">
+                  <i class="fa-solid fa-plus"></i>
+                  Add Your First Task
+                </button>
               </div>
             </div>
           </div>

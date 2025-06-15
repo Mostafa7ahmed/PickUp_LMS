@@ -26,6 +26,7 @@ import { AddStageComponent } from '../Pages/Stages/Components/add-stage/add-stag
 import { HomeinstructorComponent } from '../Pages/Instructor/homeinstructor/homeinstructor.component';
 import { TodoInstructorComponent } from '../Pages/Instructor/todo-instructor/todo-instructor.component';
 import { AddtasktodoComponent } from '../Pages/Instructor/todo-instructor/components/addtasktodo/addtasktodo.component';
+import { TestTaskComponent } from '../Pages/Instructor/todo-instructor/components/test-task/test-task.component';
 import { ViewLessonComponent } from '../Pages/lesson/Components/view-lesson/view-lesson.component';
 import { WalletPopupInstructorComponent } from '../Pages/Instructor/wallet-popup-instructor/wallet-popup-instructor.component';
 import { UpdeatePorfileComponent } from '../Pages/Instructor/porfile/components/updeate-porfile/updeate-porfile.component';
@@ -41,6 +42,7 @@ export const instructorRoutes: Routes = [
             { path: 'ChangePasswordPopup', outlet: 'dialog', component: ChangePasswordPopupComponent },
             { path: "course", title: "Course", component: CoursesComponent },
             { path: "todo", title: "Task Management", component: TodoInstructorComponent },
+            { path: "test-task", title: "Test Task Service", component: TestTaskComponent },
             { path: 'addTaskInstrcutor', outlet: 'dialog', component: AddtasktodoComponent },
             { path: "quizlist", title: "Quiz List", component: QuizlistComponent },
             { path: "course/:topicId", component: CoursesComponent},

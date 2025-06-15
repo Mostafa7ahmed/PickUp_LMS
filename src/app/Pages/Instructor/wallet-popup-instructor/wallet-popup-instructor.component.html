@@ -105,9 +105,8 @@
                 <p>{{ formatDate(transaction.createdAt) }}</p>
               </div>
               <div class="transaction-amount" [class]="getTransactionTypeColor(transaction.type)">
-                {{ transaction.type === TransactionType.Deposit || transaction.type === TransactionType.Earning ||
-                transaction.type === TransactionType.Refund ? '+' : '-' }}{{
-                formatCurrency(Math.abs(transaction.amount)) }}
+                {{ transaction.type === TransactionType.Credit ? '+' : '-' }}{{
+    formatCurrency(Math.abs(transaction.amount)) }}
               </div>
               <div class="transaction-status">
                 <span class="status-badge" [class]="getStatusBadgeClass(transaction.status)">

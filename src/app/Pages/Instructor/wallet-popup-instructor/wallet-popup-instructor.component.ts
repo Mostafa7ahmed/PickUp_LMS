@@ -69,7 +69,20 @@ export class WalletPopupInstructorComponent {
             Validators.min(1),
             Validators.max(this.walletData.balance)
           ]);
-          this.generateMockTransactions();
+          // Fetch real transactions from backend
+          this.walletService.getTransactionHistory(1, 10).subscribe({
+            next: (txResponse) => {
+              if (txResponse.success && txResponse.result) {
+                this.recentTransactions = txResponse.result;
+              } else {
+                this.recentTransactions = [];
+              }
+            },
+            error: (err) => {
+              console.error('Error loading transactions:', err);
+              this.recentTransactions = [];
+            }
+          });
         }
         this.isLoading = false;
       },
@@ -100,7 +113,7 @@ export class WalletPopupInstructorComponent {
             this.playSuccessSound(); // Play success sound
 
             this.addFundsForm.reset();
-            this.addMockTransaction(amount, TransactionType.Deposit, 'Funds added to wallet');
+            this.addMockTransaction(amount, TransactionType.Credit, 'Funds added to wallet');
           } else {
             this.transactionSuccess = false;
             this.transactionMessage = 'Failed to add funds. Please try again.';
@@ -179,16 +192,12 @@ export class WalletPopupInstructorComponent {
 
   getTransactionTypeIcon(type: TransactionType): string {
     switch (type) {
-      case TransactionType.Deposit:
+      case TransactionType.Credit:
         return 'fas fa-plus-circle';
       case TransactionType.Withdrawal:
         return 'fas fa-minus-circle';
-      case TransactionType.Payment:
+      case TransactionType.Debit:
         return 'fas fa-credit-card';
-      case TransactionType.Refund:
-        return 'fas fa-undo';
-      case TransactionType.Earning:
-        return 'fas fa-coins';
       default:
         return 'fas fa-exchange-alt';
     }
@@ -196,12 +205,10 @@ export class WalletPopupInstructorComponent {
 
   getTransactionTypeColor(type: TransactionType): string {
     switch (type) {
-      case TransactionType.Deposit:
-      case TransactionType.Refund:
-      case TransactionType.Earning:
+      case TransactionType.Credit:
         return 'success';
       case TransactionType.Withdrawal:
-      case TransactionType.Payment:
+      case TransactionType.Debit:
         return 'danger';
       default:
         return 'secondary';
@@ -216,8 +223,8 @@ export class WalletPopupInstructorComponent {
         return 'badge-warning';
       case TransactionStatus.Failed:
         return 'badge-danger';
-      case TransactionStatus.Cancelled:
-        return 'badge-secondary';
+      case TransactionStatus.Started:
+        return 'badge-info';
       default:
         return 'badge-secondary';
     }
@@ -242,13 +249,13 @@ export class WalletPopupInstructorComponent {
 
   getTotalIncome(): number {
     return this.recentTransactions
-      .filter(t => t.type === TransactionType.Deposit || t.type === TransactionType.Earning || t.type === TransactionType.Refund)
+      .filter(t => t.type === TransactionType.Credit)
       .reduce((sum, t) => sum + Math.abs(t.amount), 0);
   }
 
   getTotalExpenses(): number {
     return this.recentTransactions
-      .filter(t => t.type === TransactionType.Withdrawal || t.type === TransactionType.Payment)
+      .filter(t => t.type === TransactionType.Withdrawal || t.type === TransactionType.Debit)
       .reduce((sum, t) => sum + Math.abs(t.amount), 0);
   }
 
@@ -257,57 +264,18 @@ export class WalletPopupInstructorComponent {
       .filter(t => t.status === TransactionStatus.Pending).length;
   }
 
-  generateMockTransactions(): void {
-    // Generate some mock transactions for demo purposes
-    this.recentTransactions = [
-      {
-        id: 1,
-        walletId: this.walletData?.userId || 0,
-        amount: 100,
-        type: TransactionType.Deposit,
-        description: 'Initial wallet funding',
-        createdAt: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
-        status: TransactionStatus.Completed,
-        reference: 'TXN001'
-      },
-      {
-        id: 2,
-        walletId: this.walletData?.userId || 0,
-        amount: -25,
-        type: TransactionType.Payment,
-        description: 'Course enrollment payment',
-        createdAt: new Date(Date.now() - 43200000).toISOString(), // 12 hours ago
-        status: TransactionStatus.Completed,
-        reference: 'TXN002'
-      },
-      {
-        id: 3,
-        walletId: this.walletData?.userId || 0,
-        amount: 50,
-        type: TransactionType.Earning,
-        description: 'Course completion bonus',
-        createdAt: new Date(Date.now() - 21600000).toISOString(), // 6 hours ago
-        status: TransactionStatus.Completed,
-        reference: 'TXN003'
-      }
-    ];
-  }
-
   addMockTransaction(amount: number, type: TransactionType, description: string): void {
     const newTransaction: IWalletTransaction = {
       id: this.recentTransactions.length + 1,
       walletId: this.walletData?.userId || 0,
-      amount: type === TransactionType.Withdrawal || type === TransactionType.Payment ? -amount : amount,
+      amount: type === TransactionType.Withdrawal || type === TransactionType.Debit ? -amount : amount,
       type: type,
       description: description,
       createdAt: new Date().toISOString(),
       status: TransactionStatus.Completed,
       reference: `TXN${String(this.recentTransactions.length + 1).padStart(3, '0')}`
     };
-
-    this.recentTransactions.unshift(newTransaction); // Add to beginning of array
-
-    // Keep only last 10 transactions
+    this.recentTransactions.unshift(newTransaction);
     if (this.recentTransactions.length > 10) {
       this.recentTransactions = this.recentTransactions.slice(0, 10);
     }

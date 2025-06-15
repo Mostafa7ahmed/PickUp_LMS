@@ -25,6 +25,7 @@ export class NavbarinstructorComponent {
   private _getallnotifactionService = inject(GetallnotifactionService);
   constructor(private eRef: ElementRef, private translate: TranslateService) {}
   dataUser: Decode = {} as Decode;
+  userPhotoUrl: string = '';
 
   openPopup() {
     this.toggleAccountMenu();
@@ -46,7 +47,9 @@ export class NavbarinstructorComponent {
 
   ngOnInit() {
     this.dataUser = this._LoginService.saveUserAuth();
-        this.notifications = this._getallnotifactionService.notifications
+    // Example: If your token contains a photo URL, use it. Otherwise, set a default.
+    this.userPhotoUrl = (this.dataUser as any).photoUrl || 'Images/dr.jpeg';
+    this.notifications = this._getallnotifactionService.notifications
 
   }
 

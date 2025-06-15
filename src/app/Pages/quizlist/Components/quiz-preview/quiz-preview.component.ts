@@ -194,7 +194,7 @@ export class QuizPreviewComponent implements OnInit, OnDestroy {
     console.log(`Final score: ${correct}/${this.questions.length} = ${this.score}%`);
 
     // Auto-close results with countdown
-    this.autoCloseCountdown = 5;
+    this.autoCloseCountdown = 30;
     this.countdownInterval = setInterval(() => {
       this.autoCloseCountdown--;
       if (this.autoCloseCountdown <= 0) {

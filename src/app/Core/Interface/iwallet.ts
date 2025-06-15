@@ -32,16 +32,14 @@ export interface IWalletResponse {
 }
 
 export enum TransactionType {
-  Deposit = 0,
-  Withdrawal = 1,
-  Payment = 2,
-  Refund = 3,
-  Earning = 4
+  Credit = 0, // Adds funds to the wallet
+  Debit = 1, // Deducts funds from the wallet for payments
+  Withdrawal = 2 // Moves funds from wallet to a bank account
 }
 
 export enum TransactionStatus {
-  Pending = 0,
-  Completed = 1,
-  Failed = 2,
-  Cancelled = 3
+  Started = 0,
+  Pending = 1,
+  Completed = 2,
+  Failed = 3
 }

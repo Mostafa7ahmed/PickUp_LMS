@@ -19,7 +19,8 @@
         </div>
       } @else {
         <h2>{{ instructorProfile?.name || 'Dr. Amr Mausad' }}</h2>
-        <p>Senior Data Science Instructor | AI Researcher</p>
+        <p *ngIf="instructorProfile && instructorProfile.bio" class="bio">{{ instructorProfile.bio }}</p>
+        <p *ngIf="!instructorProfile || !instructorProfile.bio">Senior Data Science Instructor | AI Researcher</p>
         @if(instructorProfile?.email) {
           <p class="email-info">
             <i class="fas fa-envelope"></i>
@@ -78,60 +79,47 @@
     [src]="getPhotoUrl(course.photoUrl)" alt="{{ course.name  }}" 
           onerror="this.src='Images/Course/Image+Background.png'"
         />
-
-        <div class="category-badge">C# Topic</div>
- 
-        
+        <div class="category-badge">{{ course.topic.name || 'No Topic' }}</div>
+        <div class="enrollment-badge" title="Enrolled Students">
+          <i class="fa-solid fa-users"></i> {{ course.enrollmentCount }}
+        </div>
       </div>
-
       <div class="course-content">
-        <h3 class="course-title">{{ course.name | splicText :30 }}</h3>
-
-        <p class="course-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio dolorum deserunt, eligendi sunt laboriosam modi.</p>
-
+        <h3 class="course-title" [title]="course.name">{{ course.name | splicText :30 }}</h3>
+        <p class="course-description" [title]="course.description">{{ course.description }}</p>
         <div class="course-stats">
           <div class="stat">
             <i class="fa-solid fa-play-circle"></i>
-            <span
-              >15 
-              lessons</span
-            >
+            <span class="stat-label">{{ course.lessonsCount }} lessons</span>
           </div>
           <div class="stat">
             <i class="fa-solid fa-clock"></i>
-            <span>8</span>
+            <span class="stat-label">{{ course.totalDuration }} hrs</span>
           </div>
           <div class="stat">
             <i class="fa-solid fa-star"></i>
-            <span>10</span>
+            <span class="stat-label">{{ course.rating }}</span>
+          </div>
+          <div class="stat">
+            <i class="fa-solid fa-calendar"></i>
+            <span class="stat-label">{{ course.createdOn | date:'mediumDate' }}</span>
           </div>
         </div>
-
-
-
-          <div class="course-footer">
-              <div class="price-section">
-                <!-- <div *ngIf="course.originalPrice && course.discount" class="original-price">
-                  ${{ formatPrice(course.originalPrice) }}
-                </div> -->
-                <div class="current-price">
-                  ${{ course.price}}
-                </div>
-              </div>
-
-              <div class="action-buttons">
-       
-                
-     
-
-                <button 
-                  class="btn-details"
-                  (click)="viewCourse(course.id)"
-                >
-                  <i class="fa-solid fa-info-circle"></i>
-                </button>
-              </div>
+        <div class="course-footer">
+          <div class="price-section">
+            <div class="current-price">
+              ${{ course.price }}
             </div>
+          </div>
+          <div class="action-buttons">
+            <button 
+              class="btn-details"
+              (click)="viewCourse(course.id)"
+            >
+              <i class="fa-solid fa-info-circle"></i>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

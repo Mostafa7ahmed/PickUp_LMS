@@ -64,19 +64,11 @@ export class SidebarfixedComponent {
       Icon: 'fa-solid fa-clipboard-question',
       routes: "quizlist"
     },
-
     {
       name: 'Coupon',
       Icon: 'fa-receipt fa-solid',
       routes: "Couponslist"
     },
-        {
-      name: 'Chat',
-      Icon: 'fa-regular fa-comment-dots',
-      
-      routes: "Chat"
-    },  
-    
     {
       name: 'To Do',
       Icon: 'fa-solid fa-list-check',

@@ -9,6 +9,7 @@ export interface IInstructorProfile {
   instagram: string;
   twitter: string;
   linkedIn: string;
+  bio: string;
 }
 
 export interface IInstructorProfileWithCourses extends IInstructorProfile {
