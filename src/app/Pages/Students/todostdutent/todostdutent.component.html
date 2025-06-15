@@ -72,28 +72,28 @@
                 <div class="task-checkbox">
                   <input type="checkbox" 
                          [id]="'task-' + task.id"
-                         [(ngModel)]="task.completed"
+                         [(ngModel)]="task.isCompleted"
                          class="form-check-input">
                   <label [for]="'task-' + task.id" class="checkbox-label"></label>
                 </div>
                 
-                <div class="task-details" [class.completed]="task.completed">
-                  <h4 class="task-title">{{ task.title }}</h4>
+                <div class="task-details" [class.completed]="task.isCompleted">
+                  <h4 class="task-title">{{ task.name }}</h4>
                   <p class="task-description" *ngIf="task.description">{{ task.description }}</p>
                   
                   <div class="task-meta">
                     <span class="task-type " [ngClass]="'type-' + task.type">
-                      <i [class]="getTaskTypeIcon(task.type)"></i>
-                      {{ task.type | titlecase }}
+                      <i [class]="getTaskTypeIcon(task.type.toString())"></i>
+                      {{ getTaskTypeLabel(task.type) }}
                     </span>
                     
                     <span class="task-priority" [class]="'priority-' + task.priority">
-                      <i [class]="getPriorityIcon(task.priority)"></i>
-                      {{ task.priority | titlecase }}
+                      <i [class]="getPriorityIcon(task.priority.toString())"></i>
+                      {{ getPriorityLabel(task.priority) }}
                     </span>
                     
                     <span class="task-due-date" 
-                          [class.overdue]="isOverdue(task.dueDate) && !task.completed">
+                          [class.overdue]="isOverdue(task.dueDate) && !task.isCompleted">
                       <i class="fa-solid fa-calendar"></i>
                       {{ formatDueDate(task.dueDate) }}
                     </span>

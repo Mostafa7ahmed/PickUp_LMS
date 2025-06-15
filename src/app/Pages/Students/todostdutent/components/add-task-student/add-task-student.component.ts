@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TextHeaderComponent } from '../../../../Courses/Components/text-header/text-header.component';
 import { TopPopComponent } from '../../../../../Components/top-pop/top-pop.component';
+import { StudentTaskService } from '../../core/service/student-task.service';
 
 interface TaskForm {
   title: string;
@@ -32,7 +33,7 @@ export class AddTaskStudentComponent {
     dueDate: '',
     completed: false
   };
-  constructor(private router: Router, private route: ActivatedRoute) {
+  constructor(private router: Router, private route: ActivatedRoute, private studentTaskService: StudentTaskService) {
     this.setDefaultDueDate();
   }
 
@@ -47,8 +48,47 @@ export class AddTaskStudentComponent {
       this.showValidation = true;
       return;
     }
+    // Map form to backend model
+    const backendTask = {
+      name: this.taskForm.title,
+      description: this.taskForm.description,
+      type: this.mapTypeToEnum(this.taskForm.type),
+      priority: this.mapPriorityToEnum(this.taskForm.priority),
+      dueDate: this.taskForm.dueDate,
+      isCompleted: this.taskForm.completed
+    };
+    this.studentTaskService.createTask(backendTask).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.taskAdded.emit(this.taskForm);
+          this.closeDialog();
+        } else {
+          // handle error
+        }
+      },
+      error: (err) => {
+        // handle error
+      }
+    });
+  }
 
-    this.closeDialog();
+  mapTypeToEnum(type: string): number {
+    switch (type) {
+      case 'personal': return 0;
+      case 'teaching': return 2; // Map to Study or Exam as needed
+      case 'grading': return 1; // Map to Work or Task as needed
+      case 'meeting': return 3;
+      default: return 4; // Other
+    }
+  }
+  mapPriorityToEnum(priority: string): number {
+    switch (priority) {
+      case 'low': return 0;
+      case 'medium': return 1;
+      case 'high': return 2;
+      case 'urgent': return 3;
+      default: return 1;
+    }
   }
 
   closeDialog(): void {
