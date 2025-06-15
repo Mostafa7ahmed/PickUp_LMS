@@ -132,6 +132,55 @@
   button:hover {
     background: #28ab5d;
   }
+
+  // Action buttons container
+  .action-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    .refresh-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      background: white;
+      min-width: 80px;
+      height: 34px;
+      padding: 7px 8px 9px;
+      gap: 5px;
+      transition: 0.3s;
+      outline: none;
+
+      span {
+        color: #6b7280;
+        font-family: var(--fontFamily-1);
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px;
+      }
+
+      .icon {
+        color: #6b7280;
+      }
+
+      &:hover:not(:disabled) {
+        background: #f9fafb;
+        border-color: #31ca6c;
+
+        span, .icon {
+          color: #31ca6c;
+        }
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+  }
 }
 
 
@@ -344,6 +393,31 @@
     &::-webkit-scrollbar-thumb {
       background: #22c55e;
       border-radius: 3px;
+    }
+
+    // Loading state
+    .loading-state {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 200px;
+
+      .loading-content {
+        text-align: center;
+        color: #6b7280;
+
+        i {
+          font-size: 2rem;
+          margin-bottom: 10px;
+          color: #31ca6c;
+        }
+
+        p {
+          margin: 0;
+          font-size: 1rem;
+          font-weight: 500;
+        }
+      }
     }
   }
 }
@@ -602,8 +676,38 @@
 
     p {
       color: #9ca3af;
-      margin: 0;
+      margin: 0 0 20px 0;
       font-size: 0.95rem;
+    }
+
+    .btn-add-first {
+      background: linear-gradient(135deg, #31ca6c, #28ab5d);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(49, 202, 108, 0.3);
+
+      i {
+        font-size: 0.9rem;
+      }
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(49, 202, 108, 0.4);
+        background: linear-gradient(135deg, #28ab5d, #22a04e);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
     }
   }
 }

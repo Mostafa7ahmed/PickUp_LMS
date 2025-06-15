@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { Router, RouterOutlet, ActivatedRoute } from '@angular/router';
-import { ITaskInstrctor } from './core/Interface/itask-instrctor';
-import { GetalltaskinstrctorService } from './core/Service/getalltaskinstrctor.service';
+import { Router } from '@angular/router';
+import { TaskService, Task, TaskType, TaskPriority } from './core/services/task.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-todo-instructor',
   standalone: true,
@@ -15,20 +15,56 @@ import { GetalltaskinstrctorService } from './core/Service/getalltaskinstrctor.s
 export class TodoInstructorComponent implements OnInit, OnDestroy {
   activeFilter: string = 'all';
   searchTerm: string = '';
-  
-  tasks: ITaskInstrctor[] = [
-   
-  ];
 
-  constructor(private router: Router, private route: ActivatedRoute , private _getalltaskinstrctorService : GetalltaskinstrctorService) {}
+  // Use real tasks from API
+  tasks: Task[] = [];
+  isLoading = false;
+
+  private taskService = inject(TaskService);
+  private router = inject(Router);
+  private tasksSubscription?: Subscription;
+
+  constructor() {}
 
   ngOnInit(): void {
-    this.tasks = this._getalltaskinstrctorService.tasks;
+    this.loadTasks();
 
-   
+    // Subscribe to real-time task updates
+    this.tasksSubscription = this.taskService.tasks$.subscribe(tasks => {
+      this.tasks = tasks;
+      console.log('📋 Tasks updated in TodoInstructor:', tasks);
+    });
   }
 
   ngOnDestroy(): void {
+    if (this.tasksSubscription) {
+      this.tasksSubscription.unsubscribe();
+    }
+  }
+
+  // Load tasks from API
+  private loadTasks(): void {
+    this.isLoading = true;
+
+    this.taskService.getTasksPaginated({
+      pageNumber: 1,
+      pageSize: 100, // Load more tasks for todo list
+      orderBy: 2,
+      orderDirection: 1
+    }).subscribe({
+      next: (response) => {
+        if (response.success) {
+          console.log('✅ Tasks loaded successfully:', response.result);
+        } else {
+          console.error('❌ Failed to load tasks:', response.message);
+        }
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('❌ Error loading tasks:', error);
+        this.isLoading = false;
+      }
+    });
   }
 
   openAddTaskForm(): void {
@@ -41,67 +77,116 @@ export class TodoInstructorComponent implements OnInit, OnDestroy {
 
  
 
-  // Filter methods
   setFilter(filter: string): void {
     this.activeFilter = filter;
   }
 
 
 
-  getFilteredTasks(): ITaskInstrctor[] {
+  getFilteredTasks(): Task[] {
     let filteredTasks = [...this.tasks];
 
+    // Filter by type using enum values
     if (this.activeFilter !== 'all') {
-      filteredTasks = filteredTasks.filter(task => task.type === this.activeFilter);
+      const filterTypeMap: { [key: string]: TaskType } = {
+        'personal': TaskType.Personal,
+        'work': TaskType.Work,
+        'study': TaskType.Study,
+        'meeting': TaskType.Meeting,
+        'other': TaskType.Other
+      };
+
+      const filterType = filterTypeMap[this.activeFilter];
+      if (filterType !== undefined) {
+        filteredTasks = filteredTasks.filter(task => task.type === filterType);
+      }
     }
 
+    // Search in name and description
     if (this.searchTerm.trim()) {
       const searchLower = this.searchTerm.toLowerCase();
-      filteredTasks = filteredTasks.filter(task => 
-        task.title.toLowerCase().includes(searchLower) ||
+      filteredTasks = filteredTasks.filter(task =>
+        task.name.toLowerCase().includes(searchLower) ||
         task.description?.toLowerCase().includes(searchLower)
       );
     }
 
-    // Sort tasks by priority and due date
+    // Sort by priority and due date
     return filteredTasks.sort((a, b) => {
-      const priorityOrder = { urgent: 0, high: 1, medium: 2, low: 3 };
-      const priorityDiff = priorityOrder[a.priority] - priorityOrder[b.priority];
+      // Priority order: Urgent (3) > High (2) > Medium (1) > Low (0)
+      const priorityDiff = b.priority - a.priority;
       if (priorityDiff !== 0) return priorityDiff;
+
+      // Then by due date
       return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
     });
   }
 
-  // Task management methods
 
-  deleteTask(task: ITaskInstrctor): void {
-    this.tasks = this.tasks.filter(t => t.id !== task.id);
+  deleteTask(task: Task): void {
+    if (!task.id) return;
+
+    this.taskService.deleteTask(task.id).subscribe({
+      next: (response) => {
+        if (response.success) {
+          console.log('✅ Task deleted successfully');
+        } else {
+          console.error('❌ Failed to delete task:', response.message);
+        }
+      },
+      error: (error) => {
+        console.error('❌ Error deleting task:', error);
+      }
+    });
   }
 
-  // Utility methods
-  trackByTaskId(index: number, task: ITaskInstrctor): number {
+  trackByTaskId(_: number, task: Task): number | undefined {
     return task.id;
   }
 
-  getTaskTypeIcon(type: string): string {
-    switch (type) {
-      case 'teaching': return 'fa-solid fa-chalkboard-teacher';
-      case 'grading': return 'fa-solid fa-clipboard-check';
-      case 'administrative': return 'fa-solid fa-briefcase';
-      case 'meeting': return 'fa-solid fa-users';
-      case 'personal': return 'fa-solid fa-user';
-      default: return 'fa-solid fa-tasks';
+  getTaskTypeIcon(type: TaskType): string {
+    return this.taskService.getTaskTypeIcon(type);
+  }
+
+  getPriorityIcon(priority: TaskPriority): string {
+    switch (priority) {
+      case TaskPriority.Urgent: return 'fa-solid fa-exclamation-circle';
+      case TaskPriority.High: return 'fa-solid fa-arrow-up';
+      case TaskPriority.Medium: return 'fa-solid fa-minus';
+      case TaskPriority.Low: return 'fa-solid fa-arrow-down';
+      default: return 'fa-solid fa-minus';
     }
   }
 
-  getPriorityIcon(priority: string): string {
-    switch (priority) {
-      case 'urgent': return 'fa-solid fa-exclamation-circle';
-      case 'high': return 'fa-solid fa-arrow-up';
-      case 'medium': return 'fa-solid fa-minus';
-      case 'low': return 'fa-solid fa-arrow-down';
-      default: return 'fa-solid fa-minus';
-    }
+  getPriorityLabel(priority: TaskPriority): string {
+    return this.taskService.getTaskPriorityLabel(priority);
+  }
+
+  getTaskTypeLabel(type: TaskType): string {
+    return this.taskService.getTaskTypeLabel(type);
+  }
+
+  // Mark task as completed
+  toggleTaskCompletion(task: Task): void {
+    if (!task.id) return;
+
+    this.taskService.markTaskCompleted(task.id).subscribe({
+      next: (response) => {
+        if (response.success) {
+          console.log('✅ Task marked as completed');
+        } else {
+          console.error('❌ Failed to mark task as completed:', response.message);
+        }
+      },
+      error: (error) => {
+        console.error('❌ Error marking task as completed:', error);
+      }
+    });
+  }
+
+  // Refresh tasks manually
+  refreshTasks(): void {
+    this.loadTasks();
   }
 
   isOverdue(dueDate: string): boolean {
@@ -124,11 +209,11 @@ export class TodoInstructorComponent implements OnInit, OnDestroy {
 
   getEmptyStateMessage(): string {
     switch (this.activeFilter) {
-      case 'teaching': return 'No teaching tasks found. Add a teaching task to get started!';
-      case 'grading': return 'No grading tasks found. Add a grading task to get started!';
-      case 'administrative': return 'No administrative tasks found. Add an administrative task to get started!';
+      case 'work': return 'No work tasks found. Add a work task to get started!';
+      case 'study': return 'No study tasks found. Add a study task to get started!';
       case 'meeting': return 'No meeting tasks found. Add a meeting task to get started!';
       case 'personal': return 'No personal tasks found. Add a personal task to get started!';
+      case 'other': return 'No other tasks found. Add a task to get started!';
       default: return 'No tasks found. Add your first task to get started!';
     }
   }
