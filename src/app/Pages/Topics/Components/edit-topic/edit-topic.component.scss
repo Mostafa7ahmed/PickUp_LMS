@@ -351,6 +351,121 @@ footer {
 }
 
 .fromStage {
+  // Existing Stages Section
+  .existing-stages {
+    margin-bottom: 20px;
+
+    h4 {
+      color: #1c1c28;
+      font-family: var(--font-family-1);
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e1e1e1;
+    }
+  }
+
+  // New Stages Section
+  .new-stages {
+    h4 {
+      color: #1c1c28;
+      font-family: var(--font-family-1);
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e1e1e1;
+    }
+  }
+
+  // Editable Stage Input
+  .editable-stage {
+    background: #f8f9fa !important;
+    border: 1px solid #dee2e6 !important;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: #48b29a !important;
+      background: #fff !important;
+    }
+
+    &:focus {
+      border-color: #31ca6c !important;
+      background: #fff !important;
+      box-shadow: 0 0 0 2px rgba(49, 202, 108, 0.1);
+    }
+  }
+
+  // Color picker for existing stages
+  .color-popup {
+    cursor: pointer;
+    position: relative;
+
+    &:hover .arrow_stage {
+      opacity: 1;
+    }
+
+    .arrow_stage {
+      position: absolute;
+      right: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 12px;
+      height: 12px;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+  }
+
+  .packageColor {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    background: white;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    min-width: 120px;
+
+    .colorBox {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.2s ease;
+
+      &:hover {
+        border-color: #48b29a;
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  // Circle shape for Published stages
+  .squareSelected.circle {
+    border-radius: 50% !important;
+  }
+
+  // Add Stage Section
+  .add-stage-section {
+    margin: 16px 0;
+    padding: 12px;
+    border: 2px dashed #e1e1e1;
+    border-radius: 8px;
+    text-align: center;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: #48b29a;
+      background: #f8fffe;
+    }
+  }
 
   .add-stage-btn {
     display: inline-flex;
@@ -372,14 +487,12 @@ footer {
     &:hover {
       background-color: #48b29a1a;
       color: #48b29a;
-
-
     }
+
     &:disabled{
       opacity: .5;
       background: #3e97ff1a;
       color: #48b299b3;
-
       cursor: not-allowed !important;
     }
   }
