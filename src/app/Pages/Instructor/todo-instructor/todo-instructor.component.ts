@@ -117,7 +117,10 @@ export class TodoInstructorComponent implements OnInit, OnDestroy {
       const priorityDiff = b.priority - a.priority;
       if (priorityDiff !== 0) return priorityDiff;
 
-      // Then by due date
+      // Handle optional dueDate
+      if (!a.dueDate && !b.dueDate) return 0;
+      if (!a.dueDate) return 1;
+      if (!b.dueDate) return -1;
       return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
     });
   }
@@ -144,44 +147,90 @@ export class TodoInstructorComponent implements OnInit, OnDestroy {
     return task.id;
   }
 
-  getTaskTypeIcon(type: TaskType): string {
+  getTaskTypeIcon(type: number): string {
     return this.taskService.getTaskTypeIcon(type);
   }
 
-  getPriorityIcon(priority: TaskPriority): string {
-    switch (priority) {
-      case TaskPriority.Urgent: return 'fa-solid fa-exclamation-circle';
-      case TaskPriority.High: return 'fa-solid fa-arrow-up';
-      case TaskPriority.Medium: return 'fa-solid fa-minus';
-      case TaskPriority.Low: return 'fa-solid fa-arrow-down';
-      default: return 'fa-solid fa-minus';
-    }
+  getPriorityIcon(priority: number): string {
+    return this.taskService.getPriorityIcon(priority);
   }
 
-  getPriorityLabel(priority: TaskPriority): string {
+  getPriorityLabel(priority: number): string {
     return this.taskService.getTaskPriorityLabel(priority);
   }
 
-  getTaskTypeLabel(type: TaskType): string {
+  getTaskTypeLabel(type: number): string {
     return this.taskService.getTaskTypeLabel(type);
+  }
+
+  getTaskTypeColor(type: number): string {
+    switch (type) {
+      case 0: return '#dc2626'; // Red for Personal
+      case 1: return '#1e40af'; // Blue for Work
+      case 2: return '#7c3aed'; // Purple for Study
+      case 3: return '#059669'; // Green for Meeting
+      case 4: return '#475569'; // Gray for Other
+      default: return '#6b7280'; // Default gray
+    }
+  }
+
+  getTaskTypeBackgroundColor(type: number): string {
+    switch (type) {
+      case 0: return '#fef2f2'; // Light red for Personal
+      case 1: return '#dbeafe'; // Light blue for Work
+      case 2: return '#f3e8ff'; // Light purple for Study
+      case 3: return '#ecfdf5'; // Light green for Meeting
+      case 4: return '#f1f5f9'; // Light gray for Other
+      default: return '#f9fafb'; // Default light gray
+    }
+  }
+
+  getPriorityColor(priority: number): string {
+    return this.taskService.getTaskPriorityColor(priority);
+  }
+
+  getPriorityBackgroundColor(priority: number): string {
+    switch (priority) {
+      case 0: return '#ecfdf5'; // Light Green background for Low
+      case 1: return '#fffbeb'; // Light Yellow background for Medium
+      case 2: return '#fef2f2'; // Light Red background for High
+      case 3: return '#fef2f2'; // Light Red background for Urgent
+      default: return '#f9fafb'; // Light Gray background for default
+    }
   }
 
   // Mark task as completed
   toggleTaskCompletion(task: Task): void {
     if (!task.id) return;
 
-    this.taskService.markTaskCompleted(task.id).subscribe({
-      next: (response) => {
-        if (response.success) {
-          console.log('✅ Task marked as completed');
-        } else {
-          console.error('❌ Failed to mark task as completed:', response.message);
+    // Toggle the completion status
+    if (task.completed) {
+      this.taskService.markTaskIncomplete(task).subscribe({
+        next: (response) => {
+          if (response.success) {
+            console.log('✅ Task marked as incomplete');
+          } else {
+            console.error('❌ Failed to mark task as incomplete:', response.message);
+          }
+        },
+        error: (error) => {
+          console.error('❌ Error marking task as incomplete:', error);
         }
-      },
-      error: (error) => {
-        console.error('❌ Error marking task as completed:', error);
-      }
-    });
+      });
+    } else {
+      this.taskService.markTaskCompleted(task).subscribe({
+        next: (response) => {
+          if (response.success) {
+            console.log('✅ Task marked as completed');
+          } else {
+            console.error('❌ Failed to mark task as completed:', response.message);
+          }
+        },
+        error: (error) => {
+          console.error('❌ Error marking task as completed:', error);
+        }
+      });
+    }
   }
 
   // Refresh tasks manually

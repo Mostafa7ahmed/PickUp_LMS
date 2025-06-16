@@ -100,31 +100,50 @@
                 <div class="task-checkbox">
                   <input type="checkbox"
                          [id]="'task-' + task.id"
-                         [checked]="task.isCompleted"
+                         [checked]="task.completed"
                          (change)="toggleTaskCompletion(task)"
                          class="form-check-input">
                   <label [for]="'task-' + task.id" class="checkbox-label"></label>
                 </div>
 
-                <div class="task-details" [class.completed]="task.isCompleted">
+                <div class="task-details" [class.completed]="task.completed">
                   <h4 class="task-title">{{ task.name }}</h4>
                   <p class="task-description" *ngIf="task.description">{{ task.description }}</p>
                   
                   <div class="task-meta">
-                    <span class="task-type" [class]="'type-' + task.type">
+                    <span class="task-type"
+                          [class]="'type-' + task.type"
+                          [style.color]="getTaskTypeColor(task.type)"
+                          [style.background-color]="getTaskTypeBackgroundColor(task.type)"
+                          [style.border]="'1px solid ' + getTaskTypeColor(task.type)"
+                          [style.padding]="'6px 12px'"
+                          [style.border-radius]="'20px'"
+                          [style.font-size]="'0.8rem'"
+                          [style.font-weight]="'500'">
                       <i [class]="getTaskTypeIcon(task.type)"></i>
                       {{ getTaskTypeLabel(task.type) }}
                     </span>
 
-                    <span class="task-priority" [class]="'priority-' + task.priority">
+                    <span class="task-priority"
+                          [class]="'priority-' + task.priority"
+                          [style.color]="getPriorityColor(task.priority)"
+                          [style.background-color]="getPriorityBackgroundColor(task.priority)"
+                          [style.border]="'1px solid ' + getPriorityColor(task.priority)"
+                          [style.padding]="'8px 14px'"
+                          [style.border-radius]="'25px'"
+                          [style.font-size]="'0.8rem'"
+                          [style.font-weight]="'600'"
+                          [style.text-transform]="'uppercase'"
+                          [style.letter-spacing]="'0.5px'">
                       <i [class]="getPriorityIcon(task.priority)"></i>
                       {{ getPriorityLabel(task.priority) }}
                     </span>
 
                     <span class="task-due-date"
-                          [class.overdue]="isOverdue(task.dueDate) && !task.isCompleted">
+                          *ngIf="task.dueDate"
+                          [class.overdue]="isOverdue(task.dueDate!) && !task.completed">
                       <i class="fa-solid fa-calendar"></i>
-                      {{ formatDueDate(task.dueDate) }}
+                      {{ formatDueDate(task.dueDate!) }}
                     </span>
                   </div>
                 </div>

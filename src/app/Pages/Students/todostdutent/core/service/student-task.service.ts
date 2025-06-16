@@ -1,24 +1,48 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
+// Student Task interface matching the exact API response structure
 export interface StudentTask {
-  id?: number;
+  id: number;
+  userId: number;
+  name: string;
+  description: string;
+  type: number;
+  completed: boolean;
+  priority: number;
+  dueDate?: string; // Added dueDate field for UI compatibility
+  createdOn: string;
+  updatedOn: string;
+}
+
+// Request interface for creating tasks (matches API request structure)
+export interface CreateStudentTaskRequest {
   name: string;
   description: string;
   type: number;
   priority: number;
   dueDate: string;
-  isCompleted?: boolean;
-  createdAt?: string;
-  updatedAt?: string;
 }
 
+// Request interface for updating tasks (matches API request structure)
+export interface UpdateStudentTaskRequest {
+  id: number;
+  name: string;
+  description: string;
+  type: number;
+  priority: number;
+  dueDate: string;
+  completed: boolean;
+}
+
+// API Response interface matching the exact API response structure
 export interface ApiResponse<T> {
   success: boolean;
-  result: T;
+  statusCode: number;
   message: string;
-  errors?: string[];
+  result?: T;
 }
 
 export interface PaginationParams {
@@ -48,12 +72,20 @@ export interface PaginatedResponse<T> {
 })
 export class StudentTaskService {
   private readonly baseUrl = 'https://pickup.runasp.net/pickup-lms/api/v1';
+  private readonly tasksSubject = new BehaviorSubject<StudentTask[]>([]);
+  public tasks$ = this.tasksSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.loadTasks();
+  }
 
-  // Get all tasks (paginated, with optional search)
-  getTasksPaginated(params?: PaginationParams & { search?: string }): Observable<PaginatedResponse<StudentTask>> {
+
+
+  // Get all tasks (paginated)
+  getTasksPaginated(params?: PaginationParams): Observable<PaginatedResponse<StudentTask>> {
     const url = `${this.baseUrl}/task/paginate`;
+
+    // Default pagination parameters
     const defaultParams: PaginationParams = {
       orderBy: 2,
       pageNumber: 1,
@@ -61,31 +93,139 @@ export class StudentTaskService {
       orderBeforPagination: true,
       orderDirection: 1
     };
+
+    // Merge with provided params
     const finalParams = { ...defaultParams, ...params };
+
+    // Build HTTP params
     let httpParams = new HttpParams();
     Object.entries(finalParams).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
         httpParams = httpParams.set(key, value.toString());
       }
     });
-    return this.http.get<PaginatedResponse<StudentTask>>(url, { params: httpParams });
+
+    console.log('📋 Loading paginated student tasks with params:', finalParams);
+
+    return this.http.get<PaginatedResponse<StudentTask>>(url, { params: httpParams }).pipe(
+      tap(response => {
+        if (response.success) {
+          // Update the tasks subject with paginated items
+          this.tasksSubject.next(response.result);
+          console.log('📋 Student tasks loaded:', {
+            items: response.result.length,
+            totalCount: response.totalCount,
+            pageIndex: response.pageIndex,
+            totalPages: response.totalPages
+          });
+        }
+      })
+    );
   }
 
-  // Create new task
-  createTask(taskData: Omit<StudentTask, 'id'>): Observable<ApiResponse<StudentTask>> {
+  // Get a single task by ID
+  getTaskById(id: number): Observable<ApiResponse<StudentTask>> {
+    const url = `${this.baseUrl}/task?id=${id}`;
+    console.log('🔍 Getting student task by ID:', id);
+    return this.http.get<ApiResponse<StudentTask>>(url);
+  }
+
+  // Create new task (POST /pickup-lms/api/v1/task)
+  createTask(taskData: CreateStudentTaskRequest): Observable<ApiResponse<StudentTask>> {
     const url = `${this.baseUrl}/task`;
-    return this.http.post<ApiResponse<StudentTask>>(url, taskData);
+    console.log('📝 Creating student task:', taskData);
+    return this.http.post<ApiResponse<StudentTask>>(url, taskData).pipe(
+      tap(response => {
+        if (response.success) {
+          console.log('✅ Student task created successfully:', response.result);
+          this.loadTasks(); // Refresh tasks list
+        } else {
+          console.error('❌ Failed to create student task:', response.message);
+        }
+      })
+    );
   }
 
-  // Update task
-  updateTask(id: number, taskData: Partial<StudentTask>): Observable<ApiResponse<StudentTask>> {
+  // Update task (PUT /pickup-lms/api/v1/task)
+  updateTask(taskData: UpdateStudentTaskRequest): Observable<ApiResponse<StudentTask>> {
     const url = `${this.baseUrl}/task`;
-    return this.http.put<ApiResponse<StudentTask>>(url, { id, ...taskData });
+    console.log('📝 Updating student task:', taskData);
+    return this.http.put<ApiResponse<StudentTask>>(url, taskData).pipe(
+      tap(response => {
+        if (response.success) {
+          console.log('✅ Student task updated successfully:', response.result);
+          this.loadTasks(); // Refresh tasks list
+        } else {
+          console.error('❌ Failed to update student task:', response.message);
+        }
+      })
+    );
   }
 
-  // Delete task
+  // Delete task (DELETE /pickup-lms/api/v1/task with id in header)
   deleteTask(id: number): Observable<ApiResponse<any>> {
     const url = `${this.baseUrl}/task`;
-    return this.http.delete<ApiResponse<any>>(url, { headers: { id: id.toString() } });
+    console.log('🗑️ Deleting student task:', id);
+    return this.http.delete<ApiResponse<any>>(url, {
+      headers: { id: id.toString() }
+    }).pipe(
+      tap(response => {
+        if (response.success) {
+          console.log('✅ Student task deleted successfully');
+          this.loadTasks(); // Refresh tasks list
+        } else {
+          console.error('❌ Failed to delete student task:', response.message);
+        }
+      })
+    );
+  }
+
+  // Mark task as completed
+  markTaskCompleted(task: StudentTask): Observable<ApiResponse<StudentTask>> {
+    const updateData: UpdateStudentTaskRequest = {
+      id: task.id,
+      name: task.name,
+      description: task.description,
+      type: task.type,
+      priority: task.priority,
+      dueDate: new Date().toISOString(),
+      completed: true
+    };
+
+    console.log('✅ Marking student task as completed:', task.id);
+    return this.updateTask(updateData);
+  }
+
+  // Mark task as incomplete
+  markTaskIncomplete(task: StudentTask): Observable<ApiResponse<StudentTask>> {
+    const updateData: UpdateStudentTaskRequest = {
+      id: task.id,
+      name: task.name,
+      description: task.description,
+      type: task.type,
+      priority: task.priority,
+      dueDate: new Date().toISOString(),
+      completed: false
+    };
+
+    console.log('❌ Marking student task as incomplete:', task.id);
+    return this.updateTask(updateData);
+  }
+
+  // Load tasks and update subject
+  private loadTasks(): void {
+    this.getTasksPaginated().subscribe({
+      next: () => {
+        // Tasks already updated in getTasksPaginated() tap operator
+      },
+      error: (error) => {
+        console.error('❌ Error loading student tasks:', error);
+      }
+    });
+  }
+
+  // Get current tasks array
+  getCurrentTasks(): StudentTask[] {
+    return this.tasksSubject.value;
   }
 }

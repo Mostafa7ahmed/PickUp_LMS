@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TextHeaderComponent } from '../../../../Courses/Components/text-header/text-header.component';
 import { TopPopComponent } from '../../../../../Components/top-pop/top-pop.component';
@@ -33,7 +33,7 @@ export class AddTaskStudentComponent {
     dueDate: '',
     completed: false
   };
-  constructor(private router: Router, private route: ActivatedRoute, private studentTaskService: StudentTaskService) {
+  constructor(private router: Router, private studentTaskService: StudentTaskService) {
     this.setDefaultDueDate();
   }
 
@@ -48,26 +48,34 @@ export class AddTaskStudentComponent {
       this.showValidation = true;
       return;
     }
+
+    this.showValidation = false;
+
     // Map form to backend model
     const backendTask = {
-      name: this.taskForm.title,
-      description: this.taskForm.description,
+      name: this.taskForm.title.trim(),
+      description: this.taskForm.description.trim(),
       type: this.mapTypeToEnum(this.taskForm.type),
       priority: this.mapPriorityToEnum(this.taskForm.priority),
-      dueDate: this.taskForm.dueDate,
-      isCompleted: this.taskForm.completed
+      dueDate: new Date(this.taskForm.dueDate).toISOString()
     };
+
+    console.log('📝 Creating student task:', backendTask);
+
     this.studentTaskService.createTask(backendTask).subscribe({
       next: (response) => {
         if (response.success) {
+          console.log('✅ Student task created successfully:', response.result);
           this.taskAdded.emit(this.taskForm);
           this.closeDialog();
         } else {
-          // handle error
+          console.error('❌ Failed to create student task:', response.message);
+          alert('Failed to create task: ' + response.message);
         }
       },
-      error: (err) => {
-        // handle error
+      error: (error) => {
+        console.error('❌ Error creating student task:', error);
+        alert('Error creating task. Please try again.');
       }
     });
   }

@@ -11,8 +11,8 @@ import { TaskService, CreateTaskRequest, TaskType, TaskPriority } from '../../co
 interface TaskForm {
   name: string;
   description: string;
-  type: TaskType;
-  priority: TaskPriority;
+  type: number;
+  priority: number;
   dueDate: string;
 }
 

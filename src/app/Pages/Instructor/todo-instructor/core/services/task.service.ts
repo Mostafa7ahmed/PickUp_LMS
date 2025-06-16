@@ -4,16 +4,18 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
+// Task interface matching the exact API response structure
 export interface Task {
-  id?: number;
+  id: number;
+  userId: number;
   name: string;
   description: string;
-  type: TaskType;
-  priority: TaskPriority;
-  dueDate: string;
-  isCompleted?: boolean;
-  createdAt?: string;
-  updatedAt?: string;
+  type: number;
+  completed: boolean;
+  priority: number;
+  dueDate?: string; // Added dueDate field for UI compatibility
+  createdOn: string;
+  updatedOn: string;
 }
 
 export enum TaskType {
@@ -31,19 +33,32 @@ export enum TaskPriority {
   Urgent = 3
 }
 
+// Request interface for creating tasks (matches API request structure)
 export interface CreateTaskRequest {
   name: string;
   description: string;
-  type: TaskType;
-  priority: TaskPriority;
+  type: number;
+  priority: number;
   dueDate: string;
 }
 
+// Request interface for updating tasks (matches API request structure)
+export interface UpdateTaskRequest {
+  id: number;
+  name: string;
+  description: string;
+  type: number;
+  priority: number;
+  dueDate: string;
+  completed: boolean;
+}
+
+// API Response interface matching the exact API response structure
 export interface ApiResponse<T> {
   success: boolean;
-  result: T;
+  statusCode: number;
   message: string;
-  errors?: string[];
+  result?: T;
 }
 
 export interface PaginationParams {
@@ -94,10 +109,20 @@ export class TaskService {
     this.loadTasks();
   }
 
-  // Create new task
+  // Create new task (POST /pickup-lms/api/v1/task)
   createTask(taskData: CreateTaskRequest): Observable<ApiResponse<Task>> {
     const url = `${this.baseUrl}/task`;
-    return this.http.post<ApiResponse<Task>>(url, taskData);
+    console.log('📝 Creating task:', taskData);
+    return this.http.post<ApiResponse<Task>>(url, taskData).pipe(
+      tap(response => {
+        if (response.success) {
+          console.log('✅ Task created successfully:', response.result);
+          this.loadTasks(); // Refresh tasks list
+        } else {
+          console.error('❌ Failed to create task:', response.message);
+        }
+      })
+    );
   }
 
   // Get all tasks (paginated, with optional search)
@@ -142,50 +167,85 @@ export class TaskService {
     );
   }
 
-  // Get a single task by ID (GET)
-  getTaskById(id: number): Observable<ApiResponse<any>> {
+  // Get a single task by ID (GET /pickup-lms/api/v1/task?id={id})
+  getTaskById(id: number): Observable<ApiResponse<Task>> {
     const url = `${this.baseUrl}/task?id=${id}`;
-    return this.http.get<ApiResponse<any>>(url);
-  }
-
-  // Update task
-  updateTask(id: number, taskData: Partial<CreateTaskRequest>): Observable<ApiResponse<Task>> {
-    const url = `${this.baseUrl}/task`;
-    return this.http.put<ApiResponse<Task>>(url, { id, ...taskData });
-  }
-
-  // Delete task
-  deleteTask(id: number): Observable<ApiResponse<any>> {
-    const url = `${this.baseUrl}/task`;
-    return this.http.delete<ApiResponse<any>>(url, { headers: { id: id.toString() } });
-  }
-
-  // Mark task as completed
-  markTaskCompleted(id: number): Observable<ApiResponse<Task>> {
-    const url = `${this.baseUrl}/task/${id}/complete`;
-
-    return this.http.patch<ApiResponse<Task>>(url, {}).pipe(
+    console.log('🔍 Getting task by ID:', id);
+    return this.http.get<ApiResponse<Task>>(url).pipe(
       tap(response => {
         if (response.success) {
-          console.log('✅ Task marked as completed');
-          this.loadTasks(); // Refresh tasks list
+          console.log('✅ Task retrieved successfully:', response.result);
+        } else {
+          console.error('❌ Failed to get task:', response.message);
         }
       })
     );
   }
 
-  // Add or update a task (PUT)
-  addOrUpdateTask(task: {
-    id: number;
-    name: string;
-    description: string;
-    type: number;
-    priority: number;
-    dueDate: string;
-    completed: boolean;
-  }): Observable<ApiResponse<any>> {
+  // Update task (PUT /pickup-lms/api/v1/task)
+  updateTask(taskData: UpdateTaskRequest): Observable<ApiResponse<Task>> {
     const url = `${this.baseUrl}/task`;
-    return this.http.put<ApiResponse<any>>(url, task);
+    console.log('📝 Updating task:', taskData);
+    return this.http.put<ApiResponse<Task>>(url, taskData).pipe(
+      tap(response => {
+        if (response.success) {
+          console.log('✅ Task updated successfully:', response.result);
+          this.loadTasks(); // Refresh tasks list
+        } else {
+          console.error('❌ Failed to update task:', response.message);
+        }
+      })
+    );
+  }
+
+  // Delete task (DELETE /pickup-lms/api/v1/task with id in header)
+  deleteTask(id: number): Observable<ApiResponse<any>> {
+    const url = `${this.baseUrl}/task`;
+    console.log('🗑️ Deleting task:', id);
+    return this.http.delete<ApiResponse<any>>(url, {
+      headers: { id: id.toString() }
+    }).pipe(
+      tap(response => {
+        if (response.success) {
+          console.log('✅ Task deleted successfully');
+          this.loadTasks(); // Refresh tasks list
+        } else {
+          console.error('❌ Failed to delete task:', response.message);
+        }
+      })
+    );
+  }
+
+  // Mark task as completed by updating it with completed: true
+  markTaskCompleted(task: Task): Observable<ApiResponse<Task>> {
+    const updateData: UpdateTaskRequest = {
+      id: task.id,
+      name: task.name,
+      description: task.description,
+      type: task.type,
+      priority: task.priority,
+      dueDate: new Date().toISOString(), // Use current date or keep original
+      completed: true
+    };
+
+    console.log('✅ Marking task as completed:', task.id);
+    return this.updateTask(updateData);
+  }
+
+  // Mark task as incomplete by updating it with completed: false
+  markTaskIncomplete(task: Task): Observable<ApiResponse<Task>> {
+    const updateData: UpdateTaskRequest = {
+      id: task.id,
+      name: task.name,
+      description: task.description,
+      type: task.type,
+      priority: task.priority,
+      dueDate: new Date().toISOString(), // Use current date or keep original
+      completed: false
+    };
+
+    console.log('❌ Marking task as incomplete:', task.id);
+    return this.updateTask(updateData);
   }
 
   // Load tasks and update subject
@@ -205,8 +265,8 @@ export class TaskService {
     return this.tasksSubject.value;
   }
 
-  // Helper methods for UI
-  getTaskTypeLabel(type: TaskType): string {
+  // Helper methods for UI - now accepting numbers instead of enums
+  getTaskTypeLabel(type: number): string {
     switch (type) {
       case TaskType.Personal: return 'Personal';
       case TaskType.Work: return 'Work';
@@ -217,7 +277,7 @@ export class TaskService {
     }
   }
 
-  getTaskPriorityLabel(priority: TaskPriority): string {
+  getTaskPriorityLabel(priority: number): string {
     switch (priority) {
       case TaskPriority.Low: return 'Low';
       case TaskPriority.Medium: return 'Medium';
@@ -227,7 +287,7 @@ export class TaskService {
     }
   }
 
-  getTaskPriorityColor(priority: TaskPriority): string {
+  getTaskPriorityColor(priority: number): string {
     switch (priority) {
       case TaskPriority.Low: return '#10b981';
       case TaskPriority.Medium: return '#f59e0b';
@@ -237,7 +297,7 @@ export class TaskService {
     }
   }
 
-  getTaskTypeIcon(type: TaskType): string {
+  getTaskTypeIcon(type: number): string {
     switch (type) {
       case TaskType.Personal: return 'fas fa-user';
       case TaskType.Work: return 'fas fa-briefcase';
@@ -245,6 +305,17 @@ export class TaskService {
       case TaskType.Meeting: return 'fas fa-users';
       case TaskType.Other: return 'fas fa-tasks';
       default: return 'fas fa-task';
+    }
+  }
+
+  // Helper method to get priority icon
+  getPriorityIcon(priority: number): string {
+    switch (priority) {
+      case TaskPriority.Low: return 'fas fa-arrow-down';
+      case TaskPriority.Medium: return 'fas fa-minus';
+      case TaskPriority.High: return 'fas fa-arrow-up';
+      case TaskPriority.Urgent: return 'fas fa-exclamation';
+      default: return 'fas fa-question';
     }
   }
 }
