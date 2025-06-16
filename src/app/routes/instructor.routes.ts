@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { instructorGuard } from '../Core/Guards/instructor.guard';
 import { RoutesinstructorComponent } from '../Layout/Instructor/routesinstructor/routesinstructor.component';
 
 import { notloginguardsGuard } from '../Core/Guards/notloginguards.guard';
@@ -16,9 +15,11 @@ import { QuizPreviewComponent } from '../Pages/quizlist/Components/quiz-preview/
 import { DeleteTopicComponent } from '../Pages/Topics/Components/delete-topic/delete-topic.component';
 import { EditTopicComponent } from '../Pages/Topics/Components/edit-topic/edit-topic.component';
 import { AddCoursesComponent } from '../Pages/Courses/Components/add-courses/add-courses.component';
+import { EditCourseComponent } from '../Pages/Courses/Components/edit-course/edit-course.component';
 import { CreateLessonComponent } from '../Pages/lesson/Components/create-lesson/create-lesson.component';
 import { ViewCouponComponent } from '../Pages/Coupon/Components/view-coupon/view-coupon.component';
 import { CouponCourseComponent } from '../Pages/Coupon/Components/coupon-course/coupon-course.component';
+import { EditCouponComponent } from '../Pages/Coupon/Components/edit-coupon/edit-coupon.component';
 import { CouponListComponent } from '../Pages/Coupon/coupon-list/coupon-list.component';
 import { ViewTopicandStageComponent } from '../Pages/Topics/Components/view-topicand-stage/view-topicand-stage.component';
 import { EditStageComponent } from '../Pages/Stages/Components/edit-stage/edit-stage.component';
@@ -26,6 +27,7 @@ import { AddStageComponent } from '../Pages/Stages/Components/add-stage/add-stag
 import { HomeinstructorComponent } from '../Pages/Instructor/homeinstructor/homeinstructor.component';
 import { TodoInstructorComponent } from '../Pages/Instructor/todo-instructor/todo-instructor.component';
 import { AddtasktodoComponent } from '../Pages/Instructor/todo-instructor/components/addtasktodo/addtasktodo.component';
+import { EditTaskInstructorComponent } from '../Pages/Instructor/todo-instructor/components/edit-task-instructor/edit-task-instructor.component';
 import { TestTaskComponent } from '../Pages/Instructor/todo-instructor/components/test-task/test-task.component';
 import { ViewLessonComponent } from '../Pages/lesson/Components/view-lesson/view-lesson.component';
 import { WalletPopupInstructorComponent } from '../Pages/Instructor/wallet-popup-instructor/wallet-popup-instructor.component';
@@ -44,6 +46,7 @@ export const instructorRoutes: Routes = [
             { path: "todo", title: "Task Management", component: TodoInstructorComponent },
             { path: "test-task", title: "Test Task Service", component: TestTaskComponent },
             { path: 'addTaskInstrcutor', outlet: 'dialog', component: AddtasktodoComponent },
+            { path: 'edit-task-instructor/:id', outlet: 'dialog', component: EditTaskInstructorComponent },
             { path: "quizlist", title: "Quiz List", component: QuizlistComponent },
             { path: "course/:topicId", component: CoursesComponent},
             { path: "ViewCourse/:courseId", component: ViewCourseComponent },
@@ -57,10 +60,12 @@ export const instructorRoutes: Routes = [
             { path: 'deleteTopic/:deleteId', outlet: 'dialog2', component: DeleteTopicComponent },
             { path: 'editTopic/:topicId', outlet: 'dialog', component: EditTopicComponent },
             { path: 'addcourse', outlet: 'dialog', component: AddCoursesComponent },
+            { path: 'editCourse/:courseId', outlet: 'dialog', component: EditCourseComponent },
             { path: 'addLesson/:courseId', outlet: 'dialog', component: CreateLessonComponent },
             { path: 'coupan/:CoupanId', outlet: 'dialog', component: CouponCourseComponent },
             { path: 'viewLesson/:lessonId', title:"View Lesson", component: ViewLessonComponent },
             { path: 'viewCoupon/:CoupanId', outlet: 'dialog', component: ViewCouponComponent },
+            { path: 'editCoupon/:id', outlet: 'dialog', component: EditCouponComponent },
             { path: 'Couponslist', title: "Coupons", component: CouponListComponent },
             { path: 'ViewTopic/:id', outlet: 'dialog', component: ViewTopicandStageComponent },
             { path: 'addStage/:StageId', outlet: 'dialog2', component: AddStageComponent },

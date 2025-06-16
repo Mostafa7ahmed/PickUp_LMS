@@ -1,24 +1,26 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, HostListener, ViewChild, ElementRef, input, Input, output, Output, EventEmitter } from '@angular/core';
-import { CourseResult, Icourses } from '../../Core/interface/icourses';
+import { Component, HostListener, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import { CourseResult } from '../../Core/interface/icourses';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SplicTextPipe } from '../../Core/Pipes/splic-text.pipe';
 import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose';
 import { TooltipModule } from 'primeng/tooltip';
 import { environment } from '../../../../Environments/environment';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { DeleteCoursesService } from '../../Core/service/delete-courses.service';
+import { DeleteCourseComponent } from '../delete-course/delete-course.component';
 
 @Component({
   selector: 'app-table-courses',
   standalone: true,
-  imports: [CommonModule  ,TranslateModule, MatTooltipModule, DatePipe ,TooltipModule, SplicTextPipe , RouterLink],
+  imports: [CommonModule, TranslateModule, MatTooltipModule, DatePipe, TooltipModule, SplicTextPipe, RouterLink, DeleteCourseComponent],
   templateUrl: './table-courses.component.html',
   styleUrls: ['./table-courses.component.scss', '../../../../../app/Core/Shared/CSS/horizontal-scrolling.scss']
 })
 export class TableCoursesComponent {
 
- pageSize: number = 5; 
+ pageSize: number = 5;
  baseUrl =environment.baseUrlFiles
 
   @Input()paginationCoursesResponse: IPaginationResponse<CourseResult>  = {} as IPaginationResponse<CourseResult> ;
@@ -27,6 +29,57 @@ export class TableCoursesComponent {
     showLeftScroll = false;
     showRightScroll = true;
     @Output() fetchCoursesEvent = new EventEmitter<{ pageNumber?: number; pageSize?: number }>();
+
+    // Delete popup state
+    isDeletePopupVisible = false;
+    selectedDeleteId: number | null = null;
+
+    constructor(
+      private router: Router,
+      private deleteCoursesService: DeleteCoursesService
+    ) {}
+
+    // Course action methods
+    openEditCourse(courseId: number) {
+      console.log('📝 Opening edit course for ID:', courseId);
+      // Use the same pattern as other working popups
+      this.router.navigate([{ outlets: { dialog: ['editCourse', courseId] } }]);
+    }
+
+    openDeleteCourse(courseId: number) {
+      console.log('🗑️ Opening delete confirmation for course ID:', courseId);
+      this.isDeletePopupVisible = true;
+      this.selectedDeleteId = courseId;
+    }
+
+    deleteCourse() {
+      if (this.selectedDeleteId) {
+        console.log('🗑️ Deleting course:', this.selectedDeleteId);
+
+        this.deleteCoursesService.deleteCourse(this.selectedDeleteId).subscribe({
+          next: (response) => {
+            if (response.success) {
+              console.log('✅ Course deleted successfully');
+              // Emit event to refresh the course list
+              this.fetchCoursesEvent.emit({ pageNumber: 1, pageSize: this.pageSize });
+              this.closeDeletePopup();
+            } else {
+              console.error('❌ Failed to delete course:', response.message);
+              alert('Failed to delete course: ' + response.message);
+            }
+          },
+          error: (error) => {
+            console.error('❌ Error deleting course:', error);
+            alert('An error occurred while deleting the course. Please try again.');
+          }
+        });
+      }
+    }
+
+    closeDeletePopup() {
+      this.isDeletePopupVisible = false;
+      this.selectedDeleteId = null;
+    }
 
     someMethodToEmitEvent(pageSize: number , pageNumber : number) {
       this.fetchCoursesEvent.emit({

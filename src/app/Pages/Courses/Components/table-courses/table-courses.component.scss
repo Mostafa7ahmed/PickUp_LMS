@@ -230,3 +230,41 @@
 .course-name:hover p{
   color: var(--green2) !important;
 }
+
+// Action icons styles
+.action-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  i {
+    font-size: 14px;
+  }
+
+  &.edit-icon {
+    background: #dbeafe;
+    color: #1e40af;
+
+    &:hover {
+      background: #1e40af;
+      color: white;
+      transform: scale(1.1);
+    }
+  }
+
+  &.delete-icon {
+    background: #fee2e2;
+    color: #dc2626;
+
+    &:hover {
+      background: #dc2626;
+      color: white;
+      transform: scale(1.1);
+    }
+  }
+}

@@ -23,20 +23,12 @@
         <input type="text" [(ngModel)]="searchTerm" placeholder="Search tasks...">
         <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
       </div>
-      <div class="action-buttons">
-        <button (click)="refreshTasks()" class="refresh-btn" [disabled]="isLoading">
-          <div class="icon">
-            <i class="fa-solid fa-refresh" [class.fa-spin]="isLoading"></i>
-          </div>
-          <span>Refresh</span>
-        </button>
-        <button (click)="openAddTaskPopup()">
-          <div class="icon">
-            <i class="fa-solid fa-plus"></i>
-          </div>
-          <span>Add New Task</span>
-        </button>
-      </div>
+      <button (click)="openAddTaskPopup()">
+        <div class="icon">
+          <i class="fa-solid fa-plus"></i>
+        </div>
+        <span>Add New Task</span>
+      </button>
     </div>
 
     <div class="row mt-3">
@@ -100,7 +92,7 @@
                 <div class="task-checkbox">
                   <input type="checkbox"
                          [id]="'task-' + task.id"
-                         [checked]="task.completed"
+                         [(ngModel)]="task.completed"
                          (change)="toggleTaskCompletion(task)"
                          class="form-check-input">
                   <label [for]="'task-' + task.id" class="checkbox-label"></label>
@@ -150,11 +142,12 @@
               </div>
               
               <div class="task-actions">
-                <button class="action-btn edit-btn" 
+                <button class="action-btn edit-btn"
+                        (click)="openEditTaskPopup(task)"
                         title="Edit Task">
                   <i class="fa-solid fa-edit"></i>
                 </button>
-                <button class="action-btn delete-btn" 
+                <button class="action-btn delete-btn"
                         (click)="deleteTask(task)"
                         title="Delete Task">
                   <i class="fa-solid fa-trash"></i>
@@ -168,10 +161,10 @@
                 <img src="Images/Course/file.png" alt="No tasks" class="empty-image">
                 <h4>No tasks found</h4>
                 <p>{{ getEmptyStateMessage() }}</p>
-                <button (click)="openAddTaskPopup()" class="btn-add-first">
-                  <i class="fa-solid fa-plus"></i>
-                  Add Your First Task
-                </button>
+                <p style="color: #9ca3af; font-size: 0.9rem; margin-top: 10px;">
+                  <i class="fa-solid fa-arrow-up"></i>
+                  Use the "Add New Task" button above to create your first task
+                </p>
               </div>
             </div>
           </div>

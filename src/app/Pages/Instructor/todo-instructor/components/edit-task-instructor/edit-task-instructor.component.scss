@@ -106,6 +106,20 @@
       }
     }
 
+    // Error message styling
+    .error-message {
+      color: #dc3545;
+      font-size: 0.8rem;
+      margin-top: 5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      i {
+        font-size: 0.7rem;
+      }
+    }
+
     // Checkbox styling
     .checkbox-container {
       .checkbox-label {

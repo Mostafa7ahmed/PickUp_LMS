@@ -19,13 +19,7 @@
         <input type="text" [(ngModel)]="searchTerm" placeholder="Search tasks...">
         <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
       </div>
-      <button (click)="refreshTasks()" title="Refresh Tasks">
-        <div class="icon">
-          <i class="fa-solid fa-refresh"></i>
-        </div>
-        <span>Refresh</span>
-      </button>
-      <button (click)="openAddTaskPopup()" style="margin-left: 10px;">
+      <button (click)="openAddTaskPopup()">
         <div class="icon">
           <i class="fa-solid fa-plus"></i>
         </div>
@@ -96,6 +90,7 @@
                          [id]="'task-' + task.id"
                          [(ngModel)]="task.completed"
                          (change)="toggleTaskCompletion(task)"
+                         (click)="onCheckboxClick(task)"
                          class="form-check-input">
                   <label [for]="'task-' + task.id" class="checkbox-label"></label>
                 </div>
@@ -153,10 +148,10 @@
                 <img src="Images/Course/file.png" alt="No tasks" class="empty-image">
                 <h4>No tasks found</h4>
                 <p>{{ getEmptyStateMessage() }}</p>
-                <button (click)="openAddTaskPopup()" class="btn-add-first">
-                  <i class="fa-solid fa-plus"></i>
-                  Add Your First Task
-                </button>
+                <p style="color: #9ca3af; font-size: 0.9rem; margin-top: 10px;">
+                  <i class="fa-solid fa-arrow-up"></i>
+                  Use the "Add New Task" button above to create your first task
+                </p>
               </div>
             </div>
           </div>

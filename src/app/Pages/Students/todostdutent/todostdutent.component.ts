@@ -75,11 +75,17 @@ export class TodostdutentComponent implements OnInit, OnDestroy  {
   }
 
   openAddTaskPopup(): void {
-    this.router.navigate(['/Student', { outlets: { dialog: ['taskTodoStudent'] } }]);
+    this.router.navigate(['/Student', { outlets: { dialog: 'add-task-student' } }]);
   }
 
   openEditTaskPopup(task: StudentTask): void {
-    console.log('Edit task:', task);
+    if (!task.id) {
+      console.error('❌ Cannot edit task: Task ID is missing');
+      return;
+    }
+
+    console.log('📝 Opening edit popup for task:', task.id);
+    this.router.navigate(['/Student', { outlets: { dialog: ['edit-task-student', task.id] } }]);
   }
 
   // Filter methods
@@ -122,28 +128,19 @@ export class TodostdutentComponent implements OnInit, OnDestroy  {
   }
 
   // Task management methods
+  onCheckboxClick(task: StudentTask): void {
+    console.log('🖱️ Checkbox clicked for task:', task.id, 'Current state:', task.completed);
+  }
+
   toggleTaskCompletion(task: StudentTask): void {
     if (!task.id) return;
 
-    // Toggle the completion status
+    console.log('🔄 Toggling task completion:', task.id, 'New state:', task.completed);
+
+    // The checkbox has already updated task.completed via ngModel
+    // So we use the current value to determine what API call to make
     if (task.completed) {
-      this.studentTaskService.markTaskIncomplete(task).subscribe({
-        next: (response) => {
-          if (response.success) {
-            console.log('✅ Student task marked as incomplete');
-          } else {
-            console.error('❌ Failed to mark student task as incomplete:', response.message);
-            // Revert the change if API call failed
-            task.completed = true;
-          }
-        },
-        error: (error) => {
-          console.error('❌ Error marking student task as incomplete:', error);
-          // Revert the change if API call failed
-          task.completed = true;
-        }
-      });
-    } else {
+      // Task is now completed, call markTaskCompleted
       this.studentTaskService.markTaskCompleted(task).subscribe({
         next: (response) => {
           if (response.success) {
@@ -152,12 +149,34 @@ export class TodostdutentComponent implements OnInit, OnDestroy  {
             console.error('❌ Failed to mark student task as completed:', response.message);
             // Revert the change if API call failed
             task.completed = false;
+            alert('Failed to update task: ' + response.message);
           }
         },
         error: (error) => {
           console.error('❌ Error marking student task as completed:', error);
           // Revert the change if API call failed
           task.completed = false;
+          alert('Error updating task. Please try again.');
+        }
+      });
+    } else {
+      // Task is now incomplete, call markTaskIncomplete
+      this.studentTaskService.markTaskIncomplete(task).subscribe({
+        next: (response) => {
+          if (response.success) {
+            console.log('✅ Student task marked as incomplete');
+          } else {
+            console.error('❌ Failed to mark student task as incomplete:', response.message);
+            // Revert the change if API call failed
+            task.completed = true;
+            alert('Failed to update task: ' + response.message);
+          }
+        },
+        error: (error) => {
+          console.error('❌ Error marking student task as incomplete:', error);
+          // Revert the change if API call failed
+          task.completed = true;
+          alert('Error updating task. Please try again.');
         }
       });
     }

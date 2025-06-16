@@ -7,10 +7,10 @@ import { HomestudentComponent } from '../Pages/Students/homestudent/homestudent.
 import { MyCourseComponent } from '../Pages/Students/my-course/my-course.component';
 import { TodostdutentComponent } from '../Pages/Students/todostdutent/todostdutent.component';
 import { AddTaskStudentComponent } from '../Pages/Students/todostdutent/components/add-task-student/add-task-student.component';
+import { EditTaskStudentComponent } from '../Pages/Students/todostdutent/components/edit-task-student/edit-task-student.component';
 import { ChangePasswordPopupComponent } from '../Pages/Auth/change-password-popup/change-password-popup.component';
 import { DiscoverCourseComponent } from '../Pages/Students/discover-course/discover-course.component';
 import { WalletPopupInstructorComponent } from '../Pages/Instructor/wallet-popup-instructor/wallet-popup-instructor.component';
-import { PorfileComponent } from '../Pages/Instructor/porfile/porfile.component';
 import { StudentProfileComponent } from '../Pages/Students/profile/components/student-profile/student-profile.component';
 
 export const studentRoutes: Routes = [
@@ -29,8 +29,13 @@ export const studentRoutes: Routes = [
                 component: TodostdutentComponent
             },
             {
-                path: "taskTodoStudent",
+                path: "add-task-student",
                 component: AddTaskStudentComponent,
+                outlet: 'dialog'
+            },
+            {
+                path: "edit-task-student/:id",
+                component: EditTaskStudentComponent,
                 outlet: 'dialog'
             },
             {

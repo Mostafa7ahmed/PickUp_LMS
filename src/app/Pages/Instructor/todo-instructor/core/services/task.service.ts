@@ -224,11 +224,11 @@ export class TaskService {
       description: task.description,
       type: task.type,
       priority: task.priority,
-      dueDate: new Date().toISOString(), // Use current date or keep original
+      dueDate: task.dueDate || new Date().toISOString(), // Preserve original due date
       completed: true
     };
 
-    console.log('✅ Marking task as completed:', task.id);
+    console.log('✅ Marking instructor task as completed:', task.id, updateData);
     return this.updateTask(updateData);
   }
 
@@ -240,11 +240,11 @@ export class TaskService {
       description: task.description,
       type: task.type,
       priority: task.priority,
-      dueDate: new Date().toISOString(), // Use current date or keep original
+      dueDate: task.dueDate || new Date().toISOString(), // Preserve original due date
       completed: false
     };
 
-    console.log('❌ Marking task as incomplete:', task.id);
+    console.log('❌ Marking instructor task as incomplete:', task.id, updateData);
     return this.updateTask(updateData);
   }
 

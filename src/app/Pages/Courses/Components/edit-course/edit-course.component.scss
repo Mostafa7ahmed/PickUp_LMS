@@ -1,0 +1,1137 @@
+// 
+
+.ShowPopup {
+  padding: 0;
+  border-radius: 8px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 540px;
+  width: 800px;
+  z-index: 1000;
+  box-shadow: 1px 1px 5px #0000001f;
+  background-color: #f8f8f8;
+  visibility: visible;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  transition: .5s opacity ease-in-out,
+  .5s margin ease-in-out;
+  z-index: 800;
+  opacity: 2;
+  visibility: visible;
+  animation: grow 0.5s ease-out;
+
+}
+
+@keyframes grow {
+  0% {
+    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+.ShowPopup .add-Course {
+  overflow: hidden;
+  margin: auto;
+  background-color: #f8f8f8;
+}
+
+.ShowPopup .add-Course .bodyCourse {
+  display: flex;
+  overflow: hidden;
+  height: 100%;
+  padding: 10px 10px;
+  padding-inline-end: 3px;
+  gap: 10px;
+}
+
+.ShowPopup .add-Course .bodyCourse .leftCourse {
+  width: 412px;
+  height: 460px;
+  overflow: scroll;
+
+  &::-webkit-scrollbar {
+    display: none
+  }
+
+}
+
+.ShowPopup .add-Course .bodyCourse .rightCourse {
+  width: 360px;
+  height: 460px;
+  overflow: scroll;
+  padding-inline-end: 3px;
+
+  overflow: scroll;
+
+  &::-webkit-scrollbar {
+    display: none
+  }
+}
+
+.ShowPopup .add-Course .bodyCourse .leftCourse .couseContentAdd {
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  border: 1px solid #ecf0f5;
+  background: #fff;
+  height: auto;
+
+
+}
+
+.bodyCourse .addData_course .Course_name {
+
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+}
+
+.Course_name label {
+  color: #687f93;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.courseDynamic .deal-desc-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 32px;
+  border-radius: 4px;
+  border: .75px solid #d3d6dc;
+  background: #fff;
+  cursor: pointer;
+  transition: all .3s ease-in-out;
+
+  &:hover {
+    color: #24C12B;
+    border: .75px solid #24C12B;
+
+  }
+
+  &:hover i {
+    color: #24C12B;
+  }
+
+  &.active {
+    color: #24C12B;
+    border: .75px solid #24C12B;
+
+    & i {
+      color: #24C12B;
+    }
+
+  }
+
+}
+
+.courseDynamic .Course_name {
+  flex-grow: 1;
+}
+
+.courseDynamic .deal-desc-btn i {
+  font-size: 18px;
+  color: #999999;
+
+
+}
+
+.bodyCourse .addData_course .Course_name .input_Couser {
+  padding: 8px;
+  font-size: 14px;
+  width: 100%;
+  border-radius: 4px;
+  border: .75px solid #D3D6DC;
+  background: #fff;
+  font-weight: 500;
+  line-height: normal;
+  cursor: text;
+  height: 32px;
+  outline: none;
+
+}
+
+.bodyCourse .addData_course .Course_name .input_Couser::placeholder {
+  color: #D3D6DC;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.bodyCourse .addData_course .Course_name .input_Couser:focus {
+  border: .75px solid #7ad34c;
+}
+
+.desCourse_name {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, visibility 0.4s;
+}
+
+.desCourse_name.active {
+  max-height: 100px;
+  opacity: 1;
+  visibility: visible;
+}
+
+.textarea_course {
+  width: 100%;
+  height: 80px !important;
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: .75px solid #D3D6DC;
+  background: #fff;
+  font-weight: 500;
+  line-height: normal;
+  cursor: text;
+  outline: none;
+  resize: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+
+}
+
+.couresAccess {
+  position: relative;
+
+}
+
+.customslectwithicon {
+  width: 150px !important;
+}
+
+.Icon {
+  width: 13px;
+  height: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  border: 1px solid #79877E;
+  color: #79877E;
+  font-size: 7px;
+}
+
+.titleAccess p,
+.Course_name p {
+  color: #687f93;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+
+.selectAccess .selectOptionValue {
+  width: 110px;
+  height: 32px;
+  top: 173px;
+  left: 10px;
+  border-radius: 4px;
+  border-width: 0.5px;
+  border: 0.5px solid #00000026;
+  padding: 2px 6px;
+}
+
+.selectOptionValue p {
+  font-family: var(--font-family-1);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 19.23px;
+  letter-spacing: 0%;
+  color: #1C1C28;
+}
+
+.selectOptionValue .icon i {
+  font-size: 10px;
+  color: #79877E;
+}
+
+.Course_name .input_Couser_container {
+  border: 0.5px solid #00000026;
+  border-radius: 4px;
+  height: 32px;
+  outline: none;
+  padding: 0px 10px 0px 4px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+}
+
+.Course_name .input_Couser_container input {
+
+  outline: none;
+  border: 0;
+  width: 90%;
+
+  &::placeholder {
+    color: #D3D6DC;
+    font-size: 12px;
+  }
+
+  &:read-only {
+    background-color: #b0b1b337;
+  }
+
+  &::-webkit-scrollbar {
+
+    display: none;
+  }
+
+
+}
+
+.Course_name .input_Couser_container span {
+  color: #7ad34c;
+  font-size: 15px;
+  font-family: var(--font-family-1);
+  font-weight: 500;
+  line-height: normal;
+}
+
+.footerCourse {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.footerCourse .btnsCourse button {
+  min-width: 76px;
+  height: 32px;
+  padding: 4px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px !important;
+  font-style: normal;
+  font-weight: 700;
+  color: #fff !important;
+  border-radius: 4px;
+  border: .542px solid rgba(131, 137, 159, .2);
+  background-color: #24C12B;
+
+  &:disabled {
+    background-color: #24c12c8e;
+    cursor: not-allowed;
+  }
+
+}
+:host ::ng-deep  .footerCourse  .p-button{
+
+  font-size: 12px !important;
+
+  color: #fff !important ;
+  background: #24C12B !important;
+
+  &:disabled {
+    background-color: #24c12c8e !important;;
+    cursor: not-allowed;
+  }
+
+}
+.UploadCover {
+  height: auto;
+  border-radius: 6px;
+  background-color: #fff;
+  border: 1px solid #ecf0f5;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.UploadCover .inputImage {
+
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 12px;
+  background: #f8f9fa;
+  border: 2px dashed #ced4da;
+  border-radius: 8px;
+  color: #6c757d;
+  cursor: pointer;
+  padding-left: 40px;
+
+}
+
+.UploadCover .preview-image,
+.UploadCover video {
+  height: 150px;
+  object-fit: cover;
+}
+
+.hidenInput {
+  display: none;
+}
+
+.tagsSelect {
+  width: 340px;
+}
+
+
+
+:host ::ng-deep  .add-Course .cdk-virtual-scrollable {
+  height: 100px !important;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+}
+
+.addTags input {
+  width: 90%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  height: 32px;
+  border-radius: 4px;
+  outline: none;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+:host ::ng-deep  .add-Course .tags .p-select {
+  height: 32px !important;
+  border: 1px solid #ddd !important;
+  box-shadow: none !important;
+
+
+}
+
+:host ::ng-deep  .add-Course .p-select-list-container {
+  scrollbar-width: none;
+}
+
+.addTags .add-item {
+  width: 30px;
+  height: 32px;
+  border-radius: 4px;
+  border: none;
+
+  background-color: #DFEFE0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #24C12B;
+}
+
+:host ::ng-deep  .add-Course .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  border-radius: 4px !important;
+  border: .7px solid #eee;
+
+
+}
+
+:host ::ng-deep  .add-Course .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+  width: 100%;
+  height: 35px;
+  padding: 0 11px;
+  position: relative;
+  background-color: #fff;
+  border: .7px solid #ddd;
+
+  transition: all 0.3s
+}
+
+:host ::ng-deep  .add-Course .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+  box-shadow: 0 0 0 2px rgba(140, 250, 56, 0.092);
+  border: .7px solid #24C12B;
+  outline: 0;
+}
+
+:host ::ng-deep  .add-Course .ant-select-item-empty {
+  display: none !important;
+}
+
+:host ::ng-deep  .add-Course .cdk-virtual-scroll-viewport {
+  height: fit-content !important;
+  max-height: 100px !important;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+}
+
+:host ::ng-deep  .add-Course .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  box-shadow: 0 0 0 2px rgba(140, 250, 56, 0.092);
+  border: .7px solid #24C12B;
+  outline: 0;
+}
+
+:host ::ng-deep  .add-Course .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+
+  background-color: #0def1800;
+}
+
+
+:host ::ng-deep  .add-Course .ant-select-item-option-selected:not(.ant-select-item-option-disabled) .ant-select-item-option-state {
+  color: #24C12B;
+}
+
+.custom-fields-container {
+
+
+  .section-title {
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #4a4a4a;
+    margin-bottom: 10px;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    align-items: center;
+
+
+    input {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      width: 45%;
+      height: 32px;
+      outline: none;
+
+    }
+
+    .add-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 4px;
+      border: none;
+
+      background-color: #DFEFE0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #24C12B;
+
+
+    }
+  }
+
+  .fields-list {
+    max-height: 100px;
+    overflow: scroll;
+    scrollbar-width: none;
+    padding-top: 10px;
+
+    &.active {
+      border-radius: 5px;
+      max-height: 100px;
+      overflow-y: scroll;
+      padding: 10px;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+    }
+
+    .field-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 5px;
+
+
+
+      input {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        width: 45%;
+        height: 32px;
+        outline: none;
+      }
+
+      .field-key {
+        flex: 2;
+      }
+
+      .field-value {
+        flex: 1;
+      }
+
+      .checkbox {
+        width: 20px;
+        height: 20px;
+      }
+
+      .delete-btn {
+        color: #FD0000B2 !important;
+        border: none;
+        background: transparent;
+        background: #FD00001A;
+        padding: 4px 8px;
+        border-radius: 4px;
+
+      }
+    }
+  }
+}
+
+:host ::ng-deep  .add-Course .p-tooltip {
+  z-index: 888888888888888888888888888888888888888888888888888888888888888888888 !important;
+
+}
+
+
+:host ::ng-deep  .add-Course .p-tooltip .p-tooltip-text {
+  background-color: #ffffff !important;
+  color: #000000;
+  padding: 8px 12px;
+  border-radius: 4px !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-size: 12px;
+  border: none;
+  font-family: var(--font-family-1) !important;
+}
+
+:host ::ng-deep  .add-Course .p-tooltip .p-tooltip-arrow {
+  border-top-color: #ffffff !important;
+}
+
+:host ::ng-deep  .add-Course .p-tooltip.p-tooltip-top {
+  transform: translateY(-7px);
+}
+
+
+
+.custom-select {
+  position: relative;
+  width: 200px;
+  /* يمكنك تعديله حسب الحاجة */
+}
+
+.custom-select select {
+  width: 100%;
+  position: relative;
+  border: 0.5px solid rgba(0, 0, 0, 0.1490196078);
+  border-radius: 5px;
+  padding: 6px 8px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  margin-top: 8px;
+  outline: none;
+
+}
+
+
+.custom-select select:focus {
+  border-color: #79d34c;
+
+}
+
+
+.image-preview-container {
+  position: relative;
+  display: inline-block;
+
+  width: 100%;
+}
+
+.preview-image {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.delete-btn_image {
+  position: absolute;
+  top: 4px;
+  left: 2px;
+  background: #ffffff;
+  color: #ff00006e;
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+
+  &:hover {
+    color: rgba(255, 0, 0, 0.8);
+  }
+}
+
+.upload-container {
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
+}
+
+.upload-box {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 12px;
+  background: #f8f9fa;
+  border: 2px dashed #ced4da;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #6c757d;
+  transition: 0.3s;
+  padding-left: 50px;
+
+}
+
+.upload-box:hover {
+  background: #e9ecef;
+}
+
+.hidden-input {
+  display: none;
+}
+
+
+
+.containerCheck input {
+  display: none;
+}
+
+.containerCheck {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  font-size: 20px;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.checkmark {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  background-color: #2196f300;
+  border-radius: 4px;
+  transition: all 0.25s;
+}
+
+.containerCheck input:checked~.checkmark {
+  background-color: var(--green1);
+  ;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  transform: rotate(0deg);
+  border: 1px solid #f0f0f0;
+  left: 0;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  transition: all 0.25s, border-width 0.1s;
+}
+
+.containerCheck input:checked~.checkmark:after {
+  left: 5.4px;
+  top: 3px;
+  width: 5px;
+  height: 9px;
+  border-color: rgba(255, 255, 255, 0) white white rgba(255, 255, 255, 0);
+  border-width: 0 0.15em 0.15em 0;
+  border-radius: 0em;
+  transform: rotate(45deg);
+}
+
+.labelChecked,
+.routePassword a {
+  font-weight: 16px;
+  font-weight: 400;
+  color: #1F2832;
+}
+
+.coursecustom {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out, margin .5s ease-in-out;
+  margin-top: 0px;
+
+}
+
+.coursecustom.show {
+  max-height: 300px;
+  /* أو أي ارتفاع مناسب */
+  overflow: visible;
+
+  opacity: 1;
+  margin-top: 8px;
+
+}
+
+.tagsSelect {
+  position: relative;
+}
+
+.nz-select-dropdown {
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  width: 100% !important;
+}
+
+.btnScroll {
+  width: 99% !important;
+  height: 32px !important;
+  border: none !important;
+
+}
+
+:host ::ng-deep  .add-Course .p-multiselect-list-container {
+  scrollbar-width: none !important;
+  ;
+}
+
+:host ::ng-deep  .add-Course .p-multiselect {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  height: 32px !important;
+  border-radius: 4px;
+  outline: none;
+  font-size: 14px;
+  height: 32px !important;
+  border: 1px solid #ddd !important;
+  box-shadow: none !important;
+
+
+
+}
+
+:host ::ng-deep  .add-Course .p-multiselect-label {
+  padding: 5px 10px !important;
+}
+
+:host ::ng-deep  .add-Course .p-inputtext {
+  position: static !important;
+  border: 1px solid #6c757d38 !important;
+
+  border-radius: 4px !important;
+  background: #fff !important;
+  color: #000000 !important;
+  padding: 8px;
+  border-radius: 5px;
+  height: 32px !important;
+  outline: none;
+  font-size: 14px;
+}
+
+:host ::ng-deep  .add-Course .p-multiselect-option.p-multiselect-option-selected.p-focus {
+
+  background-color: #007bff !important;
+}
+
+:host ::ng-deep  .add-Course .p-multiselect-header .p-checkbox {
+  display: none !important;
+}
+
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid white;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* تعطيل الزر أثناء التحميل */
+.disabled {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+
+
+.course-skeleton {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  height: 500px;
+}
+
+.leftParts {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.left-section {
+  width: 100%;
+}
+
+.card-skeleton {
+  border-radius: 12px;
+  border-radius: 8px;
+  flex-direction: column;
+  display: flex;
+  gap: 7px;
+
+  height: 340px;
+
+  .input-skeleton {
+    height: 100%;
+  }
+}
+
+.skeletonBottom {
+  height: 112px;
+
+  .input-skeleton {
+    height: 90%;
+  }
+}
+
+.right-section {
+  flex-grow: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+}
+
+.input-skeleton,
+.photo-skeleton {
+  height: 40px;
+  width: 100%;
+  background-color: #e2e8f0;
+  border-radius: 8px;
+  animation: skeleton-loading 1.5s infinite linear;
+}
+
+.photo-skeleton {
+  height: 120px;
+}
+
+.photo-skeleton.video {
+  height: 100px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: #e2e8f0;
+  }
+
+  50% {
+    background-color: #f1f5f9;
+  }
+
+  100% {
+    background-color: #e2e8f0;
+  }
+}
+
+
+:host ::ng-deep  .add-Course .p-select .p-select-dropdown .p-icon {
+  transition: transform 0.3s ease;
+}
+
+:host ::ng-deep  .add-Course .p-multiselect .p-multiselect-dropdown .p-icon {
+  transition: transform 0.3s ease;
+}
+
+:host ::ng-deep  .add-Course .p-select.p-inputwrapper-focus .p-select-dropdown .p-icon,
+:host ::ng-deep  .add-Course .p-select.p-dropdown-open .p-select-dropdown .p-icon {
+  transform: rotate(180deg) !important;
+}
+
+
+:host ::ng-deep  .add-Course .p-multiselect.p-inputwrapper-focus .p-multiselect-dropdown .p-icon,
+:host ::ng-deep  .add-Course .p-multiselect.p-multiselect-open .p-multiselect-dropdown .p-icon {
+  transform: rotate(180deg) !important;
+}
+
+:host ::ng-deep  .add-Course .p-inputtext {
+  all: unset;
+}
+
+:host ::ng-deep  .add-Course .custom-select .p-overlay{
+  top : -90px !important
+}
+:host ::ng-deep  .add-Course  .custom-select  .p-select{
+  height: 32px !important;
+  border-radius: 4px !important;
+  border: 1px solid #6c757d38 !important;
+
+  border-radius: 4px !important;
+  width: 100% !important;
+  margin-top: 8px ;
+  box-shadow: none !important;
+  .p-select-label{
+    padding: 5px 10px !important;
+
+  }
+}
+
+:host ::ng-deep  .add-Course  .p-splitbutton{
+
+  height: 40px !important;
+}
+:host ::ng-deep  .add-Course  .p-tieredmenu-item-link:hover{
+
+  background-color: #f1f5f9 !important;
+
+}
+
+.files{
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: 200px;
+  scrollbar-width: none;
+  padding: 15px 0px 0px 0px;
+}
+
+.upload-field {
+  display: flex  ;
+      padding: 8px 16px;
+      justify-content: center;
+      align-items: center;
+      min-height: 36px;
+      border-radius: 6px;
+      border: .75px dashed rgba(0, 0, 0, .15);
+      box-sizing: border-box;
+      background: #f9f9f9;
+      position: relative;
+      cursor: pointer;
+}
+
+.upload-field:hover {
+  background-color: #dfdfdf85;
+}
+
+.file-upload-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.upload-instruction {
+  text-align: center;
+  color: #6b7280;
+}
+
+.upload-icon-label p {
+  margin: 0;
+  font-weight: 500;
+  color: #374151;
+}
+.file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f9f9f9;
+  padding: 5px 15px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+.file-item .pdfIcons{
+  border-radius: 4px;
+  padding: 2px  5px;
+  background-color: #fff;
+
+}
+
+.file-item:hover {
+  background: #eef6ff;
+  .Showaction{
+    display: flex !important;
+    cursor: pointer;
+
+  }
+  .file-size{
+    display: none;
+  }
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.file-info img {
+  width: 24px;
+  height: 24px;
+}
+
+.file-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+
+}
+
+.download-btn {
+  color: #007bff;
+}
+
+.delete-btn {
+  color: #dc3545;
+}
+
+.file-size {
+  color: #6c757d;
+  font-size: 14px;
+}
