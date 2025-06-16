@@ -303,6 +303,13 @@ iselectedStage : boolean = false;
     })
   }
   ngOnInit(): void {
+    // Try to restore previous state first
+    this.restoreState();
+
+    // Get route parameters
+    this.topicIdFromRoute = this.route.snapshot.paramMap.get('topicId');
+    this.selectedTopicId = this.topicIdFromRoute ? parseInt(this.topicIdFromRoute) : null;
+
     // Set up search subscription
     const searchSubscription = this.searchSubject.pipe(
       debounceTime(300),
@@ -321,36 +328,46 @@ iselectedStage : boolean = false;
     });
     this.subscription.add(searchSubscription);
 
-    // Handle route params
-    const routeSubscription = this._ActivatedRoute.paramMap.subscribe(params => {
-      this.topicIdFromRoute = params.get('topicId');
-      const activeTabFromRoute = params.get('activeTab');
-      if (activeTabFromRoute === '1') {
-        this.valueheader = 1;
-      }
-      if (activeTabFromRoute === '0') {
-        this.valueheader = 0;
-      }
+    // Handle route params and navigation events
 
-      this.getListTopics(this.topicIdFromRoute);
-        this.subscriptioncall.add(
+
+    this.subscriptioncall.add(
       this.router.events
         .pipe(filter(event => event instanceof NavigationEnd))
-        .subscribe((event: NavigationEnd) => {          // Refresh courses when returning from add course or topics
-          if (event.url === '/topics' || event.urlAfterRedirects.includes('/courses')) {
-            this.fetchCourses(
-              { pageNumber: 1, pageSize: 20 },
-              this.selectedTopicId,
-              this.iselectedStage ? this.selectedStage?.id : undefined,
-              this.valueTable,
-              this.rangeDates?.[0] ? this.formatDateToISO(this.rangeDates[0]) : undefined,
-              this.rangeDates?.[1] ? this.formatDateToISO(this.rangeDates[1]) : undefined
-            );}
+        .subscribe((event: NavigationEnd) => {
+          const currentUrl = event.urlAfterRedirects;
+
+          // Check if we're returning to the courses route (exclude dialog routes)
+          if (currentUrl.includes('/courses') && !currentUrl.includes('(dialog:')) {
+            console.log('🔄 Navigation detected to courses route');
+            console.log('📍 Current URL:', currentUrl);
+            console.log('📊 Current filters:', {
+              topicId: this.selectedTopicId,
+              stageId: this.iselectedStage ? this.selectedStage?.id : undefined,
+              valueTable: this.valueTable,
+              searchTerm: this.searchTerm,
+              dateRange: this.rangeDates ? `${this.rangeDates[0]} - ${this.rangeDates[1]}` : 'none'
+            });
+
+            // Check if route parameters changed
+            this.checkRouteParametersChange(currentUrl);
+
+            // Small delay to ensure component is ready
+            setTimeout(() => {
+              this.refreshComponentData();
+            }, 100);
+          }
         })
     );
-    });
 
-  }  ngOnDestroy() {
+    
+
+  }
+
+  ngOnDestroy() {
+    // Save current state before destroying component
+    this.saveCurrentState();
+
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -363,6 +380,122 @@ iselectedStage : boolean = false;
 
   print() {
     this.TableCourses.getRemainingCourses(1, 10)
+  }
+
+  // Refresh all data when returning to component
+  private refreshComponentData(): void {
+    console.log('🔄 Refreshing component data...');
+
+    // Reset pagination
+    const pagination = { pageNumber: 1, pageSize: 20 };
+
+    // Prepare filter parameters
+    const filters = {
+      topicId: this.selectedTopicId,
+      stageId: this.iselectedStage ? this.selectedStage?.id : undefined,
+      valueTable: this.valueTable,
+      startDate: this.rangeDates?.[0] ? this.formatDateToISO(this.rangeDates[0]) : undefined,
+      endDate: this.rangeDates?.[1] ? this.formatDateToISO(this.rangeDates[1]) : undefined,
+      searchTerm: this.searchTerm
+    };
+
+    console.log('📊 Refreshing with filters:', filters);
+
+    // Fetch courses with current filters
+    this.fetchCourses(
+      pagination,
+      filters.topicId,
+      filters.stageId,
+      filters.valueTable,
+      filters.startDate,
+      filters.endDate,
+      filters.searchTerm
+    );
+
+    // Refresh kanban view if topic is selected
+    if (this.selectedTopicId) {
+      console.log('🔄 Refreshing kanban view for topic:', this.selectedTopicId);
+      this.getAllKanbans(this.selectedTopicId);
+    }
+
+    // Refresh topics list if needed
+    if (this.topicIdFromRoute) {
+      console.log('🔄 Refreshing topics list');
+      this.getListTopics(this.topicIdFromRoute);
+    }
+
+    console.log('✅ Component data refresh completed');
+  }
+
+  // Check if route parameters have changed
+  private checkRouteParametersChange(currentUrl: string): void {
+    // Extract topic ID from URL if present
+    const topicIdMatch = currentUrl.match(/\/courses\/(\d+)/);
+    const newTopicId = topicIdMatch ? parseInt(topicIdMatch[1]) : null;
+
+    if (newTopicId && newTopicId !== this.selectedTopicId) {
+      console.log(`🔄 Topic ID changed: ${this.selectedTopicId} → ${newTopicId}`);
+      this.selectedTopicId = newTopicId;
+      this.topicIdFromRoute = newTopicId.toString();
+
+      // Reset stage selection when topic changes
+      this.selectedStage = {} as ItopicList;
+      this.iselectedStage = false;
+
+      console.log('🔄 Topic changed, will refresh topics list and data');
+    }
+
+    console.log('📊 Route check completed:', {
+      extractedTopicId: newTopicId,
+      currentTopicId: this.selectedTopicId,
+      changed: newTopicId !== this.selectedTopicId
+    });
+  }
+
+  // Save current state before navigation
+  private saveCurrentState(): void {
+    const currentState = {
+      selectedTopicId: this.selectedTopicId,
+      selectedStage: this.selectedStage,
+      iselectedStage: this.iselectedStage,
+      searchTerm: this.searchTerm,
+      valueTable: this.valueTable,
+      rangeDates: this.rangeDates,
+      timestamp: new Date().toISOString()
+    };
+
+    console.log('💾 Saving current state:', currentState);
+    sessionStorage.setItem('coursesComponentState', JSON.stringify(currentState));
+  }
+
+  // Restore state after navigation
+  private restoreState(): void {
+    const savedState = sessionStorage.getItem('coursesComponentState');
+    if (savedState) {
+      try {
+        const state = JSON.parse(savedState);
+        console.log('🔄 Restoring state:', state);
+
+        // Only restore if the state is recent (within 5 minutes)
+        const stateAge = new Date().getTime() - new Date(state.timestamp).getTime();
+        if (stateAge < 5 * 60 * 1000) { // 5 minutes
+          this.selectedTopicId = state.selectedTopicId;
+          this.selectedStage = state.selectedStage;
+          this.iselectedStage = state.iselectedStage;
+          this.searchTerm = state.searchTerm || '';
+          this.valueTable = state.valueTable;
+          this.rangeDates = state.rangeDates;
+
+          console.log('✅ State restored successfully');
+        } else {
+          console.log('⚠️ Saved state is too old, ignoring');
+          sessionStorage.removeItem('coursesComponentState');
+        }
+      } catch (error) {
+        console.error('❌ Error restoring state:', error);
+        sessionStorage.removeItem('coursesComponentState');
+      }
+    }
   }
 
   handleMoveCourse(event: { course: ICourseKanban; newStageId: number }) {
