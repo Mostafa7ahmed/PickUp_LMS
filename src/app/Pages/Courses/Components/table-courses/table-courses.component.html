@@ -299,18 +299,47 @@
 
     <div class="movePagination  d-flex align-items-center gap-3 ">
 
-      <!-- left => next -->
-      <button class="moveNext btn " type="button" [disabled]="!paginationCoursesResponse.movePrevious"
-        (click)="getPrevCourses(paginationCoursesResponse.pageIndex,paginationCoursesResponse.pageSize)">
-        <i class="fa-solid fa-angle-left "></i>
-
+      <!-- First Page -->
+      <button class="moveNext btn" type="button"
+              [disabled]="paginationCoursesResponse.pageIndex === 1"
+              (click)="goToPage(1)"
+              title="First Page">
+        <i class="fa-solid fa-angles-left"></i>
       </button>
 
-      <!-- left => previous -->
-      <button class="moveNext btn" type="button" [disabled]="!paginationCoursesResponse.moveNext"
-        (click)="getRemainingCourses(paginationCoursesResponse.pageIndex,paginationCoursesResponse.pageSize)">
-        <i class="fa-solid fa-angle-right"></i>
+      <!-- Previous Page -->
+      <button class="moveNext btn" type="button"
+              [disabled]="!paginationCoursesResponse.movePrevious"
+              (click)="getPrevCourses(paginationCoursesResponse.pageIndex, paginationCoursesResponse.pageSize)"
+              title="Previous Page">
+        <i class="fa-solid fa-angle-left"></i>
+      </button>
 
+      <!-- Page Numbers -->
+      <div class="page-numbers d-flex align-items-center gap-1" *ngIf="isPaginationNeeded()">
+        @for (pageNum of getPageNumbers(); track pageNum) {
+          <button class="page-btn btn"
+                  [class.active]="pageNum === paginationCoursesResponse.pageIndex"
+                  (click)="goToPage(pageNum)">
+            {{pageNum}}
+          </button>
+        }
+      </div>
+
+      <!-- Next Page -->
+      <button class="moveNext btn" type="button"
+              [disabled]="!paginationCoursesResponse.moveNext"
+              (click)="getRemainingCourses(paginationCoursesResponse.pageIndex, paginationCoursesResponse.pageSize)"
+              title="Next Page">
+        <i class="fa-solid fa-angle-right"></i>
+      </button>
+
+      <!-- Last Page -->
+      <button class="moveNext btn" type="button"
+              [disabled]="paginationCoursesResponse.pageIndex === paginationCoursesResponse.totalPages"
+              (click)="goToPage(paginationCoursesResponse.totalPages)"
+              title="Last Page">
+        <i class="fa-solid fa-angles-right"></i>
       </button>
     </div>
 
