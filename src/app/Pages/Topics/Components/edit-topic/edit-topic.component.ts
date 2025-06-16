@@ -182,7 +182,10 @@ export class EditTopicComponent {
 
   stageForm: FormGroup = new FormGroup({
     topicId: new FormControl(),
-    newStages: new FormArray([])
+    newStages: new FormArray([]),
+    updatedStages: new FormArray([]),
+
+
   });
 
 
@@ -201,22 +204,15 @@ export class EditTopicComponent {
     const orderValue = index + 2;
     const selectedColor = this.selectedColors[index] || this.colors[index % this.colors.length];
 
-    const stageGroup = new FormGroup({
+    this.stages.push(new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
       color: new FormControl(selectedColor, Validators.required),
       icon: new FormControl('fa fa-address-book', Validators.required),
-      shadow: new FormControl(selectedColor, Validators.required),
-      order: new FormControl(orderValue),
-      id: new FormControl(0), // New stage has ID 0
-      default: new FormControl(false),
-      type: new FormControl(1) // Custom stage type
-    });
+      shadow: new FormControl(selectedColor, Validators.required), // Add shadow property
+      order: new FormControl(orderValue)
+    }));
 
-    this.stages.push(stageGroup);
     this.selectedColors.push(selectedColor);
-
-    console.log('➕ Added new stage:', stageGroup.value);
-    console.log('📊 Current stages:', this.stages.value);
   }
 
   selectColor(index: number, color: string) {
@@ -263,60 +259,32 @@ export class EditTopicComponent {
       return;
     }
 
-    // Get all stages from the form
-    const formStages = this.stageForm.get('newStages')?.value || [];
-    console.log('📊 All form stages:', formStages);
-
-    // Get existing stages from topicResult
-    const existingStages = this.topicResult?.result?.stages || [];
-    console.log('📊 Existing stages:', existingStages);
-
-    // Prepare new stages (stages without ID or with ID <= 0)
-    const newStages = formStages
-      .filter((stage: any) => !stage.id || stage.id <= 0)
-      .map((stage: any) => ({
-        name: stage.name,
-        color: stage.color,
-        icon: stage.icon,
-        shadow: stage.shadow || stage.color,
-        order: stage.order
-      }));
-
-    // Prepare updated stages (existing stages that can be modified)
-    const updatedStages = existingStages
-      .filter((stage: any) => {
-        const isFromAPI = stage.id > 0;
-        const isNotDefault = !stage.default;
-        const isNotType2 = stage.type !== 2;
-        console.log(`Stage ${stage.id} - isFromAPI:${isFromAPI}, isNotDefault:${isNotDefault}, isNotType2:${isNotType2}`);
-        return isFromAPI && isNotDefault && isNotType2;
-      })
-      .map((stage: any) => ({
-        id: stage.id,
-        name: stage.name,
-        color: stage.color,
-        icon: stage.icon,
-        shadow: stage.shadow || stage.color,
-        order: stage.order
-      }));
-
-    // Prepare final data
+    // Prepare data according to API structure
     const stageData = {
       topicId: this.topicID,
-      newStages: newStages,
-      updatedStages: updatedStages
+      newStages: [
+        ...this.getNewStages(),
+        ...(this.stageForm.get('newStages')?.value || [])
+      ],
+      updatedStages: this.getUpdatedStages()
     };
 
-    console.log('📝 Final stage data to submit:', stageData);
-    console.log('📊 New stages count:', newStages.length);
-    console.log('📊 Updated stages count:', updatedStages.length);
+    console.log('📝 Submitting stage data:', stageData);
+    console.log('📊 New stages count:', stageData.newStages.length);
+    console.log('📊 Updated stages count:', stageData.updatedStages.length);
+    console.log('📊 All current stages:', this.topicResult.result.stages.map(s => `ID:${s.id} Name:${s.name}`));
+    console.log('📊 New stages details:', stageData.newStages);
+    console.log('📊 Updated stages details:', stageData.updatedStages);
 
-    // Debug stages
-    console.log('🔍 Debug stages:');
-    console.log('Form stages:', formStages);
-    console.log('Existing stages:', existingStages);
-    console.log('New stages:', newStages);
-    console.log('Updated stages:', updatedStages);
+    // Debug: Check why stages are going to wrong array
+    console.log('🔍 DEBUG: Stage ID analysis:');
+    this.topicResult.result.stages.forEach((stage, index) => {
+      console.log(`  Stage ${index}: ID=${stage.id}, Name="${stage.name}", isFromAPI=${stage.id > 0}, isNew=${stage.id <= 0}`);
+    });
+    console.log('📊 All stage orders:', [
+      ...stageData.newStages.map(s => s.order),
+      ...stageData.updatedStages.map(s => s.order)
+    ].sort((a, b) => a - b));
 
     this._AddStageTopicService.addStageFromTopic(stageData).subscribe({
       next: (res) => {
@@ -328,6 +296,8 @@ export class EditTopicComponent {
       },
       error: (err) => {
         console.error('❌ Error updating stages:', err);
+
+        // Show specific error message
         if (err.error?.message) {
           alert(err.error.message);
         } else if (err.message) {
@@ -335,6 +305,7 @@ export class EditTopicComponent {
         } else {
           alert('حدث خطأ أثناء تحديث المراحل');
         }
+
         this.isLoad = false;
       },
     });
@@ -353,18 +324,10 @@ export class EditTopicComponent {
 
     const updatedStages = this.topicResult.result.stages
       .filter(stage => {
-        // Only include stages that can be updated:
-        // 1. Must have a valid ID (from API)
-        // 2. Must not be a default stage
-        // 3. Must not be type 2
+        // ALL existing stages with positive real IDs (from API)
         const isFromAPI = stage.id > 0;
-        const isNotDefault = !stage.default;
-        const isNotType2 = stage.type !== 2;
-        
-        const canUpdate = isFromAPI && isNotDefault && isNotType2;
-        
-        console.log(`  🔍 Stage ${stage.id}:"${stage.name}" - canUpdate: ${canUpdate} (isFromAPI:${isFromAPI}, isNotDefault:${isNotDefault}, isNotType2:${isNotType2})`);
-        return canUpdate;
+        console.log(`  🔍 Stage ${stage.id}:"${stage.name}" - isFromAPI: ${isFromAPI}`);
+        return isFromAPI;
       })
       .map(stage => ({
         id: stage.id,
@@ -375,7 +338,7 @@ export class EditTopicComponent {
         order: stage.order
       }));
 
-    console.log('📊 Updated stages result (filtered for update):', updatedStages);
+    console.log('📊 Updated stages result (ALL from API):', updatedStages);
     return updatedStages;
   }
 
@@ -425,48 +388,36 @@ export class EditTopicComponent {
     this._getoneTopicService.getTopicById(topicID).subscribe({
       next: (topic) => {
         this.topicResult = topic;
-        console.log('📥 Loaded topic:', this.topicResult);
+
+
 
         // Ensure stages array exists
         if (!this.topicResult.result.stages) {
           this.topicResult.result.stages = [];
         }
 
-        // Initialize form stages if needed
-        if (!this.stageForm.get('newStages')) {
-          this.stageForm.addControl('newStages', new FormArray([]));
-        }
+        console.log('📊 Loaded stages from API:', this.topicResult.result.stages);
+        console.log('📊 Existing stage IDs:', this.topicResult.result.stages.map(s => s.id));
 
-        // Clear existing form stages
-        const newStagesArray = this.stageForm.get('newStages') as FormArray;
-        newStagesArray.clear();
+        // Display stages info for debugging
+        this.displayStagesInfo();
 
-        // Add existing stages to form
-        this.topicResult.result.stages.forEach(stage => {
-          const stageGroup = new FormGroup({
-            id: new FormControl(stage.id),
-            name: new FormControl(stage.name),
-            color: new FormControl(stage.color),
-            icon: new FormControl(stage.icon),
-            shadow: new FormControl(stage.shadow || stage.color),
-            order: new FormControl(stage.order),
-            default: new FormControl(stage.default),
-            type: new FormControl(stage.type)
-          });
-          newStagesArray.push(stageGroup);
-          console.log('➕ Added existing stage to form:', stageGroup.value);
-        });
-
-        console.log('📊 Form stages after initialization:', this.stageForm.get('newStages')?.value);
-        console.log('📊 Topic stages:', this.topicResult.result.stages);
+        // Ensure proper stage orders after loading
+        this.fixStageOrders();
 
         this.topicForm.patchValue(this.topicResult.result);
         this.stageForm.patchValue({ topicId: this.topicResult.result.id });
+
+        // Safely patch stages if they exist
+        if (this.topicResult.result.stages && this.topicResult.result.stages.length > 0) {
+          this.stageForm.patchValue(this.topicResult.result.stages);
+        }
 
         this.getTopicList();
       },
       error: (error) => {
         console.error('Error fetching topic:', error);
+        // Keep the default initialized values
       }
     });
   }
@@ -665,7 +616,7 @@ export class EditTopicComponent {
       const oldOrder = stage.order;
       stage.order = index + 1;
       if (oldOrder !== stage.order) {
-        console.log(`  🔄 Updated "${stage.name}": ${oldOrder} → ${stage.order}`);
+        console.log(`  � Updated "${stage.name}": ${oldOrder} → ${stage.order}`);
       }
     });
 

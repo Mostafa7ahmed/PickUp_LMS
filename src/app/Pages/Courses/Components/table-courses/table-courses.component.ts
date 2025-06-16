@@ -18,7 +18,7 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class TableCoursesComponent {
 
- pageSize: number = 5; 
+ pageSize: number = 20; 
  baseUrl =environment.baseUrlFiles
 
   @Input()paginationCoursesResponse: IPaginationResponse<CourseResult>  = {} as IPaginationResponse<CourseResult> ;
@@ -96,7 +96,69 @@ export class TableCoursesComponent {
       clearInterval(this.scrollInterval);
     }
 
+    // Get start index for current page
+    getStartIndex(): number {
+      if (!this.paginationCoursesResponse.result || this.paginationCoursesResponse.result.length === 0) {
+        return 0;
+      }
+      return ((this.paginationCoursesResponse.pageIndex - 1) * this.paginationCoursesResponse.pageSize) + 1;
+    }
 
+    // Get end index for current page
+    getEndIndex(): number {
+      if (!this.paginationCoursesResponse.result || this.paginationCoursesResponse.result.length === 0) {
+        return 0;
+      }
+      const start = this.getStartIndex();
+      return Math.min(start + this.paginationCoursesResponse.result.length - 1, this.paginationCoursesResponse.totalCount);
+    }
 
+    // Get pagination info text
+    getPaginationInfo(): string {
+      if (!this.paginationCoursesResponse.result || this.paginationCoursesResponse.result.length === 0) {
+        return 'No courses found';
+      }
+
+      const start = this.getStartIndex();
+      const end = this.getEndIndex();
+      const total = this.paginationCoursesResponse.totalCount;
+
+      return `Showing ${start}-${end} of ${total} courses`;
+    }
+
+    // Check if pagination is needed
+    isPaginationNeeded(): boolean {
+      return this.paginationCoursesResponse.totalPages > 1;
+    }
+
+    // Get page numbers for pagination display
+    getPageNumbers(): number[] {
+      const totalPages = this.paginationCoursesResponse.totalPages;
+      const currentPage = this.paginationCoursesResponse.pageIndex;
+      const pages: number[] = [];
+
+      // Show max 5 pages around current page
+      const maxPages = 5;
+      let startPage = Math.max(1, currentPage - Math.floor(maxPages / 2));
+      let endPage = Math.min(totalPages, startPage + maxPages - 1);
+
+      // Adjust start page if we're near the end
+      if (endPage - startPage < maxPages - 1) {
+        startPage = Math.max(1, endPage - maxPages + 1);
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+
+      return pages;
+    }
+
+    // Navigate to specific page
+    goToPage(pageNumber: number): void {
+      if (pageNumber >= 1 && pageNumber <= this.paginationCoursesResponse.totalPages) {
+        this.someMethodToEmitEvent(this.paginationCoursesResponse.pageSize, pageNumber);
+      }
+    }
 
 }

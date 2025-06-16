@@ -333,22 +333,40 @@ iselectedStage : boolean = false;
       }
 
       this.getListTopics(this.topicIdFromRoute);
-        this.subscriptioncall.add(
+
+    });
+
+    this.subscriptioncall.add(
       this.router.events
         .pipe(filter(event => event instanceof NavigationEnd))
-        .subscribe((event: NavigationEnd) => {          // Refresh courses when returning from add course or topics
-          if (event.url === '/topics' || event.urlAfterRedirects.includes('/courses')) {
-            this.fetchCourses(
-              { pageNumber: 1, pageSize: 20 },
-              this.selectedTopicId,
-              this.iselectedStage ? this.selectedStage?.id : undefined,
-              this.valueTable,
-              this.rangeDates?.[0] ? this.formatDateToISO(this.rangeDates[0]) : undefined,
-              this.rangeDates?.[1] ? this.formatDateToISO(this.rangeDates[1]) : undefined
-            );}
+        .subscribe((event: NavigationEnd) => {       
+          const currentUrl = event.urlAfterRedirects;
+          
+          // Check if we're returning to the courses route
+          if (currentUrl.includes('/courses') && !currentUrl.includes('(dialog:')) {
+            console.log('Returning to courses route, refreshing data...');
+            
+            setTimeout(() => {
+              this.fetchCourses(
+                { pageNumber: 1, pageSize: 20 },
+                this.selectedTopicId,
+                this.iselectedStage ? this.selectedStage?.id : undefined,
+                this.valueTable,
+                this.rangeDates?.[0] ? this.formatDateToISO(this.rangeDates[0]) : undefined,
+                this.rangeDates?.[1] ? this.formatDateToISO(this.rangeDates[1]) : undefined,
+                this.searchTerm
+              );
+              
+              // Refresh kanban view if needed
+              if (this.selectedTopicId) {
+                this.getAllKanbans(this.selectedTopicId);
+              }
+            }, 100);
+          }
         })
     );
-    });
+
+    
 
   }  ngOnDestroy() {
     if (this.subscription) {

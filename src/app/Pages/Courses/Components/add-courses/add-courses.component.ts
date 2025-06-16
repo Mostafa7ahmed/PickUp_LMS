@@ -493,8 +493,11 @@ export class AddCoursesComponent {
     console.log('Visible Now:', field.get('visible')?.value);
   }
   closePopup() {
-    this.router.navigate([{ outlets: { dialog: null } }]);
-  }
+      this.router.navigate([{ outlets: { dialog: null } }]).then(() => {
+                      this.router.navigate(['/course']);
+          });
+        
+        }
   
   ShowDescription() {
       this.showDescription = !this.showDescription;
