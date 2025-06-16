@@ -20,7 +20,7 @@ import { UpdateTopicService } from '../../Service/update-topic.service';
   standalone: true,
   imports: [TopPopComponent, CommonModule, SelectIconComponent, ReactiveFormsModule, CustomslectwithiconComponent, RouterModule],
   templateUrl: './edit-topic.component.html',
-  styleUrl: './edit-topic.component.scss'
+  styleUrl: '../add-topic/add-topic.component.scss'
 })
 export class EditTopicComponent {
   icons: string[] = [];
