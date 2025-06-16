@@ -13,7 +13,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { AddStageComponent } from "../../../Stages/Components/add-stage/add-stage.component";
 import Plyr from 'plyr';
 import { GetonecourseService } from '../../Core/service/getonecourse.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { CourseResult } from '../../Core/interface/icourses';
 import { environment } from '../../../../Environments/environment';
 import { ViewCourse } from '../../Core/interface/view-course';
@@ -25,6 +25,7 @@ import { LessonComponent } from "../../../lesson/lesson.component";
 import { DeleteCoursesService } from '../../Core/service/delete-courses.service';
 import { RatingComponent } from "../../../rating/rating.component";
 import { CardCouponComponent } from '../../../Coupon/Components/card-coupon/card-coupon.component';
+import { Subscription, filter } from 'rxjs';
 
 @Component({
   selector: 'app-view-course',
@@ -39,6 +40,7 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
   private _CustomFildsService = inject(CustomFildsService);  
   private _deleteCoursesService = inject(DeleteCoursesService);
   private router = inject(Router);
+    private subscriptioncall = new Subscription();
 
   private _getonecourseService = inject(GetonecourseService);
   private _ActivatedRoute = inject(ActivatedRoute);
@@ -207,6 +209,7 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
         this.getOneCourse(this.CourseId)
       }
     });
+ 
   
   }
   

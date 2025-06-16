@@ -1,5 +1,5 @@
 import { routes } from './../../../app.routes';
-import { Router, RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { Component, ElementRef, EventEmitter, HostListener, inject, Input, OnInit, Output } from '@angular/core';
 import { ListCourse } from '../../Courses/Core/interface/icourses';
 import { IPaginationResponse } from '../../../Core/Shared/Interface/irespose';
@@ -16,6 +16,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { TabsModule } from 'primeng/tabs';
 import { TableCoupanComponent } from "../Components/table-coupan/table-coupan.component";
 import { TranslateModule } from '@ngx-translate/core';
+import { filter, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-coupon-list',
@@ -129,10 +130,12 @@ export class CouponListComponent implements OnInit {
       this.isLoadCourse = true;
     });
   }
+    private subscriptioncall = new Subscription();
+    private router = new Router();
   
   ngOnInit(): void {
     this.getCourse(); 
-    
+
   
     
   }
