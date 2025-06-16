@@ -43,6 +43,41 @@ export interface Icourses {
     createdOn: string
 
   }
+  export interface ICoursePorfile {
+  photoUrl: string
+  id: number
+  name: string
+  price: number
+  enrollmentCount: number
+  couponsCount: number
+  createdOn: string
+  topic: Topic
+  lessonsCount: number
+  totalDuration: number
+  rating: number
+}
+
+export interface Topic {
+  id: number
+  instructorId: number
+  creatorId: number
+  updaterId: any
+  name: string
+  description: any
+  color: string
+  icon: string
+  order: number
+  default: boolean
+  mainId: any
+  isMain: boolean
+  snapshot: any
+  createdOn: string
+  updatedOn: any
+  creator: any
+  updater: any
+  stages: Stage[]
+}
+
   export interface Discount {
     amount: number
     type: number

@@ -6,7 +6,7 @@ import { InstructorProfileService } from './core/services/instructor-profile.ser
 import { IInstructorProfile } from './core/interfaces/instructor-profile.interface';
 import { filter, Subscription } from 'rxjs';
 import { environment } from '../../../Environments/environment';
-import { ListCourse } from '../../Courses/Core/interface/icourses';
+import { ICoursePorfile, ListCourse } from '../../Courses/Core/interface/icourses';
 import { IPaginationResponse } from '../../../Core/Shared/Interface/irespose';
 import { SplicTextPipe } from '../../Courses/Core/Pipes/splic-text.pipe';
 
@@ -24,7 +24,7 @@ export class PorfileComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   instructorProfile: IInstructorProfile | null = null;
-  instructorCourses: ListCourse[] = [];
+  instructorCourses: ICoursePorfile[] = [];
   coursesLoading = false;
   isLoading = false;
 
@@ -32,7 +32,6 @@ export class PorfileComponent implements OnInit, OnDestroy {
     this.loadInstructorProfile();
     this.loadInstructorCourses();
 
-    // Listen for navigation events to reload profile when returning from manage dialog
     this.subscription.add(
       this.router.events
         .pipe(filter(event => event instanceof NavigationEnd))
@@ -68,7 +67,7 @@ export class PorfileComponent implements OnInit, OnDestroy {
   loadInstructorCourses(): void {
     this.coursesLoading = true;
     this.instructorProfileService.getInstructorCourses().subscribe({
-      next: (response: IPaginationResponse<ListCourse>) => {
+      next: (response: IPaginationResponse<ICoursePorfile>) => {
         if (response.success) {
           this.instructorCourses = response.result;
         }

@@ -5,7 +5,7 @@ import { environment } from '../../../../../Environments/environment';
 import { IResponseOf } from '../../../../../Core/Shared/Interface/irespose';
 import { IInstructorProfile, IUpdateInstructorProfile } from '../interfaces/instructor-profile.interface';
 import { IPaginationResponse } from '../../../../../Core/Shared/Interface/irespose';
-import { ListCourse } from '../../../../Courses/Core/interface/icourses';
+import { ICoursePorfile, ListCourse } from '../../../../Courses/Core/interface/icourses';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +32,7 @@ export class InstructorProfileService {
     pageSize: number = 100,
     orderBy: number = 2,
     orderDirection: number = 1
-  ): Observable<IPaginationResponse<ListCourse>> {
+  ): Observable<IPaginationResponse<ICoursePorfile>> {
     const params: any = {
       orderBy: orderBy.toString(),
       pageNumber: pageNumber.toString(),
@@ -41,6 +41,6 @@ export class InstructorProfileService {
       orderDirection: orderDirection.toString(),
     };
 
-    return this.http.get<IPaginationResponse<ListCourse>>(this.coursesUrl, { params });
+    return this.http.get<IPaginationResponse<ICoursePorfile>>(this.coursesUrl, { params });
   }
 }

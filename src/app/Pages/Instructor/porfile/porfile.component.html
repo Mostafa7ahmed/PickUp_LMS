@@ -1,53 +1,53 @@
 <div class="profile-card mt-3">
   <div class="cover">
-    <img src="Images/CardProfile.png" alt="Cover Image"  width="100%" height="100%"/>
+    <img src="Images/CardProfile.png" alt="Cover Image" width="100%" height="100%" />
   </div>
-  
+
   <div class="profile-header">
     <div class="imageAva">
       @if(instructorProfile?.photo) {
-        <img class="avatar" [src]="getPhotoUrl(instructorProfile!.photo)" alt="Profile Image" />
+      <img class="avatar" [src]="getPhotoUrl(instructorProfile!.photo)" alt="Profile Image" />
       } @else {
-        <img class="avatar" src="Images/dr.jpeg" alt="Profile Image" />
+      <img class="avatar" src="Images/dr.jpeg" alt="Profile Image" />
       }
     </div>
     <div class="info">
       @if(isLoading) {
-        <div class="loading-placeholder">
-          <div class="skeleton-text skeleton-title"></div>
-          <div class="skeleton-text skeleton-subtitle"></div>
-        </div>
+      <div class="loading-placeholder">
+        <div class="skeleton-text skeleton-title"></div>
+        <div class="skeleton-text skeleton-subtitle"></div>
+      </div>
       } @else {
-        <h2>{{ instructorProfile?.name || 'Dr. Amr Mausad' }}</h2>
-        <p>Senior Data Science Instructor | AI Researcher</p>
-        @if(instructorProfile?.email) {
-          <p class="email-info">
-            <i class="fas fa-envelope"></i>
-            {{ instructorProfile!.email }}
-          </p>
+      <h2>{{ instructorProfile?.name || 'Dr. Amr Mausad' }}</h2>
+      <p>{{ instructorProfile?.bio || 'I`am a Instructor' }}</p>
+      @if(instructorProfile?.email) {
+      <p class="email-info">
+        <i class="fas fa-envelope"></i>
+        {{ instructorProfile!.email }}
+      </p>
+      }
+      <div class="social mt-2">
+        @if(instructorProfile?.linkedIn) {
+        <a [href]="instructorProfile!.linkedIn" target="_blank">
+          <i class="fab fa-linkedin"></i>LinkedIn
+        </a>
         }
-        <div class="social mt-2">
-          @if(instructorProfile?.linkedIn) {
-            <a [href]="instructorProfile!.linkedIn" target="_blank">
-              <i class="fab fa-linkedin"></i>LinkedIn
-            </a>
-          }
-          @if(instructorProfile?.twitter) {
-            <a [href]="instructorProfile!.twitter" target="_blank">
-              <i class="fab fa-twitter"></i>Twitter
-            </a>
-          }
-          @if(instructorProfile?.instagram) {
-            <a [href]="instructorProfile!.instagram" target="_blank">
-              <i class="fab fa-instagram"></i>Instagram
-            </a>
-          }
-          @if(!instructorProfile?.linkedIn && !instructorProfile?.twitter && !instructorProfile?.instagram) {
-            <a><i class="fab fa-linkedin"></i>linkedin</a>
-            <a><i class="fab fa-twitter"></i>twitter</a>
-            <a><i class="fab fa-instagram"></i>instagram</a>
-          }
-        </div>
+        @if(instructorProfile?.twitter) {
+        <a [href]="instructorProfile!.twitter" target="_blank">
+          <i class="fab fa-twitter"></i>Twitter
+        </a>
+        }
+        @if(instructorProfile?.instagram) {
+        <a [href]="instructorProfile!.instagram" target="_blank">
+          <i class="fab fa-instagram"></i>Instagram
+        </a>
+        }
+        @if(!instructorProfile?.linkedIn && !instructorProfile?.twitter && !instructorProfile?.instagram) {
+        <a><i class="fab fa-linkedin"></i>linkedin</a>
+        <a><i class="fab fa-twitter"></i>twitter</a>
+        <a><i class="fab fa-instagram"></i>instagram</a>
+        }
+      </div>
       }
     </div>
     <button class="manage-btn" (click)="openManageProfile()">
@@ -65,84 +65,75 @@
     </div>
 
     @if(coursesLoading) {
-      <div class="loading-placeholder">
-        <div class="skeleton-text skeleton-title"></div>
-        <div class="skeleton-text skeleton-subtitle"></div>
-        <div class="skeleton-text skeleton-title"></div>
-      </div>
+    <div class="loading-placeholder">
+      <div class="skeleton-text skeleton-title"></div>
+      <div class="skeleton-text skeleton-subtitle"></div>
+      <div class="skeleton-text skeleton-title"></div>
+    </div>
     } @else if(instructorCourses.length > 0) {
-        <div class="courses-grid">
-    <div class="course-card" *ngFor="let course of instructorCourses">
-      <div class="course-image">
-        <img
-    [src]="getPhotoUrl(course.photoUrl)" alt="{{ course.name  }}" 
-          onerror="this.src='Images/Course/Image+Background.png'"
-        />
+    <div class="courses-grid">
+      <div class="course-card" *ngFor="let course of instructorCourses">
+        <div class="course-image">
+          <img [src]="getPhotoUrl(course.photoUrl)" alt="{{ course.name  }}"
+            onerror="this.src='Images/Course/Image+Background.png'" />
 
-        <div class="category-badge">C# Topic</div>
- 
-        
-      </div>
+          <div class="category-badge">{{course.topic.name}}</div>
 
-      <div class="course-content">
-        <h3 class="course-title">{{ course.name | splicText :30 }}</h3>
 
-        <p class="course-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio dolorum deserunt, eligendi sunt laboriosam modi.</p>
-
-        <div class="course-stats">
-          <div class="stat">
-            <i class="fa-solid fa-play-circle"></i>
-            <span
-              >15 
-              lessons</span
-            >
-          </div>
-          <div class="stat">
-            <i class="fa-solid fa-clock"></i>
-            <span>8</span>
-          </div>
-          <div class="stat">
-            <i class="fa-solid fa-star"></i>
-            <span>10</span>
-          </div>
         </div>
+
+        <div class="course-content">
+          <h3 class="course-title">{{ course.name | splicText :30 }}</h3>
+
+
+          <div class="course-stats">
+            <div class="stat">
+              <i class="fa-solid fa-play-circle"></i>
+              <span>{{course.lessonsCount}}
+                lessons</span>
+            </div>
+            <div class="stat">
+              <i class="fa-solid fa-graduation-cap"></i> <span>{{course.enrollmentCount}} </span>
+            </div>
+            <div class="stat">
+              <i class="fa-solid fa-star"></i>
+              <span>{{course.rating}} </span>
+            </div>
+          </div>
 
 
 
           <div class="course-footer">
-              <div class="price-section">
-                <!-- <div *ngIf="course.originalPrice && course.discount" class="original-price">
+            <div class="price-section">
+              <!-- <div *ngIf="course.originalPrice && course.discount" class="original-price">
                   ${{ formatPrice(course.originalPrice) }}
                 </div> -->
-                <div class="current-price">
-                  ${{ course.price}}
-                </div>
-              </div>
-
-              <div class="action-buttons">
-       
-                
-     
-
-                <button 
-                  class="btn-details"
-                  (click)="viewCourse(course.id)"
-                >
-                  <i class="fa-solid fa-info-circle"></i>
-                </button>
+              <div class="current-price">
+                ${{ course.price}}
               </div>
             </div>
+
+            <div class="action-buttons">
+
+
+
+
+              <button class="btn-details" (click)="viewCourse(course.id)">
+                <i class="fa-solid fa-info-circle"></i>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-   
+
     } @else {
-      <div class="no-courses">
-        <i class="fas fa-book-open"></i>
-        <p>No courses created yet</p>
-        <button class="btn btn-primary" (click)="createNewCourse()">Create Your First Course</button>
-      </div>
+    <div class="no-courses">
+      <i class="fas fa-book-open"></i>
+      <p>No courses created yet</p>
+      <button class="btn btn-primary" (click)="createNewCourse()">Create Your First Course</button>
+    </div>
     }
   </div>
 </div>
