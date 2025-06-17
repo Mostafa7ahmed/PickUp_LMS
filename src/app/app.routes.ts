@@ -14,6 +14,7 @@ import { ChangepasswordComponent } from './Pages/Auth/changepassword/changepassw
 import { instructorRoutes } from './routes/instructor.routes';
 import { studentRoutes } from './routes/student.routes';
 import { LandingpageComponent } from './Pages/landingpage/landingpage.component';
+import { ComingSoonComponent } from './Components/coming-soon/coming-soon.component';
 
 export const routes: Routes = [
 
@@ -61,6 +62,13 @@ export const routes: Routes = [
         path: "changepassword",
         title: "changepassword",
         component: ChangepasswordComponent,
+        canActivate: [isloginguardsGuard],
+
+    },
+     {
+        path: "ComingSoon",
+        title: "Coming Soon",
+        component: ComingSoonComponent,
         canActivate: [isloginguardsGuard],
 
     },
