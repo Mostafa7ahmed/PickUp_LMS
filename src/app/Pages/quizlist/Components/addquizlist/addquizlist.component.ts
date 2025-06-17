@@ -21,6 +21,7 @@ import {
   IQuizCreationProgress
 } from '../../Core/interfaces/iquiz-api';
 import { Subscription } from 'rxjs';
+import { ListLessonService } from '../../../lesson/Core/Services/list-lesson.service';
 
 @Component({
   selector: 'app-addquizlist',
@@ -35,6 +36,7 @@ export class AddquizlistComponent implements OnInit, OnDestroy {
   private quizService = inject(QuizService);
   private quizApiService = inject(QuizApiService);
   private _paginateCoursesService = inject(ListCourseService);
+  private _lessonService = inject(ListLessonService);
 
   showFirstPopup = true;
   showSecondPopup = false;
@@ -50,7 +52,7 @@ changeValue(val: number) {
 
   selectedCourse: ListCourse | null = null;
   showDropdownCourse = false;
-  selectedDiscountType: number = 1;
+  selectedDurationType: number = 0; // 0 = Minutes, 1 = Hours (default to minutes)
   baseUrl: string = environment.baseUrlFiles;
   isLoadCourse = false;
 
@@ -58,15 +60,24 @@ changeValue(val: number) {
   quizTitle = '';
   quizDescription = '';
   quizDuration = 30;
-  quizDifficulty: 'easy' | 'medium' | 'hard' = 'medium';
+  quizDifficulty: number = 2; // 1 = Easy, 2 = Medium, 3 = Hard (default to Medium)
+
+  // Difficulty options for UI
+  difficultyOptions = [
+    { label: 'Easy', value: 1 },
+    { label: 'Medium', value: 2 },
+    { label: 'Hard', value: 3 }
+  ];
 
   // Lesson selection (placeholder for future implementation)
-  selectedLesson: any = null;
+  selectedLesson: any = null; // Keep for backward compatibility
   showDropdownLesson = false;
   lessons: any[] = [];
-  discountTypes: any[] = [
-    { label: 'Hours', value: 1 },
-    { label: 'Minutes', value: 0 }
+  selectedLessons: any[] = []; // Array to store multiple selected lessons
+  showLessonSelection = false; // Toggle to show lesson selection UI
+  durationTypes: any[] = [
+    { label: 'Minutes', value: 0 },
+    { label: 'Hours', value: 1 }
   ]
 
   toggleDropdownCourse() {
@@ -80,8 +91,13 @@ changeValue(val: number) {
     this.selectedCourse = course;
     this.showDropdownCourse = false;
 
-    // Load lessons for selected course (placeholder)
+    // Clear previous lesson selections
+    this.clearLessonSelection();
+
+    // Load lessons for the selected course
     this.loadLessonsForCourse(course.id);
+
+    console.log('📚 Course selected:', course.name);
   }
 
   // Lesson selection methods
@@ -99,19 +115,73 @@ changeValue(val: number) {
     this.showDropdownLesson = false;
   }
 
-  // Load lessons for course (placeholder - replace with actual API call)
-  loadLessonsForCourse(courseId: number) {
-    // TODO: Replace with actual API call using courseId
-    console.log('Loading lessons for course:', courseId);
+  // Toggle lesson selection in the list
+  toggleLessonSelection(lesson: any) {
+    const index = this.selectedLessons.findIndex(l => l.id === lesson.id);
+    if (index > -1) {
+      // Remove lesson if already selected
+      this.selectedLessons.splice(index, 1);
+      console.log('🗑️ Lesson removed from selection:', lesson.name);
+    } else {
+      // Add lesson to selection
+      this.selectedLessons.push(lesson);
+      console.log('✅ Lesson added to selection:', lesson.name);
+    }
+    console.log('📋 Currently selected lessons:', this.selectedLessons.map(l => l.name));
+  }
 
-    // Placeholder lessons data
-    this.lessons = [
-      { id: 1, name: 'Introduction to Programming', duration: '45 min' },
-      { id: 2, name: 'Variables and Data Types', duration: '30 min' },
-      { id: 3, name: 'Control Structures', duration: '60 min' },
-      { id: 4, name: 'Functions and Methods', duration: '50 min' },
-      { id: 5, name: 'Object-Oriented Programming', duration: '75 min' }
-    ];
+  // Check if lesson is selected
+  isLessonSelected(lesson: any): boolean {
+    return this.selectedLessons.some(l => l.id === lesson.id);
+  }
+
+  // Get selected lesson IDs for API
+  getSelectedLessonIds(): number[] {
+    return this.selectedLessons.map(lesson => lesson.id);
+  }
+
+  // Clear all lesson selections
+  clearLessonSelection() {
+    this.selectedLessons = [];
+    console.log('🧹 All lesson selections cleared');
+  }
+
+  // Difficulty selection method
+  selectDifficulty(difficulty: number) {
+    this.quizDifficulty = difficulty;
+    console.log('🎯 Difficulty selected:', difficulty);
+  }
+
+  // Get difficulty label for display
+  getDifficultyLabel(): string {
+    const difficulty = this.difficultyOptions.find(d => d.value === this.quizDifficulty);
+    return difficulty ? difficulty.label : 'Medium';
+  }
+
+  // Load lessons for the selected course
+  loadLessonsForCourse(courseId: number) {
+    console.log('📖 Loading lessons for course ID:', courseId);
+
+    // Use the lesson service to get lessons for this course
+    this._lessonService.getLessons(courseId, 1, 100, 1).subscribe({
+      next: (response: any) => {
+        if (response.success && response.result) {
+          this.lessons = response.result.items || [];
+          this.showLessonSelection = this.lessons.length > 0;
+          console.log('📖 Lessons loaded:', this.lessons.length);
+          console.log('📖 Lessons:', this.lessons.map((l: any) => l.name));
+        } else {
+          this.lessons = [];
+          this.showLessonSelection = false;
+          console.log('⚠️ No lessons found for course');
+        }
+      },
+      error: (error: any) => {
+        console.error('❌ Error loading lessons:', error);
+        this.lessons = [];
+        this.showLessonSelection = false;
+      }
+    });
   }
   getCourse() {
 
@@ -423,20 +493,32 @@ removeMultipleChoiceQuestion(index: number) {
     );
 
     // Prepare complete quiz creation request
+    const lessonIds = this.getSelectedLessonIds().length > 0 ? this.getSelectedLessonIds() : [0]; // Use selected lessons or [0] if none selected
+
     const quizRequest: ICompleteQuizCreationRequest = {
       courseId: this.selectedCourse.id,
-      lessonIds: this.selectedLesson ? [this.selectedLesson.id] : [],
+      lessonIds: lessonIds,
       name: this.quizTitle.trim(),
       description: this.quizDescription.trim() || `Quiz for ${this.selectedCourse.name}`,
       limited: true, // Set based on your requirements
+      difficulty: this.quizDifficulty, // Added difficulty field
       quizDuration: {
         duration: this.quizDuration,
-        type: this.selectedDiscountType === 1 ? QuizDurationType.Hours : QuizDurationType.minute
+        type: this.selectedDurationType === 1 ? QuizDurationType.Hours : QuizDurationType.minute
       },
       questions: apiQuestions
     };
 
     console.log('🚀 Creating quiz with API:', quizRequest);
+    console.log('📊 Quiz details:');
+    console.log('  - Course ID:', this.selectedCourse.id);
+    console.log('  - Quiz Title:', this.quizTitle);
+    console.log('  - Quiz Description:', this.quizDescription);
+    console.log('  - Quiz Duration:', this.quizDuration);
+    console.log('  - Duration Type:', this.selectedDurationType);
+    console.log('  - Quiz Difficulty:', this.quizDifficulty);
+    console.log('  - Questions Count:', apiQuestions.length);
+    console.log('  - Lesson IDs:', this.selectedLesson ? [this.selectedLesson.id] : []);
 
     // Call API to create complete quiz
     this.quizApiService.createCompleteQuiz(quizRequest).subscribe({

@@ -153,14 +153,45 @@
           <div class="Course_name flex-grow-1">
             <label for="quiz_difficulty">Difficulty</label>
             <select id="quiz_difficulty" class="input_Couser" [(ngModel)]="quizDifficulty">
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="hard">Hard</option>
+              <option *ngFor="let difficulty of difficultyOptions" [value]="difficulty.value">
+                {{difficulty.label}}
+              </option>
             </select>
           </div>
         </div>
 
-
+        <!-- Lesson Selection Section -->
+        <div *ngIf="showLessonSelection" class="Course_name mt-3">
+          <label>Select Lessons (Optional)</label>
+          <div class="lesson-selection-container">
+            <div class="lesson-selection-header d-flex justify-content-between align-items-center mb-2">
+              <span class="text-muted">{{selectedLessons.length}} of {{lessons.length}} lessons selected</span>
+              <button type="button" class="btn btn-sm btn-outline-secondary" (click)="clearLessonSelection()">
+                Clear All
+              </button>
+            </div>
+            <div class="lesson-list" style="max-height: 200px; overflow-y: auto;">
+              <div *ngFor="let lesson of lessons" class="lesson-item d-flex align-items-center gap-2 p-2 border rounded mb-1">
+                <input
+                  type="checkbox"
+                  [id]="'lesson-' + lesson.id"
+                  [checked]="isLessonSelected(lesson)"
+                  (change)="toggleLessonSelection(lesson)"
+                  class="form-check-input">
+                <label [for]="'lesson-' + lesson.id" class="form-check-label flex-grow-1 mb-0">
+                  <div class="lesson-info">
+                    <div class="lesson-name fw-medium">{{lesson.name}}</div>
+                    <div class="lesson-meta text-muted small">
+                      <span *ngIf="lesson.durationInMinutes">{{lesson.durationInMinutes}} min</span>
+                      <span *ngIf="lesson.videosCount"> • {{lesson.videosCount}} videos</span>
+                      <span *ngIf="lesson.order"> • Lesson {{lesson.order}}</span>
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
 
     </div>
 
@@ -195,7 +226,7 @@
               <h5>{{quizTitle || 'New Quiz'}}</h5>
               <p class="date mb-0">
                 <i class="fas fa-clock"></i>
-                {{quizDuration}} min • {{quizDifficulty | titlecase}}
+                {{quizDuration}} min • {{getDifficultyLabel()}}
               </p>
             </div>
           </div>

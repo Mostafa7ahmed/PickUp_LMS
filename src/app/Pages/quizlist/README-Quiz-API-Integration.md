@@ -65,6 +65,32 @@ The quiz creation functionality has been integrated with the backend API using a
 }
 ```
 
+### 4. Get Quiz by ID
+- **Endpoint**: `GET https://pickup.runasp.net/pickup-lms/api/v1/quiz/get?id=1`
+- **Purpose**: Returns detailed information about a specific quiz
+- **Used for**: Quiz details page and quiz preview
+
+### 5. Get Paginated Quizzes
+- **Endpoint**: `GET https://pickup.runasp.net/pickup-lms/api/v1/quiz/paginate?courseId=1&pageNumber=1&pageSize=1&orderBeforPagination=true&orderDirection=0`
+- **Purpose**: Returns a paginated list of quizzes
+- **Parameters**:
+  - `courseId`: Filter by course (0 for all courses)
+  - `pageNumber`: Current page (1-based)
+  - `pageSize`: Number of items per page
+  - `orderBeforPagination`: Whether to order before pagination
+  - `orderDirection`: Sort direction (0 = ascending, 1 = descending)
+- **Used for**: The main quiz list component
+
+### 6. Get Quiz Widget Data
+- **Endpoint**: `GET https://pickup.runasp.net/pickup-lms/api/v1/quiz/widget`
+- **Purpose**: Returns aggregated statistics about quizzes
+- **Used for**: The quiz dashboard widget
+- **Provides counts for**:
+  - Total quizzes
+  - Total questions
+  - Average duration
+  - Difficulty breakdown (easy, medium, hard)
+
 ## Quiz Duration Types
 
 ```typescript
@@ -96,16 +122,30 @@ export enum QuestionType {
    - Handles the 3-step quiz creation workflow
    - Provides progress tracking via Observable
    - Includes error handling and logging
+   - Handles all API calls to the quiz endpoints
 
-3. **`src/app/Pages/quizlist/Components/addquizlist/addquizlist.component.ts`**
+3. **`src/app/Pages/quizlist/Core/services/quiz.service.ts`**
+   - Local service for quiz data management (as a fallback)
+4. **`src/app/Pages/quizlist/Components/addquizlist/addquizlist.component.ts`**
    - Updated to use the new API service instead of localStorage
    - Added progress tracking and loading states
    - Enhanced error handling with user-friendly messages
 
-4. **`src/app/Pages/quizlist/Components/addquizlist/addquizlist.component.html`**
+5. **`src/app/Pages/quizlist/Components/addquizlist/addquizlist.component.html`**
    - Added progress indicator during quiz creation
    - Updated save button to show loading state
    - Disabled save button during creation process
+
+### Component Structure
+- `quizlist.component.ts`: Main container component
+- `widgetquizlist.component.ts`: Displays quiz statistics from the widget API
+- `cardqiuz.component.ts`: Displays the paginated list of quizzes
+
+### Data Flow
+1. The main component initializes and triggers data loading
+2. Widget component loads statistics from the widget API
+3. Card component loads paginated quizzes from the paginate API
+4. Each component handles its own loading, error states, and data presentation
 
 ### Workflow Process
 
@@ -132,7 +172,9 @@ this.quizApiService.progress$.subscribe(progress => {
 ```
 
 ### Error Handling
-
+- All API calls include error handling with appropriate user feedback
+- Fallback to local data when API calls fail
+- Retry mechanisms for failed API calls
 - Network errors are caught and displayed to user
 - Validation errors prevent API calls
 - Progress is reset on errors
@@ -171,6 +213,12 @@ this.quizApiService.createCompleteQuiz(quizRequest).subscribe({
 });
 ```
 
+## Usage Notes
+
+- Pagination controls are implemented in the card component
+- Search functionality works on the client-side with the current page of results
+- Advanced filtering should be implemented by changing the API parameters
+
 ## Testing
 
 To test the integration:
@@ -183,10 +231,9 @@ To test the integration:
 6. Monitor the progress indicator
 7. Verify success/error messages
 
-## Notes
+## Future Improvements
 
-- The implementation follows the exact API specification provided
-- All API calls include proper error handling
-- Progress tracking provides real-time feedback
-- The UI is disabled during creation to prevent multiple submissions
-- Questions are validated before API calls are made
+- Implement server-side search by adding search parameters to the API call
+- Add advanced filtering options (by difficulty, date, etc.)
+- Implement quiz creation and editing with proper validation
+- Add real-time update capabilities for collaborative environments

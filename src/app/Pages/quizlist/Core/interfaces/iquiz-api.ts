@@ -18,6 +18,7 @@ export interface ICreateQuizRequest {
   description: string;
   limited: boolean;
   quizDuration: IQuizDuration;
+  difficulty: number; // 1 = Easy, 2 = Medium, 3 = Hard
 }
 
 // Create Quiz Response Interface
@@ -39,9 +40,9 @@ export interface ICreateQuizResponse {
 // Quiz Section Request Interface
 export interface ICreateQuizSectionRequest {
   quizId: number;
-  name: string;
-  description?: string;
   order: number;
+  name: string;
+  type: number;
 }
 
 // Quiz Section Response Interface
@@ -52,9 +53,9 @@ export interface ICreateQuizSectionResponse {
   result?: {
     id: number;
     quizId: number;
-    name: string;
-    description: string;
     order: number;
+    name: string;
+    type: number;
     createdOn: string;
   };
 }
@@ -114,6 +115,26 @@ export interface ICreateQuestionResponse {
   };
 }
 
+// Bulk Question Creation Request Interface
+export interface IBulkQuestionRequest {
+  questions: ICreateQuestionRequest[];
+}
+
+// Bulk Question Creation Response Interface
+export interface IBulkQuestionResponse {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  result?: ICreateQuestionResponse[];
+}
+
+// Delete Question Response Interface
+export interface IDeleteQuestionResponse {
+  success: boolean;
+  statusCode: number;
+  message: string;
+}
+
 // Complete Quiz Creation Request (for the component)
 export interface ICompleteQuizCreationRequest {
   courseId: number;
@@ -122,6 +143,7 @@ export interface ICompleteQuizCreationRequest {
   description: string;
   limited: boolean;
   quizDuration: IQuizDuration;
+  difficulty: number; // 1 = Easy, 2 = Medium, 3 = Hard
   questions: ICreateQuestionRequest[];
 }
 
@@ -133,4 +155,80 @@ export interface IQuizCreationProgress {
   completedQuestions?: number;
   totalQuestions?: number;
   error?: string;
+}
+
+// New interfaces for the API endpoints
+
+// Quiz Detail Response Interface
+export interface IQuizDetailResponse {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  result?: {
+    id: number;
+    instructorId: number;
+    creatorId: number;
+    courseId: number;
+    name: string;
+    description: string;
+    difficulty: number;
+    updaterId: number;
+    createdOn: string;
+    updatedOn: string;
+    limited: boolean;
+    questionsCount: number;
+    courseName: string;
+    lessonsNames: string[];
+    duration: number;
+    submissions: number;
+  };
+}
+
+// Quiz Item Interface (for pagination results)
+export interface IQuizItem {
+  instructorId: number;
+  creatorId: number;
+  courseId: number;
+  name: string;
+  description: string;
+  difficulty: number; // 1 = Easy, 2 = Medium, 3 = Hard
+  updaterId: number;
+  createdOn: string;
+  updatedOn: string;
+  limited: boolean;
+  questionsCount: number;
+  courseName: string;
+  lessonsNames: string[];
+  duration: number;
+  submissions: number;
+}
+
+// Quiz Pagination Response Interface
+export interface IQuizPaginationResponse {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  result: IQuizItem[];
+  pageSize: number;
+  pageIndex: number;
+  totalCount: number;
+  count: number;
+  totalPages: number;
+  moveNext: boolean;
+  movePrevious: boolean;
+}
+
+// Quiz Widget Response Interface
+export interface IQuizWidgetResponse {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  result?: {
+    totalQuizzes: number;
+    totalQuestions: number;
+    avgDuration: number;
+    easyCount: number;
+    mediumCount: number;
+    hardCount: number;
+  };
 }

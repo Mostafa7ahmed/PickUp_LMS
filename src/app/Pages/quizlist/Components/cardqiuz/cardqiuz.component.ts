@@ -3,7 +3,9 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { QuizService, Quiz } from '../../Core/services/quiz.service';
-import { Subscription } from 'rxjs';
+import { QuizApiService } from '../../Core/services/quiz-api.service';
+import { IQuizItem } from '../../Core/interfaces/iquiz-api';
+import { Subscription, catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-cardqiuz',
@@ -16,9 +18,21 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
 
   private router = inject(Router);
   private quizService = inject(QuizService);
+  private quizApiService = inject(QuizApiService);
 
   // Search and filter properties
   searchTerm = '';
+
+  // Pagination
+  currentPage = 1;
+  pageSize = 10;
+  totalPages = 1;
+  totalItems = 0;
+
+  // Loading and error states
+  loading = true;
+  error = false;
+  errorMessage = '';
 
   // Delete confirmation dialog
   showDeleteDialog = false;
@@ -27,30 +41,102 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
   // Quiz data
   sampleQuizzes: Quiz[] = [];
   filteredQuizzes: Quiz[] = [];
+  apiQuizzes: IQuizItem[] = [];
+
   private quizSubscription: Subscription = new Subscription();
+  private apiSubscription: Subscription = new Subscription();
 
   ngOnInit() {
-    // Subscribe to quiz changes
+    // Load quizzes from API
+    this.loadQuizzesFromApi();
+
+    // Keep the subscription to local storage as backup
     this.quizSubscription = this.quizService.getQuizzes().subscribe(quizzes => {
       this.sampleQuizzes = quizzes;
-      this.applySearch(); // Apply search filter
-      console.log('📋 Updated quiz list:', quizzes);
-
-      // Storage info
-      const storageInfo = this.quizService.getStorageInfo();
-      console.log(`📊 Quiz Storage: ${storageInfo.count} quizzes, ${storageInfo.size}`);
-
-      // Check for quizzes with questions
-      quizzes.forEach(quiz => {
-        if (quiz.questions && quiz.questions.length > 0) {
-          console.log(`Quiz "${quiz.title}" has ${quiz.questions.length} questions:`, quiz.questions);
-        }
-      });
+      // Only use local storage data if API fails
+      if (this.apiQuizzes.length === 0 && !this.loading) {
+    this.applySearch();
+  }
+      console.log('📋 Updated quiz list from local storage:', quizzes);
     });
   }
 
   ngOnDestroy() {
     this.quizSubscription.unsubscribe();
+    if (this.apiSubscription) {
+      this.apiSubscription.unsubscribe();
+    }
+  }
+
+  loadQuizzesFromApi(courseId: number = 0) {
+    this.loading = true;
+    this.error = false;
+
+    this.apiSubscription = this.quizApiService.getPaginatedQuizzes(
+      courseId,
+      this.currentPage,
+      this.pageSize,
+      true, // orderBeforPagination
+      0     // orderDirection
+    )
+    .pipe(
+      catchError(error => {
+        console.error('❌ Error loading quizzes from API:', error);
+        this.loading = false;
+        this.error = true;
+        this.errorMessage = error.message || 'Failed to load quizzes. Please try again.';
+        return of(null);
+      })
+    )
+    .subscribe(response => {
+      this.loading = false;
+
+      if (response && response.success) {
+        this.apiQuizzes = response.result || [];
+        this.totalItems = response.totalCount || 0;
+        this.totalPages = response.totalPages || 1;
+        this.currentPage = response.pageIndex || 1;
+
+        // Map API quizzes to the format expected by the UI
+        this.mapApiQuizzesToUiFormat();
+
+        console.log(`📋 Loaded ${this.apiQuizzes.length} quizzes from API (Page ${this.currentPage}/${this.totalPages})`);
+      } else if (!this.error) {
+        this.error = true;
+        this.errorMessage = response?.message || 'Failed to load quizzes';
+      }
+    });
+  }
+
+  mapApiQuizzesToUiFormat() {
+    // Convert API quizzes to the format expected by the UI
+    this.filteredQuizzes = this.apiQuizzes.map(apiQuiz => ({
+      id: apiQuiz.courseId, // Using courseId as a fallback since API response doesn't include id
+      title: apiQuiz.name,
+      description: apiQuiz.description,
+      questionsCount: apiQuiz.questionsCount,
+      duration: apiQuiz.duration,
+      difficulty: this.mapDifficultyToString(apiQuiz.difficulty),
+      status: 'published', // Default to published since API doesn't provide status
+      tags: apiQuiz.lessonsNames || [],
+      createdDate: new Date(apiQuiz.createdOn).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      }),
+      courseId: apiQuiz.courseId,
+      courseName: apiQuiz.courseName,
+      attempts: apiQuiz.submissions
+    }));
+  }
+
+  mapDifficultyToString(difficulty: number): 'easy' | 'medium' | 'hard' {
+    switch(difficulty) {
+      case 1: return 'easy';
+      case 2: return 'medium';
+      case 3: return 'hard';
+      default: return 'medium';
+  }
   }
 
   // Search functionality
@@ -90,6 +176,33 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
     this.applySearch();
   }
 
+  // Pagination controls
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
+      this.currentPage = page;
+      this.loadQuizzesFromApi();
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadQuizzesFromApi();
+    }
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.loadQuizzesFromApi();
+    }
+  }
+
+  // Retry loading on error
+  retryLoading() {
+    this.loadQuizzesFromApi();
+  }
+
   // Highlight search terms in text
   highlightSearchTerm(text: string): string {
     if (!this.searchTerm.trim()) {
@@ -102,10 +215,16 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
 
   // Get search placeholder based on results
   getSearchPlaceholder(): string {
-    if (this.sampleQuizzes.length === 0) {
+    if (this.loading) {
+      return 'Loading quizzes...';
+    }
+    if (this.error) {
+      return 'Error loading quizzes';
+    }
+    if (this.totalItems === 0) {
       return 'No quizzes to search...';
     }
-    return `Search ${this.sampleQuizzes.length} quizzes...`;
+    return `Search ${this.totalItems} quizzes...`;
   }
 
   // Debug methods (for development)
@@ -287,5 +406,5 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
       }, 300);
     }, 3000);
   }
-
 }
+

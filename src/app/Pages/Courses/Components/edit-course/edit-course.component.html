@@ -96,7 +96,7 @@
 
             <div class="d-flex gap-2 checkedCard">
               <label class="containerCheck">
-                <input type="checkbox" id="invalidCheck" [disabled]="courseForm.get('free')?.value" [checked]="!courseForm.get('free')?.value" (change)="isChecked = !isChecked">
+                <input type="checkbox" id="invalidCheck" [disabled]="courseForm.get('free')?.value" [(ngModel)]="isChecked" (change)="onDiscountCheckboxChange()">
                 <div class="checkmark ">
 
                 </div>
@@ -157,14 +157,15 @@
               [title]="'Course Tags'"></app-text-header>
             <div class="mt-3 tagsSelect">
               <div class="card btnScroll flex justify-center position-relative">
-                <p-multiselect 
-                  [options]="tagsListResponse.result" 
-                  formControlName="tags" 
+                <p-multiselect
+                  [options]="tagsListResponse.result"
+                  formControlName="tags"
                   scrollHeight="150px"
-                  optionLabel="name" 
-                  placeholder="Select Cities" 
-                  [maxSelectedLabels]="3" 
-                  [filter]="false" 
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder="Select Tags"
+                  [maxSelectedLabels]="3"
+                  [filter]="false"
                   appendTo="self"
                   styleClass="w-full md:w-80 btnScrollInput">
               
@@ -193,7 +194,7 @@
           </div>
         </div>
 
-        <div  [formGroup]="fieldForm" class="CourseTags UploadCover pb-1 mt-2">
+        <div class="CourseTags UploadCover pb-1 mt-2">
           <div class="tags custom-fields-container">
             <app-text-header [bgColor]="'#659DFFBF'" [Icon]="'fa-solid fa-exclamation'"
               [title]="'Custom fields'">

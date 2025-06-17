@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit, ViewChild, ElementRef, inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TopPopComponent } from '../../../../Components/top-pop/top-pop.component';
@@ -24,10 +24,7 @@ import { CustomFildsService } from '../../Core/service/custom-filds.service';
 import { StreamService } from '../../../../Core/Services/stream.service';
 import { StreamType } from '../../../../Core/Interface/stream-type';
 import { environment } from '../../../../Environments/environment';
-import { IUploadResponse } from '../../../../Core/Interface/iupload';
-import { ITag } from '../../Core/interface/itags';
-import { ICreateCourseRequest, NewCustomFieldRequest, NewTagRequest } from '../../Core/interface/icreate-course';
-import { StringExtensionsService } from '../../../../Core/Shared/service/string-extensions.service';
+
 
 @Component({
     selector: 'app-edit-course',
@@ -35,6 +32,7 @@ import { StringExtensionsService } from '../../../../Core/Shared/service/string-
     imports: [
         CommonModule,
         ReactiveFormsModule,
+        FormsModule,
         TopPopComponent,
         TextHeaderComponent,
         CustomSelectPriceOrFreeComponent,
@@ -109,7 +107,6 @@ export class EditCourseComponent implements OnInit {
     private _tagsService = inject(TagesService);
     private _customFieldsService = inject(CustomFildsService);
     private _streamService = inject(StreamService);
-    private _stringExtensions = inject(StringExtensionsService);
     private _activatedRoute = inject(ActivatedRoute);
 
     constructor(private router: Router) {
@@ -117,16 +114,25 @@ export class EditCourseComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log('🔧 Edit Course Component - ngOnInit called');
+        console.log('🔧 Route snapshot params:', this._activatedRoute.snapshot.params);
+        console.log('🔧 Route snapshot outlet:', this._activatedRoute.snapshot.outlet);
+
         // Get courseId from route parameters
         this._activatedRoute.params.subscribe(params => {
+            console.log('🔧 Route params subscription triggered:', params);
             this.courseId = +params['courseId'];
             console.log('🔧 Edit Course - Course ID:', this.courseId);
-            if (this.courseId) {
+
+            if (this.courseId && !isNaN(this.courseId)) {
+                console.log('✅ Valid course ID found, loading data...');
                 this.loadInitialData();
                 this.loadCourseData();
             } else {
-                console.error('❌ No course ID provided for editing');
-                alert('No course ID provided for editing');
+                console.error('❌ No valid course ID provided for editing');
+                console.error('❌ Params received:', params);
+                console.error('❌ Parsed courseId:', this.courseId);
+                alert('No valid course ID provided for editing');
                 this.closePopup();
             }
         });
@@ -155,6 +161,8 @@ export class EditCourseComponent implements OnInit {
             key: [''],
             value: ['']
         });
+
+        console.log('📝 Form initialized with controls:', Object.keys(this.courseForm.controls));
     }
 
     private loadInitialData() {
@@ -189,7 +197,7 @@ export class EditCourseComponent implements OnInit {
 
     private populateForm(courseData: any) {
         console.log('📝 Populating form with course data:', courseData);
-        
+
         // Set basic course information
         this.courseForm.patchValue({
             name: courseData.name,
@@ -202,13 +210,28 @@ export class EditCourseComponent implements OnInit {
             introductionVideoUrl: courseData.introductionVideoUrl
         });
 
+        // Set tags if they exist
+        if (courseData.tags && Array.isArray(courseData.tags)) {
+            const tagIds = courseData.tags.map((tag: any) => tag.id);
+            this.courseForm.patchValue({ tags: tagIds });
+            console.log('📝 Tags set:', tagIds);
+        }
+
         // Set selected topic and stage
         if (courseData.stage) {
-            this.selectTopicDefault = { id: courseData.stage.topicId };
-            this.selectStageDefault = { id: courseData.stage.id };
-            
+            // Find the topic and stage objects from the lists for proper binding
+            const topicObj = this.topicsList.find(t => t.id === courseData.stage.topicId) || { id: courseData.stage.topicId };
+            const stageObj = (topicObj.stages || []).find((s: any) => s.id === courseData.stage.id) || { id: courseData.stage.id };
+            this.selectTopicDefault = topicObj;
+            this.selectStageDefault = stageObj;
+
             // Load stages for the selected topic
             this.loadStagesForTopic(courseData.stage.topicId);
+            // Patch form values
+            this.courseForm.patchValue({
+                topicId: topicObj.id,
+                stageId: stageObj.id
+            });
         }
 
         // Set image preview if exists
@@ -240,13 +263,36 @@ export class EditCourseComponent implements OnInit {
 
         this.isLoadTopic = true;
         this.isLoadCustomField = true;
+
+        // Mark form as touched to enable validation
+        this.courseForm.markAllAsTouched();
+
         console.log('✅ Form populated successfully');
+        console.log('📝 Final form value:', this.courseForm.value);
+        console.log('📝 Form valid:', this.courseForm.valid);
+        console.log('📝 Form errors:', this.getFormValidationErrors());
     }
 
     private loadStagesForTopic(topicId: number) {
+        console.log('🔄 Loading stages for topic ID:', topicId);
+        console.log('🔄 Available topics:', this.topicsList);
+
         const topic = this.topicsList.find(t => t.id === topicId);
         if (topic) {
-            this.stageList = topic.stages || [];
+            console.log('✅ Topic found:', topic);
+            console.log('📋 Raw stages from topic:', topic.stages);
+
+            // Filter stages like other components do (exclude type 2)
+            if (topic.stages && Array.isArray(topic.stages)) {
+                this.stageList = topic.stages.filter((stage: any) => stage.type !== 2);
+                console.log('📋 Filtered stages (excluding type 2):', this.stageList);
+            } else {
+                this.stageList = [];
+                console.log('⚠️ No stages found in topic or stages is not an array');
+            }
+        } else {
+            console.error('❌ Topic not found for ID:', topicId);
+            this.stageList = [];
         }
     }
 
@@ -255,6 +301,34 @@ export class EditCourseComponent implements OnInit {
             next: (res: any) => {
                 console.log('📋 Topics loaded:', res);
                 this.topicsList = res.result;
+
+                // Log each topic and its stages for debugging
+                this.topicsList.forEach((topic: any) => {
+                    console.log(`📋 Topic "${topic.name}" (ID: ${topic.id}) has ${topic.stages?.length || 0} stages:`, topic.stages);
+                });
+
+                // If editing, reload stages and selected topic/stage after topics are loaded
+                if (this.courseForm.get('topicId')?.value) {
+                    const topicId = this.courseForm.get('topicId')?.value;
+                    console.log('🔄 Reloading stages for existing topic ID:', topicId);
+                    this.loadStagesForTopic(topicId);
+
+                    // Set selectTopicDefault and selectStageDefault to the actual objects
+                    const topicObj = this.topicsList.find(t => t.id === topicId);
+                    if (topicObj) {
+                        this.selectTopicDefault = topicObj;
+                        console.log('✅ Topic object found and set:', topicObj);
+
+                        const stageId = this.courseForm.get('stageId')?.value;
+                        if (stageId && topicObj.stages) {
+                            const stageObj = topicObj.stages.find((s: any) => s.id === stageId);
+                            if (stageObj) {
+                                this.selectStageDefault = stageObj;
+                                console.log('✅ Stage object found and set:', stageObj);
+                            }
+                        }
+                    }
+                }
             },
             error: (error) => {
                 console.error('❌ Error loading topics:', error);
@@ -288,19 +362,60 @@ export class EditCourseComponent implements OnInit {
         });
     }
 
-    onTopicSelected(topic: any) {
-        console.log('🎯 Topic selected:', topic);
-        this.selectTopicDefault = topic;
-        this.courseForm.patchValue({ topicId: topic.id });
-        this.stageList = topic.stages || [];
-        this.selectStageDefault = null;
-        this.courseForm.patchValue({ stageId: null });
+    onTopicSelected(selectedTopicId: number) {
+        console.log('🎯 Topic ID selected:', selectedTopicId);
+        console.log('🎯 All topics list:', this.topicsList);
+
+        // Find the full topic object by ID
+        const selectedTopic = this.topicsList.find((topic: any) => topic.id === selectedTopicId);
+
+        if (selectedTopic) {
+            console.log('✅ Topic found:', selectedTopic);
+            this.selectTopicDefault = selectedTopic;
+            this.courseForm.patchValue({ topicId: selectedTopicId });
+
+            // Load stages for this topic with filtering
+            if (selectedTopic.stages && Array.isArray(selectedTopic.stages)) {
+                this.stageList = selectedTopic.stages.filter((stage: any) => stage.type !== 2);
+                console.log('📋 Filtered stages loaded for topic (excluding type 2):', this.stageList);
+            } else {
+                this.stageList = [];
+                console.log('⚠️ No stages found in selected topic or stages is not an array');
+            }
+
+            // Reset stage selection
+            this.selectStageDefault = null;
+            this.courseForm.patchValue({ stageId: null });
+
+            // Mark form controls as touched
+            this.courseForm.get('topicId')?.markAsTouched();
+            this.courseForm.get('stageId')?.markAsTouched();
+
+            console.log('📝 Form after topic selection:', this.courseForm.value);
+            console.log('📝 Form valid after topic selection:', this.courseForm.valid);
+        } else {
+            console.error('❌ Topic not found for ID:', selectedTopicId);
+        }
     }
 
-    onStageSelected(stage: any) {
-        console.log('🎯 Stage selected:', stage);
-        this.selectStageDefault = stage;
-        this.courseForm.patchValue({ stageId: stage.id });
+    onStageSelected(selectedStageId: number) {
+        console.log('🎯 Stage ID selected:', selectedStageId);
+        console.log('🎯 Available stages:', this.stageList);
+
+        // Find the full stage object by ID
+        const selectedStage = this.stageList.find((stage: any) => stage.id === selectedStageId);
+
+        if (selectedStage) {
+            console.log('✅ Stage found:', selectedStage);
+            this.selectStageDefault = selectedStage;
+            this.courseForm.patchValue({ stageId: selectedStageId });
+            this.courseForm.get('stageId')?.markAsTouched();
+
+            console.log('📝 Form after stage selection:', this.courseForm.value);
+            console.log('📝 Form valid after stage selection:', this.courseForm.valid);
+        } else {
+            console.error('❌ Stage not found for ID:', selectedStageId);
+        }
     }
 
     handleValueChange(event: any) {
@@ -312,6 +427,19 @@ export class EditCourseComponent implements OnInit {
 
         if (isFree) {
             this.isChecked = false;
+        }
+    }
+
+    onDiscountCheckboxChange() {
+        console.log('💰 Discount checkbox changed:', this.isChecked);
+        if (!this.isChecked) {
+            // Reset discount values when unchecked
+            this.courseForm.patchValue({
+                discount: {
+                    type: 0,
+                    amount: 0
+                }
+            });
         }
     }
 
@@ -345,6 +473,10 @@ export class EditCourseComponent implements OnInit {
         console.log('🔄 Attempting to update course...');
         console.log('📝 Form valid:', this.courseForm.valid);
         console.log('📝 Form value:', this.courseForm.value);
+        console.log('📝 Form errors:', this.getFormValidationErrors());
+        console.log('📝 Topic ID:', this.courseForm.get('topicId')?.value);
+        console.log('📝 Stage ID:', this.courseForm.get('stageId')?.value);
+        console.log('📝 Course Name:', this.courseForm.get('name')?.value);
 
         if (this.courseForm.valid) {
             this.isLoad = true;
@@ -390,13 +522,29 @@ export class EditCourseComponent implements OnInit {
         });
     }
 
+    private getFormValidationErrors() {
+        const formErrors: any = {};
+        Object.keys(this.courseForm.controls).forEach(key => {
+            const controlErrors = this.courseForm.get(key)?.errors;
+            if (controlErrors) {
+                formErrors[key] = controlErrors;
+            }
+        });
+        return formErrors;
+    }
+
     private collectUpdateCourseRequest(): IUpdateCourseRequest {
         const formValue = this.courseForm.value;
 
-        const tags = formValue.tags?.map((tag: any) => ({
-            id: tag.id,
-            name: tag.name
-        })) || [];
+        // Fix tags: if tags is array of IDs, map to array of {id}
+        let tags: any[] = [];
+        if (Array.isArray(formValue.tags)) {
+            if (typeof formValue.tags[0] === 'object') {
+                tags = formValue.tags.map((tag: any) => ({ id: tag.id, name: tag.name }));
+            } else {
+                tags = formValue.tags.map((id: number) => ({ id }));
+            }
+        }
 
         const customFields = this.customFieldsArray.value || [];
 
