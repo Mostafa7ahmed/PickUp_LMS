@@ -135,6 +135,12 @@ p {
 .shape {
   position: absolute;
   z-index: -1;
+  animation-duration: 8s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  will-change: transform; // Optimize for animations
+  backface-visibility: hidden; // Prevent flickering
+  transform-style: preserve-3d; // Better 3D transforms
 }
 
 @media only screen and (min-width: 480px) and (max-width: 767px) {
@@ -1086,6 +1092,7 @@ main.main-14 .main-wrapper.demo-14 {
   font-family: "Roboto", sans-serif;
   color: #3E2945;
   position: relative;
+  animation: fadeIn 1.5s ease-out;
 }
 
 @media (max-width: 767px) {
@@ -1094,9 +1101,22 @@ main.main-14 .main-wrapper.demo-14 {
     padding-bottom: 50px;
   }
 }
-
-main.main-14 .main-wrapper.demo-14 .img-wrapper {
+.logod{
+    position: absolute;
+    top: 40px;
+    left: 90px;
+}
+main.main-14 .main-wrapper.demo-14 .img-comming{
   margin-left: -100px;
+  animation: fadeInLeft 1s ease-out;
+}
+
+main.main-14 .main-wrapper.demo-14 .img-comming img {
+  transition: transform 0.3s ease;
+}
+
+main.main-14 .main-wrapper.demo-14 .img-wrapper:hover img {
+  transform: scale(1.05);
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -1130,35 +1150,195 @@ main.main-14 .main-wrapper.demo-14 .shape-1 {
   right: 0;
   margin: auto;
   top: 120px;
+  animation-name: floatUpDown;
+  animation-delay: 0s;
+  animation-duration: 6s;
 }
 
 main.main-14 .main-wrapper.demo-14 .shape-2 {
   right: 380px;
   top: 95px;
+  animation-name: rotateFloat;
+  animation-delay: 1s;
+  animation-duration: 10s;
 }
 
 main.main-14 .main-wrapper.demo-14 .shape-3 {
   right: 88px;
   top: 230px;
+  animation-name: bounceFloat;
+  animation-delay: 2s;
+  animation-duration: 4s;
 }
 
 main.main-14 .main-wrapper.demo-14 .shape-4 {
   right: 295px;
   top: 550px;
+  animation-name: slideFloat;
+  animation-delay: 3s;
+  animation-duration: 7s;
 }
 
 main.main-14 .main-wrapper.demo-14 .shape-5 {
   right: -48px;
   bottom: 250px;
+  animation-name: pulseFloat;
+  animation-delay: 4s;
+  animation-duration: 5s;
 }
 
 main.main-14 .main-wrapper.demo-14 .shape-6 {
   right: 272px;
   bottom: -20px;
+  animation-name: waveFloat;
+  animation-delay: 5s;
+  animation-duration: 8s;
+}
+
+// Additional shapes with random positions and animations
+main.main-14 .main-wrapper.demo-14 .shape-7 {
+  left: 5%;
+  top: 15%;
+  animation-name: randomFloat1;
+  animation-delay: 0.5s;
+  animation-duration: 9s;
+  opacity: 0.7;
+  transform: scale(0.8);
+}
+
+main.main-14 .main-wrapper.demo-14 .shape-8 {
+  right: 15%;
+  top: 40%;
+  animation-name: randomFloat2;
+  animation-delay: 1.5s;
+  animation-duration: 7s;
+  opacity: 0.6;
+  transform: scale(0.6);
+}
+
+main.main-14 .main-wrapper.demo-14 .shape-9 {
+  left: 80%;
+  bottom: 30%;
+  animation-name: randomFloat3;
+  animation-delay: 2.5s;
+  animation-duration: 11s;
+  opacity: 0.5;
+  transform: scale(0.9);
+}
+
+main.main-14 .main-wrapper.demo-14 .shape-10 {
+  left: 25%;
+  bottom: 10%;
+  animation-name: randomFloat4;
+  animation-delay: 3.5s;
+  animation-duration: 6s;
+  opacity: 0.8;
+  transform: scale(0.7);
+}
+
+main.main-14 .main-wrapper.demo-14 .shape-11 {
+  right: 5%;
+  top: 70%;
+  animation-name: randomFloat5;
+  animation-delay: 4.5s;
+  animation-duration: 10s;
+  opacity: 0.4;
+  transform: scale(0.5);
+}
+
+main.main-14 .main-wrapper.demo-14 .shape-12 {
+  left: 60%;
+  top: 5%;
+  animation-name: randomFloat6;
+  animation-delay: 0.8s;
+  animation-duration: 8s;
+  opacity: 0.7;
+  transform: scale(0.8);
+}
+
+main.main-14 .main-wrapper.demo-14 .shape-13 {
+  right: 40%;
+  bottom: 5%;
+  animation-name: randomFloat7;
+  animation-delay: 1.8s;
+  animation-duration: 9s;
+  opacity: 0.6;
+  transform: scale(0.6);
+}
+
+main.main-14 .main-wrapper.demo-14 .shape-14 {
+  left: 10%;
+  top: 60%;
+  animation-name: randomFloat8;
+  animation-delay: 2.8s;
+  animation-duration: 7s;
+  opacity: 0.5;
+  transform: scale(0.9);
+}
+
+main.main-14 .main-wrapper.demo-14 .shape-15 {
+  right: 70%;
+  top: 25%;
+  animation-name: randomFloat9;
+  animation-delay: 3.8s;
+  animation-duration: 12s;
+  opacity: 0.8;
+  transform: scale(0.4);
+}
+
+main.main-14 .main-wrapper.demo-14 .shape-16 {
+  left: 45%;
+  bottom: 40%;
+  animation-name: randomFloat10;
+  animation-delay: 4.8s;
+  animation-duration: 6s;
+  opacity: 0.3;
+  transform: scale(0.7);
+}
+
+main.main-14 .main-wrapper.demo-14 .shape-17 {
+  right: 25%;
+  top: 80%;
+  animation-name: randomFloat11;
+  animation-delay: 0.3s;
+  animation-duration: 11s;
+  opacity: 0.6;
+  transform: scale(0.5);
+}
+
+main.main-14 .main-wrapper.demo-14 .shape-18 {
+  left: 75%;
+  top: 45%;
+  animation-name: randomFloat12;
+  animation-delay: 1.3s;
+  animation-duration: 8s;
+  opacity: 0.7;
+  transform: scale(0.8);
+}
+
+main.main-14 .main-wrapper.demo-14 .shape-19 {
+  right: 60%;
+  bottom: 60%;
+  animation-name: randomFloat13;
+  animation-delay: 2.3s;
+  animation-duration: 9s;
+  opacity: 0.4;
+  transform: scale(0.6);
+}
+
+main.main-14 .main-wrapper.demo-14 .shape-20 {
+  left: 35%;
+  top: 75%;
+  animation-name: randomFloat14;
+  animation-delay: 3.3s;
+  animation-duration: 10s;
+  opacity: 0.5;
+  transform: scale(0.9);
 }
 
 main.main-14 .main-wrapper.demo-14 .content-wrapper {
   margin-left: -40px;
+  animation: fadeInUp 1s ease-out;
 }
 
 @media (max-width: 767px) {
@@ -1172,6 +1352,61 @@ main.main-14 .main-wrapper.demo-14 .content-wrapper h1 {
   font-size: 100px;
   font-weight: 700;
   margin-bottom: 20px;
+  animation: fadeInDown 1s ease-out 0.5s both;
+}
+
+// Typewriter Animation
+.typewriter-text {
+  background: linear-gradient(45deg, #3E2945, #44ACBE, #3E2945);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 3s ease-in-out infinite, typewriter 4s steps(11) 1s both;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid transparent;
+  width: 0;
+  position: relative;
+  filter: drop-shadow(2px 2px 4px rgba(62, 41, 69, 0.3));
+}
+
+.typewriter-text::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: linear-gradient(45deg, rgba(68, 172, 190, 0.3), rgba(62, 41, 69, 0.3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  z-index: -1;
+  transform: translate(3px, 3px);
+}
+
+.cursor {
+  display: inline-block;
+  background: linear-gradient(45deg, #3E2945, #44ACBE);
+  animation: blink 1s infinite, fadeInCursor 1s 5s both;
+  width: 3px;
+  height: 100px;
+  margin-left: 5px;
+  border-radius: 2px;
+  box-shadow: 0 0 10px rgba(62, 41, 69, 0.5);
+  position: relative;
+}
+
+.cursor::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #44ACBE, #3E2945);
+  border-radius: 2px;
+  animation: cursorGlow 2s ease-in-out infinite alternate;
+  z-index: -1;
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
@@ -1195,16 +1430,38 @@ main.main-14 .main-wrapper.demo-14 .content-wrapper h1 {
 main.main-14 .main-wrapper.demo-14 .content-wrapper p {
   font-size: 16px;
   line-height: 26px;
+  animation: fadeInUp 1s ease-out 0.8s both;
+  opacity: 0;
 }
 
 main.main-14 .main-wrapper.demo-14 .content-wrapper .countdown {
   padding-top: 45px;
   padding-bottom: 50px;
+  animation: fadeInUp 1s ease-out 1.2s both;
+  opacity: 0;
 }
 
 main.main-14 .main-wrapper.demo-14 .content-wrapper .countdown .single-count-content {
   padding: 0 36px;
   position: relative;
+  animation: fadeInUp 0.8s ease-out both;
+  opacity: 0;
+}
+
+main.main-14 .main-wrapper.demo-14 .content-wrapper .countdown .single-count-content:nth-child(1) {
+  animation-delay: 1.4s;
+}
+
+main.main-14 .main-wrapper.demo-14 .content-wrapper .countdown .single-count-content:nth-child(2) {
+  animation-delay: 1.6s;
+}
+
+main.main-14 .main-wrapper.demo-14 .content-wrapper .countdown .single-count-content:nth-child(3) {
+  animation-delay: 1.8s;
+}
+
+main.main-14 .main-wrapper.demo-14 .content-wrapper .countdown .single-count-content:nth-child(4) {
+  animation-delay: 2.0s;
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
@@ -1256,6 +1513,13 @@ main.main-14 .main-wrapper.demo-14 .content-wrapper .countdown .single-count-con
 main.main-14 .main-wrapper.demo-14 .content-wrapper .countdown .single-count-content .count {
   font-size: 50px;
   margin-bottom: 5px;
+  animation: countPulse 2s ease-in-out infinite;
+  transition: all 0.3s ease;
+}
+
+main.main-14 .main-wrapper.demo-14 .content-wrapper .countdown .single-count-content:hover .count {
+  transform: scale(1.1);
+  animation-play-state: paused;
 }
 
 @media (max-width: 767px) {
@@ -1314,4 +1578,437 @@ main.main-14 .main-wrapper.demo-14 .content-wrapper .subscribe-form button {
     position: absolute;
   }
 }
+// Content Animation Keyframes
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes countPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+// Typewriter Animation Keyframes
+@keyframes typewriter {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInCursor {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes cursorGlow {
+  0% {
+    box-shadow: 0 0 5px rgba(68, 172, 190, 0.3);
+    transform: scaleY(1);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(68, 172, 190, 0.8);
+    transform: scaleY(1.1);
+  }
+}
+
+// Random Float Animations for Additional Shapes
+@keyframes randomFloat1 {
+  0% { transform: translate(0px, 0px) rotate(0deg) scale(0.8); }
+  25% { transform: translate(30px, -20px) rotate(90deg) scale(0.9); }
+  50% { transform: translate(-15px, -40px) rotate(180deg) scale(0.7); }
+  75% { transform: translate(-30px, -10px) rotate(270deg) scale(0.8); }
+  100% { transform: translate(0px, 0px) rotate(360deg) scale(0.8); }
+}
+
+@keyframes randomFloat2 {
+  0% { transform: translate(0px, 0px) rotate(0deg) scale(0.6); }
+  20% { transform: translate(-25px, 15px) rotate(45deg) scale(0.7); }
+  40% { transform: translate(20px, -25px) rotate(135deg) scale(0.5); }
+  60% { transform: translate(35px, 10px) rotate(225deg) scale(0.8); }
+  80% { transform: translate(-10px, 30px) rotate(315deg) scale(0.6); }
+  100% { transform: translate(0px, 0px) rotate(360deg) scale(0.6); }
+}
+
+@keyframes randomFloat3 {
+  0% { transform: translate(0px, 0px) rotate(0deg) scale(0.9); }
+  33% { transform: translate(40px, -30px) rotate(120deg) scale(0.7); }
+  66% { transform: translate(-20px, 25px) rotate(240deg) scale(1.1); }
+  100% { transform: translate(0px, 0px) rotate(360deg) scale(0.9); }
+}
+
+@keyframes randomFloat4 {
+  0% { transform: translate(0px, 0px) rotate(0deg) scale(0.7); }
+  25% { transform: translate(-35px, -15px) rotate(60deg) scale(0.9); }
+  50% { transform: translate(25px, -35px) rotate(180deg) scale(0.5); }
+  75% { transform: translate(15px, 20px) rotate(300deg) scale(0.8); }
+  100% { transform: translate(0px, 0px) rotate(360deg) scale(0.7); }
+}
+
+@keyframes randomFloat5 {
+  0% { transform: translate(0px, 0px) rotate(0deg) scale(0.5); }
+  30% { transform: translate(45px, 20px) rotate(108deg) scale(0.7); }
+  60% { transform: translate(-30px, -25px) rotate(216deg) scale(0.4); }
+  100% { transform: translate(0px, 0px) rotate(360deg) scale(0.5); }
+}
+
+@keyframes randomFloat6 {
+  0% { transform: translate(0px, 0px) rotate(0deg) scale(0.8); }
+  40% { transform: translate(-20px, 35px) rotate(144deg) scale(0.6); }
+  80% { transform: translate(30px, -15px) rotate(288deg) scale(1.0); }
+  100% { transform: translate(0px, 0px) rotate(360deg) scale(0.8); }
+}
+
+@keyframes randomFloat7 {
+  0% { transform: translate(0px, 0px) rotate(0deg) scale(0.6); }
+  25% { transform: translate(20px, -40px) rotate(72deg) scale(0.8); }
+  50% { transform: translate(-40px, 10px) rotate(144deg) scale(0.4); }
+  75% { transform: translate(10px, 30px) rotate(216deg) scale(0.7); }
+  100% { transform: translate(0px, 0px) rotate(360deg) scale(0.6); }
+}
+
+@keyframes randomFloat8 {
+  0% { transform: translate(0px, 0px) rotate(0deg) scale(0.9); }
+  35% { transform: translate(-25px, -30px) rotate(126deg) scale(0.7); }
+  70% { transform: translate(35px, 25px) rotate(252deg) scale(1.1); }
+  100% { transform: translate(0px, 0px) rotate(360deg) scale(0.9); }
+}
+
+@keyframes randomFloat9 {
+  0% { transform: translate(0px, 0px) rotate(0deg) scale(0.4); }
+  20% { transform: translate(50px, -10px) rotate(36deg) scale(0.6); }
+  40% { transform: translate(-30px, -35px) rotate(108deg) scale(0.3); }
+  60% { transform: translate(15px, 40px) rotate(180deg) scale(0.5); }
+  80% { transform: translate(-45px, 5px) rotate(288deg) scale(0.4); }
+  100% { transform: translate(0px, 0px) rotate(360deg) scale(0.4); }
+}
+
+@keyframes randomFloat10 {
+  0% { transform: translate(0px, 0px) rotate(0deg) scale(0.7); }
+  30% { transform: translate(-40px, 20px) rotate(90deg) scale(0.9); }
+  60% { transform: translate(25px, -30px) rotate(180deg) scale(0.5); }
+  100% { transform: translate(0px, 0px) rotate(360deg) scale(0.7); }
+}
+
+@keyframes randomFloat11 {
+  0% { transform: translate(0px, 0px) rotate(0deg) scale(0.5); }
+  25% { transform: translate(30px, 35px) rotate(60deg) scale(0.7); }
+  50% { transform: translate(-35px, -20px) rotate(150deg) scale(0.4); }
+  75% { transform: translate(20px, -40px) rotate(270deg) scale(0.6); }
+  100% { transform: translate(0px, 0px) rotate(360deg) scale(0.5); }
+}
+
+@keyframes randomFloat12 {
+  0% { transform: translate(0px, 0px) rotate(0deg) scale(0.8); }
+  40% { transform: translate(-15px, -45px) rotate(120deg) scale(0.6); }
+  80% { transform: translate(40px, 15px) rotate(240deg) scale(1.0); }
+  100% { transform: translate(0px, 0px) rotate(360deg) scale(0.8); }
+}
+
+@keyframes randomFloat13 {
+  0% { transform: translate(0px, 0px) rotate(0deg) scale(0.6); }
+  33% { transform: translate(45px, -25px) rotate(100deg) scale(0.8); }
+  66% { transform: translate(-25px, 35px) rotate(200deg) scale(0.4); }
+  100% { transform: translate(0px, 0px) rotate(360deg) scale(0.6); }
+}
+
+@keyframes randomFloat14 {
+  0% { transform: translate(0px, 0px) rotate(0deg) scale(0.9); }
+  25% { transform: translate(-30px, 25px) rotate(80deg) scale(0.7); }
+  50% { transform: translate(35px, -35px) rotate(160deg) scale(1.1); }
+  75% { transform: translate(-20px, -15px) rotate(240deg) scale(0.8); }
+  100% { transform: translate(0px, 0px) rotate(360deg) scale(0.9); }
+}
+
+// Animated Shapes Keyframes
+@keyframes floatUpDown {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes rotateFloat {
+  0% {
+    transform: rotate(0deg) translateY(0px);
+  }
+  25% {
+    transform: rotate(90deg) translateY(-15px);
+  }
+  50% {
+    transform: rotate(180deg) translateY(0px);
+  }
+  75% {
+    transform: rotate(270deg) translateY(-15px);
+  }
+  100% {
+    transform: rotate(360deg) translateY(0px);
+  }
+}
+
+@keyframes bounceFloat {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0px);
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes slideFloat {
+  0%, 100% {
+    transform: translateX(0px) translateY(0px);
+  }
+  25% {
+    transform: translateX(10px) translateY(-10px);
+  }
+  50% {
+    transform: translateX(0px) translateY(-20px);
+  }
+  75% {
+    transform: translateX(-10px) translateY(-10px);
+  }
+}
+
+@keyframes pulseFloat {
+  0%, 100% {
+    transform: scale(1) translateY(0px);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1) translateY(-15px);
+    opacity: 0.8;
+  }
+}
+
+@keyframes waveFloat {
+  0% {
+    transform: translateX(0px) translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateX(15px) translateY(-10px) rotate(5deg);
+  }
+  50% {
+    transform: translateX(0px) translateY(-20px) rotate(0deg);
+  }
+  75% {
+    transform: translateX(-15px) translateY(-10px) rotate(-5deg);
+  }
+  100% {
+    transform: translateX(0px) translateY(0px) rotate(0deg);
+  }
+}
+
+// Additional hover effects for shapes
+.shape:hover {
+  animation-play-state: paused;
+  transform: scale(1.2) rotate(15deg);
+  transition: transform 0.3s ease;
+  filter: brightness(1.2) saturate(1.3);
+  z-index: 10;
+}
+
+// Special hover effects for additional shapes
+.shape-7:hover, .shape-8:hover, .shape-9:hover, .shape-10:hover {
+  transform: scale(1.5) rotate(-15deg);
+  opacity: 1 !important;
+}
+
+.shape-11:hover, .shape-12:hover, .shape-13:hover, .shape-14:hover {
+  transform: scale(1.3) rotate(25deg);
+  filter: hue-rotate(45deg);
+}
+
+.shape-15:hover, .shape-16:hover, .shape-17:hover, .shape-18:hover {
+  transform: scale(1.4) rotate(-25deg);
+  filter: blur(1px) brightness(1.5);
+}
+
+.shape-19:hover, .shape-20:hover {
+  transform: scale(1.6) rotate(35deg);
+  filter: contrast(1.3) saturate(1.5);
+}
+
+// Performance optimizations
+.shape,
+.content-wrapper,
+.countdown .single-count-content,
+.typewriter-text,
+.cursor {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+// GPU acceleration for better performance
+.shape {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+// Optimize additional shapes
+.shape-7, .shape-8, .shape-9, .shape-10, .shape-11, .shape-12,
+.shape-13, .shape-14, .shape-15, .shape-16, .shape-17, .shape-18,
+.shape-19, .shape-20 {
+  will-change: transform;
+  contain: layout style paint;
+}
+
+// Reduce motion for users who prefer it
+@media (prefers-reduced-motion: reduce) {
+  .shape,
+  .content-wrapper,
+  .countdown,
+  .single-count-content,
+  h1 {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .shape {
+    opacity: 0.3;
+  }
+}
+
+// Responsive animations for mobile
+@media (max-width: 768px) {
+  .shape {
+    animation-duration: 6s; // Faster on mobile
+  }
+
+  // Hide some additional shapes on mobile for performance
+  .shape-13, .shape-14, .shape-15, .shape-16, .shape-17, .shape-18, .shape-19, .shape-20 {
+    display: none;
+  }
+
+  // Reduce opacity and size of remaining additional shapes
+  .shape-7, .shape-8, .shape-9, .shape-10, .shape-11, .shape-12 {
+    opacity: 0.3 !important;
+    transform: scale(0.5) !important;
+  }
+
+  // Typewriter responsive
+  .typewriter-text {
+    font-size: 60px;
+  }
+
+  .cursor {
+    height: 60px;
+  }
+
+  @keyframes floatUpDown {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px); // Less movement on mobile
+    }
+  }
+
+  @keyframes bounceFloat {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0px);
+    }
+    40% {
+      transform: translateY(-15px); // Less bounce on mobile
+    }
+    60% {
+      transform: translateY(-8px);
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  // Hide even more shapes on very small screens
+  .shape-7, .shape-8, .shape-9, .shape-10, .shape-11, .shape-12 {
+    display: none;
+  }
+
+  // Keep only original 6 shapes with reduced animation
+  .shape-1, .shape-2, .shape-3, .shape-4, .shape-5, .shape-6 {
+    opacity: 0.4;
+    animation-duration: 8s;
+  }
+
+  .typewriter-text {
+    font-size: 40px;
+  }
+
+  .cursor {
+    height: 40px;
+    width: 2px;
+  }
+}
+
 /*# sourceMappingURL=style.css.map */
