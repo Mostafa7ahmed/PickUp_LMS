@@ -7,7 +7,7 @@
               [NameIcon]="'fa-solid fa-person-chalkboard'">
   </app-top-pop>
 
-  <form [formGroup]="lessonForm" (ngSubmit)="createLesson()" class="createLesson">
+  <form [formGroup]="lessonForm" (ngSubmit)="createLesson()" class="createLesson" id="lessonForm">
     <div class="leftLesson">
       <div class="courseSelect">
         <app-text-header [title]="'Course'" [bgColor]="'#6625259C'"></app-text-header>
@@ -269,7 +269,7 @@
 
   <div class="footerCourse bg-white rounded-1">
     <div class="btnsCourse">
-      <button type="submit"   (click)="createLesson()">
+      <button type="submit" form="lessonForm" [disabled]="!selectedCourse || !lessonForm.valid">
         <span>Create</span>
       </button>
     </div>

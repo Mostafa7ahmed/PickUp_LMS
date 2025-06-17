@@ -36,11 +36,18 @@
                 </div>
                 <div class="line"></div>
             </div>
-            <div class="view">
-                <button routerLink="/viewLesson/{{lesson.id}}">
-            
-                    <span class="text">View Details</span>
-                </button>
+            <div class="actions d-flex gap-2 align-items-center">
+                <div class="delete-lesson" (click)="deleteLesson(lesson, $event)">
+                    <button class="btn-delete" title="Delete lesson">
+                        <i class="fas fa-trash" [class.fa-spin]="isDeletingLesson"></i>
+                    </button>
+                </div>
+
+                <div class="view">
+                    <button routerLink="/viewLesson/{{lesson.id}}">
+                        <span class="text">View Details</span>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -57,6 +64,46 @@
     }
 
 
+</div>
+
+<!-- Delete Confirmation Dialog -->
+<div class="delete-dialog-overlay" *ngIf="showDeleteDialog" (click)="cancelDelete()">
+  <div class="delete-dialog" (click)="$event.stopPropagation()">
+    <div class="dialog-header">
+      <h3>Delete Lesson</h3>
+      <button class="close-btn" (click)="cancelDelete()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div class="dialog-body">
+      <p>Are you sure you want to delete <strong>"{{lessonToDelete?.name}}"</strong>?</p>
+      <p class="warning-text">This action cannot be undone. The lesson will be permanently deleted from the server along with all its content.</p>
+
+      <div class="lesson-info" *ngIf="lessonToDelete">
+        <div class="info-item">
+          <i class="fas fa-clock"></i>
+          <span>{{lessonToDelete.durationInMinutes}} minutes</span>
+        </div>
+        <div class="info-item">
+          <i class="fas fa-eye"></i>
+          <span>{{lessonToDelete.viewsCount}} views</span>
+        </div>
+        <div class="info-item">
+          <i class="fas fa-server"></i>
+          <span>Server deletion</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dialog-footer">
+      <button class="btn-cancel" (click)="cancelDelete()">Cancel</button>
+      <button class="btn-delete-confirm" (click)="confirmDelete()">
+        <i class="fas fa-trash me-2"></i>
+        Delete Lesson
+      </button>
+    </div>
+  </div>
 </div>
 
 

@@ -65,11 +65,8 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.error('❌ Error loading quizzes from API:', error);
-        // Fallback to sample data if API fails
-        if (this.sampleQuizzes.length === 0) {
-          console.log('📝 Creating sample quiz as fallback...');
-          this.createSampleQuiz();
-        }
+        // No fallback to static data - only show real API data
+        console.log('⚠️ No quizzes will be shown until API is available');
       }
     });
   }
@@ -155,20 +152,7 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
     return `Search ${this.sampleQuizzes.length} quizzes...`;
   }
 
-  // Refresh quizzes from API
-  refreshQuizzes() {
-    console.log('🔄 Refreshing quizzes from API...');
-    this.quizService.refreshQuizzes().subscribe({
-      next: (response) => {
-        console.log('✅ Quizzes refreshed successfully:', response);
-        this.showToast('Quizzes refreshed successfully!', 'success');
-      },
-      error: (error) => {
-        console.error('❌ Error refreshing quizzes:', error);
-        this.showToast('Failed to refresh quizzes', 'error');
-      }
-    });
-  }
+
 
   // Debug methods (for development)
   clearAllQuizzes() {
@@ -187,82 +171,21 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
     console.log('📋 All Quizzes:', this.sampleQuizzes);
   }
 
-  // Test delete API directly (for debugging)
-  testDeleteAPI() {
-    console.log('🧪 Testing delete API directly...');
-    if (this.sampleQuizzes.length > 0) {
-      const testQuiz = this.sampleQuizzes[0];
-      console.log('🎯 Testing with quiz:', testQuiz);
-
-      this.quizService.deleteQuizFromAPI(testQuiz.id).subscribe({
-        next: (response) => {
-          console.log('🧪 Test delete response:', response);
-          this.showToast('Test delete completed - check console', 'success');
-        },
-        error: (error) => {
-          console.error('🧪 Test delete error:', error);
-          this.showToast('Test delete failed - check console', 'error');
-        }
-      });
-    } else {
-      console.log('🧪 No quizzes available for testing');
-      this.showToast('No quizzes available for testing', 'warning');
-    }
+  // Test routing directly
+  testRouting() {
+    console.log('🧪 Testing routing directly...');
+    this.router.navigate([{ outlets: { dialog: ['quizPreview', 1] } }], {
+      queryParams: { mode: 'preview' }
+    }).then(success => {
+      console.log('🧪 Test routing result:', success);
+    }).catch(error => {
+      console.error('🧪 Test routing error:', error);
+    });
   }
 
-  // Create sample quiz for testing
-  createSampleQuiz() {
-    const sampleQuestions: QuizQuestion[] = [
-      {
-        id: 1,
-        type: 'true-false',
-        question: 'JavaScript is a compiled programming language.',
-        correctAnswer: false,
-        explanation: 'JavaScript is an interpreted language, not compiled.',
-        difficulty: 'easy',
-        order: 1
-      },
-      {
-        id: 2,
-        type: 'true-false',
-        question: 'React is a JavaScript library for building user interfaces.',
-        correctAnswer: true,
-        explanation: 'React is indeed a JavaScript library for building user interfaces.',
-        difficulty: 'medium',
-        order: 2
-      },
-      {
-        id: 3,
-        type: 'multiple-choice',
-        question: 'Which method adds an element to the end of an array?',
-        options: ['push()', 'pop()', 'shift()', 'unshift()'],
-        correctAnswer: 0,
-        explanation: 'The push() method adds one or more elements to the end of an array.',
-        difficulty: 'easy',
-        order: 3
-      }
-    ];
 
-    const newQuiz = this.quizService.addQuizWithQuestions({
-      title: 'Sample JavaScript Quiz',
-      description: 'A sample quiz to test the localStorage functionality',
-      questionsCount: sampleQuestions.length,
-      duration: 15,
-      difficulty: 'medium',
-      status: 'published' as const,
-      tags: ['JavaScript', 'Sample', 'Test'],
-      courseId: 1,
-      courseName: 'JavaScript Fundamentals',
-      attempts: 0,
-      createdDate: new Date().toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      })
-    }, sampleQuestions);
 
-    console.log('✅ Sample quiz created:', newQuiz);
-  }
+  // Removed createSampleQuiz - only using real API data
 
   openPopup() {
     this.router.navigate([{ outlets: { dialog: ['addQuiz'] } }]);
@@ -350,20 +273,44 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
   // Preview quiz
   previewQuiz(quizId: number, event: Event) {
     event.stopPropagation();
-    console.log('Preview quiz:', quizId);
-    // Open preview modal
-    this.router.navigate([{ outlets: { dialog: ['quizPreview', quizId] } }], {
+    console.log('🔍 Preview quiz called with ID:', quizId);
+    console.log('🔍 Current URL:', this.router.url);
+
+    // Simple, direct navigation
+    const navigationPromise = this.router.navigate([{ outlets: { dialog: ['quizPreview', quizId] } }], {
       queryParams: { mode: 'preview' }
+    });
+
+    navigationPromise.then(success => {
+      console.log('🔍 Navigation success:', success);
+      if (success) {
+        console.log('✅ Quiz preview opened successfully');
+      } else {
+        console.error('❌ Navigation failed - route not found or blocked');
+        this.showToast('Failed to open quiz preview', 'error');
+      }
+    }).catch(error => {
+      console.error('❌ Navigation error:', error);
+      this.showToast('Error opening quiz preview', 'error');
     });
   }
 
   // Start quiz
   startQuiz(quizId: number, event: Event) {
     event.stopPropagation();
-    console.log('Start quiz:', quizId);
-    // Open quiz in start mode
+    console.log('🚀 Start quiz called with ID:', quizId);
+
+    // Simple, direct navigation to start mode
     this.router.navigate([{ outlets: { dialog: ['quizPreview', quizId] } }], {
       queryParams: { mode: 'start' }
+    }).then(success => {
+      console.log('🚀 Start quiz navigation success:', success);
+      if (!success) {
+        this.showToast('Failed to start quiz', 'error');
+      }
+    }).catch(error => {
+      console.error('❌ Start quiz navigation error:', error);
+      this.showToast('Error starting quiz', 'error');
     });
   }
 

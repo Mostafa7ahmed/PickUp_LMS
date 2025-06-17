@@ -92,26 +92,79 @@ export class QuizPreviewComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // Get quiz ID from route params
     const quizId = this.route.snapshot.params['id'];
+    console.log('🔍 Quiz Preview ngOnInit - Quiz ID:', quizId);
+
     if (quizId) {
-      this.quiz = this.quizService.getQuizById(parseInt(quizId)) || null;
-
-      if (this.quiz && this.quiz.questions && this.quiz.questions.length > 0) {
-        this.questions = this.quiz.questions;
-        console.log('✅ Loaded real quiz questions:', this.questions);
-
-        const trueFalseQuestions = this.questions.filter(q => q.type === 'true-false');
-        console.log('🔍 True/False questions found:', trueFalseQuestions);
-      } else {
-        this.questions = this.fallbackQuestions;
-        console.log('⚠️ Using fallback questions. Quiz data:', this.quiz);
-      }
+      // Load quiz data from API
+      this.loadQuizFromAPI(parseInt(quizId));
     } else {
+      console.error('❌ No quiz ID provided');
       this.questions = this.fallbackQuestions;
     }
 
     // Check if it's preview or start mode
     const mode = this.route.snapshot.queryParams['mode'];
     this.isPreviewMode = mode !== 'start';
+    console.log('🔍 Quiz mode:', this.isPreviewMode ? 'Preview' : 'Start');
+  }
+
+  // Load quiz data from API
+  private loadQuizFromAPI(quizId: number) {
+    console.log('🔍 Loading quiz from API with ID:', quizId);
+
+    this.quizService.getQuizByIdFromAPI(quizId).subscribe({
+      next: (response) => {
+        console.log('🔍 Quiz API response:', response);
+        if (response.success && response.result) {
+          // Convert API response to local Quiz format
+          this.quiz = this.convertApiQuizToLocal(response.result);
+          console.log('✅ Quiz loaded successfully:', this.quiz);
+
+          // For now, use fallback questions since API doesn't return questions
+          // TODO: Implement questions API endpoint
+          this.questions = this.fallbackQuestions;
+          console.log('⚠️ Using fallback questions - questions API not implemented yet');
+        } else {
+          console.error('❌ Failed to load quiz:', response.message);
+          this.questions = this.fallbackQuestions;
+        }
+      },
+      error: (error) => {
+        console.error('❌ Error loading quiz:', error);
+        this.questions = this.fallbackQuestions;
+      }
+    });
+  }
+
+  // Convert API quiz data to local format
+  private convertApiQuizToLocal(apiQuiz: any): Quiz {
+    return {
+      id: apiQuiz.id,
+      title: apiQuiz.name,
+      description: apiQuiz.description,
+      questionsCount: apiQuiz.questionsCount,
+      duration: apiQuiz.duration,
+      attempts: apiQuiz.submissions,
+      status: 'published',
+      difficulty: this.getDifficultyString(apiQuiz.difficulty),
+      tags: apiQuiz.lessonsNames || [],
+      createdDate: new Date(apiQuiz.createdOn).toLocaleDateString(),
+      courseId: apiQuiz.courseId,
+      courseName: apiQuiz.courseName,
+      lessonId: undefined,
+      lessonName: apiQuiz.lessonsNames?.join(', '),
+      questions: [] // Will be loaded separately when questions API is available
+    };
+  }
+
+  // Convert difficulty enum to string
+  private getDifficultyString(difficulty: number): 'easy' | 'medium' | 'hard' {
+    switch (difficulty) {
+      case 1: return 'easy';
+      case 3: return 'hard';
+      case 2:
+      default: return 'medium';
+    }
   }
 
   ngOnDestroy() {
