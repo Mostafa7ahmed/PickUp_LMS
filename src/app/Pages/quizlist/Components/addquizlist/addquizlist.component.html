@@ -64,56 +64,100 @@
       </div>
     </div>
 
-    <!-- <div class="courseSelect mt-2"> -->
-      <!-- <app-text-header [title]="' Lessons'"></app-text-header>
+    <!-- Lesson Selection Section -->
+    <div class="courseSelect mt-2" *ngIf="selectedCourse">
+      <app-text-header [title]="'Select Lessons (Optional)'" [bgColor]="'#28a745'"></app-text-header>
 
-      <div class="selectcard mt-3 my-2">
+      <!-- Selected Lessons Display -->
+      <div *ngIf="selectedLessons.length > 0" class="selected-lessons mt-3">
+        <div class="d-flex flex-wrap gap-2">
+          <div *ngFor="let lesson of selectedLessons" class="lesson-tag d-flex align-items-center gap-2 px-3 py-1 bg-light rounded-pill">
+            <span class="lesson-name">{{lesson.name | splicText:20}}</span>
+            <button class="btn-remove-lesson" (click)="removeSelectedLesson(lesson)">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+        </div>
+        <div class="mt-2 d-flex justify-content-between align-items-center">
+          <small class="text-muted">{{selectedLessons.length}} lesson(s) selected</small>
+          <button class="btn btn-sm btn-outline-secondary" (click)="clearSelectedLessons()">
+            Clear All
+          </button>
+        </div>
+      </div>
+
+      <!-- Lesson Selection Button -->
+      <div class="selectcard mt-3 my-2 cursor-pointer" (click)="toggleLessonSelection()">
         <div class="icon">
           <i class="fas fa-book"></i>
         </div>
         <div class="text">
-          <p>Click to Add Lessons</p>
+          <p *ngIf="selectedLessons.length === 0">Click to Select Lessons</p>
+          <p *ngIf="selectedLessons.length > 0">{{selectedLessons.length}} lesson(s) selected - Click to modify</p>
         </div>
-      </div> -->
-      <!-- 
-        <div *ngIf="selectedCourse" class="mt-3">
-          <div class="course-card px-2 py-1 position-relative">
-            <div class="d-flex align-items-center gap-1">
-              <div class="images">
-                <img class=" rounded-circle" [src]="baseUrl + selectedCourse.photoUrl" height="30" width="30">
+        <div class="arrow">
+          <i class="fas fa-chevron-down" [class.rotate-180]="showLessonSelection"></i>
+        </div>
+      </div>
 
+      <!-- Lesson Selection Dropdown -->
+      <div *ngIf="showLessonSelection" class="lesson-dropdown bg-white border rounded p-3 mt-2">
+        <!-- Loading State -->
+        <div *ngIf="isLoadingLessons" class="text-center py-3">
+          <div class="spinner-border spinner-border-sm text-primary" role="status">
+            <span class="visually-hidden">Loading lessons...</span>
+          </div>
+          <p class="mt-2 mb-0 text-muted">Loading lessons...</p>
+        </div>
+
+        <!-- No Lessons State -->
+        <div *ngIf="!isLoadingLessons && lessons.length === 0" class="text-center py-3">
+          <i class="fas fa-book text-muted" style="font-size: 2rem;"></i>
+          <p class="mt-2 mb-0 text-muted">No lessons found for this course</p>
+        </div>
+
+        <!-- Lessons List -->
+        <div *ngIf="!isLoadingLessons && lessons.length > 0" class="lessons-list">
+          <div class="lesson-header d-flex justify-content-between align-items-center mb-3">
+            <h6 class="mb-0">Available Lessons ({{lessons.length}})</h6>
+            <small class="text-muted">Select lessons for this quiz</small>
+          </div>
+
+          <div class="lesson-items">
+            <div *ngFor="let lesson of lessons; let i = index"
+                 class="lesson-item d-flex align-items-center gap-3 p-2 border-bottom cursor-pointer hover-bg-light"
+                 (click)="toggleLessonCheckbox(lesson)">
+
+              <!-- Checkbox -->
+              <div class="lesson-checkbox">
+                <input type="checkbox"
+                       [checked]="isLessonSelected(lesson)"
+                       (click)="$event.stopPropagation()"
+                       (change)="toggleLessonCheckbox(lesson)"
+                       class="form-check-input">
               </div>
-              <div class="course-info">
-                <h5 class="mb-1 fw-bold">{{selectedCourse.name |splicText:15}}</h5>
-                <p class="date mb-0"><i class="fas fa-clock"></i> {{selectedCourse.createdOn | date}}</p>
+
+              <!-- Lesson Info -->
+              <div class="lesson-info flex-grow-1">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <h6 class="lesson-title mb-1">{{lesson.name}}</h6>
+                    <div class="lesson-meta d-flex gap-3 text-muted small">
+                      <span><i class="fas fa-play-circle"></i> {{lesson.videosCount}} videos</span>
+                      <span><i class="fas fa-clock"></i> {{lesson.durationInMinutes}} min</span>
+                      <span><i class="fas fa-eye"></i> {{lesson.viewsCount}} views</span>
+                    </div>
+                  </div>
+                  <div class="lesson-order">
+                    <span class="badge bg-secondary">#{{lesson.order}}</span>
+                  </div>
+                </div>
               </div>
             </div>
-
-            <div class="course-details text-end d-flex flex-column align-items-end justify-content-end">
-              <p class="price"> {{selectedCourse.price}} <i class="fas fa-dollar-sign text-success"></i></p>
-              <p class="students">{{selectedCourse.enrollmentCount}} <i class="fas fa-graduation-cap text-primary"></i>
-              </p>
-            </div>
-
-            <button class="closeBtn position-absolute" (click)="removeCourse()"><i
-                class="fa-solid fa-xmark"></i></button>
           </div>
         </div>
-        <div *ngIf="showDropdownCourse" class="dropdown bg-white border rounded p-2 mt-2">
-          <div *ngFor="let lead of paginationCoursesResponse.result"
-            class="lead-item d-flex justify-content-between align-items-center p-2 border-bottom cursor-pointer"
-            (click)="selectCourse(lead)">
-            <div class="info_course d-flex gap-2 align-items-center">
-              <img class="img-fluid rounded-circle" [src]="baseUrl + lead.photoUrl" width="30" height="30">
-              <div class="info">
-                <h5 class="name">{{ lead.name | splicText :13 }}</h5>
-                <p class="price">{{ lead.price }}</p>
-              </div>
-            </div>
-            <div class="deals-btn">With Deals</div>
-          </div>
-        </div> -->
-    <!-- </div> -->
+      </div>
+    </div>
      
     <div class="mainSelet courseSelect  mt-2">
       <app-text-header [title]="'Main quiz information'" [bgColor]="'#6662FF'"> </app-text-header>
@@ -237,6 +281,23 @@
           </div>
         </div>
 
+      </div>
+
+      <!-- Lessons Section -->
+      <div class="LessonsCreate" *ngIf="selectedLessons.length > 0">
+        <app-text-header [title]="'Selected Lessons'" [bgColor]="'#28a745'"></app-text-header>
+        <div class="lessons-summary mt-2">
+          <div class="lessons-count mb-2">
+            <small class="text-muted">{{selectedLessons.length}} lesson(s) selected for this quiz</small>
+          </div>
+          <div class="lessons-list">
+            <div *ngFor="let lesson of selectedLessons; let i = index" class="lesson-summary-item d-flex align-items-center gap-2 mb-1">
+              <span class="lesson-number badge bg-secondary">#{{lesson.order}}</span>
+              <span class="lesson-name">{{lesson.name | splicText:25}}</span>
+              <small class="lesson-duration text-muted">{{lesson.durationInMinutes}}min</small>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="HeaderQuiz mt-2 p-2">

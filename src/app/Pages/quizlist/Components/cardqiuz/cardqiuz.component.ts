@@ -2,7 +2,8 @@ import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { QuizService, Quiz } from '../../Core/services/quiz.service';
+import { QuizService } from '../../Core/services/quiz.service';
+import { Quiz, QuizQuestion } from '../../Core/interfaces/iquiz-api';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -47,6 +48,30 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
         }
       });
     });
+
+    // Load quizzes from API
+    this.loadQuizzesFromAPI();
+  }
+
+  // Load quizzes from API
+  loadQuizzesFromAPI() {
+    console.log('🔄 Loading quizzes from API...');
+    this.quizService.refreshQuizzes().subscribe({
+      next: (response) => {
+        console.log('✅ Quizzes loaded from API:', response);
+        if (!response.success) {
+          console.warn('⚠️ API response indicates failure:', response.message);
+        }
+      },
+      error: (error) => {
+        console.error('❌ Error loading quizzes from API:', error);
+        // Fallback to sample data if API fails
+        if (this.sampleQuizzes.length === 0) {
+          console.log('📝 Creating sample quiz as fallback...');
+          this.createSampleQuiz();
+        }
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -72,17 +97,39 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
     if (!this.searchTerm.trim()) {
       this.filteredQuizzes = [...this.sampleQuizzes];
     } else {
+      // Use API search if available, otherwise fallback to local search
       const searchLower = this.searchTerm.toLowerCase().trim();
-      this.filteredQuizzes = this.sampleQuizzes.filter(quiz =>
-        quiz.title.toLowerCase().includes(searchLower) ||
-        quiz.description.toLowerCase().includes(searchLower) ||
-        quiz.tags.some(tag => tag.toLowerCase().includes(searchLower)) ||
-        quiz.difficulty.toLowerCase().includes(searchLower) ||
-        quiz.status.toLowerCase().includes(searchLower) ||
-        (quiz.courseName && quiz.courseName.toLowerCase().includes(searchLower))
-      );
+
+      // Try API search first
+      this.quizService.searchQuizzesFromAPI(searchLower).subscribe({
+        next: (response) => {
+          if (response.success) {
+            console.log(`🔍 API Search results: ${response.result.length} quizzes found for "${this.searchTerm}"`);
+            // The service will update the quizzes observable, so we don't need to do anything here
+          } else {
+            // Fallback to local search
+            this.performLocalSearch(searchLower);
+          }
+        },
+        error: (error) => {
+          console.warn('⚠️ API search failed, using local search:', error);
+          this.performLocalSearch(searchLower);
+        }
+      });
     }
-    console.log(`🔍 Search results: ${this.filteredQuizzes.length} quizzes found for "${this.searchTerm}"`);
+  }
+
+  // Local search fallback
+  private performLocalSearch(searchLower: string) {
+    this.filteredQuizzes = this.sampleQuizzes.filter(quiz =>
+      quiz.title.toLowerCase().includes(searchLower) ||
+      quiz.description.toLowerCase().includes(searchLower) ||
+      quiz.tags.some(tag => tag.toLowerCase().includes(searchLower)) ||
+      quiz.difficulty.toLowerCase().includes(searchLower) ||
+      quiz.status.toLowerCase().includes(searchLower) ||
+      (quiz.courseName && quiz.courseName.toLowerCase().includes(searchLower))
+    );
+    console.log(`🔍 Local search results: ${this.filteredQuizzes.length} quizzes found for "${this.searchTerm}"`);
   }
 
   clearSearch() {
@@ -108,11 +155,29 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
     return `Search ${this.sampleQuizzes.length} quizzes...`;
   }
 
+  // Refresh quizzes from API
+  refreshQuizzes() {
+    console.log('🔄 Refreshing quizzes from API...');
+    this.quizService.refreshQuizzes().subscribe({
+      next: (response) => {
+        console.log('✅ Quizzes refreshed successfully:', response);
+        this.showToast('Quizzes refreshed successfully!', 'success');
+      },
+      error: (error) => {
+        console.error('❌ Error refreshing quizzes:', error);
+        this.showToast('Failed to refresh quizzes', 'error');
+      }
+    });
+  }
+
   // Debug methods (for development)
   clearAllQuizzes() {
     if (confirm('Are you sure you want to clear all quizzes? This cannot be undone.')) {
+      // Note: This only clears local storage, not the API data
+      // In a real application, you would need a bulk delete API endpoint
       this.quizService.clearAllQuizzes();
-      console.log('🗑️ All quizzes cleared!');
+      this.showToast('Local quiz cache cleared', 'warning');
+      console.log('🗑️ All local quizzes cleared!');
     }
   }
 
@@ -122,44 +187,59 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
     console.log('📋 All Quizzes:', this.sampleQuizzes);
   }
 
+  // Test delete API directly (for debugging)
+  testDeleteAPI() {
+    console.log('🧪 Testing delete API directly...');
+    if (this.sampleQuizzes.length > 0) {
+      const testQuiz = this.sampleQuizzes[0];
+      console.log('🎯 Testing with quiz:', testQuiz);
+
+      this.quizService.deleteQuizFromAPI(testQuiz.id).subscribe({
+        next: (response) => {
+          console.log('🧪 Test delete response:', response);
+          this.showToast('Test delete completed - check console', 'success');
+        },
+        error: (error) => {
+          console.error('🧪 Test delete error:', error);
+          this.showToast('Test delete failed - check console', 'error');
+        }
+      });
+    } else {
+      console.log('🧪 No quizzes available for testing');
+      this.showToast('No quizzes available for testing', 'warning');
+    }
+  }
+
   // Create sample quiz for testing
   createSampleQuiz() {
-    const sampleQuestions = [
+    const sampleQuestions: QuizQuestion[] = [
       {
-        courseId: 1,
-        quizId: 0,
-        quizSectionId: 0,
-        order: 1,
-        hint: 'Think about JavaScript basics',
-        text: 'JavaScript is a compiled programming language.',
-        trueAndFalse: {
-          answer: false
-        }
+        id: 1,
+        type: 'true-false',
+        question: 'JavaScript is a compiled programming language.',
+        correctAnswer: false,
+        explanation: 'JavaScript is an interpreted language, not compiled.',
+        difficulty: 'easy',
+        order: 1
       },
       {
-        courseId: 1,
-        quizId: 0,
-        quizSectionId: 0,
-        order: 2,
-        hint: 'Consider modern web development',
-        text: 'React is a JavaScript library for building user interfaces.',
-        trueAndFalse: {
-          answer: true
-        }
+        id: 2,
+        type: 'true-false',
+        question: 'React is a JavaScript library for building user interfaces.',
+        correctAnswer: true,
+        explanation: 'React is indeed a JavaScript library for building user interfaces.',
+        difficulty: 'medium',
+        order: 2
       },
       {
-        courseId: 1,
-        quizId: 0,
-        quizSectionId: 0,
-        order: 3,
-        hint: 'Think about array methods',
-        text: 'Which method adds an element to the end of an array?',
-        multipleChoise: [
-          { answer: 'push()', correct: true },
-          { answer: 'pop()', correct: false },
-          { answer: 'shift()', correct: false },
-          { answer: 'unshift()', correct: false }
-        ]
+        id: 3,
+        type: 'multiple-choice',
+        question: 'Which method adds an element to the end of an array?',
+        options: ['push()', 'pop()', 'shift()', 'unshift()'],
+        correctAnswer: 0,
+        explanation: 'The push() method adds one or more elements to the end of an array.',
+        difficulty: 'easy',
+        order: 3
       }
     ];
 
@@ -189,23 +269,67 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
   }
 
   deleteQuiz(quizId: number, event: Event) {
+    console.log('🗑️ deleteQuiz() called with ID:', quizId);
     event.stopPropagation();
 
     const quiz = this.sampleQuizzes.find(quiz => quiz.id === quizId);
-    this.quizToDelete = quiz || null;
+    console.log('🔍 Found quiz for deletion:', quiz);
+
+    if (!quiz) {
+      console.error('❌ Quiz not found with ID:', quizId);
+      this.showToast('Quiz not found', 'error');
+      return;
+    }
+
+    this.quizToDelete = quiz;
     this.showDeleteDialog = true;
+    console.log('✅ Delete dialog opened for quiz:', quiz.title);
   }
 
   confirmDelete() {
-    if (this.quizToDelete) {
-      const success = this.quizService.deleteQuiz(this.quizToDelete.id);
+    console.log('🗑️ confirmDelete() called');
 
-      if (success) {
-        this.showSuccessMessage(`Quiz "${this.quizToDelete.title}" has been deleted successfully.`);
-      }
+    if (!this.quizToDelete) {
+      console.error('❌ No quiz selected for deletion');
+      this.cancelDelete();
+      return;
     }
 
+    const quizTitle = this.quizToDelete.title;
+    const quizId = this.quizToDelete.id;
+
+    console.log(`🗑️ Attempting to delete quiz: "${quizTitle}" (ID: ${quizId})`);
+
+    // Close dialog first to prevent multiple clicks
     this.cancelDelete();
+
+    // Try API delete first
+    this.quizService.deleteQuizFromAPI(quizId).subscribe({
+      next: (response) => {
+        console.log('🗑️ API delete response:', response);
+        if (response.success) {
+          this.showToast(`Quiz "${quizTitle}" has been deleted successfully.`, 'success');
+          console.log('✅ Quiz deleted via API successfully');
+        } else {
+          this.showToast(`Failed to delete quiz: ${response.message}`, 'error');
+          console.error('❌ API delete failed:', response);
+        }
+      },
+      error: (error) => {
+        console.error('❌ Error deleting quiz via API:', error);
+        console.log('🔄 Falling back to local delete...');
+
+        // Fallback to local delete
+        const success = this.quizService.deleteQuiz(quizId);
+        if (success) {
+          this.showToast(`Quiz "${quizTitle}" deleted locally (API unavailable)`, 'warning');
+          console.log('✅ Quiz deleted locally as fallback');
+        } else {
+          this.showToast('Failed to delete quiz', 'error');
+          console.error('❌ Both API and local delete failed');
+        }
+      }
+    });
   }
 
   // Cancel delete

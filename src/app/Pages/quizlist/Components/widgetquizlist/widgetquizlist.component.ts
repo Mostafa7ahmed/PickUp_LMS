@@ -1,7 +1,8 @@
 import { Component, Input, OnInit, OnDestroy, inject } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
-import { QuizService, Quiz } from '../../Core/services/quiz.service';
+import { QuizService } from '../../Core/services/quiz.service';
+import { Quiz } from '../../Core/interfaces/iquiz-api';
 import { Subscription } from 'rxjs';
 
 interface QuizAnalytics {

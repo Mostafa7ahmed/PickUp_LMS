@@ -2,7 +2,8 @@ import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { QuizService, Quiz, QuizQuestion } from '../../Core/services/quiz.service';
+import { QuizService } from '../../Core/services/quiz.service';
+import { Quiz, QuizQuestion } from '../../Core/interfaces/iquiz-api';
 import { TopPopComponent } from "../../../../Components/top-pop/top-pop.component";
 
 @Component({

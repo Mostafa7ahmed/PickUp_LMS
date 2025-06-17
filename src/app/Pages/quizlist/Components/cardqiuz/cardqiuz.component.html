@@ -35,8 +35,21 @@
 
 
             </div>
-            <div class="search-container-left">
-    
+            <div class="search-container-left d-flex gap-2">
+              <div class="refreshQuizzes" (click)="refreshQuizzes()">
+                <button class="btn-refresh" title="Refresh quizzes from API">
+                  <i class="fas fa-sync-alt" aria-hidden="true"></i>
+                  Refresh
+                </button>
+              </div>
+
+              <!-- Temporary test button for debugging -->
+              <div class="testDelete" (click)="testDeleteAPI()">
+                <button class="btn-test" title="Test delete API" style="background: #ff6b6b; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-size: 12px;">
+                  <i class="fas fa-bug" aria-hidden="true"></i>
+                  Test Delete
+                </button>
+              </div>
 
               <div class="addCourse" (click)="openPopup()">
                 <button class="btn-add"><i class="fa fa-plus-square" aria-hidden="true"></i> Add Quiz</button>
@@ -155,7 +168,7 @@
 
       <div class="dialog-body">
         <p>Are you sure you want to delete <strong>"{{quizToDelete?.title}}"</strong>?</p>
-        <p class="warning-text">This action cannot be undone. All quiz data, questions, and results will be permanently deleted.</p>
+        <p class="warning-text">This action cannot be undone. The quiz will be permanently deleted from the server along with all questions and results.</p>
 
         <div class="quiz-info" *ngIf="quizToDelete">
           <div class="info-item">
@@ -165,6 +178,10 @@
           <div class="info-item">
             <i class="fas fa-users"></i>
             <span>{{quizToDelete.attempts}} Attempts</span>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-server"></i>
+            <span>Server deletion</span>
           </div>
         </div>
       </div>

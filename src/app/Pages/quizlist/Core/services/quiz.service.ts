@@ -1,191 +1,108 @@
+// This file will be replaced with new quiz service implementation
+
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-
-export interface QuizQuestion {
-  id: number;
-  type: 'true-false' | 'multiple-choice' | 'short-answer';
-  question: string;
-  options?: string[];
-  correctAnswer: any;
-  explanation?: string;
-  difficulty?: 'easy' | 'medium' | 'hard';
-  order: number;
-}
-
-export interface Quiz {
-  id: number;
-  title: string;
-  description: string;
-  questionsCount: number;
-  duration: number;
-  attempts: number;
-  status: 'published' | 'draft' | 'scheduled';
-  difficulty: 'easy' | 'medium' | 'hard';
-  tags: string[];
-  createdDate: string;
-  courseId?: number;
-  courseName?: string;
-  lessonId?: number;
-  lessonName?: string;
-  questions?: QuizQuestion[];
-}
+import { Observable, BehaviorSubject } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
+import { QuizApiService } from './quiz-api.service';
+import {
+  ICreateQuizRequest,
+  ICreateQuizResponse,
+  ICreateQuestionRequest,
+  ICreateQuestionResponse,
+  IBulkCreateQuestionsRequest,
+  IBulkCreateQuestionsResponse,
+  QuizDifficulty,
+  QuizDurationType,
+  Quiz,
+  QuizQuestion,
+  IQuizPaginationRequest,
+  IQuizPaginationResponse,
+  IQuizDetails,
+  IGetQuizResponse,
+  IQuizWidgetResponse,
+  IDeleteQuizResponse
+} from '../interfaces/iquiz-api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class QuizService {
-  private readonly STORAGE_KEY = 'quizzes_data';
   private quizzesSubject = new BehaviorSubject<Quiz[]>([]);
   public quizzes$ = this.quizzesSubject.asObservable();
 
-  constructor() {
-    this.loadQuizzesFromStorage();
+  constructor(private quizApiService: QuizApiService) {
+    // Initialize with empty array
+    this.quizzesSubject.next([]);
   }
 
-  // Load quizzes from localStorage
-  private loadQuizzesFromStorage(): void {
-    try {
-      const storedQuizzes = localStorage.getItem(this.STORAGE_KEY);
-      if (storedQuizzes) {
-        const quizzes = JSON.parse(storedQuizzes);
-        this.quizzesSubject.next(quizzes);
-        console.log('📂 Loaded quizzes from localStorage:', quizzes);
-      } else {
-        // Initialize with empty array
-        this.quizzesSubject.next([]);
-        console.log('📂 No quizzes found in localStorage, starting fresh');
-      }
-    } catch (error) {
-      console.error('❌ Error loading quizzes from localStorage:', error);
-      this.quizzesSubject.next([]);
-    }
-  }
-
-  // Save quizzes to localStorage
-  private saveQuizzesToStorage(quizzes: Quiz[]): void {
-    try {
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(quizzes));
-      console.log('💾 Saved quizzes to localStorage:', quizzes);
-    } catch (error) {
-      console.error('❌ Error saving quizzes to localStorage:', error);
-    }
-  }
-
-  // Get all quizzes
+  /**
+   * Get all quizzes
+   */
   getQuizzes(): Observable<Quiz[]> {
     return this.quizzes$;
   }
 
-  // Get current quizzes array
+  /**
+   * Get current quizzes array
+   */
   getCurrentQuizzes(): Quiz[] {
     return this.quizzesSubject.value;
   }
 
-  // Add new quiz
-  addQuiz(quiz: Omit<Quiz, 'id'>): Quiz {
-    const currentQuizzes = this.getCurrentQuizzes();
-    const newQuiz: Quiz = {
-      ...quiz,
-      id: Math.max(...currentQuizzes.map(q => q.id), 0) + 1,
-      attempts: 0,
-      createdDate: new Date().toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      })
-    };
-
-    const updatedQuizzes = [newQuiz, ...currentQuizzes];
-    this.quizzesSubject.next(updatedQuizzes);
-    this.saveQuizzesToStorage(updatedQuizzes);
-    return newQuiz;
-  }
-
-  // Add quiz with questions
-  addQuizWithQuestions(quizData: Omit<Quiz, 'id'>, questions: any[]): Quiz {
-    const quiz = this.addQuiz(quizData);
-
-    // Convert questions to QuizQuestion format
-    const formattedQuestions: QuizQuestion[] = questions.map((q, index) => {
-      const questionType = this.getQuestionType(q);
-      const correctAnswer = this.getCorrectAnswer(q);
-
-      console.log(`🔄 Converting question ${index + 1}:`, {
-        original: q,
-        type: questionType,
-        correctAnswer: correctAnswer
-      });
-
-      return {
-        id: index + 1,
-        type: questionType,
-        question: q.text || q.question || '',
-        options: q.multipleChoise ? q.multipleChoise.map((choice: any) => choice.answer) : undefined,
-        correctAnswer: correctAnswer,
-        explanation: q.explanation || '',
-        difficulty: q.difficulty || 'medium',
-        order: q.order || index + 1
-      };
-    });
-
-    // Update quiz with questions
-    this.updateQuiz(quiz.id, { questions: formattedQuestions });
-
-    return { ...quiz, questions: formattedQuestions };
-  }
-
-  // Helper methods for question conversion
-  private getQuestionType(question: any): 'true-false' | 'multiple-choice' | 'short-answer' {
-    if (question.trueAndFalse !== undefined) return 'true-false';
-    if (question.multipleChoise && question.multipleChoise.length > 0) return 'multiple-choice';
-    return 'short-answer';
-  }
-
-  private getCorrectAnswer(question: any): any {
-    if (question.trueAndFalse !== undefined) {
-      return question.trueAndFalse.answer;
-    }
-    if (question.multipleChoise && question.multipleChoise.length > 0) {
-      const correctIndex = question.multipleChoise.findIndex((choice: any) => choice.correct);
-      return correctIndex >= 0 ? correctIndex : 0;
-    }
-    return question.shortAnswer?.answer || '';
-  }
-
-  // Update quiz
-  updateQuiz(id: number, updates: Partial<Quiz>): boolean {
-    const currentQuizzes = this.getCurrentQuizzes();
-    const index = currentQuizzes.findIndex(q => q.id === id);
-
-    if (index !== -1) {
-      currentQuizzes[index] = { ...currentQuizzes[index], ...updates };
-      const updatedQuizzes = [...currentQuizzes];
-      this.quizzesSubject.next(updatedQuizzes);
-      this.saveQuizzesToStorage(updatedQuizzes);
-      return true;
-    }
-    return false;
-  }
-
-  // Delete quiz
-  deleteQuiz(id: number): boolean {
-    const currentQuizzes = this.getCurrentQuizzes();
-    const filteredQuizzes = currentQuizzes.filter(q => q.id !== id);
-
-    if (filteredQuizzes.length !== currentQuizzes.length) {
-      this.quizzesSubject.next(filteredQuizzes);
-      this.saveQuizzesToStorage(filteredQuizzes);
-      return true;
-    }
-    return false;
-  }
-
-  // Get quiz by id
+  /**
+   * Get quiz by id
+   */
   getQuizById(id: number): Quiz | undefined {
     return this.getCurrentQuizzes().find(q => q.id === id);
   }
 
-  // Search quizzes
+  /**
+   * Create a new quiz
+   */
+  createQuiz(
+    courseId: number,
+    lessonIds: number[],
+    name: string,
+    description: string,
+    limited: boolean,
+    duration: number,
+    durationType: QuizDurationType,
+    difficulty: QuizDifficulty
+  ): Observable<ICreateQuizResponse> {
+    const request: ICreateQuizRequest = {
+      courseId,
+      lessonIds,
+      name,
+      description,
+      limited,
+      quizDuration: {
+        duration,
+        type: durationType
+      },
+      difficulty
+    };
+
+    return this.quizApiService.createQuiz(request);
+  }
+
+  /**
+   * Create a single question
+   */
+  createQuestion(question: ICreateQuestionRequest): Observable<ICreateQuestionResponse> {
+    return this.quizApiService.createQuestion(question);
+  }
+
+  /**
+   * Create multiple questions in bulk
+   */
+  createQuestionsBulk(questions: ICreateQuestionRequest[]): Observable<IBulkCreateQuestionsResponse> {
+    const request: IBulkCreateQuestionsRequest = { questions };
+    return this.quizApiService.createQuestionsBulk(request);
+  }
+
+  /**
+   * Search quizzes
+   */
   searchQuizzes(searchTerm: string): Quiz[] {
     const currentQuizzes = this.getCurrentQuizzes();
     if (!searchTerm.trim()) {
@@ -200,7 +117,9 @@ export class QuizService {
     );
   }
 
-  // Filter by status
+  /**
+   * Filter by status
+   */
   filterByStatus(status: string): Quiz[] {
     if (!status || status === 'all') {
       return this.getCurrentQuizzes();
@@ -208,6 +127,9 @@ export class QuizService {
     return this.getCurrentQuizzes().filter(quiz => quiz.status === status);
   }
 
+  /**
+   * Filter by difficulty
+   */
   filterByDifficulty(difficulty: string): Quiz[] {
     if (!difficulty || difficulty === 'all') {
       return this.getCurrentQuizzes();
@@ -215,20 +137,209 @@ export class QuizService {
     return this.getCurrentQuizzes().filter(quiz => quiz.difficulty === difficulty);
   }
 
-  // Clear all quizzes (for testing/reset)
-  clearAllQuizzes(): void {
-    this.quizzesSubject.next([]);
-    this.saveQuizzesToStorage([]);
-    console.log('🗑️ All quizzes cleared from localStorage');
+  /**
+   * Add a quiz with questions (for testing/demo purposes)
+   */
+  addQuizWithQuestions(quizData: Partial<Quiz>, questions: QuizQuestion[]): Quiz {
+    const currentQuizzes = this.getCurrentQuizzes();
+    const newId = currentQuizzes.length > 0 ? Math.max(...currentQuizzes.map(q => q.id)) + 1 : 1;
+
+    const newQuiz: Quiz = {
+      id: newId,
+      title: quizData.title || 'Untitled Quiz',
+      description: quizData.description || '',
+      questionsCount: questions.length,
+      duration: quizData.duration || 30,
+      attempts: quizData.attempts || 0,
+      status: quizData.status || 'draft',
+      difficulty: quizData.difficulty || 'medium',
+      tags: quizData.tags || [],
+      createdDate: quizData.createdDate || new Date().toLocaleDateString(),
+      courseId: quizData.courseId,
+      courseName: quizData.courseName,
+      lessonId: quizData.lessonId,
+      lessonName: quizData.lessonName,
+      questions: questions
+    };
+
+    const updatedQuizzes = [...currentQuizzes, newQuiz];
+    this.quizzesSubject.next(updatedQuizzes);
+
+    return newQuiz;
   }
 
-  // Get storage info (for debugging)
-  getStorageInfo(): { count: number, size: string } {
+  /**
+   * Delete a quiz by ID (local only - for backward compatibility)
+   */
+  deleteQuiz(id: number): boolean {
+    const currentQuizzes = this.getCurrentQuizzes();
+    const filteredQuizzes = currentQuizzes.filter(quiz => quiz.id !== id);
+
+    if (filteredQuizzes.length < currentQuizzes.length) {
+      this.quizzesSubject.next(filteredQuizzes);
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Delete a quiz by ID using API
+   */
+  deleteQuizFromAPI(id: number): Observable<IDeleteQuizResponse> {
+    console.log('🗑️ QuizService.deleteQuizFromAPI() called with ID:', id);
+
+    return this.quizApiService.deleteQuiz(id).pipe(
+      tap(response => {
+        console.log('🗑️ QuizService received API response:', response);
+        if (response.success) {
+          // Remove from local state after successful API deletion
+          const currentQuizzes = this.getCurrentQuizzes();
+          const filteredQuizzes = currentQuizzes.filter(quiz => quiz.id !== id);
+          this.quizzesSubject.next(filteredQuizzes);
+          console.log('✅ Quiz removed from local state after API deletion');
+          console.log('📊 Updated quiz count:', filteredQuizzes.length);
+        } else {
+          console.warn('⚠️ API deletion was not successful:', response.message);
+        }
+      }),
+      catchError(error => {
+        console.error('❌ QuizService.deleteQuizFromAPI() error:', error);
+        throw error;
+      })
+    );
+  }
+
+  /**
+   * Clear all quizzes
+   */
+  clearAllQuizzes(): void {
+    this.quizzesSubject.next([]);
+  }
+
+  /**
+   * Get storage information
+   */
+  getStorageInfo(): { count: number; size: string } {
     const quizzes = this.getCurrentQuizzes();
-    const dataString = JSON.stringify(quizzes);
+    const sizeInBytes = JSON.stringify(quizzes).length;
+    const sizeInKB = (sizeInBytes / 1024).toFixed(2);
+
     return {
       count: quizzes.length,
-      size: `${(dataString.length / 1024).toFixed(2)} KB`
+      size: `${sizeInKB} KB`
     };
+  }
+
+  // ===== NEW API INTEGRATION METHODS =====
+
+  /**
+   * Load quizzes from API and update local state
+   */
+  loadQuizzesFromAPI(params: IQuizPaginationRequest = {}): Observable<IQuizPaginationResponse> {
+    return this.quizApiService.getPaginatedQuizzes(params).pipe(
+      tap(response => {
+        if (response.success && response.result) {
+          // Convert API quiz details to local Quiz format
+          const quizzes = this.convertApiQuizzesToLocal(response.result);
+          this.quizzesSubject.next(quizzes);
+        }
+      })
+    );
+  }
+
+  /**
+   * Get quiz by ID from API
+   */
+  getQuizByIdFromAPI(id: number): Observable<IGetQuizResponse> {
+    return this.quizApiService.getQuiz(id);
+  }
+
+  /**
+   * Get quiz widget data from API
+   */
+  getQuizWidgetFromAPI(): Observable<IQuizWidgetResponse> {
+    return this.quizApiService.getQuizWidget();
+  }
+
+  /**
+   * Load quizzes for a specific course
+   */
+  loadQuizzesForCourse(courseId: number): Observable<IQuizPaginationResponse> {
+    return this.quizApiService.getQuizzesForCourse(courseId).pipe(
+      tap(response => {
+        if (response.success && response.result) {
+          const quizzes = this.convertApiQuizzesToLocal(response.result);
+          this.quizzesSubject.next(quizzes);
+        }
+      })
+    );
+  }
+
+  /**
+   * Search quizzes using API
+   */
+  searchQuizzesFromAPI(searchTerm: string, courseId?: number): Observable<IQuizPaginationResponse> {
+    return this.quizApiService.searchQuizzes(searchTerm, courseId).pipe(
+      tap(response => {
+        if (response.success && response.result) {
+          const quizzes = this.convertApiQuizzesToLocal(response.result);
+          this.quizzesSubject.next(quizzes);
+        }
+      })
+    );
+  }
+
+  /**
+   * Convert API quiz details to local Quiz format
+   */
+  private convertApiQuizzesToLocal(apiQuizzes: IQuizDetails[]): Quiz[] {
+    return apiQuizzes.map(apiQuiz => ({
+      id: apiQuiz.id,
+      title: apiQuiz.name,
+      description: apiQuiz.description,
+      questionsCount: apiQuiz.questionsCount,
+      duration: apiQuiz.duration,
+      attempts: apiQuiz.submissions,
+      status: 'published', // API doesn't provide status, assume published
+      difficulty: this.getDifficultyString(apiQuiz.difficulty),
+      tags: apiQuiz.lessonsNames || [],
+      createdDate: new Date(apiQuiz.createdOn).toLocaleDateString(),
+      courseId: apiQuiz.courseId,
+      courseName: apiQuiz.courseName,
+      lessonId: undefined, // API doesn't provide single lesson ID
+      lessonName: apiQuiz.lessonsNames?.join(', '),
+      questions: [] // Questions would need to be loaded separately
+    }));
+  }
+
+  /**
+   * Convert difficulty enum to string
+   */
+  private getDifficultyString(difficulty: QuizDifficulty): 'easy' | 'medium' | 'hard' {
+    switch (difficulty) {
+      case QuizDifficulty.Easy: return 'easy';
+      case QuizDifficulty.Hard: return 'hard';
+      case QuizDifficulty.Medium:
+      default: return 'medium';
+    }
+  }
+
+  /**
+   * Refresh quizzes from API
+   */
+  refreshQuizzes(courseId?: number): Observable<IQuizPaginationResponse> {
+    const params: IQuizPaginationRequest = {
+      pageNumber: 1,
+      pageSize: 100,
+      orderBeforPagination: true,
+      orderDirection: 0
+    };
+
+    if (courseId) {
+      params.courseId = courseId;
+    }
+
+    return this.loadQuizzesFromAPI(params);
   }
 }

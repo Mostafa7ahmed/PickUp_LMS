@@ -7,6 +7,8 @@ import { environment } from '../../../../Environments/environment';
 import { SplicTextPipe } from '../../../Courses/Core/Pipes/splic-text.pipe';
 import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose';
 import { ListCourseService } from '../../../Courses/Core/service/list-course.service';
+import { ILessonList } from '../../../lesson/Core/Interface/ilesson-list';
+import { ListLessonService } from '../../../lesson/Core/Services/list-lesson.service';
 import { Select } from 'primeng/select';
 import { FormArray, FormControl, FormGroup, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -18,7 +20,8 @@ import { QuizApiService } from '../../Core/services/quiz-api.service';
 import {
   ICompleteQuizCreationRequest,
   QuizDurationType,
-  IQuizCreationProgress
+  IQuizCreationProgress,
+  QuizDifficulty
 } from '../../Core/interfaces/iquiz-api';
 import { Subscription } from 'rxjs';
 
@@ -35,6 +38,7 @@ export class AddquizlistComponent implements OnInit, OnDestroy {
   private quizService = inject(QuizService);
   private quizApiService = inject(QuizApiService);
   private _paginateCoursesService = inject(ListCourseService);
+  private _listLessonService = inject(ListLessonService);
 
   showFirstPopup = true;
   showSecondPopup = false;
@@ -60,10 +64,11 @@ changeValue(val: number) {
   quizDuration = 30;
   quizDifficulty: 'easy' | 'medium' | 'hard' = 'medium';
 
-  // Lesson selection (placeholder for future implementation)
-  selectedLesson: any = null;
-  showDropdownLesson = false;
-  lessons: any[] = [];
+  // Lesson selection with checkboxes
+  lessons: ILessonList[] = [];
+  selectedLessons: ILessonList[] = [];
+  isLoadingLessons = false;
+  showLessonSelection = false;
   discountTypes: any[] = [
     { label: 'Hours', value: 1 },
     { label: 'Minutes', value: 0 }
@@ -79,39 +84,65 @@ changeValue(val: number) {
   selectCourse(course: ListCourse) {
     this.selectedCourse = course;
     this.showDropdownCourse = false;
+    this.selectedLessons = []; // Reset selected lessons when course changes
 
-    // Load lessons for selected course (placeholder)
+    // Load lessons for selected course
     this.loadLessonsForCourse(course.id);
   }
 
-  // Lesson selection methods
-  toggleDropdownLesson() {
-    this.showDropdownLesson = !this.showDropdownLesson;
+  // Lesson selection methods with checkboxes
+  toggleLessonSelection() {
+    this.showLessonSelection = !this.showLessonSelection;
   }
 
-  removeLesson() {
-    this.selectedLesson = null;
-    this.showDropdownLesson = false;
+  // Toggle lesson selection (checkbox behavior)
+  toggleLessonCheckbox(lesson: ILessonList) {
+    const index = this.selectedLessons.findIndex(l => l.id === lesson.id);
+    if (index > -1) {
+      // Remove lesson if already selected
+      this.selectedLessons.splice(index, 1);
+    } else {
+      // Add lesson if not selected
+      this.selectedLessons.push(lesson);
+    }
   }
 
-  selectLesson(lesson: any) {
-    this.selectedLesson = lesson;
-    this.showDropdownLesson = false;
+  // Check if lesson is selected
+  isLessonSelected(lesson: ILessonList): boolean {
+    return this.selectedLessons.some(l => l.id === lesson.id);
   }
 
-  // Load lessons for course (placeholder - replace with actual API call)
+  // Remove all selected lessons
+  clearSelectedLessons() {
+    this.selectedLessons = [];
+  }
+
+  // Remove specific lesson from selection
+  removeSelectedLesson(lesson: ILessonList) {
+    const index = this.selectedLessons.findIndex(l => l.id === lesson.id);
+    if (index > -1) {
+      this.selectedLessons.splice(index, 1);
+    }
+  }
+
+  // Load lessons for course using actual API
   loadLessonsForCourse(courseId: number) {
-    // TODO: Replace with actual API call using courseId
     console.log('Loading lessons for course:', courseId);
+    this.isLoadingLessons = true;
+    this.lessons = [];
 
-    // Placeholder lessons data
-    this.lessons = [
-      { id: 1, name: 'Introduction to Programming', duration: '45 min' },
-      { id: 2, name: 'Variables and Data Types', duration: '30 min' },
-      { id: 3, name: 'Control Structures', duration: '60 min' },
-      { id: 4, name: 'Functions and Methods', duration: '50 min' },
-      { id: 5, name: 'Object-Oriented Programming', duration: '75 min' }
-    ];
+    this._listLessonService.getLessons(courseId).subscribe({
+      next: (response) => {
+        this.lessons = response.result || [];
+        this.isLoadingLessons = false;
+        console.log('✅ Lessons loaded:', this.lessons);
+      },
+      error: (error) => {
+        console.error('❌ Error loading lessons:', error);
+        this.isLoadingLessons = false;
+        this.lessons = [];
+      }
+    });
   }
   getCourse() {
 
@@ -310,6 +341,16 @@ removeMultipleChoiceQuestion(index: number) {
     }
   }
 
+  // Convert string difficulty to enum
+  private getDifficultyEnum(difficulty: string): QuizDifficulty {
+    switch(difficulty.toLowerCase()) {
+      case 'easy': return QuizDifficulty.Easy;
+      case 'hard': return QuizDifficulty.Hard;
+      case 'medium':
+      default: return QuizDifficulty.Medium;
+    }
+  }
+
   // Method to prepare data for backend
   prepareQuestionData() {
     const questions: any[] = [];
@@ -425,7 +466,7 @@ removeMultipleChoiceQuestion(index: number) {
     // Prepare complete quiz creation request
     const quizRequest: ICompleteQuizCreationRequest = {
       courseId: this.selectedCourse.id,
-      lessonIds: this.selectedLesson ? [this.selectedLesson.id] : [],
+      lessonIds: this.selectedLessons.map(lesson => lesson.id),
       name: this.quizTitle.trim(),
       description: this.quizDescription.trim() || `Quiz for ${this.selectedCourse.name}`,
       limited: true, // Set based on your requirements
@@ -433,6 +474,7 @@ removeMultipleChoiceQuestion(index: number) {
         duration: this.quizDuration,
         type: this.selectedDiscountType === 1 ? QuizDurationType.Hours : QuizDurationType.minute
       },
+      difficulty: this.getDifficultyEnum(this.quizDifficulty),
       questions: apiQuestions
     };
 
