@@ -415,10 +415,10 @@
 
 </div>
 
-<app-delete-course 
- *ngIf="isDeletePopupVisible"
- [deleteId]="courseResultResponse.result.id"
+<app-delete-course
+ *ngIf="isDeletePopupVisible && selectedDeleteId"
+ [deleteId]="selectedDeleteId!"
  (delete)="deleteCourse()"
-(close)="closeDeletePopup()"
+ (close)="closeDeletePopup()"
 ></app-delete-course>
 

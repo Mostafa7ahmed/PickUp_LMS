@@ -15,7 +15,7 @@ export class DeleteCouponComponent {
 
     isDeleting = false;
 
-    deleteCourse() {
+    deleteCoupon() {
       this.isDeleting = true;
       this.delete.emit();
     }

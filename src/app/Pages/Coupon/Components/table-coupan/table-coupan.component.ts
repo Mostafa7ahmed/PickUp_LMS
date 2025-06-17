@@ -121,7 +121,7 @@ export class TableCoupanComponent {
   
   
     }
-    deleteCourse() {
+    deleteCoupon() {
       if (this.selectedDeleteId) {
         this._deleteCouponService.deleteCoupon(this.selectedDeleteId).subscribe(
           (response) => {

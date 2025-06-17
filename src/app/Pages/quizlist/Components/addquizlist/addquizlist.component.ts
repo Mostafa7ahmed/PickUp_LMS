@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { TopPopComponent } from "../../../../Components/top-pop/top-pop.component";
 import { CommonModule } from '@angular/common';
 import { TextHeaderComponent } from "../../../Courses/Components/text-header/text-header.component";
@@ -14,6 +14,13 @@ import { TrueFalseComponent } from "../true-false/true-false.component";
 import { ShortAnswerComponent } from "../short-answer/short-answer.component";
 import { MultipleChoiceComponent } from "../multiple-choice/multiple-choice.component";
 import { QuizService } from '../../Core/services/quiz.service';
+import { QuizApiService } from '../../Core/services/quiz-api.service';
+import {
+  ICompleteQuizCreationRequest,
+  QuizDurationType,
+  IQuizCreationProgress
+} from '../../Core/interfaces/iquiz-api';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-addquizlist',
@@ -22,13 +29,20 @@ import { QuizService } from '../../Core/services/quiz.service';
   templateUrl: './addquizlist.component.html',
   styleUrl: './addquizlist.component.scss'
 })
-export class AddquizlistComponent implements OnInit {
+export class AddquizlistComponent implements OnInit, OnDestroy {
   paginationCoursesResponse: IPaginationResponse<ListCourse> = {} as IPaginationResponse<ListCourse>;
   private router = inject(Router);
   private quizService = inject(QuizService);
+  private quizApiService = inject(QuizApiService);
+  private _paginateCoursesService = inject(ListCourseService);
+
   showFirstPopup = true;
   showSecondPopup = false;
-  private _paginateCoursesService = inject(ListCourseService);
+
+  // API integration properties
+  isCreatingQuiz = false;
+  creationProgress: IQuizCreationProgress = { step: 'quiz' };
+  private progressSubscription?: Subscription;
 value = 0;
 changeValue(val: number) {
   this.value = val;
@@ -236,6 +250,44 @@ removeMultipleChoiceQuestion(index: number) {
 
   ngOnInit(): void {
     this.getCourse();
+
+    // Subscribe to quiz creation progress
+    this.progressSubscription = this.quizApiService.progress$.subscribe(
+      progress => {
+        this.creationProgress = progress;
+        console.log('📊 Quiz creation progress:', progress);
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    if (this.progressSubscription) {
+      this.progressSubscription.unsubscribe();
+    }
+    this.quizApiService.resetProgress();
+  }
+
+  // Helper method to get total questions count
+  getTotalQuestionsCount(): number {
+    return this.trueFalseQuestions.length +
+           this.shortAnswerQuestions.length +
+           this.multipleChoiceQuestions.length;
+  }
+
+  // Helper method to check if quiz can be saved
+  canSaveQuiz(): boolean {
+    return !this.isCreatingQuiz &&
+           this.selectedCourse !== null &&
+           this.quizTitle.trim() !== '' &&
+           this.getTotalQuestionsCount() > 0;
+  }
+
+  // Helper method to get progress percentage
+  getProgressPercentage(): number {
+    if (!this.creationProgress.totalQuestions || !this.creationProgress.completedQuestions) {
+      return 0;
+    }
+    return Math.round((this.creationProgress.completedQuestions / this.creationProgress.totalQuestions) * 100);
   }
 
   // Get current tab name for display
@@ -317,70 +369,89 @@ removeMultipleChoiceQuestion(index: number) {
     return questions;
   }
 
-  // Method to save all questions and create quiz
+  // Method to save all questions and create quiz using API
   saveQuestions() {
     if (!this.selectedCourse) {
+      alert('Please select a course');
       return;
     }
 
     if (!this.quizTitle.trim()) {
+      alert('Please enter a quiz title');
       return;
     }
 
     const questions = this.prepareQuestionData();
     console.log('📝 Questions to save:', questions);
-    console.log('📊 True/False questions:', this.trueFalseQuestions.value);
-    console.log('📊 Short Answer questions:', this.shortAnswerQuestions.value);
-    console.log('📊 Multiple Choice questions:', this.multipleChoiceQuestions.value);
 
     if (questions.length === 0) {
+      alert('Please add at least one question');
       return;
     }
 
     // Validate questions
     const invalidQuestions = questions.filter(q => !q.text || q.text.trim() === '');
     if (invalidQuestions.length > 0) {
+      alert('Please fill in all question texts');
       return;
     }
 
     // Validate multiple choice questions
     const mcQuestions = questions.filter(q => q.multipleChoise);
     for (let mcq of mcQuestions) {
-      // Check if has at least 2 choices
       const validChoices = mcq.multipleChoise.filter((choice: any) => choice.answer && choice.answer.trim());
       if (validChoices.length < 2) {
+        alert('Multiple choice questions must have at least 2 choices');
         return;
       }
 
-      // Check if has correct answer
       const hasCorrectAnswer = mcq.multipleChoise.some((choice: any) => choice.correct);
       if (!hasCorrectAnswer) {
+        alert('Multiple choice questions must have at least one correct answer');
         return;
       }
     }
 
-    // Create new quiz with questions
-    const newQuiz = this.quizService.addQuizWithQuestions({
-      title: this.quizTitle.trim(),
-      description: this.quizDescription.trim() || `Quiz for ${this.selectedCourse.name}`,
-      questionsCount: questions.length,
-      duration: this.quizDuration,
-      difficulty: this.quizDifficulty,
-      status: 'draft' as const,
-      tags: [this.selectedCourse.name, 'Course Quiz'],
+    // Start quiz creation process
+    this.isCreatingQuiz = true;
+    this.quizApiService.resetProgress();
+
+    // Convert form questions to API format
+    const apiQuestions = this.quizApiService.convertFormQuestionsToApiFormat(
+      questions,
+      this.selectedCourse.id
+    );
+
+    // Prepare complete quiz creation request
+    const quizRequest: ICompleteQuizCreationRequest = {
       courseId: this.selectedCourse.id,
-      courseName: this.selectedCourse.name,
-      attempts: 0,
-      createdDate: new Date().toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      })
-    }, questions);
+      lessonIds: this.selectedLesson ? [this.selectedLesson.id] : [],
+      name: this.quizTitle.trim(),
+      description: this.quizDescription.trim() || `Quiz for ${this.selectedCourse.name}`,
+      limited: true, // Set based on your requirements
+      quizDuration: {
+        duration: this.quizDuration,
+        type: this.selectedDiscountType === 1 ? QuizDurationType.Hours : QuizDurationType.minute
+      },
+      questions: apiQuestions
+    };
 
-    console.log('✅ Quiz created successfully!', newQuiz);
+    console.log('🚀 Creating quiz with API:', quizRequest);
 
-    this.closePopup();
+    // Call API to create complete quiz
+    this.quizApiService.createCompleteQuiz(quizRequest).subscribe({
+      next: (response) => {
+        this.isCreatingQuiz = false;
+        console.log('✅ Quiz created successfully via API!', response);
+        alert('Quiz created successfully!');
+        this.closePopup();
+      },
+      error: (error) => {
+        this.isCreatingQuiz = false;
+        console.error('❌ Error creating quiz via API:', error);
+        alert('Failed to create quiz: ' + (error.message || 'Unknown error'));
+      }
+    });
   }
 
 

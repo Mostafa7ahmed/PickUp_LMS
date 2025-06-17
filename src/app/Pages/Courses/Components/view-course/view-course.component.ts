@@ -73,6 +73,7 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
   courseResultResponse: IResponseOf<ViewCourse> = {} as IResponseOf<ViewCourse>;
  baseUrlFile = environment.baseUrlFiles ;
   @ViewChild('player') playerRef!: ElementRef;
+  @ViewChild(DeleteCourseComponent) deleteCourseComponent!: DeleteCourseComponent;
   selectedImage!: string | null
   editIndex: number | null = null;
   player!: Plyr;
@@ -235,26 +236,45 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
   openDeletePopup(){
     this.isDeletePopupVisible = true;
     this.selectedDeleteId = this.CourseId;
-
-
     this.toggleShow()
   }
+
   deleteCourse() {
     if (this.selectedDeleteId) {
-      this._deleteCoursesService.deleteCourse(this.selectedDeleteId).subscribe((res: any) => {
-        if (res.success) {
-          console.log('Course deleted successfully');
-          this.router.navigate(['/course']);
-          
-          this.closeDeletePopup();
-        } else {
-          console.error('Failed to delete course:', res.message);
+      console.log('🗑️ Attempting to delete course with ID:', this.selectedDeleteId);
+
+      this._deleteCoursesService.deleteCourse(this.selectedDeleteId).subscribe({
+        next: (res: any) => {
+          console.log('✅ Delete API Response:', res);
+          if (res && res.success) {
+            console.log('✅ Course deleted successfully');
+            this.router.navigate(['/course']);
+            this.closeDeletePopup();
+          } else {
+            console.error('❌ Failed to delete course:', res?.message || 'Unknown error');
+            alert('Failed to delete course: ' + (res?.message || 'Unknown error'));
+            this.resetDeleteComponentState();
+          }
+        },
+        error: (error) => {
+          console.error('❌ Error deleting course:', error);
+          alert('An error occurred while deleting the course. Please try again.');
+          this.resetDeleteComponentState();
         }
       });
+    } else {
+      console.error('❌ No course ID selected for deletion');
+      alert('No course selected for deletion');
     }
   }
   closeDeletePopup() {
     this.isDeletePopupVisible = false;
     this.selectedDeleteId = null;
+  }
+
+  resetDeleteComponentState() {
+    if (this.deleteCourseComponent) {
+      this.deleteCourseComponent.resetLoadingState();
+    }
   }
 }

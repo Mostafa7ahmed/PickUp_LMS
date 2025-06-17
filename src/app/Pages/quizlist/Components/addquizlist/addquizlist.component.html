@@ -322,10 +322,34 @@
   </div>
   <div class="footerCourse bg-white ">
     <div class="btnsCourse d-flex justify-content-between">
+      <!-- Progress indicator -->
+      <div *ngIf="isCreatingQuiz" class="creation-progress d-flex align-items-center gap-2">
+        <div class="spinner-border spinner-border-sm text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <span class="progress-text">
+          <ng-container [ngSwitch]="creationProgress.step">
+            <span *ngSwitchCase="'quiz'">Creating quiz...</span>
+            <span *ngSwitchCase="'section'">Creating quiz section...</span>
+            <span *ngSwitchCase="'questions'">
+              Creating questions...
+              <span *ngIf="creationProgress.completedQuestions && creationProgress.totalQuestions">
+                ({{creationProgress.completedQuestions}}/{{creationProgress.totalQuestions}})
+              </span>
+            </span>
+            <span *ngSwitchCase="'completed'">Quiz created successfully!</span>
+          </ng-container>
+        </span>
+      </div>
 
-      <button class="btn-save" (click)="saveQuestions()">
-        <i class="fas fa-save me-2"></i>
-        <span>Save Quiz</span>
+      <button
+        class="btn-save"
+        (click)="saveQuestions()"
+        [disabled]="!canSaveQuiz()">
+        <i class="fas fa-spinner fa-spin me-2" *ngIf="isCreatingQuiz"></i>
+        <i class="fas fa-save me-2" *ngIf="!isCreatingQuiz"></i>
+        <span *ngIf="!isCreatingQuiz">Save Quiz ({{getTotalQuestionsCount()}} questions)</span>
+        <span *ngIf="isCreatingQuiz">Creating...</span>
       </button>
     </div>
   </div>

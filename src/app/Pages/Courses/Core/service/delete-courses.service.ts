@@ -13,14 +13,17 @@ export class DeleteCoursesService {
   }
 
 
-  deleteCourse(id: number)
-  : Observable<any> {
-    let headers = new HttpHeaders({
+  deleteCourse(id: number): Observable<any> {
+    const headers = new HttpHeaders({
       'id': id.toString(),
     });
-  
 
-    return this._HttpClient.delete(`${environment.baseUrl}${environment.pickup}course/delete`, { headers });
+    const url = `${environment.baseUrl}${environment.pickup}course/delete`;
+    console.log('🗑️ DeleteCoursesService: Making DELETE request to:', url);
+    console.log('🗑️ DeleteCoursesService: Headers:', headers.keys());
+    console.log('🗑️ DeleteCoursesService: Course ID:', id);
+
+    return this._HttpClient.delete(url, { headers });
   }
       
 }

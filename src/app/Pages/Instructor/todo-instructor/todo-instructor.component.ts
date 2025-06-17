@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { TaskService, Task, TaskType, TaskPriority } from './core/services/task.service';
 import { Subscription } from 'rxjs';
+import { DeleteTaskInstructorComponent } from './components/delete-task-instructor/delete-task-instructor.component';
 @Component({
   selector: 'app-todo-instructor',
   standalone: true,
-  imports: [CommonModule, FormsModule, TranslateModule],
+  imports: [CommonModule, FormsModule, TranslateModule, DeleteTaskInstructorComponent],
   templateUrl: './todo-instructor.component.html',
   styleUrl: '../../Students/todostdutent/todostdutent.component.scss'
 })
@@ -20,9 +21,15 @@ export class TodoInstructorComponent implements OnInit, OnDestroy {
   tasks: Task[] = [];
   isLoading = false;
 
+  // Delete popup state
+  isDeletePopupVisible = false;
+  selectedDeleteTask: Task | null = null;
+
   private taskService = inject(TaskService);
   private router = inject(Router);
   private tasksSubscription?: Subscription;
+
+  @ViewChild(DeleteTaskInstructorComponent) deleteTaskComponent!: DeleteTaskInstructorComponent;
 
   constructor() {}
 
@@ -136,21 +143,54 @@ export class TodoInstructorComponent implements OnInit, OnDestroy {
   }
 
 
-  deleteTask(task: Task): void {
-    if (!task.id) return;
+  openDeleteTaskPopup(task: Task): void {
+    if (!task.id) {
+      console.error('❌ Cannot delete task: Task ID is missing');
+      return;
+    }
 
-    this.taskService.deleteTask(task.id).subscribe({
+    console.log('🗑️ Opening delete confirmation for instructor task:', task.id);
+    this.isDeletePopupVisible = true;
+    this.selectedDeleteTask = task;
+  }
+
+  deleteTask(): void {
+    if (!this.selectedDeleteTask?.id) {
+      console.error('❌ No task selected for deletion');
+      alert('No task selected for deletion');
+      return;
+    }
+
+    console.log('🗑️ Attempting to delete instructor task with ID:', this.selectedDeleteTask.id);
+
+    this.taskService.deleteTask(this.selectedDeleteTask.id).subscribe({
       next: (response) => {
         if (response.success) {
-          console.log('✅ Task deleted successfully');
+          console.log('✅ Instructor task deleted successfully');
+          this.closeDeletePopup();
         } else {
-          console.error('❌ Failed to delete task:', response.message);
+          console.error('❌ Failed to delete instructor task:', response.message);
+          alert('Failed to delete task: ' + response.message);
+          this.resetDeleteComponentState();
         }
       },
       error: (error) => {
-        console.error('❌ Error deleting task:', error);
+        console.error('❌ Error deleting instructor task:', error);
+        alert('Error deleting task. Please try again.');
+        this.resetDeleteComponentState();
       }
     });
+  }
+
+  closeDeletePopup(): void {
+    this.isDeletePopupVisible = false;
+    this.selectedDeleteTask = null;
+  }
+
+  resetDeleteComponentState(): void {
+    if (this.deleteTaskComponent) {
+      this.deleteTaskComponent.resetLoadingState();
+    }
   }
 
   trackByTaskId(_: number, task: Task): number | undefined {

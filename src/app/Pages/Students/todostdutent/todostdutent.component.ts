@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StudentTaskService, StudentTask } from './core/service/student-task.service';
+import { DeleteTaskComponent } from './components/delete-task/delete-task.component';
 
 @Component({
   selector: 'app-todostdutent',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, DeleteTaskComponent],
   templateUrl: './todostdutent.component.html',
   styleUrl: './todostdutent.component.scss'
 })
@@ -18,6 +19,12 @@ export class TodostdutentComponent implements OnInit, OnDestroy  {
   isLoading: boolean = false;
 
   tasks: StudentTask[] = [];
+
+  // Delete popup state
+  isDeletePopupVisible = false;
+  selectedDeleteTask: StudentTask | null = null;
+
+  @ViewChild(DeleteTaskComponent) deleteTaskComponent!: DeleteTaskComponent;
 
   constructor(private router: Router, private studentTaskService: StudentTaskService) {
     // Subscribe to tasks from service
@@ -182,24 +189,53 @@ export class TodostdutentComponent implements OnInit, OnDestroy  {
     }
   }
 
-  deleteTask(task: StudentTask): void {
-    if (!task.id) return;
+  openDeleteTaskPopup(task: StudentTask): void {
+    if (!task.id) {
+      console.error('❌ Cannot delete task: Task ID is missing');
+      return;
+    }
 
-    if (confirm('Are you sure you want to delete this task?')) {
-      this.studentTaskService.deleteTask(task.id).subscribe({
-        next: (response) => {
-          if (response.success) {
-            console.log('✅ Student task deleted successfully');
-          } else {
-            console.error('❌ Failed to delete student task:', response.message);
-            alert('Failed to delete task: ' + response.message);
-          }
-        },
-        error: (error) => {
-          console.error('❌ Error deleting student task:', error);
-          alert('Error deleting task. Please try again.');
+    console.log('🗑️ Opening delete confirmation for task:', task.id);
+    this.isDeletePopupVisible = true;
+    this.selectedDeleteTask = task;
+  }
+
+  deleteTask(): void {
+    if (!this.selectedDeleteTask?.id) {
+      console.error('❌ No task selected for deletion');
+      alert('No task selected for deletion');
+      return;
+    }
+
+    console.log('🗑️ Attempting to delete task with ID:', this.selectedDeleteTask.id);
+
+    this.studentTaskService.deleteTask(this.selectedDeleteTask.id).subscribe({
+      next: (response) => {
+        if (response.success) {
+          console.log('✅ Student task deleted successfully');
+          this.closeDeletePopup();
+        } else {
+          console.error('❌ Failed to delete student task:', response.message);
+          alert('Failed to delete task: ' + response.message);
+          this.resetDeleteComponentState();
         }
-      });
+      },
+      error: (error) => {
+        console.error('❌ Error deleting student task:', error);
+        alert('Error deleting task. Please try again.');
+        this.resetDeleteComponentState();
+      }
+    });
+  }
+
+  closeDeletePopup(): void {
+    this.isDeletePopupVisible = false;
+    this.selectedDeleteTask = null;
+  }
+
+  resetDeleteComponentState(): void {
+    if (this.deleteTaskComponent) {
+      this.deleteTaskComponent.resetLoadingState();
     }
   }
 

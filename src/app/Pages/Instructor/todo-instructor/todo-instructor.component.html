@@ -148,7 +148,7 @@
                   <i class="fa-solid fa-edit"></i>
                 </button>
                 <button class="action-btn delete-btn"
-                        (click)="deleteTask(task)"
+                        (click)="openDeleteTaskPopup(task)"
                         title="Delete Task">
                   <i class="fa-solid fa-trash"></i>
                 </button>
@@ -173,3 +173,12 @@
     </div>
   </div>
 </div>
+
+<!-- Delete Task Popup -->
+<app-delete-task-instructor
+  *ngIf="isDeletePopupVisible && selectedDeleteTask"
+  [deleteId]="selectedDeleteTask.id!"
+  [taskTitle]="selectedDeleteTask.name"
+  (close)="closeDeletePopup()"
+  (delete)="deleteTask()">
+</app-delete-task-instructor>

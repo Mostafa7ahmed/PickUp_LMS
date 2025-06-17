@@ -1,24 +1,25 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { TopPopComponent } from '../../../../Components/top-pop/top-pop.component';
+import { TopPopComponent } from '../../../../../Components/top-pop/top-pop.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-delete-course',
+  selector: 'app-delete-task',
   standalone: true,
-  imports: [TopPopComponent ,  CommonModule],
-  templateUrl: './delete-course.component.html',
-  styleUrl: './delete-course.component.scss'
+  imports: [TopPopComponent, CommonModule],
+  templateUrl: './delete-task.component.html',
+  styleUrl: './delete-task.component.scss'
 })
-export class DeleteCourseComponent {
+export class DeleteTaskComponent {
 
   @Output() close = new EventEmitter<void>();
   @Input() deleteId!: number;
+  @Input() taskTitle!: string;
   @Output() delete = new EventEmitter<void>();
 
   isDeleting = false;
 
-  deleteCourse() {
-    console.log('🗑️ DeleteCourseComponent: Delete button clicked for ID:', this.deleteId);
+  deleteTask() {
+    console.log('🗑️ DeleteTaskComponent: Delete button clicked for task ID:', this.deleteId);
     this.isDeleting = true;
     this.delete.emit();
   }
@@ -27,7 +28,7 @@ export class DeleteCourseComponent {
     this.isDeleting = false; // Reset loading state when closing
     this.close.emit();
   }
-
+  
   resetLoadingState() {
     this.isDeleting = false;
   }

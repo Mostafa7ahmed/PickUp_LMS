@@ -199,9 +199,9 @@
               [title]="'Custom fields'">
             </app-text-header>
 
-            <div class="input-row mt-4">
+            <div class="input-row mt-4" [formGroup]="fieldForm">
               <div class="card flex justify-center border-0">
-                <p-select 
+                <p-select
                 [options]="customFieldListResponse.result"
                 formControlName="key"
                 [editable]="true"
@@ -210,11 +210,11 @@
                   >
               </p-select>
               </div>
-            
-          
-              <input 
-              type="text" 
-              placeholder="Value" 
+
+
+              <input
+              type="text"
+              placeholder="Value"
               formControlName="value"
               class="w-full md:w-56">
 
@@ -350,7 +350,7 @@
 
       
     </form>
-    <div class="course-skeleton"  *ngIf="!isLoadTopic && !isLoadCustomFild ">
+    <div class="course-skeleton"  *ngIf="!isLoadTopic && !isLoadCustomField ">
       <div class="leftParts">
         <div class="left-section ">
           <div class="card-skeleton mb-3">
