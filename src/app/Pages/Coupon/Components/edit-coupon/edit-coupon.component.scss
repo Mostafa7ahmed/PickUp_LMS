@@ -717,6 +717,13 @@
   }
 }
 
+// Make update button green
+.footerCourse .btnsCourse button {
+  background-color: #24c12b !important;
+  color: #fff !important;
+  border: none !important;
+}
+
 // Student selection styles
 .ShowisSelcetd {
   .student-avatar {
@@ -816,7 +823,8 @@
   }
 
   input:checked ~ .checkmark {
-    background-color: #ec8950;
+    background-color: #24c12b !important;
+    border-color: #24c12b !important;
 
     &:after {
       display: block;
