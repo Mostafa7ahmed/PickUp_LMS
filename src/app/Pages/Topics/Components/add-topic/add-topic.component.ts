@@ -20,7 +20,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-add-topic',
   standalone: true,
-  imports: [TopPopComponent, ReativeFormModule,TranslateModule, SelectIconComponent, CustomslectwithiconComponent, RouterModule],
+  imports: [TopPopComponent, ReativeFormModule,TranslateModule, SelectIconComponent, RouterModule],
   templateUrl: './add-topic.component.html',
   styleUrl: './add-topic.component.scss'
 })
@@ -239,7 +239,6 @@ private location = inject(Location);
         this.topicForm.get('mainId')?.enable({ emitEvent: false });
       }
     });
-    this.getTopicList()
 
   }
 

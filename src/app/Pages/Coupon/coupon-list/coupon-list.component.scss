@@ -66,3 +66,25 @@
 .openCard:hover i {
   color: var(--bg-btn);
 }
+
+// Search functionality styles
+.inputSearch {
+  .search-clear {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #999;
+    font-size: 14px;
+    z-index: 10;
+
+    &:hover {
+      color: #666;
+    }
+  }
+
+  input {
+    padding-right: 30px;
+  }
+}

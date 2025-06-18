@@ -19,16 +19,17 @@ export class ListCouponService {
 
 
    getCoupon(
-    courseId : number, 
-    pageNumber: number = 1, 
+    courseId : number,
+    pageNumber: number = 1,
     pageSize: number = 100,
-    from?: string, 
-    to?: string, 
-    orderBy: number = 2, 
+    from?: string,
+    to?: string,
+    orderBy: number = 2,
     orderDirection: number = 1,
+    search?: string
 
   ): Observable<IPaginationResponse<ICouponRespone>> {
-  
+
     const params: any = {
       courseId : courseId .toString(),
       orderBy: orderBy.toString(),
@@ -40,6 +41,7 @@ export class ListCouponService {
 
     if (from) params.from = from;
     if (to) params.to = to;
+    if (search && search.trim()) params.search = search.trim();
 
     return this._HttpClient.get<IPaginationResponse<ICouponRespone>>(`${this.urlPagination}`, { params });
   }}

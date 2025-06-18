@@ -2,8 +2,9 @@
 <div class="ShowPopup">
   <app-top-pop NamePopup="View Coupon" (isVisibleChange)="closePopup()"
     [NameIcon]="'fa-solid fa-receipt'"></app-top-pop>
-  @if (couponResultResponse.success) {
-  <form class="viewCourse my-2 p-2" [formGroup]="couponForm">
+
+  <form class="viewCourse my-2 p-2" >
+      @if (couponResultResponse.success) {
     <div class="leftCoupon w-50">
       <div class="courseSelect w-100">
         <app-text-header [title]="'Course'" [bgColor]="'#6625256e'"></app-text-header>
@@ -139,22 +140,22 @@
             <div class="codeCoupon d-flex gap-2 align-items-end mb-2">
               <div class="Course_name flex-grow-1">
                 <label for="Course_name">Coupon usage</label>
-                <input formControlName="allowedUsage" type="number" id="Course_name" placeholder="Enter Coupon code"
+                <input readonly type="number" [value]="couponResultResponse.result.allowedUsage" id="Course_name" placeholder="Enter Coupon code"
                   class="input_Couser" />
               </div>
             </div>
             <div class="codeCoupon d-flex gap-2 align-items-end mb-2">
               <div class="Course_name flex-grow-1">
                 <label for="Course_name">Coupon code</label>
-                <input type="text" id="Course_name" placeholder="Enter Coupon code" class="input_Couser"
-                  formControlName="code" />
+                <input type="text" [value]="couponResultResponse.result.code" id="Course_name" placeholder="Enter Coupon code" class="input_Couser"
+                 readonly />
               </div>
             </div>
           </div>
 
           <div class="desCourse_name Course_name mt-2 active">
             <label for="Course_description">Coupon Notes</label>
-            <textarea formControlName="notes" class="input_Couser textarea_course" id="Course_description ">
+            <textarea readonly [value]="couponResultResponse.result.notes" class="input_Couser textarea_course" id="Course_description ">
             </textarea>
           </div>
         </div>
@@ -162,7 +163,7 @@
     </div>
 
     <div class="rightview w-50">
-      <div class="courseSelect studenet">
+      <div class="courseSelect studenet" *ngIf="couponResultResponse.result.students.length > 0" >
         <app-text-header [title]="'Students'" [bgColor]="'#FFE0656e'"></app-text-header>
         <div class="Price avatar d-flex gap-1 align-items-center justify-content-between mt-2 border-1" #dropdownWrapper
           (click)="toggleDropdown()">
@@ -182,10 +183,9 @@
         </div>
 
         <div *ngIf="isDropdownOpen" class="dropdown-menu-custom mt-2">
-          <div *ngFor="let student of paginationStudentsResponse.result"
-            class="dropdown-item d-flex align-items-center gap-2 p-2" (click)="toggleStudent(student.userId)"
-            [ngClass]="{ selected: isSelected(student.userId) }">
-            <img [src]="baseUrl + student.photoUrl" width="30" height="30" class="rounded-circle" />
+          <div *ngFor="let student of couponResultResponse.result.students"
+            class="dropdown-item d-flex align-items-center gap-2 p-2" >
+            <img [src]="baseUrl + student.photo" width="30" height="30" class="rounded-circle" />
             <span>{{ student.name }}</span>
           </div>
         </div>
@@ -193,12 +193,9 @@
       <div class="courseSelect mt-2">
         <app-text-header [title]="'Discount'" [bgColor]="'#ff658469'"></app-text-header>
         <div class="checkDicound d-flex gap-2 align-items-center mt-3 justify-content-between">
-          <div class="seletDiscound">
-            <p-select [options]="discountTypes" optionLabel="label" optionValue="value" formControlName="discountType">
-            </p-select>
-          </div>
+
           <div class="valuDiscound">
-            <input type="number" class="input_Couser" placeholder="Enter Discount Value" formControlName="discount" />
+            <input type="number" readonly [value]="couponResultResponse.result.discount" class="input_Couser" placeholder="Enter Discount Value"/>
             <div>
               <span class="price" *ngIf="couponForm.get('discountType')?.value === 1">%</span>
               <span class="price" *ngIf="couponForm.get('discountType')?.value === 0">EGP</span>
@@ -252,16 +249,27 @@
       </div>
 
     </div>
+  }
+  @else {
+    
+  <!-- Loading State -->
+  <div class="loading-state w-100 h-100" >
+    <div class="loading-content">
+      <i class="fa-solid fa-spinner fa-spin"></i>
+      <p>Loading coupon...</p>
+    </div>
+  </div>
+  }
   </form>
 
 
-  }
+
 
 
   <div class="footerCourse bg-white rounded-1">
     <div class="btnsCourse">
-      <button>
-        <span>Uptate</span>
+      <button  (click)="closePopup()" >
+        <span>Close</span>
       </button>
     </div>
   </div>
