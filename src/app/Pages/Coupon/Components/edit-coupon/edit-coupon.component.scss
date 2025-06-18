@@ -1,0 +1,946 @@
+// Edit Coupon Popup Styles (matching create coupon design)
+
+.ShowPopup {
+  padding: 0;
+  border-radius: 8px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 663px;
+  background: #f8f8f8;
+  z-index: 1000;
+  box-shadow: 1px 1px 5px #0000001f;
+  visibility: visible;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  transition: 0.5s opacity ease-in-out, 0.5s margin ease-in-out;
+  z-index: 800;
+  opacity: 2;
+  visibility: visible;
+  animation: grow 0.5s ease-out;
+}
+
+@keyframes grow {
+  0% {
+    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+.ShowPopup .CouponCourse {
+  padding: 10px;
+  padding-inline-end: 4px;
+  margin-inline-end: 2px;
+  background-color: #f8f8f8;
+  display: flex;
+  gap: 8px;
+  max-height: 507px;
+  scrollbar-width: none;
+  display: flex;
+  height: 350px;
+  gap: 10px;
+  .leftCoupon {
+    height: 325px;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+}
+
+.CouponCourse .courseSelect {
+  border-radius: 6px;
+  border: 0.75px solid #ecf0f5;
+  background: #fff;
+  padding: 12px;
+  position: relative !important;
+
+  .selectcard {
+    display: flex;
+    height: 42px;
+    padding: 5px 57px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 8px;
+    border: 0.75px dashed rgba(0, 0, 0, 0.15);
+    background: #f9f9f9;
+    cursor: pointer;
+    transition: 0.3s;
+    .icon {
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      > i {
+        font-size: 12px;
+        color: #6b7280;
+      }
+    }
+    .text {
+      color: var(--label-color, #6b7280);
+      font-size: 13px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      text-decoration-line: underline;
+    }
+  }
+}
+
+// Loading state
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  padding: 40px;
+
+  .loading-content {
+    text-align: center;
+    color: #6b7280;
+
+    i {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: #ec8950;
+    }
+
+    p {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+  }
+}
+
+// Main form styles
+.mainSelet {
+  .Course_name {
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+  }
+  .Course_name label {
+    color: #687f93;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: normal;
+  }
+  .Course_name input {
+    padding: 8px;
+    font-size: 14px;
+    width: 100%;
+    border-radius: 4px;
+    border: 0.75px solid #d3d6dc;
+    background: #fff;
+    font-weight: 500;
+    line-height: normal;
+    cursor: text;
+    height: 32px;
+    outline: none;
+  }
+  .codeCoupon .deal-desc-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 32px;
+    border-radius: 4px;
+    border: 0.75px solid #d3d6dc;
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      color: #24c12b;
+      border: 0.75px solid #24c12b;
+    }
+
+    &:hover i {
+      color: #24c12b;
+    }
+
+    &.active {
+      color: #24c12b;
+      border: 0.75px solid #24c12b;
+
+      & i {
+        color: #24c12b;
+      }
+    }
+  }
+
+  .codeCoupon .Course_name {
+    flex-grow: 1;
+  }
+
+  .desCourse_name {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out,
+      visibility 0.4s;
+  }
+  .textarea_course {
+    width: 100%;
+    height: 50px !important;
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 0.75px solid #d3d6dc;
+    background: #fff;
+    font-weight: 500;
+    line-height: normal;
+    cursor: text;
+    outline: none;
+    resize: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .desCourse_name.active {
+    max-height: 100px;
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.seletDiscound {
+  flex-grow: 1;
+  gap: 7px;
+}
+
+.seletDiscound label,
+.DiscountValuse label {
+  color: #687f93;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.valuDiscound {
+  padding: 8px;
+  font-size: 14px;
+  width: 100%;
+  border-radius: 4px;
+  border: 0.75px solid #d3d6dc;
+  background: #fff;
+  font-weight: 500;
+  line-height: normal;
+  cursor: text;
+  height: 32px;
+  outline: none;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  input {
+    width: 85%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: normal;
+    cursor: text;
+    font-family: var(--font-family-2) !important;
+  }
+  .price {
+    color: var(--bg-btn);
+    font-family: var(--font-family-1) !important;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 500;
+  }
+}
+
+// Enhanced Form Elements
+.form-group {
+  margin-bottom: 20px;
+
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+
+  .form-input, .form-textarea, .form-select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #1f2937;
+    background: white;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    &::placeholder {
+      color: #9ca3af;
+    }
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+  }
+
+  .input-with-icon {
+    position: relative;
+
+    .form-input {
+      padding-right: 40px;
+    }
+
+    .input-icon {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9ca3af;
+      font-size: 14px;
+    }
+  }
+
+  .input-with-suffix {
+    position: relative;
+
+    .form-input {
+      padding-right: 50px;
+    }
+
+    .input-suffix {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6b7280;
+      font-size: 13px;
+      font-weight: 600;
+    }
+  }
+}
+
+// Toggle Switch Styles
+.toggle-group {
+  margin-bottom: 16px;
+
+  .toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+
+    .toggle-input {
+      display: none;
+    }
+
+    .toggle-slider {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      background: #d1d5db;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 20px;
+        height: 20px;
+        background: white;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    .toggle-input:checked + .toggle-slider {
+      background: #3b82f6;
+
+      &::before {
+        transform: translateX(20px);
+      }
+    }
+
+    .toggle-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: #374151;
+    }
+  }
+}
+
+// Row Layouts
+.discount-row, .date-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// PrimeNG Datepicker Overrides
+:host ::ng-deep {
+  .form-datepicker {
+    .p-inputtext {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #1f2937;
+      background: white;
+      transition: all 0.2s ease;
+
+      &:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      }
+
+      &::placeholder {
+        color: #9ca3af;
+      }
+    }
+  }
+
+  .p-datepicker {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+    .p-datepicker-header {
+      background: #f9fafb;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 12px;
+
+      .p-datepicker-title {
+        color: #1f2937;
+        font-weight: 600;
+      }
+    }
+
+    .p-datepicker-calendar {
+      .p-datepicker-today {
+        background: #eff6ff;
+        color: #3b82f6;
+      }
+
+      .p-highlight {
+        background: #3b82f6;
+        color: white;
+      }
+    }
+  }
+}
+
+// PrimeNG and dropdown styles
+:host ::ng-deep .CouponCourse .p-select {
+  flex-grow: 1;
+  width: 100%;
+  position: relative;
+  border: 0.75px solid #d3d6dc !important;
+  border-radius: 4px !important;
+  padding: 4px 5px;
+  cursor: pointer;
+  height: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+:host ::ng-deep .CouponCourse .p-select-label {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 0px !important;
+}
+
+:host ::ng-deep .CouponCourse .p-datepicker-panel {
+  top: 28px !important;
+  left: -30px !important;
+  padding: 0px 12px !important;
+}
+
+:host ::ng-deep .CouponCourse .p-datepicker-day-cell {
+  padding: 0px !important;
+}
+
+:host ::ng-deep .CouponCourse .p-inputtext {
+  border: 0.5px solid rgba(0, 0, 0, 0.1490196078) !important;
+  border-radius: 5px !important;
+  padding: 4px 5px !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  height: 32px !important;
+  background-color: #fff !important;
+  outline: none !important;
+  color: #000 !important;
+  font-family: var(--font-family-2) !important;
+  position: static !important;
+}
+
+:host ::ng-deep .CouponCourse .p-datepicker-header {
+  padding: 0px !important;
+}
+
+.date .icon {
+  position: absolute;
+  inset-inline-end: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6b7280;
+}
+
+// Dropdown styles
+.dropdown {
+  border-radius: 8px;
+  margin-top: 5px;
+  position: absolute;
+  inset-inline-start: 0px;
+  min-width: 295px;
+  width: 100%;
+  height: 200px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  border-radius: 4px;
+  background-color: #fff;
+  padding: 6px 0 3px;
+  padding-inline-end: 4px;
+  z-index: 106;
+  border: 1px solid var(--Gray-200, #eaecf0);
+  box-shadow: 0 20px 24px -4px rgba(0, 0, 0, 0.0784313725), 0 8px 8px -4px rgba(0, 0, 0, 0.031372549);
+  animation: movingDown 0.5s ease-in-out;
+}
+
+.dropdown .item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown .item:hover {
+  background-color: #f1f1f1;
+}
+
+.lead-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.lead-item:hover {
+  background-color: #f5f5f5;
+}
+
+.avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.info .name {
+  color: var(--label-color, #121314);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.info .price {
+  color: #6b7280;
+  font-family: var(--font-family-2) !important;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.deals-btn {
+  border-radius: 6px;
+  background: #f0f7fd;
+  display: flex;
+  padding: 3px 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  width: 106px;
+  color: #575757;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  font-family: var(--fontFamily) !important;
+}
+
+@keyframes movingDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-5%);
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+// Course card styles
+.course-card {
+  background-color: #f5fff5;
+  border: 1px dashed #999;
+  padding: 15px;
+  border-radius: 10px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .image {
+    width: 50px;
+    height: 50px;
+    background-color: #eee;
+    border-radius: 10px;
+  }
+
+  .course-info {
+    h5 {
+      font-size: 12px;
+      font-weight: bold;
+      color: #333;
+    }
+    .date {
+      font-size: 12px;
+      color: #7d7d7d;
+      i {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .course-details {
+    p {
+      margin: 0;
+      font-size: 14px;
+      i {
+        margin-right: 5px;
+      }
+      &.price {
+        color: #28a745;
+        font-weight: bold;
+      }
+      &.students {
+        color: #007bff;
+      }
+      &.discount {
+        color: #dc3545;
+      }
+    }
+  }
+
+  .closeBtn {
+    position: absolute;
+    inset-inline-end: 7px;
+    top: -7px;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    border: 0.75px solid #ebebeb;
+    border-radius: 4px;
+    > i {
+      color: #898995;
+      font-size: 10px;
+    }
+  }
+}
+
+// Footer styles
+.footerCourse {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.footerCourse .btnsCourse button {
+  min-width: 76px;
+  height: 32px;
+  padding: 4px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px !important;
+  font-style: normal;
+  font-weight: 700;
+  color: #fff !important;
+  border-radius: 4px;
+  border: .542px solid rgba(131, 137, 159, .2);
+  background-color: #ec8950;
+
+  &:disabled {
+    background-color: #ec89508e;
+    cursor: not-allowed;
+  }
+}
+
+// Make update button green
+.footerCourse .btnsCourse button {
+  background-color: #24c12b !important;
+  color: #fff !important;
+  border: none !important;
+}
+
+// Student selection styles
+.ShowisSelcetd {
+  .student-avatar {
+    position: relative;
+  }
+
+  .extra-students {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #f3f4f6;
+    color: #6b7280;
+    font-size: 12px;
+    font-weight: 500;
+    border: 2px solid #fff;
+  }
+
+  .add-item {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #ec8950;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: #d97706;
+      transform: scale(1.1);
+    }
+
+    i {
+      font-size: 12px;
+    }
+  }
+}
+
+.closeBtn {
+  color: #dc2626;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #fee2e2;
+    transform: scale(1.1);
+  }
+}
+
+// Checkbox styles
+.containerCheck {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  user-select: none;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+
+    &:after {
+      content: "";
+      position: absolute;
+      display: none;
+      left: 6px;
+      top: 2px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      transform: rotate(45deg);
+    }
+  }
+
+  input:checked ~ .checkmark {
+    background-color: #24c12b !important;
+    border-color: #24c12b !important;
+
+    &:after {
+      display: block;
+    }
+  }
+}
+
+// Skeleton loading styles
+.course-skeleton {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  height: 500px;
+}
+
+.leftParts {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.left-section {
+  width: 100%;
+}
+
+.card-skeleton {
+  border-radius: 12px;
+  border-radius: 8px;
+  flex-direction: column;
+  background: #f3f4f6;
+  padding: 20px;
+  animation: pulse 2s infinite;
+}
+
+.input-skeleton {
+  height: 20px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  animation: pulse 2s infinite;
+}
+
+.right-section {
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.photo-skeleton {
+  height: 60px;
+  background: #e5e7eb;
+  border-radius: 8px;
+  animation: pulse 2s infinite;
+
+  &.video {
+    height: 40px;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// Additional styles for edit mode
+.input_Couser {
+  padding: 8px;
+  font-size: 14px;
+  width: 100%;
+  border-radius: 4px;
+  border: 0.75px solid #d3d6dc;
+  background: #fff;
+  font-weight: 500;
+  line-height: normal;
+  cursor: text;
+  height: 32px;
+  outline: none;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .ShowPopup {
+    width: 90%;
+    max-width: 600px;
+  }
+
+  .CouponCourse {
+    flex-direction: column;
+    height: auto;
+
+    .leftCoupon, .rightCoupon {
+      width: 100% !important;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .ShowPopup {
+    width: 95%;
+    margin: 10px;
+  }
+
+  .CouponCourse {
+    padding: 8px;
+    gap: 12px;
+  }
+
+  .courseSelect {
+    padding: 8px;
+  }
+}

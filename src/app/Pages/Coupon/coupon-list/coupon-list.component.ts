@@ -44,7 +44,6 @@ export class CouponListComponent implements OnInit, OnDestroy {
   selectedValue: ListCourse | null = {} as ListCourse;
   selectedCouponcId: number = 0;
 
-  // Search functionality
   searchTerm: string = '';
   private searchSubject = new Subject<string>();
 

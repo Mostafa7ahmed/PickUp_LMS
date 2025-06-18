@@ -30,6 +30,7 @@ import { ViewLessonComponent } from '../Pages/lesson/Components/view-lesson/view
 import { WalletPopupInstructorComponent } from '../Pages/Instructor/wallet-popup-instructor/wallet-popup-instructor.component';
 import { UpdeatePorfileComponent } from '../Pages/Instructor/porfile/components/updeate-porfile/updeate-porfile.component';
 import { EditTaskInstructorComponent } from '../Pages/Instructor/todo-instructor/components/edit-task-instructor/edit-task-instructor.component';
+import { EditCouponComponent } from '../Pages/Coupon/Components/edit-coupon/edit-coupon.component';
 export const instructorRoutes: Routes = [
     {
         path: '',
@@ -52,6 +53,7 @@ export const instructorRoutes: Routes = [
             { path: 'addTopic', outlet: 'dialog', component: AddTopicComponent },
             { path: 'wallet', outlet: 'dialog', component: WalletPopupInstructorComponent },
             { path: 'manageProfile', outlet: 'dialog', component: UpdeatePorfileComponent },
+            { path: 'editCoupon/:id', outlet: 'dialog', component: EditCouponComponent },
 
             { path: 'addQuiz', outlet: 'dialog', component: AddquizlistComponent },
             { path: 'quizPreview/:id', outlet: 'dialog', component: QuizPreviewComponent },
