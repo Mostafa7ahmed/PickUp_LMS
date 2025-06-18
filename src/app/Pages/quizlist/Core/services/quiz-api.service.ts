@@ -47,7 +47,7 @@ export class QuizApiService {
   constructor(private http: HttpClient) {}
 
   /**
-   * Create a new quiz
+   * Create a new new-edit
    */
   createQuiz(request: ICreateQuizRequest): Observable<ICreateQuizResponse> {
     console.log('📝 Creating quiz:', request);
