@@ -31,8 +31,8 @@ export class EditTaskInstructorComponent {
   taskForm: IUpdateTask = {
     name: '',
     description: '',
-    type: TaskType.Work,
-    priority: TaskPriority.Medium,
+    type: +TaskType.Work,
+    priority: +TaskPriority.Medium,
     dueDate: '',
     completed: false
   };
@@ -79,14 +79,12 @@ export class EditTaskInstructorComponent {
           console.log('✅ Instructor task loaded for editing:', response.result);
         } else {
           console.error('❌ Failed to load instructor task:', response.message);
-          this.showErrorMessage('Failed to load task: ' + response.message);
           this.closeDialog();
         }
       },
       error: (error) => {
         this.isLoading = false;
         console.error('❌ Error loading instructor task:', error);
-        this.showErrorMessage('Error loading task. Please try again.');
         this.closeDialog();
       }
     });
@@ -110,7 +108,6 @@ export class EditTaskInstructorComponent {
     }
 
     if (!this.taskId || !this.originalTask) {
-      this.showErrorMessage('Task information is missing. Please try again.');
       return;
     }
 
@@ -122,8 +119,8 @@ export class EditTaskInstructorComponent {
       id: this.taskId,
       name: this.taskForm.name.trim(),
       description: this.taskForm.description.trim(),
-      type: this.taskForm.type,
-      priority: this.taskForm.priority,
+      type: + this.taskForm.type,
+      priority: + this.taskForm.priority,
       dueDate: this.taskForm.dueDate ? new Date(this.taskForm.dueDate).toISOString() : new Date().toISOString(),
       completed: this.taskForm.completed
     };
@@ -134,18 +131,15 @@ export class EditTaskInstructorComponent {
       next: (response) => {
         if (response.success) {
           console.log('✅ Instructor task updated successfully:', response.result);
-          this.showSuccessMessage('Task updated successfully!');
           this.taskUpdated.emit(this.taskForm);
           this.closeDialog();
         } else {
           console.error('❌ Failed to update instructor task:', response.message);
-          this.showErrorMessage('Failed to update task: ' + response.message);
         }
         this.isLoading = false;
       },
       error: (error) => {
         console.error('❌ Error updating instructor task:', error);
-        this.showErrorMessage('Error updating task. Please try again.');
         this.isLoading = false;
       }
     });
@@ -159,14 +153,5 @@ export class EditTaskInstructorComponent {
     this.closeDialog();
   }
 
-  // Success/Error message methods
-  private showSuccessMessage(message: string): void {
-    console.log('✅ Success:', message);
-    // For now, just use console log, can be replaced with toast service
-  }
 
-  private showErrorMessage(message: string): void {
-    console.error('❌ Error:', message);
-    alert(message);
-  }
 }
