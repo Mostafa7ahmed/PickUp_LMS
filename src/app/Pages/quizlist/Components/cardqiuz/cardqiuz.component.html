@@ -1,68 +1,62 @@
 <div class="cardQuiz">
-         <div class="search-container py-3 d-flex justify-content-between">
-            <div class="search-container-right d-flex gap-3">
-              <div class="inputSearch">
-                <i class="fas fa-search search-icon"></i>
-                <input
-                  type="text"
-                  placeholder="Search For Quiz Name"
-                  [(ngModel)]="searchTerm"
-                  (input)="onSearchChange($event)"
-                  (keydown)="onSearchKeydown($event)"
-                  class="search-input">
-                <button
-                  *ngIf="searchTerm"
-                  class="clear-search-btn"
-                  (click)="clearSearch()"
-                  title="Clear search (ESC)">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
-              <div class="advanced-filter-container">
-
-                <svg id="advanced-filter-svg" class="my-svg" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                  viewBox="0 0 20 20">
-                  <path _ngcontent-ng-c2580197127="" id="advanced-filter-svg-path1"
-                    d="M9.11668 18.875C8.71668 18.875 8.32501 18.775 7.95834 18.575C7.22501 18.1667 6.78334 17.425 6.78334 16.5917V12.175C6.78334 11.7583 6.50834 11.1333 6.25001 10.8167L3.13334 7.51667C2.60834 6.99167 2.20834 6.09167 2.20834 5.41667V3.5C2.20834 2.16667 3.21668 1.125 4.50001 1.125H15.5C16.7667 1.125 17.7917 2.15 17.7917 3.41667V5.25C17.7917 6.125 17.2667 7.11667 16.775 7.60833L13.1667 10.8C12.8167 11.0917 12.5417 11.7333 12.5417 12.25V15.8333C12.5417 16.575 12.075 17.4333 11.4917 17.7833L10.3417 18.525C9.96668 18.7583 9.54168 18.875 9.11668 18.875ZM4.50001 2.375C3.91668 2.375 3.45834 2.86667 3.45834 3.5V5.41667C3.45834 5.725 3.70834 6.325 4.02501 6.64167L7.20001 9.98333C7.62501 10.5083 8.04168 11.3833 8.04168 12.1667V16.5833C8.04168 17.125 8.41668 17.3917 8.57501 17.475C8.92501 17.6667 9.35001 17.6667 9.67501 17.4667L10.8333 16.725C11.0667 16.5833 11.3 16.1333 11.3 15.8333V12.25C11.3 11.3583 11.7333 10.375 12.3583 9.85L15.925 6.69167C16.2083 6.40833 16.55 5.73333 16.55 5.24167V3.41667C16.55 2.84167 16.0833 2.375 15.5083 2.375H4.50001Z"
-                    fill="#909EAF"></path>
-                  <path _ngcontent-ng-c2580197127="" id="advanced-filter-svg-path2"
-                    d="M5 8.95833C4.88333 8.95833 4.775 8.925 4.66666 8.86666C4.375 8.68333 4.28333 8.29166 4.46666 8L8.575 1.41666C8.75833 1.125 9.14166 1.03333 9.43333 1.21666C9.725 1.4 9.81666 1.78333 9.63333 2.075L5.525 8.65833C5.40833 8.85 5.20833 8.95833 5 8.95833Z"
-                    fill="#909EAF"></path>
-                </svg>
-
-              </div>
+  <div class="search-container py-3 d-flex justify-content-between">
+    <div class="search-container-right d-flex gap-3">
+      <div class="inputSearch">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" placeholder="Search For Quiz Name" [(ngModel)]="searchTerm" (input)="onSearchChange($event)"
+          (keydown)="onSearchKeydown($event)" class="search-input">
+        <button *ngIf="searchTerm" class="clear-search-btn" (click)="clearSearch()" title="Clear search (ESC)">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="advanced-filter-container" (click)="openFilterDialog()" [class.active]="hasActiveFilters()">
+        <svg id="advanced-filter-svg" class="my-svg" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+          viewBox="0 0 20 20">
+          <path _ngcontent-ng-c2580197127="" id="advanced-filter-svg-path1"
+            d="M9.11668 18.875C8.71668 18.875 8.32501 18.775 7.95834 18.575C7.22501 18.1667 6.78334 17.425 6.78334 16.5917V12.175C6.78334 11.7583 6.50834 11.1333 6.25001 10.8167L3.13334 7.51667C2.60834 6.99167 2.20834 6.09167 2.20834 5.41667V3.5C2.20834 2.16667 3.21668 1.125 4.50001 1.125H15.5C16.7667 1.125 17.7917 2.15 17.7917 3.41667V5.25C17.7917 6.125 17.2667 7.11667 16.775 7.60833L13.1667 10.8C12.8167 11.0917 12.5417 11.7333 12.5417 12.25V15.8333C12.5417 16.575 12.075 17.4333 11.4917 17.7833L10.3417 18.525C9.96668 18.7583 9.54168 18.875 9.11668 18.875ZM4.50001 2.375C3.91668 2.375 3.45834 2.86667 3.45834 3.5V5.41667C3.45834 5.725 3.70834 6.325 4.02501 6.64167L7.20001 9.98333C7.62501 10.5083 8.04168 11.3833 8.04168 12.1667V16.5833C8.04168 17.125 8.41668 17.3917 8.57501 17.475C8.92501 17.6667 9.35001 17.6667 9.67501 17.4667L10.8333 16.725C11.0667 16.5833 11.3 16.1333 11.3 15.8333V12.25C11.3 11.3583 11.7333 10.375 12.3583 9.85L15.925 6.69167C16.2083 6.40833 16.55 5.73333 16.55 5.24167V3.41667C16.55 2.84167 16.0833 2.375 15.5083 2.375H4.50001Z"
+            fill="#909EAF"></path>
+          <path _ngcontent-ng-c2580197127="" id="advanced-filter-svg-path2"
+            d="M5 8.95833C4.88333 8.95833 4.775 8.925 4.66666 8.86666C4.375 8.68333 4.28333 8.29166 4.46666 8L8.575 1.41666C8.75833 1.125 9.14166 1.03333 9.43333 1.21666C9.725 1.4 9.81666 1.78333 9.63333 2.075L5.525 8.65833C5.40833 8.85 5.20833 8.95833 5 8.95833Z"
+            fill="#909EAF"></path>
+        </svg>
+        <div class="filter-badge" *ngIf="hasActiveFilters()">
+          <span>{{getActiveFiltersCount()}}</span>
+        </div>
+      </div>
 
 
 
-            </div>
-            <div class="search-container-left">
-    
-
-              <div class="addCourse" (click)="openPopup()">
-                <button class="btn-add"><i class="fa fa-plus-square" aria-hidden="true"></i> Add Quiz</button>
-              </div>
-            </div>
+    </div>
+    <div class="search-container-left">
 
 
-          </div>
+      <div class="addCourse" (click)="openPopup()">
+        <button class="btn-add"><i class="fa fa-plus-square" aria-hidden="true"></i> Add Quiz</button>
+      </div>
+    </div>
 
 
-    
+  </div>
+
+
+
+
+
   @if(isLoading){
-      <div class="quiz-grid mt-3 mb-4">
+  <div class="quiz-grid mt-3 mb-4">
     <!-- Sample Quiz Cards -->
     <div class="quiz-card" *ngFor="let quiz of quizToDelete.result">
       <div class="quiz-card-header ">
 
-   
-          <div class="quiz-icon">
+
+        <div class="quiz-icon">
           <i class="fas fa-clipboard-list"></i>
         </div>
 
-             <div class="quiz-actions">
-  
+        <div class="quiz-actions">
 
-          <button class="action-btn delete-btn" title="Delete Quiz" (click)="deleteQuiz(quiz.creatorId, $event)">
+
+          <button class="action-btn delete-btn"  title="Delete Quiz"                        (click)="openDeleteQuizPopup(quiz)">
             <i class="fas fa-trash"></i>
           </button>
         </div>
@@ -97,11 +91,11 @@
         <div class="quiz-meta">
           <div class="created-date">
             <i class="fas fa-calendar"></i>
-            <span>{{quiz.createdOn}}</span>
+            <span>{{quiz.createdOn | date}}</span>
           </div>
-          <div class="difficulty" [class]="'difficulty-' + quiz.difficulty">
+          <div class="difficulty" [class]="getDifficultyClass(quiz.difficulty)">
             <i class="fas fa-signal"></i>
-            <span>{{quiz.difficulty}}</span>
+            <span>{{getDifficultyText(quiz.difficulty)}}</span>
           </div>
         </div>
         <div class="quiz-actions-footer">
@@ -109,7 +103,7 @@
             <i class="fas fa-eye"></i>
             Preview
           </button>
-          <button class="btn-start" >
+          <button class="btn-start">
             <i class="fas fa-play"></i>
             Start
           </button>
@@ -117,22 +111,104 @@
       </div>
     </div>
 
-  
+
   </div>
-  }
-  @else {
-   
-  <!-- Empty State -->
-  <div class="empty-state" >
-    <div class="empty-icon">
-      <i class="fas fa-clipboard-list"></i>
-    </div>
-    <h3>No Quizzes Yet</h3>
-    <p>Create your first quiz to get started with assessments</p>
-  </div>
- 
   }
 
+<div class="empty-state" *ngIf="quizToDelete.result.length === 0 || (filteredQuizzes.length === 0 && searchTerm)">
+  <div class="empty-icon">
+    <i class="fas fa-clipboard-list"></i>
+  </div>
+  <h3>No Quizzes Yet</h3>
+  <p [innerHTML]="searchTerm 
+      ? 'No quizzes match your search for <strong>' + searchTerm + '</strong>' 
+      : 'Create your first quiz to get started with assessments'">
+  </p>
+</div>
+
+
+
+
+  <div class="filter-dialog-overlay" *ngIf="showFilterDialog" (click)="closeFilterDialog()">
+
+    <div class="filter-dialog" (click)="$event.stopPropagation()">
+      <app-top-pop [NameIcon]="'fas fa-filter'" [NamePopup]="'Advanced Filters'"  (isVisibleChange)="closeFilterDialog()"></app-top-pop>
+ 
+
+      <div class="filter-body">
+        <div class="filter-section bg-white  p-2 rounded-2">
+                    <app-text-header [title]="'Difficulty Level'"  [bgColor]="'#ca6438'"></app-text-header>
+
+          <div class="difficulty-options mt-2 ">
+            <div *ngFor="let option of difficultyOptions" class="difficulty-option"
+              [class.selected]="isDifficultySelected(option.value)" (click)="toggleDifficultyFilter(option.value)">
+              <div class="difficulty-badge" [class]="option.class">
+                <i class="fas fa-signal"></i>
+                <span>{{option.label}}</span>
+              </div>
+              <i class="fas fa-check check-icon" *ngIf="isDifficultySelected(option.value)"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Questions Range Filter -->
+        <div class="filter-section bg-white p-2 rounded-2">
+          <app-text-header [title]="'Number of Questions'" ></app-text-header>
+          <div class="range-inputs mt-2 ">
+            <div class="input-group">
+              <label>Min</label>
+              <input type="number" [(ngModel)]="filters.questionsRange.min" min="0" max="100">
+            </div>
+            <div class="range-separator">-</div>
+            <div class="input-group">
+              <label>Max</label>
+              <input type="number" [(ngModel)]="filters.questionsRange.max" min="0" max="100">
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-section bg-white p-2 rounded-2">
+          <app-text-header [title]="'Duration (minutes)'"  [bgColor]="'#40de74'"></app-text-header>
+          <div class="range-inputs mt-2">
+            <div class="input-group">
+              <label>Min</label>
+              <input type="number" [(ngModel)]="filters.durationRange.min" min="0" max="180">
+            </div>
+            <div class="range-separator">-</div>
+            <div class="input-group">
+              <label>Max</label>
+              <input type="number" [(ngModel)]="filters.durationRange.max" min="0" max="180">
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-section bg-white p-2 rounded-2">
+          <app-text-header [title]="'Creation Date'"  [bgColor]="'#515f32'"></app-text-header>
+          <div class="date-inputs mt-2">
+            <div class="input-group">
+              <label>From</label>
+              <input type="date" [(ngModel)]="filters.dateRange.from">
+            </div>
+            <div class="input-group">
+              <label>To</label>
+              <input type="date" [(ngModel)]="filters.dateRange.to">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-footer">
+        <button class="btn-clear" (click)="clearAllFilters()" [disabled]="!hasActiveFilters()">
+          <i class="fas fa-eraser"></i>
+          Clear All
+        </button>
+        <button class="btn-apply" (click)="applyFilters()">
+          <i class="fas fa-check"></i>
+          Apply Filters
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- Delete Confirmation Dialog -->
   <!-- <div class="delete-dialog-overlay" *ngIf="showDeleteDialog" (click)="cancelDelete()">
@@ -172,4 +248,12 @@
       </div>
     </div>
   </div> -->
-</div>
+<!-- </div> -->
+ <app-delete-quiz
+  *ngIf="isDeletePopupVisible && selectedDeleteQuiz"
+  [deleteId]="selectedDeleteQuiz.creatorId!"
+  [QuizTitle]="selectedDeleteQuiz.name"
+  (close)="closeDeletePopup()"
+  (delete)="deleteTask()">
+
+</app-delete-quiz>
