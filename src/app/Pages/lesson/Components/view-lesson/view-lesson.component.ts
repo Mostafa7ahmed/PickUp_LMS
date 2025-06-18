@@ -1,8 +1,9 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
 import Plyr from 'plyr';
+import { GetOneLessonService } from '../../Core/Services/get-one-lesson.service';
 
 @Component({
   selector: 'app-view-lesson',
@@ -12,7 +13,8 @@ import Plyr from 'plyr';
   styleUrl: './view-lesson.component.scss'
 })
 export class ViewLessonComponent {
-  constructor(private location: Location) {}
+  constructor(private location: Location ) {}
+  private _GetOneLessonService = inject(GetOneLessonService)
   value: number = 0;
   @ViewChild('player') playerRef!: ElementRef;
   player!: Plyr;
@@ -219,4 +221,6 @@ export class ViewLessonComponent {
   toggle(index: number) {
     this.openedIndex = this.openedIndex === index ? null : index;
   }
+
+
 }
