@@ -18,4 +18,8 @@ export class UpdateCouponService {
   }
   updateCoupon(data: UpdateCouponPayload): Observable<any> {
     return this.http.put(`${this.urlCoupon}/update`, data);
-  }}
+  }
+
+
+
+}
