@@ -1,15 +1,20 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { TextHeaderComponent } from '../../../../Courses/Components/text-header/text-header.component';
 import { TopPopComponent } from '../../../../../Components/top-pop/top-pop.component';
-import { CreateTaskService } from '../../core/Service/create-task.service';
-import { ICreateTaskRequest } from '../../core/Interface/icreate-task-request';
-import { TaskPriority, TaskType } from '../../core/Interface/itask-instrctor';
+import { TaskService, CreateTaskRequest, TaskType, TaskPriority } from '../../core/services/task.service';
 
 
 
+interface TaskForm {
+  name: string;
+  description: string;
+  type: number;
+  priority: number;
+  dueDate: string;
+}
 
 @Component({
   selector: 'app-addtasktodo',
@@ -19,13 +24,15 @@ import { TaskPriority, TaskType } from '../../core/Interface/itask-instrctor';
   styleUrl: './addtasktodo.component.scss'
 })
 export class AddtasktodoComponent {
- private taskService = inject(CreateTaskService);
+  @Output() taskAdded = new EventEmitter<TaskForm>();
+
+  private taskService = inject(TaskService);
   private router = inject(Router);
 
   showValidation = false;
   isLoading = false;
 
-  taskForm: ICreateTaskRequest = {
+  taskForm: TaskForm = {
     name: '',
     description: '',
     type: TaskType.Work,
@@ -69,11 +76,12 @@ export class AddtasktodoComponent {
     this.isLoading = true;
     this.showValidation = false;
 
-    const taskData: ICreateTaskRequest = {
+    // Prepare task data for API
+    const taskData: CreateTaskRequest = {
       name: this.taskForm.name.trim(),
       description: this.taskForm.description.trim(),
-      type: +this.taskForm.type,
-      priority: +this.taskForm.priority,
+      type: this.taskForm.type,
+      priority: this.taskForm.priority,
       dueDate: new Date(this.taskForm.dueDate).toISOString()
     };
 
@@ -82,12 +90,19 @@ export class AddtasktodoComponent {
     this.taskService.createTask(taskData).subscribe({
       next: (response) => {
         if (response.success) {
+          console.log('✅ Task created successfully:', response.result);
+          this.showSuccessMessage('Task created successfully!');
+          this.taskAdded.emit(this.taskForm);
           this.closeDialog();
         } else {
+          console.error('❌ Failed to create task:', response.message);
+          this.showErrorMessage('Failed to create task: ' + response.message);
         }
         this.isLoading = false;
       },
       error: (error) => {
+        console.error('❌ Error creating task:', error);
+        this.showErrorMessage('Error creating task. Please try again.');
         this.isLoading = false;
       }
     });
@@ -101,5 +116,17 @@ export class AddtasktodoComponent {
     this.closeDialog();
   }
 
+  // Success/Error message methods
+  private showSuccessMessage(message: string): void {
+    // You can replace this with a toast service
+    console.log('✅ Success:', message);
+    // For now, just use a simple alert
+    // alert(message);
+  }
 
+  private showErrorMessage(message: string): void {
+    // You can replace this with a toast service
+    console.error('❌ Error:', message);
+    alert(message);
+  }
 }

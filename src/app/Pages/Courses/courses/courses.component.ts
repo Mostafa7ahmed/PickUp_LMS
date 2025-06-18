@@ -227,7 +227,7 @@ iselectedStage : boolean = false;
     from?: string, 
     to?: string,
     search?: string): void {
-    const { pageNumber = 1, pageSize = 20 } = eventData;
+    const { pageNumber = 1, pageSize = 5 } = eventData;
 
     this.isLoading = true;
     this._PaginateCoursesService.getCourses(topicId, stageId, pageNumber, pageSize, courseListViewType, from, to, undefined, undefined, search).subscribe({      next: (response) => {
@@ -333,31 +333,22 @@ iselectedStage : boolean = false;
       }
 
       this.getListTopics(this.topicIdFromRoute);
-
-    });
-
-    this.subscriptioncall.add(
+        this.subscriptioncall.add(
       this.router.events
         .pipe(filter(event => event instanceof NavigationEnd))
-        .subscribe((event: NavigationEnd) => {       
-          const currentUrl = event.urlAfterRedirects;
-          
-          // // Check if we're returning to the courses route
-          // if (currentUrl.includes('/course') && !currentUrl.includes('(dialog:')) {
-          // this.fetchCourses(
-          //       { pageNumber: 1, pageSize: 20 },
-          //       this.selectedTopicId,
-          //       this.iselectedStage ? this.selectedStage?.id : undefined,
-          //       this.valueTable,
-          //       this.rangeDates?.[0] ? this.formatDateToISO(this.rangeDates[0]) : undefined,
-          //       this.rangeDates?.[1] ? this.formatDateToISO(this.rangeDates[1]) : undefined,
-          //       this.searchTerm
-          //     );
-          // }
+        .subscribe((event: NavigationEnd) => {          // Refresh courses when returning from add course or topics
+          if (event.url === '/topics' || event.urlAfterRedirects.includes('/courses')) {
+            this.fetchCourses(
+              { pageNumber: 1, pageSize: 20 },
+              this.selectedTopicId,
+              this.iselectedStage ? this.selectedStage?.id : undefined,
+              this.valueTable,
+              this.rangeDates?.[0] ? this.formatDateToISO(this.rangeDates[0]) : undefined,
+              this.rangeDates?.[1] ? this.formatDateToISO(this.rangeDates[1]) : undefined
+            );}
         })
     );
-
-    
+    });
 
   }  ngOnDestroy() {
     if (this.subscription) {

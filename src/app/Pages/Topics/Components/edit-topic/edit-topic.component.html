@@ -62,54 +62,22 @@
           </div>
         </div>
         <div class="fromStage" *ngIf="!isnext">
-
-
-          <div class="existing-stages" *ngIf="topicResult?.result?.stages && topicResult.result.stages.length > 0">
-            <h4>Existing Stages</h4>
-            <div class="cdk-drop-list stages">
-              <div class="cdk-drag stage ng-star-inserted ms-3"
-                   *ngFor="let stage of topicResult.result.stages; let i = index; trackBy: trackByStageId">
-                <div class="color-popup d-flex justify-content-center position-relative"
-                     (click)="toggleExistingStageColor(i)">
-                  <div class="squareSelected"
-                       [ngClass]="{'circle': stage.type === 2}"
-                       [ngStyle]="{'background-color': stage.color}">
-                  </div>
-                  <img alt="" class="arrow_stage" src="https://s3.dinarcrm.com/assets/img/tasks-board/arrow-down.svg" />
+          <button class="add-stage-btn" [disabled]="stages.length >= maxStages" (click)="addStage()">
+            <i class="fa-kit fa-add-circle"></i> Add Stage
+          </button>
+          <div class="cdk-drop-list stages  " [formGroup]="stageForm">
+            <div class="cdk-drag stage ng-star-inserted ms-3">
+              <div class="color-popup d-flex justify-content-center position-relative">
+                <div class="squareSelected " [ngStyle]="{'background-color': topicResult.result.stages[0].color}">
                 </div>
-                <input maxlength="50"
-                       type="text"
-                       [value]="stage.name"
-                       (blur)="updateStageName(i, $event)"
-                       class="dragged editable-stage"
-                       placeholder="Enter Stage Name" />
-                <button class="stage-trash ng-star-inserted"
-                        (click)="removeExistingStage(stage.id, i)"
-                        [disabled]="stage.default">
-                  <i class="fa-kit fa-delete"></i>
-                </button>
-
-                <!-- Color picker for existing stages -->
-                <div class="packageColor" *ngIf="openExistingStageIndex === i">
-                  @for (color of colors; track $index) {
-                  <div (click)="selectExistingStageColor(i, color)" class="colorBox rounded-1"
-                    [ngStyle]="{'background-color': color}"></div>
-                  }
-                </div>
+  
               </div>
+              <input maxlength="50" type="text" [value]="topicResult.result.stages[0].name" readonly
+                class=" dragged "
+                placeholder="Enter Stage Name" />
+                <button class="stage-trash ng-star-inserted opacity-0">
+                <i class="fa-kit fa-delete"></i></button>
             </div>
-          </div>
-
-          <!-- Add New Stage Button -->
-          <div class="add-stage-section">
-            <button class="add-stage-btn" (click)="addNewStage()">
-              <i class="fa-kit fa-add-circle"></i> Add New Stage
-            </button>
-          </div>
-
-          <!-- New Stages Form (for dynamic form stages) -->
-          <div class="new-stages" [formGroup]="stageForm" *ngIf="stages.length > 0">
-            <h4>Form-based New Stages</h4>
             <div class="stagesDynamic" formArrayName="newStages">
               <div *ngFor="let child of stages.controls; let i = index" [formGroupName]="i">
                 <div class="cdk-drag stage ng-star-inserted">
@@ -135,16 +103,27 @@
   
   
             </div>
+            <div class="cdk-drag stage ng-star-inserted ms-3">
+              <div class="color-popup position-relative d-flex justify-content-center">
+                <div class="squareSelected circle" [ngStyle]="{'background-color': topicResult.result.stages[1].color}">
+                </div>
+              </div>
+              <input maxlength="50" type="text" pinputtext="" [value]="topicResult.result.stages[1].name" readonly
+                class=" dragged "
+                placeholder="Enter Stage Name" />
+                <button class="stage-trash ng-star-inserted opacity-0">
+                <i class="fa-kit fa-delete"></i>
+              </button>
+            </div>
   
           </div>
         </div>
       </div>
-    <div class="rightBody">
-      <div class="imagePosition">
-        <img src="Images/2f4af133-fd73-422b-88aa-6fbc53354691.png" alt="" />
+      <div class="rightBody">
+        <div class="imagePosition">
+          <img src="Images/2f4af133-fd73-422b-88aa-6fbc53354691.png" alt="" />
+        </div>
       </div>
-    </div>
-      
     </div>
   
     <footer>
@@ -188,4 +167,4 @@
   
     </footer>
   </div>
-}
+  }

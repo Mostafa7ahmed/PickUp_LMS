@@ -20,6 +20,7 @@
         <th class="fixedWithdth">{{"course.tableCourse.updater" | translate}}</th>
         <th class="fixedWithdth">{{"course.tableCourse.created_on" | translate}}</th>
         <th class="fixedWithdth">{{"course.tableCourse.updated_on" | translate}}</th>
+        <th class="fixedWithdth">Activity</th>
       </tr>
       
     </thead>
@@ -205,7 +206,7 @@
                 {{ course.updatedOn | date:'dd/MM/yyyy' }} <p class="dots"></p> {{ course.updatedOn | date:'hh:mm a' }}
               </div>
             </div>
-  
+
           </td>
         }
         @else{
@@ -216,8 +217,19 @@
           </td>
           }
 
+        <!-- Activity Column -->
+        <td class="fixedWithdth">
+          <div class="d-flex gap-2 align-items-center justify-content-center">
+            <div class="action-icon edit-icon" (click)="openEditCourse(course.id)" pTooltip="Edit Course" tooltipPosition="top">
+              <i class="fa-solid fa-edit"></i>
+            </div>
+            <div class="action-icon delete-icon" (click)="openDeleteCourse(course.id)" pTooltip="Delete Course" tooltipPosition="top">
+              <i class="fa-solid fa-trash-can"></i>
+            </div>
+          </div>
+        </td>
 
-      
+
       </tr>
       }
 
@@ -275,7 +287,7 @@
         <select (change)="onPageSizeChange($event)">
           <option value="5">5</option>
           <option value="10">10</option>
-          <option value="20" selected>20</option>
+          <option value="20">20</option>
           <option value="50">50</option>
           <option value="100">100</option>
         </select>
@@ -326,4 +338,13 @@
   <img src="Images/calls-empty-illustrator (1).svg" height="300px" alt="">
 </div>
 
+}
+
+<!-- Delete Course Popup -->
+@if (isDeletePopupVisible) {
+  <app-delete-course
+    [deleteId]="selectedDeleteId!"
+    (close)="closeDeletePopup()"
+    (delete)="deleteCourse()">
+  </app-delete-course>
 }

@@ -1,65 +1,5 @@
-  
-  <div class="searchBoard">
-        <div class="search-input">
-            <input
-                type="text"
-                [placeholder]="getSearchPlaceholder()"
-                [(ngModel)]="searchTerm"
-                (input)="onSearchChange($event)"
-                (keydown)="onSearchKeydown($event)"
-                class="search-field">
-            <div class="icon search-icon">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <g clip-path="url(#clip0_1143_70294)">
-                            <path
-                                d="M10.4167 17.5C6.04445 17.5 2.50004 13.9556 2.50004 9.58332C2.50004 5.21107 6.04445 1.66666 10.4167 1.66666C14.789 1.66666 18.3334 5.21107 18.3334 9.58332C18.3334 13.9556 14.789 17.5 10.4167 17.5Z"
-                                stroke="#8E92BC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                            <path d="M1.66671 18.3333L3.33337 16.6667" stroke="#8E92BC" stroke-width="1.5"
-                                stroke-linecap="round" stroke-linejoin="round"></path>
-                        </g>
-                        <defs>
-                            <clipPath id="clip0_1143_70294">
-                                <rect width="20" height="20" fill="white" transform="matrix(-1 0 0 1 20 0)"></rect>
-                            </clipPath>
-                        </defs>
-                    </svg>
-            </div>
-            <button
-                *ngIf="searchTerm"
-                class="clear-search-btn p-0"
-                (click)="clearSearch()"
-                title="Clear search (ESC)">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <button  (click)="openPopup()" class="addTopicBtn">
-            <div class="icon" >
-                <i class="fa-solid fa-plus"></i>
-            </div>
-            <span>{{ "Board.NewTopic" | translate }}</span>
-        </button>
-
-
-    </div>
-
-<div class="AllTopics">
-    <!-- Search Results Info -->
-
-
-    <!-- No Search Results -->
-    <div class="empty-search-state" *ngIf="filteredTopics.length === 0 && searchTerm ">
-        <div class="empty-content mt-5">
-            <i class="fas fa-search"></i>
-            <h3>No Results Found</h3>
-            <p>No topics match your search for "<strong>{{searchTerm}}</strong>"</p>
-            <button class="btn-clear-search" (click)="clearSearch()">
-                Clear Search
-            </button>
-        </div>
-    </div>
-
-    @for (topic of filteredTopics; track topic.id) {
+<div class="AllTopics"  >
+    @for (topic of paginationTpoicsResponse.result; track topic.id) {
     <div class="topic mb-2  ">
         <div class="topTopic ">
             <div class="project-head">
@@ -224,25 +164,6 @@
         </div>
     </div>
 
-    }
-    @empty {
-      
-        @if(!searchTerm){
-            
-         <div class="empty-search-state w-100 mt-5 d-flex justify-content-between align-items-center gap-3 flex-column" >
-        <div class="empty-content mt-5">
-            <i class="fas fa-search"></i>
-            <h3>No Topic Found</h3>
-
-
-        </div>
-         <button  (click)="openPopup()" class="addTopicBtn">
-
-            <span>{{ "Board.NewTopic" | translate }}</span>
-        </button>
-    </div>
-        }
- 
     }
 </div>
 <app-delete-topic

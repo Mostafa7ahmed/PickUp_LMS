@@ -51,13 +51,12 @@ export interface ITopic {
     order: number
     color: string
     icon: string
-    shadow?: string
     type: number
     createdOn: string
     default: boolean
     snapshot: Snapshot2
     topicId:number
-
+  
   }
   
   export interface Snapshot2 {
