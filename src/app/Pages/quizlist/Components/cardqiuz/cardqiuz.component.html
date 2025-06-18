@@ -5,7 +5,7 @@
                 <i class="fas fa-search search-icon"></i>
                 <input
                   type="text"
-                  [placeholder]="getSearchPlaceholder()"
+                  placeholder="Search For Quiz Name"
                   [(ngModel)]="searchTerm"
                   (input)="onSearchChange($event)"
                   (keydown)="onSearchKeydown($event)"
@@ -47,31 +47,30 @@
           </div>
 
 
-  <!-- Quiz Cards Grid -->
-  <div class="quiz-grid mt-3 mb-4">
+    
+  @if(isLoading){
+      <div class="quiz-grid mt-3 mb-4">
     <!-- Sample Quiz Cards -->
-    <div class="quiz-card" *ngFor="let quiz of filteredQuizzes">
-      <div class="quiz-card-header">
-        <div class="quiz-status" [class]="'status-' + quiz.status">
-          <span class="status-dot"></span>
-          <span class="status-text">{{quiz.status}}</span>
-        </div>
-        <div class="quiz-actions">
-          <button class="action-btn" title="Edit Quiz" (click)="editQuiz(quiz.id, $event)">
-            <i class="fas fa-edit"></i>
-          </button>
+    <div class="quiz-card" *ngFor="let quiz of quizToDelete.result">
+      <div class="quiz-card-header ">
 
-          <button class="action-btn delete-btn" title="Delete Quiz" (click)="deleteQuiz(quiz.id, $event)">
+   
+          <div class="quiz-icon">
+          <i class="fas fa-clipboard-list"></i>
+        </div>
+
+             <div class="quiz-actions">
+  
+
+          <button class="action-btn delete-btn" title="Delete Quiz" (click)="deleteQuiz(quiz.creatorId, $event)">
             <i class="fas fa-trash"></i>
           </button>
         </div>
       </div>
 
       <div class="quiz-card-body">
-        <div class="quiz-icon">
-          <i class="fas fa-clipboard-list"></i>
-        </div>
-        <h3 class="quiz-title">{{quiz.title}}</h3>
+
+        <h3 class="quiz-title">{{quiz.name}}</h3>
         <p class="quiz-description">{{quiz.description}}</p>
 
         <div class="quiz-stats">
@@ -85,12 +84,12 @@
           </div>
           <div class="stat-item">
             <i class="fas fa-users"></i>
-            <span>{{quiz.attempts}} Attempts</span>
+            <span>{{quiz.submissions}} Attempts</span>
           </div>
         </div>
 
         <div class="quiz-tags">
-          <span class="tag" *ngFor="let tag of quiz.tags">{{tag}}</span>
+          <span class="tag" *ngFor="let lesson of quiz.lessonsNames">{{lesson}}</span>
         </div>
       </div>
 
@@ -98,7 +97,7 @@
         <div class="quiz-meta">
           <div class="created-date">
             <i class="fas fa-calendar"></i>
-            <span>{{quiz.createdDate}}</span>
+            <span>{{quiz.createdOn}}</span>
           </div>
           <div class="difficulty" [class]="'difficulty-' + quiz.difficulty">
             <i class="fas fa-signal"></i>
@@ -106,11 +105,11 @@
           </div>
         </div>
         <div class="quiz-actions-footer">
-          <button class="btn-preview" (click)="previewQuiz(quiz.id, $event)">
+          <button class="btn-preview">
             <i class="fas fa-eye"></i>
             Preview
           </button>
-          <button class="btn-start" (click)="startQuiz(quiz.id, $event)">
+          <button class="btn-start" >
             <i class="fas fa-play"></i>
             Start
           </button>
@@ -120,31 +119,23 @@
 
   
   </div>
-
+  }
+  @else {
+   
   <!-- Empty State -->
-  <div class="empty-state" *ngIf="filteredQuizzes.length === 0 && sampleQuizzes.length === 0">
+  <div class="empty-state" >
     <div class="empty-icon">
       <i class="fas fa-clipboard-list"></i>
     </div>
     <h3>No Quizzes Yet</h3>
     <p>Create your first quiz to get started with assessments</p>
   </div>
+ 
+  }
 
-  <!-- No Search Results -->
-  <div class="empty-state" *ngIf="filteredQuizzes.length === 0 && sampleQuizzes.length > 0 && searchTerm">
-    <div class="empty-icon">
-      <i class="fas fa-search"></i>
-    </div>
-    <h3>No Results Found</h3>
-    <p>No quizzes match your search for "<strong>{{searchTerm}}</strong>"</p>
-    <button class="btn-clear-search" (click)="clearSearch()">
-      <i class="fas fa-times"></i>
-      Clear Search
-    </button>
-  </div>
 
   <!-- Delete Confirmation Dialog -->
-  <div class="delete-dialog-overlay" *ngIf="showDeleteDialog" (click)="cancelDelete()">
+  <!-- <div class="delete-dialog-overlay" *ngIf="showDeleteDialog" (click)="cancelDelete()">
     <div class="delete-dialog" (click)="$event.stopPropagation()">
       <div class="dialog-header">
         <div class="warning-icon">
@@ -180,5 +171,5 @@
         </button>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>

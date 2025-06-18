@@ -1,6 +1,7 @@
 <div class="showContent my-2 mb-2" [class.showInfo]="showInfo">
 
-  <div class="contentData d-flex gap-4 align-content-start"  *ngIf="analytics.totalQuizzes > 0">
+@if(isLoading){
+    <div class="contentData d-flex gap-4 align-content-start"  >
     <div class="rightContent">
       <h4 class="breakdown-title">
         <i class="fas fa-chart-pie"></i>
@@ -13,12 +14,10 @@
             <p class="m-0">Total Quizzes</p>
             <i class="fas fa-clipboard-list"></i>
           </div>
-          <div class="numberCources mt-2 d-flex align-items-end justify-content-end">
-            <span>{{analytics.totalQuizzes}}</span>
+          <div class="numberCources  d-flex align-items-end justify-content-end">
+            <span>{{quizData.result.totalQuizzes}}</span>
           </div>
-          <div class="card-subtitle">
-            <small>{{analytics.publishedQuizzes}} Published</small>
-          </div>
+      
         </div>
 
         <!-- Total Questions -->
@@ -27,12 +26,10 @@
             <p class="m-0">Total Questions</p>
             <i class="fas fa-question-circle"></i>
           </div>
-          <div class="numberCources mt-2 d-flex align-items-end justify-content-end">
-            <span>{{analytics.totalQuestions}}</span>
+          <div class="numberCources d-flex align-items-end justify-content-end">
+            <span>{{quizData.result.totalQuestions}}</span>
           </div>
-          <div class="card-subtitle">
-            <small>{{getAverageQuestionsPerQuiz()}} Avg per Quiz</small>
-          </div>
+
         </div>
 
 
@@ -43,12 +40,10 @@
             <p class="m-0">Avg Duration</p>
             <i class="fas fa-clock"></i>
           </div>
-          <div class="numberCources mt-2 d-flex align-items-end justify-content-end">
-            <span>{{analytics.averageDuration}}<small class="unit">min</small></span>
+          <div class="numberCources d-flex align-items-end justify-content-end">
+            <span>{{quizData.result.avgDuration | number:'1.2-2' }}<small class="unit">min</small></span>
           </div>
-          <div class="card-subtitle">
-            <small>Average quiz time</small>
-          </div>
+       
         </div>
 
 
@@ -74,35 +69,35 @@
         <div class="breakdown-card">
 
           <div class="status-bars">
-            <div class="status-bar easy-bar" [style.flex]="analytics.difficultyBreakdown.easy || 1"></div>
-            <div class="status-bar medium-bar" [style.flex]="analytics.difficultyBreakdown.medium || 1"></div>
-            <div class="status-bar hard-bar" [style.flex]="analytics.difficultyBreakdown.hard || 1"></div>
+            <div class="status-bar easy-bar" [style.flex]="quizData.result.easyCount || 1"></div>
+            <div class="status-bar medium-bar" [style.flex]="quizData.result.mediumCount || 1"></div>
+            <div class="status-bar hard-bar" [style.flex]="quizData.result.hardCount"></div>
           </div>
 
           <!-- Status Labels (like the image) -->
           <div class="status-labels">
-            <div class="status-item">
+            <div class="status-item" [style.flex]="quizData.result.easyCount || 1">
               <div class="status-indicator">
                 <div class="indicator-dot easy-dot"></div>
                 <span class="status-label">Easy</span>
               </div>
-              <div class="status-count">{{analytics.difficultyBreakdown.easy}}</div>
+              <div class="status-count">{{quizData.result.easyCount}}</div>
             </div>
 
-            <div class="status-item">
+            <div class="status-item" [style.flex]="quizData.result.mediumCount || 1">
               <div class="status-indicator">
                 <div class="indicator-dot medium-dot"></div>
                 <span class="status-label">Medium</span>
               </div>
-              <div class="status-count">{{analytics.difficultyBreakdown.medium}}</div>
+              <div class="status-count">{{quizData.result.mediumCount}}</div>
             </div>
 
-            <div class="status-item">
+            <div class="status-item" [style.flex]="quizData.result.hardCount || 1">
               <div class="status-indicator">
                 <div class="indicator-dot hard-dot"></div>
                 <span class="status-label">Hard</span>
               </div>
-              <div class="status-count">{{analytics.difficultyBreakdown.hard}}</div>
+              <div class="status-count">{{quizData.result.hardCount}}</div>
             </div>
           </div>
         </div>
@@ -110,12 +105,15 @@
     </div>
   </div>
 
-  <!-- Empty State -->
-  <div class="empty-analytics" *ngIf="analytics.totalQuizzes === 0">
+}
+@else {
+    <div class="empty-analytics" >
     <div class="empty-content">
       <i class="fas fa-chart-bar"></i>
       <h4>No Quiz Data</h4>
       <p>Create your first quiz to see analytics</p>
     </div>
   </div>
+}
+
 </div>

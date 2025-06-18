@@ -44,4 +44,8 @@ export class ListCouponService {
     if (search && search.trim()) params.search = search.trim();
 
     return this._HttpClient.get<IPaginationResponse<ICouponRespone>>(`${this.urlPagination}`, { params });
-  }}
+  }
+
+
+
+}
