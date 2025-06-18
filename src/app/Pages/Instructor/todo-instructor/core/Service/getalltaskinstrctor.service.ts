@@ -1,73 +1,111 @@
 import { Injectable } from '@angular/core';
-import { ITaskInstrctor } from '../Interface/itask-instrctor';
+import { ITaskInstrctor , TaskType ,TaskPriority  } from '../Interface/itask-instrctor';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../../Environments/environment';
+import { IPaginationResponse } from '../../../../../Core/Shared/Interface/irespose';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GetalltaskinstrctorService {
 
-  constructor() { }
-    tasks: ITaskInstrctor[] = [
-    {
-      id: 1,
-      title: 'Prepare lecture slides for Web Development',
-      description: 'Create slides for React components and state management',
-      type: 'teaching',
-      priority: 'high',
-      dueDate: '2024-03-20',
-      completed: false,
-      createdAt: new Date('2024-03-15')
-    },
-    {
-      id: 2,
-      title: 'Grade midterm exams',
-      description: 'Grade JavaScript fundamentals midterm exams for 45 students',
-      type: 'grading',
-      priority: 'urgent',
-      dueDate: '2024-03-18',
-      completed: false,
-      createdAt: new Date('2024-03-14')
-    },
-    {
-      id: 3,
-      title: 'Faculty meeting preparation',
-      description: 'Prepare curriculum update proposal',
-      type: 'meeting',
-      priority: 'medium',
-      dueDate: '2024-03-22',
-      completed: true,
-      createdAt: new Date('2024-03-13')
-    },
-    {
-      id: 4,
-      title: 'Student consultation hours',
-      description: 'Office hours for project guidance',
-      type: 'teaching',
-      priority: 'low',
-      dueDate: '2024-03-21',
-      completed: false,
-      createdAt: new Date('2024-03-16')
-    },
-    {
-      id: 5,
-      title: 'Update course syllabus',
-      description: 'Add new assignments and reading materials',
-      type: 'administrative',
-      priority: 'medium',
-      dueDate: '2024-03-25',
-      completed: false,
-      createdAt: new Date('2024-03-12')
-    },
-    {
-      id: 6,
-      title: 'Review student project proposals',
-      description: 'Provide feedback on 15 project proposals',
-      type: 'personal',
-      priority: 'high',
-      dueDate: '2024-03-19',
-      completed: true,
-      createdAt: new Date('2024-03-11')
+  private urlTask: string;
+    private readonly tasksSubject = new BehaviorSubject<ITaskInstrctor[]>([]);
+  public tasks$ = this.tasksSubject.asObservable();
+  constructor(private _HttpClient: HttpClient) {
+    this.urlTask = `${environment.baseUrl}${environment.pickup}task/paginate?`
+  }
+  getTasks(
+    pageNumber: number = 1,
+    pageSize: number = 100,
+
+    orderBy: number = 2,
+    orderDirection: number = 1,
+
+  ): Observable<IPaginationResponse<ITaskInstrctor>> {
+
+    const params: any = {
+      orderBy: orderBy.toString(),
+      pageNumber: pageNumber.toString(),
+      pageSize: pageSize.toString(),
+      orderBeforPagination: 'true',
+      orderDirection: orderDirection.toString(),
+    };
+
+
+
+    return this._HttpClient.get<IPaginationResponse<ITaskInstrctor>>(`${this.urlTask}`, { params }).pipe(
+      tap(res=>{
+        if(res.success){
+                    this.tasksSubject.next(res.result);
+
+        }
+      })
+    );
+  }
+   loadTasks(): void {
+    this.getTasks().subscribe({
+      next: () => {
+      },
+      error: (error) => {
+        console.error('❌ Error loading tasks:', error);
+      }
+    });
+  }
+
+  getTaskTypeLabel(type: number): string {
+    switch (type) {
+      case TaskType.Personal: return 'Personal';
+      case TaskType.Work: return 'Work';
+      case TaskType.Study: return 'Study';
+      case TaskType.Meeting: return 'Meeting';
+      case TaskType.Other: return 'Other';
+      default: return 'Unknown';
     }
-  ];
+  }
+
+  getTaskPriorityLabel(priority: number): string {
+    switch (priority) {
+      case TaskPriority.Low: return 'Low';
+      case TaskPriority.Medium: return 'Medium';
+      case TaskPriority.High: return 'High';
+      case TaskPriority.Urgent: return 'Urgent';
+      default: return 'Unknown';
+    }
+  }
+
+  getTaskPriorityColor(priority: number): string {
+    switch (priority) {
+      case TaskPriority.Low: return '#10b981';
+      case TaskPriority.Medium: return '#f59e0b';
+      case TaskPriority.High: return '#ef4444';
+      case TaskPriority.Urgent: return '#dc2626';
+      default: return '#6b7280';
+    }
+  }
+
+  getTaskTypeIcon(type: number): string {
+    switch (type) {
+      case TaskType.Personal: return 'fas fa-user';
+      case TaskType.Work: return 'fas fa-briefcase';
+      case TaskType.Study: return 'fas fa-book';
+      case TaskType.Meeting: return 'fas fa-users';
+      case TaskType.Other: return 'fas fa-tasks';
+      default: return 'fas fa-task';
+    }
+  }
+
+  // Helper method to get priority icon
+  getPriorityIcon(priority: number): string {
+    switch (priority) {
+      case TaskPriority.Low: return 'fas fa-arrow-down';
+      case TaskPriority.Medium: return 'fas fa-minus';
+      case TaskPriority.High: return 'fas fa-arrow-up';
+      case TaskPriority.Urgent: return 'fas fa-exclamation';
+      default: return 'fas fa-question';
+    }
+  }
+
 
 }

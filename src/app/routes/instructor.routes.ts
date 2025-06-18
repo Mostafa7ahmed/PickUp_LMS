@@ -29,6 +29,7 @@ import { AddtasktodoComponent } from '../Pages/Instructor/todo-instructor/compon
 import { ViewLessonComponent } from '../Pages/lesson/Components/view-lesson/view-lesson.component';
 import { WalletPopupInstructorComponent } from '../Pages/Instructor/wallet-popup-instructor/wallet-popup-instructor.component';
 import { UpdeatePorfileComponent } from '../Pages/Instructor/porfile/components/updeate-porfile/updeate-porfile.component';
+import { EditTaskInstructorComponent } from '../Pages/Instructor/todo-instructor/components/edit-task-instructor/edit-task-instructor.component';
 export const instructorRoutes: Routes = [
     {
         path: '',
@@ -42,6 +43,8 @@ export const instructorRoutes: Routes = [
             { path: "course", title: "Course", component: CoursesComponent },
             { path: "todo", title: "Task Management", component: TodoInstructorComponent },
             { path: 'addTaskInstrcutor', outlet: 'dialog', component: AddtasktodoComponent },
+             { path: 'editTaskinstructor/:id', outlet: 'dialog', component: EditTaskInstructorComponent },
+
             { path: "quizlist", title: "Quiz List", component: QuizlistComponent },
             { path: "course/:topicId", component: CoursesComponent},
             { path: "ViewCourse/:courseId", component: ViewCourseComponent },
