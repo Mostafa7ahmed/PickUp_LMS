@@ -179,6 +179,7 @@ updateDiscountType() {
   }
   closePopup() {
     this.router.navigate([{ outlets: { dialog: null } }]);
+   
   }
   isLimited = true;
 
@@ -220,8 +221,9 @@ createCoupon() {
         console.log('Coupon created successfully!', response);
         this.nzMessageService.success(response.message);
         
-        this.closePopup();
-      },
+       this.router.navigate([{ outlets: { dialog: null } }]).then(() => {
+                      this.router.navigate(['/Couponslist']);
+          });       },
       error: (error) => { 
         console.error('Error creating coupon:', error);
         this.nzMessageService.error(error.error.message || 'Error creating coupon. Please try again.');

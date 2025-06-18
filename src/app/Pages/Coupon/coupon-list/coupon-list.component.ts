@@ -131,12 +131,23 @@ export class CouponListComponent implements OnInit {
     });
   }
     private subscriptioncall = new Subscription();
-    private router = new Router();
   
   ngOnInit(): void {
     this.getCourse(); 
 
-  
+
+      this.subscriptioncall.add(
+      this.routes.events
+        .pipe(filter(event => event instanceof NavigationEnd))
+        .subscribe((event: NavigationEnd) => {
+          const currentUrl = event.urlAfterRedirects;
+
+          if (event.url.includes('Couponslist') && !currentUrl.includes('(dialog:')) {
+            this.getCourse()
+
+          }
+        })
+    );
     
   }
 

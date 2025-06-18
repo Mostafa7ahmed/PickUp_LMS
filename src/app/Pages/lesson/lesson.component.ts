@@ -24,18 +24,7 @@ export class LessonComponent implements OnInit {
   ngOnInit(): void {
     this.getAlllesson()
 
-    this.subscriptioncall.add(
-      this.router.events
-        .pipe(filter(event => event instanceof NavigationEnd))
-        .subscribe((event: NavigationEnd) => {
-          const currentUrl = event.urlAfterRedirects;
 
-          if (event.url === `ViewCourse/${this.courseId}` && !currentUrl.includes('(dialog:')) {
-            this.getAlllesson()
-
-          }
-        })
-    );
   }
   getAlllesson() {
     this._listLessonService.getLessons(this.courseId).subscribe((res) => {

@@ -93,9 +93,11 @@ private location = inject(Location);
     this.ishowTab = !this.ishowTab;
   }
   closePopup() {
-      this.router.navigate([{ outlets: { dialog: null } }]).then(() => {
-                      this.router.navigate(['/topics']);
-          });  }
+      this.router.navigate([{ outlets: { dialog: null } }]);
+
+        
+        
+        }
 
 
   submitFormTopic() {
@@ -201,9 +203,12 @@ private location = inject(Location);
         if (res.success) {
           console.log(res);
           this.isLoad = false;
-                this.location.back();
-                this.closePopup();
-        }
+      this.router.navigate([{ outlets: { dialog: null } }]).then(() => {
+                      this.router.navigate(['/topics']);
+          }); 
+        
+        
+            }
 
       },
       error: (err) => {
