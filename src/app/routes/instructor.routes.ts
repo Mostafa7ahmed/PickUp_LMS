@@ -30,6 +30,7 @@ import { AddtasktodoComponent } from '../Pages/Instructor/todo-instructor/compon
 import { EditTaskInstructorComponent } from '../Pages/Instructor/todo-instructor/components/edit-task-instructor/edit-task-instructor.component';
 import { TestTaskComponent } from '../Pages/Instructor/todo-instructor/components/test-task/test-task.component';
 import { ViewLessonComponent } from '../Pages/lesson/Components/view-lesson/view-lesson.component';
+// import { EditLessonComponent } from '../Pages/lesson/Components/edit-lesson/edit-lesson.component';
 import { WalletPopupInstructorComponent } from '../Pages/Instructor/wallet-popup-instructor/wallet-popup-instructor.component';
 import { UpdeatePorfileComponent } from '../Pages/Instructor/porfile/components/updeate-porfile/updeate-porfile.component';
 export const instructorRoutes: Routes = [
@@ -62,6 +63,7 @@ export const instructorRoutes: Routes = [
             { path: 'addcourse', outlet: 'dialog', component: AddCoursesComponent },
             { path: 'editCourse/:courseId', outlet: 'dialog', component: EditCourseComponent },
             { path: 'addLesson/:courseId', outlet: 'dialog', component: CreateLessonComponent },
+            // { path: 'editLesson/:lessonId', outlet: 'dialog', component: EditLessonComponent },
             { path: 'coupan/:CoupanId', outlet: 'dialog', component: CouponCourseComponent },
             { path: 'viewLesson/:lessonId', title:"View Lesson", component: ViewLessonComponent },
             { path: 'viewCoupon/:CoupanId', outlet: 'dialog', component: ViewCouponComponent },

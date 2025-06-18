@@ -183,59 +183,78 @@ export class CreateLessonComponent implements OnInit {
   }
 
   startEditingVideo(index: number, currentName: string) {
+    console.log('🎬 Starting to edit video at index:', index, 'with name:', currentName);
     this.editingVideoIndex = index;
+    this.editingVideoName = currentName;
+
+    // Use setTimeout to ensure the DOM is updated
     setTimeout(() => {
       const input = document.querySelector('.edit-video-name') as HTMLInputElement;
       if (input) {
         input.focus();
         input.select();
+        console.log('✅ Input field focused and selected');
+      } else {
+        console.log('❌ Could not find input field');
       }
-    }, 0);
+    }, 100); // Increased timeout to ensure DOM update
   }
 
   saveVideoName(index: number) {
-    const videoName = this.lessonVideos[index].name;
-    if (videoName && videoName.trim()) {
-      // Name is already updated in the array due to two-way binding
-      this.editingVideoIndex = -1;
+    console.log('💾 Saving video name at index:', index);
+    if (this.editingVideoName && this.editingVideoName.trim()) {
+      this.lessonVideos[index].name = this.editingVideoName.trim();
+      console.log('✅ Video name saved:', this.lessonVideos[index].name);
+    } else {
+      console.log('❌ Invalid video name, cannot save');
+      // If name is empty, restore original name
+      if (this.lessonVideos[index] && this.lessonVideos[index].name) {
+        this.editingVideoName = this.lessonVideos[index].name;
+      }
     }
+    // Exit edit mode
+    this.editingVideoIndex = -1;
+    this.editingVideoName = '';
   }
 
   cancelEditingVideo() {
+    console.log('❌ Cancelling video name edit');
+    // Do not update the video name, just exit edit mode
     this.editingVideoIndex = -1;
+    this.editingVideoName = '';
   }
 
   toggleVideoPrivacy(index: number) {
     this.lessonVideos[index].free = !this.lessonVideos[index].free;
   }
 
-onVideoUpload(event: Event): void {
-  const file = (event.target as HTMLInputElement).files?.[0];
-  if (file) {
-    this.isVideoUploading = true;
-    this._streamService.upload(file, StreamType.video).subscribe({
-      next: (response) => {
-        if (response.body?.success) {
-          const result = response.body.result;
-          // Use id from backend response
-          setTimeout(() => {
-            this.lessonVideos.push({
-              id: result.id,
-              videoUrl: result.url,
-              displayUrl: environment.baseUrlFiles + result.url,
-              free: false,
-              name: result.name || file.name.substring(0, 40)
-            });
-            this.isVideoUploading = false;
-          }, 800);
+  onVideoUpload(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      this.isVideoUploading = true;
+      this._streamService.upload(file, StreamType.video).subscribe({
+        next: (response) => {
+          if (response.body?.success) {
+            const result = response.body.result;
+            // Use id from backend response
+            setTimeout(() => {
+              this.lessonVideos.push({
+                id: result.id,
+                videoUrl: result.url,
+                displayUrl: environment.baseUrlFiles + result.url,
+                free: false,
+                name: result.name || file.name.substring(0, 40)
+              });
+              this.isVideoUploading = false;
+            }, 800);
+          }
+        },
+        error: (error) => {
+          console.error('Error uploading video:', error);
         }
-      },
-      error: (error) => {
-        console.error('Error uploading video:', error);
-      }
-    });
+      });
+    }
   }
-}
 
   onLessonFilesUpload(event: Event): void {
     const files = (event.target as HTMLInputElement).files;
@@ -310,7 +329,7 @@ onVideoUpload(event: Event): void {
       fileUrls: (formValue.fileUrls || []).filter(url => url !== null && url !== undefined), // Filter out null values
       videos: this.lessonVideos.map(video => ({
         id: video.id,
-        videoUrl: video.videoUrl, // Keep only the original URL
+        videoUrl: video.videoUrl, // Use the required property for backend
         free: video.free,
         name: video.name
       })),

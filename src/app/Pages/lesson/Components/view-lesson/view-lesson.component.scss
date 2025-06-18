@@ -471,3 +471,96 @@
     overflow: hidden;
   }
 }
+
+// New styles for lesson detail integration
+.accordion-header {
+  .video-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: 12px;
+
+    .duration {
+      font-size: 12px;
+      color: #6b7280;
+      background: #f3f4f6;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .status {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 2px 6px;
+      border-radius: 4px;
+
+      &.free {
+        color: #10b981;
+        background: #d1fae5;
+      }
+
+      &.premium {
+        color: #f59e0b;
+        background: #fef3c7;
+      }
+    }
+  }
+}
+
+.rightContent {
+  .box {
+    &.tags {
+      .tags-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+
+        .tag-item {
+          background: #f3f4f6;
+          color: #374151;
+          padding: 4px 8px;
+          border-radius: 6px;
+          font-size: 12px;
+          font-weight: 500;
+        }
+      }
+    }
+
+    .videos {
+      li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+
+        .video-meta {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          width: 100%;
+          justify-content: space-between;
+
+          .duration {
+            font-size: 11px;
+            color: #6b7280;
+            background: #f3f4f6;
+            padding: 2px 4px;
+            border-radius: 3px;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Loading and error states
+.loading-container, .error-container {
+  color: #6b7280;
+
+  i {
+    color: #9ca3af;
+  }
+
+  .btn {
+    margin-top: 12px;
+  }
+}

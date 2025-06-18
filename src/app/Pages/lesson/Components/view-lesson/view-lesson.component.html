@@ -1,4 +1,4 @@
-<div class="viewLesson mt-2">
+<div class="viewLesson mt-2" *ngIf="!isLoading">
   <div class="cover">
     <img
       src="Images/CardProfile.png"
@@ -18,14 +18,9 @@
         </a>
       </div>
       <div class="rightInfo">
-        <h2>Lesson Title</h2>
+        <h2>{{ lessonDetail?.name || 'Lesson Title' }}</h2>
         <div class="tagsShow">
-          <p class="tag">#Tag1 web</p>
-          <p class="tag">#Tag1 web</p>
-          <p class="tag">#Tag1 web</p>
-          <p class="tag">#Tag1 web</p>
-
-          <p class="tag">#Tag1 web</p>
+          <p class="tag" *ngFor="let tag of getTags()">#{{ tag.name }}</p>
         </div>
       </div>
       <div class="leftInfo">
@@ -68,16 +63,15 @@
         <p-tabpanels>
           <p-tabpanel [value]="0">
             <div class="course-info">
-              <h2 class="section-title">About This Course</h2>
+              <h2 class="section-title">About This Lesson</h2>
               <p class="description">
-                Comprehensive course covering all aspects of modern web
-                development
+                {{ lessonDetail?.description || 'No description available' }}
               </p>
 
               <div class="course-header">
                 <div class="icon"><span>&lt;/&gt;</span></div>
                 <h3 class="course-title">
-                  CS 301: Data Structures &amp; Algorithms
+                  {{ lessonDetail?.name || 'Lesson Title' }}
                 </h3>
               </div>
 
@@ -87,7 +81,7 @@
                     <i class="fas fa-video stat-icon"></i>
                   </div>
                   <div class="data">
-                    <h4 class="stat-number">24</h4>
+                    <h4 class="stat-number">{{ getVideoStats().total }}</h4>
                     <p class="stat-label">Video Lessons</p>
                   </div>
                 </div>
@@ -97,8 +91,8 @@
                     <i class="fas fa-gift stat-icon"></i>
                   </div>
                   <div class="data">
-                    <h4 class="stat-number">12</h4>
-                    <p class="stat-label">Free Lesson</p>
+                    <h4 class="stat-number">{{ getVideoStats().free }}</h4>
+                    <p class="stat-label">Free Videos</p>
                   </div>
                 </div>
 
@@ -107,24 +101,24 @@
                     <i class="fas fa-lock stat-icon"></i>
                   </div>
                   <div class="data">
-                    <h4 class="stat-number">32</h4>
-                    <p class="stat-label">Paid Lesson</p>
+                    <h4 class="stat-number">{{ getVideoStats().premium }}</h4>
+                    <p class="stat-label">Premium Videos</p>
                   </div>
                 </div>
 
                 <div class="stat-card">
                   <div class="icon">
-                    <i class="fas fa-folder-open stat-icon"></i>
+                    <i class="fas fa-hashtag stat-icon"></i>
                   </div>
                   <div class="data">
-                    <h4 class="stat-number">32</h4>
-                    <p class="stat-label">Resources</p>
+                    <h4 class="stat-number">{{ getTags().length }}</h4>
+                    <p class="stat-label">Tags</p>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="course-introVideo mt-2">
-              <h2 class="section-title">Course Preview Video</h2>
+            <div class="course-introVideo mt-2" *ngIf="lessonDetail?.introductionVideoUrl">
+              <h2 class="section-title">Lesson Introduction Video</h2>
               <video
                 #player
                 controls
@@ -133,7 +127,7 @@
                 poster="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/311843542/original/8c9c677c05b80b431b4f10624d089f5c0c5c2732/do-the-best-poster-design.png"
               >
                 <source
-                  src="https://vgfdprgqzkwvoxsnfdlr.supabase.co/storage/v1/object/public/pickup/instructor/42/video/.mp4/7524e9a5-bcce-45a9-994a-69eb239846d6.mp4"
+                  [src]="lessonDetail?.introductionVideoUrl"
                   type="video/mp4"
                 />
               </video>
@@ -143,11 +137,20 @@
             <div class="accordion-container">
               <div
                 class="accordion-item"
-                *ngFor="let video of Viewvideos; let i = index"
+                *ngFor="let video of lessonDetail?.videos; let i = index"
               >
-                <div class="accordion-header" (click)="toggle(i)">
+                <div class="accordion-header" (click)="toggle(i); onVideoClick(video.id)">
                   <div class="index-circle">{{ i + 1 }}</div>
-                  <div class="video-title">{{ video.title }}</div>
+                  <div class="video-title">{{ video.name }}</div>
+                  <div class="video-url-debug" style="font-size: 10px; color: #888; word-break: break-all;" *ngIf="getVideoUrl(video.id)">
+                    Dynamic URL: {{ getVideoUrl(video.id) }}
+                  </div>
+                  <div class="video-info">
+                    <span class="duration">{{ getVideoDuration(video.durationInSeconds) }}</span>
+                    <span class="status" [ngClass]="{ free: video.free, premium: !video.free }">
+                      {{ getVideoStatus(video) }}
+                    </span>
+                  </div>
                   <i
                     class="fa-solid"
                     [ngClass]="{
@@ -159,17 +162,38 @@
 
                 <div class="accordion-content" *ngIf="openedIndex === i">
                   <div class="video-wrapper">
+                    <!-- Loading state for video -->
+                    <div *ngIf="isVideoLoading(video.id)" class="video-loading">
+                      <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin fa-2x"></i>
+                        <p>Loading video...</p>
+                      </div>
+                    </div>
+
+                    <!-- Video player -->
                     <video
-                controls
-                crossorigin
-                playsinline
-                poster="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/311843542/original/8c9c677c05b80b431b4f10624d089f5c0c5c2732/do-the-best-poster-design.png"
-              >
-                <source
-                  src="https://vgfdprgqzkwvoxsnfdlr.supabase.co/storage/v1/object/public/pickup/instructor/42/video/.mp4/7524e9a5-bcce-45a9-994a-69eb239846d6.mp4"
-                  type="video/mp4"
-                />
-              </video>
+                      *ngIf="getVideoUrl(video.id) && !isVideoLoading(video.id)"
+                      controls
+                      crossorigin
+                      playsinline
+                      poster="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/311843542/original/8c9c677c05b80b431b4f10624d089f5c0c5c2732/do-the-best-poster-design.png"
+                    >
+                      <source
+                        [src]="getVideoUrl(video.id)"
+                        type="video/mp4"
+                      />
+                    </video>
+
+                    <!-- Error state -->
+                    <div *ngIf="!getVideoUrl(video.id) && !isVideoLoading(video.id)" class="video-error">
+                      <div class="error-message">
+                        <i class="fas fa-exclamation-triangle fa-2x"></i>
+                        <p>Failed to load video</p>
+                        <button class="btn btn-sm btn-primary" (click)="loadVideoUrl(video.id)">
+                          Retry
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -180,39 +204,51 @@
     </div>
     <div class="rightContent mt-2">
       <div class="box">
-        <h4>Course Videos</h4>
+        <h4>Lesson Videos</h4>
         <ul class="videos">
-          <li *ngFor="let video of videos" [class.locked]="video.isLocked">
+          <li *ngFor="let video of lessonDetail?.videos" [class.locked]="isVideoLocked(video)">
             <p>
-              <i class="fa-solid mx-1" [ngClass]="video.icon"></i
-              >{{ video.title }}
+              <i class="fa-solid mx-1" [ngClass]="video.free ? 'fa-circle-check' : 'fa-lock'"></i>
+              {{ video.name }}
             </p>
-
-            <span
-              class="tag"
-              [ngClass]="{ free: !video.isLocked, premium: video.isLocked }"
-            >
-              {{ video.status }}
-            </span>
+            <div class="video-meta">
+              <span class="duration">{{ getVideoDuration(video.durationInSeconds) }}</span>
+              <span
+                class="tag"
+                [ngClass]="{ free: video.free, premium: !video.free }"
+              >
+                {{ getVideoStatus(video) }}
+              </span>
+            </div>
           </li>
         </ul>
       </div>
 
-      <div class="box resources">
-        <h5>Downloadable Resources</h5>
-        <div class="resources-list">
-          <div class="resource" *ngFor="let item of resources">
-            <div class="icon" [style.backgroundColor]="item.color">
-              <i class="fa-solid" [ngClass]="item.icon"></i>
-            </div>
-            <div class="details">
-              <strong>{{ item.title }}</strong>
-              <p>{{ item.type }} • {{ item.size }}</p>
-            </div>
-            <button><i class="fa-solid fa-download"></i></button>
-          </div>
+      <div class="box tags" *ngIf="hasTags()">
+        <h5>Lesson Tags</h5>
+        <div class="tags-list">
+          <span class="tag-item" *ngFor="let tag of getTags()">
+            #{{ tag.name }}
+          </span>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Loading State -->
+<div class="loading-container d-flex justify-content-center align-items-center" *ngIf="isLoading" style="height: 400px;">
+  <div class="text-center">
+    <i class="fas fa-spinner fa-spin fa-3x mb-3"></i>
+    <p>Loading lesson details...</p>
+  </div>
+</div>
+
+<!-- Error State -->
+<div class="error-container d-flex justify-content-center align-items-center" *ngIf="!isLoading && !lessonDetail" style="height: 400px;">
+  <div class="text-center">
+    <i class="fas fa-exclamation-triangle fa-3x mb-3 text-warning"></i>
+    <p>Failed to load lesson details. Please try again.</p>
+    <button class="btn btn-primary" (click)="loadLessonDetail()">Retry</button>
   </div>
 </div>

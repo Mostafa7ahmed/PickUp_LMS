@@ -78,7 +78,7 @@
     color: #fff;
 }
 
-// Delete button styles
+// Action buttons styles
 .actions {
   .delete-lesson {
     .btn-delete {
@@ -97,6 +97,37 @@
 
       &:hover {
         background-color: #dc3545;
+        color: white;
+        transform: scale(1.1);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+
+      i {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .edit-lesson {
+    .btn-edit {
+      background: none;
+      border: none;
+      color: #f59e0b;
+      padding: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+
+      &:hover {
+        background-color: #f59e0b;
         color: white;
         transform: scale(1.1);
       }

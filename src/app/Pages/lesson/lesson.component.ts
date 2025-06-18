@@ -3,7 +3,7 @@ import { IPaginationResponse } from '../../Core/Shared/Interface/irespose';
 import { ILessonList } from './Core/Interface/ilesson-list';
 import { ListLessonService } from './Core/Services/list-lesson.service';
 import { DeleteLessonService } from './Core/Services/delete-lesson.service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -24,7 +24,8 @@ export class LessonComponent implements OnInit {
 
   constructor(
     private _listLessonService: ListLessonService,
-    private _deleteLessonService: DeleteLessonService
+    private _deleteLessonService: DeleteLessonService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -37,6 +38,14 @@ export class LessonComponent implements OnInit {
       this.ListLessonData = res;
       console.log('📚 Lessons loaded:', res);
     });
+  }
+
+  // Edit lesson method (temporary implementation)
+  editLesson(lessonId: number): void {
+    console.log('✏️ Edit lesson clicked for lesson ID:', lessonId);
+    alert(`Edit lesson functionality will be implemented soon!\nLesson ID: ${lessonId}`);
+    // TODO: Implement edit lesson popup
+    // this.router.navigate([{ outlets: { dialog: ['editLesson', lessonId] } }]);
   }
 
   // Open delete confirmation dialog

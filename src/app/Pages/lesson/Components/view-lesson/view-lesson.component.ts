@@ -1,8 +1,12 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
+import { ActivatedRoute } from '@angular/router';
 import Plyr from 'plyr';
+import { LessonDetailService } from '../../Core/Services/lesson-detail.service';
+import { ILessonDetail } from '../../Core/Interface/ilesson-detail';
+import { VideoService } from '../../Core/Services/video.service';
 
 @Component({
   selector: 'app-view-lesson',
@@ -11,212 +15,143 @@ import Plyr from 'plyr';
   templateUrl: './view-lesson.component.html',
   styleUrl: './view-lesson.component.scss'
 })
-export class ViewLessonComponent {
-  constructor(private location: Location) {}
+export class ViewLessonComponent implements OnInit {
+  lessonId: number = 0;
+  lessonDetail: ILessonDetail | null = null;
+  isLoading: boolean = true;
   value: number = 0;
   @ViewChild('player') playerRef!: ElementRef;
   player!: Plyr;
- ngAfterViewInit() {
-    this.player = new Plyr(this.playerRef.nativeElement);
+
+  // Video URL cache to avoid repeated API calls
+  videoUrlCache: { [videoId: number]: string } = {};
+  loadingVideoIds: Set<number> = new Set();
+
+  private videoService = inject(VideoService);
+
+  constructor(
+    private location: Location,
+    private route: ActivatedRoute,
+    private lessonDetailService: LessonDetailService
+  ) {}
+
+  ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      if (params['lessonId']) {
+        this.lessonId = +params['lessonId'];
+        this.loadLessonDetail();
+      }
+    });
   }
+
+  ngAfterViewInit() {
+    if (this.playerRef) {
+      this.player = new Plyr(this.playerRef.nativeElement);
+    }
+  }
+
+  loadLessonDetail(): void {
+    this.isLoading = true;
+    this.lessonDetailService.getLessonDetail(this.lessonId).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.lessonDetail = response.result;
+          console.log('📚 Lesson detail loaded:', this.lessonDetail);
+        }
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('❌ Error loading lesson detail:', error);
+        this.isLoading = false;
+      }
+    });
+  }
+
   goBackToCourse() {
     this.location.back();
   }
 
+  // Helper methods for template
+  getVideoDuration(durationInSeconds: number): string {
+    const minutes = Math.floor(durationInSeconds / 60);
+    const seconds = durationInSeconds % 60;
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  }
 
-  videos = [
-    {
-      title: 'Introduction to Web Development',
-      status: 'Free',
-      icon: 'fa-circle-check',
-      isLocked: false
-    },
-    {
-      title: 'HTML Fundamentals',
-      status: 'Premium',
-      icon: 'fa-lock',
-      isLocked: true
-    },
-    {
-      title: 'CSS Basics',
-      status: 'Free',
-      icon: 'fa-circle-check',
-      isLocked: false
-    },
-    {
-      title: 'JavaScript Essentials',
-      status: 'Premium',
-      icon: 'fa-lock',
-      isLocked: true
-    },
-    {
-      title: 'Responsive Design',
-      status: 'Free',
-      icon: 'fa-circle-check',
-      isLocked: false
-    },
-    {
-      title: 'Angular Fundamentals',
-      status: 'Premium',
-      icon: 'fa-lock',
-      isLocked: true
-    },
-    {
-      title: 'API Integration',
-      status: 'Premium',
-      icon: 'fa-lock',
-      isLocked: true
-    },
-        {
-      title: 'Introduction to Web Development',
-      status: 'Free',
-      icon: 'fa-circle-check',
-      isLocked: false
-    },
-    {
-      title: 'HTML Fundamentals',
-      status: 'Premium',
-      icon: 'fa-lock',
-      isLocked: true
-    },
-    {
-      title: 'CSS Basics',
-      status: 'Free',
-      icon: 'fa-circle-check',
-      isLocked: false
-    },
-    {
-      title: 'JavaScript Essentials',
-      status: 'Premium',
-      icon: 'fa-lock',
-      isLocked: true
-    },
-    {
-      title: 'Responsive Design',
-      status: 'Free',
-      icon: 'fa-circle-check',
-      isLocked: false
-    },
-    {
-      title: 'Angular Fundamentals',
-      status: 'Premium',
-      icon: 'fa-lock',
-      isLocked: true
-    },
-    {
-      title: 'API Integration',
-      status: 'Premium',
-      icon: 'fa-lock',
-      isLocked: true
-    }
-  ];
+  getVideoStatus(video: any): string {
+    return video.free ? 'Free' : 'Premium';
+  }
 
-  resources = [
-    {
-      title: 'Lesson Slides',
-      type: 'PDF',
-      size: '2.4 MB',
-      icon: 'fa-file-pdf',
-      color: '#F87171'
-    },
-    {
-      title: 'Exercise Worksheet',
-      type: 'XLSX',
-      size: '1.1 MB',
-      icon: 'fa-file-excel',
-      color: '#34D399'
-    },
-    {
-      title: 'Code Samples',
-      type: 'ZIP',
-      size: '3.7 MB',
-      icon: 'fa-file-archive',
-      color: '#60A5FA'
-    },
-    {
-      title: 'Project Brief',
-      type: 'DOCX',
-      size: '850 KB',
-      icon: 'fa-file-word',
-      color: '#4F46E5'
-    },
-    {
-      title: 'Extra Resources',
-      type: 'ZIP',
-      size: '5.1 MB',
-      icon: 'fa-file-archive',
-      color: '#60A5FA'
-    },
-    {
-      title: 'Final Quiz Answers',
-      type: 'PDF',
-      size: '1.3 MB',
-      icon: 'fa-file-pdf',
-      color: '#F87171'
-    },
-    {
-      title: 'Exercise Worksheet',
-      type: 'XLSX',
-      size: '1.1 MB',
-      icon: 'fa-file-excel',
-      color: '#34D399'
-    },
-    {
-      title: 'Code Samples',
-      type: 'ZIP',
-      size: '3.7 MB',
-      icon: 'fa-file-archive',
-      color: '#60A5FA'
-    },
-    {
-      title: 'Project Brief',
-      type: 'DOCX',
-      size: '850 KB',
-      icon: 'fa-file-word',
-      color: '#4F46E5'
-    },
-    {
-      title: 'Extra Resources',
-      type: 'ZIP',
-      size: '5.1 MB',
-      icon: 'fa-file-archive',
-      color: '#60A5FA'
-    },
-    {
-      title: 'Final Quiz Answers',
-      type: 'PDF',
-      size: '1.3 MB',
-      icon: 'fa-file-pdf',
-      color: '#F87171'
-    }
-  ];
+  isVideoLocked(video: any): boolean {
+    return !video.free;
+  }
 
-    openedIndex: number | null = null;
-
-  Viewvideos = [
-    {
-      title: 'Python Basics',
-      thumbnail: 'assets/images/video1.jpg',
-      videoUrl: 'https://example.com/video1.mp4'
-    },
-    {
-      title: 'Variables and Data Types',
-      thumbnail: 'assets/images/video2.jpg',
-      videoUrl: 'https://example.com/video2.mp4'
-    },
-    {
-      title: 'Control Flow',
-      thumbnail: 'assets/images/video3.jpg',
-      videoUrl: 'https://example.com/video3.mp4'
-    },
-    {
-      title: 'Functions and Modules',
-      thumbnail: 'assets/images/video4.jpg',
-      videoUrl: 'https://example.com/video4.mp4'
-    }
-  ];
+  // Accordion functionality
+  openedIndex: number | null = null;
 
   toggle(index: number) {
     this.openedIndex = this.openedIndex === index ? null : index;
   }
+
+  // Get video statistics
+  getVideoStats() {
+    if (!this.lessonDetail?.videos) {
+      return { total: 0, free: 0, premium: 0 };
+    }
+
+    const total = this.lessonDetail.videos.length;
+    const free = this.lessonDetail.videos.filter(v => v.free).length;
+    const premium = total - free;
+
+    return { total, free, premium };
+  }
+
+  // Helper method to safely get tags
+  getTags() {
+    return this.lessonDetail?.tags || [];
+  }
+
+  // Helper method to check if tags exist
+  hasTags(): boolean {
+    return !!(this.lessonDetail?.tags && this.lessonDetail.tags.length > 0);
+  }
+
+  // Video URL methods
+  getVideoUrl(videoId: number): string | null {
+    return this.videoUrlCache[videoId] || null;
+  }
+
+  isVideoLoading(videoId: number): boolean {
+    return this.loadingVideoIds.has(videoId);
+  }
+
+  loadVideoUrl(videoId: number): void {
+    if (this.videoUrlCache[videoId] || this.loadingVideoIds.has(videoId)) {
+      return; // Already loaded or loading
+    }
+
+    this.loadingVideoIds.add(videoId);
+    console.log('🎥 Loading video URL for video ID:', videoId);
+
+    this.videoService.getVideoUrl(videoId).subscribe({
+      next: (url: string) => {
+        this.videoUrlCache[videoId] = url;
+        this.loadingVideoIds.delete(videoId);
+        console.log('✅ Video URL loaded:', url);
+      },
+      error: (error: any) => {
+        console.error('❌ Error loading video URL:', error);
+        this.loadingVideoIds.delete(videoId);
+      }
+    });
+  }
+
+  // Method to handle video click/play
+  onVideoClick(videoId: number): void {
+    console.log('🎬 Video clicked, ID:', videoId);
+    if (!this.videoUrlCache[videoId]) {
+      this.loadVideoUrl(videoId);
+    }
+  }
+
 }

@@ -43,6 +43,12 @@
                     </button>
                 </div>
 
+                <div class="edit-lesson" (click)="editLesson(lesson.id)">
+                    <button class="btn-edit" title="Edit lesson">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </div>
+
                 <div class="view">
                     <button routerLink="/viewLesson/{{lesson.id}}">
                         <span class="text">View Details</span>

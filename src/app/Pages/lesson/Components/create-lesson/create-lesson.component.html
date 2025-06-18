@@ -178,14 +178,14 @@
             </div>
             <div class="informationVedio flex-grow-1 d-flex justify-content-between align-items-center">
               <div class="leftInfo">
-                <div class="vedioName d-flex gap-2 align-items-center">                  @if (editingVideoIndex !== i) {
+                <div class="vedioName d-flex gap-2 align-items-center">
+                  @if (editingVideoIndex !== i) {
                     <p class="mb-0 title" [pTooltip]="video.name">{{video.name | splicText:30}}</p>
                   } @else {
                     <div class="edit-name-container">
-                      <input type="text" 
-                             [(ngModel)]="video.name" 
-                             value="{{video.name}}"
-                             class="edit-video-name" 
+                      <input type="text"
+                             [(ngModel)]="editingVideoName"
+                             class="edit-video-name"
                              (keyup.enter)="saveVideoName(i)"
                              (keyup.escape)="cancelEditingVideo()"
                              maxlength="40"
@@ -211,7 +211,8 @@
                   <div class="cancelIcon Icons" pTooltip="Cancel" tooltipPosition="top" (click)="cancelEditingVideo()">
                     <i class="fa-solid fa-times"></i>
                   </div>
-                </ng-container>                <div class="lockIcon Icons" 
+                </ng-container>
+                <div class="lockIcon Icons"
                      (click)="toggleVideoPrivacy(i)"
                      [pTooltip]="video.free ? 'Make Private Video' : 'Make Free Video'" 
                      tooltipPosition="top">
