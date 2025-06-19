@@ -64,9 +64,14 @@
               class="input_Couser"
               [class.is-invalid]="lessonForm.get('name')?.invalid && lessonForm.get('name')?.touched"
               placeholder="Enter Lesson Name">
-            <div *ngIf="lessonForm.get('name')?.invalid && lessonForm.get('name')?.touched" class="invalid-feedback">
+          <div *ngIf="lessonForm.get('name')?.touched && lessonForm.get('name')?.errors" class="invalid-feedback">
+            <div *ngIf="lessonForm.get('name')?.errors?.['required']">
               Lesson name is required
             </div>
+            <div *ngIf="lessonForm.get('name')?.errors?.['minlength']">
+              Lesson name must be at least 3 characters
+            </div>
+          </div>
           </div>
           <div class="lessonDecription d-flex flex-column gap-1">
             <label for="lessonDescription">Lesson description</label>
@@ -159,15 +164,15 @@
         <div class="d-flex justify-content-between align-items-center">
           <app-text-header [title]="'Videos *'" [bgColor]="'#F3C048A6'"></app-text-header>
           <small class="text-muted" *ngIf="lessonVideos.length > 0">
-            {{ lessonVideos.length }} فيديو
+            {{ lessonVideos.length }} video{{ lessonVideos.length > 1 ? 's' : '' }}
           </small>
         </div>
         <div class="upload-container mt-2">
           <label for="lessonVideo"
                  [class.disabled]="!canUploadVideo"
-                 [title]="!canUploadVideo ? 'Write Name Lesson Frist ' : 'Click to Add Video'">
+                 [title]="!canUploadVideo ? 'Please enter lesson name first' : 'Click to Add Video'">
             <i class="fa-solid fa-video mx-2"></i>
-            <span *ngIf="!canUploadVideo">Write Name Lesson Frist</span>
+            <span *ngIf="!canUploadVideo">Enter lesson name first</span>
             <span *ngIf="canUploadVideo">Click to Add Video</span>
           </label>
           <input type="file"
@@ -179,9 +184,9 @@
         </div>
 
         <!-- No Videos Warning -->
-        <div *ngIf="lessonVideos.length === 0 && !isVideoUploading" class="alert alert-warning mt-2 d-flex align-items-center">
+        <div *ngIf="lessonVideos.length === 0 && !isVideoUploading" class="alert alert-warning mt-2 d-flex align-items-center m-0">
           <i class="fa-solid fa-exclamation-triangle me-2"></i>
-          <span>يجب إضافة فيديو واحد على الأقل للدرس</span>
+          <span>At least one video must be added to the lesson</span>
         </div>
 
         <!-- Video Upload Skeleton -->
@@ -223,9 +228,7 @@
                 <div class="deleteIcon Icons" pTooltip="Delete Video" tooltipPosition="top" (click)="removeVideo(i)">
                   <i class="fa-regular fa-trash-can"></i>
                 </div>
-                <div class="previewIcon Icons" pTooltip="Preview Video" tooltipPosition="top" (click)="toggleVideoPreview(i)">
-                  <i class="fa-solid fa-play"></i>
-                </div>
+ 
     
 
                 <div class="lockIcon Icons"
@@ -243,7 +246,8 @@
       </div>
 
       <div class="courseSelect mt-2">
-        <div class="uploaDfile">
+        <app-text-header [bgColor]="'#659AAFBF'" [title]="'References'"></app-text-header>
+        <div class="uploaDfile mt-2 ">
           <label class="upload-box" for="fileInput">
             <i class="fa-solid fa-paperclip mx-1"></i> Upload Lesson References
           </label>

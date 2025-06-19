@@ -52,7 +52,7 @@ export class CreateLessonComponent implements OnInit {
   private message = inject(NzMessageService);
 
   lessonForm = this._formBuilder.group({
-    name: ['', Validators.required],
+    name: ['', Validators.required ,Validators.minLength(3)],
     description: [''],
     photoUrl: [''],
     introductionVideoUrl: [''],
@@ -205,7 +205,7 @@ onVideoUpload(event: Event): void {
           // Use id from backend response
           setTimeout(() => {
             const newVideoIndex = this.lessonVideos.length;
-            const lessonName = this.lessonForm.get('name')?.value;
+            const lessonName = this.lessonForm.get('name')?.value as string;
             let autoName = '';
             if (lessonName && lessonName.trim()) {
               autoName = `${lessonName.trim()} - Part ${newVideoIndex + 1}`;
@@ -225,14 +225,14 @@ onVideoUpload(event: Event): void {
               name: autoName
             });
             this.isVideoUploading = false;
-            this.message.success(`تم رفع الفيديو "${autoName}" بنجاح`);
+            this.message.success(`Video "${autoName}" uploaded successfully`);
           }, 800);
         }
       },
       error: (error) => {
         console.error('Error uploading video:', error);
         this.isVideoUploading = false;
-        this.message.error('حدث خطأ أثناء رفع الفيديو. حاول مرة أخرى');
+        this.message.error('Error uploading video. Please try again');
       }
     });
   }
@@ -327,27 +327,27 @@ onVideoUpload(event: Event): void {
   }
 
   get canUploadVideo(): boolean {
-    const lessonName = this.lessonForm.get('name')?.value;
+    const lessonName = this.lessonForm.get('name')?.value as string;
     return !!(lessonName && lessonName.trim());
   }
 
   getCreateButtonTooltip(): string {
     if (!this.selectedCourse) {
-      return 'من فضلك اختر كورس أولاً';
+      return 'Please select a course first';
     }
     if (this.lessonForm.invalid) {
-      return 'من فضلك املأ جميع الحقول المطلوبة';
+      return 'Please fill all required fields';
     }
     if (this.lessonVideos.length === 0) {
-      return 'من فضلك أضف فيديو واحد على الأقل';
+      return 'Please add at least one video';
     }
     if (this.hasInvalidVideoNames()) {
-      return 'أسماء الفيديوهات يجب أن تكون 3 أحرف على الأقل';
+      return 'Video names must be at least 3 characters long';
     }
     if (this.isAnyFileUploading) {
-      return 'انتظر حتى انتهاء رفع الملفات';
+      return 'Please wait for uploads to complete';
     }
-    return 'إنشاء الدرس';
+    return 'Create lesson';
   }
 
 
@@ -373,22 +373,22 @@ onVideoUpload(event: Event): void {
   createLesson() {
 
     if (!this.selectedCourse) {
-      this.message.error('من فضلك اختر كورس أولاً');
+      this.message.error('Please select a course first');
       return;
     }
 
     if (this.lessonForm.invalid) {
-      this.message.error('من فضلك املأ جميع الحقول المطلوبة');
+      this.message.error('Please fill all required fields');
       return;
     }
 
     if (this.lessonVideos.length === 0) {
-      this.message.error('من فضلك أضف فيديو واحد على الأقل');
+      this.message.error('Please add at least one video');
       return;
     }
 
     if (this.hasInvalidVideoNames()) {
-      this.message.error('أسماء الفيديوهات يجب أن تكون 3 أحرف على الأقل');
+      this.message.error('Video names must be at least 3 characters long');
       return;
     }
 
@@ -401,7 +401,7 @@ onVideoUpload(event: Event): void {
     const formValue = this.lessonForm.value;
     const lessonData: ICreateLessonRequest = {
       courseId: this.selectedCourse!.id,
-      name: formValue.name || '',
+      name: (formValue.name as string) || '',
       description: formValue.description || '',
       photoUrl: formValue.photoUrl || '',
       introductionVideoUrl: formValue.introductionVideoUrl || '',
@@ -423,18 +423,18 @@ onVideoUpload(event: Event): void {
       next: (response) => {
         this.isCreatingLesson = false;
         if (response.success) {
-          this.message.success('تم إنشاء الدرس بنجاح!');
-          setTimeout(() => {
-            this.closePopup();
-          }, 1500);
+                   this.closePopup();
+
+          this.message.success('Lesson created successfully!');
+
         } else {
-          this.message.error('حدث خطأ أثناء إنشاء الدرس');
+          this.message.error('Error creating lesson');
         }
       },
       error: (error) => {
         console.error('Error creating lesson:', error);
         this.isCreatingLesson = false;
-        this.message.error('حدث خطأ أثناء إنشاء الدرس. حاول مرة أخرى');
+        this.message.error('Error creating lesson. Please try again');
       }
     });
   }
@@ -449,8 +449,9 @@ onVideoUpload(event: Event): void {
 
     // مراقبة تغيير اسم الدرس لإعادة تسمية الفيديوهات تلقائياً
     this.lessonForm.get('name')?.valueChanges.subscribe(lessonName => {
-      if (lessonName && lessonName.trim() && this.lessonVideos.length > 0) {
-        this.autoRenameAllVideos(lessonName.trim());
+      const name = lessonName as string;
+      if (name && name.trim() && this.lessonVideos.length > 0) {
+        this.autoRenameAllVideos(name.trim());
       }
     });
   }
