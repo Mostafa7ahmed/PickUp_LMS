@@ -3,7 +3,7 @@
     <div class="lessonCard">
         <div class="drag">
             <span class="icon">
-              <span class="number">{{$index+1}} : </span>
+                <span class="number">{{$index+1}} : </span>
 
             </span>
         </div>
@@ -38,7 +38,7 @@
             </div>
             <div class="view">
                 <button routerLink="/viewLesson/{{lesson.id}}">
-            
+
                     <span class="text">View Details</span>
                 </button>
             </div>
@@ -49,63 +49,15 @@
 
     }
     @empty {
-    <div
-        class="d-flex flex-column mt-5 align-items-center justify-content-center m-0 tabView ng-star-inserted"><img
-            src="Images/deal-empty-state.svg" alt="" width="190px">
-        <p class=" mt-5 ">No lesson with course</p>
+    <div class="empty-state h-100">
+        <div class="empty-icon">
+            <i class="fa-solid fa-person-chalkboard"></i>
+        </div>
+        <h3>No Lesson Found</h3>
+        <p>This course doesn't have any Lesson yet. Create your first Lesson to get started!</p>
+
     </div>
     }
 
 
 </div>
-
-
-<!-- <div class="lessons">
-@for (lessom of [1,2,3,4,5,8,8,8,8,81,2,3,4,5,8,8,8,8,8,8]; track $index) {
-    <div class="lessonCard">
-
-        <div class="leftCardLesson">
-            <span class="number">#{{$index+1}} : </span>
-            <span class="title">Lesson Title {{$index+1}}</span>
-        
-        </div>
-        <div class="rightCardLesson d-flex align-items-center justify-content-center gap-2">
-            <div class="information d-flex align-items-center justify-content-center gap-2">
-                <div class="video d-flex align-items-center justify-content-center gap-2">
-                    <span class="icon">
-                        <i class="fa-solid fa-video"></i>
-                    </span>
-                    <p  class="number">4</p>
-                </div>
-                <div class="line"></div>
-                <div class="video d-flex align-items-center justify-content-center gap-2">
-                    <span class="icon">
-                        <i class="fa-solid fa-eye"></i>
-                    </span>
-                    <p  class="number">4</p>
-                </div>
-                <div class="line"></div>
-                <div class="video d-flex align-items-center justify-content-center gap-2">
-                    <span class="icon">
-                        <i class="fa-regular fa-clock"></i>
-
-                    </span>
-                    <p  class="number">4</p>
-                </div>
-                <div class="line"></div>
-            </div>
-            <div class="view">
-                <button routerLink="/viewLesson/{{$index+1}}">
-            
-                    <span class="text">View Details</span>
-                </button>
-            </div>
-        </div>
-         
-    </div>
-
-  
-}
-
-
-</div> -->

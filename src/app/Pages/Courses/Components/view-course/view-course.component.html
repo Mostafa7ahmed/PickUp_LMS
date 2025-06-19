@@ -243,7 +243,7 @@
             </div>
             <div class="rightCource" >
                 <button class="btn btnLeason" (click)="toggleShowQuickList()" >+ {{'ViewCourse.Quick Actions' | translate}}</button>
-                <div class="listQuick" [class.show]="isShowQuick" >
+                <div class="listQuick " [class.show]="isShowQuick" >
                     <div class="quickAction mb-2 d-flex align-items-center gap-2" >
                         <div class="tab-icon">
                             <i class="fa-person-chalkboard fa-solid"></i>
@@ -251,11 +251,18 @@
                         </div>
                         <p (click)="createLesson(CourseId)">{{'ViewCourse.Add Lesson' | translate}}</p>
                     </div>
-                    <div class="quickAction  d-flex align-items-center gap-2">
+                    <div class="quickAction  mb-2  d-flex align-items-center gap-2">
                         <div class="tab-icon">
                             <i class="fa-receipt fa-solid"></i>
                         </div>
-                        <p (click)="createCoupon()">{{'ViewCourse.Add Coupon' | translate}}</p>
+                        <p >{{'ViewCourse.Add quiz' | translate}}</p>
+                    </div>
+                          <div class="quickAction mb-2 d-flex align-items-center gap-2" >
+                        <div class="tab-icon">
+                            <i class="fa-person-chalkboard fa-solid"></i>
+
+                        </div>
+                        <p (click)="createLesson(CourseId)">{{'ViewCourse.Add Lesson' | translate}}</p>
                     </div>
                 </div>
                
@@ -314,11 +321,8 @@
             
                             </p-tabpanel>
                             <p-tabpanel [value]="1">
-                                <div class="d-flex flex-column align-items-center justify-content-center m-0 tabView">
-                                    <img src="Images/Email_empty.svg" alt="" width="190px">
-                                    <p>{{'ViewCourse.NoLog' | translate}}</p>
-
-                                </div>
+                                <app-all-quiz-view-course [courseId]="CourseId"/>
+                         
                             </p-tabpanel>
                             <p-tabpanel [value]="2">
                                 <app-rating [courseId]="CourseId"></app-rating>

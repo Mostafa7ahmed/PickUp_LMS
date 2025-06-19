@@ -1,0 +1,142 @@
+<div class="quiz-view-course-container p-3">
+  <!-- Loading State -->
+  @if(isLoading) {
+    <div class="loading-container">
+      <div class="quiz-grid">
+        <div class="quiz-card skeleton" *ngFor="let item of [1,2,3,4,5,6]">
+          <div class="quiz-card-header">
+            <div class="skeleton-icon"></div>
+            <div class="skeleton-actions">
+              <div class="skeleton-btn"></div>
+            </div>
+          </div>
+          <div class="quiz-card-body">
+            <div class="skeleton-title"></div>
+            <div class="skeleton-description"></div>
+            <div class="skeleton-stats">
+              <div class="skeleton-stat"></div>
+              <div class="skeleton-stat"></div>
+              <div class="skeleton-stat"></div>
+            </div>
+          </div>
+          <div class="quiz-card-footer">
+            <div class="skeleton-meta"></div>
+            <div class="skeleton-buttons">
+              <div class="skeleton-btn"></div>
+              <div class="skeleton-btn"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Quiz Content -->
+  @else {
+    @if(quizData.result && quizData.result.length > 0) {
+      <!-- Quiz Stats Header -->
+      <div class="quiz-stats-header">
+        <div class="stats-card">
+          <div class="stat-icon">
+            <i class="fas fa-clipboard-list"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{quizData.totalCount || quizData.result.length}}</h3>
+            <p>Total Quizzes</p>
+          </div>
+        </div>
+        <div class="stats-card">
+          <div class="stat-icon">
+            <i class="fas fa-question-circle"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{getTotalQuestions()}}</h3>
+            <p>Total Questions</p>
+          </div>
+        </div>
+        <div class="stats-card">
+          <div class="stat-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{getTotalDuration()}} min</h3>
+            <p>Total Duration</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quiz Grid -->
+      <div class="quiz-grid">
+        <div class="quiz-card" *ngFor="let quiz of quizData.result; let i = index"
+             [style.animation-delay]="(i * 0.1) + 's'">
+
+          <!-- Quiz Card Header -->
+          <div class="quiz-card-header">
+            <div class="quiz-icon">
+              <i class="fas fa-clipboard-list"></i>
+            </div>
+            <div class="quiz-actions">
+              <button class="action-btn preview-btn"
+                      (click)="previewQuiz(quiz)"
+                      title="Preview Quiz">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Quiz Card Body -->
+          <div class="quiz-card-body">
+            <h3 class="quiz-title">{{quiz.name}}</h3>
+            <p class="quiz-description">{{quiz.description}}</p>
+
+            <div class="quiz-stats">
+              <div class="stat-item">
+                <i class="fas fa-question-circle"></i>
+                <span>{{quiz.questionsCount}} Questions</span>
+              </div>
+              <div class="stat-item">
+                <i class="fas fa-clock"></i>
+                <span>{{quiz.duration}} min</span>
+              </div>
+              <div class="stat-item">
+                <i class="fas fa-users"></i>
+                <span>{{quiz.submissions}} Attempts</span>
+              </div>
+            </div>
+
+            <div class="quiz-tags" *ngIf="quiz.lessonsNames && quiz.lessonsNames.length > 0">
+              <span class="tag" *ngFor="let lesson of quiz.lessonsNames">{{lesson}}</span>
+            </div>
+          </div>
+
+          <!-- Quiz Card Footer -->
+          <div class="quiz-card-footer">
+            <div class="quiz-meta">
+              <div class="created-date">
+                <i class="fas fa-calendar"></i>
+                <span>{{quiz.createdOn | date}}</span>
+              </div>
+              <div class="difficulty" [class]="getDifficultyClass(quiz.difficulty)">
+                <i class="fas fa-signal"></i>
+                <span>{{getDifficultyText(quiz.difficulty)}}</span>
+              </div>
+            </div>
+          
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Empty State -->
+    @else {
+      <div class="empty-state h-100">
+        <div class="empty-icon">
+          <i class="fas fa-clipboard-list"></i>
+        </div>
+        <h3>No Quizzes Found</h3>
+        <p>This course doesn't have any quizzes yet. Create your first quiz to get started!</p>
+
+      </div>
+    }
+  }
+</div>

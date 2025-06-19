@@ -178,6 +178,8 @@
     "ViewCourse":{
       "Delete Course": "حذف الكورس",
       "Add Coupon": "اضافة كوبون",
+     "Add quiz": "اضافة امتحان",
+
       "Add Lesson": "اضافة درس",
       "Edit Course": "تعديل الكورس",
       "Enrolled student": "الطلاب المسجلين",
@@ -185,7 +187,7 @@
       "Total amount": "العدد الكلي",
       "Quick Actions": "اجراء سريع",
       "Lessons": "الدروس",
-      "Logs": "السجلات",
+      "Logs": "امتحانات",
       "Rating": "التقييم",
       "Coupon": "كوبون",
       "EGP": "جم",

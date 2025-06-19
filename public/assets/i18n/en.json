@@ -204,6 +204,8 @@
       "ViewCourse":{
         "Delete Course": "Delete Course",
         "Add Coupon": "Add Coupon",
+        "Add quiz": "Add Quiz",
+
         "Add Lesson": "Add Lesson",
         "Edit Course": "Edit Course",
         "Enrolled student": "Enrolled student",
@@ -211,7 +213,7 @@
         "Total amount": "Total amount",
         "Quick Actions": "Quick Actions",
         "Lessons": "Lessons",
-        "Logs": "Logs",
+        "Logs": "َQuizs",
         "Rating": "Rating",
         "Coupon": "Coupon",
         "EGP": "EGP",

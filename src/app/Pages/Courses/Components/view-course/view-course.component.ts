@@ -26,11 +26,12 @@ import { DeleteCoursesService } from '../../Core/service/delete-courses.service'
 import { RatingComponent } from "../../../rating/rating.component";
 import { CardCouponComponent } from '../../../Coupon/Components/card-coupon/card-coupon.component';
 import { Subscription, filter } from 'rxjs';
+import { AllQuizViewCourseComponent } from "../../../quizlist/Components/all-quiz-view-course/all-quiz-view-course.component";
 
 @Component({
   selector: 'app-view-course',
   standalone: true,
-  imports: [TextHeaderComponent, TranslateModule, ReativeFormModule, Select, SplicTextPipe, TabsModule, ButtonModule, TooltipModule, DeleteCourseComponent, LessonComponent, CardCouponComponent,RatingComponent],
+  imports: [TextHeaderComponent, TranslateModule, ReativeFormModule, Select, SplicTextPipe, TabsModule, ButtonModule, TooltipModule, DeleteCourseComponent, LessonComponent, CardCouponComponent, RatingComponent, AllQuizViewCourseComponent],
   templateUrl: './view-course.component.html',
   styleUrl: './view-course.component.scss'
 })
