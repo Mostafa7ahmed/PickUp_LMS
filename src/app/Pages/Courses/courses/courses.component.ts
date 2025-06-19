@@ -343,17 +343,17 @@ iselectedStage : boolean = false;
           const currentUrl = event.urlAfterRedirects;
           
           // // Check if we're returning to the courses route
-          // if (currentUrl.includes('/course') && !currentUrl.includes('(dialog:')) {
-          // this.fetchCourses(
-          //       { pageNumber: 1, pageSize: 20 },
-          //       this.selectedTopicId,
-          //       this.iselectedStage ? this.selectedStage?.id : undefined,
-          //       this.valueTable,
-          //       this.rangeDates?.[0] ? this.formatDateToISO(this.rangeDates[0]) : undefined,
-          //       this.rangeDates?.[1] ? this.formatDateToISO(this.rangeDates[1]) : undefined,
-          //       this.searchTerm
-          //     );
-          // }
+          if (currentUrl.includes('/course') && !currentUrl.includes('(dialog:')) {
+          this.fetchCourses(
+                { pageNumber: 1, pageSize: 20 },
+                this.selectedTopicId,
+                this.iselectedStage ? this.selectedStage?.id : undefined,
+                this.valueTable,
+                this.rangeDates?.[0] ? this.formatDateToISO(this.rangeDates[0]) : undefined,
+                this.rangeDates?.[1] ? this.formatDateToISO(this.rangeDates[1]) : undefined,
+                this.searchTerm
+              );
+          }
         })
     );
 
