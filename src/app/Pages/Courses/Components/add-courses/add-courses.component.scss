@@ -174,6 +174,26 @@
   border: .75px solid #7ad34c;
 }
 
+// Validation styles
+.bodyCourse .addData_course .Course_name .input_Couser.is-invalid {
+  border: .75px solid #dc3545;
+}
+
+.Course_name .input_Couser_container.border-danger {
+  border: .75px solid #dc3545 !important;
+}
+
+.invalid-feedback {
+  display: block;
+  margin-top: 4px;
+}
+
+.invalid-feedback .text-danger {
+  color: #dc3545;
+  font-size: 11px;
+  font-weight: 500;
+}
+
 .desCourse_name {
   max-height: 0;
   overflow: hidden;
@@ -715,6 +735,36 @@
 
 .upload-box:hover {
   background: #e9ecef;
+}
+
+// Reload button styles
+.reload-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background: #fff;
+  color: #6c757d;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover:not(:disabled) {
+    background: #f8f9fa;
+    color: #495057;
+    border-color: #adb5bd;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  i {
+    font-size: 14px;
+  }
 }
 
 .hidden-input {

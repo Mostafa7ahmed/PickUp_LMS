@@ -105,8 +105,8 @@ export class AddCoursesComponent {
 
   });
   fieldForm: FormGroup = this._FormBuilder.group({
-    key: [null],
-    value: ['']
+    key: [null, Validators.required],
+    value: ['', [Validators.required, Validators.minLength(1)]]
   });
 
   get customFieldsArray(): FormArray {
@@ -321,6 +321,28 @@ export class AddCoursesComponent {
       error: (err) => console.error(' خطأ حذف الملف:', err)
     })
   }
+
+  reloadInput() {
+    // Clear the file input
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = '';
+    }
+
+    // Clear uploaded files array
+    this.uploadedFiles = [];
+
+    // Clear form array
+    const fileUrlsArray = this.courseForm.get('fileUrls') as FormArray;
+    while (fileUrlsArray.length !== 0) {
+      fileUrlsArray.removeAt(0);
+    }
+
+    // Reset any file-related states
+    this.selectedFileName = '';
+    this.isUploadingFile = false;
+
+    console.log('File input reloaded successfully');
+  }
   onFileSelectedImage(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -410,6 +432,14 @@ export class AddCoursesComponent {
     }
   }
   addField() {
+    // Mark form as touched to show validation errors
+    this.markFormGroupTouched(this.fieldForm);
+
+    // Check if form is valid
+    if (this.fieldForm.invalid) {
+      return;
+    }
+
     const keyControl = this.fieldForm.get('key')?.value;
     const valueControl = this.fieldForm.get('value')?.value;
     this.customFieldsArray.controls.forEach((field, index) => {
@@ -538,9 +568,11 @@ export class AddCoursesComponent {
   }
 
   createCourse(actionType: 'normal' | 'create-new' | 'create-coupon' | 'create-lesson' = 'normal') {
+    // Mark all fields as touched to show validation errors
+    this.markFormGroupTouched(this.courseForm);
+
     let request = this.collectCreateCourseRequest();
     this.isLoad = true;
-
 
     if(this.courseForm.valid ||  this.courseForm.get("free")?.value ) {
       this._createCourseService.addCourse(request).subscribe({
@@ -549,7 +581,7 @@ export class AddCoursesComponent {
           const courseId = response.result.id;
 
           console.log("course created successfully !", response);
-          
+
         switch (actionType) {
           case 'create-new':
             this.router.navigate([{ outlets: { dialog: ['addcourse'] } }]);
@@ -566,7 +598,7 @@ export class AddCoursesComponent {
           default:
             this.closePopup();
         }
-      
+
         },
         error: (err) => {
           this.isLoad = false;
@@ -576,10 +608,34 @@ export class AddCoursesComponent {
     }
     else{
       this.isLoad = false;
-
+      console.log("Form is invalid. Please check all required fields.");
     }
+  }
 
-  
+  // Helper method to mark all form controls as touched
+  private markFormGroupTouched(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+      control?.markAsTouched();
+
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
+  }
+
+  // Helper method to check if form is valid for submission
+  isFormValidForSubmission(): boolean {
+    const isFree = this.courseForm.get('free')?.value;
+    if (isFree) {
+      // For free courses, only check required fields except price
+      const requiredFields = ['name', 'topicId', 'stageId'];
+      return requiredFields.every(field => {
+        const control = this.courseForm.get(field);
+        return control?.valid;
+      });
+    }
+    return this.courseForm.valid;
   }
   
 }
