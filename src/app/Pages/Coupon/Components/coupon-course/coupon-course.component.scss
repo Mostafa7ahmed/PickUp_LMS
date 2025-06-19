@@ -470,6 +470,12 @@
   padding: 10px 20px;
 }
 
+.footerCourse .btnsCourse {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
 .footerCourse .btnsCourse button {
   min-width: 76px;
   height: 32px;
@@ -477,6 +483,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 5px;
   font-size: 12px !important;
   font-style: normal;
   font-weight: 700;
@@ -484,12 +491,39 @@
   border-radius: 4px;
   border: .542px solid rgba(131, 137, 159, .2);
   background-color: #24C12B;
+  transition: all 0.3s ease;
 
   &:disabled {
     background-color: #24c12c8e;
     cursor: not-allowed;
   }
 
+  &.reload-btn {
+    background-color: #6c757d;
+    border-color: rgba(108, 117, 125, 0.2);
+
+    &:hover:not(:disabled) {
+      background-color: #5a6268;
+    }
+
+    &:disabled {
+      background-color: #6c757d8e;
+    }
+  }
+}
+
+.spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid transparent;
+  border-top: 2px solid #fff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 
@@ -579,7 +613,7 @@
   gap: 20px;
   padding: 20px;
   border-radius: 12px;
-  height: 500px;
+  height: 350px;
 }
 
 .leftParts {
@@ -600,7 +634,7 @@
   display: flex;
   gap: 7px;
 
-  height: 340px;
+  height: 160px;
 
   .input-skeleton {
     height: 100%;

@@ -179,14 +179,14 @@
 
                 </div>
             </div>
-            <div class="number-deals">
+            <div class="number-deals" >
                 <div class="icon"><img alt=""
                         src="https://s3.dinarcrm.com/assets/img/board-mangement/Icon-Interface.svg"></div>
                 <div class="label">  {{ "Board.Creator" | translate }}  </div>
                 <div class="number">
                     <div class="num">{{topic.creator.name}}</div>
                 </div>
-                <div class="createPersonal">
+                <div class="createPersonal" routerLink="/myprofile">
                     <div class="icon"><img alt="" src="https://s3.dinarcrm.com/assets/img/board-mangement/maximize.svg">
                     </div>
                 </div>
@@ -213,7 +213,7 @@
                     <span> - - </span>
                     }
                 </div>
-                <div class="createPersonal">
+                <div class="createPersonal" *ngIf="topic.updater" routerLink="/myprofile">
                     <div class="icon"><img alt="" src="https://s3.dinarcrm.com/assets/img/board-mangement/maximize.svg">
                     </div>
                 </div>

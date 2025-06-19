@@ -1,7 +1,7 @@
 import { IStudent } from './../../../Courses/Core/interface/istudent';
 import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { TopPopComponent } from "../../../../Components/top-pop/top-pop.component";
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose';
 import { environment } from '../../../../Environments/environment';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -39,6 +39,7 @@ export class CouponCourseComponent implements OnInit {
   private _FormBuilder = inject(FormBuilder);
   private router = inject(Router);
   private _activatedRoute= inject(ActivatedRoute);
+    private location= inject(Location);
   private nzMessageService = inject(NzMessageService);
   baseUrl: string = environment.baseUrlFiles;
   discountTypes : DiscountType[] = [
@@ -55,8 +56,13 @@ export class CouponCourseComponent implements OnInit {
   isLoadCourse = false;
   isLoadStudents = false;
   showDropdownStudents = false;
-  selectedCourse: ListCourse | null = null; 
+  selectedCourse: ListCourse | null = null;
   selectedStudents: IStudent[] = [];
+
+  // Loading and validation states
+  isCreatingCoupon = false;
+  isFormSubmitted = false;
+  isReloading = false;
 
   formGroup: FormGroup = this._FormBuilder.group({
     courseId: new FormControl(null, [Validators.required]),
@@ -216,22 +222,50 @@ createCoupon() {
   console.log(couponData);
 
   if (this.formGroup.valid) {
+    this.isCreatingCoupon = true;
     this._createCoupnService.addCoupan(couponData).subscribe({
       next: (response) => {
         console.log('Coupon created successfully!', response);
         this.nzMessageService.success(response.message);
-        
-       this.router.navigate([{ outlets: { dialog: null } }]).then(() => {
-                      this.router.navigate(['/Couponslist']);
-          });       },
-      error: (error) => { 
+        this.isCreatingCoupon = false;
+        this.location.back();
+           },
+      error: (error) => {
         console.error('Error creating coupon:', error);
         this.nzMessageService.error(error.error.message || 'Error creating coupon. Please try again.');
-
+        this.isCreatingCoupon = false;
       }
     });
   }
 
+}
+
+reloadData() {
+  this.isReloading = true;
+  this.isLoadCourse = false;
+  this.isLoadStudents = false;
+
+  // Reset selections
+  this.selectedCourse = null;
+  this.selectedStudents = [];
+  this.showDropdownCourse = false;
+  this.showDropdownStudents = false;
+
+  // Reset form course selection
+  this.formGroup.patchValue({
+    courseId: null,
+    allowedUsage: 0,
+    limited: false
+  });
+
+  // Reload courses and students
+  this.getCourse();
+  this.getStudents();
+
+  // Set reload flag to false after a short delay to show loading state
+  setTimeout(() => {
+    this.isReloading = false;
+  }, 500);
 }
 
 couponResponse() {
