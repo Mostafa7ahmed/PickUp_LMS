@@ -68,9 +68,36 @@
           "step_details_Stage": "Stage Details",
 
           "step": "Step" ,
-          "Done" :"Create Topic"
-           
-        
+          "Done" :"Create Topic",
+
+          "enter_topic_name": "Enter topic name",
+          "enter_topic_description": "Enter topic description (optional)",
+          "enter_stage_name": "Enter stage name",
+
+          "topic_created_success": "Topic created successfully!",
+          "topic_creation_failed": "Failed to create topic",
+          "topic_creation_error": "An error occurred while creating the topic",
+          "topic_stages_created_success": "Topic and stages created successfully!",
+          "stages_creation_failed": "Failed to create stages",
+          "stages_creation_error": "An error occurred while creating stages",
+          "stages_required": "Please add at least one stage",
+          "stages_validation_error": "Please fix stage validation errors",
+          "validation_errors": "Please fix the following errors:",
+          "max_stages_reached": "Maximum 8 stages allowed",
+          "min_stages_required": "At least one stage is required",
+
+          "field_required": "This field is required",
+          "topic_name_required": "Topic name is required",
+          "stage_name_required": "Stage name is required",
+          "min_length_error": "Minimum {length} characters required",
+          "max_length_error": "Maximum {length} characters allowed",
+          "topic_name_min_length": "Topic name must be at least 3 characters",
+          "topic_name_max_length": "Topic name cannot exceed 50 characters",
+          "description_max_length": "Description cannot exceed 500 characters",
+          "stage_name_min_length": "Stage name must be at least 3 characters",
+          "stage_name_max_length": "Stage name cannot exceed 50 characters"
+
+
         }
         ,
         "popupEdit":{

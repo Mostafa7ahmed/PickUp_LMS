@@ -498,6 +498,137 @@ footer {
   }
 }
 
+// Validation Styles
+.validation-error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  animation: slideInDown 0.3s ease-out;
+
+  i {
+    font-size: 12px;
+  }
+
+  span {
+    font-weight: 500;
+  }
+}
+
+.stage-validation-error {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #dc3545;
+  font-size: 11px;
+  margin-top: 2px;
+  background: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  animation: slideInDown 0.3s ease-out;
+
+  i {
+    font-size: 10px;
+  }
+
+  span {
+    font-weight: 500;
+  }
+}
+
+// Invalid Input Styles
+.is-invalid {
+  border-color: #dc3545 !important;
+
+  &:focus {
+    border-color: #dc3545 !important;
+  }
+}
+
+// Stage container positioning for validation
+.cdk-drag.stage {
+  position: relative;
+}
+
+// Animation for validation messages
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Success message styling (if needed)
+.success-message {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #28a745;
+  font-size: 12px;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  animation: slideInDown 0.3s ease-out;
+
+  i {
+    font-size: 12px;
+  }
+
+  span {
+    font-weight: 500;
+  }
+}
+
+// Form group enhancements
+.formGroupInput {
+  .input-info-group {
+    position: relative;
+  }
+
+  .board-group {
+    position: relative;
+  }
+}
+
+// Button disabled state with validation
+.board-footer-btn button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+
+  &:hover {
+    transform: none;
+  }
+}
+
+// Loading spinner enhancement
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .spinner {
   display: inline-block;
   width: 16px;
