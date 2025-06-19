@@ -20,6 +20,7 @@ import { AddlessonService } from '../../Core/Services/addlesson.service';
 import { ICreateLessonRequest, ILessonVideo, ILessonFile } from '../../Core/Interface/icreate-lesson';
 import { StreamService } from '../../../../Core/Services/stream.service';
 import { StreamType } from '../../../../Core/Interface/stream-type';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-create-lesson',
@@ -48,6 +49,7 @@ export class CreateLessonComponent implements OnInit {
   private _streamService = inject(StreamService);
   private router = inject(Router);
   private _activatedRoute = inject(ActivatedRoute);
+  private message = inject(NzMessageService);
 
   lessonForm = this._formBuilder.group({
     name: ['', Validators.required],
@@ -68,8 +70,7 @@ export class CreateLessonComponent implements OnInit {
   lessonVideos: ILessonVideo[] = [];
   imagePreview: string | null = null;
   introVideoPreview: string | null = null;
-  editingVideoIndex: number = -1;
-  editingVideoName: string = '';
+  previewingVideoIndex: number = -1;
 
   isImageLoading = false;
   isIntroVideoLoading = false;
@@ -167,7 +168,6 @@ export class CreateLessonComponent implements OnInit {
           if (response.body?.success) {
             const result = response.body.result;
             const url = result.url;
-            // Show skeleton for a brief moment after successful upload
             setTimeout(() => {
               const displayUrl = environment.baseUrlFiles + url;
               this.introVideoPreview = displayUrl;
@@ -183,28 +183,7 @@ export class CreateLessonComponent implements OnInit {
     }
   }
 
-  startEditingVideo(index: number, currentName: string) {
-    this.editingVideoIndex = index;
-    setTimeout(() => {
-      const input = document.querySelector('.edit-video-name') as HTMLInputElement;
-      if (input) {
-        input.focus();
-        input.select();
-      }
-    }, 0);
-  }
 
-  saveVideoName(index: number) {
-    const videoName = this.lessonVideos[index].name;
-    if (videoName && videoName.trim()) {
-      // Name is already updated in the array due to two-way binding
-      this.editingVideoIndex = -1;
-    }
-  }
-
-  cancelEditingVideo() {
-    this.editingVideoIndex = -1;
-  }
 
   toggleVideoPrivacy(index: number) {
     this.lessonVideos[index].free = !this.lessonVideos[index].free;
@@ -213,6 +192,11 @@ export class CreateLessonComponent implements OnInit {
 onVideoUpload(event: Event): void {
   const file = (event.target as HTMLInputElement).files?.[0];
   if (file) {
+    if (!this.canUploadVideo) {
+      (event.target as HTMLInputElement).value = '';
+      return;
+    }
+
     this.isVideoUploading = true;
     this._streamService.upload(file, StreamType.video).subscribe({
       next: (response) => {
@@ -220,19 +204,35 @@ onVideoUpload(event: Event): void {
           const result = response.body.result;
           // Use id from backend response
           setTimeout(() => {
+            const newVideoIndex = this.lessonVideos.length;
+            const lessonName = this.lessonForm.get('name')?.value;
+            let autoName = '';
+            if (lessonName && lessonName.trim()) {
+              autoName = `${lessonName.trim()} - Part ${newVideoIndex + 1}`;
+            } else {
+              autoName = `Video ${newVideoIndex + 1}`;
+            }
+
+            if (autoName.length < 3) {
+              autoName = `Video ${newVideoIndex + 1}`;
+            }
+
             this.lessonVideos.push({
               id: result.id,
               videoUrl: result.url,
               displayUrl: environment.baseUrlFiles + result.url,
               free: false,
-              name: result.name || file.name.substring(0, 40)
+              name: autoName
             });
             this.isVideoUploading = false;
+            this.message.success(`تم رفع الفيديو "${autoName}" بنجاح`);
           }, 800);
         }
       },
       error: (error) => {
         console.error('Error uploading video:', error);
+        this.isVideoUploading = false;
+        this.message.error('حدث خطأ أثناء رفع الفيديو. حاول مرة أخرى');
       }
     });
   }
@@ -301,12 +301,18 @@ onVideoUpload(event: Event): void {
     return (
       this.lessonForm.invalid ||
       !this.selectedCourse ||
+      this.lessonVideos.length === 0 ||
+      this.hasInvalidVideoNames() ||
       this.isImageLoading ||
       this.isIntroVideoLoading ||
       this.isVideoUploading ||
       this.isFileUploading ||
       this.isCreatingLesson
     );
+  }
+
+  hasInvalidVideoNames(): boolean {
+    return this.lessonVideos.some(video => !video.name || video.name.trim().length < 3);
   }
 
   get createButtonText(): string {
@@ -319,7 +325,73 @@ onVideoUpload(event: Event): void {
   get isAnyFileUploading(): boolean {
     return this.isImageLoading || this.isIntroVideoLoading || this.isVideoUploading || this.isFileUploading;
   }
+
+  get canUploadVideo(): boolean {
+    const lessonName = this.lessonForm.get('name')?.value;
+    return !!(lessonName && lessonName.trim());
+  }
+
+  getCreateButtonTooltip(): string {
+    if (!this.selectedCourse) {
+      return 'من فضلك اختر كورس أولاً';
+    }
+    if (this.lessonForm.invalid) {
+      return 'من فضلك املأ جميع الحقول المطلوبة';
+    }
+    if (this.lessonVideos.length === 0) {
+      return 'من فضلك أضف فيديو واحد على الأقل';
+    }
+    if (this.hasInvalidVideoNames()) {
+      return 'أسماء الفيديوهات يجب أن تكون 3 أحرف على الأقل';
+    }
+    if (this.isAnyFileUploading) {
+      return 'انتظر حتى انتهاء رفع الملفات';
+    }
+    return 'إنشاء الدرس';
+  }
+
+
+
+  toggleVideoPreview(index: number): void {
+    this.previewingVideoIndex = this.previewingVideoIndex === index ? -1 : index;
+  }
+
+  closeVideoPreview(): void {
+    this.previewingVideoIndex = -1;
+  }
+
+  autoRenameAllVideos(lessonName: string): void {
+    this.lessonVideos.forEach((video, index) => {
+      let newName = `${lessonName} - Part ${index + 1}`;
+      // التأكد من أن الاسم على الأقل 3 أحرف
+      if (newName.length < 3) {
+        newName = `Video ${index + 1}`;
+      }
+      video.name = newName;
+    });
+  }
   createLesson() {
+
+    if (!this.selectedCourse) {
+      this.message.error('من فضلك اختر كورس أولاً');
+      return;
+    }
+
+    if (this.lessonForm.invalid) {
+      this.message.error('من فضلك املأ جميع الحقول المطلوبة');
+      return;
+    }
+
+    if (this.lessonVideos.length === 0) {
+      this.message.error('من فضلك أضف فيديو واحد على الأقل');
+      return;
+    }
+
+    if (this.hasInvalidVideoNames()) {
+      this.message.error('أسماء الفيديوهات يجب أن تكون 3 أحرف على الأقل');
+      return;
+    }
+
     if (this.isCreateButtonDisabled()) {
       return;
     }
@@ -349,14 +421,20 @@ onVideoUpload(event: Event): void {
 
     this._addLessonService.createLesson(lessonData).subscribe({
       next: (response) => {
-        if (response.success) {
-          this.closePopup();
-        }
         this.isCreatingLesson = false;
+        if (response.success) {
+          this.message.success('تم إنشاء الدرس بنجاح!');
+          setTimeout(() => {
+            this.closePopup();
+          }, 1500);
+        } else {
+          this.message.error('حدث خطأ أثناء إنشاء الدرس');
+        }
       },
       error: (error) => {
         console.error('Error creating lesson:', error);
         this.isCreatingLesson = false;
+        this.message.error('حدث خطأ أثناء إنشاء الدرس. حاول مرة أخرى');
       }
     });
   }
@@ -368,5 +446,12 @@ onVideoUpload(event: Event): void {
   ngOnInit() {
     this.getCourse();
     this.getTagsList();
+
+    // مراقبة تغيير اسم الدرس لإعادة تسمية الفيديوهات تلقائياً
+    this.lessonForm.get('name')?.valueChanges.subscribe(lessonName => {
+      if (lessonName && lessonName.trim() && this.lessonVideos.length > 0) {
+        this.autoRenameAllVideos(lessonName.trim());
+      }
+    });
   }
 }

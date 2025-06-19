@@ -78,7 +78,16 @@
             <div class="image-upload">
               <div class="image-box" [style.backgroundImage]="imagePreview ? 'url(' + imagePreview + ')' : ''">
                 <input type="file" accept="image/*" (change)="onFileSelected($event)" id="upload" hidden />
-                <label for="upload" class="camera-icon">
+
+                <!-- Loading Spinner -->
+                <div *ngIf="isImageLoading" class="loading-overlay">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+
+                <!-- Camera Icon -->
+                <label for="upload" class="camera-icon" *ngIf="!isImageLoading">
                   <i class="fas fa-camera"></i>
                 </label>
               </div>
@@ -87,7 +96,6 @@
         </div>
       </div>
 
-      <!-- Introduction Video -->
       <div class="courseSelect mt-2 lessonCover">
         <app-text-header [title]="'Introduction Video'" [bgColor]="'#40CDF4'"></app-text-header>
         <div class="upload-container mt-2" *ngIf="!introVideoPreview && !isIntroVideoLoading">
@@ -98,7 +106,6 @@
           <input type="file" id="introVideo" accept="video/*" (change)="onFileSelectedVideo($event)" hidden>
         </div>
 
-        <!-- Introduction Video Skeleton -->
         <div class="video-preview mt-3 skeleton" *ngIf="isIntroVideoLoading">
           <div class="rounded"></div>
           <div class="d-flex justify-content-end mt-2">
@@ -106,7 +113,6 @@
           </div>
         </div>
 
-        <!-- Introduction Video Preview -->
         <div class="video-preview mt-3" *ngIf="introVideoPreview && !isIntroVideoLoading">
           <video controls class="w-100 rounded">
             <source [src]="introVideoPreview" type="video/mp4">
@@ -150,12 +156,32 @@
 
       <!-- Videos Section -->
       <div class="courseSelect mt-2">
-        <app-text-header [title]="'Videos'" [bgColor]="'#F3C048A6'"></app-text-header>
+        <div class="d-flex justify-content-between align-items-center">
+          <app-text-header [title]="'Videos *'" [bgColor]="'#F3C048A6'"></app-text-header>
+          <small class="text-muted" *ngIf="lessonVideos.length > 0">
+            {{ lessonVideos.length }} فيديو
+          </small>
+        </div>
         <div class="upload-container mt-2">
-          <label for="lessonVideo">
-            <i class="fa-solid fa-video mx-2"></i> Click to Add Video
+          <label for="lessonVideo"
+                 [class.disabled]="!canUploadVideo"
+                 [title]="!canUploadVideo ? 'Write Name Lesson Frist ' : 'Click to Add Video'">
+            <i class="fa-solid fa-video mx-2"></i>
+            <span *ngIf="!canUploadVideo">Write Name Lesson Frist</span>
+            <span *ngIf="canUploadVideo">Click to Add Video</span>
           </label>
-          <input type="file" id="lessonVideo" accept="video/*" (change)="onVideoUpload($event)" hidden>
+          <input type="file"
+                 id="lessonVideo"
+                 accept="video/*"
+                 (change)="onVideoUpload($event)"
+                 [disabled]="!canUploadVideo"
+                 hidden>
+        </div>
+
+        <!-- No Videos Warning -->
+        <div *ngIf="lessonVideos.length === 0 && !isVideoUploading" class="alert alert-warning mt-2 d-flex align-items-center">
+          <i class="fa-solid fa-exclamation-triangle me-2"></i>
+          <span>يجب إضافة فيديو واحد على الأقل للدرس</span>
         </div>
 
         <!-- Video Upload Skeleton -->
@@ -187,47 +213,31 @@
             </div>
             <div class="informationVedio flex-grow-1 d-flex justify-content-between align-items-center">
               <div class="leftInfo">
-                <div class="vedioName d-flex gap-2 align-items-center">                  @if (editingVideoIndex !== i) {
+                <div class="vedioName d-flex gap-2 align-items-center">
+                  <div class="video-info-container">
                     <p class="mb-0 title" [pTooltip]="video.name">{{video.name | splicText:30}}</p>
-                  } @else {
-                    <div class="edit-name-container">
-                      <input type="text" 
-                             [(ngModel)]="video.name" 
-                             value="{{video.name}}"
-                             class="edit-video-name" 
-                             (keyup.enter)="saveVideoName(i)"
-                             (keyup.escape)="cancelEditingVideo()"
-                             maxlength="40"
-                             #videoNameInput
-                             placeholder="Enter video name"
-                             autocomplete="off">
-                    </div>
-                  }
+                  </div>
                 </div>
               </div>
               <div class="rightInfo d-flex flex-row-reverse align-items-center gap-2">
                 <div class="deleteIcon Icons" pTooltip="Delete Video" tooltipPosition="top" (click)="removeVideo(i)">
                   <i class="fa-regular fa-trash-can"></i>
                 </div>
-                <div class="editIcon Icons" pTooltip="Edit Video Name" tooltipPosition="top" 
-                     *ngIf="editingVideoIndex !== i" (click)="startEditingVideo(i, video.name)">
-                  <i class="fa-regular fa-pen-to-square"></i>
+                <div class="previewIcon Icons" pTooltip="Preview Video" tooltipPosition="top" (click)="toggleVideoPreview(i)">
+                  <i class="fa-solid fa-play"></i>
                 </div>
-                <ng-container *ngIf="editingVideoIndex === i">
-                  <div class="saveIcon Icons" pTooltip="Save" tooltipPosition="top" (click)="saveVideoName(i)">
-                    <i class="fa-solid fa-check"></i>
-                  </div>
-                  <div class="cancelIcon Icons" pTooltip="Cancel" tooltipPosition="top" (click)="cancelEditingVideo()">
-                    <i class="fa-solid fa-times"></i>
-                  </div>
-                </ng-container>                <div class="lockIcon Icons" 
+    
+
+                <div class="lockIcon Icons"
                      (click)="toggleVideoPrivacy(i)"
-                     [pTooltip]="video.free ? 'Make Private Video' : 'Make Free Video'" 
+                     [pTooltip]="video.free ? 'Make Private Video' : 'Make Free Video'"
                      tooltipPosition="top">
                   <i [class]="video.free ? 'fa-solid fa-lock-open' : 'fa-solid fa-lock'"></i>
                 </div>
               </div>
             </div>
+
+        
           </div>
         </div>
       </div>
@@ -251,7 +261,6 @@
               </div>
               <div class="file-size skeleton-text"></div>
             </div>
-            <!-- Actual files -->
             <div *ngFor="let file of uploadedFiles; let i = index" class="file-item"  >
               <div class="file-info"> 
                 <div class="pdfIcons">
@@ -283,7 +292,7 @@
         (click)="createLesson()"
         [disabled]="isCreateButtonDisabled()"
         [class.disabled]="isCreateButtonDisabled()"
-        [title]="isCreateButtonDisabled() ? 'Please fill required fields and wait for uploads to complete' : 'Create lesson'">
+        [title]="getCreateButtonTooltip()">
         <span *ngIf="!isCreatingLesson">{{ createButtonText }}</span>
         <span *ngIf="isCreatingLesson" class="d-flex align-items-center gap-2">
           <div class="spinner-border spinner-border-sm" role="status">
