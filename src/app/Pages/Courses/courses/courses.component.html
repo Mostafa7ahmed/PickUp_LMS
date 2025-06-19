@@ -73,14 +73,28 @@
               </p-button>
             </div>
           </div>
+          <!-- Search Results Info -->
+          <div class="search-results-info" *ngIf="searchTerm || hasActiveFilters()">
+            <div class="results-count">
+              <i class="fas fa-search"></i>
+              <span>{{paginationCoursesResponse.totalCount || 0}} courses found</span>
+              <span *ngIf="searchTerm">for "{{searchTerm}}"</span>
+            </div>
+            <button class="btn-clear-search-small" (click)="clearAllSearchFilters()">
+              <i class="fas fa-times"></i>
+              Clear Search
+            </button>
+          </div>
+
           <div class="search-container p-3 px-0 d-flex justify-content-between">
             <div class="search-container-right d-flex gap-3">
               <div class="inputSearch">
 
                 <input type="text" [(ngModel)]="searchTerm" (keyup)="onSearchChange($event)" [placeholder]="'course.mainContent.SearchPlaceholder' | translate">
               </div>
-              <div class="advanced-filter-container">
-
+              <div class="advanced-filter-container"
+                   [class.active]="hasActiveFilters()"
+                   (click)="openAdvancedSearch()">
                 <svg id="advanced-filter-svg" class="my-svg" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                   viewBox="0 0 20 20">
                   <path _ngcontent-ng-c2580197127="" id="advanced-filter-svg-path1"
@@ -90,7 +104,9 @@
                     d="M5 8.95833C4.88333 8.95833 4.775 8.925 4.66666 8.86666C4.375 8.68333 4.28333 8.29166 4.46666 8L8.575 1.41666C8.75833 1.125 9.14166 1.03333 9.43333 1.21666C9.725 1.4 9.81666 1.78333 9.63333 2.075L5.525 8.65833C5.40833 8.85 5.20833 8.95833 5 8.95833Z"
                     fill="#909EAF"></path>
                 </svg>
-
+                <div class="filter-badge" *ngIf="getActiveFiltersCount() > 0">
+                  {{getActiveFiltersCount()}}
+                </div>
               </div>
 
               <div class="CreationDate position-relative"
@@ -217,3 +233,218 @@
 
 
   <!-- <app-tablereused [paginationResponse]="paginationCoursesResponse" [headers]=headers [records]="tableRecords" (fetchRemainingDataEvent)="fetchCourses($event,selectedTopicId ,valueTable )"></app-tablereused> -->
+
+  <!-- Advanced Search Popup -->
+  <div class="advanced-search-overlay" *ngIf="showAdvancedSearch" (click)="closeAdvancedSearch()">
+    <div class="advanced-search-popup" (click)="$event.stopPropagation()">
+      <div class="popup-header">
+        <h3>
+          <i class="fas fa-filter"></i>
+          Advanced Filters
+        </h3>
+        <button class="close-btn" (click)="closeAdvancedSearch()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="popup-body">
+        <!-- Search Input -->
+        <div class="search-section">
+          <label>Search Term</label>
+          <div class="search-input-container">
+            <i class="fas fa-search"></i>
+            <input type="text"
+                   [(ngModel)]="advancedSearchFilters.searchTerm"
+                   placeholder="Search courses by name, description..."
+                   class="search-input">
+            <button class="clear-btn"
+                    *ngIf="advancedSearchFilters.searchTerm"
+                    (click)="advancedSearchFilters.searchTerm = ''">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Difficulty Level -->
+        <div class="filter-section">
+          <div class="section-header">
+            <div class="section-indicator difficulty-indicator"></div>
+            <label class="section-label">Difficulty Level</label>
+          </div>
+          <div class="difficulty-buttons">
+            <button class="difficulty-btn easy"
+                    [class.active]="advancedSearchFilters.courseType === '0'"
+                    (click)="selectDifficulty('easy')">
+              <div class="difficulty-bars">
+                <div class="bar active"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+              </div>
+              <span>EASY</span>
+            </button>
+            <button class="difficulty-btn medium"
+                    [class.active]="advancedSearchFilters.courseType === '1'"
+                    (click)="selectDifficulty('medium')">
+              <div class="difficulty-bars">
+                <div class="bar active"></div>
+                <div class="bar active"></div>
+                <div class="bar"></div>
+              </div>
+              <span>MEDIUM</span>
+            </button>
+            <button class="difficulty-btn hard"
+                    [class.active]="advancedSearchFilters.courseType === '2'"
+                    (click)="selectDifficulty('hard')">
+              <div class="difficulty-bars">
+                <div class="bar active"></div>
+                <div class="bar active"></div>
+                <div class="bar active"></div>
+              </div>
+              <span>HARD</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filters Grid -->
+        <div class="filters-grid">
+          <!-- Topic Filter -->
+          <div class="filter-group">
+            <label>Topic</label>
+            <select [(ngModel)]="advancedSearchFilters.topicId" class="filter-select">
+              <option value="">All Topics</option>
+              <option *ngFor="let topic of topicsList" [value]="topic.id">
+                {{topic.name}}
+              </option>
+            </select>
+          </div>
+
+          <!-- Stage Filter -->
+          <div class="filter-group">
+            <label>Stage</label>
+            <select [(ngModel)]="advancedSearchFilters.stageId"
+                    class="filter-select"
+                    [disabled]="!advancedSearchFilters.topicId">
+              <option value="">All Stages</option>
+              <option *ngFor="let stage of getStagesForSelectedTopic()" [value]="stage.id">
+                {{stage.name}}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Number of Questions -->
+        <div class="filter-section">
+          <div class="section-header">
+            <div class="section-indicator questions-indicator"></div>
+            <label class="section-label">Number of Questions</label>
+          </div>
+          <div class="range-inputs">
+            <div class="range-group">
+              <label class="range-label">MIN</label>
+              <input type="number"
+                     [(ngModel)]="advancedSearchFilters.minPrice"
+                     placeholder="0"
+                     class="range-input">
+            </div>
+            <div class="range-separator">-</div>
+            <div class="range-group">
+              <label class="range-label">MAX</label>
+              <input type="number"
+                     [(ngModel)]="advancedSearchFilters.maxPrice"
+                     placeholder="100"
+                     class="range-input">
+            </div>
+          </div>
+        </div>
+
+        <!-- Duration -->
+        <div class="filter-section">
+          <div class="section-header">
+            <div class="section-indicator duration-indicator"></div>
+            <label class="section-label">Duration (minutes)</label>
+          </div>
+          <div class="range-inputs">
+            <div class="range-group">
+              <label class="range-label">MIN</label>
+              <input type="number"
+                     [(ngModel)]="advancedSearchFilters.minPrice"
+                     placeholder="0"
+                     class="range-input">
+            </div>
+            <div class="range-separator">-</div>
+            <div class="range-group">
+              <label class="range-label">MAX</label>
+              <input type="number"
+                     [(ngModel)]="advancedSearchFilters.maxPrice"
+                     placeholder="180"
+                     class="range-input">
+            </div>
+          </div>
+        </div>
+
+        <!-- Creation Date -->
+        <div class="filter-section">
+          <div class="section-header">
+            <div class="section-indicator date-indicator"></div>
+            <label class="section-label">Creation Date</label>
+          </div>
+          <div class="date-inputs">
+            <div class="date-group">
+              <label class="date-label">FROM</label>
+              <input type="date"
+                     [(ngModel)]="advancedSearchFilters.dateRange"
+                     class="date-input">
+            </div>
+            <div class="date-group">
+              <label class="date-label">TO</label>
+              <input type="date"
+                     [(ngModel)]="advancedSearchFilters.dateRange"
+                     class="date-input">
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Filters Display -->
+        <div class="active-filters" *ngIf="getActiveFiltersCount() > 0">
+          <h4>Active Filters ({{getActiveFiltersCount()}})</h4>
+          <div class="filter-tags">
+            <span class="filter-tag" *ngIf="advancedSearchFilters.searchTerm">
+              Search: "{{advancedSearchFilters.searchTerm}}"
+              <i class="fas fa-times" (click)="advancedSearchFilters.searchTerm = ''"></i>
+            </span>
+            <span class="filter-tag" *ngIf="advancedSearchFilters.topicId">
+              Topic: {{getTopicName(advancedSearchFilters.topicId)}}
+              <i class="fas fa-times" (click)="advancedSearchFilters.topicId = ''"></i>
+            </span>
+            <span class="filter-tag" *ngIf="advancedSearchFilters.stageId">
+              Stage: {{getStageName(advancedSearchFilters.stageId)}}
+              <i class="fas fa-times" (click)="advancedSearchFilters.stageId = ''"></i>
+            </span>
+            <span class="filter-tag" *ngIf="advancedSearchFilters.courseType !== ''">
+              Type: {{advancedSearchFilters.courseType === '0' ? 'Easy' : advancedSearchFilters.courseType === '1' ? 'Medium' : 'Hard'}}
+              <i class="fas fa-times" (click)="advancedSearchFilters.courseType = ''"></i>
+            </span>
+            <span class="filter-tag" *ngIf="advancedSearchFilters.minPrice || advancedSearchFilters.maxPrice">
+              Range: {{advancedSearchFilters.minPrice || 0}} - {{advancedSearchFilters.maxPrice || '∞'}}
+              <i class="fas fa-times" (click)="clearPriceRange()"></i>
+            </span>
+            <span class="filter-tag" *ngIf="advancedSearchFilters.dateRange">
+              Date: {{formatDateRange()}}
+              <i class="fas fa-times" (click)="advancedSearchFilters.dateRange = null"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="popup-footer">
+        <button class="btn-clear" (click)="clearAllFilters()">
+          <i class="fas fa-undo"></i>
+          Clear All
+        </button>
+        <button class="btn-apply" (click)="applyAdvancedSearch()">
+          <i class="fas fa-check"></i>
+          Apply Filters
+        </button>
+      </div>
+    </div>
+  </div>

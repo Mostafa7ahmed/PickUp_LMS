@@ -118,6 +118,30 @@ iselectedStage : boolean = false;
   showRightScroll = true;
   activeTab: number = 1;
 
+  // Advanced Search Properties
+  showAdvancedSearch: boolean = false;
+  showTopicDropdown: boolean = false;
+  advancedSearchFilters = {
+    searchTerm: '',
+    topicId: '',
+    stageId: '',
+    courseType: '', // 0 = free, 1 = paid
+    minPrice: null as number | null,
+    maxPrice: null as number | null,
+    dateRange: null as Date[] | null,
+    includeActive: true,
+    includeDraft: false,
+    sortBy: 'name',
+    sortDirection: 'asc' as 'asc' | 'desc',
+    difficulty: '' as 'easy' | 'medium' | 'hard' | '',
+    minQuestions: null as number | null,
+    maxQuestions: null as number | null,
+    minDuration: null as number | null,
+    maxDuration: null as number | null,
+    fromDate: null as string | null,
+    toDate: null as string | null
+  };
+
 
   @ViewChild(TableCoursesComponent) TableCourses!: TableCoursesComponent;
   isVisible = false;
@@ -176,16 +200,6 @@ iselectedStage : boolean = false;
   }
 
   @ViewChild('dropdownContainer') dropdownContainer!: ElementRef;
-
-  @HostListener('document:click', ['$event'])
-  onClickOutside(event: Event) {
-    if (this.dropdownVisible && this.dropdownContainer) {
-      if (!this.dropdownContainer.nativeElement.contains(event.target)) {
-        this.dropdownVisible = false;
-        console.log('Dropdown closed'); 
-      }
-    }
-  }
 
   getListTopics(topicIdFromRoute: string | null = null): void {
     this._topiclistService.getAlllits().subscribe({
@@ -390,5 +404,199 @@ iselectedStage : boolean = false;
 
   playSuccessSound() {
     this.audio.play();
+  }
+
+  // Advanced Search Methods
+  openAdvancedSearch(): void {
+    this.showAdvancedSearch = true;
+    // Initialize filters with current values
+    this.advancedSearchFilters.searchTerm = this.searchTerm;
+    this.advancedSearchFilters.topicId = this.selectedTopicId.toString();
+    this.advancedSearchFilters.stageId = this.iselectedStage ? this.selectedStage?.id?.toString() || '' : '';
+    if (this.rangeDates && this.rangeDates.length > 0) {
+      this.advancedSearchFilters.dateRange = [...this.rangeDates];
+    }
+  }
+
+  closeAdvancedSearch(): void {
+    this.showAdvancedSearch = false;
+  }
+
+  hasActiveFilters(): boolean {
+    return this.getActiveFiltersCount() > 0;
+  }
+
+  getActiveFiltersCount(): number {
+    let count = 0;
+    if (this.advancedSearchFilters.searchTerm) count++;
+    if (this.advancedSearchFilters.topicId && this.advancedSearchFilters.topicId !== this.selectedTopicId.toString()) count++;
+    if (this.advancedSearchFilters.stageId) count++;
+    if (this.advancedSearchFilters.courseType !== '') count++;
+    if (this.advancedSearchFilters.minPrice !== null || this.advancedSearchFilters.maxPrice !== null) count++;
+    if (this.advancedSearchFilters.dateRange && this.advancedSearchFilters.dateRange.length > 0) count++;
+    if (!this.advancedSearchFilters.includeActive || this.advancedSearchFilters.includeDraft) count++;
+    return count;
+  }
+
+  getStagesForSelectedTopic(): Stage[] {
+    if (!this.advancedSearchFilters.topicId) return [];
+    const topic = this.topicsList.find(t => t.id.toString() === this.advancedSearchFilters.topicId);
+    return topic?.stages || [];
+  }
+
+  getTopicName(topicId: string): string {
+    const topic = this.topicsList.find(t => t.id.toString() === topicId);
+    return topic?.name || '';
+  }
+
+  getStageName(stageId: string): string {
+    const allStages = this.topicsList.flatMap(t => t.stages);
+    const stage = allStages.find(s => s.id.toString() === stageId);
+    return stage?.name || '';
+  }
+
+  clearPriceRange(): void {
+    this.advancedSearchFilters.minPrice = null;
+    this.advancedSearchFilters.maxPrice = null;
+  }
+
+  formatDateRange(): string {
+    if (!this.advancedSearchFilters.dateRange || this.advancedSearchFilters.dateRange.length === 0) return '';
+    const start = this.advancedSearchFilters.dateRange[0];
+    const end = this.advancedSearchFilters.dateRange[1];
+    if (start && end) {
+      return `${start.toLocaleDateString()} - ${end.toLocaleDateString()}`;
+    } else if (start) {
+      return `From ${start.toLocaleDateString()}`;
+    }
+    return '';
+  }
+
+  clearAllFilters(): void {
+    this.advancedSearchFilters = {
+      searchTerm: '',
+      topicId: '',
+      stageId: '',
+      courseType: '',
+      minPrice: null,
+      maxPrice: null,
+      dateRange: null,
+      includeActive: true,
+      includeDraft: false,
+      sortBy: 'name',
+      sortDirection: 'asc',
+      difficulty: '',
+      minQuestions: null,
+      maxQuestions: null,
+      minDuration: null,
+      maxDuration: null,
+      fromDate: null,
+      toDate: null
+    };
+  }
+
+  applyAdvancedSearch(): void {
+    // Update main component state with advanced search filters
+    this.searchTerm = this.advancedSearchFilters.searchTerm;
+
+    if (this.advancedSearchFilters.topicId) {
+      this.selectedTopicId = parseInt(this.advancedSearchFilters.topicId);
+      this.selectedValue = this.topicsList.find(t => t.id === this.selectedTopicId) || {} as ItopicList;
+    }
+
+    if (this.advancedSearchFilters.stageId) {
+      const allStages = this.topicsList.flatMap(t => t.stages);
+      const foundStage = allStages.find(s => s.id.toString() === this.advancedSearchFilters.stageId);
+      if (foundStage) {
+        this.selectedStage = foundStage as any; // Type assertion for compatibility
+        this.iselectedStage = true;
+      }
+    } else {
+      this.iselectedStage = false;
+    }
+
+    if (this.advancedSearchFilters.dateRange) {
+      this.rangeDates = [...this.advancedSearchFilters.dateRange];
+    }
+
+    // Apply course type filter
+    if (this.advancedSearchFilters.courseType !== '') {
+      this.valueTable = parseInt(this.advancedSearchFilters.courseType);
+    }
+
+    // Perform search with all filters
+    this.fetchCourses(
+      { pageNumber: 1, pageSize: 20 },
+      this.selectedTopicId,
+      this.iselectedStage ? this.selectedStage?.id : undefined,
+      this.valueTable,
+      this.advancedSearchFilters.dateRange?.[0] ? this.formatDateToISO(this.advancedSearchFilters.dateRange[0]) : undefined,
+      this.advancedSearchFilters.dateRange?.[1] ? this.formatDateToISO(this.advancedSearchFilters.dateRange[1]) : undefined,
+      this.advancedSearchFilters.searchTerm
+    );
+
+    this.closeAdvancedSearch();
+  }
+
+  clearAllSearchFilters(): void {
+    this.searchTerm = '';
+    this.rangeDates = null;
+    this.iselectedStage = false;
+    this.clearAllFilters();
+    this.fetchCourses({}, this.selectedTopicId);
+  }
+
+  // Topic Dropdown Methods
+  toggleTopicDropdown(): void {
+    this.showTopicDropdown = !this.showTopicDropdown;
+  }
+
+  selectTopic(topic: ItopicList): void {
+    this.advancedSearchFilters.topicId = topic.id.toString();
+    this.advancedSearchFilters.stageId = ''; // Reset stage when topic changes
+    this.showTopicDropdown = false;
+  }
+
+  getSelectedTopicName(): string {
+    if (!this.advancedSearchFilters.topicId) return '';
+    const topic = this.topicsList.find(t => t.id.toString() === this.advancedSearchFilters.topicId);
+    return topic?.name || '';
+  }
+
+  getSelectedTopicColor(): string {
+    if (!this.advancedSearchFilters.topicId) return '#e2e8f0';
+    const topic = this.topicsList.find(t => t.id.toString() === this.advancedSearchFilters.topicId);
+    return topic?.color || '#e2e8f0';
+  }
+
+  getSelectedTopicIcon(): string {
+    if (!this.advancedSearchFilters.topicId) return 'fas fa-folder';
+    const topic = this.topicsList.find(t => t.id.toString() === this.advancedSearchFilters.topicId);
+    return topic?.icon || 'fas fa-folder';
+  }
+
+  // Difficulty Selection (using courseType for compatibility)
+  selectDifficulty(difficulty: 'easy' | 'medium' | 'hard'): void {
+    const difficultyMap = { 'easy': '0', 'medium': '1', 'hard': '2' };
+    if (this.advancedSearchFilters.courseType === difficultyMap[difficulty]) {
+      this.advancedSearchFilters.courseType = ''; // Deselect if already selected
+    } else {
+      this.advancedSearchFilters.courseType = difficultyMap[difficulty];
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.topic-selector')) {
+      this.showTopicDropdown = false;
+    }
+
+    // Keep existing dropdown logic
+    if (this.dropdownVisible && this.dropdownContainer) {
+      if (!this.dropdownContainer.nativeElement.contains(event.target)) {
+        this.dropdownVisible = false;
+      }
+    }
   }
 }
