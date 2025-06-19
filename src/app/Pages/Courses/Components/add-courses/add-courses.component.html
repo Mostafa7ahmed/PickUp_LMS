@@ -12,13 +12,13 @@
                 <div class="Course_name">
                   <label for="Course_name">Course name</label>
                   <input formControlName="name" type="text" class="input_Couser" id="Course_name"
-                    placeholder="Enter course name"
-                    [class.is-invalid]="courseForm.get('name')?.invalid && courseForm.get('name')?.touched">
-                  <div class="invalid-feedback" *ngIf="courseForm.get('name')?.invalid && courseForm.get('name')?.touched">
-                    <small class="text-danger">Course name is required</small>
-                  </div>
+                    placeholder="Enter course name">
                 </div>
-       
+                <div class="deal-desc-btn" [class.active]="showDescription"
+                  [pTooltip]=" !showDescription ? 'Add Description' : 'Hide Description'" tooltipPosition="top"
+                  (click)="ShowDescription()">
+                  <i class="fa-kit fa-subtitles"></i>
+                </div>
               </div>
 
               <div class="desCourse_name Course_name mt-2 mb-3" [class.active]="!showDescription">
@@ -51,15 +51,10 @@
       
                   <input  id="integer" pKeyFilter="int" class="px-2 rounded-2"
                   type="number" min="1"  [readonly]="courseForm.get('free')?.value"
-                  placeholder="Enter course price" formControlName="price"
-                  [class.is-invalid]="courseForm.get('price')?.invalid && courseForm.get('price')?.touched && !courseForm.get('free')?.value" />
-          
+                  placeholder="Enter course price" formControlName="price" />
 
                   <span>EGP</span>
                 </div>
-                   <div class="invalid-feedback" *ngIf="courseForm.get('price')?.invalid && courseForm.get('price')?.touched && !courseForm.get('free')?.value">
-                    <small class="text-danger">Price must be greater than 0</small>
-                  </div>
               </div>
             </div>
           </div>
@@ -74,9 +69,6 @@
                 <app-customslectwithicon [items]="topicsList" [isSelected]="true" [isLoadTopic]="isLoadTopic"
                   [selectedItem]="selectTopicDefault" (selectionChangeTopic)="onTopicSelected($event)">
                 </app-customslectwithicon>
-                <div class="invalid-feedback" *ngIf="courseForm.get('topicId')?.invalid && courseForm.get('topicId')?.touched">
-                  <small class="text-danger">Topic selection is required</small>
-                </div>
               </div>
             </div>
             <div class="right w-50">
@@ -87,9 +79,6 @@
                 [selectedItem]="selectStageDefault" (selectionChangeStage)="onStageSelected($event)">
 
               </app-coustom-select-stage>
-              <div class="invalid-feedback" *ngIf="courseForm.get('stageId')?.invalid && courseForm.get('stageId')?.touched">
-                <small class="text-danger">Stage selection is required</small>
-              </div>
 
 
 
@@ -223,26 +212,15 @@
               </div>
             
           
-              <input
-              type="text"
-              placeholder="Value"
+              <input 
+              type="text" 
+              placeholder="Value" 
               formControlName="value"
-              class="w-full md:w-56"
-              [class.is-invalid]="fieldForm.get('value')?.invalid && fieldForm.get('value')?.touched">
+              class="w-full md:w-56">
 
               <button (click)="addField()" class="add-btn" pTooltip="Add Fields" tooltipPosition="top">
                 <i class="fa-solid fa-plus"></i>
               </button>
-            </div>
-
-            <!-- Validation messages for custom fields -->
-            <div class="validation-messages mt-2">
-              <div class="invalid-feedback" *ngIf="fieldForm.get('key')?.invalid && fieldForm.get('key')?.touched">
-                <small class="text-danger">Key is required</small>
-              </div>
-              <div class="invalid-feedback" *ngIf="fieldForm.get('value')?.invalid && fieldForm.get('value')?.touched">
-                <small class="text-danger">Value is required</small>
-              </div>
             </div>
           </div>
         </div>
@@ -327,17 +305,14 @@
 
         <div class="UploadCover mt-2">
           <div class="upload-container">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <label class="upload-box" (click)="triggerFileInput('file')">
-                <i class="fa-solid fa-paperclip mx-1"></i> Upload Course references
-              </label>
-        
-            </div>
+            <label class="upload-box" (click)="triggerFileInput('file')">
+              <i class="fa-solid fa-paperclip mx-1"></i> Upload Course references
+            </label>
             <input type="file" multiple accept=".pdf, .doc, .docx, .xls, .xlsx, .txt , .pptx , .ppt , .csv" #fileInput
               class="hidden-input" formControlName="fileUrls" (change)="onFileSelectedFile($event)">
             <div class="file-list" >
               <div class="reloadFile">
-
+                
                   <div class="file-item uploading m-2" *ngIf="isUploadingFile">
                     <i class="fa-solid fa-spinner fa-spin"></i>
                     <span class="file-name">جاري رفع الملف</span>
@@ -406,12 +381,12 @@
           <span *ngIf="isLoad" class="spinner"></span>
           <span *ngIf="!isLoad">Create</span>
         </button> -->
-        <p-splitbutton
-        label="Create"
-        appendTo="body"
-        (onClick)="createCourse()"
-        [model]="items"
-        [disabled]="isLoad || !isFormValidForSubmission()">
+        <p-splitbutton 
+        label="Create" 
+        appendTo="body"  
+        (onClick)="createCourse()" 
+        [model]="items" 
+        [disabled]="isLoad">
       </p-splitbutton>
       </div>
     </div>
