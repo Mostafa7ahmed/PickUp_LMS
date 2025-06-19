@@ -33,10 +33,8 @@ import { AddquizlistComponent } from '../Pages/quizlist/Components/addquizlist/a
 import { CreateLessonComponent } from '../Pages/lesson/Components/create-lesson/create-lesson.component';
 
 // Coupon Management
-import { CouponListComponent } from '../Pages/Coupon/coupon-list/coupon-list.component';
 import { ViewCouponComponent } from '../Pages/Coupon/Components/view-coupon/view-coupon.component';
 import { CouponCourseComponent } from '../Pages/Coupon/Components/coupon-course/coupon-course.component';
-<<<<<<< HEAD
 
 // Task Management
 import { TodoComponent } from '../Pages/todo/todo.component';
@@ -44,28 +42,19 @@ import { TodoComponent } from '../Pages/todo/todo.component';
 // Chat Management
 import { InstructorChatComponent } from '../Pages/Instructor/instructor-chat/instructor-chat.component';
 
-=======
 import { CouponListComponent } from '../Pages/Coupon/coupon-list/coupon-list.component';
-import { ViewTopicandStageComponent } from '../Pages/Topics/Components/view-topicand-stage/view-topicand-stage.component';
-import { EditStageComponent } from '../Pages/Stages/Components/edit-stage/edit-stage.component';
-import { AddStageComponent } from '../Pages/Stages/Components/add-stage/add-stage.component';
 import { HomeinstructorComponent } from '../Pages/Instructor/homeinstructor/homeinstructor.component';
 import { TodoInstructorComponent } from '../Pages/Instructor/todo-instructor/todo-instructor.component';
 import { AddtasktodoComponent } from '../Pages/Instructor/todo-instructor/components/addtasktodo/addtasktodo.component';
 import { ViewLessonComponent } from '../Pages/lesson/Components/view-lesson/view-lesson.component';
-<<<<<<< HEAD
->>>>>>> 64669af2d189050710502789c0020a0a1285f09a
-=======
 import { ManageProfileComponent } from '../Pages/Instructor/porfile/components/manage-profile/manage-profile.component';
 import { WalletPopupComponent } from '../Components/wallet-popup/wallet-popup.component';
->>>>>>> 95dcfafd060ca53bafcd474026778f589261ec07
 export const instructorRoutes: Routes = [
     {
         path: 'Instructor',
         component: RoutesinstructorComponent,
         canActivate: [notloginguardsGuard('Instructor'), instructorOnlyGuard],
         children: [
-<<<<<<< HEAD
             // Default redirect
             { 
                 path: '', 
@@ -165,7 +154,6 @@ export const instructorRoutes: Routes = [
             },
             
             // Popup Dialog Routes
-=======
             { path: 'instructor', redirectTo: 'homeInstructor', pathMatch: 'full' },
             { path: "homeInstructor", title: "Home Instrctor", component: HomeComponent },
             { path: "myprofile", title: "porfile", component: PorfileComponent },
@@ -179,7 +167,6 @@ export const instructorRoutes: Routes = [
             { path: "course/:topicId/:activeTab", component: CoursesComponent, data: { defaultTab: "1" } },
             { path: "ViewCourse/:courseId", component: ViewCourseComponent },
             { path: "topics", title: "topic", component: TopicsComponent },
->>>>>>> 64669af2d189050710502789c0020a0a1285f09a
             { path: 'addTopic', outlet: 'dialog', component: AddTopicComponent },
             { path: 'editTopic/:topicId', outlet: 'dialog', component: EditTopicComponent },
             { path: 'ViewTopic/:id', outlet: 'dialog', component: ViewTopicandStageComponent },
@@ -187,17 +174,14 @@ export const instructorRoutes: Routes = [
             
             { path: 'addcourse', outlet: 'dialog', component: AddCoursesComponent },
             { path: 'addLesson/:courseId', outlet: 'dialog', component: CreateLessonComponent },
-<<<<<<< HEAD
             
             { path: 'addQuiz', outlet: 'dialog', component: AddquizlistComponent },
             
-=======
             { path: 'coupan/:CoupanId', outlet: 'dialog', component: CouponCourseComponent },
             { path: 'viewLesson/:lessonId', title:"View Lesson", component: ViewLessonComponent },
             { path: 'viewCoupon/:CoupanId', outlet: 'dialog', component: ViewCouponComponent },
             { path: 'Couponslist', title: "Coupons", component: CouponListComponent },
             { path: 'ViewTopic/:id', outlet: 'dialog', component: ViewTopicandStageComponent },
->>>>>>> 64669af2d189050710502789c0020a0a1285f09a
             { path: 'addStage/:StageId', outlet: 'dialog2', component: AddStageComponent },
             { path: 'editStage/:StageId', outlet: 'dialog2', component: EditStageComponent },
             
