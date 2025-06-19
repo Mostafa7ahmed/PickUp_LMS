@@ -42,6 +42,8 @@
                     <span class="text">View Details</span>
                 </button>
             </div>
+            <div class="custom-icon p-2 rounded-2 bg-light ms-3" (click)="openDeleteLessonPopup(lesson)"><i
+                    class="fa-solid fa-trash-can" style="color: var(--red-icon-hover);"></i></div>
         </div>
 
     </div>
@@ -61,3 +63,8 @@
 
 
 </div>
+
+<app-delete-lesson *ngIf="isDeletePopupVisible && selectedDeleteLesson" [deleteId]="selectedDeleteLesson.id"
+    [LessonTitle]="selectedDeleteLesson.name" (close)="closeDeletePopup()" (delete)="deleteLesson()">
+
+</app-delete-lesson>
