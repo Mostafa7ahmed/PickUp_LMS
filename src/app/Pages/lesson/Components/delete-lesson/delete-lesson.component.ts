@@ -7,7 +7,7 @@ import { TopPopComponent } from '../../../../Components/top-pop/top-pop.componen
   standalone: true,
   imports: [TopPopComponent ,CommonModule ],
   templateUrl: './delete-lesson.component.html',
-  styleUrl: '../../../quizlist/Components/delete-quiz/delete-Quiz.component.scss'
+  styleUrl: '../../../quizlist/Components/delete-quiz/delete-quiz.component.scss'
 })
 export class DeleteLessonComponent {
  @Output() close = new EventEmitter<void>();
