@@ -246,3 +246,42 @@ input[type="number"] {
     transform: translateX(0);
   }
 }
+
+// Global Responsive Design - Hide main content on small screens
+@media screen and (max-width: 980px) {
+  // Hide all main content except the responsive overlay
+  router-outlet:not(app-responsive-overlay) {
+    display: none !important;
+  }
+
+  // Hide layout components on small screens
+  .layout,
+  app-sidebarfixed,
+  app-navbarinstructor,
+  app-navbar-student,
+  app-sidebar-student,
+  .main-content,
+  .content {
+    display: none !important;
+  }
+
+  // Ensure body doesn't scroll when overlay is active
+  body {
+    overflow: hidden !important;
+  }
+
+  // Hide any floating elements or modals
+  .overlay,
+  .modal,
+  .popup,
+  nz-modal,
+  .ant-modal-wrap {
+    display: none !important;
+  }
+}
+
+// Ensure responsive overlay is always on top
+app-responsive-overlay {
+  position: relative;
+  z-index: 10000;
+}
