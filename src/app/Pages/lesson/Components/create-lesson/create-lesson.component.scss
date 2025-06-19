@@ -324,6 +324,20 @@
   border: 0.75px solid #7ad34c;
 }
 
+.lessonData .input_Couser.is-invalid {
+  border: 0.75px solid #dc3545;
+}
+
+.invalid-feedback {
+  color: #dc3545;
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.text-danger {
+  color: #dc3545 !important;
+}
+
 .textarea_course {
   width: 100%;
   height: 50px !important;
@@ -540,10 +554,25 @@ input[type="file"] {
   border-radius: 4px;
   border: 0.542px solid rgba(131, 137, 159, 0.2);
   background-color: #24c12b;
+  transition: all 0.3s ease;
 
-  &:disabled {
+  &:disabled,
+  &.disabled {
     background-color: #24c12c8e;
     cursor: not-allowed;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  &:hover:not(:disabled):not(.disabled) {
+    background-color: #1fa625;
+    transform: translateY(-1px);
+  }
+
+  .spinner-border-sm {
+    width: 14px;
+    height: 14px;
+    border-width: 2px;
   }
 }
 .photoUrl {

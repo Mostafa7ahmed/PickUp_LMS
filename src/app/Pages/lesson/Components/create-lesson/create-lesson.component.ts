@@ -75,6 +75,7 @@ export class CreateLessonComponent implements OnInit {
   isIntroVideoLoading = false;
   isVideoUploading = false;
   isFileUploading = false;
+  isCreatingLesson = false;
 
   toggleDropdownCourse() {
     this.showDropdownCourse = !this.showDropdownCourse;
@@ -295,14 +296,39 @@ onVideoUpload(event: Event): void {
     this.introVideoPreview = null;
     this.lessonForm.patchValue({ introductionVideoUrl: '' });
   }
+
+  isCreateButtonDisabled(): boolean {
+    return (
+      this.lessonForm.invalid ||
+      !this.selectedCourse ||
+      this.isImageLoading ||
+      this.isIntroVideoLoading ||
+      this.isVideoUploading ||
+      this.isFileUploading ||
+      this.isCreatingLesson
+    );
+  }
+
+  get createButtonText(): string {
+    if (this.isCreatingLesson) {
+      return 'Creating...';
+    }
+    return 'Create';
+  }
+
+  get isAnyFileUploading(): boolean {
+    return this.isImageLoading || this.isIntroVideoLoading || this.isVideoUploading || this.isFileUploading;
+  }
   createLesson() {
-    if (!this.selectedCourse) {
+    if (this.isCreateButtonDisabled()) {
       return;
     }
 
+    this.isCreatingLesson = true;
+
     const formValue = this.lessonForm.value;
     const lessonData: ICreateLessonRequest = {
-      courseId: this.selectedCourse.id,
+      courseId: this.selectedCourse!.id,
       name: formValue.name || '',
       description: formValue.description || '',
       photoUrl: formValue.photoUrl || '',
@@ -326,9 +352,11 @@ onVideoUpload(event: Event): void {
         if (response.success) {
           this.closePopup();
         }
+        this.isCreatingLesson = false;
       },
       error: (error) => {
         console.error('Error creating lesson:', error);
+        this.isCreatingLesson = false;
       }
     });
   }
