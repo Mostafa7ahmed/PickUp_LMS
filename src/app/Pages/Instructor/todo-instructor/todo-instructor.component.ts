@@ -75,8 +75,7 @@ export class TodoInstructorComponent implements OnInit, OnDestroy {
   }
  
 
-  // Filter methods
- 
+  // Filter methods methods
 
   setFilter(filter: string): void {
     this.activeFilter = filter;
