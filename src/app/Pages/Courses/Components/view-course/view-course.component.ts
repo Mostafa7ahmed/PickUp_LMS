@@ -13,7 +13,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { AddStageComponent } from "../../../Stages/Components/add-stage/add-stage.component";
 import Plyr from 'plyr';
 import { GetonecourseService } from '../../Core/service/getonecourse.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { CourseResult } from '../../Core/interface/icourses';
 import { environment } from '../../../../Environments/environment';
 import { ViewCourse } from '../../Core/interface/view-course';
@@ -25,12 +25,21 @@ import { LessonComponent } from "../../../lesson/lesson.component";
 import { DeleteCoursesService } from '../../Core/service/delete-courses.service';
 import { RatingComponent } from "../../../rating/rating.component";
 import { CardCouponComponent } from '../../../Coupon/Components/card-coupon/card-coupon.component';
+<<<<<<< HEAD
 import { CourseLessonsComponent } from '../../../../Components/course-lessons/course-lessons.component';
+=======
+import { Subscription, filter } from 'rxjs';
+import { AllQuizViewCourseComponent } from "../../../quizlist/Components/all-quiz-view-course/all-quiz-view-course.component";
+>>>>>>> b201d866995093bf0c23ca0e9c49f2feb046eb6c
 
 @Component({
   selector: 'app-view-course',
   standalone: true,
+<<<<<<< HEAD
   imports: [TextHeaderComponent, TranslateModule, ReativeFormModule, Select, SplicTextPipe, TabsModule, ButtonModule, TooltipModule, DeleteCourseComponent, LessonComponent, CardCouponComponent, RatingComponent, CourseLessonsComponent],
+=======
+  imports: [TextHeaderComponent, TranslateModule, ReativeFormModule, Select, SplicTextPipe, TabsModule, ButtonModule, TooltipModule, DeleteCourseComponent, LessonComponent, CardCouponComponent, RatingComponent, AllQuizViewCourseComponent],
+>>>>>>> b201d866995093bf0c23ca0e9c49f2feb046eb6c
   templateUrl: './view-course.component.html',
   styleUrl: './view-course.component.scss'
 })
@@ -40,6 +49,7 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
   private _CustomFildsService = inject(CustomFildsService);  
   private _deleteCoursesService = inject(DeleteCoursesService);
   private router = inject(Router);
+    private subscriptioncall = new Subscription();
 
   private _getonecourseService = inject(GetonecourseService);
   private _ActivatedRoute = inject(ActivatedRoute);
@@ -208,6 +218,7 @@ export class ViewCourseComponent implements AfterViewInit ,OnInit{
         this.getOneCourse(this.CourseId)
       }
     });
+ 
   
   }
   

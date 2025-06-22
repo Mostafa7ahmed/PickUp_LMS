@@ -1,0 +1,174 @@
+.question-item {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  overflow: hidden;
+
+  .question-header {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #f9fafb;
+
+    .question-number {
+      color: #6b7280;
+      margin-right: 12px;
+      cursor: grab;
+
+      &:active {
+        cursor: grabbing;
+      }
+    }
+
+    .question-text-input {
+      flex: 1;
+
+      input {
+        border: none;
+        background: transparent;
+        font-size: 14px;
+        color: #374151;
+        width: 100%;
+        outline: none;
+
+        &::placeholder {
+          color: #9ca3af;
+        }
+      }
+
+      .hint-input {
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px solid #e5e7eb;
+
+        input {
+          font-size: 13px;
+          color: #6b7280;
+          font-style: italic;
+
+          &::placeholder {
+            color: #9ca3af;
+          }
+        }
+      }
+    }
+
+    .question-actions {
+      display: flex;
+      gap: 8px;
+
+      .action-btn {
+        background: none;
+        border: none;
+        padding: 6px;
+        border-radius: 4px;
+        color: #6b7280;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background: #f3f4f6;
+          color: #374151;
+        }
+
+        &.hint-btn {
+          &.active {
+            background: #fef3c7;
+            color: #f59e0b;
+          }
+
+          &:hover {
+            background: #fef3c7;
+            color: #f59e0b;
+          }
+        }
+
+        &.delete-btn:hover {
+          color: #ef4444;
+          background: #fef2f2;
+        }
+      }
+    }
+  }
+
+  .question-content {
+    padding: 16px;
+  }
+
+  .choices-section {
+    background: #f3f0ff;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #6f42c1;
+
+    .choice-item {
+      background: white;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #e9ecef;
+      transition: all 0.2s ease;
+      position: relative;
+
+      &:hover {
+        border-color: #6f42c1;
+        box-shadow: 0 2px 8px rgba(111, 66, 193, 0.1);
+      }
+
+      .choice-number {
+        font-weight: 600;
+        color: #6f42c1;
+        min-width: 20px;
+        font-size: 14px;
+      }
+
+      .form-check-input:checked {
+        background-color: #28a745;
+        border-color: #28a745;
+      }
+
+      .form-check-label {
+        cursor: pointer;
+      }
+
+      .btn-outline-danger {
+        border-color: #dc3545;
+        color: #dc3545;
+
+        &:hover:not(:disabled) {
+          background-color: #dc3545;
+          color: white;
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+    }
+
+    .choices-info {
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 6px;
+      border-left: 3px solid #6f42c1;
+    }
+  }
+}
+
+// Animation for new choices
+.choice-item {
+  animation: slideInChoice 0.3s ease-out;
+}
+
+@keyframes slideInChoice {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

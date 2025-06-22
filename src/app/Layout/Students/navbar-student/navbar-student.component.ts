@@ -147,11 +147,17 @@ export class NavbarStudentComponent {
   openAddTaskPopup(): void {
     this.router.navigate(['/Student', { outlets: { dialog: ['taskTodoStudent'] } }]);
   }
+<<<<<<< HEAD
 
   openWalletPopup(): void {
     this.router.navigate(['/Student', { outlets: { dialog: ['wallet'] } }]);
   }
 
+=======
+  openWalletPopup(): void {
+    this.router.navigate(['/Student', { outlets: { dialog: ['wallet'] } }]);
+  }
+>>>>>>> b201d866995093bf0c23ca0e9c49f2feb046eb6c
   ToggleLang() {
     const currentLang = this._TranslateService.currentLang;
     const newLang = currentLang === 'en' ? 'ar' : 'en';

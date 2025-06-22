@@ -59,7 +59,12 @@
       border: 1px solid var(--bg-btn);
     }
   }
-  
+  .rightFooter {
+
+    position: absolute  !important;
+    inset-inline-end: 15px  !important;
+    bottom: 8px  !important;
+}
   .openCard i {
     font-size: 15px;
     color: var(--color_border);

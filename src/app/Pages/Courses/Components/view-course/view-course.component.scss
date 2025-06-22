@@ -560,7 +560,7 @@
     .rightCource .listQuick{
       position: absolute;
       white-space: nowrap;
-      padding: 10px;
+      padding: 10px 15px;
       margin-top: 6px;
       min-width: 123px;
       box-shadow: 0 6px 12px #abbed14d;
@@ -579,8 +579,8 @@
       z-index: 555555555555555555;
     }
     .rightCource .listQuick.show{
-      opacity: 1;
-      height: 70px;
+      opacity: 5;
+      height: 95px;
       z-index: 555555555555555555;
 
       transition: opacity .5s ease, height .5s ease;

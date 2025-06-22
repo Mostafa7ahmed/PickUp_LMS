@@ -13,7 +13,7 @@ export class ListLessonService {
     private getRating: string;
   
     constructor(private _HttpClient :HttpClient) {
-      this.getRating = `${environment.baseUrl}${environment.pickup}course-rating/list`;
+      this.getRating = `${environment.baseUrl}${environment.pickup}lesson/course-lessons`;
      }
      getLessons(
       courseId : number, 
@@ -32,6 +32,6 @@ export class ListLessonService {
     
 
     
-      return this._HttpClient.get<IPaginationResponse<ILessonList>>(`${this.getRating}`, { params });
+        return this._HttpClient.get<IPaginationResponse<ILessonList>>(`${this.getRating}?courseId=${courseId}`  )
     }
 }

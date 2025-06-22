@@ -61,7 +61,7 @@
 
     .manage-btn {
       position: absolute;
-      right: 1rem;
+      inset-inline-end: 1rem;
       top: 1rem;
       background: #00c853;
       color: white;
@@ -78,6 +78,48 @@
     font-weight: 400;
     font-size: 16;
     letter-spacing: 0%;
+<<<<<<< HEAD
+  }
+
+  // Loading skeleton styles
+  .loading-placeholder {
+    .skeleton-text {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+      border-radius: 4px;
+      margin-bottom: 8px;
+
+      &.skeleton-title {
+        height: 24px;
+        width: 60%;
+      }
+
+      &.skeleton-subtitle {
+        height: 16px;
+        width: 80%;
+      }
+
+      &.skeleton-bio {
+        height: 16px;
+        width: 100%;
+        margin-bottom: 4px;
+
+        &:nth-child(2) { width: 90%; }
+        &:nth-child(3) { width: 70%; }
+      }
+    }
+  }
+
+  @keyframes loading {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+=======
+>>>>>>> b201d866995093bf0c23ca0e9c49f2feb046eb6c
   }
 
   // Loading skeleton styles
@@ -119,13 +161,11 @@
     }
   }
 
-  .followers {
+  .my-courses {
     padding: 1rem;
 
     .title {
       margin-bottom: 1rem;
-
-
     }
 
     .text {
@@ -149,84 +189,327 @@
       width: 100%;
       height: 1px;
       background-color: #e0e0e0;
+    }
 
+  .courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
+    
+    .instructor-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
 
+      .instructor-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center;
+        background-color: #e5e7eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #9ca3af;
+        font-size: 0.9rem;
+      }
+
+      .instructor-name {
+        font-size: 0.9rem;
+        color: #374151;
+        font-weight: 500;
+      }
     }
 
 
+    .course-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      max-height: 440px;
 
+      .course-image {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
 
-  }
-}
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.3s;
+        }
 
-.followersList{
-    height: calc(100vh - 665px);
-    overflow-y: auto;
-    scrollbar-width: none;
-  .followers-list {
-  gap: 3rem;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-
-
-
-  .follower-card {
-    width: 395px;
-    height: 82px;
-    border-radius: 16px;
-    padding: 17px;
-    border: 1px solid #E5E7EB;
-    display: flex;
-    align-items: center;
-
-    img {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      margin-right: 0.5rem;
-    }
-
-    .nameStudent {
-      font-weight: 500;
-      font-size: 16px;
-      letter-spacing: 0%;
-
-
-    }
-  }
-}
-
-}
-.searchStudents{
-  display: flex;
-  justify-content: space-between;
-
-  align-items: center;
-  padding: 10px;
-
-
-}
-.leftSearch {
-  h5 {
-    font-weight: 500;
-    font-size: 18px;
-
-    .titleNAme {
+        &:hover img {
+          transform: scale(1.05);
+        }
+         .discount-badge {
+      position: absolute;
+      top: 12px;
+      right:  12px;
+      background: #ef4444;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.8rem;
       font-weight: 600;
     }
 
-  }
-}
-.rightSearch {
-  input{
-    padding: 10px 20px;
-    border: 1px solid #E5E7EB;
-    border-radius: 28px;
-    width: 300px;
-    font-size: 14px;
-    background: var(--color-grey-96, #f3f4f694);
-    outline: none;
 
+        .progress-overlay {
+          position: absolute;
+          top: 12px;
+          right: 12px;
+
+          .progress-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #1f2937;
+            backdrop-filter: blur(10px);
+          }
+        }
+
+        .category-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #52c41a;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    box-shadow: 1px 1px 2px #0101018c;
+        }
+      }
+
+      .course-content {
+        padding: 20px;
+
+        .course-title {
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: #1f2937;
+          margin-bottom: 8px;
+          line-height: 1.4;
+        }
+
+        .course-instructor {
+          color: #6b7280;
+          font-size: 0.875rem;
+          margin-bottom: 12px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
+          i {
+            color: #10b981;
+          }
+        }
+
+        .course-description {
+          color: #374151;
+          font-size: 0.875rem;
+          line-height: 1.5;
+          margin-bottom: 16px;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .course-stats {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 16px;
+          padding: 12px;
+          background: #f9fafb;
+          border-radius: 8px;
+
+          .stat {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.75rem;
+            color: #6b7280;
+
+            i {
+              color: #10b981;
+            }
+          }
+        }
+
+        .progress-section {
+          margin-bottom: 20px;
+
+          .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+
+            .progress-text {
+              font-size: 0.875rem;
+              color: #374151;
+              font-weight: 500;
+            }
+
+            .progress-percent {
+              font-size: 0.875rem;
+              color: #6b7280;
+              font-weight: 600;
+            }
+          }
+
+          .progress-bar {
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+
+            .progress-fill {
+              height: 100%;
+              border-radius: 4px;
+              transition: width 0.3s ease;
+            }
+          }
+        }
+
+        .course-actions {
+          display: flex;
+          gap: 12px;
+          align-items: center;
+
+          .btn-continue {
+            flex: 1;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+
+            &:hover {
+              box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+            }
+          }
+
+          .btn-menu {
+            width: 40px;
+            height: 40px;
+            background: #f3f4f6;
+            border: none;
+            border-radius: 8px;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+            cursor: pointer;
+
+            &:hover {
+              background: #e5e7eb;
+            }
+          }
+        }
+      }
+    }
   }
+
+
+    .course-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+    border-top: 1px solid #f3f4f6;
+
+    .price-section {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+
+      .original-price {
+        font-size: 0.9rem;
+        color: #9ca3af;
+        text-decoration: line-through;
+      }
+
+      .current-price {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #22c55e;
+      }
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+
+      button {
+        border: none;
+        border-radius: 8px;
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+      }
+
+      .btn-enroll {
+        background: #22c55e;
+        color: white;
+
+        &:hover {
+          background: #16a34a;
+          transform: translateY(-1px);
+        }
+      }
+
+      .btn-continue {
+        background: #3b82f6;
+        color: white;
+
+        &:hover {
+          background: #2563eb;
+          transform: translateY(-1px);
+        }
+      }
+
+      .btn-details {
+        background: #f3f4f6;
+        color: #6b7280;
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        justify-content: center;
+
+        &:hover {
+          background: #e5e7eb;
+          color: #374151;
+        }
+      }
+    }
+  }
+  }
+
+
 }

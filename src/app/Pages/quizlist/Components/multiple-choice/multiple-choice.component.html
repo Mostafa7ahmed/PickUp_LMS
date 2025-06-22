@@ -1,0 +1,94 @@
+<div class="question-item" [formGroup]="formGroup">
+  <div class="question-header">
+    <div class="question-number">
+      <i class="fas fa-grip-vertical"></i>
+    </div>
+    <div class="question-text-input">
+      <input type="text" formControlName="text" placeholder="Enter your multiple choice question here.">
+      <div class="hint-input" *ngIf="showHint" [@slideDown]>
+        <input type="text" formControlName="hint" placeholder="Enter a hint for this question (optional)">
+      </div>
+    </div>
+    <div class="question-actions">
+      <button type="button" class="action-btn hint-btn" (click)="toggleHint()" [class.active]="showHint">
+        <i class="fas fa-lightbulb"></i>
+      </button>
+      <button type="button" class="action-btn copy-btn" (click)="copyQuestion()">
+        <i class="fas fa-copy"></i>
+      </button>
+      <button type="button" class="action-btn delete-btn" (click)="onRemove()">
+        <i class="fas fa-trash"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="question-content">
+
+  <div class="choices-section" formArrayName="multipleChoise">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <label class="form-label fw-bold mb-0">
+        Answer Choices
+        <span class="badge bg-info ms-2">{{ getChoicesCount() }}</span>
+      </label>
+      <button
+        type="button"
+        class="btn btn-sm btn-outline-success"
+        (click)="addChoice()"
+        [disabled]="!canAddChoice()"
+        [title]="canAddChoice() ? 'Add new choice' : 'Maximum 10 choices allowed'">
+        <i class="fas fa-plus me-1"></i>Add Choice
+      </button>
+    </div>
+
+    <div *ngFor="let choice of choices.controls; let i = index" class="choice-item mb-2" [formGroupName]="i">
+      <div class="d-flex align-items-center gap-2">
+        <div class="choice-number">
+          {{ i + 1 }}.
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            [name]="'correct_' + questionIndex"
+            [id]="'choice_' + questionIndex + '_' + i"
+            [checked]="choice.get('correct')?.value"
+            (change)="onCorrectChange(i)">
+          <label class="form-check-label text-success fw-bold" [for]="'choice_' + questionIndex + '_' + i">
+            <i class="fas fa-check-circle me-1"></i>
+          </label>
+        </div>
+        <div class="flex-grow-1">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="answer"
+            [placeholder]="'Enter choice ' + (i + 1)"
+            (keydown)="onKeyDown($event, i)">
+        </div>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-danger"
+          (click)="removeChoice(i)"
+          [disabled]="!canRemoveChoice()"
+          [title]="canRemoveChoice() ? 'Remove this choice' : 'At least 2 choices required'">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="choices-info mt-2">
+      <small class="text-muted d-block">
+        <i class="fas fa-info-circle me-1"></i>
+        Select the correct answer by clicking the radio button next to it.
+      </small>
+      <small class="text-muted d-block">
+        <i class="fas fa-lightbulb me-1"></i>
+        You can add up to 10 choices. At least 2 choices are required.
+      </small>
+      <small class="text-muted d-block">
+        <i class="fas fa-keyboard me-1"></i>
+        <strong>Shortcuts:</strong> Ctrl+Enter to add choice, Ctrl+Delete to remove choice
+      </small>
+    </div>
+  </div>
+</div>

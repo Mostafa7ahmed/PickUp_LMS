@@ -1,0 +1,258 @@
+<div class="course-view-container" *ngIf="courseResponse as data">
+  <!-- Course Header Section -->
+  <div class="course-header-card">
+    <div class="course-main-info">
+      <div class="course-image-container">
+        <img class="course-image" 
+             [src]="data.result.photoUrl ? (baseUrlFile + data.result.photoUrl) : '/assets/Images/Course/Image+Background.png'" 
+             alt="Course Image" />
+        <div class="course-badge" *ngIf="data.result.free" class="free-badge">
+          <i class="fas fa-gift"></i>
+          <span>مجاني</span>
+        </div>
+        <div class="course-badge price-badge" *ngIf="!data.result.free">
+          <i class="fas fa-tag"></i>
+          <span>{{ data.result.priceAfterDiscount || data.result.price }} جنيه</span>
+        </div>
+      </div>
+
+      <div class="course-details">
+        <div class="course-title-section">
+          <h1 class="course-title">{{ data.result.name }}</h1>
+          <div class="course-meta">
+            <span class="stage-info">
+              <i class="fas fa-layer-group"></i>
+              {{ data.result.stage?.name }}
+            </span>
+            <span class="instructor-info">
+              <i class="fas fa-user-tie"></i>
+              {{ data.result.creator?.name }}
+            </span>
+            <span class="rating-info" *ngIf="data.result.rating > 0">
+              <i class="fas fa-star"></i>
+              {{ data.result.rating.toFixed(1) }}
+            </span>
+          </div>
+        </div>
+
+        <div class="course-stats">
+          <div class="stat-item">
+            <i class="fas fa-play-circle"></i>
+            <span>{{ data.result.lessonssCount }} دروس</span>
+          </div>
+          <div class="stat-item">
+            <i class="fas fa-users"></i>
+            <span>{{ data.result.studentsCount }} طالب</span>
+          </div>
+          <div class="stat-item" *ngIf="data.result.duration">
+            <i class="fas fa-clock"></i>
+            <span>{{ formatDuration(data.result.duration) }}</span>
+          </div>
+          <div class="stat-item">
+            <i class="fas fa-calendar-alt"></i>
+            <span>{{ data.result.createdOn | date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress Section (Only for enrolled students) -->
+    <div class="progress-section" *ngIf="isEnrolled">
+      <div class="progress-header">
+        <h3>تقدمك في الكورس</h3>
+        <div class="progress-actions">
+          <button class="action-btn share-btn" (click)="shareProgress()" pTooltip="مشاركة التقدم">
+            <i class="fas fa-share-alt"></i>
+          </button>
+          <button class="action-btn discussion-btn" (click)="goToDiscussion()" pTooltip="المناقشات">
+            <i class="fas fa-comments"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="progress-content">
+        <div class="progress-stats">
+          <div class="progress-stat">
+            <div class="stat-value" [style.color]="getProgressColor()">
+              {{ studentProgress.overallProgress }}%
+            </div>
+            <div class="stat-label">التقدم الإجمالي</div>
+          </div>
+          <div class="progress-stat">
+            <div class="stat-value" [style.color]="getGradeColor()">
+              {{ studentProgress.currentGrade }}
+            </div>
+            <div class="stat-label">الدرجة الحالية</div>
+          </div>
+          <div class="progress-stat">
+            <div class="stat-value">{{ studentProgress.completedLessons }}/{{ studentProgress.totalLessons }}</div>
+            <div class="stat-label">الدروس المكتملة</div>
+          </div>
+          <div class="progress-stat">
+            <div class="stat-value">{{ studentProgress.timeSpent }}</div>
+            <div class="stat-label">الوقت المقضي</div>
+          </div>
+        </div>
+
+        <div class="progress-bar-container">
+          <p-progressbar 
+            [value]="studentProgress.overallProgress" 
+            [style]="{'height': '12px', 'border-radius': '6px'}"
+            [color]="getProgressColor()">
+          </p-progressbar>
+        </div>
+
+        <div class="progress-actions-main">
+          <button class="continue-btn" (click)="continueLearning()" *ngIf="!isCompleted">
+            <i class="fas fa-play"></i>
+            متابعة التعلم
+          </button>
+          <button class="completed-btn" *ngIf="isCompleted" disabled>
+            <i class="fas fa-check-circle"></i>
+            تم إكمال الكورس
+          </button>
+          <button class="certificate-btn" 
+                  (click)="downloadCertificate()" 
+                  [disabled]="!studentProgress.certificateEligible"
+                  [pTooltip]="!studentProgress.certificateEligible ? 'يجب إكمال 80% من الكورس للحصول على الشهادة' : 'تحميل الشهادة'">
+            <i class="fas fa-certificate"></i>
+            تحميل الشهادة
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Enrollment Section (For non-enrolled students) -->
+    <div class="enrollment-section" *ngIf="!isEnrolled">
+      <div class="enrollment-content">
+        <h3>ابدأ رحلتك التعليمية</h3>
+        <p>انضم إلى {{ data.result.studentsCount }} طالب آخرين في هذا الكورس</p>
+        <button class="enroll-btn" (click)="enrollInCourse()">
+          <i class="fas fa-user-plus"></i>
+          التسجيل في الكورس
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs Section -->
+  <div class="tabs-container">
+    <div class="custom-tab-header">
+      <button class="tab-btn" 
+              [class.active]="activeTab === 0" 
+              (click)="activeTab = 0">
+        <i class="fas fa-info-circle"></i>
+        نظرة عامة
+      </button>
+      <button class="tab-btn" 
+              [class.active]="activeTab === 1" 
+              (click)="activeTab = 1">
+        <i class="fas fa-play-circle"></i>
+        المحاضرات
+      </button>
+      <button class="tab-btn" 
+              [class.active]="activeTab === 2" 
+              (click)="activeTab = 2">
+        <i class="fas fa-question-circle"></i>
+        الاختبارات
+      </button>
+      <button class="tab-btn" 
+              [class.active]="activeTab === 3" 
+              (click)="activeTab = 3">
+        <i class="fas fa-star"></i>
+        التقييمات
+      </button>
+    </div>
+
+    <div class="tab-content">
+      <!-- Overview Tab -->
+      <div class="tab-panel" *ngIf="activeTab === 0">
+        <div class="overview-content">
+          <div class="description-section">
+            <h3><i class="fas fa-align-left"></i> وصف الكورس</h3>
+            <p class="course-description">{{ data.result.description || 'لا يوجد وصف متاح لهذا الكورس.' }}</p>
+          </div>
+
+          <div class="course-info-grid">
+            <div class="info-card">
+              <div class="info-header">
+                <i class="fas fa-info-circle"></i>
+                <h4>معلومات الكورس</h4>
+              </div>
+              <div class="info-content">
+                <div class="info-item">
+                  <span class="label">المرحلة:</span>
+                  <span class="value">{{ data.result.stage?.name }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">المدرس:</span>
+                  <span class="value">{{ data.result.creator?.name }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">عدد الدروس:</span>
+                  <span class="value">{{ data.result.lessonssCount }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">عدد الطلاب:</span>
+                  <span class="value">{{ data.result.studentsCount }}</span>
+                </div>
+                <div class="info-item" *ngIf="data.result.rating > 0">
+                  <span class="label">التقييم:</span>
+                  <span class="value">{{ data.result.rating.toFixed(1) }} ⭐</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-card" *ngIf="isEnrolled">
+              <div class="info-header">
+                <i class="fas fa-chart-line"></i>
+                <h4>إحصائياتك</h4>
+              </div>
+              <div class="info-content">
+                <div class="info-item">
+                  <span class="label">تاريخ التسجيل:</span>
+                  <span class="value">{{ formatDate(studentProgress.enrollmentDate) }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">آخر زيارة:</span>
+                  <span class="value">{{ formatDate(studentProgress.lastAccessed) }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">الوقت المقضي:</span>
+                  <span class="value">{{ studentProgress.timeSpent }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">متوسط الدرجات:</span>
+                  <span class="value">{{ studentProgress.averageScore }}%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lectures Tab -->
+      <div class="tab-panel" *ngIf="activeTab === 1">
+        <app-lesson [courseId]="courseId"></app-lesson>
+      </div>
+
+      <!-- Quiz Tab -->
+      <div class="tab-panel" *ngIf="activeTab === 2">
+        <app-all-quiz-view-course [courseId]="courseId"></app-all-quiz-view-course>
+      </div>
+
+      <!-- Reviews Tab -->
+      <div class="tab-panel" *ngIf="activeTab === 3">
+        <app-rating [courseId]="courseId"></app-rating>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Loading State -->
+<div class="loading-container" *ngIf="!courseResponse">
+  <div class="loading-spinner">
+    <i class="fas fa-spinner fa-spin"></i>
+    <p>جاري تحميل بيانات الكورس...</p>
+  </div>
+</div> 

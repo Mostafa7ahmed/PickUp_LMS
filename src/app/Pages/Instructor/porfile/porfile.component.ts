@@ -6,16 +6,18 @@ import { InstructorProfileService } from './core/services/instructor-profile.ser
 import { IInstructorProfile } from './core/interfaces/instructor-profile.interface';
 import { filter, Subscription } from 'rxjs';
 import { environment } from '../../../Environments/environment';
+<<<<<<< HEAD
+=======
+import { ICoursePorfile, ListCourse } from '../../Courses/Core/interface/icourses';
+import { IPaginationResponse } from '../../../Core/Shared/Interface/irespose';
+import { SplicTextPipe } from '../../Courses/Core/Pipes/splic-text.pipe';
 
-export interface Follower {
-  name: string;
-  title: string;
-  image: string;
-}
+>>>>>>> b201d866995093bf0c23ca0e9c49f2feb046eb6c
+
 @Component({
   selector: 'app-porfile',
   standalone: true,
-  imports: [FormsModule , CommonModule ],
+  imports: [FormsModule , CommonModule , SplicTextPipe ],
   templateUrl: './porfile.component.html',
   styleUrl: './porfile.component.scss'
 })
@@ -23,6 +25,7 @@ export class PorfileComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private instructorProfileService = inject(InstructorProfileService);
   private subscription = new Subscription();
+<<<<<<< HEAD
 
   searchText = '';
   instructorProfile: IInstructorProfile | null = null;
@@ -59,12 +62,25 @@ export class PorfileComponent implements OnInit, OnDestroy {
     this.loadInstructorProfile();
 
     // Listen for navigation events to reload profile when returning from manage dialog
+=======
+
+  instructorProfile: IInstructorProfile | null = null;
+  instructorCourses: ICoursePorfile[] = [];
+  coursesLoading = false;
+  isLoading = false;
+
+  ngOnInit(): void {
+    this.loadInstructorProfile();
+    this.loadInstructorCourses();
+
+>>>>>>> b201d866995093bf0c23ca0e9c49f2feb046eb6c
     this.subscription.add(
       this.router.events
         .pipe(filter(event => event instanceof NavigationEnd))
         .subscribe((event: NavigationEnd) => {
           if (event.url === '/myprofile') {
             this.loadInstructorProfile();
+<<<<<<< HEAD
           }
         })
     );
@@ -106,6 +122,73 @@ export class PorfileComponent implements OnInit, OnDestroy {
   filteredFollowers(): Follower[] {
     return this.followers.filter(f =>
       f.name.toLowerCase().includes(this.searchText.toLowerCase())
+=======
+            this.loadInstructorCourses();
+          }
+        })
+>>>>>>> b201d866995093bf0c23ca0e9c49f2feb046eb6c
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  loadInstructorProfile(): void {
+    this.isLoading = true;
+    this.instructorProfileService.getInstructorProfile().subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.instructorProfile = response.result;
+        }
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading instructor profile:', error);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  loadInstructorCourses(): void {
+    this.coursesLoading = true;
+    this.instructorProfileService.getInstructorCourses().subscribe({
+      next: (response: IPaginationResponse<ICoursePorfile>) => {
+        if (response.success) {
+          this.instructorCourses = response.result;
+        }
+        this.coursesLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading instructor courses:', error);
+        this.coursesLoading = false;
+      }
+    });
+  }
+
+  openManageProfile(): void {
+    this.router.navigate([{ outlets: { dialog: ['manageProfile'] } }]);
+  }
+
+  createNewCourse(): void {
+    this.router.navigate([{ outlets: { dialog: ['addcourse'] } }]);
+  }
+
+  viewCourse(courseId: number): void {
+    this.router.navigate(['/ViewCourse', courseId]);
+  }
+
+  editCourse(courseId: number): void {
+    console.log('Edit course:', courseId);
+    // Example: this.router.navigate([{ outlets: { dialog: ['editcourse', courseId] } }]);
+  }
+
+  getPhotoUrl(photoPath: string): string {
+    // If it's already a full URL, return as is
+    if (photoPath.startsWith('http')) {
+      return photoPath;
+    }
+    // Otherwise, prepend the base URL
+    return environment.baseUrlFiles + photoPath;
   }
 }

@@ -1,29 +1,251 @@
-<div class="viewLesson mt-2">
-    <div class="cover">
-        <img src="Images/CardProfile.png" alt="Cover Image" width="100%" height="100%" />
-        <div class="informainon d-flex justify-content-between">
-            <div class="IconBack position-absolute">
-                <a class="d-flex align-items-center gap-2 text-white " (click)="goBackToCourse()" style="cursor:pointer;">
-                    <i class="fa-solid fa-arrow-left"></i>
-                    <p>Back Course</p>
-                </a>
-            </div>
-            <div class="rightInfo">
-                <h2>Lesson Title</h2>
-                <div class="tagsShow">
-                    <p class="tag">#Tag1 web </p>
-                    <p class="tag">#Tag1 web </p>
-                    <p class="tag">#Tag1 web </p>
-                    <p class="tag">#Tag1 web </p>
+<!-- Loading State -->
+<div *ngIf="isLoading" >
+  <app-selecton-view ></app-selecton-view>
 
-                    <p class="tag">#Tag1 web </p>
+</div>
 
-                </div>
-            </div>
-            <div class="leftInfo">
-                <img src="Images/create-videos-online-courses-cover-coursifyme.jpg" alt="">
-            </div>
+<div *ngIf="hasError" class="d-flex flex-column mt-5 align-items-center justify-content-center m-0">
+  <img src="Images/deal-empty-state.svg" alt="" width="190px">
+  <p class="mt-3">{{ errorMessage }}</p>
+  <button class="btn btn-primary mt-2" (click)="getLessonData()">Try Again</button>
+</div>
 
+<!-- Main Content -->
+<div *ngIf="!isLoading && !hasError && lessonData" class="viewLesson mt-2">
+  <div class="cover">
+    <img
+      src="Images/CardProfile.png"
+      alt="Cover Image"
+      width="100%"
+      height="100%"
+    />
+    <div class="informainon d-flex justify-content-between">
+      <div class="IconBack position-absolute">
+        <a
+          class="d-flex align-items-center gap-2 text-white"
+          (click)="goBackToCourse()"
+          style="cursor: pointer"
+        >
+          <i class="fa-solid fa-arrow-left"></i>
+          <p>Back Course</p>
+        </a>
+      </div>
+      <div class="rightInfo">
+        <h2>{{ lessonData.name || 'Lesson Title' }}</h2>
+        <div class="tagsShow">
+          <p class="tag" *ngFor="let tag of lessonData?.tags">#{{ tag.name }}</p>
+          <p class="tag" *ngIf="!lessonData?.tags || lessonData.tags.length === 0">#No tags available</p>
         </div>
+      </div>
+      <div class="leftInfo">
+        <img
+          src="Images/create-videos-online-courses-cover-coursifyme.jpg"
+          alt=""
+        />
+      </div>
     </div>
+  </div>
+  <div class="headerCover mt-2">
+    <div class="tabs">
+      <p-button
+        (onClick)="value = 0"
+        class="tab tab-active"
+        [class.activeHeader]="value == 0"
+        styleClass="tabHeader"
+      >
+        <div class="tab-icon">
+          <i class="fa-brands fa-wpexplorer"></i>
+        </div>
+        <p>Overview</p>
+      </p-button>
+      <p-button
+        (onClick)="value = 1"
+        class="tab tab-active"
+        [class.activeHeader]="value == 1"
+        styleClass="tabHeader"
+      >
+        <div class="tab-icon">
+          <i class="fa-kit fa-stream-icon-cp"></i>
+        </div>
+        <p>Videos</p>
+      </p-button>
+    </div>
+  </div>
+  <div class="ContentCourse mb-4 d-flex gap-3 align-items-start">
+    <div class="leftContent">
+      <p-tabs [value]="value">
+        <p-tabpanels>
+          <p-tabpanel [value]="0">
+            <div class="course-info">
+              <h2 class="section-title">About This Lesson</h2>
+              <p class="description">
+                {{ lessonData.description || 'No description available for this lesson.' }}
+              </p>
+
+              <div class="course-header">
+                <div class="icon"><span>&lt;/&gt;</span></div>
+                <h3 class="course-title">
+                  {{ lessonData.name || 'Lesson Title' }}
+                </h3>
+              </div>
+
+              <div class="course-stats">
+                <div class="stat-card">
+                  <div class="icon">
+                    <i class="fas fa-video stat-icon"></i>
+                  </div>
+                  <div class="data">
+                    <h4 class="stat-number">{{ lessonData.videos.length || 0 }}</h4>
+                    <p class="stat-label">Video Lessons</p>
+                  </div>
+                </div>
+
+                <div class="stat-card">
+                  <div class="icon">
+                    <i class="fas fa-gift stat-icon"></i>
+                  </div>
+                  <div class="data">
+                    <h4 class="stat-number">{{ getFreeVideosCount() }}</h4>
+                    <p class="stat-label">Free Videos</p>
+                  </div>
+                </div>
+
+                <div class="stat-card">
+                  <div class="icon">
+                    <i class="fas fa-lock stat-icon"></i>
+                  </div>
+                  <div class="data">
+                    <h4 class="stat-number">{{ getPaidVideosCount() }}</h4>
+                    <p class="stat-label">Paid Videos</p>
+                  </div>
+                </div>
+
+                <div class="stat-card">
+                  <div class="icon">
+                    <i class="fas fa-tag stat-icon"></i>
+                  </div>
+                  <div class="data">
+                    <h4 class="stat-number">{{ lessonData.tags.length || 0 }}</h4>
+                    <p class="stat-label">Tags</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="course-introVideo mt-2" *ngIf="lessonData?.introductionVideoUrl">
+              <h2 class="section-title">Lesson Introduction Video</h2>
+              <video
+                #player
+                controls
+                crossorigin
+                playsinline
+                poster="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/311843542/original/8c9c677c05b80b431b4f10624d089f5c0c5c2732/do-the-best-poster-design.png"
+              >
+                <source
+                  [src]="baseurl + lessonData.introductionVideoUrl"
+                  type="video/mp4"
+                />
+              </video>
+            </div>
+            <div class="course-introVideo mt-2 " *ngIf="!lessonData?.introductionVideoUrl">
+              <h2 class="section-title">Lesson Introduction Video</h2>
+              <div class="d-flex flex-column align-items-center p-5 justify-content-center p-4 bg-light rounded">
+                <i class="fas fa-video fa-3x text-muted mb-3"></i>
+                <p class="text-muted">No introduction video available for this lesson.</p>
+              </div>
+            </div>
+          </p-tabpanel>
+          <p-tabpanel [value]="1">
+            <div class="accordion-container" *ngIf="lessonData?.videos && lessonData.videos.length > 0">
+              <div
+                class="accordion-item"
+                *ngFor="let video of lessonData.videos; let i = index"
+              >
+                <div class="accordion-header" (click)="toggle(i)">
+                  <div class="index-circle">{{ i + 1 }}</div>
+                  <div class="video-title">
+                    {{ video.name }}
+                    <span class="badge ms-2" [ngClass]="video.free ? 'bg-success' : 'bg-warning'">
+                      {{ video.free ? 'Free' : 'Premium' }}
+                    </span>
+                  </div>
+                  <i
+                    class="fa-solid"
+                    [ngClass]="{
+                      'fa-chevron-up': openedIndex === i,
+                      'fa-chevron-down': openedIndex !== i
+                    }"
+                  ></i>
+                </div>
+
+                <div class="accordion-content" *ngIf="openedIndex === i">
+                  <div class="video-wrapper">
+                    <video
+                      controls
+                      crossorigin
+                      playsinline
+                      poster="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/311843542/original/8c9c677c05b80b431b4f10624d089f5c0c5c2732/do-the-best-poster-design.png"
+                    >
+                      <source
+                        [src]="baseurl+video.url"
+                        type="video/mp4"
+                      />
+                    </video>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="!lessonData?.videos || lessonData.videos.length === 0" class="d-flex flex-column align-items-center justify-content-center p-4">
+              <i class="fas fa-video fa-3x text-muted mb-3"></i>
+              <p class="text-muted">No videos available for this lesson.</p>
+            </div>
+          </p-tabpanel>
+        </p-tabpanels>
+      </p-tabs>
+    </div>
+    <div class="rightContent mt-2">
+      <div class="box">
+        <h4>Lesson Videos</h4>
+        <ul class="videos" *ngIf="lessonData?.videos && lessonData.videos.length > 0">
+          <li *ngFor="let video of lessonData.videos" [class.locked]="!video.free">
+            <p>
+              <i class="fa-solid mx-1" [ngClass]="video.free ? 'fa-circle-check' : 'fa-lock'"></i>
+              {{ video.name }}
+            </p>
+
+            <span
+              class="tag"
+              [ngClass]="{ free: video.free, premium: !video.free }"
+            >
+              {{ video.free ? 'Free' : 'Premium' }}
+            </span>
+          </li>
+        </ul>
+        <div *ngIf="!lessonData?.videos || lessonData.videos.length === 0" class="text-center p-3">
+          <p class="text-muted">No videos available</p>
+        </div>
+      </div>
+
+        <div class="box resources">
+        <h5>Downloadable Resources</h5>
+        <div class="resources-list">
+          <div class="resource" *ngFor="let item of resources">
+            <div class="icon" [style.backgroundColor]="item.color">
+              <i class="fa-solid" [ngClass]="item.icon"></i>
+            </div>
+            <div class="details">
+              <strong>{{ item.title }}</strong>
+              <p>{{ item.type }} • {{ item.size }}</p>
+            </div>
+            <button><i class="fa-solid fa-download"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- No Data State -->
+<div *ngIf="!isLoading && !hasError && !lessonData" class="d-flex flex-column mt-5 align-items-center justify-content-center m-0">
+  <img src="Images/deal-empty-state.svg" alt="" width="190px">
+  <p class="mt-3">No lesson data found</p>
 </div>

@@ -27,6 +27,8 @@ export class TableCoursesComponent {
     showLeftScroll = false;
     showRightScroll = true;
     @Output() fetchCoursesEvent = new EventEmitter<{ pageNumber?: number; pageSize?: number }>();
+    @Output() editCourseEvent = new EventEmitter<CourseResult>();
+    @Output() deleteCourseEvent = new EventEmitter<CourseResult>();
 
     someMethodToEmitEvent(pageSize: number , pageNumber : number) {
       this.fetchCoursesEvent.emit({
@@ -96,7 +98,12 @@ export class TableCoursesComponent {
       clearInterval(this.scrollInterval);
     }
 
+    editCourse(course: CourseResult) {
+      this.editCourseEvent.emit(course);
+    }
 
-
+    deleteCourse(course: CourseResult) {
+      this.deleteCourseEvent.emit(course);
+    }
 
 }

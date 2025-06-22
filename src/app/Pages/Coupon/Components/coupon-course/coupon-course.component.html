@@ -272,9 +272,11 @@
 
     <div class="right-section">
       <div class="input-skeleton"></div>
+            <div class="input-skeleton"></div>
+
+            <div class="input-skeleton"></div>
+
       <div class="input-skeleton"></div>
-      <div class="photo-skeleton"></div>
-      <div class="photo-skeleton video"></div>
       <div class="photo-skeleton video"></div>
 
     </div>
@@ -282,9 +284,11 @@
 
   <div class="footerCourse bg-white rounded-1">
     <div class="btnsCourse">
-      <button  (click)="createCoupon()">
-        <!-- <span *ngIf="isLoad" class="spinner"></span> -->
-        <span>Create</span>
+
+
+      <button (click)="createCoupon()" [disabled]="isCreatingCoupon || !formGroup.valid || !selectedCourse">
+        <span *ngIf="isCreatingCoupon" class="spinner"></span>
+        <span>{{ isCreatingCoupon ? 'Creating...' : 'Create' }}</span>
       </button>
 
     </div>

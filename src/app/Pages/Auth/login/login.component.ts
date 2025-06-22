@@ -6,6 +6,8 @@ import { NgClass } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Decode } from '../../../Core/Interface/user';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { CustomValidators } from '../../../Core/Shared/validators/custom-validators';
+import { ValidationService } from '../../../Core/Services/validation.service';
 
 @Component({
   selector: 'app-login',
@@ -19,72 +21,115 @@ export class LoginComponent {
   private readonly _loginService = inject(LoginService);
   private readonly _FormBuilder = inject(FormBuilder);
   private readonly _Router = inject(Router);
- private userDecode = {} as Decode;
+  private readonly _validationService = inject(ValidationService);
+  private userDecode = {} as Decode;
+  
   constructor(private message: NzMessageService) {}
 
-  MessageUseName:string =""
+  MessageUseName: string = "";
   isLoading: boolean = false;
+  attemptedSubmit: boolean = false;
 
-      loginForm: FormGroup = this._FormBuilder.group(
-    {
-      emailOrPhoneNumber: [null, [Validators.email, Validators.required]],
-      password: [null, [ Validators.pattern('^(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_])[A-Za-z\\d\\W_]{8,}$'), Validators.required]],
-    },
-  );
+  loginForm: FormGroup = this._FormBuilder.group({
+    emailOrPhoneNumber: [
+      '', 
+      [
+        Validators.required,
+        CustomValidators.emailOrPhone()
+      ]
+    ],
+    password: [
+      '', 
+      [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(50)
+      ]
+    ],
+  });
 
-  LoginSubmit(){
-    this.isLoading = true;
+  LoginSubmit() {
+    this.attemptedSubmit = true;
+    this.MessageUseName = "";
 
-  if (this.loginForm.valid) {
-    this._loginService.setLoginForm(this.loginForm.value).subscribe({
-      next: (res) => {
-        console.log(res);
-        this.isLoading = false;
+    // Mark all fields as touched to show validation errors
+    this._validationService.markAllFieldsAsTouched(this.loginForm);
 
-        // Save tokens
-        localStorage.setItem("UserAuth", res.result.jwt);
-        localStorage.setItem("refreshToken", res.result.refreshToken);
+    if (this.loginForm.valid) {
+      this.isLoading = true;
 
-        // Decode and store user info
-        this.userDecode = this._loginService.saveUserAuth();
-        if (this.userDecode) {
-          localStorage.setItem("roles", this.userDecode.roles);
-          console.log("message: " + this.userDecode.UserType);
-
-          // Success message
-          this.message.success(res.message);
-
-          // Redirect based on user type
-          if (this.userDecode.roles === 'Instructor') {
-            this._Router.navigate([`/home${this.userDecode.roles}`]);
-          } else if (this.userDecode.roles === 'Student') {
-            this._Router.navigate([`/${this.userDecode.roles}/home${this.userDecode.roles}`]);
-          } else {
-            this._Router.navigate(['/landingpage']);
-          }
-        } else {
-          this.message.error("User decode failed.");
-        }
-      },
-        error: (err: HttpErrorResponse) => {
-          this.MessageUseName =err.error.message;
-          console.log(this.MessageUseName);
+      this._loginService.setLoginForm(this.loginForm.value).subscribe({
+        next: (res) => {
+          console.log(res);
           this.isLoading = false;
+
+          // Save tokens
+          localStorage.setItem("UserAuth", res.result.jwt);
+          localStorage.setItem("refreshToken", res.result.refreshToken);
+
+          // Decode and store user info
+          this.userDecode = this._loginService.saveUserAuth();
+          if (this.userDecode) {
+            localStorage.setItem("roles", this.userDecode.roles);
+            console.log("message: " + this.userDecode.UserType);
+
+            // Success message
+            this.message.success(res.message || "Login successful!");
+
+            // Redirect based on user type
+            if (this.userDecode.roles === 'Instructor') {
+              this._Router.navigate([`/home${this.userDecode.roles}`]);
+            } else if (this.userDecode.roles === 'Student') {
+              this._Router.navigate([`/${this.userDecode.roles}/home${this.userDecode.roles}`]);
+            } else {
+              this._Router.navigate(['/landingpage']);
+            }
+          } else {
+            this.message.error("User decode failed.");
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          this.isLoading = false;
+          
+          if (err.status === 401 || err.status === 400) {
+            this.MessageUseName = "كلمة المرور او الايميل خاطئة";
+            this.message.error("كلمة المرور او الايميل خاطئة");
+          } else if (err.error?.message) {
+            this.MessageUseName = err.error.message;
+            this.message.error(err.error.message);
+          } else if (err.status === 0) {
+            this.MessageUseName = "خطأ في الاتصال. يرجى التحقق من الاتصال بالإنترنت.";
+            this.message.error("خطأ في الاتصال. يرجى التحقق من الاتصال بالإنترنت.");
+          } else {
+            this.MessageUseName = "حدث خطأ. يرجى المحاولة مرة أخرى.";
+            this.message.error("حدث خطأ. يرجى المحاولة مرة أخرى.");
+          }
+          
+          console.error('Login error:', err);
         },
       });
-  }
-
+    } else {
+      // Show validation errors
+      this.message.error("Please correct the errors in the form.");
+    }
   }
 
 
   isFieldInvalid(fieldName: string): boolean {
-    const control = this.loginForm.get(fieldName);
-    return control ? control.invalid && (control.touched || control.dirty) : false;
+    return this._validationService.isFieldInvalid(this.loginForm, fieldName);
   }
 
   isFieldValid(fieldName: string): boolean {
+    return this._validationService.isFieldValid(this.loginForm, fieldName);
+  }
+
+  getErrorMessage(fieldName: string): string {
     const control = this.loginForm.get(fieldName);
-    return control ? control.valid && (control.touched || control.dirty) : false;
+    return this._validationService.getErrorMessage(control, fieldName);
+  }
+
+  getFieldCssClass(fieldName: string): string {
+    return this._validationService.getFieldCssClass(this.loginForm, fieldName);
   }
 
 

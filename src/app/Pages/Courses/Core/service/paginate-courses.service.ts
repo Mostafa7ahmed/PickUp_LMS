@@ -15,10 +15,9 @@ export class PaginateCoursesService {
    }
 
 
-
-   getCourses(
+  getCourses(
     topicId: number, 
-    stageId?: number,  // ترك stageId اختياري
+    stageId?: number,
     pageNumber: number = 1, 
     pageSize: number = 100, 
     courseListViewType: number = 0, 
@@ -26,8 +25,8 @@ export class PaginateCoursesService {
     to?: string, 
     orderBy: number = 2, 
     orderDirection: number = 1,
+    search?: string,
   ): Observable<any> {
-  
     const params: any = {
       topicId: topicId.toString(),
       pageNumber: pageNumber.toString(),
@@ -37,14 +36,13 @@ export class PaginateCoursesService {
       orderDirection: orderDirection.toString(),
       orderBeforPagination: 'true',
     };
-  
-    // إذا كان stageId موجود، أضفه
+
     if (stageId) {
       params.stageId = stageId.toString();
     }
-  
     if (from) params.from = from;
     if (to) params.to = to;
+    if (search) params.search = search;
   
     return this._HttpClient.get<any>(`${this.urlPagination}`, { params });
   }

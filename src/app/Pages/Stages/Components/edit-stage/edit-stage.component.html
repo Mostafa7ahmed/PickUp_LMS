@@ -11,8 +11,13 @@
                         <div class="squareSelected circle" [ngStyle]="{'background-color': selectedColor}"></div>
                         <img alt="" class="arrow_stage" src="https://s3.dinarcrm.com/assets/img/tasks-board/arrow-down.svg" />
                     </div>
-                    <input maxlength="50" type="text" class=" dragged "
-                      placeholder="Enter Stage Name"  formControlName="name" />
+                    <input 
+                      maxlength="50" 
+                      type="text" 
+                      class="dragged"
+                      [class.is-invalid]="isFieldInvalid('name')"
+                      placeholder="Enter Stage Name"  
+                      formControlName="name" />
            
                     <div class="packageColor" *ngIf="showPackageColor">
                       @for (color of colors; track $index) {
@@ -25,6 +30,12 @@
                     </div>
                 </div>
 
+                    <!-- Validation Error for Stage Name -->
+                    <div class="validation-error" *ngIf="isFieldInvalid('name')">
+                      <i class="fas fa-exclamation-circle"></i>
+                      <span>{{ getErrorMessage('name') }}</span>
+                    </div>
+
         </div>
         </div>
    
@@ -33,6 +44,6 @@
     </div>
 
     <div class="footerStage p-2" >
-        <button class="btn "  (click)="updateStage()">Edit</button>
+        <button class="btn" (click)="updateStage()" [disabled]="stageForm.invalid && showValidationErrors">تعديل</button>
     </div>
 </div>

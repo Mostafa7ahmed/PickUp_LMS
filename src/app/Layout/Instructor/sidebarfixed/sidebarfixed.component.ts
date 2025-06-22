@@ -70,13 +70,6 @@ export class SidebarfixedComponent {
       Icon: 'fa-receipt fa-solid',
       routes: "Couponslist"
     },
-        {
-      name: 'Chat',
-      Icon: 'fa-regular fa-comment-dots',
-      
-      routes: "Chat"
-    },  
-    
     {
       name: 'To Do',
       Icon: 'fa-solid fa-list-check',

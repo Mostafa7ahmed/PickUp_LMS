@@ -1,0 +1,49 @@
+<div class="question-item" [formGroup]="formGroup">
+  <div class="question-header">
+    <div class="question-number">
+      <i class="fas fa-grip-vertical"></i>
+    </div>
+    <div class="question-text-input">
+      <input type="text" formControlName="text" placeholder="Select true for correct statement and false for wrong statement.">
+      <div class="hint-input" *ngIf="showHint" [@slideDown]>
+        <input type="text" formControlName="hint" placeholder="Enter a hint for this question (optional)">
+      </div>
+    </div>
+    <div class="question-actions">
+      <button type="button" class="action-btn hint-btn" (click)="toggleHint()" [class.active]="showHint">
+        <i class="fas fa-lightbulb"></i>
+      </button>
+      <button type="button" class="action-btn copy-btn" (click)="copyQuestion()">
+        <i class="fas fa-copy"></i>
+      </button>
+      <button type="button" class="action-btn delete-btn" (click)="onRemove()">
+        <i class="fas fa-trash"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="question-content">
+    <!-- Answer options -->
+    <div class="answer-options" formGroupName="trueAndFalse">
+      <div class="option-item" [class.selected]="formGroup.get('trueAndFalse.answer')?.value === true">
+        <input type="radio" formControlName="answer" [value]="true" id="true_{{questionIndex}}" class="option-radio">
+        <label for="true_{{questionIndex}}" class="option-label">
+          <span class="option-indicator true-indicator">
+            <i class="fas fa-check"></i>
+          </span>
+          <span class="option-text">True</span>
+        </label>
+      </div>
+
+      <div class="option-item" [class.selected]="formGroup.get('trueAndFalse.answer')?.value === false">
+        <input type="radio" formControlName="answer" [value]="false" id="false_{{questionIndex}}" class="option-radio">
+        <label for="false_{{questionIndex}}" class="option-label">
+          <span class="option-indicator false-indicator">
+            <i class="fas fa-times"></i>
+          </span>
+          <span class="option-text">False</span>
+        </label>
+      </div>
+    </div>
+  </div>
+</div>

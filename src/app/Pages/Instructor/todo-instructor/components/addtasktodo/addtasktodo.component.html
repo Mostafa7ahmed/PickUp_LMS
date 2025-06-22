@@ -3,15 +3,23 @@
   <app-top-pop [NamePopup]="'Create ToDo'" NameIcon="fa-solid fa-list-check" (isVisibleChange)="closeDialog()"></app-top-pop>
     
     <div class="form-body ">
+      <!-- Debug Info (remove in production) -->
+
+
       <div class="bgCard form-group ">
       <app-text-header [title]="'Task Title'" [bgColor]="'#ec8950'"></app-text-header>
   
-        <input type="text" 
+        <input type="text"
                id="taskTitle"
-               [(ngModel)]="taskForm.title" 
+               [(ngModel)]="taskForm.name"
                placeholder="Enter task title..."
                class="form-control mt-2"
-               [class.error]="!taskForm.title.trim() && showValidation">
+               maxlength="100"
+               [class.error]="isTaskNameInvalid()">
+        <div *ngIf="isTaskNameInvalid()" class="error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ getTaskNameError() }}
+        </div>
       </div>
       
       <div class="form-group">
@@ -20,8 +28,14 @@
         <textarea id="taskDescription"
                   [(ngModel)]="taskForm.description" 
                   placeholder="Task description (optional)..."
-               class="form-control mt-2"
+                  class="form-control mt-2"
+                  maxlength="500"
+                  [class.error]="isDescriptionInvalid()"
                   rows="3"></textarea>
+        <div *ngIf="isDescriptionInvalid()" class="error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ getDescriptionError() }}
+        </div>
       </div>
       
       <div class="form-row">
@@ -29,11 +43,9 @@
                 <app-text-header [title]="'Type'" [bgColor]="'#f4d7c5'"></app-text-header>
 
           <select id="taskType" [(ngModel)]="taskForm.type" class="form-control mt-2">
-            <option value="teaching">Teaching</option>
-            <option value="grading">Grading</option>
-            <option value="administrative">Administrative</option>
-            <option value="meeting">Meeting</option>
-            <option value="personal">Personal</option>
+            <option *ngFor="let type of taskTypes" [value]="type.value">
+              {{type.label}}
+            </option>
           </select>
         </div>
         
@@ -41,10 +53,9 @@
          <app-text-header [title]="'Priority'" [bgColor]="'#40de74'"></app-text-header>
 
           <select id="taskPriority" [(ngModel)]="taskForm.priority" class="form-control mt-2">
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-            <option value="urgent">Urgent</option>
+            <option *ngFor="let priority of priorityOptions" [value]="priority.value">
+              {{priority.label}}
+            </option>
           </select>
         </div>
       </div>
@@ -55,14 +66,21 @@
         <input type="date" 
                id="taskDueDate"
                [(ngModel)]="taskForm.dueDate" 
-               class="form-control mt-2">
+               class="form-control mt-2"
+               [class.error]="isDueDateInvalid()">
+        <div *ngIf="isDueDateInvalid()" class="error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ getDueDateError() }}
+        </div>
       </div>
     </div>
     
   <div class="footerCourse bg-white rounded-1">
     <div class="btnsCourse">
-      <button >
-        <span >Create</span>
+      <button (click)="saveTask()" [disabled]="isLoading" class="btn-create">
+        <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i>
+        <i *ngIf="!isLoading" class="fas fa-plus mx-2"></i>
+        <span>{{isLoading ? 'Creating...' : 'Create Task'}}</span>
       </button>
 
     </div>

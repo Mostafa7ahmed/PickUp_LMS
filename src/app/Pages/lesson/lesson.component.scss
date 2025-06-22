@@ -1,79 +1,186 @@
-.lessons{
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem 2rem;
-
-}
-.lessonCard{
-    border-radius: 4px;
-    border: .75px solid rgba(246, 246, 246, .9);
-    background: #fff;
-    box-shadow: 0 0 4px #606c800a;
-    border: 1px solid #eaeaea;
-    padding: 6px 0 6px 8px;
-    display: flex; 
-    align-items: baseline;
-    height: 50px;
-    width: 100%;
-    gap: 6px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 4px 20px;
-    position: relative;
-    margin-inline-start: 15px;
-
-}
-.drag{
-    position: absolute;
-    inset-inline-start:-18px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: grab;
-}
-.lessonCard .drag span.icon i{
-    color: #3f3d5661;
-
-}
-.lessonCard .drag:hover span.icon i{
-    color: #3F3D56;
+.lessons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 2rem;
 
 }
 
-.lessonCard .number{
-    font-size: 14px;
-    color: #6B7280;
-    font-family: var(--font-family-2);
-    font-weight: 600;
+.lessonCard {
+  border-radius: 4px;
+  border: .75px solid rgba(246, 246, 246, .9);
+  background: #fff;
+  box-shadow: 0 0 4px #606c800a;
+  border: 1px solid #eaeaea;
+  padding: 6px 0 6px 8px;
+  display: flex;
+  align-items: baseline;
+  height: 50px;
+  width: 100%;
+  gap: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 20px;
+  position: relative;
+  margin-inline-start: 15px;
+
 }
-.lessonCard .title{
-    font-size: 16px;
-    color: #111827;
-    font-family: var(--font-family-1);
-    font-weight: 600;
+
+.drag {
+  position: absolute;
+  inset-inline-start: -18px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: grab;
 }
-.lessonCard  .icon i{
-    color: #3F3D56;
+
+.lessonCard .drag span.icon i {
+  color: #3f3d5661;
+
 }
-.line{
-    width: 1px;
-    height: 20px;
-    background: #eaeaea;
-    border-radius: 2px;
+
+.lessonCard .drag:hover span.icon i {
+  color: #3F3D56;
+
+}
+
+.lessonCard .number {
+  font-size: 14px;
+  color: #6B7280;
+  font-family: var(--font-family-2);
+  font-weight: 600;
+}
+
+.lessonCard .title {
+  font-size: 16px;
+  color: #111827;
+  font-family: var(--font-family-1);
+  font-weight: 600;
+}
+
+.lessonCard .icon i {
+  color: #3F3D56;
+}
+
+.line {
+  width: 1px;
+  height: 20px;
+  background: #eaeaea;
+  border-radius: 2px;
 }
 
 .view button {
-    background: #fff;
-    border: 1px solid var(--bg-btn);
-    border-radius: 4px;
-    padding: 4px 8px;
-    font-size: 14px;
-    color: var(--bg-btn);
-    cursor: pointer;
-    transition: all .2s ease-in-out;
+  background: #fff;
+  border: 1px solid var(--bg-btn);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 14px;
+  color: var(--bg-btn);
+  cursor: pointer;
+  transition: all .2s ease-in-out;
 }
+
 .view button:hover {
-    background: var(--bg-btn);
-    color: #fff;
+  background: var(--bg-btn);
+  color: #fff;
+}
+
+// Empty State
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  text-align: center;
+  background: white;
+  border-radius: 16px;
+  margin: 40px 0;
+
+  .empty-icon {
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 32px;
+    position: relative;
+
+    &:before {
+      content: '';
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      border: 2px dashed #e2e8f0;
+      border-radius: 50%;
+      animation: rotate 20s linear infinite;
+    }
+
+    i {
+      font-size: 48px;
+      color: #94a3b8;
+    }
+  }
+
+  h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 12px;
+  }
+
+  p {
+    font-size: 16px;
+    color: #64748b;
+    margin-bottom: 32px;
+    max-width: 400px;
+    line-height: 1.5;
+  }
+
+  .btn-create-quiz {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    i {
+      font-size: 16px;
+    }
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.custom-icon {
+  background-color: rgba(107, 107, 114, 0.1294117647) !important;
+  padding: 4px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }

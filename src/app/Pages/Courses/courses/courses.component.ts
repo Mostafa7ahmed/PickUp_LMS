@@ -2,7 +2,7 @@ import { Component, ElementRef, HostListener, inject, Input, OnInit, Output, vie
 import { CourseResult } from '../Core/interface/icourses';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import {  filter, Subscription } from 'rxjs';
+import { filter, Subscription, Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
@@ -23,33 +23,54 @@ import { CustomslectwithiconComponent } from '../Components/customslectwithicon/
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { ItopicList, Stage } from '../../Topics/Core/Interface/itopic-list-result';
 import { TranslateModule } from '@ngx-translate/core';
+import { SplicTextPipe } from '../Core/Pipes/splic-text.pipe';
+import { DeleteCoursesService } from '../Core/service/delete-courses.service';
+import { DeleteCourseComponent } from '../Components/delete-course/delete-course.component';
 
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, RouterModule, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent,TranslateModule, TabsModule, MatTooltipModule, WidgetCoursesComponent, TableCoursesComponent, CustomslectwithiconComponent],
+  imports: [CommonModule, RouterModule, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TranslateModule, TabsModule, MatTooltipModule, WidgetCoursesComponent, TableCoursesComponent, CustomslectwithiconComponent, DeleteCourseComponent],
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss', '../../../../app/Core/Shared/CSS/horizontal-scrolling.scss']
 
 })
-export class CoursesComponent implements OnInit {
-  // call services
-  private subscription: Subscription = new Subscription();
+export class CoursesComponent implements OnInit {  private subscription: Subscription = new Subscription();
+  private searchSubject = new Subject<string>();
+  searchTerm: string = '';
+  isSearching: boolean = false;
   private _topiclistService = inject(TopiclistService);
   private _PaginateCoursesService = inject(PaginateCoursesService);
   private _KanbanService = inject(KanbanService);
   private _MovecourseService = inject(MovecourseService);
+  private _DeleteCoursesService = inject(DeleteCoursesService);
   private router = inject(Router);
-  private _ActivatedRoute = inject(ActivatedRoute);
-  constructor(private eRef: ElementRef) {
-    this.router.events
-    .pipe(filter((event) => event instanceof NavigationEnd))
-    .subscribe((event: any) => {
-    if (event.url.includes('/course')) {
-      this.getListTopics(this.topicIdFromRoute);
-      this.getAllKanbans(this.selectedTopicId)
-    }
+  private _ActivatedRoute = inject(ActivatedRoute);  constructor(private eRef: ElementRef) {
+    this.initializeSearch();
+  }
+    private subscriptioncall = new Subscription();
+
+  private initializeSearch(): void {
+    this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(term => {
+      this.performSearch(term);
     });
+  }
+
+  private performSearch(term: string): void {
+    this.isSearching = true;
+    const selectedStageId = this.iselectedStage ? this.selectedStage?.id : undefined;
+    this.fetchCourses(
+      { pageNumber: 1, pageSize: 20 },
+      this.selectedTopicId,
+      selectedStageId,
+      this.valueTable,
+      this.rangeDates?.[0] ? this.formatDateToISO(this.rangeDates[0]) : undefined,
+      this.rangeDates?.[1] ? this.formatDateToISO(this.rangeDates[1]) : undefined,
+      term
+    );
   }
 
 
@@ -125,7 +146,7 @@ iselectedStage : boolean = false;
 
   changeTab(value: number): void {
     this.valueheader = value;
-    this.router.navigate(['/course', this.topicIdFromRoute, this.valueheader]);
+
 
   }
   changeInnerTab(value: number): void {
@@ -143,8 +164,6 @@ iselectedStage : boolean = false;
     console.log(option.id)
     this.selectedTopicId = option.id;
     this.topicIdFromRoute = option.id;
-    this.router.navigate(['/course', option.id, this.valueheader]);
-    
     this.getAllKanbans(option.id)
     this.fetchCourses({}, option.id, this.valueTable);
 
@@ -200,16 +219,22 @@ iselectedStage : boolean = false;
       }
     });
   }
+  onSearchChange(event: Event): void {
+    const term = (event.target as HTMLInputElement).value;
+    this.searchSubject.next(term);
+  }
 
-
-  fetchCourses(eventData: { pageNumber?: number; pageSize?: number }, topicId: number,     stageId?: number,  courseListViewType: number = 0 ,  from?: string, 
-    to?: string): void {
-    const { pageNumber = 1, pageSize = 5 } = eventData;
+  fetchCourses(eventData: { pageNumber?: number; pageSize?: number }, 
+    topicId: number,
+    stageId?: number,
+    courseListViewType: number = 0,
+    from?: string, 
+    to?: string,
+    search?: string): void {
+    const { pageNumber = 1, pageSize = 20 } = eventData;
 
     this.isLoading = true;
-    this._PaginateCoursesService.getCourses(topicId,stageId ,pageNumber, pageSize,courseListViewType , from, to).subscribe({
-      next: (response) => {
-        console.log(response);
+    this._PaginateCoursesService.getCourses(topicId, stageId, pageNumber, pageSize, courseListViewType, from, to, undefined, undefined, search).subscribe({      next: (response) => {
         this.paginationCoursesResponse = response;
         this.tableRecords = [];
 
@@ -217,6 +242,8 @@ iselectedStage : boolean = false;
           let courseRecord: Record<string, any> = { name: course.name, price: 1500, createdOn: new Date() };
           this.tableRecords.push(courseRecord);
         });
+        this.isSearching = false;
+        this.isLoading = false;
       },
       error: (error) => {
         console.error('Error fetching courses:', error);
@@ -279,12 +306,27 @@ iselectedStage : boolean = false;
       }
     })
   }
-
-
-
-
   ngOnInit(): void {
-    this._ActivatedRoute.paramMap.subscribe(params => {
+    // Set up search subscription
+    const searchSubscription = this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(term => {
+      this.isSearching = true;
+      this.fetchCourses(
+        { pageNumber: 1, pageSize: 20 },
+        this.selectedTopicId,
+        this.iselectedStage ? this.selectedStage?.id : undefined,
+        this.valueTable,
+        this.rangeDates?.[0] ? this.formatDateToISO(this.rangeDates[0]) : undefined,
+        this.rangeDates?.[1] ? this.formatDateToISO(this.rangeDates[1]) : undefined,
+        term
+      );
+    });
+    this.subscription.add(searchSubscription);
+
+    // Handle route params
+    const routeSubscription = this._ActivatedRoute.paramMap.subscribe(params => {
       this.topicIdFromRoute = params.get('topicId');
       const activeTabFromRoute = params.get('activeTab');
       if (activeTabFromRoute === '1') {
@@ -295,14 +337,41 @@ iselectedStage : boolean = false;
       }
 
       this.getListTopics(this.topicIdFromRoute);
+
     });
 
-  }
+    this.subscriptioncall.add(
+      this.router.events
+        .pipe(filter(event => event instanceof NavigationEnd))
+        .subscribe((event: NavigationEnd) => {       
+          const currentUrl = event.urlAfterRedirects;
+          
+          // // Check if we're returning to the courses route
+          if (currentUrl.includes('/course') && !currentUrl.includes('(dialog:')) {
+          this.fetchCourses(
+                { pageNumber: 1, pageSize: 20 },
+                this.selectedTopicId,
+                this.iselectedStage ? this.selectedStage?.id : undefined,
+                this.valueTable,
+                this.rangeDates?.[0] ? this.formatDateToISO(this.rangeDates[0]) : undefined,
+                this.rangeDates?.[1] ? this.formatDateToISO(this.rangeDates[1]) : undefined,
+                this.searchTerm
+              );
+          }
+        })
+    );
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-    this.audio.pause()
+    
 
+  }  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    if (this.subscriptioncall) {
+      this.subscriptioncall.unsubscribe();
+    }
+    this.searchSubject.complete();
+    this.audio.pause();
   }
 
   print() {
@@ -325,5 +394,41 @@ iselectedStage : boolean = false;
 
   playSuccessSound() {
     this.audio.play();
+  }
+
+  // Delete popup properties
+  isDeletePopupVisible: boolean = false;
+  selectedDeleteId: number | null = null;
+
+  editCourse(course: CourseResult) {
+    this.router.navigate([{ outlets: { dialog: ['editcourse', course.id] } }]);
+  }
+
+  deleteCourse(course: CourseResult) {
+    this.isDeletePopupVisible = true;
+    this.selectedDeleteId = course.id;
+  }
+
+  confirmDeleteCourse() {
+    if (this.selectedDeleteId) {
+      this._DeleteCoursesService.deleteCourse(this.selectedDeleteId).subscribe({
+        next: (response) => {
+          if (response.success) {
+            console.log('Course deleted successfully');
+            this.closeDeletePopup();
+            // Refresh the course list
+            this.fetchCourses({}, this.selectedTopicId, undefined, this.valueTable);
+          }
+        },
+        error: (error) => {
+          console.error('Error deleting course:', error);
+        }
+      });
+    }
+  }
+
+  closeDeletePopup() {
+    this.isDeletePopupVisible = false;
+    this.selectedDeleteId = null;
   }
 }

@@ -50,12 +50,14 @@
       </div>
     }
     @empty {
-        <div class="d-flex flex-column align-items-center justify-content-center mt-5 t4abView">
-            <img src="https://s3.dinarcrm.com/assets/img/contacts/activity-rating-dashboard-header.svg"
-                alt="" width="190px" class="mt-5">
-                <p class="mt-5">{{'ViewCourse.NoRating' | translate}}</p>
-        
+    <div class="empty-state h-100">
+        <div class="empty-icon">
+            <i class="fa-solid fa-star"></i>
         </div>
+        <h3>No Rating Found</h3>
+        <p>This course doesn't have any Rating yet!</p>
+
+    </div>
     }
    
 

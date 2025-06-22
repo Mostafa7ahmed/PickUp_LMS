@@ -49,9 +49,16 @@
           </div>
           <div class="search-container p-3 px-0 d-flex justify-content-between">
             <div class="search-container-right d-flex gap-3">
-              <div class="inputSearch">
-
-                <input type="text" [placeholder]="'coupon.mainContent.SearchPlaceholder' | translate">
+              <div class="inputSearch position-relative">
+                <input
+                  type="text"
+                  [placeholder]="'coupon.mainContent.SearchPlaceholder' | translate"
+                  [(ngModel)]="searchTerm"
+                  (input)="onSearchInput($event)"
+                  class="form-control">
+                <div class="search-clear" *ngIf="searchTerm" (click)="onSearchClear()">
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                </div>
               </div>
               <div class="advanced-filter-container">
 

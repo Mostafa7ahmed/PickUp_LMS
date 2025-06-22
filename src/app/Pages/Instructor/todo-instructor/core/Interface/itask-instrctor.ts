@@ -1,11 +1,27 @@
 export interface ITaskInstrctor {
-      id: number;
-  title: string;
-  description?: string;
-  type: 'teaching' | 'grading' | 'administrative' | 'meeting' | 'personal';
-  priority: 'low' | 'medium' | 'high' | 'urgent';
-  dueDate: string;
+  id: number;
+  userId: number;
+  name: string;
+  description: string;
+  type: TaskType;
   completed: boolean;
-  createdAt: Date;
+  priority: TaskPriority;
+  dueDate?: string; // Added dueDate field for UI compatibility
+  createdOn: string;
+  updatedOn: string;
+}
 
+export enum TaskType {
+  Personal = 0,
+  Work = 1,
+  Study = 2,
+  Meeting = 3,
+  Other = 4
+}
+
+export enum TaskPriority {
+  Low = 0,
+  Medium = 1,
+  High = 2,
+  Urgent = 3
 }

@@ -24,6 +24,9 @@
                   >
                 <label id="label-input">Email or Phone number</label>
               </div>
+              @if(isFieldInvalid('emailOrPhoneNumber')) {
+                <p class="error-message mb-3">{{getErrorMessage('emailOrPhoneNumber')}}</p>
+              }
 
             <div class="position-relative mb-3">
                 <input class="input-cal input-base inputFloating" 
@@ -40,6 +43,9 @@
                         [class.fa-eye]="passwordFieldType" [class.fa-eye-slash]="!passwordFieldType">
                     </i>
               </div>
+              @if(isFieldInvalid('password')) {
+                <p class="error-message mb-3">{{getErrorMessage('password')}}</p>
+              }
 
               @if(MessageUseName){
                 <p class="error-message m">{{MessageUseName}}</p>
@@ -68,7 +74,7 @@
 
             </div>
 
-            <button class="btn btnt mb-3"  type="submit" [disabled]="loginForm.invalid">
+            <button class="btn btnt mb-3"  type="submit" [disabled]="isLoading">
                 Login @if(isLoading){
                     <span> <i class="fas fa-spin fa-spinner mx-2"></i> </span>
             

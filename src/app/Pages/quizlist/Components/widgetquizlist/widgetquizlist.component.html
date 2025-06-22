@@ -1,73 +1,119 @@
-<div class="showContent my-2 mb-2 "[class.showInfo]="showInfo">
+<div class="showContent my-2 mb-2" [class.showInfo]="showInfo">
+
+@if(isLoading){
+    <div class="contentData d-flex gap-4 align-content-start"  >
     <div class="rightContent">
+      <h4 class="breakdown-title">
+        <i class="fas fa-chart-pie"></i>
+        Quiz Analytics
+      </h4>
+
       <div class="cards">
         <div class="cardInformation">
-          <div
-            class="aboutCourses d-flex justify-content-between align-items-center"
-          >
-          <p class="m-0">{{"coupon.widget.TotalCoupons Issued" | translate }}</p>
-          <i class="fa-solid fa-graduation-cap"></i>
+          <div class="aboutCourses d-flex justify-content-between align-items-center">
+            <p class="m-0">Total Quizzes</p>
+            <i class="fas fa-clipboard-list"></i>
           </div>
-          <div
-            class="numberCources mt-2 d-flex align-items-end justify-content-end"
-          >
-            <span>5</span>
+          <div class="numberCources  d-flex align-items-end justify-content-end">
+            <span>{{quizData.result.totalQuizzes}}</span>
           </div>
-        </div>
-        <div class="cardInformation">
-            <div
-              class="aboutCourses d-flex justify-content-between align-items-center"
-            >
-            <p class="m-0">{{"coupon.widget.TotalCoupons Issued" | translate }}</p>
-            <i class="fa-solid fa-graduation-cap"></i>
-            </div>
-            <div
-              class="numberCources mt-2 d-flex align-items-end justify-content-end"
-            >
-              <span>5</span>
-            </div>
-          </div>
-        <div class="cardInformation">
-          <div
-            class="aboutCourses d-flex justify-content-between align-items-center"
-          >
-          <p class="m-0">{{"coupon.widget.TotalActive Coupons" | translate }}</p>
-            <i class="fa-solid fa-list-check"></i>
-          </div>
-          <div
-            class="numberCources mt-2 d-flex align-items-end justify-content-end"
-          >
-            <span>100 $</span>
-          </div>
-        </div>
-        <div class="cardInformation">
-            <div
-              class="aboutCourses d-flex justify-content-between align-items-center"
-            >
-            <p class="m-0">{{"coupon.widget.TotalCoupons" | translate }}</p>
-            <i class="fa-regular fa-circle-check"></i>            
-        </div>
-            <div
-              class="numberCources mt-2 d-flex align-items-end justify-content-end"
-            >
-            <span>800$</span>
-            </div>
-         </div>
-  
-        <div class="cardInformation">
-          <div
-            class="aboutCourses d-flex justify-content-between align-items-center"
-          >
-          <p class="m-0">{{"coupon.widget.RecentActivity" | translate }}</p>
-            <i class="fa-solid fa-clock-rotate-left"></i>
-        </div>
-          <div
-            class="numberCources mt-2 d-flex align-items-end justify-content-end"
-          >
-            <span>8000</span>
-          </div>
+      
         </div>
 
+        <!-- Total Questions -->
+        <div class="cardInformation">
+          <div class="aboutCourses d-flex justify-content-between align-items-center">
+            <p class="m-0">Total Questions</p>
+            <i class="fas fa-question-circle"></i>
+          </div>
+          <div class="numberCources d-flex align-items-end justify-content-end">
+            <span>{{quizData.result.totalQuestions}}</span>
+          </div>
+
+        </div>
+
+
+
+        <!-- Average Duration -->
+        <div class="cardInformation">
+          <div class="aboutCourses d-flex justify-content-between align-items-center">
+            <p class="m-0">Avg Duration</p>
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="numberCources d-flex align-items-end justify-content-end">
+            <span>{{quizData.result.avgDuration | number:'1.2-2' }}<small class="unit">min</small></span>
+          </div>
+       
+        </div>
+
+
+
+
+      </div>
+
+
+
+
+    </div>
+
+    <div class="leftContent flex-grow-1">
+      <h4 class="breakdown-title">
+      <i class="fa-solid fa-chart-simple"></i>
+        Difficulty Distribution
+      </h4>
+
+      <div class="analytics-breakdown ">
+
+
+        <!-- Difficulty Distribution -->
+        <div class="breakdown-card">
+
+          <div class="status-bars">
+            <div class="status-bar easy-bar" [style.flex]="quizData.result.easyCount || 1"></div>
+            <div class="status-bar medium-bar" [style.flex]="quizData.result.mediumCount || 1"></div>
+            <div class="status-bar hard-bar" [style.flex]="quizData.result.hardCount"></div>
+          </div>
+
+          <!-- Status Labels (like the image) -->
+          <div class="status-labels">
+            <div class="status-item" [style.flex]="quizData.result.easyCount || 1">
+              <div class="status-indicator">
+                <div class="indicator-dot easy-dot"></div>
+                <span class="status-label">Easy</span>
+              </div>
+              <div class="status-count">{{quizData.result.easyCount}}</div>
+            </div>
+
+            <div class="status-item" [style.flex]="quizData.result.mediumCount || 1">
+              <div class="status-indicator">
+                <div class="indicator-dot medium-dot"></div>
+                <span class="status-label">Medium</span>
+              </div>
+              <div class="status-count">{{quizData.result.mediumCount}}</div>
+            </div>
+
+            <div class="status-item" [style.flex]="quizData.result.hardCount || 1">
+              <div class="status-indicator">
+                <div class="indicator-dot hard-dot"></div>
+                <span class="status-label">Hard</span>
+              </div>
+              <div class="status-count">{{quizData.result.hardCount}}</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
+}
+@else {
+    <div class="empty-analytics" >
+    <div class="empty-content">
+      <i class="fas fa-chart-bar"></i>
+      <h4>No Quiz Data</h4>
+      <p>Create your first quiz to see analytics</p>
+    </div>
+  </div>
+}
+
+</div>

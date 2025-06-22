@@ -11,8 +11,10 @@ import { LanguageService } from '../../../Core/Services/language.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { forkJoin, retry } from 'rxjs';
 import { SelectModule } from 'primeng/select';
-import { FloatLabel } from "primeng/floatlabel"
+import { FloatLabel } from "primeng/floatlabel";
 import { SplicTextPipe } from '../../Courses/Core/Pipes/splic-text.pipe';
+import { CustomValidators } from '../../../Core/Shared/validators/custom-validators';
+import { ValidationService } from '../../../Core/Services/validation.service';
 
 @Component({
   selector: 'app-instructor-register',
@@ -35,8 +37,7 @@ export class InstructorRegisterComponent implements OnInit {
   private readonly _CountryService = inject(CountryService);
   private readonly _LanguageService = inject(LanguageService);
   private readonly _Router = inject(Router);
-
-
+  private readonly _validationService = inject(ValidationService);
 
   private _FormBuilder = inject(FormBuilder);
   allCountry: any[] = [];
@@ -136,21 +137,19 @@ export class InstructorRegisterComponent implements OnInit {
   inputId: string = "";
 
   registerFrom: FormGroup = this._FormBuilder.group({
-    name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
-    userName: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(30)]],
-    phoneNumber: [null, [Validators.required]],
-    type: 1,
-    email: [null, [Validators.required, Validators.email]],
+    name: ['', [Validators.required, CustomValidators.name()]],
+    userName: ['', [Validators.required, CustomValidators.username()]],
+    phoneNumber: ['', [Validators.required, CustomValidators.phoneNumber()]],
+    type: [1],
+    email: ['', [Validators.required, CustomValidators.email()]],
     preferredLanguge: [null, [Validators.required]],
     countryId: [null, [Validators.required]],
     languageId: [null, [Validators.required]],
-    password: [null, [ Validators.pattern('^(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_])[A-Za-z\\d\\W_]{8,}$'), Validators.required]],
-    confirmedPassword: [null],
-
-
-
-  }, { validators: this.ConfirmPasswordCustom }
-  )
+    password: ['', [Validators.required, CustomValidators.strongPassword()]],
+    confirmedPassword: ['', [Validators.required]],
+  }, { 
+    validators: [CustomValidators.confirmPassword('password', 'confirmedPassword')]
+  })
 
   constructor(private message: NzMessageService) {}
 
@@ -235,7 +234,7 @@ export class InstructorRegisterComponent implements OnInit {
           this.loading = false;
           if (res.success) {
             this.message.success(res.message);
-            this._Router.navigate(['/ConfirmEmail']);
+            this._Router.navigate(['/login']);
           }
         },
         error: () => {
@@ -251,13 +250,34 @@ export class InstructorRegisterComponent implements OnInit {
 
 
   isFieldInvalid(fieldName: string): boolean {
-    const control = this.registerFrom.get(fieldName);
-    return control ? control.invalid && (control.touched || control.dirty) : false;
+    return this._validationService.isFieldInvalid(this.registerFrom, fieldName);
   }
 
   isFieldValid(fieldName: string): boolean {
+    return this._validationService.isFieldValid(this.registerFrom, fieldName);
+  }
+
+  getErrorMessage(fieldName: string): string {
     const control = this.registerFrom.get(fieldName);
-    return control ? control.valid && (control.touched || control.dirty) : false;
+    return this._validationService.getErrorMessage(control, fieldName);
+  }
+
+  getFieldCssClass(fieldName: string): string {
+    return this._validationService.getFieldCssClass(this.registerFrom, fieldName);
+  }
+
+  // Password strength helpers
+  getPasswordStrength(): number {
+    const passwordValue = this.registerFrom.get('password')?.value || '';
+    return this._validationService.getPasswordStrength(passwordValue);
+  }
+
+  getPasswordStrengthText(): string {
+    return this._validationService.getPasswordStrengthText(this.getPasswordStrength());
+  }
+
+  getPasswordStrengthColor(): string {
+    return this._validationService.getPasswordStrengthColor(this.getPasswordStrength());
   }
 
   getCssClass(fieldName: string): string {
@@ -311,15 +331,7 @@ export class InstructorRegisterComponent implements OnInit {
   ];
 
 
-  ConfirmPasswordCustom(confirmPass: AbstractControl): any {
-    if (
-      confirmPass.get('password')?.value == confirmPass.get('confirmedPassword')?.value
-    ) {
-      return null;
-    } else {
-      return { mismatch: true };
-    }
-  }
+
   togglePasswordVisibility() {
     this.passwordFieldType = !this.passwordFieldType;
   }

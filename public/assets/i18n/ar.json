@@ -65,7 +65,34 @@
       "step_details_Stage": "تفاصيل المرحله ",
 
       "step": "الخطوة",
-      "Done": "انشاء موضوع"
+      "Done": "انشاء موضوع",
+
+      "enter_topic_name": "أدخل اسم الموضوع",
+      "enter_topic_description": "أدخل وصف الموضوع (اختياري)",
+      "enter_stage_name": "أدخل اسم المرحلة",
+
+      "topic_created_success": "تم إنشاء الموضوع بنجاح!",
+      "topic_creation_failed": "فشل في إنشاء الموضوع",
+      "topic_creation_error": "حدث خطأ أثناء إنشاء الموضوع",
+      "topic_stages_created_success": "تم إنشاء الموضوع والمراحل بنجاح!",
+      "stages_creation_failed": "فشل في إنشاء المراحل",
+      "stages_creation_error": "حدث خطأ أثناء إنشاء المراحل",
+      "stages_required": "يرجى إضافة مرحلة واحدة على الأقل",
+      "stages_validation_error": "يرجى إصلاح أخطاء التحقق من المراحل",
+      "validation_errors": "يرجى إصلاح الأخطاء التالية:",
+      "max_stages_reached": "الحد الأقصى 8 مراحل مسموح",
+      "min_stages_required": "مرحلة واحدة على الأقل مطلوبة",
+
+      "field_required": "هذا الحقل مطلوب",
+      "topic_name_required": "اسم الموضوع مطلوب",
+      "stage_name_required": "اسم المرحلة مطلوب",
+      "min_length_error": "الحد الأدنى {length} أحرف مطلوب",
+      "max_length_error": "الحد الأقصى {length} حرف مسموح",
+      "topic_name_min_length": "اسم الموضوع يجب أن يكون 3 أحرف على الأقل",
+      "topic_name_max_length": "اسم الموضوع لا يمكن أن يتجاوز 50 حرف",
+      "description_max_length": "الوصف لا يمكن أن يتجاوز 500 حرف",
+      "stage_name_min_length": "اسم المرحلة يجب أن يكون 3 أحرف على الأقل",
+      "stage_name_max_length": "اسم المرحلة لا يمكن أن يتجاوز 50 حرف"
     },
     "popupView": {
       "viewTopic": "عرض الموضوع",
@@ -99,12 +126,13 @@
       "students": "الطلاب",
       "rating": "التقييم",
       "videos": "الفيديوهات",
-      "coupons": "أكواد  ",
+      "coupons": "الكوبونات",
       "description": "الوصف",
-      "creator": "المنشئ",
-      "updater": "المُحدث",
-      "created_on": "تاريخ الإنشاء",
-      "updated_on": "تاريخ التحديث"
+      "creator": "منشئ بواسطة",
+      "updater": "محدث بواسطة",
+      "created_on": "تم الإنشاء في",
+      "updated_on": "تم التحديث في",
+      "actions": "الإجراءات"
     },
     "mainContent": {
       "CoursesList": "قائمة الدورات",
@@ -178,6 +206,8 @@
     "ViewCourse":{
       "Delete Course": "حذف الكورس",
       "Add Coupon": "اضافة كوبون",
+     "Add quiz": "اضافة امتحان",
+
       "Add Lesson": "اضافة درس",
       "Edit Course": "تعديل الكورس",
       "Enrolled student": "الطلاب المسجلين",
@@ -185,7 +215,7 @@
       "Total amount": "العدد الكلي",
       "Quick Actions": "اجراء سريع",
       "Lessons": "الدروس",
-      "Logs": "السجلات",
+      "Logs": "امتحانات",
       "Rating": "التقييم",
       "Coupon": "كوبون",
       "EGP": "جم",
