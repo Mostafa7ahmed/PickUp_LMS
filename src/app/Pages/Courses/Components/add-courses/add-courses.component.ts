@@ -34,6 +34,9 @@ import { DropdownModule } from 'primeng/dropdown';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { MenuItem } from 'primeng/api';
 import { SplicTextPipe } from '../../Core/Pipes/splic-text.pipe';
+import { CustomValidators } from '../../../../Core/Shared/validators/custom-validators';
+import { ValidationService } from '../../../../Core/Services/validation.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-add-courses',
@@ -53,6 +56,8 @@ export class AddCoursesComponent {
   private _stringExtensionsService = inject(StringExtensionsService);
   private _TagesService = inject(TagesService);
   private _CustomFildsService = inject(CustomFildsService);
+  private _validationService = inject(ValidationService);
+  private _messageService = inject(NzMessageService);
 
 
   items: MenuItem[];
@@ -89,10 +94,10 @@ export class AddCoursesComponent {
   courseForm: FormGroup = this._FormBuilder.group({
     topicId: [0, Validators.required],
     stageId: [0, Validators.required],
-    name: ['', Validators.required],
+    name: ['', [Validators.required, CustomValidators.name(), Validators.minLength(3), Validators.maxLength(100)]],
     free: [false],
     price: this._FormBuilder.control({ value: 0, disabled: false }, [Validators.min(0)]),
-    description: [''],
+    description: ['', [Validators.maxLength(1000)]],
     photoUrl: [''],
     introductionVideoUrl: [''],
     tags: this._FormBuilder.control([]), 
@@ -105,8 +110,8 @@ export class AddCoursesComponent {
 
   });
   fieldForm: FormGroup = this._FormBuilder.group({
-    key: [null],
-    value: ['']
+    key: [null, [Validators.required]],
+    value: ['', [Validators.required, Validators.maxLength(200)]]
   });
 
   get customFieldsArray(): FormArray {
@@ -150,6 +155,7 @@ export class AddCoursesComponent {
   isUploadingVideo: boolean = false;
   isUploadingFile: boolean = false;
   isAddedFail: boolean = false;
+  showValidationErrors: boolean = false;
   discountTypes = [
     { label: 'Percentage', value: 1 },
     { label: 'Value', value: 0 }
@@ -410,12 +416,23 @@ export class AddCoursesComponent {
     }
   }
   addField() {
+    // Mark all fields as touched to show validation errors
+    this._validationService.markAllFieldsAsTouched(this.fieldForm);
+
+    if (!this.fieldForm.valid) {
+      this._messageService.error('يرجى تصحيح الأخطاء في النموذج');
+      return;
+    }
+
     const keyControl = this.fieldForm.get('key')?.value;
     const valueControl = this.fieldForm.get('value')?.value;
+    
     this.customFieldsArray.controls.forEach((field, index) => {
       console.log(`Field ${index} visible: `, field.get('visible')?.value);
     });
+    
     if ((!keyControl && keyControl !== 0) || !valueControl?.trim()) {
+      this._messageService.error('يرجى إدخال المفتاح والقيمة');
       return;
     }
     let key: string;
@@ -502,6 +519,25 @@ export class AddCoursesComponent {
   ShowDescription() {
       this.showDescription = !this.showDescription;
   }
+
+  // Validation helper methods
+  isFieldInvalid(fieldName: string): boolean {
+    return this._validationService.isFieldInvalid(this.courseForm, fieldName);
+  }
+
+  getFieldError(fieldName: string): string {
+    const control = this.courseForm.get(fieldName);
+    return this._validationService.getErrorMessage(control, fieldName);
+  }
+
+  isFieldFormInvalid(form: FormGroup, fieldName: string): boolean {
+    return this._validationService.isFieldInvalid(form, fieldName);
+  }
+
+  getFieldFormError(form: FormGroup, fieldName: string): string {
+    const control = form.get(fieldName);
+    return this._validationService.getErrorMessage(control, fieldName);
+  }
   ngOnInit() {
     this.getTopicList();
     this.getTagsList();
@@ -538,48 +574,70 @@ export class AddCoursesComponent {
   }
 
   createCourse(actionType: 'normal' | 'create-new' | 'create-coupon' | 'create-lesson' = 'normal') {
+    this.showValidationErrors = true;
+    
+    // Mark all fields as touched to show validation errors
+    this._validationService.markAllFieldsAsTouched(this.courseForm);
+
+    if (!this.courseForm.valid) {
+      this._messageService.error('يرجى تصحيح الأخطاء في النموذج');
+      return;
+    }
+
+    // Additional validation for required fields
+    if (!this.courseForm.get('topicId')?.value || this.courseForm.get('topicId')?.value === 0) {
+      this._messageService.error('يرجى اختيار موضوع للكورس');
+      return;
+    }
+
+    if (!this.courseForm.get('stageId')?.value || this.courseForm.get('stageId')?.value === 0) {
+      this._messageService.error('يرجى اختيار مرحلة للكورس');
+      return;
+    }
+
+    // Validate price for paid courses
+    if (!this.courseForm.get('free')?.value && (!this.courseForm.get('price')?.value || this.courseForm.get('price')?.value <= 0)) {
+      this._messageService.error('يرجى إدخال سعر صحيح للكورس المدفوع');
+      return;
+    }
+
     let request = this.collectCreateCourseRequest();
     this.isLoad = true;
 
-
-    if(this.courseForm.valid ||  this.courseForm.get("free")?.value ) {
-      this._createCourseService.addCourse(request).subscribe({
-        next: (response) => {
-          this.isLoad = false;
+    this._createCourseService.addCourse(request).subscribe({
+      next: (response) => {
+        this.isLoad = false;
+        if (response.success) {
           const courseId = response.result.id;
-
+          this._messageService.success('تم إنشاء الكورس بنجاح');
           console.log("course created successfully !", response);
           
-        switch (actionType) {
-          case 'create-new':
-            this.router.navigate([{ outlets: { dialog: ['addcourse'] } }]);
-            break;
+          switch (actionType) {
+            case 'create-new':
+              this.router.navigate([{ outlets: { dialog: ['addcourse'] } }]);
+              break;
 
-          case 'create-coupon':
-            this.router.navigate([{ outlets: { dialog: ['coupan', courseId] } }]);
-            break;
+            case 'create-coupon':
+              this.router.navigate([{ outlets: { dialog: ['coupan', courseId] } }]);
+              break;
 
-          case 'create-lesson':
-            this.router.navigate([{ outlets: { dialog: ['addLesson', courseId] } }]);
-            break;
+            case 'create-lesson':
+              this.router.navigate([{ outlets: { dialog: ['addLesson', courseId] } }]);
+              break;
 
-          default:
-            this.closePopup();
+            default:
+              this.closePopup();
+          }
+        } else {
+          this._messageService.error(response.message || 'فشل في إنشاء الكورس');
         }
-      
-        },
-        error: (err) => {
-          this.isLoad = false;
-          console.log("fault happen while course created")
-        }
-      });
-    }
-    else{
-      this.isLoad = false;
-
-    }
-
-  
+      },
+      error: (err) => {
+        this.isLoad = false;
+        this._messageService.error('حدث خطأ أثناء إنشاء الكورس');
+        console.error("Error creating course:", err);
+      }
+    });
   }
   
 }

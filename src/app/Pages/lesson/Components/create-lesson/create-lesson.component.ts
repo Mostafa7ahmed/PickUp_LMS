@@ -21,6 +21,10 @@ import { ICreateLessonRequest, ILessonVideo, ILessonFile } from '../../Core/Inte
 import { StreamService } from '../../../../Core/Services/stream.service';
 import { StreamType } from '../../../../Core/Interface/stream-type';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { GetOneLessonService } from '../../Core/Services/get-one-lesson.service';
+import { UpdateLessonService } from '../../Core/Services/update-lesson.service';
+import { ILessonRes } from '../../Core/Interface/ilesson-res';
+import { IResponseOf } from '../../../../Core/Shared/Interface/irespose';
 
 @Component({
   selector: 'app-create-lesson',
@@ -50,6 +54,8 @@ export class CreateLessonComponent implements OnInit {
   private router = inject(Router);
   private _activatedRoute = inject(ActivatedRoute);
   private message = inject(NzMessageService);
+  private _getOneLessonService = inject(GetOneLessonService);
+  private _updateLessonService = inject(UpdateLessonService);
 
   lessonForm = this._formBuilder.group({
     name: ['', Validators.required ,Validators.minLength(3)],
@@ -77,6 +83,10 @@ export class CreateLessonComponent implements OnInit {
   isVideoUploading = false;
   isFileUploading = false;
   isCreatingLesson = false;
+
+  isEditMode: boolean = false;
+  lessonId: number | null = null;
+  editModeCourseId: number | null = null;
 
   toggleDropdownCourse() {
     this.showDropdownCourse = !this.showDropdownCourse;
@@ -298,28 +308,35 @@ onVideoUpload(event: Event): void {
   }
 
   isCreateButtonDisabled(): boolean {
+    if (this.isEditMode) {
+      // In edit mode, allow updating without adding new videos/files
+      return (
+        this.lessonForm.invalid ||
+        this.isAnyFileUploading ||
+        this.isCreatingLesson
+      );
+    }
+    // original checks for create
     return (
-      this.lessonForm.invalid ||
       !this.selectedCourse ||
+      this.lessonForm.invalid ||
       this.lessonVideos.length === 0 ||
       this.hasInvalidVideoNames() ||
-      this.isImageLoading ||
-      this.isIntroVideoLoading ||
-      this.isVideoUploading ||
-      this.isFileUploading ||
+      this.isAnyFileUploading ||
       this.isCreatingLesson
     );
   }
 
   hasInvalidVideoNames(): boolean {
+    if (this.isEditMode) return false; // allow existing names
     return this.lessonVideos.some(video => !video.name || video.name.trim().length < 3);
   }
 
   get createButtonText(): string {
     if (this.isCreatingLesson) {
-      return 'Creating...';
+      return this.isEditMode ? 'Updating...' : 'Creating...';
     }
-    return 'Create';
+    return this.isEditMode ? 'Update Lesson' : 'Create Lesson';
   }
 
   get isAnyFileUploading(): boolean {
@@ -332,13 +349,13 @@ onVideoUpload(event: Event): void {
   }
 
   getCreateButtonTooltip(): string {
-    if (!this.selectedCourse) {
+    if (!this.selectedCourse && !this.isEditMode) {
       return 'Please select a course first';
     }
     if (this.lessonForm.invalid) {
       return 'Please fill all required fields';
     }
-    if (this.lessonVideos.length === 0) {
+    if (this.lessonVideos.length === 0 && !this.isEditMode) {
       return 'Please add at least one video';
     }
     if (this.hasInvalidVideoNames()) {
@@ -347,7 +364,7 @@ onVideoUpload(event: Event): void {
     if (this.isAnyFileUploading) {
       return 'Please wait for uploads to complete';
     }
-    return 'Create lesson';
+    return this.isEditMode ? 'Update lesson' : 'Create lesson';
   }
 
 
@@ -371,6 +388,10 @@ onVideoUpload(event: Event): void {
     });
   }
   createLesson() {
+    if (this.isEditMode) {
+      this.updateLesson();
+      return;
+    }
 
     if (!this.selectedCourse) {
       this.message.error('Please select a course first');
@@ -439,19 +460,105 @@ onVideoUpload(event: Event): void {
     });
   }
 
+  updateLesson() {
+    if (!this.lessonId) return;
+    
+    // Build the lesson data same as create
+    const formValue = this.lessonForm.value;
+    const lessonData: ICreateLessonRequest = {
+      courseId: this.selectedCourse?.id || 1, // Use 1 as default for edit mode
+      name: (formValue.name as string) || '',
+      description: formValue.description || '',
+      photoUrl: formValue.photoUrl || '',
+      introductionVideoUrl: formValue.introductionVideoUrl || '',
+      fileUrls: (formValue.fileUrls || []).filter(url => url !== null && url !== undefined),
+      videos: this.lessonVideos.map(video => ({
+        id: video.id,
+        videoUrl: video.videoUrl,
+        free: video.free,
+        name: video.name
+      })),
+      tags: (formValue.tags || []).map((tag: ITag) => ({
+        id: tag.id || 0,
+        name: tag.name
+      }))
+    };
+    
+    this.isCreatingLesson = true;
+    this._updateLessonService.updateLesson(this.lessonId, lessonData).subscribe({
+      next: (res: IResponseOf<ILessonRes>) => {
+        this.isCreatingLesson = false;
+        if (res.success) {
+          this.message.success('Lesson updated successfully');
+          this.closePopup();
+        }
+      },
+      error: (error) => {
+        this.isCreatingLesson = false;
+        console.error('Error updating lesson:', error);
+        this.message.error('Error updating lesson. Please try again');
+      }
+    });
+  }
+
   closePopup() {
     this.router.navigate([{ outlets: { dialog: null } }]);
   }
 
   ngOnInit() {
+    // determine if editing
+    const lessonIdParam = this._activatedRoute.snapshot.paramMap.get('lessonId');
+    if (lessonIdParam) {
+      this.isEditMode = true;
+      this.lessonId = +lessonIdParam;
+      this.editModeCourseId = +this._activatedRoute.snapshot.paramMap.get('courseId')!;
+      this.loadLessonData(this.lessonId);
+    }
+
     this.getCourse();
     this.getTagsList();
 
     // مراقبة تغيير اسم الدرس لإعادة تسمية الفيديوهات تلقائياً
     this.lessonForm.get('name')?.valueChanges.subscribe(lessonName => {
       const name = lessonName as string;
-      if (name && name.trim() && this.lessonVideos.length > 0) {
+      if (name && name.trim() && this.lessonVideos.length > 0 && !this.isEditMode) {
         this.autoRenameAllVideos(name.trim());
+      }
+    });
+  }
+
+  loadLessonData(id: number) {
+    this._getOneLessonService.getLesson(id).subscribe({
+      next: (res: IResponseOf<ILessonRes>) => {
+        if (res.success) {
+          const lesson: ILessonRes = res.result;
+          
+          // Update form with lesson data
+          this.lessonForm.patchValue({
+            name: lesson.name,
+            description: lesson.description,
+            introductionVideoUrl: lesson.introductionVideoUrl,
+            tags: lesson.tags
+          });
+          
+          // Set intro video preview if exists
+          if (lesson.introductionVideoUrl) {
+            this.introVideoPreview = this.baseUrl + lesson.introductionVideoUrl;
+          }
+          
+          // Populate videos
+          this.lessonVideos = lesson.videos.map(v => ({
+            id: v.id,
+            videoUrl: v.url,
+            displayUrl: this.baseUrl + v.url,
+            free: v.free,
+            name: v.name
+          }));
+        }
+      },
+      error: (error) => {
+        console.error('Error loading lesson data:', error);
+        this.message.error('Error loading lesson data');
       }
     });
   }

@@ -20,6 +20,8 @@ import { UpdateCouponPayload } from '../../Core/Interfaces/update-coupon-payload
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ICouponResult } from '../../Core/Interfaces/icoupon-result';
+import { CustomValidators } from '../../../../Core/Shared/validators/custom-validators';
+import { ValidationService } from '../../../../Core/Services/validation.service';
 
 interface DiscountType {
   label: string;
@@ -42,6 +44,7 @@ export class EditCouponComponent {
   private router = inject(Router);
   private _activatedRoute = inject(ActivatedRoute);
   private nzMessageService = inject(NzMessageService);
+  private _validationService = inject(ValidationService);
 
   paginationStudentsResponse: IPaginationResponse<IStudent> = {} as IPaginationResponse<IStudent>;
   paginationCoursesResponse: IPaginationResponse<ListCourse> = {} as IPaginationResponse<ListCourse>;
@@ -66,18 +69,19 @@ export class EditCouponComponent {
   showDropdownStudents = false;
   selectedCourse: ListCourse | null = null;
   selectedStudents: IStudent[] = [];
+  showValidationErrors = false;
 
   formGroup: FormGroup = this._FormBuilder.group({
     courseId: new FormControl(null, [Validators.required]),
-    code: new FormControl(null, [Validators.required]),
+    code: new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]),
     active: new FormControl(true, [Validators.required]),
     limited: new FormControl(false, [Validators.required]),
-    allowedUsage: new FormControl(0, [Validators.required]),
-    discount: new FormControl(0),
+    allowedUsage: new FormControl(0, [Validators.min(1), Validators.max(1000)]),
+    discount: new FormControl(0, [Validators.required, Validators.min(1)]),
     discountType: new FormControl(0),
     validFrom: new FormControl(null, [Validators.required]),
     validTo: new FormControl(null, [Validators.required]),
-    notes: new FormControl(''),
+    notes: new FormControl('', [Validators.maxLength(500)]),
   });
 
   updateDiscountType() {
@@ -274,21 +278,26 @@ export class EditCouponComponent {
   updateCoupon() {
     console.log('📝 Updating coupon:', this.couponResponse());
 
+    this.showValidationErrors = true;
+    
+    // Mark all fields as touched to show validation errors
+    this._validationService.markAllFieldsAsTouched(this.formGroup);
+
     if (!this.formGroup.valid) {
       console.log('Form is not valid!');
-      this.nzMessageService.error('Please fill in all required fields.');
+      this.nzMessageService.error('يرجى تصحيح الأخطاء في النموذج');
       return;
     }
 
     if (!this.selectedCourse) {
       console.error('Course is not selected!');
-      this.nzMessageService.error('Please select a course.');
+      this.nzMessageService.error('يرجى اختيار كورس');
       return;
     }
 
     if (!this.couponId) {
       console.error('Coupon ID is missing!');
-      this.nzMessageService.error('Coupon ID is missing.');
+      this.nzMessageService.error('معرف الكوبون مفقود');
       return;
     }
 
@@ -301,17 +310,17 @@ export class EditCouponComponent {
         this.isLoading = false;
         if (response.success) {
           console.log('✅ Coupon updated successfully:', response);
-          this.nzMessageService.success('Coupon updated successfully!');
+          this.nzMessageService.success('تم تحديث الكوبون بنجاح');
           this.closePopup();
         } else {
           console.error('❌ Failed to update coupon:', response.message);
-          this.nzMessageService.error('Failed to update coupon: ' + response.message);
+          this.nzMessageService.error('فشل في تحديث الكوبون: ' + response.message);
         }
       },
       error: (error) => {
         this.isLoading = false;
         console.error('❌ Error updating coupon:', error);
-        this.nzMessageService.error('Error updating coupon. Please try again.');
+        this.nzMessageService.error('حدث خطأ أثناء تحديث الكوبون');
       }
     });
   }
@@ -348,5 +357,23 @@ export class EditCouponComponent {
       notes: this.formGroup.get('notes')?.value,
       studentIds: selectedStudentIds
     };
+  }
+
+  // Validation helper methods
+  isFieldInvalid(fieldName: string): boolean {
+    return this._validationService.isFieldInvalid(this.formGroup, fieldName);
+  }
+
+  isFieldValid(fieldName: string): boolean {
+    return this._validationService.isFieldValid(this.formGroup, fieldName);
+  }
+
+  getErrorMessage(fieldName: string): string {
+    const control = this.formGroup.get(fieldName);
+    return this._validationService.getErrorMessage(control, fieldName);
+  }
+
+  getFieldCssClass(fieldName: string): string {
+    return this._validationService.getFieldCssClass(this.formGroup, fieldName);
   }
 }

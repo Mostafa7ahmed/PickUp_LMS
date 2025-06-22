@@ -15,6 +15,9 @@ import { IResponseOf } from '../../../../Core/Shared/Interface/irespose';
 import { AddStageTopicService } from '../../Service/add-stage-topic.service';
 import { GetoneTopicService } from '../../Service/getone-topic.service';
 import { UpdateTopicService } from '../../Service/update-topic.service';
+import { CustomValidators } from '../../../../Core/Shared/validators/custom-validators';
+import { ValidationService } from '../../../../Core/Services/validation.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 @Component({
   selector: 'app-edit-topic',
   standalone: true,
@@ -50,18 +53,22 @@ export class EditTopicComponent {
   private _FormBuilder = inject(FormBuilder);
   private _UpdateTopicService = inject(UpdateTopicService);
   private _AddStageTopicService = inject(AddStageTopicService);
-
   private _getoneTopicService = inject(GetoneTopicService);
+  private _validationService = inject(ValidationService);
+  private _messageService = inject(NzMessageService);
   TopicResult: IResponseOf<TopicResult> = {} as IResponseOf<TopicResult>;
   topicForm: FormGroup = this._FormBuilder.group({
-    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+    name: ['', [Validators.required, CustomValidators.name(), Validators.minLength(3), Validators.maxLength(50)]],
     color: ['#778fe6cf'],
     icon: ['fa fa-file-pen'],
-    description: ['', [Validators.maxLength(300)]],
+    description: ['', [Validators.maxLength(500)]],
     isMain: [false],
     mainId: [null],
     id: [null]
   });
+
+  // Validation properties
+  showValidationErrors: boolean = false;
 
   constructor(private _ActivatedRoute: ActivatedRoute, private _Router: Router) {
     this.icons = this.iconsService.getIcons();
@@ -129,12 +136,20 @@ export class EditTopicComponent {
 
 
   submitFormTopic() {
-    this.isLoad = true;
+    this.showValidationErrors = true;
+    
+    // Mark all fields as touched to show validation errors
+    this._validationService.markAllFieldsAsTouched(this.topicForm);
 
+    if (!this.topicForm.valid) {
+      this._messageService.error('يرجى تصحيح الأخطاء في النموذج');
+      return;
+    }
+
+    this.isLoad = true;
 
     if (this.topicForm.get('isMain')?.value) {
       this.topicForm.get('mainId')?.enable();
-
       this.topicForm.patchValue({ mainId: null });
     } else {
       const mainIdValue = this.selectedTopicId ?? this.selectedValue?.id ?? null;
@@ -142,6 +157,7 @@ export class EditTopicComponent {
         this.topicForm.patchValue({ mainId: mainIdValue });
       }
     }
+    
     this._UpdateTopicService.updateTopic(this.topicForm.value).subscribe({
       next: (res) => {
         if (res.success) {
@@ -155,25 +171,70 @@ export class EditTopicComponent {
             console.log('⚠️ Stages array was missing after update, initialized empty array');
           }
 
+          this._messageService.success('تم تحديث الموضوع بنجاح');
           console.log('📊 Final stages after update:', this.topicResult.result.stages);
           this.isnext = false;
+          this.showValidationErrors = false;
+        } else {
+          this._messageService.error(res.message || 'فشل في تحديث الموضوع');
         }
         this.isLoad = false;
       },
       error: (err) => {
         console.error('Error updating topic:', err);
+        this._messageService.error('حدث خطأ أثناء تحديث الموضوع');
         this.isLoad = false;
       },
     });
 
     console.log(this.topicForm.value)
-
-
   }
 
   onTopicSelected(selectedId: number) {
     this.selectedTopicId = selectedId;
     console.log('Selected Topic ID:', selectedId);
+  }
+
+  // Validation helper methods
+  isFieldInvalid(fieldName: string): boolean {
+    return this._validationService.isFieldInvalid(this.topicForm, fieldName);
+  }
+
+  isFieldValid(fieldName: string): boolean {
+    return this._validationService.isFieldValid(this.topicForm, fieldName);
+  }
+
+  getErrorMessage(fieldName: string): string {
+    const control = this.topicForm.get(fieldName);
+    return this._validationService.getErrorMessage(control, fieldName);
+  }
+
+  getFieldCssClass(fieldName: string): string {
+    return this._validationService.getFieldCssClass(this.topicForm, fieldName);
+  }
+
+  // Stage validation helpers
+  isStageFieldInvalid(stageIndex: number, fieldName: string): boolean {
+    const stageGroup = this.stages.at(stageIndex) as FormGroup;
+    const field = stageGroup?.get(fieldName);
+    return !!(field && field.invalid && (field.dirty || field.touched));
+  }
+
+  getStageErrorMessage(stageIndex: number, fieldName: string): string {
+    const stageGroup = this.stages.at(stageIndex) as FormGroup;
+    const field = stageGroup?.get(fieldName);
+    if (field && field.errors && (field.dirty || field.touched)) {
+      if (field.errors['required']) {
+        return 'اسم المرحلة مطلوب';
+      }
+      if (field.errors['minlength']) {
+        return 'اسم المرحلة يجب أن يكون 3 أحرف على الأقل';
+      }
+      if (field.errors['maxlength']) {
+        return 'اسم المرحلة لا يمكن أن يتجاوز 50 حرف';
+      }
+    }
+    return '';
   }
 
 

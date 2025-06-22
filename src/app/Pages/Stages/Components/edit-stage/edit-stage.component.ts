@@ -7,6 +7,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CreateStageService } from '../../Core/service/create-stage.service';
 import { GetOneService } from '../../Core/service/get-one.service';
 import { UpdateStageService } from '../../Core/service/update-stage.service';
+import { CustomValidators } from '../../../../Core/Shared/validators/custom-validators';
+import { ValidationService } from '../../../../Core/Services/validation.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 @Component({
   selector: 'app-edit-stage',
   standalone: true,
@@ -24,10 +27,14 @@ export class EditStageComponent {
     stageId: number | null = null;
     private _FormBuilder = inject(FormBuilder);
     private _UpdateStageService= inject(UpdateStageService);
+    private _validationService = inject(ValidationService);
+    private _messageService = inject(NzMessageService);
   
     showPackageColor = false;
+    showValidationErrors = false;
+    
     stageForm : FormGroup = this._FormBuilder.group({
-      name: ['',[Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      name: ['', [Validators.required, CustomValidators.name(), Validators.minLength(3), Validators.maxLength(50)]],
       color: ['#a0151e'],  
       icon:["fa fa-folder-open"],
       shadow:["3e97ff66"],
@@ -71,19 +78,46 @@ export class EditStageComponent {
       this.router.navigate([{ outlets: { dialog2: null } }]);
     }
     updateStage() {
+      this.showValidationErrors = true;
+      
+      // Mark all fields as touched to show validation errors
+      this._validationService.markAllFieldsAsTouched(this.stageForm);
+
+      if (!this.stageForm.valid) {
+        this._messageService.error('يرجى تصحيح الأخطاء في النموذج');
+        return;
+      }
+
       if (this.stageId !== null) {
         this._UpdateStageService.updateStage(this.stageForm.value).subscribe({
           next: (res) => {
-            console.log("Stage updated successfully:", res);
+            this._messageService.success('تم تحديث المرحلة بنجاح');
             this.router.navigate([{ outlets: { dialog2: null } }]);
+            console.log("Stage updated successfully:", res);
           },
           error: (err) => {
+            this._messageService.error('حدث خطأ أثناء تحديث المرحلة');
             console.error("Error updating stage:", err);
           }
         });
       }
     }
-  
-  
 
+    // Validation helper methods
+    isFieldInvalid(fieldName: string): boolean {
+      return this._validationService.isFieldInvalid(this.stageForm, fieldName);
+    }
+
+    isFieldValid(fieldName: string): boolean {
+      return this._validationService.isFieldValid(this.stageForm, fieldName);
+    }
+
+    getErrorMessage(fieldName: string): string {
+      const control = this.stageForm.get(fieldName);
+      return this._validationService.getErrorMessage(control, fieldName);
+    }
+
+    getFieldCssClass(fieldName: string): string {
+      return this._validationService.getFieldCssClass(this.stageForm, fieldName);
+    }
 }

@@ -146,16 +146,24 @@
             <p-tabpanels>
               <p-tabpanel [value]="0">
                 <app-table-courses (fetchCoursesEvent)="fetchCourses($event,selectedTopicId)"
-                  [paginationCoursesResponse]="paginationCoursesResponse">
+                  [paginationCoursesResponse]="paginationCoursesResponse"
+                  (editCourseEvent)="editCourse($event)"
+                  (deleteCourseEvent)="deleteCourse($event)">
                 </app-table-courses>
               </p-tabpanel>
               <p-tabpanel [value]="1">
                 <app-table-courses [paginationCoursesResponse]="paginationCoursesResponse"
-                  (fetchCoursesEvent)="fetchCourses($event,selectedTopicId ,valueTable )"></app-table-courses>
+                  (fetchCoursesEvent)="fetchCourses($event,selectedTopicId ,valueTable )"
+                  (editCourseEvent)="editCourse($event)"
+                  (deleteCourseEvent)="deleteCourse($event)">
+                </app-table-courses>
               </p-tabpanel>
               <p-tabpanel [value]="2">
                 <app-table-courses [paginationCoursesResponse]="paginationCoursesResponse"
-                  (fetchCoursesEvent)="fetchCourses($event,selectedTopicId , valueTable)"></app-table-courses>
+                  (fetchCoursesEvent)="fetchCourses($event,selectedTopicId , valueTable)"
+                  (editCourseEvent)="editCourse($event)"
+                  (deleteCourseEvent)="deleteCourse($event)">
+                </app-table-courses>
               </p-tabpanel>
             </p-tabpanels>
           </p-tabs>
@@ -217,3 +225,13 @@
 
 
   <!-- <app-tablereused [paginationResponse]="paginationCoursesResponse" [headers]=headers [records]="tableRecords" (fetchRemainingDataEvent)="fetchCourses($event,selectedTopicId ,valueTable )"></app-tablereused> -->
+
+  <!-- Delete Course Popup -->
+  <app-delete-course 
+    *ngIf="isDeletePopupVisible"
+    [deleteId]="selectedDeleteId!"
+    (close)="closeDeletePopup()"
+    (delete)="confirmDeleteCourse()">
+  </app-delete-course>
+
+</div>

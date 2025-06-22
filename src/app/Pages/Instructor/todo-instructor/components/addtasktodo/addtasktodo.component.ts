@@ -7,6 +7,7 @@ import { TopPopComponent } from '../../../../../Components/top-pop/top-pop.compo
 import { CreateTaskService } from '../../core/Service/create-task.service';
 import { ICreateTaskRequest } from '../../core/Interface/icreate-task-request';
 import { TaskPriority, TaskType } from '../../core/Interface/itask-instrctor';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 
 
@@ -21,6 +22,7 @@ import { TaskPriority, TaskType } from '../../core/Interface/itask-instrctor';
 export class AddtasktodoComponent {
  private taskService = inject(CreateTaskService);
   private router = inject(Router);
+  private _messageService = inject(NzMessageService);
 
   showValidation = false;
   isLoading = false;
@@ -61,8 +63,39 @@ export class AddtasktodoComponent {
   }
 
   saveTask(): void {
+    // Enhanced validation
     if (!this.taskForm.name.trim()) {
       this.showValidation = true;
+      this._messageService.error('عنوان المهمة مطلوب');
+      return;
+    }
+
+    if (this.taskForm.name.trim().length < 3) {
+      this.showValidation = true;
+      this._messageService.error('عنوان المهمة يجب أن يكون 3 أحرف على الأقل');
+      return;
+    }
+
+    if (this.taskForm.name.trim().length > 100) {
+      this.showValidation = true;
+      this._messageService.error('عنوان المهمة لا يمكن أن يتجاوز 100 حرف');
+      return;
+    }
+
+    if (this.taskForm.description.trim().length > 500) {
+      this.showValidation = true;
+      this._messageService.error('وصف المهمة لا يمكن أن يتجاوز 500 حرف');
+      return;
+    }
+
+    // Validate due date is not in the past
+    const selectedDate = new Date(this.taskForm.dueDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    if (selectedDate < today) {
+      this.showValidation = true;
+      this._messageService.error('تاريخ الاستحقاق لا يمكن أن يكون في الماضي');
       return;
     }
 
@@ -82,12 +115,16 @@ export class AddtasktodoComponent {
     this.taskService.createTask(taskData).subscribe({
       next: (response) => {
         if (response.success) {
+          this._messageService.success('تم إنشاء المهمة بنجاح');
           this.closeDialog();
         } else {
+          this._messageService.error(response.message || 'فشل في إنشاء المهمة');
         }
         this.isLoading = false;
       },
       error: (error) => {
+        this._messageService.error('حدث خطأ أثناء إنشاء المهمة');
+        console.error('Error creating task:', error);
         this.isLoading = false;
       }
     });
@@ -101,5 +138,52 @@ export class AddtasktodoComponent {
     this.closeDialog();
   }
 
+  // Validation helper methods
+  isTaskNameInvalid(): boolean {
+    return this.showValidation && (!this.taskForm.name.trim() || 
+           this.taskForm.name.trim().length < 3 || 
+           this.taskForm.name.trim().length > 100);
+  }
 
+  isDescriptionInvalid(): boolean {
+    return this.showValidation && this.taskForm.description.trim().length > 500;
+  }
+
+  isDueDateInvalid(): boolean {
+    if (!this.showValidation) return false;
+    const selectedDate = new Date(this.taskForm.dueDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return selectedDate < today;
+  }
+
+  getTaskNameError(): string {
+    if (!this.taskForm.name.trim()) {
+      return 'عنوان المهمة مطلوب';
+    }
+    if (this.taskForm.name.trim().length < 3) {
+      return 'عنوان المهمة يجب أن يكون 3 أحرف على الأقل';
+    }
+    if (this.taskForm.name.trim().length > 100) {
+      return 'عنوان المهمة لا يمكن أن يتجاوز 100 حرف';
+    }
+    return '';
+  }
+
+  getDescriptionError(): string {
+    if (this.taskForm.description.trim().length > 500) {
+      return 'وصف المهمة لا يمكن أن يتجاوز 500 حرف';
+    }
+    return '';
+  }
+
+  getDueDateError(): string {
+    const selectedDate = new Date(this.taskForm.dueDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (selectedDate < today) {
+      return 'تاريخ الاستحقاق لا يمكن أن يكون في الماضي';
+    }
+    return '';
+  }
 }

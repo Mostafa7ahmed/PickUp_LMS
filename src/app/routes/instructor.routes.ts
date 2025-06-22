@@ -31,6 +31,8 @@ import { WalletPopupInstructorComponent } from '../Pages/Instructor/wallet-popup
 import { UpdeatePorfileComponent } from '../Pages/Instructor/porfile/components/updeate-porfile/updeate-porfile.component';
 import { EditTaskInstructorComponent } from '../Pages/Instructor/todo-instructor/components/edit-task-instructor/edit-task-instructor.component';
 import { EditCouponComponent } from '../Pages/Coupon/Components/edit-coupon/edit-coupon.component';
+import { EditCourseComponent } from '../Pages/Courses/Components/edit-course/edit-course.component';
+
 export const instructorRoutes: Routes = [
     {
         path: '',
@@ -60,6 +62,7 @@ export const instructorRoutes: Routes = [
             { path: 'deleteTopic/:deleteId', outlet: 'dialog2', component: DeleteTopicComponent },
             { path: 'editTopic/:topicId', outlet: 'dialog', component: EditTopicComponent },
             { path: 'addcourse', outlet: 'dialog', component: AddCoursesComponent },
+            { path: 'editcourse/:id', outlet: 'dialog', component: EditCourseComponent },
             { path: 'addLesson/:courseId', outlet: 'dialog', component: CreateLessonComponent },
             { path: 'coupan/:CoupanId', outlet: 'dialog', component: CouponCourseComponent },
             { path: 'viewLesson/:lessonId', title:"View Lesson", component: ViewLessonComponent },
@@ -68,6 +71,7 @@ export const instructorRoutes: Routes = [
             { path: 'ViewTopic/:id', outlet: 'dialog', component: ViewTopicandStageComponent },
             { path: 'addStage/:StageId', outlet: 'dialog2', component: AddStageComponent },
             { path: 'editStage/:StageId', outlet: 'dialog2', component: EditStageComponent },
+            { path: 'editLesson/:lessonId', outlet: 'dialog', component: CreateLessonComponent },
             { path: "**", title: "notFound", component: HomeinstructorComponent },
 
 

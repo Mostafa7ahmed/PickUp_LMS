@@ -126,12 +126,13 @@
       "students": "الطلاب",
       "rating": "التقييم",
       "videos": "الفيديوهات",
-      "coupons": "أكواد  ",
+      "coupons": "الكوبونات",
       "description": "الوصف",
-      "creator": "المنشئ",
-      "updater": "المُحدث",
-      "created_on": "تاريخ الإنشاء",
-      "updated_on": "تاريخ التحديث"
+      "creator": "منشئ بواسطة",
+      "updater": "محدث بواسطة",
+      "created_on": "تم الإنشاء في",
+      "updated_on": "تم التحديث في",
+      "actions": "الإجراءات"
     },
     "mainContent": {
       "CoursesList": "قائمة الدورات",

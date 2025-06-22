@@ -113,6 +113,41 @@
     tbody tr:hover {
       background: #f9f9f9;
     }
+
+    // Actions cell styling
+    .actions-cell {
+      padding: 5px;
+      
+      .action-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 6px 10px;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+        font-size: 14px;
+        
+        &:hover {
+          background-color: #f0f0f0;
+        }
+        
+        &.edit-btn {
+          color: #22c55e;
+          
+          &:hover {
+            background-color: #22c55e20;
+          }
+        }
+        
+        &.delete-btn {
+          color: #ff4b55;
+          
+          &:hover {
+            background-color: #ff4b5520;
+          }
+        }
+      }
+    }
   }
 
 

@@ -14,10 +14,11 @@
                [(ngModel)]="taskForm.name"
                placeholder="Enter task title..."
                class="form-control mt-2"
-               [class.error]="!taskForm.name.trim() && showValidation">
-        <div *ngIf="!taskForm.name.trim() && showValidation" class="error-message">
+               maxlength="100"
+               [class.error]="isTaskNameInvalid()">
+        <div *ngIf="isTaskNameInvalid()" class="error-message">
           <i class="fas fa-exclamation-circle"></i>
-          Task title is required
+          {{ getTaskNameError() }}
         </div>
       </div>
       
@@ -27,8 +28,14 @@
         <textarea id="taskDescription"
                   [(ngModel)]="taskForm.description" 
                   placeholder="Task description (optional)..."
-               class="form-control mt-2"
+                  class="form-control mt-2"
+                  maxlength="500"
+                  [class.error]="isDescriptionInvalid()"
                   rows="3"></textarea>
+        <div *ngIf="isDescriptionInvalid()" class="error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ getDescriptionError() }}
+        </div>
       </div>
       
       <div class="form-row">
@@ -59,7 +66,12 @@
         <input type="date" 
                id="taskDueDate"
                [(ngModel)]="taskForm.dueDate" 
-               class="form-control mt-2">
+               class="form-control mt-2"
+               [class.error]="isDueDateInvalid()">
+        <div *ngIf="isDueDateInvalid()" class="error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ getDueDateError() }}
+        </div>
       </div>
     </div>
     

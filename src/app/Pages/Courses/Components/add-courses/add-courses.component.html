@@ -11,8 +11,13 @@
               <div class="courseDynamic d-flex gap-3 align-items-end mb-2">
                 <div class="Course_name">
                   <label for="Course_name">Course name</label>
-                  <input formControlName="name" type="text" class="input_Couser" id="Course_name"
-                    placeholder="Enter course name">
+                  <input formControlName="name" type="text" 
+                    [class]="'input_Couser ' + (isFieldInvalid('name') ? 'error' : '')" 
+                    id="Course_name" placeholder="Enter course name">
+                  <div *ngIf="isFieldInvalid('name')" class="error-message">
+                    <i class="fa-solid fa-exclamation-triangle"></i>
+                    <span>{{ getFieldError('name') }}</span>
+                  </div>
                 </div>
                 <div class="deal-desc-btn" [class.active]="showDescription"
                   [pTooltip]=" !showDescription ? 'Add Description' : 'Hide Description'" tooltipPosition="top"
@@ -23,8 +28,13 @@
 
               <div class="desCourse_name Course_name mt-2 mb-3" [class.active]="!showDescription">
                 <label for="Course_description">Course description</label>
-                <textarea formControlName="description" class="input_Couser textarea_course"
+                <textarea formControlName="description" 
+                  [class]="'input_Couser textarea_course ' + (isFieldInvalid('description') ? 'error' : '')"
                   id="Course_description"></textarea>
+                <div *ngIf="isFieldInvalid('description')" class="error-message">
+                  <i class="fa-solid fa-exclamation-triangle"></i>
+                  <span>{{ getFieldError('description') }}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -207,6 +217,7 @@
                 [editable]="true"
                 placeholder="Key"
                 optionLabel="key"
+                [class]="isFieldFormInvalid(fieldForm, 'key') ? 'error' : ''"
                   >
               </p-select>
               </div>
@@ -216,11 +227,16 @@
               type="text" 
               placeholder="Value" 
               formControlName="value"
-              class="w-full md:w-56">
+              [class]="'w-full md:w-56 ' + (isFieldFormInvalid(fieldForm, 'value') ? 'error' : '')">
 
               <button (click)="addField()" class="add-btn" pTooltip="Add Fields" tooltipPosition="top">
                 <i class="fa-solid fa-plus"></i>
               </button>
+            </div>
+            <div *ngIf="isFieldFormInvalid(fieldForm, 'key') || isFieldFormInvalid(fieldForm, 'value')" class="error-message mt-2">
+              <i class="fa-solid fa-exclamation-triangle"></i>
+              <span *ngIf="isFieldFormInvalid(fieldForm, 'key')">{{ getFieldFormError(fieldForm, 'key') }}</span>
+              <span *ngIf="isFieldFormInvalid(fieldForm, 'value')">{{ getFieldFormError(fieldForm, 'value') }}</span>
             </div>
           </div>
         </div>

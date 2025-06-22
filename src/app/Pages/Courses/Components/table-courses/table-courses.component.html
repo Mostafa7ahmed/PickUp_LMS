@@ -20,6 +20,7 @@
         <th class="fixedWithdth">{{"course.tableCourse.updater" | translate}}</th>
         <th class="fixedWithdth">{{"course.tableCourse.created_on" | translate}}</th>
         <th class="fixedWithdth">{{"course.tableCourse.updated_on" | translate}}</th>
+        <th class="fixedWithdth">{{"course.tableCourse.actions" | translate}}</th>
       </tr>
       
     </thead>
@@ -216,8 +217,18 @@
           </td>
           }
 
-
-      
+        <td class="fixedWithdth">
+          <div class="actions-cell d-flex gap-2 align-items-center justify-content-center">
+            <button class="action-btn edit-btn" (click)="editCourse(course)" 
+                    [pTooltip]="'Edit Course'" tooltipPosition="top">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button class="action-btn delete-btn" (click)="deleteCourse(course)" 
+                    [pTooltip]="'Delete Course'" tooltipPosition="top">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </td>
       </tr>
       }
 

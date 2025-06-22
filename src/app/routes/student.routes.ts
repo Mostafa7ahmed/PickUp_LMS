@@ -11,6 +11,9 @@ import { ChangePasswordPopupComponent } from '../Pages/Auth/change-password-popu
 import { DiscoverCourseComponent } from '../Pages/Students/discover-course/discover-course.component';
 import { WalletPopupInstructorComponent } from '../Pages/Instructor/wallet-popup-instructor/wallet-popup-instructor.component';
 import { PorfileComponent } from '../Pages/Instructor/porfile/porfile.component';
+import { StudentProfileComponent } from '../Pages/Students/student-profile/student-profile.component';
+import { EditStudentProfileComponent } from '../Pages/Students/student-profile/components/edit-student-profile/edit-student-profile.component';
+import { CourseViewComponent } from '../Pages/Students/course-view/course-view.component';
 
 export const studentRoutes: Routes = [
     {
@@ -37,9 +40,14 @@ export const studentRoutes: Routes = [
                 component: ChangePasswordPopupComponent,
                 outlet: 'dialog'
             },
+            {
+                path: "editStudentProfile",
+                component: EditStudentProfileComponent,
+                outlet: 'dialog'
+            },
           { path: 'wallet', outlet: 'dialog', component: WalletPopupInstructorComponent },
-            { path: "myprofile", title: "porfile", component: PorfileComponent },
-
+            { path: "myprofile", title: "profile", component: StudentProfileComponent },
+            { path: "course/:courseId", title: "Course Details", component: CourseViewComponent },
             { path: "**", title: "notFound", component: HomestudentComponent },
         ]
     },

@@ -23,11 +23,14 @@ import { CustomslectwithiconComponent } from '../Components/customslectwithicon/
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { ItopicList, Stage } from '../../Topics/Core/Interface/itopic-list-result';
 import { TranslateModule } from '@ngx-translate/core';
+import { SplicTextPipe } from '../Core/Pipes/splic-text.pipe';
+import { DeleteCoursesService } from '../Core/service/delete-courses.service';
+import { DeleteCourseComponent } from '../Components/delete-course/delete-course.component';
 
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, RouterModule, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent,TranslateModule, TabsModule, MatTooltipModule, WidgetCoursesComponent, TableCoursesComponent, CustomslectwithiconComponent],
+  imports: [CommonModule, RouterModule, ButtonModule, FormsModule, DatePicker, CardkanbanStageComponent, TranslateModule, TabsModule, MatTooltipModule, WidgetCoursesComponent, TableCoursesComponent, CustomslectwithiconComponent, DeleteCourseComponent],
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss', '../../../../app/Core/Shared/CSS/horizontal-scrolling.scss']
 
@@ -40,6 +43,7 @@ export class CoursesComponent implements OnInit {  private subscription: Subscri
   private _PaginateCoursesService = inject(PaginateCoursesService);
   private _KanbanService = inject(KanbanService);
   private _MovecourseService = inject(MovecourseService);
+  private _DeleteCoursesService = inject(DeleteCoursesService);
   private router = inject(Router);
   private _ActivatedRoute = inject(ActivatedRoute);  constructor(private eRef: ElementRef) {
     this.initializeSearch();
@@ -390,5 +394,41 @@ iselectedStage : boolean = false;
 
   playSuccessSound() {
     this.audio.play();
+  }
+
+  // Delete popup properties
+  isDeletePopupVisible: boolean = false;
+  selectedDeleteId: number | null = null;
+
+  editCourse(course: CourseResult) {
+    this.router.navigate([{ outlets: { dialog: ['editcourse', course.id] } }]);
+  }
+
+  deleteCourse(course: CourseResult) {
+    this.isDeletePopupVisible = true;
+    this.selectedDeleteId = course.id;
+  }
+
+  confirmDeleteCourse() {
+    if (this.selectedDeleteId) {
+      this._DeleteCoursesService.deleteCourse(this.selectedDeleteId).subscribe({
+        next: (response) => {
+          if (response.success) {
+            console.log('Course deleted successfully');
+            this.closeDeletePopup();
+            // Refresh the course list
+            this.fetchCourses({}, this.selectedTopicId, undefined, this.valueTable);
+          }
+        },
+        error: (error) => {
+          console.error('Error deleting course:', error);
+        }
+      });
+    }
+  }
+
+  closeDeletePopup() {
+    this.isDeletePopupVisible = false;
+    this.selectedDeleteId = null;
   }
 }

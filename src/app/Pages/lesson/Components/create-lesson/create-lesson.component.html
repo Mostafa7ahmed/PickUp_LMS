@@ -1,6 +1,6 @@
 <div class="overlay"></div>
 <div class="ShowPopup">
-  <app-top-pop [NamePopup]="'Add Lesson'" 
+  <app-top-pop [NamePopup]="isEditMode ? 'Edit Lesson' : 'Add Lesson'" 
               (isVisibleChange)="closePopup()" 
               [ColorIcon]="'#6625259C'" 
               [bgColor]="'#cc8b8b28'"
@@ -9,7 +9,7 @@
 
   <form [formGroup]="lessonForm" (ngSubmit)="createLesson()" class="createLesson">
     <div class="leftLesson">
-      <div class="courseSelect">
+      <div class="courseSelect" *ngIf="!isEditMode">
         <app-text-header [title]="'Course *'" [bgColor]="'#6625259C'"></app-text-header>
 
         <div *ngIf="!selectedCourse" class="selectcard mt-3 my-2" (click)="toggleDropdownCourse()">

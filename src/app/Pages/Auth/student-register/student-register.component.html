@@ -19,7 +19,7 @@
 
     <form class="p-3" [formGroup]="registerFrom">
       @switch (current) { @case (0) {
-      <!-- Lable Input -->
+      <!-- Name Input -->
       <div class="position-relative mb-3">
         <!-- Input Field -->
         <input
@@ -36,11 +36,11 @@
         <!-- Label -->
         <label id="label-input">Name</label>
       </div>
+      @if(isFieldInvalid('name')) {
+        <p class="error-message mb-3">{{getErrorMessage('name')}}</p>
+      }
 
-      <div
-        class="position-relative mt-4"
-        [class.my-3]="!isFieldInvalid('userName')"
-      >
+      <div class="position-relative mt-4">
         <input
           class="input-cal input-base inputFloating"
           placeholder=""
@@ -53,19 +53,15 @@
         />
         <label id="label-input">User name</label>
       </div>
-      @if(isFieldInvalid('userName')){
-      <p class="error-message m">{{ MessageUseName }}</p>
-
+      @if(isFieldInvalid('userName')) {
+        <p class="error-message mb-3">{{getErrorMessage('userName')}}</p>
       }
 
-      <div
-        class="position-relative mt-4"
-        [class.my-3]="!isFieldInvalid('email')"
-      >
+      <div class="position-relative mt-4">
         <input
           class="input-cal input-base inputFloating"
           placeholder=""
-          type="text"
+          type="email"
           formControlName="email"
           [ngClass]="{
             invalid: isFieldInvalid('email'),
@@ -74,24 +70,25 @@
         />
         <label id="label-input">Email</label>
       </div>
+      @if(isFieldInvalid('email')) {
+        <p class="error-message mb-3">{{getErrorMessage('email')}}</p>
+      }
 
       <div class="position-relative mt-4">
         <input
           class="input-cal input-base inputFloating"
           placeholder=""
-          type="text"
+          type="tel"
           formControlName="phoneNumber"
           [ngClass]="{
             invalid: isFieldInvalid('phoneNumber'),
             success: isFieldValid('phoneNumber')
           }"
         />
-        <label id="label-input">PhoneNumber</label>
+        <label id="label-input">Phone Number</label>
       </div>
-      @if(registerFrom.get("phoneNumber")?.errors &&
-      registerFrom.get("phoneNumber")?.touched){
-      <p class="error-message m-0">{{ MessagePhone }}</p>
-
+      @if(isFieldInvalid('phoneNumber')) {
+        <p class="error-message mb-3">{{getErrorMessage('phoneNumber')}}</p>
       } } @case (1) {
       <div class="position-relative mb-3">
         <p-floatlabel class="w-full w-100 md:w-56" variant="on">
@@ -169,8 +166,8 @@
       </div>
 
       } @case (2) {
-      <!-- Lable Input -->
-      <div class="position-relative mb-1 ">
+      <!-- Password Input -->
+      <div class="position-relative mb-3">
         <input
           class="input-cal input-base inputFloating"
           placeholder=""
@@ -191,12 +188,29 @@
         >
         </i>
       </div>
-      @if (registerFrom.get('password')?.errors && registerFrom.get('password')?.touched) {
-        <p class="error-message mb-3"> must start  an uppercase letter , symbols like &#64; and number</p>
-   
+      
+      <!-- Password Strength Indicator -->
+      @if(registerFrom.get('password')?.value && registerFrom.get('password')?.touched) {
+        <div class="password-strength mb-3">
+          <div class="strength-bar">
+            <div 
+              class="strength-fill" 
+              [style.width.%]="(getPasswordStrength() / 5) * 100"
+              [style.background-color]="getPasswordStrengthColor()">
+            </div>
+          </div>
+          <small class="strength-text" [style.color]="getPasswordStrengthColor()">
+            Password strength: {{getPasswordStrengthText()}}
+          </small>
+        </div>
+      }
+      
+      @if(isFieldInvalid('password')) {
+        <p class="error-message mb-3">{{getErrorMessage('password')}}</p>
       }
     
 
+      <!-- Confirm Password Input -->
       <div class="position-relative mt-3">
         <input
           class="input-cal input-base inputFloating"
@@ -204,17 +218,11 @@
           [type]="repasswordFieldType ? 'password' : 'text'"
           formControlName="confirmedPassword"
           [ngClass]="{
-            invalid:
-              !registerFrom.get('rePassword')?.touched &&
-              registerFrom.getError('mismatch') &&
-                registerFrom.get('confirmedPassword')?.dirty,
-            success:
-              isFieldValid('confirmedPassword') &&
-              !registerFrom.getError('mismatch') &&
-                registerFrom.get('confirmedPassword')?.dirty
+            invalid: isFieldInvalid('confirmedPassword') || registerFrom.hasError('passwordMismatch'),
+            success: isFieldValid('confirmedPassword') && !registerFrom.hasError('passwordMismatch')
           }"
         />
-        <label id="label-input">Repassword</label>
+        <label id="label-input">Confirm Password</label>
         <i
           (click)="toggleRePasswordVisibility()"
           role="button"
@@ -223,12 +231,15 @@
           [class.fa-eye-slash]="!repasswordFieldType"
         >
         </i>
-
-
       </div>
-      @if (registerFrom.hasError('mismatch') &&registerFrom.get('confirmedPassword')?.touched) {
-          <p class="error-message mt-2">Passwords do not match</p>
-        }
+      
+      @if(isFieldInvalid('confirmedPassword')) {
+        <p class="error-message mt-2">{{getErrorMessage('confirmedPassword')}}</p>
+      }
+      
+      @if(registerFrom.hasError('passwordMismatch') && registerFrom.get('confirmedPassword')?.touched) {
+        <p class="error-message mt-2">Passwords do not match</p>
+      }
 
       } }
     </form>
