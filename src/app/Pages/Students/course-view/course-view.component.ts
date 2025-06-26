@@ -16,6 +16,7 @@ import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { TooltipModule } from 'primeng/tooltip';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-course-view-student',
@@ -31,7 +32,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
     ChipModule,
     CardModule,
     DividerModule,
-    TooltipModule
+    TooltipModule,
+    FormsModule
   ],
   templateUrl: './course-view.component.html',
   styleUrls: ['./course-view.component.scss']
@@ -49,7 +51,7 @@ export class CourseViewComponent implements OnInit {
   // Controls the selected tab
   activeTab: number = 0;
 
-  // Student progress data (mock data - replace with real API)
+  // Enhanced student progress data
   studentProgress = {
     overallProgress: 65,
     completedLessons: 8,
@@ -59,17 +61,33 @@ export class CourseViewComponent implements OnInit {
     enrollmentDate: new Date('2024-02-01'),
     certificateEligible: false,
     currentGrade: 'B+',
-    averageScore: 85
+    averageScore: 85,
+    streak: 7,
+    nextLessonId: 9,
+    estimatedTimeToComplete: '3h 15m',
+    achievements: ['First Lesson', 'Quick Learner', 'Perfect Score'],
+    weeklyGoal: 5,
+    weeklyCompleted: 3
   };
 
   // Mock enrollment status
   isEnrolled: boolean = true;
   isCompleted: boolean = false;
+  isFavorited: boolean = false;
+  showNotes: boolean = false;
+  
+  // Notes system
+  studentNotes: string = '';
+  savedNotes: Array<{id: number, content: string, timestamp: Date, lessonId?: number}> = [
+    {id: 1, content: 'Important concept about React hooks', timestamp: new Date('2024-03-10'), lessonId: 3},
+    {id: 2, content: 'Remember to practice this example', timestamp: new Date('2024-03-12'), lessonId: 5}
+  ];
 
   ngOnInit(): void {
     this.courseId = +this._activatedRoute.snapshot.paramMap.get('courseId')!;
     if (this.courseId) {
       this.loadCourseData();
+      this.loadStudentNotes();
     }
   }
 
@@ -88,6 +106,14 @@ export class CourseViewComponent implements OnInit {
         this._messageService.error('حدث خطأ أثناء تحميل الكورس');
       }
     });
+  }
+
+  loadStudentNotes(): void {
+    // Load student notes from API or localStorage
+    const saved = localStorage.getItem(`course_notes_${this.courseId}`);
+    if (saved) {
+      this.studentNotes = saved;
+    }
   }
 
   updateProgressData(): void {
@@ -138,13 +164,15 @@ export class CourseViewComponent implements OnInit {
   }
 
   continueLearning(): void {
-    // Navigate to the next lesson or current lesson
-    this._router.navigate(['/Student/course', this.courseId, 'lesson']);
+    if (this.studentProgress.nextLessonId) {
+      this._router.navigate(['/Student/course', this.courseId, 'lesson', this.studentProgress.nextLessonId]);
+    } else {
+      this._router.navigate(['/Student/course', this.courseId, 'lesson']);
+    }
   }
 
   goToDiscussion(): void {
-    // Navigate to course discussion/chat
-    this._messageService.info('ميزة المناقشات ستكون متاحة قريباً');
+    this._router.navigate(['/Student/chat'], { queryParams: { courseId: this.courseId } });
   }
 
   shareProgress(): void {
@@ -166,6 +194,65 @@ export class CourseViewComponent implements OnInit {
       // Implement enrollment logic
       this._messageService.success('تم التسجيل في الكورس بنجاح');
       this.isEnrolled = true;
+    }
+  }
+
+  // New enhanced methods
+  toggleFavorite(): void {
+    this.isFavorited = !this.isFavorited;
+    this._messageService.success(this.isFavorited ? 'تم إضافة الكورس للمفضلة' : 'تم إزالة الكورس من المفضلة');
+  }
+
+  toggleNotes(): void {
+    this.showNotes = !this.showNotes;
+  }
+
+  saveNotes(): void {
+    if (this.studentNotes.trim()) {
+      localStorage.setItem(`course_notes_${this.courseId}`, this.studentNotes);
+      this.savedNotes.unshift({
+        id: Date.now(),
+        content: this.studentNotes,
+        timestamp: new Date()
+      });
+      this.studentNotes = '';
+      this._messageService.success('تم حفظ الملاحظة');
+    }
+  }
+
+  deleteNote(noteId: number): void {
+    this.savedNotes = this.savedNotes.filter(note => note.id !== noteId);
+    this._messageService.success('تم حذف الملاحظة');
+  }
+
+  getProgressMessage(): string {
+    const progress = this.studentProgress.overallProgress;
+    if (progress === 0) return 'ابدأ رحلتك التعليمية الآن!';
+    if (progress < 25) return 'بداية رائعة! استمر في التعلم';
+    if (progress < 50) return 'تقدم ممتاز! أنت في منتصف الطريق';
+    if (progress < 75) return 'أداء رائع! أوشكت على الانتهاء';
+    if (progress < 100) return 'الخط الأخير! إنجز الكورس الآن';
+    return 'تهانينا! لقد أكملت الكورس بنجاح';
+  }
+
+  getStreakMessage(): string {
+    const streak = this.studentProgress.streak;
+    if (streak === 0) return 'ابدأ مشوارك اليوم';
+    if (streak < 3) return `${streak} أيام متتالية`;
+    if (streak < 7) return `${streak} أيام رائعة!`;
+    return `${streak} أيام متتالية - إنجاز مذهل!`;
+  }
+
+  resetProgress(): void {
+    if (confirm('هل أنت متأكد من إعادة تعيين التقدم؟ سيتم فقدان جميع البيانات.')) {
+      this.studentProgress.overallProgress = 0;
+      this.studentProgress.completedLessons = 0;
+      this.studentProgress.timeSpent = '0h 0m';
+      this.studentProgress.currentGrade = 'N/A';
+      this.studentProgress.averageScore = 0;
+      this.studentProgress.streak = 0;
+      this.isCompleted = false;
+      this._messageService.success('تم إعادة تعيين التقدم');
     }
   }
 } 

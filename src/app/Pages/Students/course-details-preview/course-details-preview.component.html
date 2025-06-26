@@ -1,0 +1,338 @@
+<div class="course-details-container" *ngIf="!isLoading && course">
+  <!-- Header Section -->
+  <div class="course-header">
+    <button class="back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-right"></i>
+      العودة للكورسات
+    </button>
+    
+    <div class="header-actions">
+      <button class="action-btn" (click)="shareCourse()" title="مشاركة">
+        <i class="fas fa-share-alt"></i>
+      </button>
+      <button class="action-btn" (click)="addToWishlist()" title="إضافة للمفضلة">
+        <i class="fas fa-heart"></i>
+      </button>
+      <button class="action-btn" (click)="reportCourse()" title="إبلاغ">
+        <i class="fas fa-flag"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Left Column: Course Media & Info -->
+    <div class="left-column">
+      <!-- Course Image/Video Section -->
+      <div class="media-section">
+        <div class="course-image-container" *ngIf="!showVideo">
+          <img [src]="course.imageUrl" [alt]="course.title" class="course-image">
+          <button class="play-button" (click)="toggleVideo()" *ngIf="course.introVideoUrl">
+            <i class="fas fa-play"></i>
+            <span>مشاهدة المقدمة</span>
+          </button>
+          
+          <!-- Course Badges -->
+          <div class="course-badges">
+            <span class="badge level-badge" [class]="'level-' + course.level.toLowerCase()">
+              {{ course.level }}
+            </span>
+            <span class="badge free-badge" *ngIf="course.isFree">
+              <i class="fas fa-gift"></i>
+              مجاني
+            </span>
+            <span class="badge certificate-badge" *ngIf="course.certificate">
+              <i class="fas fa-certificate"></i>
+              شهادة
+            </span>
+          </div>
+        </div>
+
+        <!-- Video Player -->
+        <div class="video-container" *ngIf="showVideo && safeVideoUrl">
+          <iframe 
+            [src]="safeVideoUrl" 
+            frameborder="0" 
+            allowfullscreen
+            class="intro-video">
+          </iframe>
+          <button class="close-video-btn" (click)="toggleVideo()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Course Information Tabs -->
+      <div class="tabs-section">
+        <div class="tab-headers">
+          <button 
+            class="tab-btn" 
+            [class.active]="activeTab === 'overview'"
+            (click)="setActiveTab('overview')">
+            <i class="fas fa-info-circle"></i>
+            نظرة عامة
+          </button>
+          <button 
+            class="tab-btn" 
+            [class.active]="activeTab === 'curriculum'"
+            (click)="setActiveTab('curriculum')">
+            <i class="fas fa-list"></i>
+            المنهج
+          </button>
+          <button 
+            class="tab-btn" 
+            [class.active]="activeTab === 'instructor'"
+            (click)="setActiveTab('instructor')">
+            <i class="fas fa-user-tie"></i>
+            المدرب
+          </button>
+          <button 
+            class="tab-btn" 
+            [class.active]="activeTab === 'reviews'"
+            (click)="setActiveTab('reviews')">
+            <i class="fas fa-star"></i>
+            التقييمات
+          </button>
+        </div>
+
+        <div class="tab-content">
+          <!-- Overview Tab -->
+          <div class="tab-panel" *ngIf="activeTab === 'overview'">
+            <div class="overview-content">
+              <h3>وصف الكورس</h3>
+              <p class="course-description">{{ course.description }}</p>
+              
+              <div class="what-you-learn">
+                <h4><i class="fas fa-check-circle"></i> ماذا ستتعلم</h4>
+                <ul class="learn-list">
+                  <li *ngFor="let item of course.whatYouWillLearn">
+                    <i class="fas fa-check"></i>
+                    {{ item }}
+                  </li>
+                </ul>
+              </div>
+
+              <div class="requirements">
+                <h4><i class="fas fa-clipboard-list"></i> المتطلبات</h4>
+                <ul class="requirements-list">
+                  <li *ngFor="let req of course.requirements">
+                    <i class="fas fa-dot-circle"></i>
+                    {{ req }}
+                  </li>
+                </ul>
+              </div>
+
+              <div class="course-tags">
+                <h4><i class="fas fa-tags"></i> المواضيع</h4>
+                <div class="tags-container">
+                  <span class="tag" *ngFor="let tag of course.tags">{{ tag }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Curriculum Tab -->
+          <div class="tab-panel" *ngIf="activeTab === 'curriculum'">
+            <div class="curriculum-content">
+              <div class="curriculum-stats">
+                <div class="stat-item">
+                  <i class="fas fa-play-circle"></i>
+                  <span>{{ course.totalLessons }} درس</span>
+                </div>
+                <div class="stat-item">
+                  <i class="fas fa-clock"></i>
+                  <span>{{ course.duration }}</span>
+                </div>
+              </div>
+              <p class="curriculum-note">
+                المنهج التفصيلي متاح بعد التسجيل في الكورس
+              </p>
+            </div>
+          </div>
+
+          <!-- Instructor Tab -->
+          <div class="tab-panel" *ngIf="activeTab === 'instructor'">
+            <div class="instructor-content">
+              <div class="instructor-profile">
+                <img [src]="course.instructor.avatar" [alt]="course.instructor.name" class="instructor-avatar">
+                <div class="instructor-info">
+                  <h3>{{ course.instructor.name }}</h3>
+                  <p class="instructor-bio">{{ course.instructor.bio }}</p>
+                  
+                  <div class="instructor-stats">
+                    <div class="stat">
+                      <i class="fas fa-star"></i>
+                      <span>{{ course.instructor.rating }} تقييم</span>
+                    </div>
+                    <div class="stat">
+                      <i class="fas fa-users"></i>
+                      <span>{{ course.instructor.totalStudents | number }} طالب</span>
+                    </div>
+                    <div class="stat">
+                      <i class="fas fa-clock"></i>
+                      <span>{{ course.instructor.experience }} خبرة</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reviews Tab -->
+          <div class="tab-panel" *ngIf="activeTab === 'reviews'">
+            <div class="reviews-content">
+              <div class="reviews-summary">
+                <div class="rating-overview">
+                  <div class="overall-rating">
+                    <span class="rating-number">{{ course.rating }}</span>
+                    <div class="stars">
+                      <i 
+                        *ngFor="let star of getStars(course.rating)" 
+                        class="fas fa-star"
+                        [class.filled]="star <= course.rating">
+                      </i>
+                    </div>
+                    <span class="total-ratings">({{ course.totalRatings | number }} تقييم)</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="reviews-list">
+                <div class="review-item" *ngFor="let review of getVisibleReviews()">
+                  <div class="review-header">
+                    <img [src]="review.studentAvatar" [alt]="review.studentName" class="reviewer-avatar">
+                    <div class="reviewer-info">
+                      <h4>{{ review.studentName }}</h4>
+                      <div class="review-rating">
+                        <i 
+                          *ngFor="let star of getStars(review.rating)" 
+                          class="fas fa-star"
+                          [class.filled]="star <= review.rating">
+                        </i>
+                      </div>
+                      <span class="review-date">{{ formatDate(review.date) }}</span>
+                    </div>
+                  </div>
+                  <p class="review-comment">{{ review.comment }}</p>
+                </div>
+
+                <button 
+                  class="toggle-reviews-btn" 
+                  (click)="toggleReviews()"
+                  *ngIf="course.reviews.length > 3">
+                  {{ showAllReviews ? 'إخفاء' : 'عرض المزيد' }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Enrollment Card -->
+    <div class="right-column">
+      <div class="enrollment-card">
+        <!-- Price Section -->
+        <div class="price-section">
+          <div class="price-container">
+            <span class="current-price">{{ formatPrice(getDiscountedPrice()) }}</span>
+            <span class="original-price" *ngIf="course.originalPrice && course.discount">
+              {{ formatPrice(course.originalPrice) }}
+            </span>
+          </div>
+          <div class="discount-badge" *ngIf="course.discount">
+            <span>خصم {{ course.discount }}%</span>
+          </div>
+        </div>
+
+        <!-- Course Stats -->
+        <div class="course-stats">
+          <div class="stat-row">
+            <div class="stat-item">
+              <i class="fas fa-star"></i>
+              <span>{{ course.rating }} ({{ course.totalRatings | number }})</span>
+            </div>
+          </div>
+          
+          <div class="stat-row">
+            <div class="stat-item">
+              <i class="fas fa-users"></i>
+              <span>{{ course.totalStudents | number }} طالب</span>
+            </div>
+          </div>
+          
+          <div class="stat-row">
+            <div class="stat-item">
+              <i class="fas fa-clock"></i>
+              <span>{{ course.duration }}</span>
+            </div>
+          </div>
+          
+          <div class="stat-row">
+            <div class="stat-item">
+              <i class="fas fa-globe"></i>
+              <span>{{ course.language }}</span>
+            </div>
+          </div>
+          
+          <div class="stat-row">
+            <div class="stat-item">
+              <i class="fas fa-signal"></i>
+              <span>{{ course.level }}</span>
+            </div>
+          </div>
+          
+          <div class="stat-row">
+            <div class="stat-item">
+              <i class="fas fa-calendar"></i>
+              <span>آخر تحديث: {{ formatDate(course.lastUpdated) }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <button 
+            class="enroll-btn" 
+            (click)="enrollInCourse()"
+            *ngIf="!course.isEnrolled">
+            <i class="fas fa-shopping-cart"></i>
+            {{ course.isFree ? 'التسجيل المجاني' : 'التسجيل في الكورس' }}
+          </button>
+          
+          <button 
+            class="continue-btn" 
+            (click)="goToCourse()"
+            *ngIf="course.isEnrolled">
+            <i class="fas fa-play"></i>
+            متابعة التعلم
+          </button>
+        </div>
+
+        <!-- Money Back Guarantee -->
+        <div class="guarantee" *ngIf="!course.isFree">
+          <div class="guarantee-item">
+            <i class="fas fa-shield-alt"></i>
+            <span>ضمان استرداد الأموال خلال 30 يوم</span>
+          </div>
+          <div class="guarantee-item">
+            <i class="fas fa-mobile-alt"></i>
+            <span>الوصول عبر الجوال والكمبيوتر</span>
+          </div>
+          <div class="guarantee-item" *ngIf="course.certificate">
+            <i class="fas fa-certificate"></i>
+            <span>شهادة إتمام معتمدة</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Loading State -->
+<div class="loading-container" *ngIf="isLoading">
+  <div class="loading-content">
+    <i class="fas fa-spinner fa-spin"></i>
+    <h3>جاري تحميل تفاصيل الكورس...</h3>
+  </div>
+</div> 

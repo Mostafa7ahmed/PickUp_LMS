@@ -14,6 +14,7 @@ import { PorfileComponent } from '../Pages/Instructor/porfile/porfile.component'
 import { StudentProfileComponent } from '../Pages/Students/student-profile/student-profile.component';
 import { EditStudentProfileComponent } from '../Pages/Students/student-profile/components/edit-student-profile/edit-student-profile.component';
 import { CourseViewComponent } from '../Pages/Students/course-view/course-view.component';
+import { CourseDetailsPreviewComponent } from '../Pages/Students/course-details-preview/course-details-preview.component';
 
 export const studentRoutes: Routes = [
     {
@@ -47,6 +48,7 @@ export const studentRoutes: Routes = [
             },
           { path: 'wallet', outlet: 'dialog', component: WalletPopupInstructorComponent },
             { path: "myprofile", title: "profile", component: StudentProfileComponent },
+            { path: "course-details/:id", title: "Course Preview", component: CourseDetailsPreviewComponent },
             { path: "course/:courseId", title: "Course Details", component: CourseViewComponent },
             { path: "**", title: "notFound", component: HomestudentComponent },
         ]

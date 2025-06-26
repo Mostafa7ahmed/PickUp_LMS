@@ -92,9 +92,14 @@
                 </div>
 
                 <!-- Camera Icon -->
-                <label for="upload" class="camera-icon" *ngIf="!isImageLoading">
+                <label for="upload" class="camera-icon" *ngIf="!isImageLoading && !imagePreview">
                   <i class="fas fa-camera"></i>
                 </label>
+
+                <!-- Delete photo icon -->
+                <div class="delete-photo Icons" *ngIf="imagePreview && !isImageLoading" (click)="removeCoverPhoto()" pTooltip="Remove Photo" tooltipPosition="top">
+                  <i class="fa-regular fa-trash-can"></i>
+                </div>
               </div>
             </div>
           </div>
@@ -220,7 +225,12 @@
               <div class="leftInfo">
                 <div class="vedioName d-flex gap-2 align-items-center">
                   <div class="video-info-container">
-                    <p class="mb-0 title" [pTooltip]="video.name">{{video.name | splicText:30}}</p>
+                    <input type="text"
+                           class="form-control video-name-input"
+                           [(ngModel)]="video.name"
+                           (ngModelChange)="video.name = $event"
+                           [pTooltip]="video.name"
+                           placeholder="Video name" />
                   </div>
                 </div>
               </div>

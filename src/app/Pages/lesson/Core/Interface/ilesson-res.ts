@@ -9,6 +9,8 @@ export interface ILessonRes {
   createdOn: string
   videos: Video[]
   tags: Tag[]
+  photoUrl?: string
+  fileUrls?: string[]
 }
 
 export interface Video {

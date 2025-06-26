@@ -2,7 +2,7 @@
 
   <!-- Courses Grid -->
   <div class="courses-grid">
-    <div class="course-card" *ngFor="let course of courses">
+    <div class="course-card" *ngFor="let course of courses" (click)="viewCourseDetails(course.id)">
       <div class="course-image">
         <img
           [src]="course.image"
@@ -63,6 +63,7 @@
               <div class="action-buttons">
                 <button 
                   class="btn-enroll"
+                  (click)="enrollCourse(course.id); $event.stopPropagation()"
                 >
                   <i class="fa-solid fa-graduation-cap me-1"></i>
                   Enroll Now
@@ -72,6 +73,7 @@
 
                 <button 
                   class="btn-details"
+                  (click)="viewCourseDetails(course.id); $event.stopPropagation()"
                 >
                   <i class="fa-solid fa-info-circle"></i>
                 </button>

@@ -307,6 +307,11 @@ onVideoUpload(event: Event): void {
     this.lessonForm.patchValue({ introductionVideoUrl: '' });
   }
 
+  removeCoverPhoto(): void {
+    this.imagePreview = null;
+    this.lessonForm.patchValue({ photoUrl: '' });
+  }
+
   isCreateButtonDisabled(): boolean {
     if (this.isEditMode) {
       // In edit mode, allow updating without adding new videos/files
@@ -538,12 +543,32 @@ onVideoUpload(event: Event): void {
             name: lesson.name,
             description: lesson.description,
             introductionVideoUrl: lesson.introductionVideoUrl,
-            tags: lesson.tags
+            tags: lesson.tags,
+            photoUrl: lesson.photoUrl || '',
+            fileUrls: lesson.fileUrls || []
           });
           
           // Set intro video preview if exists
           if (lesson.introductionVideoUrl) {
             this.introVideoPreview = this.baseUrl + lesson.introductionVideoUrl;
+          }
+          
+          // Set lesson cover photo preview if exists
+          if (lesson.photoUrl) {
+            this.imagePreview = this.baseUrl + lesson.photoUrl;
+          }
+          
+          // Populate uploaded files (references)
+          if (lesson.fileUrls && lesson.fileUrls.length > 0) {
+            this.uploadedFiles = lesson.fileUrls.map(url => {
+              const fileName = this.extractFileName(url);
+              return {
+                name: fileName,
+                url: url,
+                displayUrl: this.baseUrl + url,
+                size: 0 // Size unknown; can be updated later if needed
+              };
+            });
           }
           
           // Populate videos
@@ -561,5 +586,14 @@ onVideoUpload(event: Event): void {
         this.message.error('Error loading lesson data');
       }
     });
+  }
+
+  // Helper to extract filename from a url (supports both absolute and relative)
+  private extractFileName(url: string): string {
+    try {
+      return url.split('/').pop() || url;
+    } catch {
+      return url;
+    }
   }
 }

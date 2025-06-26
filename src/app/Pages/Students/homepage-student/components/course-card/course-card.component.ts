@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { IcourseStudent, IDicoverCourse } from '../../../my-course/core/interface/icourse-student';
 import { CourseService } from '../../../my-course/core/service/course.service';
 import { DicoverCourseService } from '../../../discover-course/service/dicover-course.service';
@@ -16,7 +17,10 @@ export class CourseCardComponent implements OnInit {
 
 
   showInfoCoupon = false;
-  constructor(private courseService: DicoverCourseService) {}
+  constructor(
+    private courseService: DicoverCourseService,
+    private router: Router
+  ) {}
   ngOnInit(): void {
     this.courses = this.courseService.courses;
   }
@@ -36,5 +40,13 @@ export class CourseCardComponent implements OnInit {
       return (num / 1000).toFixed(1) + 'k';
     }
     return num.toString();
+  }
+
+  viewCourseDetails(courseId: number): void {
+    this.router.navigate(['/Student/course-details', courseId]);
+  }
+
+  enrollCourse(courseId: number): void {
+    this.router.navigate(['/Student/course', courseId, 'enroll']);
   }
 }

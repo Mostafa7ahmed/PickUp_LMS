@@ -14,11 +14,22 @@
           <i class="fas fa-tag"></i>
           <span>{{ data.result.priceAfterDiscount || data.result.price }} جنيه</span>
         </div>
+        <!-- Favorite Button -->
+        <button class="favorite-btn" 
+                [class.favorited]="isFavorited" 
+                (click)="toggleFavorite()"
+                pTooltip="إضافة للمفضلة">
+          <i class="fas fa-heart"></i>
+        </button>
       </div>
 
       <div class="course-details">
         <div class="course-title-section">
           <h1 class="course-title">{{ data.result.name }}</h1>
+          <div class="progress-message" *ngIf="isEnrolled">
+            <i class="fas fa-lightbulb"></i>
+            <span>{{ getProgressMessage() }}</span>
+          </div>
           <div class="course-meta">
             <span class="stage-info">
               <i class="fas fa-layer-group"></i>
@@ -61,6 +72,9 @@
       <div class="progress-header">
         <h3>تقدمك في الكورس</h3>
         <div class="progress-actions">
+          <button class="action-btn notes-btn" (click)="toggleNotes()" pTooltip="الملاحظات">
+            <i class="fas fa-sticky-note"></i>
+          </button>
           <button class="action-btn share-btn" (click)="shareProgress()" pTooltip="مشاركة التقدم">
             <i class="fas fa-share-alt"></i>
           </button>
@@ -92,6 +106,12 @@
             <div class="stat-value">{{ studentProgress.timeSpent }}</div>
             <div class="stat-label">الوقت المقضي</div>
           </div>
+          <div class="progress-stat">
+            <div class="stat-value" style="color: #f59e0b;">
+              {{ studentProgress.streak }}
+            </div>
+            <div class="stat-label">{{ getStreakMessage() }}</div>
+          </div>
         </div>
 
         <div class="progress-bar-container">
@@ -100,6 +120,31 @@
             [style]="{'height': '12px', 'border-radius': '6px'}"
             [color]="getProgressColor()">
           </p-progressbar>
+          <div class="progress-text">
+            <span>متبقي تقريباً {{ studentProgress.estimatedTimeToComplete }}</span>
+          </div>
+        </div>
+
+        <!-- Weekly Goals -->
+        <div class="weekly-goals" *ngIf="studentProgress.weeklyGoal > 0">
+          <h4><i class="fas fa-target"></i> الهدف الأسبوعي</h4>
+          <div class="goal-progress">
+            <div class="goal-bar">
+              <div class="goal-fill" [style.width.%]="(studentProgress.weeklyCompleted / studentProgress.weeklyGoal) * 100"></div>
+            </div>
+            <span class="goal-text">{{ studentProgress.weeklyCompleted }}/{{ studentProgress.weeklyGoal }} دروس</span>
+          </div>
+        </div>
+
+        <!-- Achievements -->
+        <div class="achievements" *ngIf="studentProgress.achievements.length > 0">
+          <h4><i class="fas fa-trophy"></i> الإنجازات</h4>
+          <div class="achievement-badges">
+            <span class="achievement-badge" *ngFor="let achievement of studentProgress.achievements">
+              <i class="fas fa-medal"></i>
+              {{ achievement }}
+            </span>
+          </div>
         </div>
 
         <div class="progress-actions-main">
@@ -117,6 +162,42 @@
                   [pTooltip]="!studentProgress.certificateEligible ? 'يجب إكمال 80% من الكورس للحصول على الشهادة' : 'تحميل الشهادة'">
             <i class="fas fa-certificate"></i>
             تحميل الشهادة
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notes Section -->
+    <div class="notes-section" *ngIf="showNotes && isEnrolled">
+      <div class="notes-header">
+        <h3><i class="fas fa-sticky-note"></i> ملاحظاتك</h3>
+        <button class="close-notes-btn" (click)="toggleNotes()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <div class="add-note">
+        <textarea 
+          [(ngModel)]="studentNotes" 
+          placeholder="اكتب ملاحظة جديدة..."
+          class="note-input"
+          rows="3">
+        </textarea>
+        <button class="save-note-btn" (click)="saveNotes()" [disabled]="!studentNotes.trim()">
+          <i class="fas fa-save"></i>
+          حفظ الملاحظة
+        </button>
+      </div>
+
+      <div class="saved-notes" *ngIf="savedNotes.length > 0">
+        <h4>الملاحظات المحفوظة</h4>
+        <div class="note-item" *ngFor="let note of savedNotes">
+          <div class="note-content">
+            <p>{{ note.content }}</p>
+            <small class="note-date">{{ note.timestamp | date:'dd/MM/yyyy HH:mm' }}</small>
+          </div>
+          <button class="delete-note-btn" (click)="deleteNote(note.id)">
+            <i class="fas fa-trash"></i>
           </button>
         </div>
       </div>
@@ -162,6 +243,13 @@
         <i class="fas fa-star"></i>
         التقييمات
       </button>
+      <button class="tab-btn" 
+              [class.active]="activeTab === 4" 
+              (click)="activeTab = 4"
+              *ngIf="isEnrolled">
+        <i class="fas fa-chart-line"></i>
+        التقدم التفصيلي
+      </button>
     </div>
 
     <div class="tab-content">
@@ -198,15 +286,15 @@
                 </div>
                 <div class="info-item" *ngIf="data.result.rating > 0">
                   <span class="label">التقييم:</span>
-                  <span class="value">{{ data.result.rating.toFixed(1) }} ⭐</span>
+                  <span class="value">{{ data.result.rating.toFixed(1) }} نجوم</span>
                 </div>
               </div>
             </div>
 
             <div class="info-card" *ngIf="isEnrolled">
               <div class="info-header">
-                <i class="fas fa-chart-line"></i>
-                <h4>إحصائياتك</h4>
+                <i class="fas fa-calendar-check"></i>
+                <h4>معلومات التسجيل</h4>
               </div>
               <div class="info-content">
                 <div class="info-item">
@@ -214,16 +302,14 @@
                   <span class="value">{{ formatDate(studentProgress.enrollmentDate) }}</span>
                 </div>
                 <div class="info-item">
-                  <span class="label">آخر زيارة:</span>
+                  <span class="label">آخر وصول:</span>
                   <span class="value">{{ formatDate(studentProgress.lastAccessed) }}</span>
                 </div>
                 <div class="info-item">
-                  <span class="label">الوقت المقضي:</span>
-                  <span class="value">{{ studentProgress.timeSpent }}</span>
-                </div>
-                <div class="info-item">
-                  <span class="label">متوسط الدرجات:</span>
-                  <span class="value">{{ studentProgress.averageScore }}%</span>
+                  <span class="label">حالة الشهادة:</span>
+                  <span class="value" [class.text-success]="studentProgress.certificateEligible" [class.text-warning]="!studentProgress.certificateEligible">
+                    {{ studentProgress.certificateEligible ? 'مؤهل للحصول على الشهادة' : 'غير مؤهل بعد' }}
+                  </span>
                 </div>
               </div>
             </div>
@@ -231,19 +317,128 @@
         </div>
       </div>
 
-      <!-- Lectures Tab -->
+      <!-- Lessons Tab -->
       <div class="tab-panel" *ngIf="activeTab === 1">
         <app-lesson [courseId]="courseId"></app-lesson>
       </div>
 
-      <!-- Quiz Tab -->
+      <!-- Quizzes Tab -->
       <div class="tab-panel" *ngIf="activeTab === 2">
         <app-all-quiz-view-course [courseId]="courseId"></app-all-quiz-view-course>
       </div>
 
-      <!-- Reviews Tab -->
+      <!-- Ratings Tab -->
       <div class="tab-panel" *ngIf="activeTab === 3">
         <app-rating [courseId]="courseId"></app-rating>
+      </div>
+
+      <!-- Detailed Progress Tab -->
+      <div class="tab-panel" *ngIf="activeTab === 4 && isEnrolled">
+        <div class="detailed-progress">
+          <h3><i class="fas fa-chart-line"></i> التقدم التفصيلي</h3>
+          
+          <div class="progress-cards">
+            <div class="progress-card">
+              <div class="card-header">
+                <i class="fas fa-percentage"></i>
+                <h4>نسبة الإنجاز</h4>
+              </div>
+              <div class="card-content">
+                <div class="big-number" [style.color]="getProgressColor()">
+                  {{ studentProgress.overallProgress }}%
+                </div>
+                <div class="card-chart">
+                  <p-progressbar 
+                    [value]="studentProgress.overallProgress" 
+                    [style]="{'height': '8px', 'border-radius': '4px'}"
+                    [color]="getProgressColor()">
+                  </p-progressbar>
+                </div>
+              </div>
+            </div>
+
+            <div class="progress-card">
+              <div class="card-header">
+                <i class="fas fa-trophy"></i>
+                <h4>متوسط الدرجات</h4>
+              </div>
+              <div class="card-content">
+                <div class="big-number" [style.color]="getGradeColor()">
+                  {{ studentProgress.averageScore }}
+                </div>
+                <div class="grade-indicator">
+                  <span class="current-grade" [style.color]="getGradeColor()">
+                    {{ studentProgress.currentGrade }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="progress-card">
+              <div class="card-header">
+                <i class="fas fa-fire"></i>
+                <h4>الأيام المتتالية</h4>
+              </div>
+              <div class="card-content">
+                <div class="big-number" style="color: #f59e0b;">
+                  {{ studentProgress.streak }}
+                </div>
+                <div class="streak-message">
+                  {{ getStreakMessage() }}
+                </div>
+              </div>
+            </div>
+
+            <div class="progress-card">
+              <div class="card-header">
+                <i class="fas fa-clock"></i>
+                <h4>الوقت المقضي</h4>
+              </div>
+              <div class="card-content">
+                <div class="big-number" style="color: #6366f1;">
+                  {{ studentProgress.timeSpent }}
+                </div>
+                <div class="time-estimate">
+                  متبقي: {{ studentProgress.estimatedTimeToComplete }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Learning Analytics -->
+          <div class="learning-analytics">
+            <h4><i class="fas fa-analytics"></i> تحليل الأداء</h4>
+            <div class="analytics-grid">
+              <div class="analytics-item">
+                <span class="analytics-label">الدروس المكتملة:</span>
+                <span class="analytics-value">{{ studentProgress.completedLessons }}/{{ studentProgress.totalLessons }}</span>
+                <div class="analytics-bar">
+                  <div class="analytics-fill" [style.width.%]="(studentProgress.completedLessons / studentProgress.totalLessons) * 100"></div>
+                </div>
+              </div>
+              
+              <div class="analytics-item">
+                <span class="analytics-label">الهدف الأسبوعي:</span>
+                <span class="analytics-value">{{ studentProgress.weeklyCompleted }}/{{ studentProgress.weeklyGoal }}</span>
+                <div class="analytics-bar">
+                  <div class="analytics-fill" [style.width.%]="(studentProgress.weeklyCompleted / studentProgress.weeklyGoal) * 100"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Progress Actions -->
+          <div class="progress-actions-detailed">
+            <button class="action-btn-detailed reset-btn" (click)="resetProgress()">
+              <i class="fas fa-redo"></i>
+              إعادة تعيين التقدم
+            </button>
+            <button class="action-btn-detailed export-btn" (click)="shareProgress()">
+              <i class="fas fa-download"></i>
+              تصدير التقرير
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -251,8 +446,21 @@
 
 <!-- Loading State -->
 <div class="loading-container" *ngIf="!courseResponse">
-  <div class="loading-spinner">
+  <div class="loading-content">
     <i class="fas fa-spinner fa-spin"></i>
-    <p>جاري تحميل بيانات الكورس...</p>
+    <h3>جاري تحميل بيانات الكورس...</h3>
+  </div>
+</div>
+
+<!-- Error State -->
+<div class="error-container" *ngIf="courseResponse === null">
+  <div class="error-content">
+    <i class="fas fa-exclamation-triangle"></i>
+    <h3>خطأ في تحميل البيانات</h3>
+    <p>حدث خطأ أثناء تحميل بيانات الكورس. يرجى المحاولة مرة أخرى.</p>
+    <button class="retry-btn" (click)="loadCourseData()">
+      <i class="fas fa-retry"></i>
+      إعادة المحاولة
+    </button>
   </div>
 </div> 
