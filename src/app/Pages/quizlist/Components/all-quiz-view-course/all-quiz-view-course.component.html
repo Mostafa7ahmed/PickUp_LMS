@@ -35,35 +35,7 @@
   @else {
     @if(quizData.result && quizData.result.length > 0) {
       <!-- Quiz Stats Header -->
-      <div class="quiz-stats-header">
-        <div class="stats-card">
-          <div class="stat-icon">
-            <i class="fas fa-clipboard-list"></i>
-          </div>
-          <div class="stat-content">
-            <h3>{{quizData.totalCount || quizData.result.length}}</h3>
-            <p>Total Quizzes</p>
-          </div>
-        </div>
-        <div class="stats-card">
-          <div class="stat-icon">
-            <i class="fas fa-question-circle"></i>
-          </div>
-          <div class="stat-content">
-            <h3>{{getTotalQuestions()}}</h3>
-            <p>Total Questions</p>
-          </div>
-        </div>
-        <div class="stats-card">
-          <div class="stat-icon">
-            <i class="fas fa-clock"></i>
-          </div>
-          <div class="stat-content">
-            <h3>{{getTotalDuration()}} min</h3>
-            <p>Total Duration</p>
-          </div>
-        </div>
-      </div>
+ 
 
       <!-- Quiz Grid -->
       <div class="quiz-grid">
