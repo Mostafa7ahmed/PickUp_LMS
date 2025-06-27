@@ -14,6 +14,7 @@ import { PorfileComponent } from '../Pages/Instructor/porfile/porfile.component'
 import { EditTaskStudentComponent } from '../Pages/Students/todostdutent/components/edit-task-student/edit-task-student.component';
 import { PorfileStudnetComponent } from '../Pages/Students/porfile-studnet/porfile-studnet.component';
 import { EditProfileStudentComponent } from '../Pages/Students/porfile-studnet/Components/edit-profile-student/edit-profile-student.component';
+import { DiscoverCourseDetailsComponent } from '../Pages/Students/discover-course-details/discover-course-details.component';
 
 export const studentRoutes: Routes = [
     {
@@ -44,6 +45,8 @@ export const studentRoutes: Routes = [
             },
             { path: 'wallet', outlet: 'dialog', component: WalletPopupInstructorComponent },
             { path: "myprofile", title: "porfile", component: PorfileStudnetComponent },
+            { path: "DicoverDetails/:id", title: "porfile", component: DiscoverCourseDetailsComponent },
+
             {
                 path: "editStudentProfile",
                 component: EditProfileStudentComponent,
