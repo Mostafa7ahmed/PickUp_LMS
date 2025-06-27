@@ -42,10 +42,10 @@ export class DiscoverCourseDetailsComponent  implements OnInit {
     this.detailsService.getStudentDetailsCourseDiscover(this.courseId).subscribe({
       next: (api) => {
            this.courseDetailsdata = api;
-           
+
 
         if (this.courseDetailsdata?.result.introductionVideo) {
-          this.safeVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.courseDetailsdata.result.introductionVideo);
+          this.safeVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.baseUrl+this.courseDetailsdata.result.introductionVideo);
         }
       },
       error: (err) => {

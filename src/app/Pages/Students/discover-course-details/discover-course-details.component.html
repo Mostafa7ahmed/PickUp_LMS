@@ -9,7 +9,7 @@
       <div class="media-section">
         <div class="course-image-container" *ngIf="!showVideo">
           <img src='Images/Course/Image+Background.png' [alt]="courseDetailsdata.result.instructor.name" class="course-image">
-          <button class="play-button" (click)="toggleVideo()" *ngIf="!courseDetailsdata.result.introductionVideo">
+          <button class="play-button" (click)="toggleVideo()" *ngIf="courseDetailsdata.result.introductionVideo">
             <i class="fas fa-play"></i>
             <span>مشاهدة المقدمة</span>
           </button>
