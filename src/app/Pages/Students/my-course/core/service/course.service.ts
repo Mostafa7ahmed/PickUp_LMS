@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IcourseStudent } from '../interface/icourse-student';
+import { IcourseStudent, CourseProgressStatus } from '../interface/icourse-student';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../Environments/environment';
 import { IPaginationResponse } from '../../../../../Core/Shared/Interface/irespose';
@@ -21,10 +21,9 @@ export class CourseService {
      getCourse(
       pageNumber: number = 1,
       pageSize: number = 100,
-
       orderBy: number = 2,
       orderDirection: number = 1,
-  
+      courseProgressStatus?: CourseProgressStatus  // IN_PROGRESS = 0, COMPLETED = 1
     ): Observable<IPaginationResponse<IcourseStudent>> {
   
       const params: any = {
@@ -34,8 +33,11 @@ export class CourseService {
         orderBeforPagination: 'true',
         orderDirection: orderDirection.toString(),
       };
-  
 
+      // Add courseProgressStatus to params if provided
+      if (courseProgressStatus !== undefined && courseProgressStatus !== null) {
+        params.courseProgressStatus = courseProgressStatus.toString();
+      }
   
       return this._HttpClient.get<IPaginationResponse<IcourseStudent>>(`${this.urlPagination}`, { params });
     } 

@@ -1,3 +1,8 @@
+export enum CourseProgressStatus {
+  IN_PROGRESS = 0,
+  COMPLETED = 1
+}
+
 export interface IcourseStudent {
   courseProgressPercentage: number
   name: any
