@@ -15,7 +15,7 @@
   <!-- Courses Grid -->
   <div class="courses-grid">
     @for (course of dataDiscover.result | filterCourse:searchTerm; track course.id) {
-          <div class="course-card" >
+          <div class="course-card"  >
       <div class="course-image">
         <img
           [src]="baseUrl+course.photo"
@@ -76,7 +76,7 @@
               <i class="fa-solid fa-graduation-cap me-1"></i>
               Enroll Now
             </button>
-            <button class="btn-details">
+            <button class="btn-details" routerLink="Student/DicoverDetails/{{course.id}}">
               <i class="fa-solid fa-info-circle"></i>
             </button>
           </div>
@@ -85,12 +85,12 @@
     </div>
     }
         @empty {
-    <div class="empty-state h-50 w-100 position-absolute ">
+    <div class="empty-state  w-100 position-absolute ">
         <div class="empty-icon">
             <i class="fa-solid fa-person-chalkboard"></i>
         </div>
-        <h3>No Lesson Found</h3>
-        <p>This course doesn't have any Lesson yet. Create your first Lesson to get started!</p>
+        <h3>No Course Found</h3>
+        <p>This Topic doesn't have any Course yet</p>
 
     </div>
     }

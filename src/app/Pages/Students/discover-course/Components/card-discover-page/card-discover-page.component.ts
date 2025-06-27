@@ -6,11 +6,12 @@ import { DicoverCourseService } from '../../service/dicover-course.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FilterCoursePipe } from './filter-course.pipe';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-card-discover-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, FilterCoursePipe],
+  imports: [CommonModule, FormsModule, FilterCoursePipe , RouterLink] ,
   templateUrl: './card-discover-page.component.html',
   styleUrl: './card-discover-page.component.scss'
 })
