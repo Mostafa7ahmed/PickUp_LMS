@@ -1,194 +1,95 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { tap, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { environment } from '../../../../Environments/environment';
 import { IDicoverCourse } from '../../my-course/core/interface/icourse-student';
 
-@Injectable({
-  providedIn: 'root'
-})
+interface ApiCourseResult {
+  id: number;
+  name: string;
+  description: string;
+  photo: string;
+  instructorDto: {
+    id: number;
+    name: string;
+    photo: string;
+  };
+  lessonsCount: number;
+  totalDuration: number;
+  rating: number;
+  price: number;
+  priceAfterDiscount: number;
+  topicName: string;
+  discount: { amount: number; type: number };
+}
+
+interface CourseApiResponse {
+  success: boolean;
+  result: ApiCourseResult[];
+  pageIndex: number;
+  totalPages: number;
+  totalCount: number;
+}
+
+@Injectable({ providedIn: 'root' })
 export class DicoverCourseService {
+  courses: IDicoverCourse[] = [];
 
-  constructor() { }
-    courses: IDicoverCourse[] = [
-    {
-      id: 1,
-      title: 'Advanced Angular Development',
-      instructor: 'Dr. Sarah Wilson',
-      description: 'Master advanced Angular concepts including RxJS, state management, and performance optimization.',
-      image: 'Images/Course/Image+Background.png',
-      price: 89.99,
-      instructorPhoto: 'https://randomuser.me/api/portraits/women/68.jpg',
+  private readonly baseUrl = `${environment.baseUrl}${environment.pickup}student/courses`;
 
-      originalPrice: 149.99,
-      discount: 40,
+  constructor(private http: HttpClient) {}
 
-      totalLessons: 24,
-      completedLessons: 18,
-      duration: '8 weeks',
-      rating: 4.8,
-      category: 'Web Development',
-      enrolledDate: new Date('2024-01-15'),
-      lastAccessed: new Date('2024-03-10')
-    },
-    {
-      id: 2,
-      title: 'Database Design & Management',
-      instructor: 'Prof. Michael Chen',
-      description: 'Learn database design principles, SQL optimization, and modern database technologies.',
-      image: 'Images/Course/Image+Background.png',
-      price: 89.99,
-            instructorPhoto: 'https://randomuser.me/api/portraits/women/68.jpg',
+  /**
+   * Fetch courses from API and update internal array so any component
+   * that injects this service (e.g. CourseCardComponent) picks up changes.
+   */
+  fetchCourses(topicId = 0, page = 1, pageSize = 12, orderDirection = 0): Observable<IDicoverCourse[]> {
+    const params = new HttpParams()
+      .set('topicId', topicId)
+      .set('pageNumber', page)
+      .set('pageSize', pageSize)
+      .set('orderBeforPagination', true)
+      .set('orderDirection', orderDirection);
 
-      originalPrice: 149.99,
-      discount: 40, totalLessons: 20,
-      completedLessons: 9,
-      duration: '6 weeks',
-      rating: 4.6,
-      category: 'Database',
-      enrolledDate: new Date('2024-02-01'),
-      lastAccessed: new Date('2024-03-08')
-    },
-    {
-      id: 3,
-      title: 'Machine Learning Fundamentals',
-      instructor: 'Dr. Emily Rodriguez',
-      description: 'Introduction to machine learning algorithms, data preprocessing, and model evaluation.',
-      image: 'Images/Course/Image+Background.png',
-      price: 89.99,
-      originalPrice: 149.99,
-            instructorPhoto: 'https://randomuser.me/api/portraits/women/68.jpg',
+    return this.http.get<CourseApiResponse>(this.baseUrl, { params }).pipe(
+      tap(res => {
+        if (res.success) {
+          this.courses = res.result.map((c) => this.mapApiCourse(c));
+        }
+      }),
+      map(() => this.courses)
+    );
+  }
 
-      discount: 40, totalLessons: 32,
-      completedLessons: 10,
-      duration: '12 weeks',
-      rating: 4.9,
-      category: 'AI/ML',
-      enrolledDate: new Date('2024-02-15'),
-      lastAccessed: new Date('2024-03-09')
-    },
-    {
-      id: 4,
-      title: 'Cybersecurity Essentials',
-      instructor: 'Prof. David Thompson',
-      description: 'Essential cybersecurity concepts, threat analysis, and security best practices.',
-      image: 'Images/Course/Image+Background.png',
-      price: 89.99,
-      originalPrice: 149.99,
-      discount: 40, totalLessons: 16,
-            instructorPhoto: 'https://randomuser.me/api/portraits/women/68.jpg',
+  private mapApiCourse(api: ApiCourseResult): IDicoverCourse {
+    const discountPercentage = api.priceAfterDiscount && api.priceAfterDiscount < api.price
+      ? Math.round(((api.price - api.priceAfterDiscount) / api.price) * 100)
+      : 0;
+    return {
+      id: api.id,
+      title: api.name,
+      description: api.description,
+      image: api.photo,
+      instructor: api.instructorDto?.name,
+      instructorPhoto: api.instructorDto?.photo,
+      totalLessons: api.lessonsCount,
+      completedLessons: 0,
+      duration: this.formatDuration(api.totalDuration),
+      rating: api.rating,
+      price: api.priceAfterDiscount || api.price,
+      originalPrice: api.price,
+      discount: discountPercentage,
+      category: api.topicName,
+      enrolledDate: new Date(),
+      lastAccessed: new Date()
+    } as IDicoverCourse;
+  }
 
-      completedLessons: 14,
-      duration: '4 weeks',
-      rating: 4.7,
-      category: 'Security',
-      enrolledDate: new Date('2024-01-10'),
-      lastAccessed: new Date('2024-03-11')
-    },
-    {
-      id: 3,
-      title: 'Machine Learning Fundamentals',
-      instructor: 'Dr. Emily Rodriguez',
-      description: 'Introduction to machine learning algorithms, data preprocessing, and model evaluation.',
-      image: 'Images/Course/Image+Background.png',
-      price: 89.99,
-      originalPrice: 149.99,
-      discount: 40, totalLessons: 32,
-            instructorPhoto: 'https://randomuser.me/api/portraits/women/68.jpg',
-
-      completedLessons: 10,
-      duration: '12 weeks',
-      rating: 4.9,
-      category: 'AI/ML',
-      enrolledDate: new Date('2024-02-15'),
-      lastAccessed: new Date('2024-03-09')
-    },
-    {
-      id: 4,
-      title: 'Cybersecurity Essentials',
-      instructor: 'Prof. David Thompson',
-      description: 'Essential cybersecurity concepts, threat analysis, and security best practices.',
-      image: 'Images/Course/Image+Background.png',
-      price: 89.99,
-      originalPrice: 149.99,
-      discount: 40, totalLessons: 16,
-      completedLessons: 14,
-            instructorPhoto: 'https://randomuser.me/api/portraits/women/68.jpg',
-
-      duration: '4 weeks',
-      rating: 4.7,
-      category: 'Security',
-      enrolledDate: new Date('2024-01-10'),
-      lastAccessed: new Date('2024-03-11')
-    },
-    {
-      id: 3,
-      title: 'Machine Learning Fundamentals',
-      instructor: 'Dr. Emily Rodriguez',
-      description: 'Introduction to machine learning algorithms, data preprocessing, and model evaluation.',
-      image: 'Images/Course/Image+Background.png',
-      price: 89.99,
-      originalPrice: 149.99,
-      discount: 40, totalLessons: 32,
-      completedLessons: 10,
-            instructorPhoto: 'https://randomuser.me/api/portraits/women/68.jpg',
-
-      duration: '12 weeks',
-      rating: 4.9,
-      category: 'AI/ML',
-      enrolledDate: new Date('2024-02-15'),
-      lastAccessed: new Date('2024-03-09')
-    },
-    {
-      id: 4,
-      title: 'Cybersecurity Essentials',
-            instructorPhoto: 'https://randomuser.me/api/portraits/women/68.jpg',
-
-      instructor: 'Prof. David Thompson',
-      description: 'Essential cybersecurity concepts, threat analysis, and security best practices.',
-      image: 'Images/Course/Image+Background.png',
-      price: 89.99,
-      originalPrice: 149.99,
-      discount: 40, totalLessons: 16,
-      completedLessons: 14,
-      duration: '4 weeks',
-      rating: 4.7,
-      category: 'Security',
-      enrolledDate: new Date('2024-01-10'),
-      lastAccessed: new Date('2024-03-11')
-    },
-    {
-      id: 3,
-      title: 'Machine Learning Fundamentals',
-      instructor: 'Dr. Emily Rodriguez',
-            instructorPhoto: 'https://randomuser.me/api/portraits/women/68.jpg',
-
-      description: 'Introduction to machine learning algorithms, data preprocessing, and model evaluation.',
-      image: 'Images/Course/Image+Background.png',
-      price: 89.99,
-      originalPrice: 149.99,
-      discount: 40, totalLessons: 32,
-      completedLessons: 10,
-      duration: '12 weeks',
-      rating: 4.9,
-      category: 'AI/ML',
-      enrolledDate: new Date('2024-02-15'),
-      lastAccessed: new Date('2024-03-09')
-    },
-    {
-      id: 4,
-      title: 'Cybersecurity Essentials',
-            instructorPhoto: 'https://randomuser.me/api/portraits/women/68.jpg',
-
-      instructor: 'Prof. David Thompson',
-      description: 'Essential cybersecurity concepts, threat analysis, and security best practices.',
-      image: 'Images/Course/Image+Background.png',
-      price: 89.99,
-      originalPrice: 149.99,
-      discount: 40, totalLessons: 16,
-      completedLessons: 14,
-      duration: '4 weeks',
-      rating: 4.7,
-      category: 'Security',
-      enrolledDate: new Date('2024-01-10'),
-      lastAccessed: new Date('2024-03-11')
-    }
-  ];
+  private formatDuration(totalMinutes: number): string {
+    if (!totalMinutes) return '0h';
+    const hrs = Math.floor(totalMinutes / 60);
+    const mins = totalMinutes % 60;
+    return `${hrs}h ${mins}m`;
+  }
 }

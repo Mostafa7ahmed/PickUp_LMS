@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CustomslectwithiconComponent } from "../../Courses/Components/customslectwithicon/customslectwithicon.component";
 import { ItopicList } from '../../Topics/Core/Interface/itopic-list-result';
 import { CourseCardComponent } from "../homepage-student/components/course-card/course-card.component";
+import { HttpClientModule } from '@angular/common/http';
+import { DicoverCourseService } from "./service/dicover-course.service";
 
 @Component({
   selector: 'app-discover-course',
   standalone: true,
-  imports: [CustomslectwithiconComponent, CourseCardComponent],
+  imports: [CustomslectwithiconComponent, CourseCardComponent, HttpClientModule],
   templateUrl: './discover-course.component.html',
   styleUrl: './discover-course.component.scss'
 })
@@ -255,16 +257,19 @@ export class DiscoverCourseComponent implements OnInit {
     ]
   selectedValue: ItopicList = {} as ItopicList;
 
+  constructor(private discoverService: DicoverCourseService) {}
+
   selectOption(option: any): void {
-
-
-    console.log(option.id)
-    
-
-
+    this.selectedValue = option;
+    this.loadCourses(option.id);
   }
-  ngOnInit(): void {
-            this.selectedValue = this.topicsList.find((e: ItopicList) => e.id === 285) || {} as ItopicList;
 
+  ngOnInit(): void {
+    this.selectedValue = this.topicsList.find((e: ItopicList) => e.id === 285) || {} as ItopicList;
+    this.loadCourses(this.selectedValue?.id ?? 0);
+  }
+
+  private loadCourses(topicId: number = 0): void {
+    this.discoverService.fetchCourses(topicId).subscribe();
   }
 }

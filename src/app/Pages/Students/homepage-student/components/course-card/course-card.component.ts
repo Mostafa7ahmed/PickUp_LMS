@@ -13,18 +13,18 @@ import { DicoverCourseService } from '../../../discover-course/service/dicover-c
   styleUrl: './course-card.component.scss'
 })
 export class CourseCardComponent implements OnInit {
-  courses: IDicoverCourse[] = [];
-
-
   showInfoCoupon = false;
   constructor(
     private courseService: DicoverCourseService,
     private router: Router
   ) {}
-  ngOnInit(): void {
-    this.courses = this.courseService.courses;
+  ngOnInit(): void {}
+
+  get courses(): IDicoverCourse[] {
+    return this.courseService.courses;
   }
- getDiscountedPrice(course: IDicoverCourse): number {
+
+  getDiscountedPrice(course: IDicoverCourse): number {
     if (course.originalPrice && course.discount) {
       return course.originalPrice * (1 - course.discount / 100);
     }
