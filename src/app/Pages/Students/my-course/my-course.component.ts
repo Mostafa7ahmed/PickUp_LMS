@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { IcourseStudent } from './core/interface/icourse-student';
 import { CourseService } from './core/service/course.service';
 import { WidgetcourseStudentComponent } from "./Components/widgetcourse-student/widgetcourse-student.component";
+import { IPaginationResponse } from '../../../Core/Shared/Interface/irespose';
+import { environment } from '../../../Environments/environment';
 
 @Component({
   selector: 'app-my-course',
@@ -15,16 +17,21 @@ import { WidgetcourseStudentComponent } from "./Components/widgetcourse-student/
   styleUrl: './my-course.component.scss'
 })
 export class MyCourseComponent implements OnInit {
-  courses: IcourseStudent[] = [];
+  courses:IPaginationResponse<IcourseStudent>  = {} as  IPaginationResponse<IcourseStudent>;
   filterBy: string = 'all';
   sortBy: string = 'progress';
 searchTerm: string = '';
+baseurl :string = environment.baseUrlFiles
 
   showInfoCoupon = false;
   constructor(private courseService: CourseService) {}
 
   ngOnInit(): void {
-    this.courses = this.courseService.courses;
+     this.courseService.getCourse().subscribe({
+      next :(res)=>{
+      this.courses =res
+      }
+    });
   }
 
 
@@ -76,57 +83,57 @@ getIcon(value: string): string {
   }
 }
 
-get filteredCourses() {
-  let filtered = this.courses;
+// get filteredCourses() {
+//   let filtered = this.courses;
 
-  if (this.filterBy !== 'all') {
-    if (this.filterBy === 'in-progress') {
-      filtered = this.courses.filter(course => course.progress > 0 && course.progress < 100);
-    } else if (this.filterBy === 'completed') {
-      filtered = this.courses.filter(course => course.progress === 100);
-    } else if (this.filterBy === 'not-started') {
-      filtered = this.courses.filter(course => course.progress === 0);
-    }
-  }
+//   if (this.filterBy !== 'all') {
+//     if (this.filterBy === 'in-progress') {
+//       filtered = this.courses.filter(course => course.progress > 0 && course.progress < 100);
+//     } else if (this.filterBy === 'completed') {
+//       filtered = this.courses.filter(course => course.progress === 100);
+//     } else if (this.filterBy === 'not-started') {
+//       filtered = this.courses.filter(course => course.progress === 0);
+//     }
+//   }
 
-  if (this.searchTerm.trim() !== '') {
-    const term = this.searchTerm.toLowerCase();
-    filtered = filtered.filter(course =>
-      course.title.toLowerCase().includes(term) ||
-      course.description?.toLowerCase().includes(term)
-    );
-  }
+//   if (this.searchTerm.trim() !== '') {
+//     const term = this.searchTerm.toLowerCase();
+//     filtered = filtered.filter(course =>
+//       course.title.toLowerCase().includes(term) ||
+//       course.description?.toLowerCase().includes(term)
+//     );
+//   }
 
-  return filtered;
-}
-  get completedCoursesCount(): number {
-    return this.courses.filter(c => c.progress === 100).length;
-  }
+//   return filtered;
+// }
+//   get completedCoursesCount(): number {
+//     return this.courses.filter(c => c.progress === 100).length;
+//   }
 
-  get inProgressCoursesCount(): number {
-    return this.courses.filter(c => c.progress > 0 && c.progress < 100).length;
-  }
+//   get inProgressCoursesCount(): number {
+//     return this.courses.filter(c => c.progress > 0 && c.progress < 100).length;
+//   }
 
-  get averageProgress(): number {
-    if (this.courses.length === 0) return 0;
-    const total = this.courses.reduce((sum, course) => sum + course.progress, 0);
-    return Math.round(total / this.courses.length);
-  }
+//   get averageProgress(): number {
+//     if (this.courses.length === 0) return 0;
+//     const total = this.courses.reduce((sum, course) => sum + course.progress, 0);
+//     return Math.round(total / this.courses.length);
+//   }
 
-  getProgressColor(progress: number): string {
-    if (progress < 30) return '#ef4444';
-    if (progress < 70) return '#f59e0b';
-    return '#10b981';
-  }
+//   getProgressColor(progress: number): string {
+//     if (progress < 30) return '#ef4444';
+//     if (progress < 70) return '#f59e0b';
+//     return '#10b981';
+//   }
 
-  getProgressStatus(progress: number): string {
-    if (progress === 0) return 'Not Started';
-    if (progress === 100) return 'Completed';
-    return 'In Progress';
-  }
+//   getProgressStatus(progress: number): string {
+//     if (progress === 0) return 'Not Started';
+//     if (progress === 100) return 'Completed';
+//     return 'In Progress';
+//   }
 
-  getButtonText(progress: number): string {
-    return progress === 0 ? 'Start Course' : 'Continue Learning';
-  }
+//   getButtonText(progress: number): string {
+//     return progress === 0 ? 'Start Course' : 'Continue Learning';
+//   }
 
 }

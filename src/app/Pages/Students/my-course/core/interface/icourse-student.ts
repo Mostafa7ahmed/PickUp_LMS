@@ -1,17 +1,25 @@
 export interface IcourseStudent {
-      id: number;
-  title: string;
-  instructor: string;
-  description: string;
-  image: string;
-  progress: number;
-  totalLessons: number;
-  completedLessons: number;
-  duration: string;
-  rating: number;
-  category: string;
-  enrolledDate: Date;
-  lastAccessed: Date;
+  courseProgressPercentage: number
+  name: any
+  description: any
+  id: number
+  photo: string
+  instructor: Instructor
+  lessonsCount: number
+  totalDuration: number
+  rating: number
+  progressStatus: number
+  topicName: string
+}
+
+export interface Instructor {
+  id: number
+  roleId: number
+  name: string
+  userName: any
+  email: any
+  phoneNumber: any
+  photo: string
 }
 
 export interface IDicoverCourse {
