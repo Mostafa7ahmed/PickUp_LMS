@@ -9,6 +9,7 @@
           </div>
           <div class="description">
             <p>Manage and track your tasks easily and efficiently.</p>
+ 
           </div>
         </div>
       </div>
@@ -38,77 +39,114 @@
                 <i class="fa-solid fa-list"></i>
                 All Tasks
               </button>
-              <button class="tab-btn" 
+              <button class="tab-btn"
                       [class.active]="activeFilter === 'Exam'"
                       (click)="setFilter('Exam')">
-                <i class="fa-solid fa-chalkboard-teacher"></i>
+                <i class="fa-solid fa-briefcase"></i>
                 Exam
               </button>
-              <button class="tab-btn" 
+              <button class="tab-btn"
                       [class.active]="activeFilter === 'personal'"
                       (click)="setFilter('personal')">
                 <i class="fa-solid fa-user"></i>
                 Personal
               </button>
-              <button class="tab-btn" 
-                      [class.active]="activeFilter === 'Task'"
-                      (click)="setFilter('Task')">
-                <i class="fa-solid fa-clipboard-check"></i>
-                Task
+              <button class="tab-btn"
+                      [class.active]="activeFilter === 'study'"
+                      (click)="setFilter('study')">
+                <i class="fa-solid fa-book"></i>
+                Study
               </button>
-              <button class="tab-btn" 
+              <button class="tab-btn"
                       [class.active]="activeFilter === 'meeting'"
                       (click)="setFilter('meeting')">
-                <i class="fa-solid fa-briefcase"></i>
+                <i class="fa-solid fa-users"></i>
                 Meeting
+              </button>
+              <button class="tab-btn"
+                      [class.active]="activeFilter === 'other'"
+                      (click)="setFilter('other')">
+                <i class="fa-solid fa-tasks"></i>
+                Other
               </button>
             </div>
           </div>
 
           <div class="task-list">
-            <div class="task-item" 
-                 *ngFor="let task of getFilteredTasks(); trackBy: trackByTaskId">
+            <!-- Loading State -->
+            <div class="loading-state" *ngIf="isLoading">
+              <div class="loading-content">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading tasks...</p>
+              </div>
+            </div>
+
+            <div class="task-item"
+                 *ngFor="let task of getFilteredTasks(); trackBy: trackByTaskId"
+                 [style.display]="isLoading ? 'none' : 'flex'">
               <div class="task-content">
                 <div class="task-checkbox">
-                  <input type="checkbox" 
+                  <input type="checkbox"
                          [id]="'task-' + task.id"
                          [(ngModel)]="task.completed"
+                        (change)="toggleTaskCompletion(task)"
                          class="form-check-input">
                   <label [for]="'task-' + task.id" class="checkbox-label"></label>
                 </div>
-                
+
                 <div class="task-details" [class.completed]="task.completed">
-                  <h4 class="task-title">{{ task.title }}</h4>
+                  <h4 class="task-title">{{ task.name }}</h4>
                   <p class="task-description" *ngIf="task.description">{{ task.description }}</p>
                   
                   <div class="task-meta">
-                    <span class="task-type " [ngClass]="'type-' + task.type">
+                    <span class="task-type"
+                          [class]="'type-' + task.type"
+                          [style.color]="getTaskTypeColor(task.type)"
+                          [style.background-color]="getTaskTypeBackgroundColor(task.type)"
+                          [style.border]="'1px solid ' + getTaskTypeColor(task.type)"
+                          [style.padding]="'6px 12px'"
+                          [style.border-radius]="'10px'"
+                          [style.font-size]="'0.8rem'"
+                          [style.font-weight]="'500'">
                       <i [class]="getTaskTypeIcon(task.type)"></i>
-                      {{ task.type | titlecase }}
+                      {{ getTaskTypeLabel(task.type) }}
                     </span>
-                    
-                    <span class="task-priority" [class]="'priority-' + task.priority">
+
+                    <span class="task-priority"
+                          [class]="'priority-' + task.priority"
+                          [style.color]="getPriorityColor(task.priority)"
+                          [style.background-color]="getPriorityBackgroundColor(task.priority)"
+                          [style.border]="'1px solid ' + getPriorityColor(task.priority)"
+                          [style.padding]="'8px 14px'"
+                          [style.border-radius]="'10px'"
+                          [style.font-size]="'0.8rem'"
+                          [style.font-weight]="'600'"
+                          [style.text-transform]="'uppercase'"
+                          [style.letter-spacing]="'0.5px'">
                       <i [class]="getPriorityIcon(task.priority)"></i>
-                      {{ task.priority | titlecase }}
+                      {{ getPriorityLabel(task.priority) }}
                     </span>
-                    
-                    <span class="task-due-date" 
-                          [class.overdue]="isOverdue(task.dueDate) && !task.completed">
+
+                    <span class="task-due-date"
+                          *ngIf="task.dueDate"
+                    >
                       <i class="fa-solid fa-calendar"></i>
-                      {{ formatDueDate(task.dueDate) }}
+                      {{task.dueDate | date }}
                     </span>
                   </div>
                 </div>
               </div>
               
               <div class="task-actions">
-                <button class="action-btn edit-btn" 
-                        (click)="openEditTaskPopup(task)"
+                <button class="action-btn edit-btn"
+                                        (click)="openEditTaskPopup(task)"
+
                         title="Edit Task">
                   <i class="fa-solid fa-edit"></i>
                 </button>
-                <button class="action-btn delete-btn" 
-                        (click)="deleteTask(task)"
+                <button class="action-btn delete-btn"
+                                        (click)="openDeleteTaskPopup(task)"
+
                         title="Delete Task">
                   <i class="fa-solid fa-trash"></i>
                 </button>
@@ -116,11 +154,12 @@
             </div>
 
             <!-- Empty State -->
-            <div class="empty-state" *ngIf="getFilteredTasks().length === 0">
+            <div class="empty-state" *ngIf="getFilteredTasks().length === 0 && !isLoading">
               <div class="empty-content">
                 <img src="Images/Course/file.png" alt="No tasks" class="empty-image">
                 <h4>No tasks found</h4>
                 <p>{{ getEmptyStateMessage() }}</p>
+    
               </div>
             </div>
           </div>
@@ -129,3 +168,12 @@
     </div>
   </div>
 </div>
+
+<!-- Delete Task Popup -->
+<app-delete-task-instructor
+  *ngIf="isDeletePopupVisible && selectedDeleteTask"
+  [deleteId]="selectedDeleteTask.id!"
+  [taskTitle]="selectedDeleteTask.name"
+  (close)="closeDeletePopup()"
+  (delete)="deleteTask()">
+</app-delete-task-instructor>
