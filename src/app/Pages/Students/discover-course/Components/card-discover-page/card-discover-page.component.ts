@@ -1,21 +1,19 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, Input, input, OnInit } from '@angular/core';
-import { CourseService } from '../../../my-course/core/service/course.service';
-import { DicoverCourseService } from '../../../discover-course/service/dicover-course.service';
-import { IDicoverCourse } from '../../../discover-course/intarface/idicover-course';
-import { IPaginationResponse } from '../../../../../Core/Shared/Interface/irespose';
+import { Component, inject } from '@angular/core';
 import { environment } from '../../../../../Environments/environment';
+import { IDicoverCourse } from '../../intarface/idicover-course';
+import { IPaginationResponse } from '../../../../../Core/Shared/Interface/irespose';
+import { DicoverCourseService } from '../../service/dicover-course.service';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-course-card',
+  selector: 'app-card-discover-page',
   standalone: true,
   imports: [CommonModule , FormsModule],
-  templateUrl: './course-card.component.html',
-  styleUrl: './course-card.component.scss'
+  templateUrl: './card-discover-page.component.html',
+  styleUrl: './card-discover-page.component.scss'
 })
-export class CourseCardComponent implements OnInit {
-
+export class CardDiscoverPageComponent {
   baseUrl:string=environment.baseUrlFiles
 
   dataDiscover: IPaginationResponse<IDicoverCourse> = {} as IPaginationResponse<IDicoverCourse>;

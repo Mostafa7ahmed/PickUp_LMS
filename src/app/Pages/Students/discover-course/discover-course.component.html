@@ -15,19 +15,7 @@
     </div>
   </div> 
 
-    <div
-    class="controls-section mt-2 d-flex justify-content-between align-items-center mb-3"
-  >
-      <app-customslectwithicon [items]="topicsList" [isLoadTopic]="true" [selectedItem]="selectedValue"
-            (selectionChange)="selectOption($event)">
-          </app-customslectwithicon>
 
-
-    <div class="search-box">
-      <i class="fa-solid fa-search"></i>
-        <input type="text"  placeholder="Search courses..." />
-    </div>
-  </div>
-  <app-course-card/>
+  <app-card-discover-page />
 
  </div>
