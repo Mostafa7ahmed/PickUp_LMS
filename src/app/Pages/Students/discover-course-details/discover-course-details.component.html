@@ -1,1 +1,193 @@
-<p>discover-course-details works!</p>
+<div class="course-details-container" *ngIf="!isLoading">
+
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Left Column: Course Media & Info -->
+    <div class="left-column">
+      <!-- Course Image/Video Section -->
+      <div class="media-section">
+        <div class="course-image-container" *ngIf="!showVideo">
+          <img src='Images/Course/Image+Background.png' [alt]="courseDetailsdata.result.instructor.name" class="course-image">
+          <button class="play-button" (click)="toggleVideo()" *ngIf="!courseDetailsdata.result.introductionVideo">
+            <i class="fas fa-play"></i>
+            <span>مشاهدة المقدمة</span>
+          </button>
+          
+          <!-- Course Badges -->
+       
+        </div>
+
+        <!-- Video Player -->
+        <div class="video-container" *ngIf="showVideo && safeVideoUrl">
+          <iframe 
+            [src]="safeVideoUrl" 
+            frameborder="0" 
+            allowfullscreen
+            class="intro-video">
+          </iframe>
+          <button class="close-video-btn" (click)="toggleVideo()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Course Information Tabs -->
+      <div class="tabs-section">
+        <div class="tab-headers">
+          <button 
+            class="tab-btn" 
+            [class.active]="activeTab === 'overview'"
+            (click)="setActiveTab('overview')">
+            <i class="fas fa-info-circle"></i>
+            نظرة عامة
+          </button>
+          <button 
+            class="tab-btn" 
+            [class.active]="activeTab === 'curriculum'"
+            (click)="setActiveTab('curriculum')">
+            <i class="fas fa-list"></i>
+            المنهج
+          </button>
+          <button 
+            class="tab-btn" 
+            [class.active]="activeTab === 'instructor'"
+            (click)="setActiveTab('instructor')">
+            <i class="fas fa-user-tie"></i>
+            المدرب
+          </button>
+          <button 
+            class="tab-btn" 
+            [class.active]="activeTab === 'reviews'"
+            (click)="setActiveTab('reviews')">
+            <i class="fas fa-star"></i>
+            التقييمات
+          </button>
+        </div>
+
+        <div class="tab-content">
+          <!-- Overview Tab -->
+          <div class="tab-panel" *ngIf="activeTab === 'overview'">
+            <div class="overview-content">
+              <h3>وصف الكورس</h3>
+              <p class="course-description">{{ courseDetailsdata.result.description }}</p>
+              
+
+              <!-- <div class="course-tags">
+                <h4><i class="fas fa-tags"></i> المواضيع</h4>
+                <div class="tags-container">
+                  <span class="tag" *ngFor="let tag of course.tags">{{ tag }}</span>
+                </div>
+              </div> -->
+            </div>
+          </div>
+
+          <!-- Curriculum Tab -->
+          <div class="tab-panel" *ngIf="activeTab === 'curriculum'">
+            <div class="curriculum-content">
+              <div class="curriculum-stats">
+                <div class="stat-item">
+                  <i class="fas fa-play-circle"></i>
+                  <span>{{ courseDetailsdata.result.enrolledCount }} درس</span>
+                </div>
+                <div class="stat-item">
+                  <i class="fas fa-clock"></i>
+                  <span>{{ courseDetailsdata.result.enrolledCount }} درس</span>
+                </div>
+              </div>
+              <p class="curriculum-note">
+                المنهج التفصيلي متاح بعد التسجيل في الكورس
+              </p>
+            </div>
+          </div>
+
+          <!-- Instructor Tab -->
+          <div class="tab-panel" *ngIf="activeTab === 'instructor'">
+            <div class="instructor-content">
+              <div class="instructor-profile">
+                <img [src]="baseUrl+courseDetailsdata.result.instructor.photo" [alt]="courseDetailsdata.result.instructor.name" class="instructor-avatar">
+                <div class="instructor-info">
+                  <h3>{{ courseDetailsdata.result.instructor.name }}</h3>
+                  <p class="instructor-bio">{{courseDetailsdata.result.instructor.bio }}</p>
+                  
+                  <div class="instructor-stats">
+                    <div class="stat">
+                      <i class="fas fa-star"></i>
+                      <span>{{ courseDetailsdata.result.instructor.rating }} تقييم</span>
+                    </div>
+                    <div class="stat">
+                      <i class="fas fa-users"></i>
+                      <span>{{ courseDetailsdata.result.instructor.rating | number }} طالب</span>
+                    </div>
+                    <div class="stat">
+                      <i class="fas fa-clock"></i>
+                      <span>{{ courseDetailsdata.result.instructor.rating }} خبرة</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reviews Tab -->
+          <div class="tab-panel" *ngIf="activeTab === 'reviews'">
+            <div class="reviews-content">
+              <div class="reviews-summary">
+                <div class="rating-overview">
+                  <div class="overall-rating">
+                    <span class="rating-number">{{ courseDetailsdata.result.instructor.rating }}</span>
+                    <!-- <div class="stars">
+                      <i 
+                        *ngFor="let star of getStars(course.rating)" 
+                        class="fas fa-star"
+                        [class.filled]="star <= course.rating">
+                      </i>
+                    </div>
+                    <span class="total-ratings">({{ course.totalRatings | number }} تقييم)</span> -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="reviews-list">
+                <!-- <div class="review-item" *ngFor="let review of getVisibleReviews()">
+                  <div class="review-header">
+                    <img [src]="review.studentAvatar" [alt]="review.studentName" class="reviewer-avatar">
+                    <div class="reviewer-info">
+                      <h4>{{ review.studentName }}</h4>
+                      <div class="review-rating">
+                        <i 
+                          *ngFor="let star of getStars(review.rating)" 
+                          class="fas fa-star"
+                          [class.filled]="star <= review.rating">
+                        </i>
+                      </div>
+                      <span class="review-date">{{ formatDate(review.date) }}</span>
+                    </div>
+                  </div>
+                  <p class="review-comment">{{ review.comment }}</p>
+                </div>
+
+                <button 
+                  class="toggle-reviews-btn" 
+                  (click)="toggleReviews()"
+                  *ngIf="course.reviews.length > 3">
+                  {{ showAllReviews ? 'إخفاء' : 'عرض المزيد' }}
+                </button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  
+  </div>
+</div>
+
+<!-- Loading State -->
+<div class="loading-container" *ngIf="isLoading">
+  <div class="loading-content">
+    <i class="fas fa-spinner fa-spin"></i>
+    <h3>جاري تحميل تفاصيل الكورس...</h3>
+  </div>
+</div> 
