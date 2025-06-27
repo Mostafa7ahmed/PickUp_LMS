@@ -65,7 +65,7 @@
       }
 
       input {
-        padding: 8px 16px 8px 40px;
+        padding: 8px 40px 8px 40px;
         border: 1px solid #d1d5db;
         border-radius: 8px;
         width: 280px;
@@ -79,6 +79,36 @@
 
         &::placeholder {
           color: #9ca3af;
+        }
+      }
+
+      .clear-search-btn {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: #6b7280;
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+
+        &:hover {
+          color: #374151;
+          background: #f3f4f6;
+        }
+
+        i {
+          position: static;
+          left: auto;
+          font-size: 12px;
         }
       }
     }

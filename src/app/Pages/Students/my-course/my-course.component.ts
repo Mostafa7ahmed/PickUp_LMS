@@ -62,7 +62,9 @@ export class MyCourseComponent implements OnInit, OnDestroy {
 
   clearSearch(): void {
     this.searchTerm = '';
+    this.searchSubject.next(''); // Clear the search subject as well
     this.loadCourses();
+    console.log('Search cleared'); // Debug log
   }
 
   loadCourses(): void {
