@@ -1,0 +1,81 @@
+.profile-card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+ .cards {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  flex-wrap: wrap;
+
+  gap: 10px;
+  max-width: 100%;
+}
+ .cards .cardInformation {
+  flex: 1 1 calc(20% - 10px);
+  min-width: 200px;
+  border-radius: 12px;
+  background-color: #ffffff;
+  padding: 16px;
+  box-sizing: border-box;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  height: 116px;
+ 
+
+
+  
+  animation: fadeInUp 0.6s ease-out;
+
+  &:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+
+  &:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  &:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+}
+
+.aboutCourses p {
+  font-family: var(--font-family-1);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0px;
+  color: #79877e;
+}
+
+.aboutCourses i {
+  font-size: 18px;
+  color: #00c853;
+}
+
+// Number styling
+.numberCources{
+  height: 90%;
+}
+.numberCources span {
+  font-family: var(--font-family-1);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 28px;
+  color: #1e293b;
+
+  .unit {
+    font-size: 14px;
+    font-weight: 500;
+    color: #64748b;
+    margin-left: 4px;
+  }
+}

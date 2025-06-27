@@ -6,10 +6,11 @@ import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { environment } from '../../../Environments/environment';
 import { StudentProfileService } from './Service/student-profile.service';
+import { WidgetStudnetsComponent } from "./Components/widget-studnets/widget-studnets.component";
 @Component({
   selector: 'app-porfile-studnet',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, WidgetStudnetsComponent],
   templateUrl: './porfile-studnet.component.html',
   styleUrl: './porfile-studnet.component.scss'
 })

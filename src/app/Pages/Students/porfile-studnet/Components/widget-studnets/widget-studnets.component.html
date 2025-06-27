@@ -1,0 +1,46 @@
+<div class="profile-card ">
+    <app-text-header [title]="'Widget Stident'"></app-text-header>
+       <div class="cards mt-3">
+        <div class="cardInformation">
+          <div class="aboutCourses d-flex justify-content-between align-items-center">
+            <p class="m-0">Total Courses Count</p>
+            <i class="fas fa-clipboard-list"></i>
+          </div>
+          <div class="numberCources  d-flex align-items-end justify-content-end">
+            <span>{{DataWidgetStudent.result.completedCoursesCount}}</span>
+          </div>
+      
+        </div>
+
+        <!-- Total Questions -->
+        <div class="cardInformation">
+          <div class="aboutCourses d-flex justify-content-between align-items-center">
+            <p class="m-0">Total Courses Percentage</p>
+            <i class="fas fa-question-circle"></i>
+          </div>
+          <div class="numberCources d-flex align-items-end justify-content-end">
+            <span>{{DataWidgetStudent.result.completedCoursesPercentage}}</span>
+          </div>
+
+        </div>
+
+
+
+        <!-- Average Duration -->
+        <div class="cardInformation">
+          <div class="aboutCourses d-flex justify-content-between align-items-center">
+            <p class="m-0">Total Enrolled Courses Count</p>
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="numberCources d-flex align-items-end justify-content-end">
+            <span>{{DataWidgetStudent.result.enrolledCoursesCount}}</span>
+          </div>
+       
+        </div>
+
+
+
+
+      </div>
+
+</div>
