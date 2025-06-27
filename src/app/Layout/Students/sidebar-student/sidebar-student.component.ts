@@ -59,12 +59,7 @@ export class SidebarStudentComponent {
       routes: "DiscoverCourses"
     },
 
-    {
-      name: 'Chat',
-      Icon: 'fa-regular fa-comment-dots',
-      
-      routes: "Chat"
-    },  
+ 
     
     {
       name: 'To Do',
