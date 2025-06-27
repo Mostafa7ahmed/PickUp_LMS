@@ -3,7 +3,7 @@ export interface IDicoverCourse {
   name: string
   description: string
   photo: string
-  instructorDto: InstructorDto
+  instructor: instructor
   lessonsCount: number
   totalDuration: number
   rating: number
@@ -13,7 +13,7 @@ export interface IDicoverCourse {
   discount: Discount
 }
 
-export interface InstructorDto {
+export interface instructor {
   id: number
   roleId: number
   name: string

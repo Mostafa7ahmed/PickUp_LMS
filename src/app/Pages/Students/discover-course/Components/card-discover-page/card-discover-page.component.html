@@ -37,10 +37,10 @@
       <div class="course-content">
         <h3 class="course-title">{{ course.name }}</h3>
         <div class="instructor-info">
-          <div class="instructor-avatar" [style.background-image]="course.instructorDto ? 'url(' + baseUrl + course.instructorDto.photo + ')' : ''">
-            <i *ngIf="!course.instructorDto" class="fa-solid fa-user"></i>
+          <div class="instructor-avatar" [style.background-image]="course.instructor ? 'url(' + baseUrl + course.instructor.photo + ')' : ''">
+            <i *ngIf="!course.instructor" class="fa-solid fa-user"></i>
           </div>
-          <span class="instructor-name">{{ course.instructorDto?.name || 'Unknown Instructor' }}</span>
+          <span class="instructor-name">{{ course.instructor?.name || 'Unknown Instructor' }}</span>
         </div>
         <p class="course-description">
           {{ (course.description || 'No description available.').length > 100 ? (course.description | slice:0:100) + '...' : (course.description || 'No description available.') }}
