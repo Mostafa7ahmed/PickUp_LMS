@@ -65,7 +65,20 @@
 
     <div class="search-box">
       <i class="fa-solid fa-search"></i>
-        <input type="text" [(ngModel)]="searchTerm" placeholder="Search courses..." />
+        <input 
+          type="text" 
+          [(ngModel)]="searchTerm" 
+          (input)="onSearchInput($event)"
+          placeholder="Search courses..." 
+        />
+        <button 
+          *ngIf="searchTerm" 
+          class="clear-search-btn" 
+          (click)="clearSearch()"
+          type="button"
+        >
+          <i class="fa-solid fa-times"></i>
+        </button>
     </div>
   </div>
 

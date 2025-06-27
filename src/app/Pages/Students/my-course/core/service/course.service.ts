@@ -23,7 +23,8 @@ export class CourseService {
       pageSize: number = 100,
       orderBy: number = 2,
       orderDirection: number = 1,
-      courseProgressStatus?: CourseProgressStatus  // IN_PROGRESS = 0, COMPLETED = 1
+      courseProgressStatus?: CourseProgressStatus,  // IN_PROGRESS = 0, COMPLETED = 1
+      searchTerm?: string  // Search by course name, description, etc.
     ): Observable<IPaginationResponse<IcourseStudent>> {
   
       const params: any = {
@@ -37,6 +38,11 @@ export class CourseService {
       // Add courseProgressStatus to params if provided
       if (courseProgressStatus !== undefined && courseProgressStatus !== null) {
         params.courseProgressStatus = courseProgressStatus.toString();
+      }
+
+      // Add search term to params if provided
+      if (searchTerm && searchTerm.trim() !== '') {
+        params.search = searchTerm.trim();
       }
   
       return this._HttpClient.get<IPaginationResponse<IcourseStudent>>(`${this.urlPagination}`, { params });

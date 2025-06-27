@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 
 import { IcourseStudent, CourseProgressStatus } from './core/interface/icourse-student';
 import { CourseService } from './core/service/course.service';
@@ -16,17 +17,51 @@ import { environment } from '../../../Environments/environment';
   templateUrl: './my-course.component.html',
   styleUrl: './my-course.component.scss'
 })
-export class MyCourseComponent implements OnInit {
+export class MyCourseComponent implements OnInit, OnDestroy {
   courses:IPaginationResponse<IcourseStudent>  = {} as  IPaginationResponse<IcourseStudent>;
   filterBy: string = 'all';
   sortBy: string = 'progress';
   searchTerm: string = '';
   baseurl :string = environment.baseUrlFiles
+  
+  private destroy$ = new Subject<void>();
+  private searchSubject = new Subject<string>();
 
   showInfoCoupon = false;
-  constructor(private courseService: CourseService) {}
+  constructor(private courseService: CourseService) {
+    // Set up search debouncing
+    this.searchSubject.pipe(
+      debounceTime(500), // Wait 500ms after user stops typing
+      distinctUntilChanged(), // Only search if the term has changed
+      takeUntil(this.destroy$)
+    ).subscribe(searchTerm => {
+      this.searchTerm = searchTerm;
+      this.loadCourses();
+    });
+  }
 
   ngOnInit(): void {
+    this.loadCourses();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  onSearchChange(searchTerm: string): void {
+    this.searchSubject.next(searchTerm);
+  }
+
+  onSearchInput(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    if (target) {
+      this.onSearchChange(target.value);
+    }
+  }
+
+  clearSearch(): void {
+    this.searchTerm = '';
     this.loadCourses();
   }
 
@@ -47,9 +82,9 @@ export class MyCourseComponent implements OnInit {
         break;
     }
 
-    console.log('Loading courses with filter:', this.filterBy, 'API value:', courseProgressStatus); // Debug log
+    console.log('Loading courses with filter:', this.filterBy, 'API value:', courseProgressStatus, 'Search:', this.searchTerm); // Debug log
 
-    this.courseService.getCourse(1, 100, 2, 1, courseProgressStatus).subscribe({
+    this.courseService.getCourse(1, 100, 2, 1, courseProgressStatus, this.searchTerm).subscribe({
       next: (res) => {
         console.log('API Response:', res); // Debug log
         this.courses = res;
