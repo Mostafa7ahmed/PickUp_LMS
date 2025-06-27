@@ -1,0 +1,139 @@
+@if(isVisible) {
+<div class="overlay"></div>
+<div class="manage-profile-popup">
+  <app-top-pop [NamePopup]="'Manage Profile'" [NameIcon]="'fa-solid fa-user-edit'" (isVisibleChange)="closePopup()">
+  </app-top-pop>
+
+  <div class="popup-body">
+    <div class="content-wrapper">
+
+
+      <div class="form-section">
+        @if(isLoading) {
+        <div class="loading-spinner">
+          <i class="fas fa-spinner fa-spin"></i>
+          <span>Loading profile...</span>
+        </div>
+        } @else {
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+          <div class="updateIames m-2 mb-0">
+            <app-text-header [bgColor]="'#659DFFBF'" [title]="'Profile Photo'" />
+            <div class="ImagePorfile">
+              <div class="imagePersonal" (click)="fileInput.click()">
+                <img [src]="photoPreview" alt="Profile Photo" class="profile-image" />
+
+                <div class="pen-edit">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </div>
+
+                <!-- Hidden File Input -->
+                <input type="file" #fileInput accept="image/*" (change)="onPhotoSelected($event)"
+                  style="display: none" />
+
+                <!-- Hidden form control for photo URL -->
+                <input type="hidden" formControlName="photo" />
+              </div>
+            </div>
+
+          </div>
+
+          <div class="mainSelet courseSelect p-2  m-2 mb-0">
+            <app-text-header [title]="'personal Informatiom'" [bgColor]="'#6662FF'"> </app-text-header>
+            <div class="mainContent mt-3">
+              <div class="codeCoupon d-flex gap-2 align-items-end mb-2">
+                <div class="Course_name flex-grow-1">
+                  <label for="Course_name">Name Instructor</label>
+                  <input formControlName="name" [class.error]="getFieldError('name')" type="text" id="Course_name"
+                    placeholder="Enter Coupon code" class="input_Couser ">
+                  @if(getFieldError('name')) {
+                  <span class="error-message">{{ getFieldError('name') }}</span>
+                  }
+                </div>
+
+              </div>
+              <div class="desCourse_name Course_name mt-2  active">
+                <label for="Course_description">Bio</label>
+                <textarea formControlName="bio" class="input_Couser textarea_course" id="Course_description"></textarea>
+              </div>
+
+
+
+
+
+
+            </div>
+
+          </div>
+          <div class="mainSelet courseSelect p-2  m-2">
+            <app-text-header [title]="'Social Media Links'" [bgColor]="'#24c12b'"> </app-text-header>
+            <div class="mainContent mt-3">
+              <div class="codeCoupon d-flex gap-2 align-items-end mb-2">
+                <div class="Course_name flex-grow-1">
+                  <label for="instagram" class="form-label">
+                    <i class="fab fa-instagram"></i>
+                    Instagram
+                  </label> <input formControlName="instagram" type="text" id="Course_name"
+                    placeholder="Instagram username or URL" class="input_Couser ">
+
+                </div>
+
+              </div>
+               <div class="codeCoupon d-flex gap-2 align-items-end mb-2">
+                <div class="Course_name flex-grow-1">
+                  <label for="twitter" class="form-label">
+                    <i class="fab fa-twitter"></i>
+                    Twitter
+                  </label> <input formControlName="twitter" type="text" id="twitter"
+                    placeholder="Twitter username or URL" class="input_Couser ">
+
+                </div>
+
+              </div>
+               <div class="codeCoupon d-flex gap-2 align-items-end mb-2">
+                <div class="Course_name flex-grow-1">
+                  <label for="linkedIn" class="form-label">
+                <i class="fab fa-linkedin"></i>
+                    LinkedIn
+                  </label> <input formControlName="linkedIn" type="text" id="linkedIn"
+                    placeholder="LinkedIn profile URL" class="input_Couser ">
+
+                </div>
+
+              </div>
+
+
+
+
+
+
+
+            </div>
+
+          </div>
+
+
+
+        <div class="footerCourse bg-white rounded-1">
+          <div class="btnsCourse">
+            <button  [disabled]="isSubmitting || profileForm.invalid">
+                   @if(isSubmitting) {
+              <i class="fas fa-spinner fa-spin"></i>
+              Saving...
+              } @else {
+               Update 
+              }
+            </button>
+
+          </div>
+        </div>
+
+
+
+     
+        </form>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+}

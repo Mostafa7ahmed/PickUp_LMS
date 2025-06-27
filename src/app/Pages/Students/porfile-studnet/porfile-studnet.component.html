@@ -1,0 +1,57 @@
+<div class="profile-card mt-3">
+  <div class="cover">
+    <img src="Images/CardProfile.png" alt="Cover Image" width="100%" height="100%" />
+  </div>
+
+  <div class="profile-header">
+    <div class="imageAva">
+      @if(studentProfile?.photo) {
+      <img class="avatar" [src]="getPhotoUrl(studentProfile!.photo)" alt="Profile Image" />
+      } @else {
+      <img class="avatar" src="Images/dr.jpeg" alt="Profile Image" />
+      }
+    </div>
+    <div class="info">
+      @if(isLoading) {
+      <div class="loading-placeholder">
+        <div class="skeleton-text skeleton-title"></div>
+        <div class="skeleton-text skeleton-subtitle"></div>
+      </div>
+      } @else {
+      <h2>{{ studentProfile?.name || 'Student Name' }}</h2>
+      <p>{{ studentProfile?.bio || 'I am a Student' }}</p>
+      @if(studentProfile?.email) {
+      <p class="email-info">
+        <i class="fas fa-envelope"></i>
+        {{ studentProfile!.email }}
+      </p>
+      }
+      <div class="social mt-2">
+        @if(studentProfile?.linkedIn) {
+        <a [href]="studentProfile!.linkedIn" target="_blank">
+          <i class="fab fa-linkedin"></i>LinkedIn
+        </a>
+        }
+        @if(studentProfile?.twitter) {
+        <a [href]="studentProfile!.twitter" target="_blank">
+          <i class="fab fa-twitter"></i>Twitter
+        </a>
+        }
+        @if(studentProfile?.instagram) {
+        <a [href]="studentProfile!.instagram" target="_blank">
+          <i class="fab fa-instagram"></i>Instagram
+        </a>
+        }
+        @if(!studentProfile?.linkedIn && !studentProfile?.twitter && !studentProfile?.instagram) {
+        <a><i class="fab fa-linkedin"></i>linkedin</a>
+        <a><i class="fab fa-twitter"></i>twitter</a>
+        <a><i class="fab fa-instagram"></i>instagram</a>
+        }
+      </div>
+      }
+    </div>
+    <button class="manage-btn" (click)="openEditProfile()">
+      <i class="fa-solid fa-gear"></i> Manage
+    </button>
+  </div>
+

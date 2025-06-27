@@ -12,6 +12,8 @@ import { DiscoverCourseComponent } from '../Pages/Students/discover-course/disco
 import { WalletPopupInstructorComponent } from '../Pages/Instructor/wallet-popup-instructor/wallet-popup-instructor.component';
 import { PorfileComponent } from '../Pages/Instructor/porfile/porfile.component';
 import { EditTaskStudentComponent } from '../Pages/Students/todostdutent/components/edit-task-student/edit-task-student.component';
+import { PorfileStudnetComponent } from '../Pages/Students/porfile-studnet/porfile-studnet.component';
+import { EditProfileStudentComponent } from '../Pages/Students/porfile-studnet/Components/edit-profile-student/edit-profile-student.component';
 
 export const studentRoutes: Routes = [
     {
@@ -33,16 +35,20 @@ export const studentRoutes: Routes = [
                 component: AddTaskStudentComponent,
                 outlet: 'dialog'
             },
-                         { path: 'edittaskTodoStudent/:id', outlet: 'dialog', component: EditTaskStudentComponent },
-            
+            { path: 'edittaskTodoStudent/:id', outlet: 'dialog', component: EditTaskStudentComponent },
+
             {
                 path: "ChangePasswordPopup",
                 component: ChangePasswordPopupComponent,
                 outlet: 'dialog'
             },
-          { path: 'wallet', outlet: 'dialog', component: WalletPopupInstructorComponent },
-            { path: "myprofile", title: "porfile", component: PorfileComponent },
-
+            { path: 'wallet', outlet: 'dialog', component: WalletPopupInstructorComponent },
+            { path: "myprofile", title: "porfile", component: PorfileStudnetComponent },
+            {
+                path: "editStudentProfile",
+                component: EditProfileStudentComponent,
+                outlet: 'dialog'
+            },
             { path: "**", title: "notFound", component: HomestudentComponent },
         ]
     },
