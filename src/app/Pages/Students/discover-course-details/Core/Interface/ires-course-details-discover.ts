@@ -1,5 +1,6 @@
 export interface IResCourseDetailsDiscover {
   id: number
+  name: string
   introductionVideo: string
   photo: string
   description: string
