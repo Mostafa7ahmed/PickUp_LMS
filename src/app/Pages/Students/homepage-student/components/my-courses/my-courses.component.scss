@@ -25,13 +25,24 @@
   font-size: 14px;
   text-decoration: none;
   font-weight: 500;
-}
-.courseList{
-    max-height: 420px;
-    overflow-y: auto;
-    scrollbar-width: none; 
+  transition: color 0.2s ease;
 
+  &:hover {
+    color: #059669;
+    text-decoration: none;
+  }
 }
+
+.courseList {
+  max-height: 420px;
+  overflow-y: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .course-card {
   display: flex;
   align-items: center;
@@ -40,6 +51,18 @@
   border-radius: 12px;
   margin-bottom: 16px;
   background-color: #f9fafb;
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f3f4f6;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .course-icon {
@@ -50,23 +73,62 @@
   align-items: center;
   justify-content: center;
   font-size: 20px;
+  flex-shrink: 0;
 }
 
 .course-details {
   flex: 1;
+  min-width: 0;
+
+  h3 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #111827;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .course-meta {
+    .instructor {
+      margin: 0 0 6px 0;
+      font-size: 13px;
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    .course-info {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+
+      span {
+        font-size: 12px;
+        color: #9ca3af;
+        display: flex;
+        align-items: center;
+
+        i {
+          font-size: 10px;
+          opacity: 0.8;
+        }
+
+        &.rating {
+          color: #f59e0b;
+        }
+      }
+    }
+  }
 }
 
-.course-details h3 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: #111827;
-}
-
-.course-details p {
-  margin: 4px 0 0;
-  font-size: 13px;
-  color: #6b7280;
+.progress-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
 }
 
 .progress-bar {
@@ -75,19 +137,94 @@
   background: #e5e7eb;
   border-radius: 4px;
   overflow: hidden;
-  margin-top: 8px;
 }
 
 .progress {
-
   height: 100%;
-  background: #10b981;
   transition: width 0.3s ease;
+  border-radius: 4px;
 }
 
 .progress-percent {
-
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
   color: #111827;
+  margin: 0;
+}
+
+// Loading state
+.loading-state {
+  color: #6b7280;
+  font-size: 14px;
+
+  .fa-spinner {
+    color: #10b981;
+  }
+}
+
+// Empty state
+.empty-state {
+  padding: 40px 20px;
+
+  img {
+    opacity: 0.6;
+    margin-bottom: 16px;
+  }
+
+  p {
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+
+  .btn {
+    padding: 8px 20px;
+    font-size: 13px;
+    border-radius: 8px;
+    border: none;
+    background-color: #10b981;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #059669;
+      color: white;
+      text-decoration: none;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .course-card {
+    gap: 12px;
+    padding: 12px;
+
+    .course-icon {
+      width: 40px;
+      height: 40px;
+      font-size: 16px;
+    }
+
+    .course-details h3 {
+      font-size: 14px;
+    }
+
+    .course-info {
+      gap: 8px;
+
+      span {
+        font-size: 11px;
+      }
+    }
+
+    .progress-bar {
+      width: 80px;
+      height: 5px;
+    }
+
+    .progress-percent {
+      font-size: 11px;
+    }
+  }
 }

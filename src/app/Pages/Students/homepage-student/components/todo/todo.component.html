@@ -1,25 +1,68 @@
 <div class="card p-3 mb-3 todo-container">
   <h5 class="mb-3">To-Do List</h5>
   
+  <!-- Loading State -->
+  @if(isLoading) {
+  <div class="d-flex justify-content-center align-items-center py-4">
+    <i class="fas fa-spinner fa-spin me-2"></i>
+    <span>Loading tasks...</span>
+  </div>
+  } @else {
   <ul class="list-unstyled">
-    @for ( task of tasks; track $index){
-    <li class="d-flex align-items-center justify-content-between mb-2">
-      <div>
-        <input type="checkbox" [(ngModel)]="task.completed" class="form-check-input me-2" />
-        <span [class.completed]="task.completed">{{ task.title }}</span>
+    @for (task of tasks; track task.id) {
+    <li class="task-item d-flex align-items-center justify-content-between mb-3">
+      <div class="task-content d-flex align-items-center">
+        <input 
+          type="checkbox" 
+          [checked]="task.completed" 
+          (change)="toggleTaskCompletion(task)"
+          class="form-check-input me-3" 
+        />
+        <div class="task-details">
+          <div class="task-header d-flex align-items-center gap-2">
+            <i [class]="getTaskTypeIcon(task.type)" [style.color]="getPriorityColor(task.priority)"></i>
+            <span class="task-name" [class.completed]="task.completed">{{ task.name }}</span>
+            <span class="task-type badge badge-sm">{{ getTaskTypeLabel(task.type) }}</span>
+          </div>
+          @if(task.description) {
+          <p class="task-description mb-0 text-muted">{{ task.description }}</p>
+          }
+          <div class="task-meta d-flex align-items-center gap-2 mt-1">
+            <span class="priority-badge" [style.background-color]="getPriorityColor(task.priority)">
+              {{ getPriorityLabel(task.priority) }}
+            </span>
+            @if(task.dueDate) {
+            <span class="due-date text-muted">
+              <i class="fas fa-calendar me-1"></i>
+              {{ task.dueDate | date:'MMM dd' }}
+            </span>
+            }
+          </div>
+        </div>
       </div>
-      <button class="btnDelete"  (click)="removeTask(task)"><i class="fa-regular fa-trash-can"></i></button>
-    </li>}
-    @empty {
-      <div class="d-flex justify-content-center align-items-center gap-3  flex-column" >
-        <img src="Images/Course/file.png" alt="">
-        <p class="text-muted">No tasks available. Add a new task to get started!</p>
-      </div>
+      <button class="btnDelete" (click)="removeTask(task)">
+        <i class="fa-regular fa-trash-can"></i>
+      </button>
+    </li>
+    } @empty {
+    <div class="d-flex justify-content-center align-items-center gap-3 flex-column py-4">
+      <img src="Images/Course/file.png" alt="" width="80">
+      <p class="text-muted mb-0">No tasks available. Add a new task to get started!</p>
+    </div>
     }
   </ul>
 
   <div class="inputTask mt-3">
-    <input type="text" class="form-control" placeholder="Add new task..." [(ngModel)]="newTask" (keyup.enter)="addTask()" />
-    <button class="btnAdd" type="button" (click)="addTask()">+</button>
+    <input 
+      type="text" 
+      class="form-control" 
+      placeholder="Add new task..." 
+      [(ngModel)]="newTask" 
+      (keyup.enter)="addTask()" 
+    />
+    <button class="btnAdd" type="button" (click)="addTask()" [disabled]="!newTask.trim()">
+      +
+    </button>
   </div>
+  }
 </div>

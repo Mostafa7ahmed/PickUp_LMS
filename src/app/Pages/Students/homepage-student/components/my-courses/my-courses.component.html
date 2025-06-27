@@ -1,23 +1,61 @@
 <div class="my-courses-container mb-3">
   <div class="header">
     <h2>My Courses</h2>
-    <a class="view-all">View All →</a>
+    <a class="view-all" routerLink="/Student/my-course">View All →</a>
   </div>
-<div class="courseList">
-  <div class="course-card" *ngFor="let course of courses">
-    <div class="course-icon" [ngStyle]="{ 'background-color': course.color }">
-      {{ course.icon }}
-    </div>
-    <div class="course-details">
-      <h3>{{ course.title }}</h3>
-      <p>{{ course.professor }} · {{ course.schedule }}</p>
-    </div>
-<div class="progress-bar">
-  <div class="progress" [style.width.%]="course.progress"></div>
-</div>
-  <p class="progress-percent">{{ course.progress }}%</p>
 
+  <!-- Loading State -->
+  @if(isLoading) {
+  <div class="loading-state d-flex justify-content-center align-items-center py-4">
+    <i class="fas fa-spinner fa-spin me-2"></i>
+    <span>Loading courses...</span>
   </div>
-</div>
-
+  } @else {
+  <div class="courseList">
+    @for(course of courses; track course.id) {
+    <div class="course-card">
+      <div class="course-icon" [ngStyle]="{ 'background-color': getCourseColor($index) }">
+        {{ getCourseIcon(course.topicName) }}
+      </div>
+      <div class="course-details">
+        <h3>{{ course.name }}</h3>
+        <div class="course-meta">
+          <p class="instructor">{{ course.instructor.name }}</p>
+          <div class="course-info">
+            <span class="lessons-count">
+              <i class="fas fa-play-circle me-1"></i>
+              {{ course.lessonsCount }} lessons
+            </span>
+            <span class="duration">
+              <i class="fas fa-clock me-1"></i>
+              {{ getDurationText(course.totalDuration) }}
+            </span>
+            @if(course.rating > 0) {
+            <span class="rating">
+              <i class="fas fa-star me-1"></i>
+              {{ course.rating }}
+            </span>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="progress-section">
+        <div class="progress-bar">
+          <div class="progress" 
+               [style.width.%]="course.courseProgressPercentage"
+               [style.background-color]="getProgressColor(course.courseProgressPercentage)">
+          </div>
+        </div>
+        <p class="progress-percent">{{ course.courseProgressPercentage }}%</p>
+      </div>
+    </div>
+    } @empty {
+    <div class="empty-state d-flex justify-content-center align-items-center flex-column py-4">
+      <img src="Images/Course/message_empty.svg" alt="" width="80">
+      <p class="text-muted mb-0">No enrolled courses yet</p>
+      <a class="btn btn-primary mt-2" routerLink="/Student/discover-course">Discover Courses</a>
+    </div>
+    }
+  </div>
+  }
 </div>
