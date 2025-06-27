@@ -61,7 +61,7 @@
           </div>
 
           <div class="action-buttons">
-            <button class="btn-enroll">
+            <button class="btn-enroll" (click)="openEnrollmentPopup(course)">
               <i class="fa-solid fa-graduation-cap me-1"></i>
               Enroll Now
             </button>
@@ -74,3 +74,12 @@
     </div>
   </div>
 </div>
+
+<!-- Enrollment Popup -->
+<app-enrollment-popup
+  *ngIf="showEnrollmentPopup && selectedCourseForEnrollment"
+  [isVisible]="showEnrollmentPopup"
+  [course]="selectedCourseForEnrollment"
+  (closePopup)="onCloseEnrollmentPopup()"
+  (enrollmentComplete)="onEnrollmentComplete($event)">
+</app-enrollment-popup>
