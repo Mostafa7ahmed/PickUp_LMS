@@ -8,11 +8,12 @@ import { CommonModule } from '@angular/common';
 import { FilterCoursePipe } from './filter-course.pipe';
 import { RouterLink } from '@angular/router';
 import { EnrollmentPopupComponent, ICourseForEnrollment } from '../../../../../Components/enrollment-popup/enrollment-popup.component';
+import { SuccessPopupComponent, ISuccessData } from '../../../../../Components/success-popup/success-popup.component';
 
 @Component({
   selector: 'app-card-discover-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, FilterCoursePipe, RouterLink, EnrollmentPopupComponent],
+  imports: [CommonModule, FormsModule, FilterCoursePipe, RouterLink, EnrollmentPopupComponent, SuccessPopupComponent],
   templateUrl: './card-discover-page.component.html',
   styleUrl: './card-discover-page.component.scss'
 })
@@ -26,6 +27,10 @@ export class CardDiscoverPageComponent {
   // Enrollment popup state
   showEnrollmentPopup = false;
   selectedCourseForEnrollment: ICourseForEnrollment | null = null;
+
+  // Success popup state
+  showSuccessPopup = false;
+  successData: ISuccessData | null = null;
 
   ngOnInit(): void {
     this._DicoverCourseService.getDiscover().subscribe({
@@ -61,16 +66,44 @@ export class CardDiscoverPageComponent {
   }
 
   // Handle enrollment completion
-  onEnrollmentComplete(success: boolean): void {
-    if (success) {
-      console.log('Enrollment successful!');
-      // You could emit an event to parent component or show a success message
+  onEnrollmentComplete(event: {success: boolean, courseData?: any}): void {
+    if (event.success) {
+      console.log('Enrollment successful!', event.courseData);
+      // Show success popup or notification
+      this.displaySuccessPopup(event.courseData);
     }
+  }
+
+  // Show success popup after enrollment
+  displaySuccessPopup(courseData: any): void {
+    const details = [
+      courseData.isFree 
+        ? 'Free Course - No Payment Required'
+        : `Payment: ${courseData.price} ${courseData.currency} processed successfully`,
+      'Course access has been granted',
+      'You can start learning immediately'
+    ];
+
+    this.successData = {
+      title: 'Enrollment Successful',
+      message: `Congratulations! You have successfully enrolled in ${courseData.name}`,
+      details: details,
+      autoClose: true,
+      autoCloseDelay: 3000
+    };
+
+    this.showSuccessPopup = true;
   }
 
   // Handle popup close
   onCloseEnrollmentPopup(): void {
     this.showEnrollmentPopup = false;
     this.selectedCourseForEnrollment = null;
+  }
+
+  // Handle success popup close
+  onCloseSuccessPopup(): void {
+    this.showSuccessPopup = false;
+    this.successData = null;
   }
 }

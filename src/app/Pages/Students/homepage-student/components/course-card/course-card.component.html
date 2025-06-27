@@ -83,3 +83,11 @@
   (closePopup)="onCloseEnrollmentPopup()"
   (enrollmentComplete)="onEnrollmentComplete($event)">
 </app-enrollment-popup>
+
+<!-- Success Popup -->
+<app-success-popup
+  *ngIf="showSuccessPopup && successData"
+  [isVisible]="showSuccessPopup"
+  [successData]="successData"
+  (onClose)="onCloseSuccessPopup()">
+</app-success-popup>

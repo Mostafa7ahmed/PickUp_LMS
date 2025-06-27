@@ -1,0 +1,45 @@
+@if(isVisible) {
+<div class="overlay"></div>
+<div class="success-popup">
+  <!-- Header using TOP POP component -->
+  <app-top-pop 
+    [NamePopup]="successData.title" 
+    [NameIcon]="'fa-solid fa-check-circle'" 
+    [bgColor]="'#10b9811a'"
+    [ColorIcon]="'#10b981'" 
+    (isVisibleChange)="closePopup()">
+  </app-top-pop>
+
+  <div class="popup-body">
+    <!-- Success Animation -->
+    <div class="success-animation">
+      <div class="success-icon">
+        <i class="fa-solid fa-check"></i>
+      </div>
+    </div>
+
+    <!-- Success Content -->
+    <div class="success-content">
+      <p class="success-message">{{ successData.message }}</p>
+      
+      @if(successData.details && successData.details.length > 0) {
+      <div class="success-details">
+        @for(detail of successData.details; track $index) {
+        <div class="detail-item">
+          <i class="fa-solid fa-check-circle"></i>
+          <span>{{ detail }}</span>
+        </div>
+        }
+      </div>
+      }
+
+      @if(successData.autoClose !== false) {
+      <div class="auto-close-notice">
+        <i class="fa-solid fa-info-circle"></i>
+        <span>This popup will close automatically in a few seconds...</span>
+      </div>
+      }
+    </div>
+  </div>
+</div>
+} 

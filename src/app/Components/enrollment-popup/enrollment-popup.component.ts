@@ -32,7 +32,7 @@ export interface ICourseForEnrollment {
 export class EnrollmentPopupComponent implements OnInit, OnDestroy {
   @Input() course!: ICourseForEnrollment;
   @Input() isVisible: boolean = false;
-  @Output() enrollmentComplete = new EventEmitter<boolean>();
+  @Output() enrollmentComplete = new EventEmitter<{success: boolean, courseData?: any}>();
   @Output() closePopup = new EventEmitter<void>();
 
   wallet: IWallet | null = null;
@@ -45,6 +45,10 @@ export class EnrollmentPopupComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   isEnrolling: boolean = false;
   errorMessage: string = '';
+  
+  // Success state
+  showSuccessMessage: boolean = false;
+  enrollmentSuccess: boolean = false;
 
   private destroy$ = new Subject<void>();
 
@@ -201,8 +205,21 @@ export class EnrollmentPopupComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response) => {
           console.log('Enrollment successful:', response);
-          this.enrollmentComplete.emit(true);
+          this.isEnrolling = false;
+          
+          // Close the enrollment popup after successful response
           this.onClose();
+          
+          // Emit success event with course details for parent to show success popup
+          this.enrollmentComplete.emit({
+            success: true,
+            courseData: {
+              name: this.course.name,
+              price: this.finalPrice,
+              currency: this.course.currency,
+              isFree: this.finalPrice === 0
+            }
+          });
         },
         error: (error) => {
           console.error('Enrollment failed:', error);
@@ -222,6 +239,8 @@ export class EnrollmentPopupComponent implements OnInit, OnDestroy {
     this.selectedCouponCode = '';
     this.errorMessage = '';
     this.isEnrolling = false;
+    this.showSuccessMessage = false;
+    this.enrollmentSuccess = false;
     this.calculatePricing();
   }
 
