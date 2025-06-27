@@ -68,7 +68,6 @@ getColor(value: string): string {
     case 'all': return '#298dba';
     case 'in-progress': return '#dfde0d';
     case 'completed': return '#10b981';
-    case 'not-started': return '#a0151e';
     default: return '#515f32';
   }
 }
@@ -78,7 +77,6 @@ getIcon(value: string): string {
 
     case 'in-progress': return 'fa-spinner';
     case 'completed': return 'fa-check';
-    case 'not-started': return 'fa-circle-xmark';
     default: return 'fa-book';
   }
 }
