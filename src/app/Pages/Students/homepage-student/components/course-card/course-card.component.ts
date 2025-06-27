@@ -19,15 +19,16 @@ export class CourseCardComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute
   ) {}
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log('CourseCardComponent initialized');
+  }
 
   get courses(): IDicoverCourse[] {
     const courses = this.courseService.courses;
-    console.log('Displaying courses with images:', courses.map(c => ({ 
-      id: c.id, 
-      title: c.title, 
-      image: c.image 
-    })));
+    console.log('CourseCardComponent getter called - courses length:', courses.length);
+    if (courses.length > 0) {
+      console.log('First course in getter:', courses[0]);
+    }
     return courses;
   }
 

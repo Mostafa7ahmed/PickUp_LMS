@@ -18,7 +18,7 @@ interface ApiCourseResult {
     email: string;
     phoneNumber: string;
     photo: string;
-  };
+  } | null;
   lessonsCount: number;
   totalDuration: number;
   rating: number;
@@ -42,7 +42,7 @@ interface CourseApiResponse {
 
 @Injectable({ providedIn: 'root' })
 export class DicoverCourseService {
-  courses: IDicoverCourse[] = [];
+  private _courses: IDicoverCourse[] = [];
   pageIndex = 1;
   totalPages = 1;
 
@@ -50,11 +50,18 @@ export class DicoverCourseService {
 
   constructor(private http: HttpClient) {}
 
+  get courses(): IDicoverCourse[] {
+    console.log('Getting courses - current count:', this._courses.length);
+    return this._courses;
+  }
+
   /**
    * Fetch courses from API.
    * When no topicId is supplied the param is omitted so the backend returns ALL courses.
    */
   fetchCourses(topicId?: number, page = 1, pageSize = 12, orderDirection = 0, search?: string): Observable<IDicoverCourse[]> {
+    console.log('fetchCourses called with params:', { topicId, page, pageSize, search });
+    
     let params = new HttpParams()
       .set('pageNumber', page.toString())
       .set('pageSize', pageSize.toString())
@@ -75,38 +82,48 @@ export class DicoverCourseService {
         if (res.success) {
           if (res.result.length === 0) {
             console.warn('No courses returned from API');
-            this.courses = [];
+            this._courses = [];
+            console.log('Set courses to empty array - length now:', this._courses.length);
             return;
           }
           
           if (res.result[0]?.name === 'string') {
             console.warn('API returned placeholder data - likely missing auth token');
-            this.courses = [];
+            this._courses = [];
+            console.log('Set courses to empty array due to placeholder data - length now:', this._courses.length);
             return;
           }
           
-          this.courses = res.result.map((c) => this.mapApiCourse(c));
-          console.log('Mapped courses:', this.courses);
+          console.log('About to map courses, received:', res.result.length, 'courses');
+          this._courses = res.result.map((c) => this.mapApiCourse(c));
+          console.log('Mapped courses successfully - new count:', this._courses.length);
+          console.log('First course mapped:', this._courses[0]);
           this.pageIndex = res.pageIndex;
           this.totalPages = res.totalPages;
+        } else {
+          console.error('API returned success: false');
+          this._courses = [];
         }
       }),
-      map(() => this.courses)
+      map(() => {
+        console.log('Returning courses from observable - count:', this._courses.length);
+        return this._courses;
+      })
     );
   }
 
   private mapApiCourse(api: ApiCourseResult): IDicoverCourse {
-    console.log('Mapping course:', api);
-    console.log('Course photo URL:', api.photo);
+    console.log('Mapping course:', api.name, 'ID:', api.id);
     const discountPercentage = api.priceAfterDiscount && api.priceAfterDiscount < api.price
       ? Math.round(((api.price - api.priceAfterDiscount) / api.price) * 100)
       : 0;
+      
     const mapped = {
       id: api.id,
       title: api.name || '',
       description: api.description || '',
       image: api.photo ? `${environment.baseUrlFiles}${api.photo}` : '',
-      instructor: api.instructorDto?.name || '',
+      instructor: api.instructorDto?.name || 'Unknown Instructor',
       instructorPhoto: api.instructorDto?.photo ? `${environment.baseUrlFiles}${api.instructorDto.photo}` : '',
       totalLessons: api.lessonsCount || 0,
       completedLessons: 0,
@@ -119,7 +136,8 @@ export class DicoverCourseService {
       enrolledDate: new Date(),
       lastAccessed: new Date()
     } as IDicoverCourse;
-    console.log('Mapped image:', mapped.image);
+    
+    console.log('Successfully mapped course:', mapped.title, 'with instructor:', mapped.instructor);
     return mapped;
   }
 
