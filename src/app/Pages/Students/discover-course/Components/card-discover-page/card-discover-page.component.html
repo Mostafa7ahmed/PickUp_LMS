@@ -8,13 +8,14 @@
 
     <div class="search-box">
       <i class="fa-solid fa-search"></i>
-        <input type="text"  placeholder="Search courses..." />
+      <input type="text" [(ngModel)]="searchTerm" placeholder="Search courses..." />
     </div>
   </div>
 
   <!-- Courses Grid -->
   <div class="courses-grid">
-    <div class="course-card" *ngFor="let course of dataDiscover.result">
+    @for (course of dataDiscover.result | filterCourse:searchTerm; track course.id) {
+          <div class="course-card" >
       <div class="course-image">
         <img
           [src]="baseUrl+course.photo"
@@ -82,5 +83,19 @@
         </div>
       </div>
     </div>
+    }
+        @empty {
+    <div class="empty-state h-50 w-100 position-absolute ">
+        <div class="empty-icon">
+            <i class="fa-solid fa-person-chalkboard"></i>
+        </div>
+        <h3>No Lesson Found</h3>
+        <p>This course doesn't have any Lesson yet. Create your first Lesson to get started!</p>
+
+    </div>
+    }
+
+
+    
   </div>
 </div>

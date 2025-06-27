@@ -14,17 +14,8 @@ import { CardDiscoverPageComponent } from "./Components/card-discover-page/card-
   templateUrl: './discover-course.component.html',
   styleUrl: './discover-course.component.scss'
 })
-export class DiscoverCourseComponent implements OnInit {
+export class DiscoverCourseComponent {
 
 
-  dataDiscover:IPaginationResponse<IDicoverCourse> = {} as IPaginationResponse<IDicoverCourse>;
-    private _DicoverCourseService = inject(DicoverCourseService);
-  
-    ngOnInit(): void {
-      this._DicoverCourseService.getDiscover().subscribe({
-        next :(res)=>{
-          this.dataDiscover = res
-        }
-      })
-    }
+
 }
