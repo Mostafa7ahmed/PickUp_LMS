@@ -11,6 +11,7 @@ import { ChangePasswordPopupComponent } from '../Pages/Auth/change-password-popu
 import { DiscoverCourseComponent } from '../Pages/Students/discover-course/discover-course.component';
 import { WalletPopupInstructorComponent } from '../Pages/Instructor/wallet-popup-instructor/wallet-popup-instructor.component';
 import { PorfileComponent } from '../Pages/Instructor/porfile/porfile.component';
+import { EditTaskStudentComponent } from '../Pages/Students/todostdutent/components/edit-task-student/edit-task-student.component';
 
 export const studentRoutes: Routes = [
     {
@@ -32,6 +33,8 @@ export const studentRoutes: Routes = [
                 component: AddTaskStudentComponent,
                 outlet: 'dialog'
             },
+                         { path: 'edittaskTodoStudent/:id', outlet: 'dialog', component: EditTaskStudentComponent },
+            
             {
                 path: "ChangePasswordPopup",
                 component: ChangePasswordPopupComponent,

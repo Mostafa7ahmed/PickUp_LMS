@@ -1,1 +1,104 @@
-<p>edit-task-student works!</p>
+<div class="edit-task-page">
+  <div class="task-form">
+    <app-top-pop 
+      [NamePopup]="'Edit Task'" 
+      [bgColor]="'#dbeafe'" 
+      ColorIcon="#1e40af" 
+      NameIcon="fa-solid fa-edit" 
+      (isVisibleChange)="closeDialog()">
+    </app-top-pop>
+    
+    <!-- Loading State -->
+    <div class="loading-state" *ngIf="isLoading">
+      <div class="loading-content">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        <p>Loading task...</p>
+      </div>
+    </div>
+    
+    <!-- Form Content -->
+    <div class="form-body" *ngIf="!isLoading">
+      <div class="bgCard form-group">
+        <app-text-header [title]="'Task Title'" [bgColor]="'#ec8950'"></app-text-header>
+        
+        <input type="text" 
+               id="taskTitle"
+               [(ngModel)]="taskForm.name" 
+               placeholder="Enter task title..."
+               class="form-control mt-2"
+               [class.error]="!taskForm.name.trim() && showValidation">
+        <div *ngIf="!taskForm.name.trim() && showValidation" class="error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          Task title is required
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <app-text-header [title]="'Description'"></app-text-header>
+        
+        <textarea id="taskDescription"
+                  [(ngModel)]="taskForm.description" 
+                  placeholder="Task description (optional)..."
+                  class="form-control mt-2"
+                  rows="3"></textarea>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <app-text-header [title]="'Type'" [bgColor]="'#f4d7c5'"></app-text-header>
+          
+          <select id="taskType" [(ngModel)]="taskForm.type" class="form-control mt-2">
+            <option *ngFor="let type of taskTypes" [value]="type.value">
+              {{type.label}}
+            </option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <app-text-header [title]="'Priority'" [bgColor]="'#40de74'"></app-text-header>
+          
+          <select id="taskPriority" [(ngModel)]="taskForm.priority" class="form-control mt-2">
+            <option *ngFor="let priority of priorityOptions" [value]="priority.value">
+              {{priority.label}}
+            </option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <app-text-header [title]="'Due Date'" [bgColor]="'#ca6438'"></app-text-header>
+          
+          <input type="date" 
+                 id="taskDueDate"
+                 [(ngModel)]="taskForm.dueDate" 
+                 class="form-control mt-2">
+        </div>
+        
+        <div class="form-group">
+          <app-text-header [title]="'Status'" [bgColor]="'#8b5cf6'"></app-text-header>
+          
+          <div class="checkbox-container mt-2">
+            <label class="checkbox-label">
+              <input type="checkbox" 
+                     [(ngModel)]="taskForm.completed"
+                     class="form-check-input">
+              <span class="checkmark"></span>
+              Mark as completed
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footerCourse bg-white rounded-1" *ngIf="!isLoading">
+      <div class="btnsCourse">
+        <button (click)="updateTask()" [disabled]="isLoading" class="btn-update">
+          <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i>
+          <i *ngIf="!isLoading" class="fas fa-save mx-2"></i>
+          <span>{{isLoading ? 'Updating...' : 'Update Task'}}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

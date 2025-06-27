@@ -73,7 +73,7 @@ export class TodostdutentComponent implements OnInit, OnDestroy  {
    
    openEditTaskPopup(task: ITaskStudent): void {
   
-     this.router.navigate([ { outlets: { dialog: ['editTaskinstructor', task.id] } }]);
+     this.router.navigate(['/Student',  { outlets: { dialog: ['edittaskTodoStudent', task.id] } }]);
    }
   
  
