@@ -13,7 +13,7 @@ import { environment } from '../../../Environments/environment';
 @Component({
   selector: 'app-my-course',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, WidgetcourseStudentComponent],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './my-course.component.html',
   styleUrl: './my-course.component.scss'
 })
