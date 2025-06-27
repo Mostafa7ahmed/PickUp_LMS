@@ -125,12 +125,13 @@
         <div class="progress-section">
           <div class="progress-info">
             <span class="progress-text"></span>
-            <span class="progress-percent">{{ course.progressStatus || 0 }}%</span>
+            <span class="progress-percent">{{ course.courseProgressPercentage || 0 }}%</span>
           </div>
           <div class="progress-bar">
             <div
               class="progress-fill"
-              [style.width.%]="course.progressStatus || 0"
+              [style.width.%]="course.courseProgressPercentage || 0"
+              [style.background-color]="getProgressColor(course.courseProgressPercentage)"
             ></div>
           </div>
         </div>

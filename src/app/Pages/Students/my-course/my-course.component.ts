@@ -180,11 +180,11 @@ export class MyCourseComponent implements OnInit, OnDestroy {
   //     return Math.round(total / this.courses.length);
   //   }
 
-  //   getProgressColor(progress: number): string {
-  //     if (progress < 30) return '#ef4444';
-  //     if (progress < 70) return '#f59e0b';
-  //     return '#10b981';
-  //   }
+    getProgressColor(progress: number): string {
+      if (progress < 30) return '#ef4444';
+      if (progress < 70) return '#f59e0b';
+      return '#10b981';
+    }
 
   //   getProgressStatus(progress: number): string {
   //     if (progress === 0) return 'Not Started';
