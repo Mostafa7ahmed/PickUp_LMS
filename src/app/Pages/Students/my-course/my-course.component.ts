@@ -145,42 +145,7 @@ export class MyCourseComponent implements OnInit, OnDestroy {
     }
   }
 
-  // get filteredCourses() {
-  //   let filtered = this.courses;
 
-  //   if (this.filterBy !== 'all') {
-  //     if (this.filterBy === 'in-progress') {
-  //       filtered = this.courses.filter(course => course.progress > 0 && course.progress < 100);
-  //     } else if (this.filterBy === 'completed') {
-  //       filtered = this.courses.filter(course => course.progress === 100);
-  //     } else if (this.filterBy === 'not-started') {
-  //       filtered = this.courses.filter(course => course.progress === 0);
-  //     }
-  //   }
-
-  //   if (this.searchTerm.trim() !== '') {
-  //     const term = this.searchTerm.toLowerCase();
-  //     filtered = filtered.filter(course =>
-  //       course.title.toLowerCase().includes(term) ||
-  //       course.description?.toLowerCase().includes(term)
-  //     );
-  //   }
-
-  //   return filtered;
-  // }
-  //   get completedCoursesCount(): number {
-  //     return this.courses.filter(c => c.progress === 100).length;
-  //   }
-
-  //   get inProgressCoursesCount(): number {
-  //     return this.courses.filter(c => c.progress > 0 && c.progress < 100).length;
-  //   }
-
-  //   get averageProgress(): number {
-  //     if (this.courses.length === 0) return 0;
-  //     const total = this.courses.reduce((sum, course) => sum + course.progress, 0);
-  //     return Math.round(total / this.courses.length);
-  //   }
 
     getProgressColor(progress: number): string {
       if (progress < 30) return '#ef4444';
@@ -188,14 +153,6 @@ export class MyCourseComponent implements OnInit, OnDestroy {
       return '#10b981';
     }
 
-  //   getProgressStatus(progress: number): string {
-  //     if (progress === 0) return 'Not Started';
-  //     if (progress === 100) return 'Completed';
-  //     return 'In Progress';
-  //   }
 
-  //   getButtonText(progress: number): string {
-  //     return progress === 0 ? 'Start Course' : 'Continue Learning';
-  //   }
 
 }
