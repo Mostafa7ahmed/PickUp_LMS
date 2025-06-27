@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { IcourseStudent, IDicoverCourse } from '../../../my-course/core/interface/icourse-student';
 import { CourseService } from '../../../my-course/core/service/course.service';
 import { DicoverCourseService } from '../../../discover-course/service/dicover-course.service';
@@ -16,12 +16,19 @@ export class CourseCardComponent implements OnInit {
   showInfoCoupon = false;
   constructor(
     private courseService: DicoverCourseService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
   ngOnInit(): void {}
 
   get courses(): IDicoverCourse[] {
-    return this.courseService.courses;
+    const courses = this.courseService.courses;
+    console.log('Displaying courses with images:', courses.map(c => ({ 
+      id: c.id, 
+      title: c.title, 
+      image: c.image 
+    })));
+    return courses;
   }
 
   getDiscountedPrice(course: IDicoverCourse): number {
@@ -47,6 +54,13 @@ export class CourseCardComponent implements OnInit {
   }
 
   enrollCourse(courseId: number): void {
-    this.router.navigate(['/Student/course', courseId, 'enroll']);
+    console.log('Enrolling in course:', courseId);
+    // Try absolute navigation to dialog outlet
+    this.router.navigate(['/Student', { outlets: { dialog: ['enroll-popup', courseId] } }]);
+  }
+
+  onImageError(event: any): void {
+    console.log('Image failed to load:', event.target.src);
+    event.target.src = '/Images/Course/Image+Background.png';
   }
 }

@@ -15,6 +15,7 @@ import { StudentProfileComponent } from '../Pages/Students/student-profile/stude
 import { EditStudentProfileComponent } from '../Pages/Students/student-profile/components/edit-student-profile/edit-student-profile.component';
 import { CourseViewComponent } from '../Pages/Students/course-view/course-view.component';
 import { CourseDetailsPreviewComponent } from '../Pages/Students/course-details-preview/course-details-preview.component';
+import { EnrollPopupComponent } from '../Pages/Students/enroll-popup/enroll-popup.component';
 
 export const studentRoutes: Routes = [
     {
@@ -50,6 +51,7 @@ export const studentRoutes: Routes = [
             { path: "myprofile", title: "profile", component: StudentProfileComponent },
             { path: "course-details/:id", title: "Course Preview", component: CourseDetailsPreviewComponent },
             { path: "course/:courseId", title: "Course Details", component: CourseViewComponent },
+            { path: "enroll-popup/:id", component: EnrollPopupComponent, outlet: 'dialog' },
             { path: "**", title: "notFound", component: HomestudentComponent },
         ]
     },

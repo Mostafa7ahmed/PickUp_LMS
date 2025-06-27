@@ -75,12 +75,12 @@
               </div>
             </div>
 
-            <div class="task-item"
+            <div class="task-item" 
                  *ngFor="let task of getFilteredTasks(); trackBy: trackByTaskId"
                  [style.display]="isLoading ? 'none' : 'flex'">
               <div class="task-content">
                 <div class="task-checkbox">
-                  <input type="checkbox"
+                  <input type="checkbox" 
                          [id]="'task-' + task.id"
                          [(ngModel)]="task.completed"
                          (change)="toggleTaskCompletion(task)"
@@ -119,7 +119,7 @@
                       {{ getPriorityLabel(task.priority) }}
                     </span>
                     
-                    <span class="task-due-date"
+                    <span class="task-due-date" 
                           [class.overdue]="isOverdue(task.dueDate) && !task.completed">
                       <i class="fa-solid fa-calendar"></i>
                       {{ formatDueDate(task.dueDate) }}
@@ -129,12 +129,12 @@
               </div>
               
               <div class="task-actions">
-                <button class="action-btn edit-btn"
+                <button class="action-btn edit-btn" 
                         (click)="openEditTaskPopup(task)"
                         title="Edit Task">
                   <i class="fa-solid fa-edit"></i>
                 </button>
-                <button class="action-btn delete-btn"
+                <button class="action-btn delete-btn" 
                         (click)="deleteTask(task)"
                         title="Delete Task">
                   <i class="fa-solid fa-trash"></i>

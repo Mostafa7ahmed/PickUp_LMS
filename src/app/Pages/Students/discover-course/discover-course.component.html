@@ -1,33 +1,46 @@
-<div class="student-courses-container">
-  <!-- Header Section -->
-  <div class="header-section">
-    <div class="title-area">
-      <h1><i class="fa-solid fa-compass me-3"></i>Discover New Courses</h1>
-      <div
-        class="rightFooter d-flex justify-content-between align-items-center gap-3"
-      >
-        <p>
-            Expand your skills with our comprehensive course catalog
-        </p>
+<div class="discover-page">
+  <div class="header-area">
+    <h1 class="page-title"><i class="fa-solid fa-compass me-2"></i>Discover Courses</h1>
 
-    
-      </div>
-    </div>
-  </div> 
-
-    <div
-    class="controls-section mt-2 d-flex justify-content-between align-items-center mb-3"
-  >
-      <app-customslectwithicon [items]="topicsList" [isLoadTopic]="true" [selectedItem]="selectedValue"
-            (selectionChange)="selectOption($event)">
-          </app-customslectwithicon>
-
-
-    <div class="search-box">
+    <!-- Search Field -->
+    <div class="search-wrapper">
       <i class="fa-solid fa-search"></i>
-        <input type="text"  placeholder="Search courses..." />
+      <input
+        type="text"
+        placeholder="Search by course or topic..."
+        [(ngModel)]="searchTerm"
+        (input)="onSearchInput(searchTerm)"
+      />
+      <button *ngIf="searchTerm" class="btn-clear" (click)="clearSearch()">
+        <i class="fa-solid fa-times"></i>
+      </button>
     </div>
   </div>
-  <app-course-card/>
 
- </div>
+  <!-- loading indicator -->
+  <div class="search-loading" *ngIf="isLoading">
+    <i class="fa-solid fa-spinner fa-spin"></i>
+  </div>
+
+  <app-course-card></app-course-card>
+
+  <!-- No courses message -->
+  <div class="no-courses" *ngIf="!isLoading && coursesCount === 0">
+    <div class="no-courses-content">
+      <i class="fa-solid fa-graduation-cap"></i>
+      <h3>No courses available</h3>
+      <p>Please check your connection or try logging in again.</p>
+    </div>
+  </div>
+
+  <!-- Pagination Controls -->
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button class="btn-prev" (click)="prevPage()" [disabled]="pageIndex === 1">
+      <i class="fa-solid fa-chevron-left"></i> Prev
+    </button>
+    <span class="page-info">Page {{ pageIndex }} / {{ totalPages }}</span>
+    <button class="btn-next" (click)="nextPage()" [disabled]="pageIndex === totalPages">
+      Next <i class="fa-solid fa-chevron-right"></i>
+    </button>
+  </div>
+</div>

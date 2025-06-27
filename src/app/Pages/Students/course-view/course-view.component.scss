@@ -36,7 +36,7 @@
     height: 180px;
     object-fit: cover;
     border-radius: 12px;
-    
+
     @media (max-width: 768px) {
       width: 100%;
       height: 200px;
@@ -198,33 +198,33 @@
   padding-top: 32px;
   margin-top: 32px;
 
-  .progress-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
     margin-bottom: 24px;
 
-    h3 {
-      margin: 0;
+  h3 {
+    margin: 0;
       color: #1f2937;
       font-size: 1.5rem;
       font-weight: 700;
-    }
+  }
 
-    .progress-actions {
-      display: flex;
+  .progress-actions {
+    display: flex;
       gap: 8px;
 
-      .action-btn {
+  .action-btn {
         width: 40px;
         height: 40px;
-        border: none;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
         
         &.notes-btn {
           background: #fef3c7;
@@ -247,44 +247,44 @@
         &.discussion-btn {
           background: #dcfce7;
           color: #16a34a;
-          
-          &:hover {
+
+    &:hover {
             background: #86efac;
           }
         }
-      }
     }
   }
+}
 
-  .progress-content {
-    .progress-stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+.progress-content {
+  .progress-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: 16px;
       margin-bottom: 24px;
 
-      .progress-stat {
-        text-align: center;
+    .progress-stat {
+      text-align: center;
         padding: 16px;
         background: #f9fafb;
         border-radius: 12px;
 
-        .stat-value {
-          font-size: 1.5rem;
-          font-weight: 700;
+      .stat-value {
+        font-size: 1.5rem;
+        font-weight: 700;
           margin-bottom: 4px;
-        }
+      }
 
-        .stat-label {
+      .stat-label {
           font-size: 0.75rem;
           color: #6b7280;
           text-transform: uppercase;
           letter-spacing: 0.05em;
-        }
       }
     }
+  }
 
-    .progress-bar-container {
+  .progress-bar-container {
       margin-bottom: 24px;
 
       .progress-text {
@@ -368,50 +368,50 @@
           border-radius: 16px;
           font-size: 0.75rem;
           font-weight: 600;
-        }
       }
     }
+  }
 
-    .progress-actions-main {
-      display: flex;
+  .progress-actions-main {
+    display: flex;
       gap: 12px;
-      flex-wrap: wrap;
+    flex-wrap: wrap;
 
-      button {
-        padding: 12px 24px;
-        border: none;
-        border-radius: 8px;
-        font-weight: 600;
+    button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
         display: flex;
         align-items: center;
         gap: 8px;
-        cursor: pointer;
-        transition: all 0.3s ease;
+      cursor: pointer;
+      transition: all 0.3s ease;
 
-        &.continue-btn {
+      &.continue-btn {
           background: linear-gradient(135deg, #10b981, #059669);
-          color: white;
+        color: white;
 
-          &:hover {
+        &:hover {
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
-          }
         }
+      }
 
-        &.completed-btn {
+      &.completed-btn {
           background: #d1fae5;
           color: #065f46;
-          cursor: not-allowed;
-        }
+        cursor: not-allowed;
+      }
 
-        &.certificate-btn {
+      &.certificate-btn {
           background: linear-gradient(135deg, #f59e0b, #d97706);
-          color: white;
+        color: white;
 
-          &:disabled {
+        &:disabled {
             background: #d1d5db;
             color: #9ca3af;
-            cursor: not-allowed;
+          cursor: not-allowed;
           }
 
           &:not(:disabled):hover {
@@ -473,49 +473,49 @@
   overflow: hidden;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 
-  .custom-tab-header {
-    display: flex;
+.custom-tab-header {
+  display: flex;
     background: #f9fafb;
     border-bottom: 1px solid #e5e7eb;
-    overflow-x: auto;
+  overflow-x: auto;
 
-    .tab-btn {
+  .tab-btn {
       flex: 1;
       min-width: 150px;
       padding: 16px 20px;
-      border: none;
+    border: none;
       background: transparent;
       color: #6b7280;
       font-weight: 500;
-      cursor: pointer;
+    cursor: pointer;
       transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
+    display: flex;
+    align-items: center;
       justify-content: center;
       gap: 8px;
-      white-space: nowrap;
+    white-space: nowrap;
 
-      &:hover {
+    &:hover {
         background: #f3f4f6;
         color: #374151;
-      }
+    }
 
-      &.active {
-        background: white;
+    &.active {
+      background: white;
         color: #2563eb;
         border-bottom: 2px solid #2563eb;
-      }
+    }
 
-      i {
+    i {
         font-size: 0.875rem;
-      }
     }
   }
+}
 
-  .tab-content {
-    .tab-panel {
+.tab-content {
+  .tab-panel {
       padding: 32px;
-      min-height: 400px;
+    min-height: 400px;
     }
   }
 }
@@ -545,15 +545,15 @@
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 24px;
 
-    .info-card {
+  .info-card {
       background: #f9fafb;
-      border-radius: 12px;
+    border-radius: 12px;
       padding: 24px;
       border: 1px solid #e5e7eb;
 
-      .info-header {
-        display: flex;
-        align-items: center;
+    .info-header {
+      display: flex;
+      align-items: center;
         gap: 8px;
         margin-bottom: 16px;
 
@@ -561,31 +561,31 @@
           margin: 0;
           color: #1f2937;
           font-size: 1.125rem;
-        }
+      }
 
         i {
           color: #6b7280;
-        }
       }
+    }
 
-      .info-content {
-        .info-item {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
+    .info-content {
+      .info-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
           padding: 8px 0;
           border-bottom: 1px solid #e5e7eb;
 
-          &:last-child {
-            border-bottom: none;
-          }
+        &:last-child {
+          border-bottom: none;
+        }
 
-          .label {
+        .label {
             color: #6b7280;
             font-size: 0.875rem;
-          }
+        }
 
-          .value {
+        .value {
             color: #1f2937;
             font-weight: 500;
             text-align: right;
@@ -634,7 +634,7 @@
   .course-view-container {
     padding: 16px;
   }
-  
+
   .course-header-card {
     padding: 24px;
   }
@@ -642,7 +642,7 @@
   .progress-stats {
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)) !important;
   }
-  
+
   .progress-cards {
     grid-template-columns: 1fr !important;
   }
@@ -657,7 +657,7 @@
   .progress-actions-main {
     flex-direction: column;
   }
-  
+
   .custom-tab-header {
     .tab-btn {
       min-width: 120px;
@@ -665,7 +665,7 @@
       font-size: 0.875rem;
     }
   }
-  
+
   .tab-content .tab-panel {
     padding: 20px;
   }

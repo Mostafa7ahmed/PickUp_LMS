@@ -3,6 +3,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { CourseDetailsService, CourseDetailsApi } from './course-details.service';
 
 // Interfaces
 interface CourseInstructor {
@@ -54,7 +56,7 @@ interface CoursePreview {
 @Component({
   selector: 'app-course-details-preview',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, HttpClientModule],
   templateUrl: './course-details-preview.component.html',
   styleUrls: ['./course-details-preview.component.scss']
 })
@@ -62,9 +64,11 @@ export class CourseDetailsPreviewComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private sanitizer = inject(DomSanitizer);
+  private detailsService = inject(CourseDetailsService);
 
   courseId: number = 0;
   course: CoursePreview | null = null;
+  apiData: CourseDetailsApi | null = null;
   isLoading = true;
   showVideo = false;
   safeVideoUrl: SafeResourceUrl | null = null;
@@ -80,98 +84,76 @@ export class CourseDetailsPreviewComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.courseId = +this.route.snapshot.paramMap.get('id')!;
+    const idFromRoute = this.route.snapshot.paramMap.get('id');
+    const idFromQuery = this.route.snapshot.queryParamMap.get('courseId');
+    this.courseId = +(idFromRoute ?? idFromQuery ?? 0);
+
     if (this.courseId) {
       this.loadCourseDetails();
+    } else {
+      // Invalid route: redirect to Discover Courses
+      this.router.navigate(['/Student/DiscoverCourses']);
     }
   }
 
   loadCourseDetails(): void {
-    // Simulate API call - replace with real service
-    setTimeout(() => {
-      this.course = this.getMockCourseData();
-      this.isLoading = false;
-      
-      if (this.course?.introVideoUrl) {
-        this.safeVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.course.introVideoUrl);
-      }
-    }, 1000);
+    this.detailsService.getCourseDetails(this.courseId).subscribe({
+      next: (api) => {
+        this.apiData = api;
+        this.course = this.transformApi(api);
+        if (this.course?.introVideoUrl) {
+          this.safeVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.course.introVideoUrl);
+        }
+      },
+      error: (err) => {
+        console.error('Failed to load course details', err);
+        this.isLoading = false;
+        alert('تعذر تحميل تفاصيل الكورس. الرجاء المحاولة مرة أخرى لاحقًا.');
+      },
+      complete: () => (this.isLoading = false),
+    });
   }
 
-  getMockCourseData(): CoursePreview {
+  private transformApi(api: CourseDetailsApi): CoursePreview {
     return {
-      id: this.courseId,
-      title: 'Complete Web Development Bootcamp',
-      description: 'Master modern web development with this comprehensive course covering HTML, CSS, JavaScript, React, Node.js, and more. Build real projects and launch your career as a web developer.',
-      imageUrl: '/assets/Images/Course/Image+Background.png',
-      introVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-      price: 199,
-      originalPrice: 299,
-      discount: 33,
-      rating: 4.7,
-      totalRatings: 2856,
-      totalStudents: 12450,
-      duration: '42 hours',
+      id: api.id,
+      title: api.description?.slice(0, 60) ?? 'Course',
+      description: api.description,
+      imageUrl: api.photo,
+      introVideoUrl: api.introductionVideo,
+      price: 0,
+      rating: api.rating,
+      totalRatings: api.ratings?.length ?? 0,
+      totalStudents: api.enrolledCount,
+      duration: '0h',
       level: 'Beginner',
       language: 'Arabic',
-      lastUpdated: new Date('2024-03-01'),
-      totalLessons: 156,
-      certificate: true,
-      isFree: false,
+      lastUpdated: new Date(api.updatedOn),
+      totalLessons: 0,
+      certificate: false,
+      isFree: true,
       isEnrolled: false,
-      tags: ['Web Development', 'JavaScript', 'React', 'Node.js', 'HTML', 'CSS'],
-      whatYouWillLearn: [
-        'Build responsive websites from scratch',
-        'Master JavaScript ES6+ features',
-        'Create dynamic web applications with React',
-        'Develop backend APIs with Node.js and Express',
-        'Work with databases (MongoDB, SQL)',
-        'Deploy applications to production',
-        'Implement authentication and security',
-        'Use modern development tools and workflows'
-      ],
-      requirements: [
-        'Basic computer skills',
-        'No prior programming experience needed',
-        'Access to a computer with internet connection',
-        'Willingness to learn and practice'
-      ],
+      tags: [],
+      whatYouWillLearn: [],
+      requirements: [],
       instructor: {
-        id: 1,
-        name: 'أحمد محمد',
-        bio: 'Senior Full Stack Developer with 8+ years of experience. Former software engineer at Google and Microsoft.',
-        avatar: '/assets/Images/CardProfile.png',
-        rating: 4.8,
-        totalStudents: 25680,
-        experience: '8+ years'
+        id: api.instructor.id,
+        name: api.instructor.name,
+        bio: api.instructor.bio,
+        avatar: api.instructor.photo,
+        rating: api.instructor.rating,
+        totalStudents: api.enrolledCount,
+        experience: ''
       },
-      reviews: [
-        {
-          id: 1,
-          studentName: 'سارة أحمد',
-          studentAvatar: '/assets/Images/CardProfile.png',
-          rating: 5,
-          comment: 'كورس ممتاز جداً! شرح واضح ومفصل. استفدت كثيراً من المشاريع العملية.',
-          date: new Date('2024-02-15')
-        },
-        {
-          id: 2,
-          studentName: 'محمد علي',
-          studentAvatar: '/assets/Images/CardProfile.png',
-          rating: 4,
-          comment: 'المحتوى رائع والمدرب محترف. أنصح به بشدة للمبتدئين.',
-          date: new Date('2024-02-10')
-        },
-        {
-          id: 3,
-          studentName: 'فاطمة حسن',
-          studentAvatar: '/assets/Images/CardProfile.png',
-          rating: 5,
-          comment: 'أفضل كورس تعلمته في البرمجة. المشاريع العملية مفيدة جداً.',
-          date: new Date('2024-02-05')
-        }
-      ]
-    };
+      reviews: api.ratings.map(r=>({
+        id: r.id,
+        studentName: r.student.name,
+        studentAvatar: r.student.photo,
+        rating: r.value,
+        comment: r.note,
+        date: new Date(r.createdOn)
+      }))
+    } as CoursePreview;
   }
 
   // Methods
@@ -265,5 +247,10 @@ export class CourseDetailsPreviewComponent implements OnInit {
       alert('تم إرسال التقييم بنجاح');
       this.newReview = { rating: 5, comment: '' };
     }
+  }
+
+  openEnrollPopup(): void {
+    if (!this.course) return;
+    this.router.navigate([{ outlets: { dialog: ['enroll-popup', this.course.id] } }], { relativeTo: this.route });
   }
 } 

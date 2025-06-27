@@ -1,84 +1,83 @@
+<!-- Courses Grid -->
+<div class="courses-grid">
+  <div class="course-card" *ngFor="let course of courses">
+    <div class="course-image">
+      <img
+        [src]="course.image || '/Images/Course/Image+Background.png'"
+        [alt]="course.title"
+        (error)="onImageError($event)"
+      />
 
-
-  <!-- Courses Grid -->
-  <div class="courses-grid">
-    <div class="course-card" *ngFor="let course of courses" (click)="viewCourseDetails(course.id)">
-      <div class="course-image">
-        <img
-          [src]="course.image"
-          [alt]="course.title"
-          onerror="this.src='Images/Course/Image+Background.png'"
-        />
-
-        <div class="category-badge">{{ course.category }}</div>
-            <div *ngIf="course.discount" class="discount-badge">
-              {{ course.discount }}% OFF
-            </div>
-        
+      <!-- Topic Badge -->
+      <div class="topic-badge">{{ course.category }}</div>
+      
+      <!-- Discount Badge -->
+      <div *ngIf="course.discount > 0" class="discount-badge">
+        {{ course.discount }}% OFF
       </div>
+    </div>
 
-      <div class="course-content">
-        <h3 class="course-title">{{ course.title }}</h3>
-        <div class="instructor-info">
-                <div class="instructor-avatar" [style.background-image]="'url(' + course.instructorPhoto + ')'">
-                  <!-- Fallback -->
-                  <i *ngIf="!course.instructorPhoto" class="fa-solid fa-user"></i>
-                </div>
-                <span class="instructor-name">{{ course.instructor }}</span>
-              </div>
-        <p class="course-description">{{ course.description }}</p>
-
-        <div class="course-stats">
-          <div class="stat">
-            <i class="fa-solid fa-play-circle"></i>
-            <span
-              >{{
-                course.totalLessons 
-              }}
-              lessons</span
-            >
-          </div>
-          <div class="stat">
-            <i class="fa-solid fa-clock"></i>
-            <span>{{ course.duration }}</span>
-          </div>
-          <div class="stat">
-            <i class="fa-solid fa-star"></i>
-            <span>{{ course.rating }}</span>
-          </div>
+    <div class="course-content">
+      <!-- Course Title -->
+      <h3 class="course-title">{{ course.title || 'Untitled Course' }}</h3>
+      
+      <!-- Course Description -->
+      <p class="course-description">
+        {{ (course.description || 'No description available') | slice:0:100 }}{{ course.description && course.description.length > 100 ? '...' : '' }}
+      </p>
+      
+      <!-- Instructor Info -->
+      <div class="instructor-info">
+        <div class="instructor-avatar" [style.background-image]="'url(' + course.instructorPhoto + ')'">
+          <i *ngIf="!course.instructorPhoto" class="fa-solid fa-user"></i>
         </div>
-
-
-
-          <div class="course-footer">
-              <div class="price-section">
-                <div *ngIf="course.originalPrice && course.discount" class="original-price">
-                  ${{ formatPrice(course.originalPrice) }}
-                </div>
-                <div class="current-price">
-                  ${{ formatPrice(course.price) }}
-                </div>
-              </div>
-
-              <div class="action-buttons">
-                <button 
-                  class="btn-enroll"
-                  (click)="enrollCourse(course.id); $event.stopPropagation()"
-                >
-                  <i class="fa-solid fa-graduation-cap me-1"></i>
-                  Enroll Now
-                </button>
-                
-     
-
-                <button 
-                  class="btn-details"
-                  (click)="viewCourseDetails(course.id); $event.stopPropagation()"
-                >
-                  <i class="fa-solid fa-info-circle"></i>
-                </button>
-              </div>
-            </div>
+        <span class="instructor-name">{{ course.instructor || 'Unknown Instructor' }}</span>
+      </div>
+      
+      <!-- Course Stats -->
+      <div class="course-stats">
+        <div class="stat">
+          <i class="fa-solid fa-video"></i>
+          <span>{{ course.totalLessons }} lessons</span>
+        </div>
+        <div class="stat">
+          <i class="fa-solid fa-clock"></i>
+          <span>{{ course.duration }}</span>
+        </div>
+        <div class="stat">
+          <i class="fa-solid fa-star" [class.filled]="course.rating > 0"></i>
+          <span>{{ course.rating > 0 ? course.rating.toFixed(1) : 'No rating' }}</span>
+        </div>
+      </div>
+      
+      <!-- Price Section -->
+      <div class="price-section">
+        <div *ngIf="course.originalPrice && course.discount > 0" class="original-price">
+          ${{ formatPrice(course.originalPrice) }}
+        </div>
+        <div class="current-price">
+          ${{ formatPrice(course.price) }}
+        </div>
+      </div>
+      
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button 
+          class="btn-enroll"
+          (click)="enrollCourse(course.id)"
+        >
+          <i class="fa-solid fa-graduation-cap"></i>
+          Enroll Now
+        </button>
+        
+        <button 
+          class="btn-details"
+          (click)="viewCourseDetails(course.id)"
+          title="View Details"
+        >
+          <i class="fa-solid fa-eye"></i>
+        </button>
       </div>
     </div>
   </div>
+</div>

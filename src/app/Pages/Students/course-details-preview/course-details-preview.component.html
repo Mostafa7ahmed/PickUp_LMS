@@ -294,7 +294,7 @@
         <div class="action-buttons">
           <button 
             class="enroll-btn" 
-            (click)="enrollInCourse()"
+            (click)="openEnrollPopup()"
             *ngIf="!course.isEnrolled">
             <i class="fas fa-shopping-cart"></i>
             {{ course.isFree ? 'التسجيل المجاني' : 'التسجيل في الكورس' }}

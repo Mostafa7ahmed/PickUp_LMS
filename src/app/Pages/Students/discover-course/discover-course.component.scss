@@ -103,3 +103,157 @@
       font-size: 14px;
     }
   }
+
+.discover-page {
+  margin-top: 1rem;
+
+  .header-area {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .page-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #1f2937;
+    display: flex;
+    align-items: center;
+
+    i {
+      color: #10b981;
+    }
+  }
+}
+
+/* Grid overrides for course cards if needed */
+app-course-card {
+  display: block;
+  margin-top: 1rem;
+}
+
+.pagination {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  button {
+    padding: 0.5rem 1rem;
+    border: 1px solid #d1d5db;
+    background: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    i {
+      color: #10b981;
+    }
+  }
+
+  .page-info {
+    font-weight: 500;
+    color: #374151;
+  }
+}
+
+.search-wrapper {
+  flex: 1;
+  max-width: 400px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+
+  i {
+    position: absolute;
+    left: 12px;
+    color: #9ca3af;
+  }
+
+  input {
+    padding: 0.5rem 0.75rem 0.5rem 2.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    min-width: 250px;
+    outline: none;
+    transition: border-color 0.2s;
+
+    &:focus {
+      border-color: #10b981;
+    }
+  }
+
+  .btn-clear {
+    position: absolute;
+    right: 12px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    i {
+      color: #6b7280;
+      font-size: 1rem;
+    }
+  }
+}
+
+.search-loading {
+  margin-top: 0.5rem;
+  text-align: center;
+  i {
+    color: #10b981;
+    font-size: 1.25rem;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .discover-page {
+    .header-area {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .search-wrapper {
+      width: 100%;
+      max-width: none;
+    }
+  }
+}
+
+.no-courses {
+  text-align: center;
+  padding: 3rem 1rem;
+  
+  .no-courses-content {
+    max-width: 400px;
+    margin: 0 auto;
+    
+    i {
+      font-size: 4rem;
+      color: #9ca3af;
+      margin-bottom: 1rem;
+    }
+    
+    h3 {
+      font-size: 1.5rem;
+      color: #374151;
+      margin-bottom: 0.5rem;
+    }
+    
+    p {
+      color: #6b7280;
+      font-size: 1rem;
+    }
+  }
+}
