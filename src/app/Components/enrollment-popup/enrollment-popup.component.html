@@ -19,7 +19,8 @@
       <div class="course-details">
         <h4 class="course-title">{{ course.name }}</h4>
         <div class="instructor-info">
-          <i class="fa-solid fa-user"></i>
+        <img [src]="course.instructor.photo " class="rounded-circle" width="30" height="30"> 
+
           <span>{{ course.instructor.name }}</span>
         </div>
       </div>
@@ -56,19 +57,9 @@
             <span>Payment: {{ finalPrice | number:'1.2-2' }} {{ course.currency }} processed successfully</span>
           </div>
           }
-          <div class="detail-item">
-            <i class="fa-solid fa-graduation-cap"></i>
-            <span>Course access has been granted</span>
-          </div>
-          <div class="detail-item">
-            <i class="fa-solid fa-clock"></i>
-            <span>You can start learning immediately</span>
-          </div>
+ 
         </div>
-        <div class="auto-close-notice">
-          <i class="fa-solid fa-info-circle"></i>
-          <span>This popup will close automatically in a few seconds...</span>
-        </div>
+
       </div>
     </div>
     }
@@ -77,30 +68,7 @@
     @if(!isLoading) {
     <div class="content-wrapper">
       <!-- Section 1: Course Pricing -->
-      <div class="section pricing-section">
-        <div class="section-header">
-          <div class="section-icon">
-            <i class="fa-solid fa-tag"></i>
-          </div>
-          <h5>Course Pricing</h5>
-        </div>
-        <div class="pricing-details">
-          <div class="price-row">
-            <span class="label">Original Price:</span>
-            <span class="price">{{ course.originalPrice | number:'1.2-2' }} {{ course.currency }}</span>
-          </div>
-          @if(discountAmount > 0) {
-          <div class="price-row discount">
-            <span class="label">Discount (-{{ getDiscountPercentage() }}%):</span>
-            <span class="discount-amount">-{{ discountAmount | number:'1.2-2' }} {{ course.currency }}</span>
-          </div>
-          }
-          <div class="price-row total">
-            <span class="label">Total Amount:</span>
-            <span class="final-price">{{ finalPrice | number:'1.2-2' }} {{ course.currency }}</span>
-          </div>
-        </div>
-      </div>
+
 
       <!-- Section 2: Wallet Balance -->
       <div class="section wallet-section">
@@ -136,56 +104,37 @@
           </div>
           } @else {
           <div class="status-message free">
-            <i class="fa-solid fa-gift"></i>
+           <span class="me-2"> 🎁</span>
             <span>This course is free!</span>
           </div>
           }
         </div>
       </div>
-
-      <!-- Section 3: Coupons -->
-      <div class="section coupons-section">
+            <div class="section pricing-section">
         <div class="section-header">
-          <div class="section-icon coupon-icon">
-            <i class="fa-solid fa-ticket"></i>
+          <div class="section-icon">
+            <i class="fa-solid fa-tag"></i>
           </div>
-          <h5>Apply Coupon</h5>
+          <h5>Course Pricing</h5>
         </div>
-        <div class="coupon-content">
-          @if(coupons.length > 0) {
-          <div class="coupon-selection">
-            <select 
-              class="coupon-select" 
-              (change)="onCouponSelect($event)"
-              [value]="selectedCouponCode"
-            >
-              <option value="">Select a coupon (optional)</option>
-              @for(coupon of coupons; track coupon.id) {
-              <option 
-                [value]="coupon.code"
-                [disabled]="!isValidCoupon(coupon)"
-              >
-                {{ coupon.code }} - 
-                @if(coupon.discountType === 0) {
-                <span>{{ coupon.discountValue }}% OFF</span>
-                } @else {
-                <span>{{ coupon.discountValue }} {{ course.currency }} OFF</span>
-                }
-                @if(!isValidCoupon(coupon)) {
-                <span class="expired">(Expired/Invalid)</span>
-                }
-              </option>
-              }
-            </select>
+        <div class="pricing-details">
+          <div class="price-row">
+            <span class="label">Original Price:</span>
+            <span class="price">{{ course.originalPrice | number:'1.2-2' }} {{ course.currency }}</span>
           </div>
-          } @else {
-          <div class="no-coupons">
-            <i class="fa-solid fa-info-circle"></i>
-            <span>No coupons available</span>
+          @if(discountAmount > 0) {
+          <div class="price-row discount">
+            <span class="label">Discount (-{{ getDiscountPercentage() }}%):</span>
+            <span class="discount-amount">-{{ discountAmount | number:'1.2-2' }} {{ course.currency }}</span>
           </div>
           }
+          <div class="price-row total">
+            <span class="label">Total Amount:</span>
+            <span class="final-price">{{ finalPrice | number:'1.2-2' }} {{ course.currency }}</span>
+          </div>
         </div>
       </div>
+
 
       <!-- Error Message -->
       @if(errorMessage) {
@@ -202,14 +151,7 @@
     <!-- Footer Actions -->
     @if(!isLoading && !showSuccessMessage) {
     <div class="popup-footer">
-      <button 
-        class="btn btn-secondary" 
-        (click)="onClose()"
-        [disabled]="isEnrolling"
-      >
-        <i class="fa-solid fa-times"></i>
-        Cancel
-      </button>
+    
       <button 
         class="btn btn-primary" 
         (click)="enrollInCourse()"

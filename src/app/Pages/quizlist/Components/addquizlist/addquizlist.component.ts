@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { TopPopComponent } from "../../../../Components/top-pop/top-pop.component";
 import { CommonModule } from '@angular/common';
 import { TextHeaderComponent } from "../../../Courses/Components/text-header/text-header.component";
@@ -7,6 +7,8 @@ import { environment } from '../../../../Environments/environment';
 import { SplicTextPipe } from '../../../Courses/Core/Pipes/splic-text.pipe';
 import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose';
 import { ListCourseService } from '../../../Courses/Core/service/list-course.service';
+import { ILessonList } from '../../../lesson/Core/Interface/ilesson-list';
+import { ListLessonService } from '../../../lesson/Core/Services/list-lesson.service';
 import { Select } from 'primeng/select';
 import { FormArray, FormControl, FormGroup, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -14,6 +16,14 @@ import { TrueFalseComponent } from "../true-false/true-false.component";
 import { ShortAnswerComponent } from "../short-answer/short-answer.component";
 import { MultipleChoiceComponent } from "../multiple-choice/multiple-choice.component";
 import { QuizService } from '../../Core/services/quiz.service';
+import { QuizApiService } from '../../Core/services/quiz-api.service';
+import {
+  ICompleteQuizCreationRequest,
+  QuizDurationType,
+  IQuizCreationProgress,
+  QuizDifficulty
+} from  './../../Core/Interface/iquiz';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-addquizlist',
@@ -22,13 +32,21 @@ import { QuizService } from '../../Core/services/quiz.service';
   templateUrl: './addquizlist.component.html',
   styleUrl: './addquizlist.component.scss'
 })
-export class AddquizlistComponent implements OnInit {
+export class AddquizlistComponent implements OnInit, OnDestroy {
   paginationCoursesResponse: IPaginationResponse<ListCourse> = {} as IPaginationResponse<ListCourse>;
   private router = inject(Router);
   private quizService = inject(QuizService);
+  private quizApiService = inject(QuizApiService);
+  private _paginateCoursesService = inject(ListCourseService);
+  private _listLessonService = inject(ListLessonService);
+
   showFirstPopup = true;
   showSecondPopup = false;
-  private _paginateCoursesService = inject(ListCourseService);
+
+  // API integration properties
+  isCreatingQuiz = false;
+  creationProgress: IQuizCreationProgress = { step: 'quiz' };
+  private progressSubscription?: Subscription;
 value = 0;
 changeValue(val: number) {
   this.value = val;
@@ -46,10 +64,11 @@ changeValue(val: number) {
   quizDuration = 30;
   quizDifficulty: 'easy' | 'medium' | 'hard' = 'medium';
 
-  // Lesson selection (placeholder for future implementation)
-  selectedLesson: any = null;
-  showDropdownLesson = false;
-  lessons: any[] = [];
+  // Lesson selection with checkboxes
+  lessons: ILessonList[] = [];
+  selectedLessons: ILessonList[] = [];
+  isLoadingLessons = false;
+  showLessonSelection = false;
   discountTypes: any[] = [
     { label: 'Hours', value: 1 },
     { label: 'Minutes', value: 0 }
@@ -65,39 +84,65 @@ changeValue(val: number) {
   selectCourse(course: ListCourse) {
     this.selectedCourse = course;
     this.showDropdownCourse = false;
+    this.selectedLessons = []; // Reset selected lessons when course changes
 
-    // Load lessons for selected course (placeholder)
+    // Load lessons for selected course
     this.loadLessonsForCourse(course.id);
   }
 
-  // Lesson selection methods
-  toggleDropdownLesson() {
-    this.showDropdownLesson = !this.showDropdownLesson;
+  // Lesson selection methods with checkboxes
+  toggleLessonSelection() {
+    this.showLessonSelection = !this.showLessonSelection;
   }
 
-  removeLesson() {
-    this.selectedLesson = null;
-    this.showDropdownLesson = false;
+  // Toggle lesson selection (checkbox behavior)
+  toggleLessonCheckbox(lesson: ILessonList) {
+    const index = this.selectedLessons.findIndex(l => l.id === lesson.id);
+    if (index > -1) {
+      // Remove lesson if already selected
+      this.selectedLessons.splice(index, 1);
+    } else {
+      // Add lesson if not selected
+      this.selectedLessons.push(lesson);
+    }
   }
 
-  selectLesson(lesson: any) {
-    this.selectedLesson = lesson;
-    this.showDropdownLesson = false;
+  // Check if lesson is selected
+  isLessonSelected(lesson: ILessonList): boolean {
+    return this.selectedLessons.some(l => l.id === lesson.id);
   }
 
-  // Load lessons for course (placeholder - replace with actual API call)
+  // Remove all selected lessons
+  clearSelectedLessons() {
+    this.selectedLessons = [];
+  }
+
+  // Remove specific lesson from selection
+  removeSelectedLesson(lesson: ILessonList) {
+    const index = this.selectedLessons.findIndex(l => l.id === lesson.id);
+    if (index > -1) {
+      this.selectedLessons.splice(index, 1);
+    }
+  }
+
+  // Load lessons for course using actual API
   loadLessonsForCourse(courseId: number) {
-    // TODO: Replace with actual API call using courseId
     console.log('Loading lessons for course:', courseId);
+    this.isLoadingLessons = true;
+    this.lessons = [];
 
-    // Placeholder lessons data
-    this.lessons = [
-      { id: 1, name: 'Introduction to Programming', duration: '45 min' },
-      { id: 2, name: 'Variables and Data Types', duration: '30 min' },
-      { id: 3, name: 'Control Structures', duration: '60 min' },
-      { id: 4, name: 'Functions and Methods', duration: '50 min' },
-      { id: 5, name: 'Object-Oriented Programming', duration: '75 min' }
-    ];
+    this._listLessonService.getLessons(courseId).subscribe({
+      next: (response) => {
+        this.lessons = response.result || [];
+        this.isLoadingLessons = false;
+        console.log('✅ Lessons loaded:', this.lessons);
+      },
+      error: (error) => {
+        console.error('❌ Error loading lessons:', error);
+        this.isLoadingLessons = false;
+        this.lessons = [];
+      }
+    });
   }
   getCourse() {
 
@@ -236,6 +281,44 @@ removeMultipleChoiceQuestion(index: number) {
 
   ngOnInit(): void {
     this.getCourse();
+
+    // Subscribe to quiz creation progress
+    this.progressSubscription = this.quizApiService.progress$.subscribe(
+      progress => {
+        this.creationProgress = progress;
+        console.log('📊 Quiz creation progress:', progress);
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    if (this.progressSubscription) {
+      this.progressSubscription.unsubscribe();
+    }
+    this.quizApiService.resetProgress();
+  }
+
+  // Helper method to get total questions count
+  getTotalQuestionsCount(): number {
+    return this.trueFalseQuestions.length +
+           this.shortAnswerQuestions.length +
+           this.multipleChoiceQuestions.length;
+  }
+
+  // Helper method to check if quiz can be saved
+  canSaveQuiz(): boolean {
+    return !this.isCreatingQuiz &&
+           this.selectedCourse !== null &&
+           this.quizTitle.trim() !== '' &&
+           this.getTotalQuestionsCount() > 0;
+  }
+
+  // Helper method to get progress percentage
+  getProgressPercentage(): number {
+    if (!this.creationProgress.totalQuestions || !this.creationProgress.completedQuestions) {
+      return 0;
+    }
+    return Math.round((this.creationProgress.completedQuestions / this.creationProgress.totalQuestions) * 100);
   }
 
   // Get current tab name for display
@@ -255,6 +338,16 @@ removeMultipleChoiceQuestion(index: number) {
       case 1: return this.shortAnswerQuestions.length;
       case 2: return this.multipleChoiceQuestions.length;
       default: return 0;
+    }
+  }
+
+  // Convert string difficulty to enum
+  private getDifficultyEnum(difficulty: string): QuizDifficulty {
+    switch(difficulty.toLowerCase()) {
+      case 'easy': return QuizDifficulty.Easy;
+      case 'hard': return QuizDifficulty.Hard;
+      case 'medium':
+      default: return QuizDifficulty.Medium;
     }
   }
 
@@ -317,70 +410,90 @@ removeMultipleChoiceQuestion(index: number) {
     return questions;
   }
 
-  // Method to save all questions and create quiz
+  // Method to save all questions and create quiz using API
   saveQuestions() {
     if (!this.selectedCourse) {
+      alert('Please select a course');
       return;
     }
 
     if (!this.quizTitle.trim()) {
+      alert('Please enter a quiz title');
       return;
     }
 
     const questions = this.prepareQuestionData();
     console.log('📝 Questions to save:', questions);
-    console.log('📊 True/False questions:', this.trueFalseQuestions.value);
-    console.log('📊 Short Answer questions:', this.shortAnswerQuestions.value);
-    console.log('📊 Multiple Choice questions:', this.multipleChoiceQuestions.value);
 
     if (questions.length === 0) {
+      alert('Please add at least one question');
       return;
     }
 
     // Validate questions
     const invalidQuestions = questions.filter(q => !q.text || q.text.trim() === '');
     if (invalidQuestions.length > 0) {
+      alert('Please fill in all question texts');
       return;
     }
 
     // Validate multiple choice questions
     const mcQuestions = questions.filter(q => q.multipleChoise);
     for (let mcq of mcQuestions) {
-      // Check if has at least 2 choices
       const validChoices = mcq.multipleChoise.filter((choice: any) => choice.answer && choice.answer.trim());
       if (validChoices.length < 2) {
+        alert('Multiple choice questions must have at least 2 choices');
         return;
       }
 
-      // Check if has correct answer
       const hasCorrectAnswer = mcq.multipleChoise.some((choice: any) => choice.correct);
       if (!hasCorrectAnswer) {
+        alert('Multiple choice questions must have at least one correct answer');
         return;
       }
     }
 
-    // Create new quiz with questions
-    const newQuiz = this.quizService.addQuizWithQuestions({
-      title: this.quizTitle.trim(),
-      description: this.quizDescription.trim() || `Quiz for ${this.selectedCourse.name}`,
-      questionsCount: questions.length,
-      duration: this.quizDuration,
-      difficulty: this.quizDifficulty,
-      status: 'draft' as const,
-      tags: [this.selectedCourse.name, 'Course Quiz'],
+    // Start quiz creation process
+    this.isCreatingQuiz = true;
+    this.quizApiService.resetProgress();
+
+    // Convert form questions to API format
+    const apiQuestions = this.quizApiService.convertFormQuestionsToApiFormat(
+      questions,
+      this.selectedCourse.id
+    );
+
+    // Prepare complete quiz creation request
+    const quizRequest: ICompleteQuizCreationRequest = {
       courseId: this.selectedCourse.id,
-      courseName: this.selectedCourse.name,
-      attempts: 0,
-      createdDate: new Date().toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      })
-    }, questions);
+      lessonIds: this.selectedLessons.map(lesson => lesson.id),
+      name: this.quizTitle.trim(),
+      description: this.quizDescription.trim() || `Quiz for ${this.selectedCourse.name}`,
+      limited: true, // Set based on your requirements
+      quizDuration: {
+        duration: this.quizDuration,
+        type: this.selectedDiscountType === 1 ? QuizDurationType.Hours : QuizDurationType.minute
+      },
+      difficulty: this.getDifficultyEnum(this.quizDifficulty),
+      questions: apiQuestions
+    };
 
-    console.log('✅ Quiz created successfully!', newQuiz);
+    console.log('🚀 Creating quiz with API:', quizRequest);
 
-    this.closePopup();
+    // Call API to create complete quiz
+    this.quizApiService.createCompleteQuiz(quizRequest).subscribe({
+      next: (response) => {
+        this.isCreatingQuiz = false;
+        console.log('✅ Quiz created successfully via API!', response);
+        alert('Quiz created successfully!');
+        this.closePopup();
+      },
+      error: (error) => {
+        this.isCreatingQuiz = false;
+        console.error('❌ Error creating quiz via API:', error);
+        alert('Failed to create quiz: ' + (error.message || 'Unknown error'));
+      }
+    });
   }
 
 

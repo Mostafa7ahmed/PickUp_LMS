@@ -8,6 +8,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { GetallnotifactionService } from './core/service/getallnotifaction.service';
 import { Notification } from '../../Students/navbar-student/core/interface/notification';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../Environments/environment';
 
 @Component({
   selector: 'app-navbarinstructor',
@@ -25,6 +26,7 @@ export class NavbarinstructorComponent {
   private _getallnotifactionService = inject(GetallnotifactionService);
   constructor(private eRef: ElementRef, private translate: TranslateService) {}
   dataUser: Decode = {} as Decode;
+  Imageurl:string = environment.baseUrlFiles + this.dataUser.Photo;
 
   openPopup() {
     this.toggleAccountMenu();

@@ -19,8 +19,8 @@
       </div>
       <div class="course-details">
         <h3>{{ course.name }}</h3>
-        <div class="course-meta">
-          <p class="instructor">{{ course.instructor.name }}</p>
+        <div class="course-meta d-flex align-items-center gap-3 ">
+          <p class="instructor m-0">{{ course.instructor.name }}</p>
           <div class="course-info">
             <span class="lessons-count">
               <i class="fas fa-play-circle me-1"></i>
@@ -50,7 +50,7 @@
       </div>
     </div>
     } @empty {
-    <div class="empty-state d-flex justify-content-center align-items-center flex-column py-4">
+    <div class="empty-state d-flex justify-content-center align-items-center flex-column py-4 mt-4">
       <img src="Images/Course/message_empty.svg" alt="" width="80">
       <p class="text-muted mb-0">No enrolled courses yet</p>
       <a class="btn btn-primary mt-2" routerLink="/Student/DiscoverCourses">Discover Courses</a>

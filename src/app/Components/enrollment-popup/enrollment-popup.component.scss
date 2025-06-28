@@ -581,13 +581,12 @@
     }
     
     &.btn-primary {
-      background: linear-gradient(135deg, #3e98ff 0%, #2d87e5 100%);
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: #fff;
       
       &:hover:not(:disabled) {
-        background: linear-gradient(135deg, #2d87e5 0%, #1c6ed4 100%);
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(62, 152, 255, 0.3);
       }
     }
   }

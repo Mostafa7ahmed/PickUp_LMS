@@ -105,7 +105,7 @@
         <img [src]="course.instructor &&  course.instructor.photo ? baseurl + course.instructor.photo : 'https://i.pravatar.cc/40'" alt="avatar" class="avatar rounded-circle" width="40" />
           {{ course.instructor && course.instructor.name ? course.instructor.name : 'Unknown Instructor' }}
         </p>
-        <p class="course-description">{{ course.description || 'No description available.' }}</p>
+        <p class="course-description">          {{ (course.description || 'No description available.').length > 50 ? (course.description | slice:0:100) + '...' : (course.description || 'No description available.') }}</p>
 
         <div class="course-stats">
           <div class="stat">

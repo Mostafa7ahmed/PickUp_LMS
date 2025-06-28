@@ -8,6 +8,7 @@ import { environment } from '../../../../../Environments/environment';
 import { FormsModule } from '@angular/forms';
 import { EnrollmentPopupComponent, ICourseForEnrollment } from '../../../../../Components/enrollment-popup/enrollment-popup.component';
 import { SuccessPopupComponent, ISuccessData } from '../../../../../Components/success-popup/success-popup.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-course-card',
@@ -22,6 +23,7 @@ export class CourseCardComponent implements OnInit {
   
   dataDiscover: IPaginationResponse<IDicoverCourse> = {} as IPaginationResponse<IDicoverCourse>;
   private _DicoverCourseService = inject(DicoverCourseService);
+  private _route = inject(Router);
 
   // Enrollment popup state
   showEnrollmentPopup = false;
@@ -68,7 +70,6 @@ export class CourseCardComponent implements OnInit {
   onEnrollmentComplete(event: {success: boolean, courseData?: any}): void {
     if (event.success) {
       console.log('Enrollment successful!', event.courseData);
-      // Show success popup or notification
       this.displaySuccessPopup(event.courseData);
     }
   }
@@ -77,10 +78,8 @@ export class CourseCardComponent implements OnInit {
   displaySuccessPopup(courseData: any): void {
     const details = [
       courseData.isFree 
-        ? 'Free Course - No Payment Required'
+        ? 'Free Course 🎁'
         : `Payment: ${courseData.price} ${courseData.currency} processed successfully`,
-      'Course access has been granted',
-      'You can start learning immediately'
     ];
 
     this.successData = {
@@ -92,6 +91,8 @@ export class CourseCardComponent implements OnInit {
     };
 
     this.showSuccessPopup = true;
+    this._route.navigate(["Student/DiscoverCourses"])
+
   }
 
   // Handle popup close

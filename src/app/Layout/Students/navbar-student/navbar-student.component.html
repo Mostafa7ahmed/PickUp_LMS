@@ -97,8 +97,11 @@
             </div>
             <div class="line"></div>
             <div  (click)="toggleAccountMenu()" class="user-details cr position-relative d-flex justify-content-center gap-2 align-items-center">
-                <img src="https://s3.dinarcrm.com/sortech//fdcd55c7-71e3-45de-8660-7e16a3dbe0a2/Identity/d16fa148-7c55-4819-8ef4-da030a5688cc.png"
-                    class="rounded-2" width="30">
+              @if(dataUser.Photo) {
+                <img [src]="Imageurl + dataUser.Photo" class="rounded-2" width="30"> }
+                 @else {
+                <img src="Images/dr.jpeg" class="rounded-2" width="30">
+                }
                 <p class="m-0 p-0 fixed-width">{{dataUser.UserName}}</p>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <path d="M12 6.66602L8.70707 10.3405C8.31818 10.7745 7.68182 10.7745 7.29293 10.3405L4 6.66602"
@@ -111,8 +114,11 @@
                 </div>
                 <div class="dropdown-menu" [class.open]="isAccountMenuOpen">
                     <div class="dropdown-header gap-2">
-                        <img src="https://s3.dinarcrm.com/sortech//fdcd55c7-71e3-45de-8660-7e16a3dbe0a2/Identity/d16fa148-7c55-4819-8ef4-da030a5688cc.png"
-                        class="rounded-circle" width="40">
+                         @if(dataUser.Photo) {
+                <img [src]="Imageurl + dataUser.Photo" class="rounded-2" width="40"> }
+                 @else {
+                <img src="Images/dr.jpeg" class="rounded-2" width="40">
+                }
                         
                         <div class="account-info">
                         <p class="account-type">{{"PopupSetting.accountType" | translate }}</p>

@@ -8,6 +8,7 @@ import { EnrollmentService } from '../../Core/Services/enrollment.service';
 import { IWallet } from '../../Core/Interface/iwallet';
 import { ICoupon, IEnrollmentRequest, EnrollmentMethod, DiscountType } from '../../Core/Interface/ienrollment';
 import { TopPopComponent } from '../top-pop/top-pop.component';
+import { environment } from '../../Environments/environment';
 
 export interface ICourseForEnrollment {
   id: number;
@@ -34,7 +35,7 @@ export class EnrollmentPopupComponent implements OnInit, OnDestroy {
   @Input() isVisible: boolean = false;
   @Output() enrollmentComplete = new EventEmitter<{success: boolean, courseData?: any}>();
   @Output() closePopup = new EventEmitter<void>();
-
+  Imageurl:string = environment.baseUrlFiles 
   wallet: IWallet | null = null;
   coupons: ICoupon[] = [];
   selectedCoupon: ICoupon | null = null;

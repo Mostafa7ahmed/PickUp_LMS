@@ -14,6 +14,7 @@ import { ChangepasswordComponent } from './Pages/Auth/changepassword/changepassw
 import { instructorRoutes } from './routes/instructor.routes';
 import { studentRoutes } from './routes/student.routes';
 import { LandingpageComponent } from './Pages/landingpage/landingpage.component';
+import { TopicComponent } from './Pages/topic/topic.component';
 
 export const routes: Routes = [
 
@@ -30,6 +31,11 @@ export const routes: Routes = [
         title: "Login",
         canActivate: [isloginguardsGuard],
         component: LoginComponent
+    },
+        {
+        path: "trrrrr",
+        title: "trrrrr",
+        component: TopicComponent
     },
     {
         path: "startregister",

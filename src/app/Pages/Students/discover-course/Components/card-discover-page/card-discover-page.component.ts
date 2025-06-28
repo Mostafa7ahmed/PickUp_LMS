@@ -6,7 +6,7 @@ import { DicoverCourseService } from '../../service/dicover-course.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FilterCoursePipe } from './filter-course.pipe';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { EnrollmentPopupComponent, ICourseForEnrollment } from '../../../../../Components/enrollment-popup/enrollment-popup.component';
 import { SuccessPopupComponent, ISuccessData } from '../../../../../Components/success-popup/success-popup.component';
 
@@ -23,6 +23,7 @@ export class CardDiscoverPageComponent {
   dataDiscover: IPaginationResponse<IDicoverCourse> = {} as IPaginationResponse<IDicoverCourse>;
   searchTerm: string = '';
   private _DicoverCourseService = inject(DicoverCourseService);
+  private _route = inject(Router);
 
   // Enrollment popup state
   showEnrollmentPopup = false;
@@ -69,7 +70,6 @@ export class CardDiscoverPageComponent {
   onEnrollmentComplete(event: {success: boolean, courseData?: any}): void {
     if (event.success) {
       console.log('Enrollment successful!', event.courseData);
-      // Show success popup or notification
       this.displaySuccessPopup(event.courseData);
     }
   }
@@ -78,10 +78,8 @@ export class CardDiscoverPageComponent {
   displaySuccessPopup(courseData: any): void {
     const details = [
       courseData.isFree 
-        ? 'Free Course - No Payment Required'
+        ? 'Free Course - 🎁'
         : `Payment: ${courseData.price} ${courseData.currency} processed successfully`,
-      'Course access has been granted',
-      'You can start learning immediately'
     ];
 
     this.successData = {
@@ -93,6 +91,11 @@ export class CardDiscoverPageComponent {
     };
 
     this.showSuccessPopup = true;
+
+        this._route.navigate([{ outlets: { dialog: null } }]).then(() => {
+      this._route.navigate(["Student/myCourse"]);
+          });
+    console.log("first")
   }
 
   // Handle popup close

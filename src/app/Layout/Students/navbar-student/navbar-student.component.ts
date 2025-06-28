@@ -8,6 +8,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Notification } from './core/interface/notification';
 import { GetallnotifactionService } from './core/service/getallnotifaction.service';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../Environments/environment';
 
 @Component({
   selector: 'app-navbar-student',
@@ -28,6 +29,7 @@ export class NavbarStudentComponent {
   private router = inject(Router);
 
   dataUser: Decode = {} as Decode;
+  Imageurl:string = environment.baseUrlFiles 
 
   openPopup() {
     this.toggleAccountMenu();
@@ -51,7 +53,8 @@ export class NavbarStudentComponent {
   ngOnInit() {
 
     this.dataUser = this._LoginService.saveUserAuth();
-    this.notifications = this._getallnotifactionService.notifications
+    this.notifications = this._getallnotifactionService.notifications;
+    console.log(this.dataUser)
   }
 
   isAddMenuOpen = false;

@@ -85,7 +85,7 @@
                 [class.filled]="star <= courseDetailsdata.result.rating">
               </i>
             </div>
-            <span class="rating-text">{{ courseDetailsdata.result.rating }} ({{ courseDetailsdata.result.ratings?.length || 0 }} reviews)</span>
+            <span class="rating-text">{{ courseDetailsdata.result.rating }} ({{ courseDetailsdata.result.ratings.length || 0 }} reviews)</span>
           </div>
           
           <div class="enrollment-count">
@@ -369,7 +369,7 @@
                         [class.filled]="star <= courseDetailsdata.result.rating">
                       </i>
                     </div>
-                    <span class="total-ratings">{{ courseDetailsdata.result.ratings?.length || 0 }} reviews</span>
+                    <span class="total-ratings">{{ courseDetailsdata.result.ratings.length || 0 }} reviews</span>
                   </div>
                 </div>
               </div>

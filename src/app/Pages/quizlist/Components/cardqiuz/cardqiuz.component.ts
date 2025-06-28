@@ -257,22 +257,22 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
     this.isDeletePopupVisible = false;
     this.selectedDeleteQuiz = null;
   }
-  deleteTask(): void {
- 
-
-    if (!this.selectedDeleteQuiz?.creatorId) {
+  deleteQuizFun(): void {
+    if (!this.selectedDeleteQuiz?.id) {
       console.error('❌ No task selected for deletion');
       return;
     }
-    this._deleteQuizService.deleteQuiz(this.selectedDeleteQuiz.creatorId).subscribe({
+    this._deleteQuizService.deleteQuiz(this.selectedDeleteQuiz.id).subscribe({
       next: (response) => {
         if (response.success) {
           console.log('✅ Instructor task deleted successfully');
+          // Remove the deleted quiz from originalQuizzes
+          this.originalQuizzes = this.originalQuizzes.filter(q => q.id !== this.selectedDeleteQuiz?.id);
+          this.applySearchAndFilters();
           this.closeDeletePopup();
         } else {
           console.error('❌ Failed to delete instructor task:', response.message);
           alert('Failed to delete task: ' + response.message);
-     
         }
       },
       error: (error) => {
@@ -283,7 +283,7 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
   }
 
   openDeleteQuizPopup(quiz: IQuiz): void {
-    if (!quiz.creatorId) {
+    if (!quiz.id) {
       console.error('❌ Cannot delete task: Task ID is missing');
       return;
     }

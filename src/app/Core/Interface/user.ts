@@ -22,6 +22,7 @@ export interface validate {
     roles: string;
     UserType:userType;
     InstructorId:string;
+    Photo:string;
     Email:string;
     UserName:string ;
     PhoneNumber:string;
