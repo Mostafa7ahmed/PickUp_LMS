@@ -5,6 +5,7 @@ import { Decode } from '../../../Core/Interface/user';
 import { TranslationService } from '../../../Core/Services/translation.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { environment } from '../../../Environments/environment';
 
 @Component({
   selector: 'app-navbarinstructor',
@@ -20,8 +21,9 @@ export class NavbarinstructorComponent {
   private _LoginService = inject(LoginService);
   private _NzMessageService = inject(NzMessageService);
   private router = inject(Router);
-
+  
   dataUser: Decode = {} as Decode;
+  Imageurl:string = environment.baseUrlFiles + this.dataUser.photo;
 
   openPopup() {
     this.toggleAccountMenu();
