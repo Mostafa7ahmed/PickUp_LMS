@@ -10,7 +10,7 @@ import { PhrasesService } from './service/phrases.service';
 @Component({
   selector: 'app-homepage-student',
   standalone: true,
-  imports: [MyCoursesComponent, AssignmentsComponent, TodoComponent, ResourcesComponent, CourseCardComponent, DiscoverCardsComponent],
+  imports: [MyCoursesComponent, AssignmentsComponent, TodoComponent, ResourcesComponent, DiscoverCardsComponent],
   templateUrl: './homepage-student.component.html',
   styleUrl: './homepage-student.component.scss'
 })
