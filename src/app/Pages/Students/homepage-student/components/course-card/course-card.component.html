@@ -29,7 +29,7 @@
           <div class="instructor-avatar" [style.background-image]="course.instructor ? 'url(' + baseUrl + course.instructor.photo + ')' : ''">
             <i *ngIf="!course.instructor" class="fa-solid fa-user"></i>
           </div>
-          <span class="instructor-name">{{ course.instructor?.name || 'Unknown Instructor' }}</span>
+          <span class="instructor-name">{{ course.instructor  .name || 'Unknown Instructor' }}</span>
         </div>
         <p class="course-description">
           {{ (course.description || 'No description available.').length > 100 ? (course.description | slice:0:100) + '...' : (course.description || 'No description available.') }}
