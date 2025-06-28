@@ -1,14 +1,24 @@
 export interface ILessonRes {
-
   id: number
   instructorId: number
   name: string
+  fileUrls: string[]
+  files: File[]
   introductionVideoUrl: string
   description: string
   order: number
   createdOn: string
   videos: Video[]
   tags: Tag[]
+}
+
+export interface File {
+  id: number
+  url: string
+  name: string
+  type: number
+  size: number
+  extension: string
 }
 
 export interface Video {

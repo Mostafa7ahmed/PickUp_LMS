@@ -18,6 +18,20 @@ import { SelectonViewComponent } from "../selecton-view/selecton-view.component"
   styleUrl: './view-lesson.component.scss'
 })
 export class ViewLessonComponent implements OnInit, OnDestroy {
+  downloadFile(file: { url: string, name: string }): void {
+    // If the url is not absolute, prepend baseurl
+    let fileUrl = file.url;
+    if (fileUrl && !/^https?:\/\//.test(fileUrl)) {
+      fileUrl = this.baseurl + fileUrl;
+    }
+    const a = document.createElement('a');
+    a.href = fileUrl;
+    a.download = file.name;
+    a.target = '_blank';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
   constructor(private location: Location, private _ActivatedRoute: ActivatedRoute) {}
   private _GetOneLessonService = inject(GetOneLessonService)
   value: number = 0;
@@ -111,85 +125,7 @@ export class ViewLessonComponent implements OnInit, OnDestroy {
   goBackToCourse() {
     this.location.back();
   }
-  resources = [
-    {
-      title: 'Lesson Slides',
-      type: 'PDF',
-      size: '2.4 MB',
-      icon: 'fa-file-pdf',
-      color: '#F87171'
-    },
-    {
-      title: 'Exercise Worksheet',
-      type: 'XLSX',
-      size: '1.1 MB',
-      icon: 'fa-file-excel',
-      color: '#34D399'
-    },
-    {
-      title: 'Code Samples',
-      type: 'ZIP',
-      size: '3.7 MB',
-      icon: 'fa-file-archive',
-      color: '#60A5FA'
-    },
-    {
-      title: 'Project Brief',
-      type: 'DOCX',
-      size: '850 KB',
-      icon: 'fa-file-word',
-      color: '#4F46E5'
-    },
-    {
-      title: 'Extra Resources',
-      type: 'ZIP',
-      size: '5.1 MB',
-      icon: 'fa-file-archive',
-      color: '#60A5FA'
-    },
-    {
-      title: 'Final Quiz Answers',
-      type: 'PDF',
-      size: '1.3 MB',
-      icon: 'fa-file-pdf',
-      color: '#F87171'
-    },
-    {
-      title: 'Exercise Worksheet',
-      type: 'XLSX',
-      size: '1.1 MB',
-      icon: 'fa-file-excel',
-      color: '#34D399'
-    },
-    {
-      title: 'Code Samples',
-      type: 'ZIP',
-      size: '3.7 MB',
-      icon: 'fa-file-archive',
-      color: '#60A5FA'
-    },
-    {
-      title: 'Project Brief',
-      type: 'DOCX',
-      size: '850 KB',
-      icon: 'fa-file-word',
-      color: '#4F46E5'
-    },
-    {
-      title: 'Extra Resources',
-      type: 'ZIP',
-      size: '5.1 MB',
-      icon: 'fa-file-archive',
-      color: '#60A5FA'
-    },
-    {
-      title: 'Final Quiz Answers',
-      type: 'PDF',
-      size: '1.3 MB',
-      icon: 'fa-file-pdf',
-      color: '#F87171'
-    }
-  ];
+
 
 
 
