@@ -18,22 +18,7 @@
 
   <app-card-discover-page />
 
-  <!-- Example button to test enrollment popup -->
-  <button 
-    class="test-enrollment-btn" 
-    (click)="openEnrollmentPopup({
-      id: 1,
-      name: 'Sample Course for Testing',
-      price: 99.99,
-      discountPrice: 79.99,
-      photo: 'https://via.placeholder.com/300x200',
-      instructor: { name: 'John Doe', photo: 'https://via.placeholder.com/40' }
-    })"
-  >
-    Test Enrollment Popup
-  </button>
 
-  <!-- Enrollment Popup -->
   <app-enrollment-popup
     *ngIf="selectedCourseForEnrollment && showEnrollmentPopup"
     [course]="selectedCourseForEnrollment!"

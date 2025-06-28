@@ -22,22 +22,8 @@
           <div class="task-header d-flex align-items-center gap-2">
             <i [class]="getTaskTypeIcon(task.type)" [style.color]="getPriorityColor(task.priority)"></i>
             <span class="task-name" [class.completed]="task.completed">{{ task.name }}</span>
-            <span class="task-type badge badge-sm">{{ getTaskTypeLabel(task.type) }}</span>
           </div>
-          @if(task.description) {
-          <p class="task-description mb-0 text-muted">{{ task.description }}</p>
-          }
-          <div class="task-meta d-flex align-items-center gap-2 mt-1">
-            <span class="priority-badge" [style.background-color]="getPriorityColor(task.priority)">
-              {{ getPriorityLabel(task.priority) }}
-            </span>
-            @if(task.dueDate) {
-            <span class="due-date text-muted">
-              <i class="fas fa-calendar me-1"></i>
-              {{ task.dueDate | date:'MMM dd' }}
-            </span>
-            }
-          </div>
+   
         </div>
       </div>
       <button class="btnDelete" (click)="removeTask(task)">

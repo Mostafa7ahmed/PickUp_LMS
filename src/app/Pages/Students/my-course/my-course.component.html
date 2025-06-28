@@ -14,17 +14,7 @@
       </div>
     </div>
   </div>
-  <!-- Stats Cards -->
-   <!-- <app-widgetcourse-student></app-widgetcourse-student> -->
-  <!-- <app-widgetcourse-student
-    [showInfo]="showInfoCoupon"
-    [courses]="courses"
-    [completedCoursesCount]="completedCoursesCount"
-    [inProgressCoursesCount]="inProgressCoursesCount"
-    [averageProgress]="averageProgress"
-  ></app-widgetcourse-student> -->
 
-  <!-- Filters Section -->
   <div
     class="controls-section d-flex justify-content-between align-items-center mb-3 mt-2"
   >
@@ -102,7 +92,7 @@
       <div class="course-content">
         <h3 class="course-title">{{ course.name || 'Untitled Course' }}</h3>
         <p class="course-instructor">
-        <img [src]="course.instructor &&  course.instructor.photo ? baseurl + course.instructor.photo : 'https://i.pravatar.cc/40'" alt="avatar" class="avatar rounded-circle" width="40" />
+        <img [src]="course.instructor &&  course.instructor.photo ? baseurl + course.instructor.photo : 'https://i.pravatar.cc/40'" alt="avatar" class="avatar rounded-circle object-fit-cover" width="40" height="40" />
           {{ course.instructor && course.instructor.name ? course.instructor.name : 'Unknown Instructor' }}
         </p>
         <p class="course-description">          {{ (course.description || 'No description available.').length > 50 ? (course.description | slice:0:100) + '...' : (course.description || 'No description available.') }}</p>
