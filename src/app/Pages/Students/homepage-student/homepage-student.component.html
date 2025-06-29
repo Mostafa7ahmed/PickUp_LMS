@@ -11,39 +11,39 @@
       </div>
     </div>
     <div class="cardWidget d-flex justify-content-between gap-4 p-3">
-      <div class="cardinfo">
+      <div class="cardinfo animated-card">
         <div class="informationCard">
           <h5 class="title">Streak</h5>
-          <span class="number">20</span>
+          <span class="number animated-number" (click)="onNumberClick('streak')" title="Click to see new numbers!">{{streakCount}}</span>
         </div>
         <div class="iconCard">
           🔥
         </div>
       </div>
-      <div class="cardinfo">
+      <div class="cardinfo animated-card">
         <div class="informationCard">
           <h5 class="title">Active Courses</h5>
-          <span class="number">2,845</span>
+          <span class="number animated-number" (click)="refreshAnimations()" title="Click to refresh all numbers!">{{formatNumber(activeCoursesCount)}}</span>
         </div>
         <div class="iconCard iconCourse">
           <i class="fa-solid fa-person-chalkboard"></i>
         </div>
       </div>
 
-      <div class="cardinfo">
+      <div class="cardinfo animated-card">
         <div class="informationCard">
           <h5 class="title">Total Revenue</h5>
-          <span class="number">2,845 $</span>
+          <span class="number animated-number" (click)="onNumberClick('revenue')" title="Click for bounce effect!">{{formatNumber(totalRevenueCount)}} $</span>
         </div>
         <div class="iconCard iconMoney">
           <i class="fa-solid fa-money-bill"></i>
         </div>
       </div>
 
-      <div class="cardinfo">
+      <div class="cardinfo animated-card">
         <div class="informationCard">
           <h5 class="title">Average Rating</h5>
-          <span class="number">4.9</span>
+          <span class="number animated-number" (click)="onNumberClick('rating')" title="Click for animation!">{{averageRatingCount}}</span>
         </div>
         <div class="iconCard iconStar">
           <i class="fa-solid fa-star"></i>

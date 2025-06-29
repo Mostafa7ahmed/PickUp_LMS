@@ -35,6 +35,7 @@
         font-size: 25px;
         justify-content: center;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        animation: bounceIn 0.8s ease-out;
     }
 
     .nameInstrctor h4 {
@@ -44,7 +45,7 @@
         line-height: 100%;
         line-height: 1.5;
         color: var(--white);
-
+        animation: slideInLeft 0.6s ease-out;
     }
 
     .nameInstrctor p {
@@ -54,10 +55,10 @@
         line-height: 100%;
         margin-top: 8px;
         color: var(--white);
-            background: rgb(0 0 0 / 26%);
-    padding: 10px;
-    border-radius: 7px;
-
+        background: rgb(0 0 0 / 26%);
+        padding: 10px;
+        border-radius: 7px;
+        animation: slideInRight 0.8s ease-out;
     }
 }
 
@@ -72,6 +73,18 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        transition: all 0.3s ease;
+        opacity: 0;
+        transform: translateY(20px);
+
+        &.animated-card {
+            animation: slideInUp 0.6s ease-out forwards;
+        }
+
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.15);
+        }
 
         .informationCard {
 
@@ -90,7 +103,22 @@
                 font-size: 20px;
                 line-height: 100%;
 
+                &.animated-number {
+                    display: inline-block;
+                    transition: all 0.3s ease;
+                    animation: numberPulse 2s ease-in-out infinite;
+                    cursor: pointer;
+                    user-select: none;
 
+                    &:hover {
+                        transform: scale(1.1);
+                        color: #29B865;
+                    }
+
+                    &.bounce-effect {
+                        animation: bounceClick 0.6s ease;
+                    }
+                }
             }
         }
 
@@ -104,6 +132,12 @@
             align-items: center;
             justify-content: center;
             font-size: 25px;
+            transition: all 0.3s ease;
+            animation: rotateIn 0.8s ease-out;
+
+            &:hover {
+                transform: scale(1.1) rotate(5deg);
+            }
         }
 
         .iconCard.iconStar {
@@ -125,6 +159,128 @@
             font-size: 18px;
 
         }
+    }
 
+    // Staggered animation delays for cards
+    .cardinfo:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .cardinfo:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .cardinfo:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    .cardinfo:nth-child(4) {
+        animation-delay: 0.4s;
+    }
+}
+
+// Animation keyframes
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes rotateIn {
+    from {
+        opacity: 0;
+        transform: rotate(-180deg) scale(0.1);
+    }
+    to {
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+    }
+}
+
+@keyframes numberPulse {
+    0%, 100% {
+        transform: scale(1);
+        color: inherit;
+    }
+    50% {
+        transform: scale(1.05);
+        color: #29B865;
+        text-shadow: 0 0 10px rgba(41, 184, 101, 0.3);
+    }
+}
+
+@keyframes countUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes bounceClick {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.2) rotate(5deg); }
+    50% { transform: scale(0.9) rotate(-3deg); }
+    75% { transform: scale(1.1) rotate(2deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+    .cardWidget {
+        flex-direction: column;
+        gap: 1rem;
+
+        .cardinfo {
+            width: 100%;
+        }
     }
 }
