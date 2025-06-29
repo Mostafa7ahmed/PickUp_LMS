@@ -81,10 +81,7 @@
             animation: slideInUp 0.6s ease-out forwards;
         }
 
-        &:hover {
-            transform: translateY(-5px);
-            box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.15);
-        }
+
 
         .informationCard {
 
@@ -242,17 +239,17 @@
     }
 }
 
-@keyframes numberPulse {
-    0%, 100% {
-        transform: scale(1);
-        color: inherit;
-    }
-    50% {
-        transform: scale(1.05);
-        color: #29B865;
-        text-shadow: 0 0 10px rgba(41, 184, 101, 0.3);
-    }
-}
+// @keyframes numberPulse {
+//     0%, 100% {
+//         transform: scale(1);
+//         color: inherit;
+//     }
+//     50% {
+//         transform: scale(1.05);
+//         color: #29B865;
+//         text-shadow: 0 0 10px rgba(41, 184, 101, 0.3);
+//     }
+// }
 
 @keyframes countUp {
     from {

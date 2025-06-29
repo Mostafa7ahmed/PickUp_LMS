@@ -1,11 +1,13 @@
 import { LoginService } from './../../../Core/Services/login.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MyCoursesComponent } from "./components/my-courses/my-courses.component";
 import { TodoComponent } from "./components/todo/todo.component";
 import { CourseCardComponent } from "./components/course-card/course-card.component";
 import { DiscoverCardsComponent } from "./components/discover-cards/discover-cards.component";
 import { PhrasesService } from './service/phrases.service';
 import { Decode } from '../../../Core/Interface/user';
+import { WalletService } from '../../../Core/Services/wallet.service';
+import { IWallet } from '../../../Core/Interface/iwallet';
 
 @Component({
   selector: 'app-homepage-student',
@@ -16,6 +18,8 @@ import { Decode } from '../../../Core/Interface/user';
 })
 export class HomepageStudentComponent implements OnInit {
   constructor(private phrasesService: PhrasesService, private _LoginService: LoginService) {}
+    private walletService = inject(WalletService);
+    wallet: IWallet | null = null;
   
   dataUser: Decode = {} as Decode;
   randomMessage = '';
@@ -35,18 +39,21 @@ export class HomepageStudentComponent implements OnInit {
   ngOnInit(): void {
     this.dataUser = this._LoginService.saveUserAuth();
     this.randomMessage = this.phrasesService.getRandomMessage();
-    
+    this.walletService.getWallet().subscribe({
+      next:(res) =>{
+        this.wallet=res.result
+        this.totalRevenueCount = res.result.balance
+      }
+    })
     // Generate random variations for more dynamic display
     this.generateRandomNumbers();
     
-    // Start animations with delays for staggered effect
     setTimeout(() => this.animateStreak(), 500);
     setTimeout(() => this.animateActiveCourses(), 700);
     setTimeout(() => this.animateRevenue(), 900);
     setTimeout(() => this.animateRating(), 1100);
   }
 
-  // Generate random variations to make stats more dynamic
   private generateRandomNumbers(): void {
     // Add random variations to base numbers
     const streakVariation = Math.floor(Math.random() * 10) + 15; // 15-25
@@ -71,7 +78,6 @@ export class HomepageStudentComponent implements OnInit {
     );
   }
 
-  // Animate active courses counter
   private animateActiveCourses(): void {
     this.animateNumber(
       0, 
@@ -81,7 +87,6 @@ export class HomepageStudentComponent implements OnInit {
     );
   }
 
-  // Animate revenue counter
   private animateRevenue(): void {
     this.animateNumber(
       0, 
@@ -90,8 +95,6 @@ export class HomepageStudentComponent implements OnInit {
       (value) => this.totalRevenueCount = Math.floor(value)
     );
   }
-
-  // Animate rating counter
   private animateRating(): void {
     this.animateNumber(
       0, 
@@ -101,7 +104,6 @@ export class HomepageStudentComponent implements OnInit {
     );
   }
 
-  // Generic number animation function
   private animateNumber(
     start: number, 
     end: number, 
@@ -114,13 +116,9 @@ export class HomepageStudentComponent implements OnInit {
     const step = (currentTime: number) => {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      
-      // Easing function for smooth animation (ease-out)
       const easedProgress = 1 - Math.pow(1 - progress, 3);
-      
       const currentValue = start + (difference * easedProgress);
       callback(currentValue);
-
       if (progress < 1) {
         requestAnimationFrame(step);
       }
@@ -173,4 +171,6 @@ export class HomepageStudentComponent implements OnInit {
     const colors = ['#29B865', '#27AE60', '#2ECC71', '#3B82F6', '#8B5CF6', '#FBBF24'];
     return colors[Math.floor(Math.random() * colors.length)];
   }
+
+
 }
