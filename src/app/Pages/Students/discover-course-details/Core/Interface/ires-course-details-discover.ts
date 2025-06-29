@@ -32,7 +32,7 @@ export interface Student {
   id: number
   userId: number
   name: string
-  bio: string
+  bio?: string | null
   photo: string
   rating: number
 }

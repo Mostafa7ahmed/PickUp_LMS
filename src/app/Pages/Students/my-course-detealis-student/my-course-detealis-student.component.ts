@@ -3,11 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../Environments/environment';
 import { CommonModule } from '@angular/common';
 import { CourseTab } from './Core/interface/icourse-details-student';
+import { AddandShowRatingComponent } from "./Components/addand-show-rating/addand-show-rating.component";
 
 @Component({
   selector: 'app-my-course-detealis-student',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AddandShowRatingComponent],
   templateUrl: './my-course-detealis-student.component.html',
   styleUrl: './my-course-detealis-student.component.scss'
 })
@@ -104,21 +105,15 @@ quizzes = [
   }
 
   getBackgroundColor(): string {
-    if (this.percentage >= 90) return '#d5f9e3'; // Green bg for 90-100
-    if (this.percentage >= 80) return '#e0f7fa'; // Light blue for 80-89
-    if (this.percentage >= 70) return '#ffe4b3'; // Yellow for 70-79
-    if (this.percentage >= 60) return '#fff3cd'; // Light yellow for 60-69
-    if (this.percentage >= 50) return '#ffe0e0'; // Light red for 50-59
-    return '#fcd2d2'; // Deeper red for <50
+    if (this.percentage >= 90) return '#d5f9e3'; 
+    if (this.percentage >= 70) return '#ffe4b3';
+    return '#fcd2d2'; 
   }
 
   getTextColor(): string {
-    if (this.percentage >= 90) return '#0ab95c'; // Green text for 90-100
-    if (this.percentage >= 80) return '#00bcd4'; // Blue text for 80-89
-    if (this.percentage >= 70) return '#ff9800'; // Orange for 70-79
-    if (this.percentage >= 60) return '#bfa100'; // Dark yellow for 60-69
-    if (this.percentage >= 50) return '#e57373'; // Red for 50-59
-    return '#f44336'; // Deep red for <50
+    if (this.percentage >= 90) return '#0ab95c'; 
+    if (this.percentage >= 70) return '#ff9800'; 
+    return '#f44336'; 
   }
   startQuiz(quizId: number, event: Event) {
     this.router.navigate(['Student',{ outlets: { dialog: ['quizPreview', quizId] } }], {

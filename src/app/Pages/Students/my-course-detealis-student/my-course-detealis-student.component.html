@@ -85,14 +85,8 @@
 
     </div>
     <div *ngIf="selectedTab ===  CourseTab.Review">
-        <div class="rating-dev mt-4 p-3 bg-white rounded shadow-sm"
-            style="display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-star text-warning" style="font-size: 2rem;"></i>
-            <div>
-                <div style="font-weight: bold; font-size: 1.2rem;">Course Rating</div>
-                <div style="color: #888;">{{'5'}}</div>
-            </div>
-        </div>
+        <app-addand-show-rating></app-addand-show-rating>
+
 
     </div>
     <div *ngIf="selectedTab ===  CourseTab.Lesson">

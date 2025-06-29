@@ -1,0 +1,78 @@
+<div class="rating">
+    @for (reviewsByDate of reviewsByDates; track $index) {
+      <div class="rateSeemDay mb-4">
+    <div class="ratePersonal">
+            <div class="cardRate">
+              <div class="rateIcon position-relative">
+                <div class="rateDemo position-relative">
+                  <div class="icon-demo position-relative">
+                    <i class="fa-solid fa-star"></i>
+                  </div>
+                </div>
+                <div class="line-stream-demo"></div>
+              </div>
+  
+              <div class="infoRate p-3">
+                <div class="headerRate d-flex align-items-center justify-content-between">
+                  
+                  <div class="d-flex align-items-center gap-2">
+                    <img [src]="baseUrl +reviewsByDate.student.photo" class="rounded-circle object-fit-cover" width="30" height="30" alt="">
+                    <p class="title">{{ reviewsByDate.student.name }}</p>
+                  </div>
+                  <p class="number">
+                    {{ reviewsByDate.createdOn| date: 'hh:mm a' }}
+                  </p>
+                </div>
+  
+                <div class="mt-2">
+                  <div class="review">
+                    <div class="stars d-flex gap-2 align-items-center">
+                        @for (star of getStarsArray(reviewsByDate.value); track $index) {
+                          <i class="fa-solid fa-star " style="color: #FFE112;" ></i>
+                        }
+                        @for (star of getStarsArray(5 - reviewsByDate.value); track $index) {
+                          <i class="fa-solid fa-star" style="color: #D8D8D8;"  ></i>
+                        }
+                      </div>
+  
+                    <div class="comment mt-2">
+                      <p class="text">{{ reviewsByDate.note }}</p>
+                    </div>
+                  </div>
+                </div>
+  
+              </div>
+            </div>
+          </div>
+      </div>
+    }
+    @empty {
+    <div class="empty-state h-100">
+        <div class="empty-icon">
+            <i class="fa-solid fa-star"></i>
+        </div>
+        <h3>No Rating Found</h3>
+        <p>This course doesn't have any Rating yet!</p>
+
+    </div>
+    }
+   
+
+  <!-- End Add Rating Input Section -->
+  </div>
+  
+  
+  <div class="add-rating-section d-flex  ">
+    <form (ngSubmit)="submitRating()" #ratingForm="ngForm" class="rating-form p-3  bg-white d-flex flex-column flex-md-row align-items-center gap-3 w-100">
+      <div class="d-flex align-items-center gap-1 mb-2 mb-md-0">
+        <ng-container *ngFor="let star of getStarsArray(5); let i = index">
+          <i class="fa-solid fa-star"
+             [ngClass]="{'text-warning': i < newRating, 'text-secondary': i >= newRating}"
+             style="cursor:pointer; font-size: 2rem; transition: color 0.2s;"
+             (click)="!hasRated && setRating(i + 1)"></i>
+        </ng-container>
+      </div>
+      <input type="text" name="note" [(ngModel)]="newNote" placeholder="Add a comment..." class="form-control flex-grow-1" style=" border-radius: 8px; border: 1px solid #eee;" [disabled]="hasRated" required>
+      <button type="submit" class="btn btn-success px-4 py-2" style="border-radius: 20px; font-weight: 600; letter-spacing: 1px;" [disabled]="!newRating || !newNote || hasRated">Submit</button>
+    </form>
+  </div>

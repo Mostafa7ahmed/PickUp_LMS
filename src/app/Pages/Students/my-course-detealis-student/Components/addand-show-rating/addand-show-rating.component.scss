@@ -1,0 +1,262 @@
+.add-rating-section {
+  margin-bottom: 2rem;
+  display: flex;
+
+}
+
+.rating-form {
+  background: #fff;
+  border-radius:10px;
+  padding: 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .rating-form {
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+}
+
+.rating-form .fa-star {
+  font-size: 2rem;
+  transition: color 0.2s, transform 0.1s;
+  cursor: pointer;
+}
+.rating-form .fa-star.text-warning {
+  color: #FFD600 !important;
+  text-shadow: 0 2px 8px #ffe11255;
+  transform: scale(1.1);
+}
+.rating-form .fa-star.text-secondary {
+  color: #D8D8D8 !important;
+}
+.rating-form input[disabled] {
+  background: #f8f9fa;
+  color: #aaa;
+}
+.rating-form input {
+  border-radius: 20px;
+  border: 1px solid #eee;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+.rating-form input:focus {
+  border: 1.5px solid #FFD600;
+  outline: none;
+}
+.rating-form button {
+  border-radius: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: background 0.2s, color 0.2s;
+}
+.rating-form button:disabled {
+  background: #eee !important;
+  color: #aaa !important;
+  border: none;
+}
+.add-rating-section .text-success {
+  font-size: 1.1rem;
+  margin-left: 1rem;
+  margin-top: 0.5rem;
+}
+// --- End Enhanced Add Rating Input Section ---
+.dateLine{
+    width: 100%;
+    background: #83899f4d;
+    height: .5px;
+    display: flex
+;
+    align-items: center;
+    justify-content: flex-start;
+    padding-inline-start: 35px;
+}
+.dateLine span{
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: #fff;
+    color: #83899fcc;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.ratePersonal .cardRate{
+    display: flex;
+    align-items: flex-start;
+
+    gap: 10px;
+    padding: 20px 0px 0px 0px;
+    width: 100%;
+    height: 100%;
+
+}
+.rating{
+      height: calc(100vh - 430px);
+    /* background: aqua; */
+    overflow: scroll;
+    scrollbar-width: none;
+}
+.cardRate .rateIcon{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-self: stretch;
+    align-items: center;
+}
+.ratePersonal .rateDemo{
+    border-radius: 8px;
+    border: 1px solid #FFE112;
+    background: #ffdf122d;
+    display: flex;
+    width: 30px;
+    height: 30px;
+    padding: 6px;
+    justify-content: center;
+    align-items: center;
+}
+.ratePersonal .rateDemo .icon-demo{
+    color: #FFE112;
+}
+
+.rateIcon .line-stream-demo {
+    width: .75px;
+    background-color: #FFE112;
+    height: 100%;
+}
+.ratePersonal  .infoRate{
+    width: 100%;
+
+    border-radius: 4px;
+    border: .75px solid rgba(246, 246, 246, .9);
+    background: #fff;
+    box-shadow: 0 0 4px #606c800a;
+    border: 1px solid #eaeaea;
+    padding: 6px 0 6px 8px;
+
+}
+.infoRate .title{
+    font-size: 16px;
+    color: #111827;
+    font-family: var(--font-family-1);
+    font-weight: 600;
+}
+.infoRate .number{
+    font-size: 14px;
+    color: #6B7280;
+    font-family: var(--font-family-2);
+    font-weight: 600;
+}
+
+.review {
+    position: relative;
+    margin-inline-start: 15px;
+}
+
+.review::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: -12px;
+    width: .75px;
+    height: 100%;
+    background: #C6D1DC;    
+
+ 
+}
+
+  // Empty State
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    text-align: center;
+    background: white;
+    border-radius: 16px;
+    margin: 40px 0;
+
+    .empty-icon {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 32px;
+      position: relative;
+
+      &:before {
+        content: '';
+        position: absolute;
+        width: 140px;
+        height: 140px;
+        border: 2px dashed #e2e8f0;
+        border-radius: 50%;
+        animation: rotate 20s linear infinite;
+      }
+
+      i {
+        font-size: 48px;
+        color: #94a3b8;
+      }
+    }
+
+    h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 12px;
+    }
+
+    p {
+      font-size: 16px;
+      color: #64748b;
+      margin-bottom: 32px;
+      max-width: 400px;
+      line-height: 1.5;
+    }
+
+    .btn-create-quiz {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+      }
+
+      i {
+        font-size: 16px;
+      }
+    }
+  }
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
