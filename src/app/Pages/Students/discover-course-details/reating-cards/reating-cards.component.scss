@@ -31,6 +31,12 @@
     height: 100%;
 
 }
+.rating{
+      height: calc(100vh - 403px);
+    /* background: aqua; */
+    overflow: scroll;
+    scrollbar-width: none;
+}
 .cardRate .rateIcon{
     display: flex;
     flex-direction: column;

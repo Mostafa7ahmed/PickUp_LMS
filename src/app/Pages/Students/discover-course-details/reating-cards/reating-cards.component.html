@@ -14,7 +14,11 @@
   
               <div class="infoRate p-3">
                 <div class="headerRate d-flex align-items-center justify-content-between">
-                  <p class="title">{{ reviewsByDate.student.name }}</p>
+                  
+                  <div class="d-flex align-items-center gap-2">
+                    <img [src]="baseUrl +reviewsByDate.student.photo" class="rounded-circle object-fit-cover" width="30" height="30" alt="">
+                    <p class="title">{{ reviewsByDate.student.name }}</p>
+                  </div>
                   <p class="number">
                     {{ reviewsByDate.createdOn| date: 'hh:mm a' }}
                   </p>
