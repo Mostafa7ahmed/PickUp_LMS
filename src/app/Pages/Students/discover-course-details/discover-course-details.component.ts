@@ -17,7 +17,7 @@ import { ReatingCardsComponent } from "./reating-cards/reating-cards.component";
 @Component({
   selector: 'app-discover-course-details',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule, EnrollmentPopupComponent, SuccessPopupComponent, RatingComponent, ReatingCardsComponent],
+  imports: [CommonModule, FormsModule, HttpClientModule, EnrollmentPopupComponent, SuccessPopupComponent, ReatingCardsComponent],
   templateUrl: './discover-course-details.component.html',
   styleUrl: './discover-course-details.component.scss'
 })

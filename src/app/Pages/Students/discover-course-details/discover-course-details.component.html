@@ -18,15 +18,15 @@
        <i class="fas fa-arrow-left"></i>
      </div>
     <div class="course-info">
-      <h1>{{courseDetailsdata.result?.name || 'No course name available'}}</h1>
+      <h1>{{courseDetailsdata.result.name || 'No course name available'}}</h1>
       <div class="professor">
         <div class="avatar">
           <img *ngIf="courseDetailsdata.result?.instructor?.photo"
             [src]="baseUrl + courseDetailsdata.result.instructor.photo" width="30" height="30" class="rounded-circle"
             alt="Instructor Photo">
         </div>
-        <span>{{courseDetailsdata.result?.instructor?.name || 'Unknown Instructor'}}</span>
-        <span class="time">{{courseDetailsdata.result?.updatedOn ? (courseDetailsdata.result.updatedOn | date) :
+        <span>{{courseDetailsdata.result.instructor.name || 'Unknown Instructor'}}</span>
+        <span class="time">{{courseDetailsdata.result.updatedOn ? (courseDetailsdata.result.updatedOn | date) :
           ''}}</span>
       </div>
     </div>
