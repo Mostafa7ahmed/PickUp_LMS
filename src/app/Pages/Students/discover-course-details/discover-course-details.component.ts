@@ -126,7 +126,11 @@ export class DiscoverCourseDetailsComponent implements OnInit, OnDestroy {
     // Auto-close success popup after 3 seconds
     setTimeout(() => {
       this.closeSuccessPopup();
+      this.router.navigate([{ outlets: { dialog: null } }]).then(() => {
+        this.router.navigate(["Student/myCourse"]);
+      });
     }, 3000);
+    
   }
 
   // Close success popup

@@ -67,7 +67,7 @@ export class CardDiscoverPageComponent {
   }
 
   // Handle enrollment completion
-  onEnrollmentComplete(event: {success: boolean, courseData?: any}): void {
+  onEnrollmentComplete(event: { success: boolean, courseData?: any }): void {
     if (event.success) {
       console.log('Enrollment successful!', event.courseData);
       this.displaySuccessPopup(event.courseData);
@@ -77,7 +77,7 @@ export class CardDiscoverPageComponent {
   // Show success popup after enrollment
   displaySuccessPopup(courseData: any): void {
     const details = [
-      courseData.isFree 
+      courseData.isFree
         ? 'Free Course - 🎁'
         : `Payment: ${courseData.price} ${courseData.currency} processed successfully`,
     ];
@@ -93,10 +93,11 @@ export class CardDiscoverPageComponent {
     this.showSuccessPopup = true;
 
 
-              setTimeout(() => {
-        this._route.navigate([{ outlets: { dialog: null } }]).then(() => {
-      this._route.navigate(["Student/myCourse"]);
-          });    }, 3000);
+    setTimeout(() => {
+      this._route.navigate([{ outlets: { dialog: null } }]).then(() => {
+        this._route.navigate(["Student/myCourse"]);
+      });
+    }, 3000);
   }
 
   // Handle popup close
