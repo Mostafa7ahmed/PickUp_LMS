@@ -72,11 +72,92 @@ export class DiscoverCourseDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
-
-
   setActiveTab(tab: string): void {
     this.activeTab = tab;
   }
 
+  goBack(): void {
+    this.router.navigate(['/Student/DiscoverCourses']);
+  }
 
+  // Method to open enrollment popup
+  openEnrollmentPopup(): void {
+    if (!this.courseDetailsdata?.result) return;
+
+    const course = this.courseDetailsdata.result;
+    this.selectedCourseForEnrollment = {
+      id: course.id,
+      name: course.name || `${course.instructor.name}'s Professional Course`,
+      originalPrice: 149.99, // You can get this from API if available
+      discountPrice: 89.99, // You can get this from API if available
+      currency: 'USD',
+      photo: course.photo ? this.baseUrl + course.photo : 'Images/Course/Image+Background.png',
+      instructor: {
+        name: course.instructor.name,
+        photo: course.instructor.photo ? this.baseUrl + course.instructor.photo : undefined
+      }
+    };
+    this.showEnrollmentPopup = true;
+  }
+
+  // Handle enrollment completion
+  onEnrollmentComplete(event: {success: boolean, courseData?: any}): void {
+    if (event.success) {
+      console.log('Enrollment successful!', event.courseData);
+      this.displaySuccessPopup(event.courseData);
+    }
+  }
+
+  // Handle popup close
+  onCloseEnrollmentPopup(): void {
+    this.showEnrollmentPopup = false;
+    this.selectedCourseForEnrollment = null;
+  }
+
+  // Display success popup
+  private displaySuccessPopup(courseData?: any): void {
+    const courseName = this.courseDetailsdata?.result?.name || `${this.courseDetailsdata?.result?.instructor?.name}'s Professional Course`;
+    this.successData = {
+      title: 'Enrollment Successful!',
+      message: `You have successfully enrolled in "${courseName}". You can now access all course materials.`
+    };
+    this.showSuccessPopup = true;
+
+    // Auto-close success popup after 3 seconds
+    setTimeout(() => {
+      this.closeSuccessPopup();
+    }, 3000);
+  }
+
+  // Close success popup
+  closeSuccessPopup(): void {
+    this.showSuccessPopup = false;
+    this.successData = null;
+  }
+
+  // Alias for template compatibility
+  onSuccessClose(): void {
+    this.closeSuccessPopup();
+  }
+
+  // Play intro video method
+  playIntroVideo(): void {
+    this.showVideo = true;
+  }
+
+  // Utility methods
+  getStars(rating: number): number[] {
+    if (!rating) return [];
+    return Array(Math.min(5, Math.floor(rating))).fill(0).map((_, i) => i + 1);
+  }
+
+  formatDuration(minutes: number): string {
+    if (!minutes) return 'N/A';
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+    if (hours > 0) {
+      return `${hours}h ${remainingMinutes}m`;
+    }
+    return `${remainingMinutes}m`;
+  }
 }
