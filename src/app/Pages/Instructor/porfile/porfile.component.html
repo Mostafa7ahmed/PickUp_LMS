@@ -129,11 +129,12 @@
 
 
     } @else {
-    <div class="no-courses">
-      <i class="fas fa-book-open"></i>
-      <p>No courses created yet</p>
-      <button class="btn btn-primary" (click)="createNewCourse()">Create Your First Course</button>
-    </div>
+          <div class="empty-state  ">
+            <div class="empty-icon mb-3">
+                <i class="fa-person-chalkboard fa-solid"></i>
+            </div>
+        <h3>No Course Found</h3>
+        <p>This Profile doesn't have any Course yet. Create your first Course to get started!</p>          </div>
     }
   </div>
 </div>

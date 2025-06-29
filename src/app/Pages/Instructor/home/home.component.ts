@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { Decode } from '../../../Core/Interface/user';
+import { LoginService } from '../../../Core/Services/login.service';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +10,14 @@ import { Component } from '@angular/core';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+    dataUser: Decode = {} as Decode;
+    private _LoginService = inject(LoginService)
+    ngOnInit(): void {
+              this.dataUser = this._LoginService.saveUserAuth();
+
+    }
+
   instructors = [
    { initials: 'RJ', name: 'Ahmed Hamed', subject: 'Web Development', rating: 4.9, courses: 24, bgColor: '#ccfbf1' },
     { initials: 'DM', name: 'Mahmoud', subject: 'Data Science', rating: 4.8, courses: 18, bgColor: '#bbf7d0' },
