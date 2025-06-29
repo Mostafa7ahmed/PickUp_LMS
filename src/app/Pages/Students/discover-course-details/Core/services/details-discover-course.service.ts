@@ -17,6 +17,7 @@ export class DetailsDiscoverCourseService {
   }
 
 
-    getStudentDetailsCourseDiscover(courseId:number): Observable<IResponseOf<IResCourseDetailsDiscover>> {
-      return this.http.get<IResponseOf<IResCourseDetailsDiscover>>(`${this.studentUrl}courseId=${courseId}`);
-    }}
+  getStudentDetailsCourseDiscover(courseId: number): Observable<IResponseOf<IResCourseDetailsDiscover>> {
+    return this.http.get<IResponseOf<IResCourseDetailsDiscover>>(`${this.studentUrl}courseId=${courseId}`);
+  }
+}

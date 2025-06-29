@@ -92,10 +92,11 @@ export class CardDiscoverPageComponent {
 
     this.showSuccessPopup = true;
 
+
+              setTimeout(() => {
         this._route.navigate([{ outlets: { dialog: null } }]).then(() => {
       this._route.navigate(["Student/myCourse"]);
-          });
-    console.log("first")
+          });    }, 3000);
   }
 
   // Handle popup close

@@ -9,431 +9,55 @@
   </div>
 </div>
 
-<!-- Main Content -->
-<div class="course-details-container" *ngIf="!isLoading && courseDetailsdata.success">
-  <!-- Header Section -->
+
+
+<div class="course-details" *ngIf="!isLoading && courseDetailsdata.success">
+  <!-- Course Header -->
   <div class="course-header">
-    <button class="back-btn" (click)="goBack()">
+    <div class="course-icon">
       <i class="fas fa-arrow-left"></i>
-      <span>Back to Courses</span>
-    </button>
-    
-    <div class="header-actions">
-      <button class="action-btn" title="Share Course">
-        <i class="fas fa-share-alt"></i>
-      </button>
-      <button class="action-btn" title="Add to Wishlist">
-        <i class="fas fa-heart"></i>
-      </button>
-      <button class="action-btn" title="More Options">
-        <i class="fas fa-ellipsis-v"></i>
-      </button>
+    </div>
+    <div class="course-info">
+      <h1>CS 301: Data Structures & Algorithms</h1>
+      <p class="meta">Computer Science • 4 Credits • Spring 2025</p>
+      <div class="professor">
+        <div class="avatar">JW</div>
+        <span>Prof. James Wilson</span>
+        <span class="time">Mon, Wed • 10:00 AM - 11:30 AM</span>
+      </div>
+    </div>
+    <div class="course-action">
+      <div class="price-box">
+        <span class="old-price">$149.99</span>
+        <span class="new-price">$89.99</span>
+      </div>
+      <button class="enroll-button">Enroll Now</button>
     </div>
   </div>
 
-  <!-- Course Hero Section -->
-  <div class="course-hero">
-    <div class="hero-content">
-      <div class="media-section">
-        <!-- Course Image/Video Section -->
-        <div class="course-image-container" *ngIf="!showVideo">
-                      <img 
-            [src]="courseDetailsdata.result.photo ? baseUrl + courseDetailsdata.result.photo : 'Images/Course/Image+Background.png'" 
-            [alt]="courseDetailsdata.result.name || courseDetailsdata.result.instructor.name + ' Course'" 
-            class="course-image">
-          
-          <button class="play-button" (click)="toggleVideo()" *ngIf="courseDetailsdata.result.introductionVideo">
-            <i class="fas fa-play"></i>
-            <span>Watch Preview</span>
-          </button>
-          
-          <!-- Course Badges -->
-          <div class="course-badges">
-            <div class="badge level-badge level-beginner">
-              <i class="fas fa-signal"></i>
-              <span>Professional Course</span>
-            </div>
-            <div class="badge certificate-badge" *ngIf="courseDetailsdata.result.rating >= 4">
-              <i class="fas fa-certificate"></i>
-              <span>Highly Rated</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Video Player -->
-        <div class="video-container" *ngIf="showVideo && safeVideoUrl">
-          <iframe 
-            [src]="safeVideoUrl" 
-            frameborder="0" 
-            allowfullscreen
-            class="intro-video">
-          </iframe>
-          <button class="close-video-btn" (click)="toggleVideo()">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- Course Info Card -->
-      <div class="course-info-card">
-        <div class="course-meta">
-          <div class="rating-section">
-            <div class="stars">
-              <i 
-                *ngFor="let star of getStars(courseDetailsdata.result.rating)" 
-                class="fas fa-star"
-                [class.filled]="star <= courseDetailsdata.result.rating">
-              </i>
-            </div>
-            <span class="rating-text">{{ courseDetailsdata.result.rating }} ({{ courseDetailsdata.result.ratings.length || 0 }} reviews)</span>
-          </div>
-          
-          <div class="enrollment-count">
-            <i class="fas fa-users"></i>
-            <span>{{ courseDetailsdata.result.enrolledCount | number }} students enrolled</span>
-          </div>
-        </div>
-
-        <h1 class="course-title">{{ courseDetailsdata.result.name || courseDetailsdata.result.instructor.name + "'s Professional Course" }}</h1>
-        
-        <div class="course-stats">
-          <div class="stat-item">
-            <i class="fas fa-star"></i>
-            <div class="stat-info">
-              <span class="stat-label">Rating</span>
-              <span class="stat-value">{{ courseDetailsdata.result.rating }}/5</span>
-            </div>
-          </div>
-          
-          <div class="stat-item">
-            <i class="fas fa-users"></i>
-            <div class="stat-info">
-              <span class="stat-label">Students</span>
-              <span class="stat-value">{{ courseDetailsdata.result.enrolledCount | number }}</span>
-            </div>
-          </div>
-          
-          <div class="stat-item">
-            <i class="fas fa-calendar"></i>
-            <div class="stat-info">
-              <span class="stat-label">Last Updated</span>
-              <span class="stat-value">{{ courseDetailsdata.result.updatedOn | date:'MMM yyyy' }}</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Instructor Preview -->
-        <div class="instructor-preview">
-          <img 
-            [src]="courseDetailsdata.result.instructor.photo ? baseUrl + courseDetailsdata.result.instructor.photo : 'Images/Icons/Student.svg'" 
-            [alt]="courseDetailsdata.result.instructor.name" 
-            class="instructor-avatar">
-          <div class="instructor-info">
-            <h4>{{ courseDetailsdata.result.instructor.name }}</h4>
-            <p>Professional Instructor</p>
-            <div class="instructor-rating">
-              <i class="fas fa-star"></i>
-              <span>{{ courseDetailsdata.result.instructor.rating }} instructor rating</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Enrollment Button -->
-        <div class="enrollment-section">
-          <button class="enroll-btn primary" (click)="openEnrollmentPopup()">
-            <i class="fas fa-graduation-cap"></i>
-            <span>Enroll Now</span>
-          </button>
-          
-          <p class="enrollment-note">
-            <i class="fas fa-shield-alt"></i>
-            Quality course by {{ courseDetailsdata.result.instructor.name }}
-          </p>
-        </div>
-      </div>
-    </div>
+  <div class="tabs">
+    <button class="tab active">Overview</button>
+    <button class="tab">Review</button>
   </div>
 
-  <!-- Course Content Tabs -->
-  <div class="course-content">
-    <div class="tabs-section">
-      <div class="tab-headers">
-        <button 
-          class="tab-btn" 
-          [class.active]="activeTab === 'overview'"
-          (click)="setActiveTab('overview')">
-          <i class="fas fa-info-circle"></i>
-          <span>Overview</span>
-        </button>
-        <button 
-          class="tab-btn" 
-          [class.active]="activeTab === 'curriculum'"
-          (click)="setActiveTab('curriculum')">
-          <i class="fas fa-list"></i>
-          <span>Curriculum</span>
-        </button>
-        <button 
-          class="tab-btn" 
-          [class.active]="activeTab === 'instructor'"
-          (click)="setActiveTab('instructor')">
-          <i class="fas fa-user-tie"></i>
-          <span>Instructor</span>
-        </button>
-        <button 
-          class="tab-btn" 
-          [class.active]="activeTab === 'reviews'"
-          (click)="setActiveTab('reviews')">
-          <i class="fas fa-star"></i>
-          <span>Reviews</span>
-        </button>
-      </div>
+  <div class="course-description">
+    <h2>Course Description</h2>
+    <p>
+      This course introduces the fundamental concepts of data structures and the algorithms
+      that operate on them. Topics include data abstraction, recursion, stacks, queues,
+      linked lists, trees, hash tables, graphs, and analysis of algorithms. Students will
+      implement various data structures and algorithms in programming assignments.
+    </p>
+  </div>
 
-      <div class="tab-content">
-        <!-- Overview Tab -->
-        <div class="tab-panel" *ngIf="activeTab === 'overview'">
-          <div class="overview-content">
-            <div class="content-section">
-              <h3>
-                <i class="fas fa-book-open"></i>
-                Course Description
-              </h3>
-              <div class="description-text">
-                <p>{{ courseDetailsdata.result.description || 'This professional course is designed to provide you with comprehensive knowledge and practical skills. Learn from our expert instructor and gain valuable insights that will help advance your career.' }}</p>
-              </div>
-            </div>
-
-            <div class="content-section">
-              <h3>
-                <i class="fas fa-bullseye"></i>
-                Course Information
-              </h3>
-              <div class="learning-objectives">
-                <div class="objective-item">
-                  <i class="fas fa-check-circle"></i>
-                  <span>Learn from {{ courseDetailsdata.result.instructor.name }}, a professional instructor with {{ courseDetailsdata.result.instructor.rating }}/5 rating</span>
-                </div>
-                <div class="objective-item">
-                  <i class="fas fa-check-circle"></i>
-                  <span>Join {{ courseDetailsdata.result.enrolledCount | number }} students who have already enrolled</span>
-                </div>
-                <div class="objective-item">
-                  <i class="fas fa-check-circle"></i>
-                  <span>Access to high-quality course materials and resources</span>
-                </div>
-                <div class="objective-item" *ngIf="courseDetailsdata.result.introductionVideo">
-                  <i class="fas fa-check-circle"></i>
-                  <span>Includes video content and introduction materials</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="content-section" *ngIf="courseDetailsdata.result.instructor.bio">
-              <h3>
-                <i class="fas fa-graduation-cap"></i>
-                About This Course
-              </h3>
-              <div class="prerequisites">
-                <p>{{ courseDetailsdata.result.instructor.bio }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Curriculum Tab -->
-        <div class="tab-panel" *ngIf="activeTab === 'curriculum'">
-          <div class="curriculum-content">
-            <div class="curriculum-header">
-              <h3>
-                <i class="fas fa-list-ul"></i>
-                Course Curriculum
-              </h3>
-              <div class="curriculum-stats">
-                <div class="stat-item">
-                  <i class="fas fa-star"></i>
-                  <span>{{ courseDetailsdata.result.rating }}/5 course rating</span>
-                </div>
-                <div class="stat-item">
-                  <i class="fas fa-users"></i>
-                  <span>{{ courseDetailsdata.result.enrolledCount | number }} enrolled students</span>
-                </div>
-                <div class="stat-item" *ngIf="courseDetailsdata.result.introductionVideo">
-                  <i class="fas fa-play-circle"></i>
-                  <span>Video content included</span>
-                </div>
-              </div>
-            </div>
-            
-            <div class="curriculum-preview">
-              <div class="section-item">
-                <div class="section-header">
-                  <i class="fas fa-folder-open"></i>
-                  <h4>Course Content</h4>
-                  <span class="section-info">Professional Level</span>
-                </div>
-                <div class="lesson-list">
-                  <div class="lesson-item" *ngIf="courseDetailsdata.result.introductionVideo">
-                    <i class="fas fa-play-circle"></i>
-                    <span>Course Introduction Video</span>
-                    <span class="lesson-duration">Preview</span>
-                  </div>
-                  <div class="lesson-item">
-                    <i class="fas fa-book"></i>
-                    <span>Course Materials and Resources</span>
-                    <span class="lesson-duration">Access</span>
-                  </div>
-                  <div class="lesson-item locked">
-                    <i class="fas fa-lock"></i>
-                    <span>Full Course Content</span>
-                    <span class="lesson-duration">Enroll</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="curriculum-note">
-                <i class="fas fa-info-circle"></i>
-                <p>Complete course curriculum and materials will be available after enrollment. This course is taught by {{ courseDetailsdata.result.instructor.name }} with a {{ courseDetailsdata.result.instructor.rating }}/5 instructor rating.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Instructor Tab -->
-        <div class="tab-panel" *ngIf="activeTab === 'instructor'">
-          <div class="instructor-content">
-            <div class="instructor-profile">
-              <div class="instructor-header">
-                <img 
-                  [src]="courseDetailsdata.result.instructor.photo ? baseUrl + courseDetailsdata.result.instructor.photo : 'Images/Icons/Student.svg'" 
-                  [alt]="courseDetailsdata.result.instructor.name" 
-                  class="instructor-avatar-large">
-                <div class="instructor-details">
-                  <h3>{{ courseDetailsdata.result.instructor.name }}</h3>
-                  <p class="instructor-title">Professional Instructor</p>
-                  
-                  <div class="instructor-stats">
-                    <div class="stat">
-                      <i class="fas fa-star"></i>
-                      <span>{{ courseDetailsdata.result.instructor.rating }}/5 Instructor Rating</span>
-                    </div>
-                    <div class="stat">
-                      <i class="fas fa-users"></i>
-                      <span>{{ courseDetailsdata.result.enrolledCount | number }} Students in This Course</span>
-                    </div>
-                    <div class="stat">
-                      <i class="fas fa-graduation-cap"></i>
-                      <span>Professional Expertise</span>
-                    </div>
-                    <div class="stat">
-                      <i class="fas fa-calendar"></i>
-                      <span>Course Updated {{ courseDetailsdata.result.updatedOn | date:'MMM yyyy' }}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="instructor-bio">
-                <h4>About {{ courseDetailsdata.result.instructor.name }}</h4>
-                <p>{{ courseDetailsdata.result.instructor.bio || 'Professional instructor dedicated to providing high-quality education and helping students achieve their learning goals. With expertise in the field and a commitment to student success.' }}</p>
-                
-                <div class="instructor-expertise" *ngIf="courseDetailsdata.result.rating >= 4">
-                  <h5>Course Quality Indicators:</h5>
-                  <div class="expertise-tags">
-                    <span class="tag">High Rating ({{ courseDetailsdata.result.rating }}/5)</span>
-                    <span class="tag">{{ courseDetailsdata.result.enrolledCount | number }} Students</span>
-                    <span class="tag" *ngIf="courseDetailsdata.result.ratings?.length">{{ courseDetailsdata.result.ratings.length }} Reviews</span>
-                    <span class="tag" *ngIf="courseDetailsdata.result.introductionVideo">Video Content</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Reviews Tab -->
-        <div class="tab-panel" *ngIf="activeTab === 'reviews'">
-          <div class="reviews-content">
-            <div class="reviews-header">
-              <h3>
-                <i class="fas fa-star"></i>
-                Student Reviews
-              </h3>
-              
-              <div class="reviews-summary">
-                <div class="rating-overview">
-                  <div class="overall-rating">
-                    <span class="rating-number">{{ courseDetailsdata.result.rating }}</span>
-                    <div class="stars">
-                      <i 
-                        *ngFor="let star of getStars(courseDetailsdata.result.rating)" 
-                        class="fas fa-star"
-                        [class.filled]="star <= courseDetailsdata.result.rating">
-                      </i>
-                    </div>
-                    <span class="total-ratings">{{ courseDetailsdata.result.ratings.length || 0 }} reviews</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="reviews-list" *ngIf="courseDetailsdata.result.ratings && courseDetailsdata.result.ratings.length > 0">
-              <div class="review-item" *ngFor="let review of courseDetailsdata.result.ratings.slice(0, 5)">
-                <div class="review-header">
-                  <img 
-                    [src]="review.student.photo ? baseUrl + review.student.photo : 'Images/Icons/Student.svg'" 
-                    [alt]="review.student.name" 
-                    class="reviewer-avatar">
-                  <div class="reviewer-info">
-                    <h4>{{ review.student.name }}</h4>
-                    <div class="review-rating">
-                      <i 
-                        *ngFor="let star of getStars(review.value)" 
-                        class="fas fa-star"
-                        [class.filled]="star <= review.value">
-                      </i>
-                    </div>
-                    <span class="review-date">{{ review.createdOn | date:'MMM dd, yyyy' }}</span>
-                  </div>
-                </div>
-                <p class="review-comment">{{ review.note || 'Positive feedback from student.' }}</p>
-              </div>
-            </div>
-
-            <div class="no-reviews" *ngIf="!courseDetailsdata.result.ratings || courseDetailsdata.result.ratings.length === 0">
-              <i class="fas fa-comment-slash"></i>
-              <h4>No Reviews Yet</h4>
-              <p>This course doesn't have any reviews yet. Be the first to enroll and share your experience!</p>
-            </div>
-          </div>
-        </div>
+  <!-- Course Preview Video -->
+  <div class="course-preview">
+    <h2>Course Preview</h2>
+    <div class="video-box">
+      <img src="Images/Course/Image+Background.png" alt="Preview" />
+      <div class="play-button">
+        <i class="fas fa-play"></i>
       </div>
     </div>
   </div>
 </div>
-
-<!-- Error State -->
-<div class="error-container" *ngIf="!isLoading && !courseDetailsdata.success">
-  <div class="error-content">
-    <i class="fas fa-exclamation-triangle"></i>
-    <h3>Course Not Found</h3>
-    <p>The course you're looking for doesn't exist or has been removed.</p>
-    <button class="btn-back" (click)="goBack()">
-      <i class="fas fa-arrow-left"></i>
-      Back to Courses
-    </button>
-  </div>
-</div>
-
-<!-- Enrollment Popup -->
-<app-enrollment-popup
-  *ngIf="showEnrollmentPopup && selectedCourseForEnrollment"
-  [course]="selectedCourseForEnrollment"
-  (closePopup)="onCloseEnrollmentPopup()"
-  (enrollmentComplete)="onEnrollmentComplete($event)">
-</app-enrollment-popup>
-
-<!-- Success Popup -->
-<app-success-popup
-  *ngIf="showSuccessPopup && successData"
-  [successData]="successData"
-  (close)="closeSuccessPopup()">
-</app-success-popup> 
