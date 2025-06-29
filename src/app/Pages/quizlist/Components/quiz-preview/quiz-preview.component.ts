@@ -130,7 +130,6 @@ export class QuizPreviewComponent implements OnInit, OnDestroy {
     this.router.navigate([{ outlets: { dialog: null } }]);
   }
 
-  // Navigation methods
   nextQuestion() {
     if (this.currentQuestionIndex < this.questions.length - 1) {
       this.currentQuestionIndex++;
