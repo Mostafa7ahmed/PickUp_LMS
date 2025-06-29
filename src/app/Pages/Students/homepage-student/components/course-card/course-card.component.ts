@@ -91,8 +91,12 @@ export class CourseCardComponent implements OnInit {
     };
 
     this.showSuccessPopup = true;
-    this._route.navigate(["Student/DiscoverCourses"])
 
+    setTimeout(() => {
+      this._route.navigate([{ outlets: { dialog: null } }]).then(() => {
+        this._route.navigate(["Student/myCourse"]);
+      });
+    }, 3000);
   }
 
   // Handle popup close
