@@ -11,11 +11,14 @@ import { IResponseOf } from '../../../Core/Shared/Interface/irespose';
 import { environment } from '../../../Environments/environment';
 import { EnrollmentPopupComponent, ICourseForEnrollment } from '../../../Components/enrollment-popup/enrollment-popup.component';
 import { SuccessPopupComponent, ISuccessData } from '../../../Components/success-popup/success-popup.component';
+import { TextHeaderComponent } from '../../Courses/Components/text-header/text-header.component';
+import { TabsModule } from 'primeng/tabs';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-discover-course-details',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule, EnrollmentPopupComponent, SuccessPopupComponent],
+  imports: [CommonModule, FormsModule, HttpClientModule, EnrollmentPopupComponent, SuccessPopupComponent, TextHeaderComponent, TabsModule, ButtonModule],
   templateUrl: './discover-course-details.component.html',
   styleUrl: './discover-course-details.component.scss'
 })
@@ -31,6 +34,7 @@ export class DiscoverCourseDetailsComponent implements OnInit, OnDestroy {
   showVideo = false;
   safeVideoUrl: SafeResourceUrl | null = null;
   activeTab = 'overview';
+  value: number = 0; // For PrimeNG tabs
   courseDetailsdata: IResponseOf<IResCourseDetailsDiscover> = {} as IResponseOf<IResCourseDetailsDiscover>;
   baseUrl: string = environment.baseUrlFiles;
 
@@ -64,7 +68,8 @@ export class DiscoverCourseDetailsComponent implements OnInit, OnDestroy {
           this.courseDetailsdata = api;
           
           if (this.courseDetailsdata?.result.introductionVideo) {
-            this.safeVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.courseDetailsdata.result.introductionVideo);
+            const fullVideoUrl = this.baseUrl + this.courseDetailsdata.result.introductionVideo;
+            this.safeVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fullVideoUrl);
           }
         },
         error: (err) => {
@@ -143,9 +148,20 @@ export class DiscoverCourseDetailsComponent implements OnInit, OnDestroy {
     this.successData = null;
   }
 
+  // Alias for template compatibility
+  onSuccessClose(): void {
+    this.closeSuccessPopup();
+  }
+
+  // Play intro video method
+  playIntroVideo(): void {
+    this.showVideo = true;
+  }
+
   // Utility methods
   getStars(rating: number): number[] {
-    return Array(5).fill(0).map((_, i) => i + 1);
+    if (!rating) return [];
+    return Array(Math.min(5, Math.floor(rating))).fill(0).map((_, i) => i + 1);
   }
 
   formatDuration(minutes: number): string {
