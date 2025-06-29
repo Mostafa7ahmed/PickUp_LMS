@@ -92,3 +92,21 @@
   <img src="Images/deal-empty-state.svg" alt="" width="190px">
   <p class="mt-3">No course data found</p>
 </div>
+
+
+<!-- Enrollment Popup -->
+<app-enrollment-popup
+  *ngIf="selectedCourseForEnrollment && showEnrollmentPopup"
+  [course]="selectedCourseForEnrollment!"
+  [isVisible]="showEnrollmentPopup"
+  (closePopup)="onCloseEnrollmentPopup()"
+  (enrollmentComplete)="onEnrollmentComplete($event)"
+></app-enrollment-popup>
+
+<!-- Success Popup -->
+<app-success-popup
+  *ngIf="showSuccessPopup && successData"
+  [successData]="successData"
+  [isVisible]="showSuccessPopup"
+  (onClose)="onSuccessClose()"
+></app-success-popup> 
