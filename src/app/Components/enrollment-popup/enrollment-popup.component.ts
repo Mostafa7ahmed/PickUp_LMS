@@ -93,8 +93,7 @@ export class EnrollmentPopupComponent implements OnInit, OnDestroy {
           console.log('Parsed wallet:', this.wallet);
           console.log('Wallet balance:', this.wallet?.balance);
           
-          // Now try to load coupons (non-blocking)
-          this.loadCoupons();
+
         } else {
           console.error('Wallet API returned unsuccessful response:', walletResponse);
           this.errorMessage = 'Failed to load wallet information. Please try again.';
@@ -120,26 +119,7 @@ export class EnrollmentPopupComponent implements OnInit, OnDestroy {
     });
   }
 
-  private loadCoupons(): void {
-    this.enrollmentService.getUserCoupons().pipe(
-      takeUntil(this.destroy$)
-    ).subscribe({
-      next: (couponsResponse) => {
-        console.log('Coupons API response:', couponsResponse);
-        
-        if (couponsResponse.success && couponsResponse.result) {
-          this.coupons = couponsResponse.result;
-        } else {
-          this.coupons = [];
-        }
-        console.log('Loaded coupons:', this.coupons);
-      },
-      error: (error) => {
-        console.warn('Error loading coupons (non-critical):', error);
-        this.coupons = []; // Just set empty array if coupons fail to load
-      }
-    });
-  }
+
 
   calculatePricing(): void {
     this.discountAmount = 0;

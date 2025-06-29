@@ -48,9 +48,7 @@ export class CourseCardComponent implements OnInit {
     return num.toString();
   }
 
-  // Method to open enrollment popup
   openEnrollmentPopup(course: IDicoverCourse): void {
-    // Map course data to enrollment interface
     this.selectedCourseForEnrollment = {
       id: course.id,
       name: course.name,
