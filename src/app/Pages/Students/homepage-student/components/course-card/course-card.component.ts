@@ -41,12 +41,12 @@ export class CourseCardComponent implements OnInit {
     })
   }
 
-  formatNumber(num: number): string {
-    if (num >= 1000) {
-      return (num / 1000).toFixed(1) + 'k';
-    }
-    return num.toString();
+formatNumber(num: number): string {
+  if (num >= 1000) {
+    return (num / 1000).toFixed(2) + 'k';
   }
+  return num.toFixed(2);
+}
 
   openEnrollmentPopup(course: IDicoverCourse): void {
     this.selectedCourseForEnrollment = {

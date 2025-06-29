@@ -107,10 +107,6 @@
                     cursor: pointer;
                     user-select: none;
 
-                    &:hover {
-                        transform: scale(1.1);
-                        color: #29B865;
-                    }
 
                     &.bounce-effect {
                         animation: bounceClick 0.6s ease;
@@ -245,17 +241,7 @@
     }
 }
 
-@keyframes numberPulse {
-    0%, 100% {
-        transform: scale(1);
-        color: inherit;
-    }
-    50% {
-        transform: scale(1.05);
-        color: #29B865;
-        text-shadow: 0 0 10px rgba(41, 184, 101, 0.3);
-    }
-}
+
 
 @keyframes countUp {
     from {
