@@ -235,7 +235,7 @@ export class InstructorRegisterComponent implements OnInit {
           this.loading = false;
           if (res.success) {
             this.message.success(res.message);
-            this._Router.navigate(['/login']);
+            this._Router.navigate(['/ConfirmEmail']);
           }
         },
         error: () => {

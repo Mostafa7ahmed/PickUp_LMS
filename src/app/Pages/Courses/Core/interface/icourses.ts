@@ -41,6 +41,7 @@ export interface Icourses {
     enrollmentCount: number
     couponsCount: number
     createdOn: string
+    lessonsCount: number
 
   }
   export interface ICoursePorfile {

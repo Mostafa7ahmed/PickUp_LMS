@@ -1,12 +1,24 @@
 <div class="overlay" *ngIf="showFirstPopup || showSecondPopup"></div>
 <div class="ShowPopup" [class.show]="showFirstPopup">
-  <app-top-pop [NamePopup]="'Create Quiz'" NameIcon="fa-solid fa-file-circle-plus" bgColor="#24C12B33"
-    ColorIcon="#24C12B99" (isVisibleChange)="closePopup()"></app-top-pop>
+  <app-top-pop
+    [NamePopup]="'Create Quiz'"
+    NameIcon="fa-solid fa-file-circle-plus"
+    bgColor="#24C12B33"
+    ColorIcon="#24C12B99"
+    (isVisibleChange)="closePopup()"
+  ></app-top-pop>
   <div class="content p-2">
     <div class="courseSelect">
-      <app-text-header [title]="'Course'" [bgColor]="'#ec8950'"></app-text-header>
+      <app-text-header
+        [title]="'Course'"
+        [bgColor]="'#ec8950'"
+      ></app-text-header>
 
-      <div *ngIf="!selectedCourse" class="selectcard mt-3 my-2" (click)="toggleDropdownCourse()">
+      <div
+        *ngIf="!selectedCourse"
+        class="selectcard mt-3 my-2"
+        (click)="toggleDropdownCourse()"
+      >
         <div class="icon">
           <i class="fas fa-book"></i>
         </div>
@@ -19,7 +31,12 @@
         <div class="course-card px-2 py-1 position-relative">
           <div class="d-flex align-items-center gap-1">
             <div class="images">
-              <img class="rounded-circle" [src]="baseUrl + selectedCourse.photoUrl" height="30" width="30" />
+              <img
+                class="rounded-circle"
+                [src]="baseUrl + selectedCourse.photoUrl"
+                height="30"
+                width="30"
+              />
             </div>
             <div class="course-info">
               <h5 class="mb-1 fw-bold">
@@ -32,7 +49,9 @@
             </div>
           </div>
 
-          <div class="course-details text-end d-flex flex-column align-items-end justify-content-end">
+          <div
+            class="course-details text-end d-flex flex-column align-items-end justify-content-end"
+          >
             <p class="price">
               {{ selectedCourse.price }}
               <i class="fas fa-dollar-sign text-success"></i>
@@ -48,12 +67,22 @@
           </button>
         </div>
       </div>
-      <div *ngIf="showDropdownCourse" class="dropdown bg-white border rounded p-2 mt-2">
-        <div *ngFor="let lead of paginationCoursesResponse.result"
+      <div
+        *ngIf="showDropdownCourse"
+        class="dropdown bg-white border rounded p-2 mt-2"
+      >
+        @for ( lead of paginationCoursesResponse.result; track lead.id) {
+        <div
           class="lead-item d-flex justify-content-between align-items-center p-2 border-bottom cursor-pointer"
-          (click)="selectCourse(lead)">
+          (click)="selectCourse(lead)"
+        >
           <div class="info_course d-flex gap-2 align-items-center">
-            <img class="img-fluid rounded-circle" [src]="baseUrl + lead.photoUrl" width="30" height="30" />
+            <img
+              class="img-fluid rounded-circle"
+              [src]="baseUrl + lead.photoUrl"
+              width="30"
+              height="30"
+            />
             <div class="info">
               <h5 class="name">{{ lead.name | splicText : 13 }}</h5>
               <p class="price">{{ lead.price }}</p>
@@ -61,95 +90,128 @@
           </div>
           <div class="deals-btn">With Deals</div>
         </div>
+        } @empty {
+        <div class="empty">
+          <div class="empty-icon">
+            <i class="fa-solid fa-person-chalkboard"></i>
+          </div>
+         <p>This course doesn't have any Lesson. Create your first Lesson !</p>
+
+        </div>
+        }
       </div>
     </div>
 
     <!-- Lesson Selection Section -->
     <div class="courseSelect mt-2" *ngIf="selectedCourse">
-      <app-text-header [title]="'Select Lessons (Optional)'" [bgColor]="'#28a745'"></app-text-header>
+      <app-text-header
+        [title]="'Select Lessons (Optional)'"
+        [bgColor]="'#28a745'"
+      ></app-text-header>
 
       <!-- Selected Lessons Display -->
       <div *ngIf="selectedLessons.length > 0" class="selected-lessons mt-3">
         <div class="d-flex flex-wrap gap-2">
-          <div *ngFor="let lesson of selectedLessons" class="lesson-tag d-flex align-items-center gap-2 px-3 py-1 bg-light rounded-pill">
-            <span class="lesson-name">{{lesson.name | splicText:20}}</span>
-            <button class="btn-remove-lesson" (click)="removeSelectedLesson(lesson)">
+          <div
+            *ngFor="let lesson of selectedLessons"
+            class="lesson-tag d-flex align-items-center gap-2 px-3 py-1 bg-light rounded-pill"
+          >
+            <span class="lesson-name">{{ lesson.name | splicText : 20 }}</span>
+            <button
+              class="btn-remove-lesson"
+              (click)="removeSelectedLesson(lesson)"
+            >
               <i class="fa-solid fa-xmark"></i>
             </button>
           </div>
         </div>
-        <div class="mt-2 d-flex justify-content-between align-items-center">
-          <small class="text-muted">{{selectedLessons.length}} lesson(s) selected</small>
-          <button class="btn btn-sm btn-outline-secondary" (click)="clearSelectedLessons()">
-            Clear All
-          </button>
-        </div>
       </div>
 
       <!-- Lesson Selection Button -->
-      <div class="selectcard mt-3 my-2 cursor-pointer" (click)="toggleLessonSelection()">
+      <div
+        class="selectcard mt-3 my-2 cursor-pointer"
+        (click)="toggleLessonSelection()"
+      >
         <div class="icon">
           <i class="fas fa-book"></i>
         </div>
         <div class="text">
-          <p *ngIf="selectedLessons.length === 0">Click to Select Lessons</p>
-          <p *ngIf="selectedLessons.length > 0">{{selectedLessons.length}} lesson(s) selected - Click to modify</p>
+          <p>Click to Select Lessons</p>
         </div>
         <div class="arrow">
-          <i class="fas fa-chevron-down" [class.rotate-180]="showLessonSelection"></i>
+          <i
+            class="fas fa-chevron-down"
+            [class.rotate-180]="showLessonSelection"
+          ></i>
         </div>
       </div>
 
       <!-- Lesson Selection Dropdown -->
-      <div *ngIf="showLessonSelection" class="lesson-dropdown bg-white border rounded p-3 mt-2">
+      <div
+        *ngIf="showLessonSelection"
+        class="lesson-dropdown bg-white border rounded p-3 mt-2"
+      >
         <!-- Loading State -->
         <div *ngIf="isLoadingLessons" class="text-center py-3">
-          <div class="spinner-border spinner-border-sm text-primary" role="status">
+          <div
+            class="spinner-border spinner-border-sm text-primary"
+            role="status"
+          >
             <span class="visually-hidden">Loading lessons...</span>
           </div>
           <p class="mt-2 mb-0 text-muted">Loading lessons...</p>
         </div>
 
         <!-- No Lessons State -->
-        <div *ngIf="!isLoadingLessons && lessons.length === 0" class="text-center py-3">
-          <i class="fas fa-book text-muted" style="font-size: 2rem;"></i>
+        <div
+          *ngIf="!isLoadingLessons && lessons.length === 0"
+          class="text-center py-3"
+        >
+          <i class="fas fa-book text-muted" style="font-size: 2rem"></i>
           <p class="mt-2 mb-0 text-muted">No lessons found for this course</p>
         </div>
 
         <!-- Lessons List -->
-        <div *ngIf="!isLoadingLessons && lessons.length > 0" class="lessons-list">
-          <div class="lesson-header d-flex justify-content-between align-items-center mb-3">
-            <h6 class="mb-0">Available Lessons ({{lessons.length}})</h6>
-            <small class="text-muted">Select lessons for this quiz</small>
-          </div>
-
+        <div
+          *ngIf="!isLoadingLessons && lessons.length > 0"
+          class="lessons-list"
+        >
           <div class="lesson-items">
-            <div *ngFor="let lesson of lessons; let i = index"
-                 class="lesson-item d-flex align-items-center gap-3 p-2 border-bottom cursor-pointer hover-bg-light"
-                 (click)="toggleLessonCheckbox(lesson)">
-
+            <div
+              *ngFor="let lesson of lessons; let i = index"
+              class="lesson-item d-flex align-items-center gap-3 p-2 border-bottom cursor-pointer hover-bg-light"
+              (click)="toggleLessonCheckbox(lesson)"
+            >
               <!-- Checkbox -->
               <div class="lesson-checkbox">
-                <input type="checkbox"
-                       [checked]="isLessonSelected(lesson)"
-                       (click)="$event.stopPropagation()"
-                       (change)="toggleLessonCheckbox(lesson)"
-                       class="form-check-input">
+                <input
+                  type="checkbox"
+                  [checked]="isLessonSelected(lesson)"
+                  (click)="$event.stopPropagation()"
+                  (change)="toggleLessonCheckbox(lesson)"
+                  class="form-check-input"
+                />
               </div>
 
               <!-- Lesson Info -->
               <div class="lesson-info flex-grow-1">
                 <div class="d-flex justify-content-between align-items-start">
                   <div>
-                    <h6 class="lesson-title mb-1">{{lesson.name}}</h6>
+                    <h6 class="lesson-title mb-1">{{ lesson.name }}</h6>
                     <div class="lesson-meta d-flex gap-3 text-muted small">
-                      <span><i class="fas fa-play-circle"></i> {{lesson.videosCount}} videos</span>
-                      <span><i class="fas fa-clock"></i> {{lesson.durationInMinutes}} min</span>
-                      <span><i class="fas fa-eye"></i> {{lesson.viewsCount}} views</span>
+                      <span
+                        ><i class="fas fa-play-circle"></i>
+                        {{ lesson.videosCount }} videos</span
+                      >
+                      <span
+                        ><i class="fas fa-clock"></i>
+                        {{ lesson.durationInMinutes }} min</span
+                      >
+                      <span
+                        ><i class="fas fa-eye"></i>
+                        {{ lesson.viewsCount }} views</span
+                      >
                     </div>
-                  </div>
-                  <div class="lesson-order">
-                    <span class="badge bg-secondary">#{{lesson.order}}</span>
                   </div>
                 </div>
               </div>
@@ -158,14 +220,21 @@
         </div>
       </div>
     </div>
-     
-    <div class="mainSelet courseSelect  mt-2">
-      <app-text-header [title]="'Main quiz information'" [bgColor]="'#6662FF'"> </app-text-header>
+
+    <div class="mainSelet courseSelect mt-2">
+      <app-text-header [title]="'Main quiz information'" [bgColor]="'#6662FF'">
+      </app-text-header>
       <div class="mainContent mt-3">
         <div class="codeCoupon d-flex gap-2 align-items-end mb-2">
           <div class="Course_name flex-grow-1">
             <label for="Course_name">Quiz name</label>
-            <input type="text" id="Course_name" placeholder="Enter Quiz name" class="input_Couser" [(ngModel)]="quizTitle">
+            <input
+              type="text"
+              id="Course_name"
+              placeholder="Enter Quiz name"
+              class="input_Couser"
+              [(ngModel)]="quizTitle"
+            />
           </div>
           <div class="deal-desc-btn" tooltipPosition="top">
             <i class="fa-kit fa-subtitles"></i>
@@ -173,44 +242,46 @@
         </div>
         <div class="desCourse_name Course_name mt-2 active">
           <label for="Course_description">Description</label>
-          <textarea class="input_Couser textarea_course" id="Course_description" placeholder="Enter quiz description (optional)" [(ngModel)]="quizDescription"></textarea>
+          <textarea
+            class="input_Couser textarea_course"
+            id="Course_description"
+            placeholder="Enter quiz description (optional)"
+            [(ngModel)]="quizDescription"
+          ></textarea>
         </div>
-
- 
-
-
-
-
-
       </div>
-
     </div>
 
     <div class="courseSelect mt-2">
       <app-text-header [title]="'Duration'" [bgColor]="'#ff6584ab'">
       </app-text-header>
-        <div class="quiz-settings d-flex gap-3 mt-3">
-          <div class="Course_name flex-grow-1">
-            <label for="quiz_duration">Duration (minutes)</label>
-            <input type="number" id="quiz_duration" placeholder="30" class="input_Couser" [(ngModel)]="quizDuration" min="1" max="300">
-          </div>
-          <div class="Course_name flex-grow-1">
-            <label for="quiz_difficulty">Difficulty</label>
-            <select id="quiz_difficulty" class="input_Couser" [(ngModel)]="quizDifficulty">
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="hard">Hard</option>
-            </select>
-          </div>
+      <div class="quiz-settings d-flex gap-3 mt-3">
+        <div class="Course_name flex-grow-1">
+          <label for="quiz_duration">Duration (minutes)</label>
+          <input
+            type="number"
+            id="quiz_duration"
+            placeholder="30"
+            class="input_Couser"
+            [(ngModel)]="quizDuration"
+            min="1"
+            max="300"
+          />
         </div>
-
-
-
+        <div class="Course_name flex-grow-1">
+          <label for="quiz_difficulty">Difficulty</label>
+          <select
+            id="quiz_difficulty"
+            class="input_Couser"
+            [(ngModel)]="quizDifficulty"
+          >
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+      </div>
     </div>
-
-
-
-
   </div>
   <div class="footerCourse bg-white rounded-1">
     <div class="btnsCourse">
@@ -222,39 +293,47 @@
 </div>
 
 <div class="ShowPopupTwo" [class.show]="showSecondPopup">
-
-  <app-top-pop [NamePopup]="'Form question '" NameIcon="fa-solid fa-text-slash" bgColor="#24C12B33"
-    ColorIcon="#24C12B99" (isVisibleChange)="closePopup()"></app-top-pop>
+  <app-top-pop
+    [NamePopup]="'Form question '"
+    NameIcon="fa-solid fa-text-slash"
+    bgColor="#24C12B33"
+    ColorIcon="#24C12B99"
+    (isVisibleChange)="closePopup()"
+  ></app-top-pop>
 
   <div class="contentExam p-2">
     <div class="headerExam">
       <div class="leftExam">
         <div class="examCreate">
-          <app-text-header [title]="'Quiz'" [bgColor]="'#6625259C'"> </app-text-header>
+          <app-text-header [title]="'Quiz'" [bgColor]="'#6625259C'">
+          </app-text-header>
           <div class="quiz-info mt-2">
             <div class="quiz-icon">
               <i class="fa-solid fa-file-invoice"></i>
             </div>
             <div class="quiz-details">
-              <h5>{{quizTitle || 'New Quiz'}}</h5>
+              <h5>{{ quizTitle || "New Quiz" }}</h5>
               <p class="date mb-0">
                 <i class="fas fa-clock"></i>
-                {{quizDuration}} min • {{quizDifficulty | titlecase}}
+                {{ quizDuration }} min • {{ quizDifficulty | titlecase }}
               </p>
             </div>
           </div>
         </div>
-
       </div>
       <div class="rigntExam">
         <div class="CourseCreate">
-          <app-text-header [title]="'Courses '" [bgColor]="'#6625259C'"> </app-text-header>
+          <app-text-header [title]="'Courses '" [bgColor]="'#6625259C'">
+          </app-text-header>
           <div class="course-card mt-2" *ngIf="selectedCourse">
             <div class="d-flex align-items-center gap-2">
               <div class="course-image">
-                <img class="rounded-circle"
-                  [src]="baseUrl + selectedCourse.photoUrl" height="30"
-                  width="30" />
+                <img
+                  class="rounded-circle"
+                  [src]="baseUrl + selectedCourse.photoUrl"
+                  height="30"
+                  width="30"
+                />
               </div>
               <div class="course-info">
                 <h5 class="mb-1 fw-bold">
@@ -269,123 +348,147 @@
 
             <div class="course-stats">
               <div class="stat-item">
-                <span class="stat-value">{{ selectedCourse.price}}</span>
+                <span class="stat-value">{{ selectedCourse.price }}</span>
                 <i class="fas fa-dollar-sign text-success"></i>
               </div>
               <div class="stat-item">
-                <span class="stat-value">{{ selectedCourse.enrollmentCount}}</span>
+                <span class="stat-value">{{
+                  selectedCourse.enrollmentCount
+                }}</span>
                 <i class="fas fa-graduation-cap text-primary"></i>
               </div>
-     
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Lessons Section -->
-      <div class="LessonsCreate" *ngIf="selectedLessons.length > 0">
-        <app-text-header [title]="'Selected Lessons'" [bgColor]="'#28a745'"></app-text-header>
-        <div class="lessons-summary mt-2">
-          <div class="lessons-count mb-2">
-            <small class="text-muted">{{selectedLessons.length}} lesson(s) selected for this quiz</small>
-          </div>
-          <div class="lessons-list">
-            <div *ngFor="let lesson of selectedLessons; let i = index" class="lesson-summary-item d-flex align-items-center gap-2 mb-1">
-              <span class="lesson-number badge bg-secondary">#{{lesson.order}}</span>
-              <span class="lesson-name">{{lesson.name | splicText:25}}</span>
-              <small class="lesson-duration text-muted">{{lesson.durationInMinutes}}min</small>
             </div>
           </div>
         </div>
       </div>
+
+
     </div>
     <div class="HeaderQuiz mt-2 p-2">
-          <div class="tabs d-flex gap-2 align-content-center">
-          <button class="btnTab" (click)="changeValue(0)" [class.btnActive]="value == 0">
-            True and false
-            <span class="badge-count" *ngIf="trueFalseQuestions.length > 0">{{trueFalseQuestions.length}}</span>
-          </button>
-          <button class="btnTab" (click)="changeValue(1)" [class.btnActive]="value == 1">
-            Short answer
-            <span class="badge-count" *ngIf="shortAnswerQuestions.length > 0">{{shortAnswerQuestions.length}}</span>
-          </button>
-          <button class="btnTab" (click)="changeValue(2)" [class.btnActive]="value == 2">
-            Multiple choice
-            <span class="badge-count" *ngIf="multipleChoiceQuestions.length > 0">{{multipleChoiceQuestions.length}}</span>
-          </button>
+      <div class="tabs d-flex gap-2 align-content-center">
+        <button
+          class="btnTab"
+          (click)="changeValue(0)"
+          [class.btnActive]="value == 0"
+        >
+          True and false
+          <span class="badge-count" *ngIf="trueFalseQuestions.length > 0">{{
+            trueFalseQuestions.length
+          }}</span>
+        </button>
+        <button
+          class="btnTab"
+          (click)="changeValue(1)"
+          [class.btnActive]="value == 1"
+        >
+          Short answer
+          <span class="badge-count" *ngIf="shortAnswerQuestions.length > 0">{{
+            shortAnswerQuestions.length
+          }}</span>
+        </button>
+        <button
+          class="btnTab"
+          (click)="changeValue(2)"
+          [class.btnActive]="value == 2"
+        >
+          Multiple choice
+          <span
+            class="badge-count"
+            *ngIf="multipleChoiceQuestions.length > 0"
+            >{{ multipleChoiceQuestions.length }}</span
+          >
+        </button>
+      </div>
+      <div class="action d-flex gap-2 align-items-center">
+        <div class="view-toggle">
+          <i class="fas fa-eye text-success"></i>
         </div>
-        <div class="action d-flex gap-2 align-items-center">
-          <div class="view-toggle">
-            <i class="fas fa-eye text-success"></i>
-          </div>
-          <button class="btn-new-section" (click)="addQuestion()">
-            <i class="fas fa-plus"></i>
-            New section
-          </button>
-        </div>
-
+        <button class="btn-new-section" (click)="addQuestion()">
+          <i class="fas fa-plus"></i>
+          New section
+        </button>
+      </div>
     </div>
 
+    <div class="questions-container">
+      <ng-container *ngIf="value == 0">
+        <div *ngIf="trueFalseQuestions.length === 0" class="empty-state">
+          <div class="empty-icon">
+            <i class="fas fa-question-circle"></i>
+          </div>
+          <h3>No questions yet</h3>
+          <p>Click "New section" to add your first True/False question.</p>
+        </div>
+        <div
+          *ngFor="let question of trueFalseQuestions.controls; let i = index"
+          class="question-wrapper"
+        >
+          <app-true-false
+            [formGroup]="$any(question)"
+            [questionIndex]="i"
+            (removeQuestion)="removeTrueFalseQuestion(i)"
+          >
+          </app-true-false>
+        </div>
+      </ng-container>
 
-          <div class="questions-container">
-        <ng-container *ngIf="value == 0">
-          <div *ngIf="trueFalseQuestions.length === 0" class="empty-state">
-            <div class="empty-icon">
-              <i class="fas fa-question-circle"></i>
-            </div>
-            <h3>No questions yet</h3>
-            <p>Click "New section" to add your first True/False question.</p>
+      <ng-container *ngIf="value == 1">
+        <div *ngIf="shortAnswerQuestions.length === 0" class="empty-state">
+          <div class="empty-icon">
+            <i class="fas fa-edit"></i>
           </div>
-          <div *ngFor="let question of trueFalseQuestions.controls; let i = index" class="question-wrapper">
-            <app-true-false
-              [formGroup]="$any(question)"
-              [questionIndex]="i"
-              (removeQuestion)="removeTrueFalseQuestion(i)">
-            </app-true-false>
-          </div>
-        </ng-container>
+          <h3>No questions yet</h3>
+          <p>Click "New section" to add your first Short Answer question.</p>
+        </div>
+        <div
+          *ngFor="let question of shortAnswerQuestions.controls; let i = index"
+          class="question-wrapper"
+        >
+          <app-short-answer
+            [formGroup]="$any(question)"
+            [questionIndex]="i"
+            (removeQuestion)="removeShortAnswerQuestion(i)"
+          >
+          </app-short-answer>
+        </div>
+      </ng-container>
 
-        <ng-container *ngIf="value == 1">
-          <div *ngIf="shortAnswerQuestions.length === 0" class="empty-state">
-            <div class="empty-icon">
-              <i class="fas fa-edit"></i>
-            </div>
-            <h3>No questions yet</h3>
-            <p>Click "New section" to add your first Short Answer question.</p>
+      <ng-container *ngIf="value == 2">
+        <div *ngIf="multipleChoiceQuestions.length === 0" class="empty-state">
+          <div class="empty-icon">
+            <i class="fas fa-list"></i>
           </div>
-          <div *ngFor="let question of shortAnswerQuestions.controls; let i = index" class="question-wrapper">
-            <app-short-answer
-              [formGroup]="$any(question)"
-              [questionIndex]="i"
-              (removeQuestion)="removeShortAnswerQuestion(i)">
-            </app-short-answer>
-          </div>
-        </ng-container>
-
-        <ng-container *ngIf="value == 2">
-          <div *ngIf="multipleChoiceQuestions.length === 0" class="empty-state">
-            <div class="empty-icon">
-              <i class="fas fa-list"></i>
-            </div>
-            <h3>No questions yet</h3>
-            <p>Click "New section" to add your first Multiple Choice question.</p>
-          </div>
-          <div *ngFor="let question of multipleChoiceQuestions.controls; let i = index" class="question-wrapper">
-            <app-multiple-choice
-              [formGroup]="$any(question)"
-              [questionIndex]="i"
-              (removeQuestion)="removeMultipleChoiceQuestion(i)">
-            </app-multiple-choice>
-          </div>
-        </ng-container>
-      </div>
+          <h3>No questions yet</h3>
+          <p>Click "New section" to add your first Multiple Choice question.</p>
+        </div>
+        <div
+          *ngFor="
+            let question of multipleChoiceQuestions.controls;
+            let i = index
+          "
+          class="question-wrapper"
+        >
+          <app-multiple-choice
+            [formGroup]="$any(question)"
+            [questionIndex]="i"
+            (removeQuestion)="removeMultipleChoiceQuestion(i)"
+          >
+          </app-multiple-choice>
+        </div>
+      </ng-container>
+    </div>
   </div>
-  <div class="footerCourse bg-white ">
+  <div class="footerCourse bg-white">
     <div class="btnsCourse d-flex justify-content-between">
       <!-- Progress indicator -->
-      <div *ngIf="isCreatingQuiz" class="creation-progress d-flex align-items-center gap-2">
-        <div class="spinner-border spinner-border-sm text-primary" role="status">
+      <div
+        *ngIf="isCreatingQuiz"
+        class="creation-progress d-flex align-items-center gap-2"
+      >
+        <div
+          class="spinner-border spinner-border-sm text-primary"
+          role="status"
+        >
           <span class="visually-hidden">Loading...</span>
         </div>
         <span class="progress-text">
@@ -394,8 +497,15 @@
             <span *ngSwitchCase="'section'">Creating quiz section...</span>
             <span *ngSwitchCase="'questions'">
               Creating questions...
-              <span *ngIf="creationProgress.completedQuestions && creationProgress.totalQuestions">
-                ({{creationProgress.completedQuestions}}/{{creationProgress.totalQuestions}})
+              <span
+                *ngIf="
+                  creationProgress.completedQuestions &&
+                  creationProgress.totalQuestions
+                "
+              >
+                ({{ creationProgress.completedQuestions }}/{{
+                  creationProgress.totalQuestions
+                }})
               </span>
             </span>
             <span *ngSwitchCase="'completed'">Quiz created successfully!</span>
@@ -406,11 +516,13 @@
       <button
         class="btn-save"
         (click)="saveQuestions()"
-        [disabled]="!canSaveQuiz()">
+        [disabled]="!canSaveQuiz()"
+      >
         <i class="fas fa-spinner fa-spin me-2" *ngIf="isCreatingQuiz"></i>
-        <span *ngIf="!isCreatingQuiz">Save Quiz ({{getTotalQuestionsCount()}} questions)</span>
+        <span *ngIf="!isCreatingQuiz"
+          >Save Quiz ({{ getTotalQuestionsCount() }} questions)</span
+        >
       </button>
     </div>
   </div>
-
 </div>

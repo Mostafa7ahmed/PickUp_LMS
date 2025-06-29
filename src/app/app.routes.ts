@@ -32,11 +32,7 @@ export const routes: Routes = [
         canActivate: [isloginguardsGuard],
         component: LoginComponent
     },
-        {
-        path: "trrrrr",
-        title: "trrrrr",
-        component: TopicComponent
-    },
+
     {
         path: "startregister",
         title: "startregister",

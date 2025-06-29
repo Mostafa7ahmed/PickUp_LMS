@@ -145,17 +145,18 @@ changeValue(val: number) {
     });
   }
   getCourse() {
-
     this._paginateCoursesService.getCourses().subscribe((response) => {
+      // Only show courses that have at least one lesson
+      if (response && response.result) {
+        response.result = response.result.filter((course: ListCourse) => course.lessonsCount && course.lessonsCount > 0);
+      }
       this.paginationCoursesResponse = response;
       this.isLoadCourse = true;
-      console.log(response.result)
-
-
-
-
+      console.log('Filtered courses with lessons:', response.result);
     });
   }
+
+  public noCoursesWithLessons = false;
 form = new FormGroup({
   trueFalseQuestions: new FormArray([]),
   shortAnswerQuestions: new FormArray([]),
