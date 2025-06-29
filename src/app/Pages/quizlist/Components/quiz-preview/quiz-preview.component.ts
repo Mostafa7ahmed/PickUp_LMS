@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { QuizService, Quiz, QuizQuestion } from '../../Core/services/quiz.service';
 import { TopPopComponent } from "../../../../Components/top-pop/top-pop.component";
@@ -16,6 +16,7 @@ export class QuizPreviewComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private quizService = inject(QuizService);
+  private location = inject(Location );
 
   quiz: Quiz | null = null;
   currentQuestionIndex = 0;
@@ -127,8 +128,9 @@ export class QuizPreviewComponent implements OnInit, OnDestroy {
 
   closePopup() {
     this.clearCountdown();
-    this.router.navigate([{ outlets: { dialog: null } }]);
+    this.location.back();
   }
+  
 
   nextQuestion() {
     if (this.currentQuestionIndex < this.questions.length - 1) {

@@ -297,6 +297,35 @@ $radius-2xl: 1.5rem;
   }
 }
 
+.grade-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial, sans-serif;
+
+  .circle {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    background-color: #00ff0010;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .percent {
+    font-size: 25px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+
+  .label {
+    font-size: 16px;
+    color: #666;
+  }
+}
 
 // Quiz 
 .quiz-grid {

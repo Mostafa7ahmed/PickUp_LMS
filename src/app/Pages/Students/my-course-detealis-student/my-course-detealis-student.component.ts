@@ -95,7 +95,31 @@ quizzes = [
     level: 'Hard'
   }
 ];
+  percentage: number = 0;
 
+  
+
+  generateRandomPercentage() {
+    this.percentage = Math.floor(Math.random() * 101); 
+  }
+
+  getBackgroundColor(): string {
+    if (this.percentage >= 90) return '#d5f9e3'; // Green bg for 90-100
+    if (this.percentage >= 80) return '#e0f7fa'; // Light blue for 80-89
+    if (this.percentage >= 70) return '#ffe4b3'; // Yellow for 70-79
+    if (this.percentage >= 60) return '#fff3cd'; // Light yellow for 60-69
+    if (this.percentage >= 50) return '#ffe0e0'; // Light red for 50-59
+    return '#fcd2d2'; // Deeper red for <50
+  }
+
+  getTextColor(): string {
+    if (this.percentage >= 90) return '#0ab95c'; // Green text for 90-100
+    if (this.percentage >= 80) return '#00bcd4'; // Blue text for 80-89
+    if (this.percentage >= 70) return '#ff9800'; // Orange for 70-79
+    if (this.percentage >= 60) return '#bfa100'; // Dark yellow for 60-69
+    if (this.percentage >= 50) return '#e57373'; // Red for 50-59
+    return '#f44336'; // Deep red for <50
+  }
   startQuiz(quizId: number, event: Event) {
     this.router.navigate(['Student',{ outlets: { dialog: ['quizPreview', quizId] } }], {
       queryParams: { mode: 'start' }
@@ -111,6 +135,8 @@ ngOnInit(): void {
   this.courseId = +this.route.snapshot.paramMap.get('id')!;
   if (this.courseId) {
   }
+      this.generateRandomPercentage();
+
 
   setTimeout(() => {
     this.isLoading = false;
