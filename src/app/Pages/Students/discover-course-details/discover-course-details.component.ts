@@ -11,15 +11,18 @@ import { IResponseOf } from '../../../Core/Shared/Interface/irespose';
 import { environment } from '../../../Environments/environment';
 import { EnrollmentPopupComponent, ICourseForEnrollment } from '../../../Components/enrollment-popup/enrollment-popup.component';
 import { SuccessPopupComponent, ISuccessData } from '../../../Components/success-popup/success-popup.component';
+import { RatingComponent } from "../../rating/rating.component";
+import { ReatingCardsComponent } from "./reating-cards/reating-cards.component";
 
 @Component({
   selector: 'app-discover-course-details',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule, EnrollmentPopupComponent, SuccessPopupComponent],
+  imports: [CommonModule, FormsModule, HttpClientModule, EnrollmentPopupComponent, SuccessPopupComponent, RatingComponent, ReatingCardsComponent],
   templateUrl: './discover-course-details.component.html',
   styleUrl: './discover-course-details.component.scss'
 })
 export class DiscoverCourseDetailsComponent implements OnInit, OnDestroy {
+  selectedTab: 'overview' | 'review' = 'overview';
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private sanitizer = inject(DomSanitizer);
@@ -59,6 +62,7 @@ export class DiscoverCourseDetailsComponent implements OnInit, OnDestroy {
           if (this.courseDetailsdata?.result.introductionVideo) {
             this.safeVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.courseDetailsdata.result.introductionVideo);
           }
+          console.log(this.courseDetailsdata.result)
         },
         error: (err) => {
           console.error('Failed to load course details', err);

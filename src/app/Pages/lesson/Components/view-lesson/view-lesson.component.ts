@@ -18,20 +18,6 @@ import { SelectonViewComponent } from "../selecton-view/selecton-view.component"
   styleUrl: './view-lesson.component.scss'
 })
 export class ViewLessonComponent implements OnInit, OnDestroy {
-  downloadFile(file: { url: string, name: string }): void {
-    // If the url is not absolute, prepend baseurl
-    let fileUrl = file.url;
-    if (fileUrl && !/^https?:\/\//.test(fileUrl)) {
-      fileUrl = this.baseurl + fileUrl;
-    }
-    const a = document.createElement('a');
-    a.href = fileUrl;
-    a.download = file.name;
-    a.target = '_blank';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }
   constructor(private location: Location, private _ActivatedRoute: ActivatedRoute) {}
   private _GetOneLessonService = inject(GetOneLessonService)
   value: number = 0;

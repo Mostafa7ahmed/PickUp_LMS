@@ -227,45 +227,35 @@
 
       <div class="box resources">
         <h5>Downloadable Resources</h5>
-        <div *ngIf="lessonData?.files && lessonData.files.length > 0; else noFiles">
-          <div class="resources-list">
-            <div class="resource" *ngFor="let item of lessonData.files; let i = index">
-              <div class="icon"
-                   [ngStyle]="{
-                     'background-color': 
-                       item.extension === '.pdf' ? '#E74C3C' :
-                       item.extension === '.doc' || item.extension === '.docx' ? '#3498DB' :
-                       item.extension === '.ppt' || item.extension === '.pptx' ? '#F39C12' :
-                       item.extension === '.xls' || item.extension === '.xlsx' ? '#27AE60' :
-                       item.extension === '.zip' ? '#8E44AD' :
-                       '#7f8c8d'
-                   }">
-                <i class="fa-solid"
-                   [ngClass]="
-                     item.extension === '.pdf' ? 'fa-file-pdf' :
-                     item.extension === '.doc' || item.extension === '.docx' ? 'fa-file-word' :
-                     item.extension === '.ppt' || item.extension === '.pptx' ? 'fa-file-powerpoint' :
-                     item.extension === '.xls' || item.extension === '.xlsx' ? 'fa-file-excel' :
-                     item.extension === '.zip' ? 'fa-file-zipper' :
-                     'fa-file'
-                   "></i>
-              </div>
-              <div class="details">
-                <strong>Resource {{i + 1}} ({{item.extension}})</strong>
-                <p>{{ item.type }} • {{ item.size }}</p>
-              </div>
-              <button (click)="downloadFile(item)"><i class="fa-solid fa-download"></i></button>
+        <div class="resources-list">
+          <div class="resource" *ngFor="let item of lessonData.files; let i = index">
+            <div class="icon"
+                 [ngStyle]="{
+                   'background-color': 
+                     item.extension === 'pdf' ? '#E74C3C' :
+                     item.extension === 'doc' || item.extension === 'docx' ? '#3498DB' :
+                     item.extension === 'ppt' || item.extension === 'pptx' ? '#F39C12' :
+                     item.extension === 'xls' || item.extension === 'xlsx' ? '#27AE60' :
+                     item.extension === 'zip' ? '#8E44AD' :
+                     '#7f8c8d'
+                 }">
+              <i class="fa-solid"
+                 [ngClass]="
+                   item.extension === 'pdf' ? 'fa-file-pdf' :
+                   item.extension === 'doc' || item.extension === 'docx' ? 'fa-file-word' :
+                   item.extension === 'ppt' || item.extension === 'pptx' ? 'fa-file-powerpoint' :
+                   item.extension === 'xls' || item.extension === 'xlsx' ? 'fa-file-excel' :
+                   item.extension === 'zip' ? 'fa-file-zipper' :
+                   'fa-file'
+                 "></i>
             </div>
+            <div class="details">
+              <strong>Resource {{i + 1}} ({{item.extension}})</strong>
+              <p>{{ item.type }} • {{ item.size }}</p>
+            </div>
+            <button><i class="fa-solid fa-download"></i></button>
           </div>
         </div>
-        <ng-template #noFiles>
-          <div class="empty-state ">
-            <div class="empty-icon mb-3">
-                <i class="fa-solid fa-file-pdf"></i>
-            </div>
-            <p class="mt-5">This course doesn't have any Resource yet</p>
-          </div>
-        </ng-template>
       </div>
     </div>
   </div>

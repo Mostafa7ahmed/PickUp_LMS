@@ -1,0 +1,58 @@
+<div class="rating">
+    @for (reviewsByDate of reviewsByDates; track $index) {
+      <div class="rateSeemDay mb-4">
+    <div class="ratePersonal">
+            <div class="cardRate">
+              <div class="rateIcon position-relative">
+                <div class="rateDemo position-relative">
+                  <div class="icon-demo position-relative">
+                    <i class="fa-solid fa-star"></i>
+                  </div>
+                </div>
+                <div class="line-stream-demo"></div>
+              </div>
+  
+              <div class="infoRate p-3">
+                <div class="headerRate d-flex align-items-center justify-content-between">
+                  <p class="title">{{ reviewsByDate.student.name }}</p>
+                  <p class="number">
+                    {{ reviewsByDate.createdOn| date: 'hh:mm a' }}
+                  </p>
+                </div>
+  
+                <div class="mt-2">
+                  <div class="review">
+                    <div class="stars d-flex gap-2 align-items-center">
+                        @for (star of getStarsArray(reviewsByDate.value); track $index) {
+                          <i class="fa-solid fa-star " style="color: #FFE112;" ></i>
+                        }
+                        @for (star of getStarsArray(5 - reviewsByDate.value); track $index) {
+                          <i class="fa-solid fa-star" style="color: #D8D8D8;"  ></i>
+                        }
+                      </div>
+  
+                    <div class="comment mt-2">
+                      <p class="text">{{ reviewsByDate.value }}</p>
+                    </div>
+                  </div>
+                </div>
+  
+              </div>
+            </div>
+          </div>
+      </div>
+    }
+    @empty {
+    <div class="empty-state h-100">
+        <div class="empty-icon">
+            <i class="fa-solid fa-star"></i>
+        </div>
+        <h3>No Rating Found</h3>
+        <p>This course doesn't have any Rating yet!</p>
+
+    </div>
+    }
+   
+
+  </div>
+  

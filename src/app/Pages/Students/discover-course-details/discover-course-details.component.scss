@@ -54,7 +54,7 @@ $radius-2xl: 1.5rem;
     .spinner {
       font-size: 3rem;
       margin-bottom: 1.5rem;
-      color: $primary;
+      color: $secondary;
 
       .fa-spinner {
         animation: spin-smooth 1s linear infinite;
@@ -75,6 +75,10 @@ $radius-2xl: 1.5rem;
       font-size: 0.95rem;
     }
   }
+}
+@keyframes spin-smooth {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 
@@ -208,27 +212,33 @@ $radius-2xl: 1.5rem;
   }
 
   .video-box {
-    position: relative;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+
+  video {
+    width: 100%;
+    display: block;
     border-radius: 12px;
-    overflow: hidden;
+  }
 
-    img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
+  .play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 16px;
+    border-radius: 50%;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 
-    .play-button {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: rgba(0, 0, 0, 0.5);
-      padding: 16px;
-      border-radius: 50%;
-      color: white;
-      font-size: 24px;
-      cursor: pointer;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.8);
     }
   }
+}
+
 }

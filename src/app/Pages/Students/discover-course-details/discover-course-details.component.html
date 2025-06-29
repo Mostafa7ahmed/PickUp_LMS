@@ -1,5 +1,5 @@
 <!-- Loading State -->
-<div class="loading-container" >
+<div class="loading-container" *ngIf="isLoading">
   <div class="loading-content">
     <div class="spinner">
       <i class="fas fa-spinner fa-spin "></i>
@@ -11,19 +11,23 @@
 
 
 
-<div class="course-details" *ngIf="!isLoading && courseDetailsdata.success">
+<div class="course-details" *ngIf="!isLoading && courseDetailsdata.success && courseDetailsdata.result">
   <!-- Course Header -->
   <div class="course-header">
     <div class="course-icon">
       <i class="fas fa-arrow-left"></i>
     </div>
     <div class="course-info">
-      <h1>CS 301: Data Structures & Algorithms</h1>
-      <p class="meta">Computer Science • 4 Credits • Spring 2025</p>
+      <h1>{{courseDetailsdata.result?.name || 'No course name available'}}</h1>
       <div class="professor">
-        <div class="avatar">JW</div>
-        <span>Prof. James Wilson</span>
-        <span class="time">Mon, Wed • 10:00 AM - 11:30 AM</span>
+        <div class="avatar">
+          <img *ngIf="courseDetailsdata.result?.instructor?.photo"
+            [src]="baseUrl + courseDetailsdata.result.instructor.photo" width="30" height="30" class="rounded-circle"
+            alt="Instructor Photo">
+        </div>
+        <span>{{courseDetailsdata.result?.instructor?.name || 'Unknown Instructor'}}</span>
+        <span class="time">{{courseDetailsdata.result?.updatedOn ? (courseDetailsdata.result.updatedOn | date) :
+          ''}}</span>
       </div>
     </div>
     <div class="course-action">
@@ -31,33 +35,60 @@
         <span class="old-price">$149.99</span>
         <span class="new-price">$89.99</span>
       </div>
-      <button class="enroll-button">Enroll Now</button>
+      <button class="enroll-button" [disabled]="!courseDetailsdata.result">Enroll Now</button>
     </div>
   </div>
 
-  <div class="tabs">
-    <button class="tab active">Overview</button>
-    <button class="tab">Review</button>
+  <div class="tabs mb-3" style="display: flex; gap: 10px;">
+    <button class="tab" [ngClass]="{active: selectedTab === 'overview'}"
+      (click)="selectedTab = 'overview'">Overview</button>
+    <button class="tab" [ngClass]="{active: selectedTab === 'review'}" (click)="selectedTab = 'review'">Review</button>
   </div>
 
-  <div class="course-description">
-    <h2>Course Description</h2>
-    <p>
-      This course introduces the fundamental concepts of data structures and the algorithms
-      that operate on them. Topics include data abstraction, recursion, stacks, queues,
-      linked lists, trees, hash tables, graphs, and analysis of algorithms. Students will
-      implement various data structures and algorithms in programming assignments.
-    </p>
-  </div>
+  <div *ngIf="selectedTab === 'overview'">
+    <div class="course-description">
+      <h2>Course Description</h2>
+      <p>
+        {{courseDetailsdata.result.description || 'No description available for this course.'}}
+      </p>
+    </div>
+    <div class="course-preview">
+      <h2>Course Preview</h2>
+      <div class="video-box" *ngIf="courseDetailsdata.result.introductionVideo; else noVideo">
+        <video #previewVideo width="100%" height="360" controls style="max-width: 100%; max-height: 360px;">
+          <source [src]="baseUrl + courseDetailsdata.result.introductionVideo" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <ng-template #noVideo>
+        <div class="d-flex flex-column align-items-center p-5 justify-content-center p-4 bg-light rounded">
+          <i class="fas fa-video fa-3x text-muted mb-3"></i>
+          <p class="text-muted">No introduction video available for this course.</p>
+        </div>
+      </ng-template>
+    </div>
 
-  <!-- Course Preview Video -->
-  <div class="course-preview">
-    <h2>Course Preview</h2>
-    <div class="video-box">
-      <img src="Images/Course/Image+Background.png" alt="Preview" />
-      <div class="play-button">
-        <i class="fas fa-play"></i>
+  </div>
+  <div *ngIf="selectedTab === 'review'">
+    <div class="rating-dev mt-4 p-3 bg-white rounded shadow-sm" style="display: flex; align-items: center; gap: 10px;">
+      <i class="fa-solid fa-star text-warning" style="font-size: 2rem;"></i>
+      <div>
+        <div style="font-weight: bold; font-size: 1.2rem;">Course Rating</div>
+        <div style="color: #888;">{{courseDetailsdata.result.rating}}</div>
       </div>
     </div>
+    <app-reating-cards [reviewsByDates]="courseDetailsdata.result.ratings"></app-reating-cards>
+
   </div>
+</div>
+<div *ngIf="!isLoading && (!courseDetailsdata.success || !courseDetailsdata.result)"
+  class="d-flex flex-column mt-5 align-items-center justify-content-center m-0">
+  <img src="Images/deal-empty-state.svg" alt="" width="190px">
+  <p class="mt-3">No course data found</p>
+</div>
+
+<div *ngIf="!isLoading && (!courseDetailsdata.success || !courseDetailsdata.result)"
+  class="d-flex flex-column mt-5 align-items-center justify-content-center m-0">
+  <img src="Images/deal-empty-state.svg" alt="" width="190px">
+  <p class="mt-3">No course data found</p>
 </div>
