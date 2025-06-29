@@ -15,6 +15,8 @@ import { EditTaskStudentComponent } from '../Pages/Students/todostdutent/compone
 import { PorfileStudnetComponent } from '../Pages/Students/porfile-studnet/porfile-studnet.component';
 import { EditProfileStudentComponent } from '../Pages/Students/porfile-studnet/Components/edit-profile-student/edit-profile-student.component';
 import { DiscoverCourseDetailsComponent } from '../Pages/Students/discover-course-details/discover-course-details.component';
+import { MyCourseDetealisStudentComponent } from '../Pages/Students/my-course-detealis-student/my-course-detealis-student.component';
+import { QuizPreviewComponent } from '../Pages/quizlist/Components/quiz-preview/quiz-preview.component';
 
 export const studentRoutes: Routes = [
     {
@@ -26,6 +28,9 @@ export const studentRoutes: Routes = [
             { path: "homeStudent", title: "Home Student", component: HomepageStudentComponent },
             { path: "myCourse", title: "My Course", component: MyCourseComponent },
             { path: "DiscoverCourses", title: "My Course", component: DiscoverCourseComponent },
+             { path: "course/:id", title: "My Course", component: MyCourseDetealisStudentComponent },
+            { path: 'quizPreview/:id', outlet: 'dialog', component: QuizPreviewComponent },
+
             {
                 path: "Todo",
                 title: "Task Management",
