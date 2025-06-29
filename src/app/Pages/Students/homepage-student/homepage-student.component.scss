@@ -115,6 +115,12 @@
                     &.bounce-effect {
                         animation: bounceClick 0.6s ease;
                     }
+
+                    .loading-spinner {
+                        color: #29B865;
+                        font-size: 14px;
+                        animation: pulse 1.5s ease-in-out infinite;
+                    }
                 }
             }
         }
@@ -239,17 +245,17 @@
     }
 }
 
-// @keyframes numberPulse {
-//     0%, 100% {
-//         transform: scale(1);
-//         color: inherit;
-//     }
-//     50% {
-//         transform: scale(1.05);
-//         color: #29B865;
-//         text-shadow: 0 0 10px rgba(41, 184, 101, 0.3);
-//     }
-// }
+@keyframes numberPulse {
+    0%, 100% {
+        transform: scale(1);
+        color: inherit;
+    }
+    50% {
+        transform: scale(1.05);
+        color: #29B865;
+        text-shadow: 0 0 10px rgba(41, 184, 101, 0.3);
+    }
+}
 
 @keyframes countUp {
     from {
@@ -268,6 +274,17 @@
     50% { transform: scale(0.9) rotate(-3deg); }
     75% { transform: scale(1.1) rotate(2deg); }
     100% { transform: scale(1) rotate(0deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { 
+        opacity: 1; 
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.6; 
+        transform: scale(0.95);
+    }
 }
 
 // Responsive adjustments

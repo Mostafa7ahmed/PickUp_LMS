@@ -1,5 +1,6 @@
 import { LoginService } from './../../../Core/Services/login.service';
 import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MyCoursesComponent } from "./components/my-courses/my-courses.component";
 import { TodoComponent } from "./components/todo/todo.component";
 import { CourseCardComponent } from "./components/course-card/course-card.component";
@@ -8,64 +9,160 @@ import { PhrasesService } from './service/phrases.service';
 import { Decode } from '../../../Core/Interface/user';
 import { WalletService } from '../../../Core/Services/wallet.service';
 import { IWallet } from '../../../Core/Interface/iwallet';
+import { CourseService } from '../my-course/core/service/course.service';
+import { CourseProgressStatus } from '../my-course/core/interface/icourse-student';
 
 @Component({
   selector: 'app-homepage-student',
   standalone: true,
-  imports: [MyCoursesComponent, TodoComponent, DiscoverCardsComponent],
+  imports: [CommonModule, MyCoursesComponent, TodoComponent, DiscoverCardsComponent],
   templateUrl: './homepage-student.component.html',
   styleUrl: './homepage-student.component.scss'
 })
 export class HomepageStudentComponent implements OnInit {
   constructor(private phrasesService: PhrasesService, private _LoginService: LoginService) {}
-    private walletService = inject(WalletService);
-    wallet: IWallet | null = null;
+  private walletService = inject(WalletService);
+  private courseService = inject(CourseService);
+  wallet: IWallet | null = null;
   
   dataUser: Decode = {} as Decode;
   randomMessage = '';
 
+  // Loading states
+  isLoadingBalance = false;
+  isLoadingCourses = false;
+
   // Animated number properties
   streakCount = 0;
   activeCoursesCount = 0;
-  totalRevenueCount = 0;
+  totalRevenueCount = 0; // Initialize with 0, will be animated
   averageRatingCount = 0;
 
   // Target values for animations
   private readonly targetStreak = 20;
-  private readonly targetActiveCourses = 2845;
-  private readonly targetRevenue = 2845;
+  private targetActiveCourses = 0; // Start with 0, will be set from real API data
+  private targetRevenue = 0; // Start with 0, will be set from real wallet balance
   private readonly targetRating = 4.9;
 
   ngOnInit(): void {
     this.dataUser = this._LoginService.saveUserAuth();
     this.randomMessage = this.phrasesService.getRandomMessage();
-    this.walletService.getWallet().subscribe({
-      next:(res) =>{
-        this.wallet=res.result
-        this.totalRevenueCount = res.result.balance
-      }
-    })
-    // Generate random variations for more dynamic display
+    
+    // Get real wallet balance
+    this.loadWalletBalance();
+    
+    // Get real enrolled courses count - NO FALLBACKS
+    this.loadEnrolledCoursesCount();
+    
+    // Generate random variations ONLY for other stats (streak and rating)
     this.generateRandomNumbers();
     
     setTimeout(() => this.animateStreak(), 500);
-    setTimeout(() => this.animateActiveCourses(), 700);
-    setTimeout(() => this.animateRevenue(), 900);
     setTimeout(() => this.animateRating(), 1100);
+    
+    // Log data sources after animations complete
+    setTimeout(() => this.logDataSources(), 3000);
+  }
+
+  // Load real wallet balance from API - NO FALLBACKS
+  private loadWalletBalance(): void {
+    console.log('🚀 Starting REAL wallet balance load...');
+    this.isLoadingBalance = true;
+    
+    this.walletService.getWallet().subscribe({
+      next: (res) => {
+        console.log('📊 Real Wallet API Response:', res);
+        this.isLoadingBalance = false;
+        
+        if (res && res.success && res.result) {
+          this.wallet = res.result;
+          const realBalance = res.result.balance || 0;
+          console.log('💰 REAL wallet balance from API:', realBalance);
+          
+          // Use ONLY the real balance from API
+          this.targetRevenue = realBalance;
+          
+          // Start balance animation with REAL data
+          setTimeout(() => {
+            console.log('🎬 Starting REAL balance animation with value:', this.targetRevenue);
+            this.animateRevenue();
+          }, 900);
+        } else {
+          console.warn('⚠️ Invalid wallet response structure:', res);
+          this.isLoadingBalance = false;
+          // Show 0 if API response is invalid - NO FAKE DATA
+          this.targetRevenue = 0;
+          this.totalRevenueCount = 0;
+        }
+      },
+      error: (error) => {
+        console.error('❌ Wallet API Error:', error);
+        this.isLoadingBalance = false;
+        
+        // Show 0 if API fails - NO FAKE DATA
+        this.targetRevenue = 0;
+        this.totalRevenueCount = 0;
+        console.log('💔 Wallet API failed - showing $0.00 (real data only)');
+      }
+    });
+  }
+
+  // Load real enrolled courses count from API - NO FALLBACKS
+  private loadEnrolledCoursesCount(): void {
+    console.log('🚀 Starting REAL enrolled courses count load...');
+    this.isLoadingCourses = true;
+    
+    // Get all enrolled courses (both in progress and completed)
+    this.courseService.getCourse(1, 1000).subscribe({
+      next: (res) => {
+        console.log('📚 Real Courses API Response:', res);
+        this.isLoadingCourses = false;
+        
+        if (res && res.totalCount !== undefined) {
+          const realCoursesCount = res.totalCount || 0;
+          console.log('📖 REAL enrolled courses count from API:', realCoursesCount);
+          
+          // Use ONLY the real count from API
+          this.targetActiveCourses = realCoursesCount;
+          
+          // Start courses animation with REAL data
+          setTimeout(() => {
+            console.log('🎬 Starting REAL courses animation with count:', this.targetActiveCourses);
+            this.animateActiveCourses();
+          }, 700);
+        } else {
+          console.warn('⚠️ Invalid courses response structure:', res);
+          this.isLoadingCourses = false;
+          // Show 0 if API response is invalid - NO FAKE DATA
+          this.targetActiveCourses = 0;
+          this.activeCoursesCount = 0;
+        }
+      },
+      error: (error) => {
+        console.error('❌ Courses API Error:', error);
+        this.isLoadingCourses = false;
+        
+        // Show 0 if API fails - NO FAKE DATA
+        this.targetActiveCourses = 0;
+        this.activeCoursesCount = 0;
+        console.log('💔 API failed - showing 0 courses (real data only)');
+      }
+    });
   }
 
   private generateRandomNumbers(): void {
-    // Add random variations to base numbers
+    // Generate random variations ONLY for non-API stats (streak and rating)
     const streakVariation = Math.floor(Math.random() * 10) + 15; // 15-25
-    const coursesVariation = Math.floor(Math.random() * 500) + 2500; // 2500-3000
-    const revenueVariation = Math.floor(Math.random() * 1000) + 2000; // 2000-3000
     const ratingVariation = (Math.random() * 0.8) + 4.2; // 4.2-5.0
     
-    // Update target values with variations
+    // Update ONLY streak and rating - NEVER touch API-driven values
     (this as any).targetStreak = streakVariation;
-    (this as any).targetActiveCourses = coursesVariation;
-    (this as any).targetRevenue = revenueVariation;
     (this as any).targetRating = Math.round(ratingVariation * 10) / 10;
+    
+    // These are NEVER modified - they come from real APIs:
+    // - targetActiveCourses (from CourseService API)
+    // - targetRevenue (from WalletService API)
+    console.log('🎲 Generated random streak:', streakVariation, 'rating:', ratingVariation);
   }
 
   // Animate streak counter
@@ -78,6 +175,7 @@ export class HomepageStudentComponent implements OnInit {
     );
   }
 
+  // Animate active courses counter
   private animateActiveCourses(): void {
     this.animateNumber(
       0, 
@@ -87,14 +185,23 @@ export class HomepageStudentComponent implements OnInit {
     );
   }
 
+  // Animate balance counter (using real wallet data)
   private animateRevenue(): void {
+    console.log('💫 Starting balance animation from 0 to:', this.targetRevenue);
+    
+    // Ensure we have a valid target value
+    const target = Math.max(this.targetRevenue || 0, 0);
+    
     this.animateNumber(
       0, 
-      this.targetRevenue, 
+      target, 
       2200, 
-      (value) => this.totalRevenueCount = Math.floor(value)
+      (value) => {
+        this.totalRevenueCount = Math.floor(value * 100) / 100; // Keep 2 decimal places during animation
+      }
     );
   }
+
   private animateRating(): void {
     this.animateNumber(
       0, 
@@ -132,27 +239,95 @@ export class HomepageStudentComponent implements OnInit {
     return num.toLocaleString();
   }
 
+  // Format balance with currency symbol - enhanced version
+  formatBalance(balance: number): string {
+    if (!balance && balance !== 0) {
+      return '0.00';
+    }
+    
+    // Handle very small numbers
+    if (balance < 0.01 && balance > 0) {
+      return '0.01';
+    }
+    
+    return balance.toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  }
+
+  // Check if wallet has sufficient balance
+  hasBalance(): boolean {
+    return this.wallet?.balance ? this.wallet.balance > 0 : false;
+  }
+
+  // Get specific course counts by progress status
+  getInProgressCoursesCount(): void {
+    console.log('📚 Getting in-progress courses count...');
+    this.courseService.getCourse(1, 1000, 2, 1, CourseProgressStatus.IN_PROGRESS).subscribe({
+      next: (res) => {
+        const inProgressCount = res.totalCount || 0;
+        console.log('📖 In-progress courses:', inProgressCount);
+      },
+      error: (error) => {
+        console.error('❌ Error getting in-progress courses:', error);
+      }
+    });
+  }
+
+  // Get completed courses count
+  getCompletedCoursesCount(): void {
+    console.log('📚 Getting completed courses count...');
+    this.courseService.getCourse(1, 1000, 2, 1, CourseProgressStatus.COMPLETED).subscribe({
+      next: (res) => {
+        const completedCount = res.totalCount || 0;
+        console.log('✅ Completed courses:', completedCount);
+      },
+      error: (error) => {
+        console.error('❌ Error getting completed courses:', error);
+      }
+    });
+  }
+
+  // Check if student has enrolled courses
+  hasEnrolledCourses(): boolean {
+    return this.activeCoursesCount > 0;
+  }
+
+  // Debug method to show data sources
+  logDataSources(): void {
+    console.log('📊 DATA SOURCES:');
+    console.log('🎲 Random: Streak (' + this.streakCount + '), Rating (' + this.averageRatingCount + ')');
+    console.log('🌐 Real API: Active Courses (' + this.activeCoursesCount + '), Wallet Balance ($' + this.totalRevenueCount + ')');
+  }
+
   // Generate random fluctuation for more dynamic effect
   generateRandomBonus(): number {
     return Math.floor(Math.random() * 100);
   }
 
-  // Refresh animations with new random numbers
+  // Refresh animations with REAL data only
   refreshAnimations(): void {
+    console.log('🔄 Refreshing with REAL data only...');
+    
     // Reset all counters
     this.streakCount = 0;
     this.activeCoursesCount = 0;
     this.totalRevenueCount = 0;
     this.averageRatingCount = 0;
     
-    // Generate new random numbers
+    // Generate new random numbers ONLY for streak and rating
     this.generateRandomNumbers();
     
-    // Restart animations
+    // Reload REAL data from APIs
+    this.loadWalletBalance();
+    this.loadEnrolledCoursesCount();
+    
+    // Restart animations for non-API data (streak and rating only)
     setTimeout(() => this.animateStreak(), 100);
-    setTimeout(() => this.animateActiveCourses(), 200);
-    setTimeout(() => this.animateRevenue(), 300);
     setTimeout(() => this.animateRating(), 400);
+    
+    // Note: Balance and courses animations will start when their respective APIs return real data
   }
 
   // Add bounce effect to numbers when clicked

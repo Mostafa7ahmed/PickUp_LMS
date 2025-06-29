@@ -23,7 +23,14 @@
       <div class="cardinfo animated-card">
         <div class="informationCard">
           <h5 class="title">Active Courses</h5>
-          <span class="number animated-number" (click)="refreshAnimations()" title="Click to refresh all numbers!">{{formatNumber(activeCoursesCount)}}</span>
+          <span class="number animated-number" (click)="refreshAnimations()" [title]="isLoadingCourses ? 'Loading your real enrolled courses count...' : 'Real enrolled courses - Click to refresh!'">
+            <ng-container *ngIf="isLoadingCourses; else coursesContent">
+              <span class="loading-spinner">Loading...</span>
+            </ng-container>
+            <ng-template #coursesContent>
+              {{formatNumber(activeCoursesCount)}}
+            </ng-template>
+          </span>
         </div>
         <div class="iconCard iconCourse">
           <i class="fa-solid fa-person-chalkboard"></i>
@@ -33,7 +40,14 @@
       <div class="cardinfo animated-card">
         <div class="informationCard">
           <h5 class="title">Total Balance</h5>
-          <span class="number animated-number" (click)="onNumberClick('revenue')" title="Click for bounce effect!">{{formatNumber(totalRevenueCount)}} $</span>
+          <span class="number animated-number" (click)="onNumberClick('revenue')" [title]="isLoadingBalance ? 'Loading your real wallet balance...' : 'Real wallet balance - Click for animation!'">
+            <ng-container *ngIf="isLoadingBalance; else balanceContent">
+              <span class="loading-spinner">Loading...</span>
+            </ng-container>
+            <ng-template #balanceContent>
+              ${{formatBalance(totalRevenueCount)}}
+            </ng-template>
+          </span>
         </div>
         <div class="iconCard iconMoney">
           <i class="fa-solid fa-money-bill"></i>
