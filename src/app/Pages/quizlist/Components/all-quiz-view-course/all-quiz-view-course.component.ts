@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose';
 import { IQuiz } from '../../Core/Interface/iquiz';
 import { GetallQuizbyCourseService } from '../../Core/services/getall-quizby-course.service';
+import { QuizRefreshService } from '../../Core/services/quiz-refresh.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -18,14 +19,32 @@ export class AllQuizViewCourseComponent implements OnInit, OnDestroy, OnChanges 
   @Input() courseId: number = 0;
   quizData: IPaginationResponse<IQuiz> = {} as IPaginationResponse<IQuiz>;
   private quizService = inject(GetallQuizbyCourseService);
+  private quizRefreshService = inject(QuizRefreshService);
   private router = inject(Router);
   private quizSubscription?: Subscription;
+  private refreshSubscription?: Subscription;
   isLoading: boolean = false;
 
   ngOnInit(): void {
     if (this.courseId) {
       this.loadQuizzes();
     }
+    
+    // Subscribe to quiz refresh notifications
+    this.refreshSubscription = this.quizRefreshService.quizRefresh$.subscribe({
+      next: (notification) => {
+        console.log('🔄 Received quiz refresh notification:', notification);
+        
+        // Refresh if it's for this course or a general refresh
+        if (!notification.courseId || notification.courseId === this.courseId || notification.action === 'refresh') {
+          console.log('🔄 Refreshing quiz data for course:', this.courseId);
+          this.loadQuizzes();
+        }
+      },
+      error: (error) => {
+        console.error('❌ Error in refresh subscription:', error);
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -36,6 +55,7 @@ export class AllQuizViewCourseComponent implements OnInit, OnDestroy, OnChanges 
 
   ngOnDestroy(): void {
     this.quizSubscription?.unsubscribe();
+    this.refreshSubscription?.unsubscribe();
   }
 
   loadQuizzes(): void {

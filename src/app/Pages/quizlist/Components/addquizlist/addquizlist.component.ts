@@ -17,12 +17,22 @@ import { ShortAnswerComponent } from "../short-answer/short-answer.component";
 import { MultipleChoiceComponent } from "../multiple-choice/multiple-choice.component";
 import { QuizService } from '../../Core/services/quiz.service';
 import { QuizApiService } from '../../Core/services/quiz-api.service';
+import { QuizApiV2Service } from '../../Core/services/quiz-api-v2.service';
+import { QuizRefreshService } from '../../Core/services/quiz-refresh.service';
 import {
   ICompleteQuizCreationRequest,
   QuizDurationType,
   IQuizCreationProgress,
   QuizDifficulty
 } from  './../../Core/Interface/iquiz';
+import {
+  IQuizFormData,
+  IQuestionFormData,
+  QuizSectionType,
+  QuizDurationType as V2QuizDurationType,
+  QuizDifficulty as V2QuizDifficulty,
+  IQuizCreationProgress as V2QuizCreationProgress
+} from '../../Core/Interface/iquiz-api.interface';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -37,6 +47,8 @@ export class AddquizlistComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private quizService = inject(QuizService);
   private quizApiService = inject(QuizApiService);
+  private quizApiV2Service = inject(QuizApiV2Service);
+  private quizRefreshService = inject(QuizRefreshService);
   private _paginateCoursesService = inject(ListCourseService);
   private _listLessonService = inject(ListLessonService);
 
@@ -45,7 +57,7 @@ export class AddquizlistComponent implements OnInit, OnDestroy {
 
   // API integration properties
   isCreatingQuiz = false;
-  creationProgress: IQuizCreationProgress = { step: 'quiz' };
+  creationProgress: V2QuizCreationProgress = { step: 'quiz' };
   private progressSubscription?: Subscription;
 value = 0;
 changeValue(val: number) {
@@ -283,8 +295,8 @@ removeMultipleChoiceQuestion(index: number) {
   ngOnInit(): void {
     this.getCourse();
 
-    // Subscribe to quiz creation progress
-    this.progressSubscription = this.quizApiService.progress$.subscribe(
+    // Subscribe to quiz creation progress from V2 service
+    this.progressSubscription = this.quizApiV2Service.progress$.subscribe(
       progress => {
         this.creationProgress = progress;
         console.log('📊 Quiz creation progress:', progress);
@@ -342,7 +354,7 @@ removeMultipleChoiceQuestion(index: number) {
     }
   }
 
-  // Convert string difficulty to enum
+  // Convert string difficulty to enum (old version)
   private getDifficultyEnum(difficulty: string): QuizDifficulty {
     switch(difficulty.toLowerCase()) {
       case 'easy': return QuizDifficulty.Easy;
@@ -350,6 +362,80 @@ removeMultipleChoiceQuestion(index: number) {
       case 'medium':
       default: return QuizDifficulty.Medium;
     }
+  }
+
+  // Convert string difficulty to V2 enum
+  private getDifficultyEnumV2(difficulty: string): V2QuizDifficulty {
+    switch(difficulty.toLowerCase()) {
+      case 'easy': return V2QuizDifficulty.Easy;
+      case 'hard': return V2QuizDifficulty.Hard;
+      case 'medium':
+      default: return V2QuizDifficulty.Medium;
+    }
+  }
+
+  // Transform form data to V2 format
+  private transformToV2Format(): { quizData: IQuizFormData; questions: IQuestionFormData[] } {
+    const quizData: IQuizFormData = {
+      courseId: this.selectedCourse?.id || 0,
+      lessonIds: this.selectedLessons.map(lesson => lesson.id),
+      name: this.quizTitle.trim(),
+      description: this.quizDescription.trim() || `Quiz for ${this.selectedCourse?.name}`,
+      limited: true,
+      duration: this.quizDuration,
+      durationType: this.selectedDiscountType === 1 ? V2QuizDurationType.Hours : V2QuizDurationType.Minutes,
+      difficulty: this.getDifficultyEnumV2(this.quizDifficulty)
+    };
+
+    const questions: IQuestionFormData[] = [];
+
+    // Add True/False questions
+    this.trueFalseQuestions.controls.forEach((question, index) => {
+      const questionData = question.value;
+      if (questionData.text && questionData.text.trim()) {
+        questions.push({
+          type: QuizSectionType.TrueFalse,
+          text: questionData.text,
+          hint: questionData.hint || '',
+          correctAnswer: questionData.trueAndFalse.answer,
+          order: index + 1
+        });
+      }
+    });
+
+    // Add Short Answer questions
+    this.shortAnswerQuestions.controls.forEach((question, index) => {
+      const questionData = question.value;
+      if (questionData.text && questionData.text.trim()) {
+        questions.push({
+          type: QuizSectionType.ShortAnswer,
+          text: questionData.text,
+          hint: questionData.hint || '',
+          correctAnswer: questionData.shortAnswer.answer,
+          order: this.trueFalseQuestions.length + index + 1
+        });
+      }
+    });
+
+    // Add Multiple Choice questions
+    this.multipleChoiceQuestions.controls.forEach((question, index) => {
+      const questionData = question.value;
+      if (questionData.text && questionData.text.trim()) {
+        const validChoices = questionData.multipleChoise.filter((choice: any) => choice.answer && choice.answer.trim());
+        const correctAnswerIndex = validChoices.findIndex((choice: any) => choice.correct);
+        
+        questions.push({
+          type: QuizSectionType.MultipleChoice,
+          text: questionData.text,
+          hint: questionData.hint || '',
+          options: validChoices.map((choice: any) => choice.answer),
+          correctAnswer: correctAnswerIndex,
+          order: this.trueFalseQuestions.length + this.shortAnswerQuestions.length + index + 1
+        });
+      }
+    });
+
+    return { quizData, questions };
   }
 
   // Method to prepare data for backend
@@ -411,7 +497,7 @@ removeMultipleChoiceQuestion(index: number) {
     return questions;
   }
 
-  // Method to save all questions and create quiz using API
+  // Method to save all questions and create quiz using V2 API
   saveQuestions() {
     if (!this.selectedCourse) {
       alert('Please select a course');
@@ -423,80 +509,146 @@ removeMultipleChoiceQuestion(index: number) {
       return;
     }
 
-    const questions = this.prepareQuestionData();
-    console.log('📝 Questions to save:', questions);
+    if (this.selectedLessons.length === 0) {
+      alert('Please select at least one lesson');
+      return;
+    }
+
+    // Transform form data to V2 format
+    const { quizData, questions } = this.transformToV2Format();
+    console.log('📝 V2 Quiz data:', quizData);
+    console.log('📝 V2 Questions:', questions);
 
     if (questions.length === 0) {
       alert('Please add at least one question');
       return;
     }
 
-    // Validate questions
-    const invalidQuestions = questions.filter(q => !q.text || q.text.trim() === '');
-    if (invalidQuestions.length > 0) {
-      alert('Please fill in all question texts');
+    // Validate using V2 service validation methods
+    const quizErrors = this.quizApiV2Service.validateQuizForm(quizData);
+    if (quizErrors.length > 0) {
+      alert('Quiz validation errors:\n' + quizErrors.join('\n'));
       return;
     }
 
-    // Validate multiple choice questions
-    const mcQuestions = questions.filter(q => q.multipleChoise);
-    for (let mcq of mcQuestions) {
-      const validChoices = mcq.multipleChoise.filter((choice: any) => choice.answer && choice.answer.trim());
-      if (validChoices.length < 2) {
-        alert('Multiple choice questions must have at least 2 choices');
-        return;
-      }
-
-      const hasCorrectAnswer = mcq.multipleChoise.some((choice: any) => choice.correct);
-      if (!hasCorrectAnswer) {
-        alert('Multiple choice questions must have at least one correct answer');
-        return;
-      }
+    const questionErrors = this.quizApiV2Service.validateQuestions(questions);
+    if (questionErrors.length > 0) {
+      alert('Question validation errors:\n' + questionErrors.join('\n'));
+      return;
     }
 
     // Start quiz creation process
     this.isCreatingQuiz = true;
-    this.quizApiService.resetProgress();
+    this.quizApiV2Service.resetProgress();
 
-    // Convert form questions to API format
-    const apiQuestions = this.quizApiService.convertFormQuestionsToApiFormat(
-      questions,
-      this.selectedCourse.id
-    );
+    console.log('🚀 Creating quiz with V2 API');
 
-    // Prepare complete quiz creation request
-    const quizRequest: ICompleteQuizCreationRequest = {
-      courseId: this.selectedCourse.id,
-      lessonIds: this.selectedLessons.map(lesson => lesson.id),
-      name: this.quizTitle.trim(),
-      description: this.quizDescription.trim() || `Quiz for ${this.selectedCourse.name}`,
-      limited: true, // Set based on your requirements
-      quizDuration: {
-        duration: this.quizDuration,
-        type: this.selectedDiscountType === 1 ? QuizDurationType.Hours : QuizDurationType.minute
-      },
-      difficulty: this.getDifficultyEnum(this.quizDifficulty),
-      questions: apiQuestions
-    };
+    // First create the quiz
+    this.quizApiV2Service.createQuiz(quizData).subscribe({
+      next: (quizResponse) => {
+        console.log('✅ Quiz created successfully:', quizResponse);
+        
+        if (quizResponse.success && quizResponse.result) {
+          const quizId = quizResponse.result.id;
+          
+          // Get the quiz to retrieve section IDs
+          this.quizApiV2Service.getQuiz(quizId).subscribe({
+            next: (quizDetails) => {
+              console.log('📋 Quiz details retrieved:', quizDetails);
+              
+              if (quizDetails.success && quizDetails.result.quizSections.length >= 3) {
+                const sections = quizDetails.result.quizSections;
+                const sectionIds = {
+                  multipleChoice: sections.find(s => s.type === QuizSectionType.MultipleChoice)?.id || 0,
+                  trueFalse: sections.find(s => s.type === QuizSectionType.TrueFalse)?.id || 0,
+                  shortAnswer: sections.find(s => s.type === QuizSectionType.ShortAnswer)?.id || 0
+                };
 
-    console.log('🚀 Creating quiz with API:', quizRequest);
+                console.log('📂 Section IDs:', sectionIds);
 
-    // Call API to create complete quiz
-    this.quizApiService.createCompleteQuiz(quizRequest).subscribe({
-      next: (response) => {
-        this.isCreatingQuiz = false;
-        console.log('✅ Quiz created successfully via API!', response);
-        alert('Quiz created successfully!');
-        this.closePopup();
+                // Now create questions
+                if (questions.length > 0) {
+                  this.quizApiV2Service.createQuestionsBulk(
+                    quizId,
+                    quizData.courseId,
+                    sectionIds,
+                    questions
+                  ).subscribe({
+                    next: (questionsResponse) => {
+                      this.isCreatingQuiz = false;
+                      console.log('✅ Questions created successfully:', questionsResponse);
+                      alert('Quiz and questions created successfully!');
+                      
+                      // Notify refresh service about new quiz
+                      if (this.selectedCourse?.id) {
+                        this.quizRefreshService.notifyQuizAdded(this.selectedCourse.id, quizId);
+                      }
+                      
+                      this.closePopup();
+                    },
+                    error: (error) => {
+                      this.isCreatingQuiz = false;
+                      console.error('❌ Error creating questions:', error);
+                      alert('Quiz created but failed to add questions: ' + (error.message || 'Unknown error'));
+                    }
+                  });
+                } else {
+                  this.isCreatingQuiz = false;
+                  alert('Quiz created successfully (no questions added)!');
+                  
+                  // Notify refresh service about new quiz
+                  if (this.selectedCourse?.id) {
+                    this.quizRefreshService.notifyQuizAdded(this.selectedCourse.id, quizId);
+                  }
+                  
+                  this.closePopup();
+                }
+              } else {
+                this.isCreatingQuiz = false;
+                console.error('❌ Quiz sections not found or incomplete');
+                alert('Quiz created but sections are missing. Please try again.');
+              }
+            },
+            error: (error) => {
+              this.isCreatingQuiz = false;
+              console.error('❌ Error retrieving quiz details:', error);
+              alert('Quiz created but failed to retrieve details: ' + (error.message || 'Unknown error'));
+            }
+          });
+        } else {
+          this.isCreatingQuiz = false;
+          alert('Failed to create quiz: ' + (quizResponse.message || 'Unknown error'));
+        }
       },
       error: (error) => {
         this.isCreatingQuiz = false;
-        console.error('❌ Error creating quiz via API:', error);
+        console.error('❌ Error creating quiz:', error);
         alert('Failed to create quiz: ' + (error.message || 'Unknown error'));
       }
     });
   }
 
-
+  // ===== NEW API V2 INTEGRATION SUMMARY =====
+  // 
+  // This component now uses the new quiz API endpoints:
+  // 1. POST /quiz/create - Creates the quiz with basic info
+  // 2. GET /quiz/get?id={id} - Retrieves quiz with auto-generated sections
+  // 3. POST /question/bulk - Creates questions for all three section types
+  // 
+  // The workflow is:
+  // 1. Create quiz (gets quiz ID)
+  // 2. Retrieve quiz details (gets section IDs for the 3 auto-created sections)
+  // 3. Create questions in bulk (assigns questions to appropriate sections)
+  // 
+  // Section Types:
+  // - MultipleChoice = 0
+  // - TrueFalse = 1  
+  // - ShortAnswer = 2
+  //
+  // Question format examples:
+  // - MultipleChoice: sends `multipleChoise` array with answer/correct properties
+  // - TrueFalse: sends `trueAndFalse` object with answer boolean
+  // - ShortAnswer: sends `shortAnswer` object with answer string
+  // - Other types are set to null based on question type
 
 }

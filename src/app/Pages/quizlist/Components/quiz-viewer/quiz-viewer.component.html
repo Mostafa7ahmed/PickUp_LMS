@@ -1,0 +1,150 @@
+<div class="quiz-viewer" [class.popup-mode]="showAsPopup">
+  <!-- Popup Header (only if showAsPopup is true) -->
+  <app-top-pop 
+    *ngIf="showAsPopup"
+    [NameIcon]="'fas fa-clipboard-list'" 
+    [NamePopup]="'Quiz Details'" 
+    (isVisibleChange)="closePopup()">
+  </app-top-pop>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner">
+      <i class="fas fa-spinner fa-spin"></i>
+      <p>Loading quiz details...</p>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !isLoading" class="error-container">
+    <div class="error-message">
+      <i class="fas fa-exclamation-triangle"></i>
+      <h3>Error Loading Quiz</h3>
+      <p>{{ error }}</p>
+      <button class="retry-btn" (click)="loadQuiz()">
+        <i class="fas fa-redo"></i>
+        Try Again
+      </button>
+    </div>
+  </div>
+
+  <!-- Quiz Content -->
+  <div *ngIf="isValidQuizData() && !isLoading" class="quiz-content">
+    <!-- Quiz Header -->
+    <div class="quiz-header">
+      <div class="quiz-title-section">
+        <h1 class="quiz-title">{{ quizData!.name }}</h1>
+        <p class="quiz-description">{{ quizData!.description }}</p>
+      </div>
+      
+      <div class="quiz-meta">
+        <div class="meta-item">
+          <i class="fas fa-clock"></i>
+          <span>{{ quizData!.duration }}</span>
+        </div>
+        <div class="meta-item" [class]="getDifficultyClass(quizData!.difficulty)">
+          <i class="fas fa-signal"></i>
+          <span>{{ quizData!.difficulty }}</span>
+        </div>
+        <div class="meta-item">
+          <i class="fas fa-question-circle"></i>
+          <span>{{ quizData!.totalQuestions }} Questions</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz Sections -->
+    <div class="quiz-sections" *ngIf="quizData!.sections.length > 0">
+      <div 
+        *ngFor="let section of quizData!.sections; let sectionIndex = index"
+        class="section-container"
+        [class]="getSectionTypeClass(section.type)">
+        
+        <!-- Section Header -->
+        <div class="section-header">
+          <div class="section-title">
+            <i [class]="section.icon"></i>
+            <h3>{{ section.type }}</h3>
+            <span class="question-count">({{ section.questions.length }} questions)</span>
+          </div>
+        </div>
+
+        <!-- Section Questions -->
+        <div class="section-questions" *ngIf="section.questions.length > 0">
+          <div 
+            *ngFor="let question of section.questions; let questionIndex = index"
+            class="question-card">
+            
+            <!-- Question Header -->
+            <div class="question-header">
+              <div class="question-number">
+                <i [class]="getQuestionTypeIcon(question.type)"></i>
+                <span>Q{{ question.order }}</span>
+              </div>
+              <div class="question-actions">
+                <button class="action-btn" title="Question Hint" *ngIf="question.hint">
+                  <i class="fas fa-lightbulb"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Question Text -->
+            <div class="question-text">
+              <p>{{ question.text }}</p>
+            </div>
+
+            <!-- Question Hint -->
+            <div class="question-hint" *ngIf="question.hint">
+              <div class="hint-content">
+                <i class="fas fa-lightbulb"></i>
+                <span>{{ question.hint }}</span>
+              </div>
+            </div>
+
+            <!-- Question Options (for multiple choice and true/false) -->
+            <div class="question-options" *ngIf="question.options.length > 0">
+              <div 
+                *ngFor="let option of question.options; let optionIndex = index"
+                class="option-item"
+                [class.correct-option]="option === question.correctAnswer">
+                <div class="option-marker">
+                  <span>{{ getOptionLetter(optionIndex) }}</span>
+                </div>
+                <div class="option-text">{{ option }}</div>
+                <div class="correct-indicator" *ngIf="option === question.correctAnswer">
+                  <i class="fas fa-check"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Correct Answer Display -->
+            <div class="correct-answer-section">
+              <div class="correct-answer-label">
+                <i class="fas fa-check-circle"></i>
+                <span>Correct Answer:</span>
+              </div>
+              <div class="correct-answer-value">
+                {{ formatCorrectAnswer(question) }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty Section Message -->
+        <div class="empty-section" *ngIf="section.questions.length === 0">
+          <i class="fas fa-inbox"></i>
+          <p>No questions in this section yet</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- No Sections Message -->
+    <div class="no-content" *ngIf="quizData!.sections.length === 0">
+      <div class="no-content-icon">
+        <i class="fas fa-clipboard-list"></i>
+      </div>
+      <h3>No Content Available</h3>
+      <p>This quiz doesn't have any sections or questions yet.</p>
+    </div>
+  </div>
+</div> 

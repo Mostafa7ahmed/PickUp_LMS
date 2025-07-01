@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { QuizService, Quiz } from '../../Core/services/quiz.service';
 import { Subscription } from 'rxjs';
 import { GetallQuizService } from '../../Core/services/getall-quiz.service';
+import { QuizRefreshService } from '../../Core/services/quiz-refresh.service';
 import { IQuiz } from '../../Core/Interface/iquiz';
 import { IPaginationResponse } from '../../../../Core/Shared/Interface/irespose';
 import { TopPopComponent } from "../../../../Components/top-pop/top-pop.component";
@@ -23,7 +24,8 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
 
   private router = inject(Router);
   private quizService = inject(GetallQuizService);
-    private _deleteQuizService = inject(DeleteQuizService);
+  private quizRefreshService = inject(QuizRefreshService);
+  private _deleteQuizService = inject(DeleteQuizService);
 
   isDeletePopupVisible = false;
   selectedDeleteQuiz: IQuiz | null = null;
