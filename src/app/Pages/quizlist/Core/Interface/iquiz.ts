@@ -27,9 +27,9 @@ export enum QuizDurationType {
 
 // Quiz Difficulty Enum
 export enum QuizDifficulty {
-  Easy =2,
+  Easy =0,
   Medium = 1,
-  Hard = 0
+  Hard = 2
 }
 
 // Quiz Section Type Enum (3 types as mentioned)

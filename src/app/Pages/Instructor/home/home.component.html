@@ -50,7 +50,6 @@
         <div class="custom-card">
           <div class="card-header-custom">
             <h5>Top 5 Instructors</h5>
-            <small class="text-muted">Sorted by highest rating</small>
           </div>
 
           <!-- Loading State -->
@@ -122,7 +121,6 @@
         <div class="custom-card">
           <div class="card-header-custom">
             <h5>Top 5 Students</h5>
-            <small class="text-muted">Sorted alphabetically</small>
           </div>
 
           <!-- Loading State -->
@@ -144,10 +142,7 @@
               <div class="entry-row">
                 <div class="entry-left">
                   <div class="position-relative">
-                    <!-- Ranking Badge -->
-                    <div class="student-rank" [ngClass]="getRankClass(i + 1)">{{ i + 1 }}</div>
-                    
-                    <!-- Photo or Avatar -->
+  
                     <div *ngIf="student.photo" class="student-photo">
                       <img
                         [src]="baseUrl + student.photo"
@@ -196,7 +191,6 @@
     <div class="custom-card">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="fw-bold mb-0">Top 5 Rated Courses</h5>
-        <small class="text-muted">Sorted by highest rating</small>
       </div>
 
       <!-- Loading State -->
@@ -218,6 +212,7 @@
         <table class="table align-middle custom-table">
           <thead>
             <tr>
+               <th>Rank</th>
               <th>Course</th>
               <th>Topics</th>
               <th>Students</th>
@@ -229,10 +224,13 @@
           <tbody>
             <tr *ngFor="let course of topRatedCourses; trackBy: trackByCourse; let i = index">
               <td>
-                <div class="d-flex align-items-center">
-                  <div class="ranking-badge me-2">
+                  <div class="ranking-badge ">
                     <span class="rank-number" [ngClass]="getRankClass(i + 1)">{{ i + 1 }}</span>
                   </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center">
+                
                   <div class="course-image me-3" *ngIf="course.photo">
                     <img
                       [src]="baseUrl + course.photo"
@@ -253,10 +251,10 @@
                   </div>
                   <div>
                     <div class="fw-semibold">{{ course.name }}</div>
-                    <div class="text-muted small" *ngIf="course.description">
-                      {{ course.description }}
-                    </div>
+            
                   </div>
+
+                 
                 </div>
               </td>
               <td>{{ course.topic.name }}</td>

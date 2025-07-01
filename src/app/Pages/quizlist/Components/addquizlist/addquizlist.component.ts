@@ -576,8 +576,6 @@ removeMultipleChoiceQuestion(index: number) {
                   ).subscribe({
                     next: (questionsResponse) => {
                       this.isCreatingQuiz = false;
-                      console.log('✅ Questions created successfully:', questionsResponse);
-                      alert('Quiz and questions created successfully!');
                       
                       // Notify refresh service about new quiz
                       if (this.selectedCourse?.id) {

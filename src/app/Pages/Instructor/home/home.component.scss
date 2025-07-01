@@ -136,6 +136,7 @@
   height: 250px;
   overflow-y: auto;
     scrollbar-width: none;
+    padding: 7px 0;
 }
 .entry-row {
   display: flex;
@@ -148,6 +149,7 @@
 .entry-left {
   display: flex;
   align-items: center;
+  gap: 12px;
 }
 
 .avatar {
@@ -216,8 +218,7 @@
 // Ranking Badges
 .ranking-badge {
   display: flex;
-  align-items: center;
-  justify-content: center;
+
 }
 
 .rank-number {
