@@ -11,11 +11,12 @@ import { ITopStudent, IStudentDisplay } from './core/interfaces/top-students.int
 import { InstructorWidgetsService } from './core/services/instructor-widgets.service';
 import { InstructorWidgets, WidgetCard } from './core/interfaces/instructor-widgets.interface';
 import { environment } from '../../../Environments/environment';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule , RouterLink] ,
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

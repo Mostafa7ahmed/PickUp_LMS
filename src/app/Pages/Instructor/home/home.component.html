@@ -228,7 +228,7 @@
                     <span class="rank-number" [ngClass]="getRankClass(i + 1)">{{ i + 1 }}</span>
                   </div>
               </td>
-              <td>
+              <td class="router" routerLink="/ViewCourse/{{course.id}}">
                 <div class="d-flex align-items-center">
                 
                   <div class="course-image me-3" *ngIf="course.photo">
@@ -250,7 +250,7 @@
                     <i [class]="course.topic.icon" style="color: white;"></i>
                   </div>
                   <div>
-                    <div class="fw-semibold">{{ course.name }}</div>
+                    <div class="fw-semibold" >{{ course.name }}</div>
             
                   </div>
 

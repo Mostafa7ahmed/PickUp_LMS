@@ -167,6 +167,10 @@ export class NavbarinstructorComponent {
     this.toggleAddMenu();
     this.router.navigate([{ outlets: { dialog: ['coupan', 205] } }]);
   }
+   addQuiz() {
+    this.toggleAddMenu();
+    this.router.navigate([{ outlets: { dialog: ['addQuiz'] } }]);
+  }
   addLesson() {
     this.toggleAddMenu();
     this.router.navigate([{ outlets: { dialog: ['addLesson', 205] } }]);
