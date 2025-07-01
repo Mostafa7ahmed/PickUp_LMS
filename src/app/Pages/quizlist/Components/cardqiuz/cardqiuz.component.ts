@@ -56,9 +56,26 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
   filteredQuizzes: IQuiz[] = []; // Store filtered data
   sampleQuizzes: Quiz[] = [];
   private quizSubscription: Subscription = new Subscription();
+  private refreshSubscription?: Subscription;
 
   ngOnInit() {
-    this.LoadQuiz()
+    this.LoadQuiz();
+    
+    // Subscribe to quiz refresh notifications
+    this.refreshSubscription = this.quizRefreshService.quizRefresh$.subscribe({
+      next: (notification) => {
+        console.log('🔄 Quiz list received refresh notification:', notification);
+        
+        // Refresh quiz list for any quiz changes
+        if (notification.action === 'added' || notification.action === 'updated' || notification.action === 'deleted' || notification.action === 'refresh') {
+          console.log('🔄 Refreshing all quizzes list');
+          this.LoadQuiz();
+        }
+      },
+      error: (error) => {
+        console.error('❌ Error in quiz refresh subscription:', error);
+      }
+    });
   }
   LoadQuiz(){
     this.quizService.getQuizs().subscribe({
@@ -83,6 +100,7 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.quizSubscription.unsubscribe();
+    this.refreshSubscription?.unsubscribe();
   }
 
   onSearchChange(event: Event) {
@@ -261,32 +279,38 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
   }
   deleteQuizFun(): void {
     if (!this.selectedDeleteQuiz?.id) {
-      console.error('❌ No task selected for deletion');
+      console.error('❌ No quiz selected for deletion');
       return;
     }
     this._deleteQuizService.deleteQuiz(this.selectedDeleteQuiz.id).subscribe({
       next: (response) => {
         if (response.success) {
-          console.log('✅ Instructor task deleted successfully');
+          console.log('✅ Quiz deleted successfully');
+          
+          // Notify refresh service about quiz deletion
+          if (this.selectedDeleteQuiz?.courseId && this.selectedDeleteQuiz?.id) {
+            this.quizRefreshService.notifyQuizDeleted(this.selectedDeleteQuiz.courseId, this.selectedDeleteQuiz.id);
+          }
+          
           // Remove the deleted quiz from originalQuizzes
           this.originalQuizzes = this.originalQuizzes.filter(q => q.id !== this.selectedDeleteQuiz?.id);
           this.applySearchAndFilters();
           this.closeDeletePopup();
         } else {
-          console.error('❌ Failed to delete instructor task:', response.message);
-          alert('Failed to delete task: ' + response.message);
+          console.error('❌ Failed to delete quiz:', response.message);
+          alert('Failed to delete quiz: ' + response.message);
         }
       },
       error: (error) => {
-        console.error('❌ Error deleting instructor task:', error);
-        alert('Error deleting task. Please try again.');
+        console.error('❌ Error deleting quiz:', error);
+        alert('Error deleting quiz. Please try again.');
       }
     });
   }
 
   openDeleteQuizPopup(quiz: IQuiz): void {
     if (!quiz.id) {
-      console.error('❌ Cannot delete task: Task ID is missing');
+      console.error('❌ Cannot delete quiz: Quiz ID is missing');
       return;
     }
 
