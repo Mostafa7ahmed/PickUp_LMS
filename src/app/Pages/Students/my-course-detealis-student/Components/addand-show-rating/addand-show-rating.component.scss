@@ -1,7 +1,83 @@
 .add-rating-section {
   margin-bottom: 2rem;
   display: flex;
+}
 
+.alert {
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+}
+
+.alert-info {
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+  color: #0c5460;
+}
+
+.existing-rating-display {
+  border: 2px solid #28a745;
+  background: linear-gradient(135deg, #f8fff9 0%, #e8f5e8 100%);
+  border-radius: 12px !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.existing-rating-display::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #28a745, #20c997, #28a745);
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+.existing-rating-display .btn-outline-primary {
+  transition: all 0.3s ease;
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.existing-rating-display .btn-outline-primary:hover {
+  background-color: #007bff;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.rounded-circle {
+  border-radius: 50% !important;
+  border: 2px solid #e0e0e0;
+  object-fit: cover;
+  background-color: #f8f9fa;
+}
+
+.rounded-circle:hover {
+  border-color: #FFE112;
+  transition: border-color 0.2s ease;
 }
 
 .rating-form {

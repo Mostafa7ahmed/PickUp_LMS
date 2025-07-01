@@ -18,14 +18,14 @@
             <i class="fas fa-arrow-left"></i>
         </div>
         <div class="course-info">
-            <h1>{{ 'No course name available'}}</h1>
+            <h1>{{ courseDetails?.name || 'No course name available'}}</h1>
             <div class="professor">
                 <div class="avatar">
-                    <img [src]="baseUrl + 'instructor/42/photo/.jpg/0f18daad-e6eb-4b02-a633-0041897b5842.jpg'"
+                    <img [src]="courseDetails?.instructor?.photo ? (baseUrl + courseDetails?.instructor?.photo) : '/assets/images/default-avatar.png'"
                         width="30" height="30" class="rounded-circle" alt="Instructor Photo">
                 </div>
-                <span>{{ 'Unknown Instructor'}}</span>
-                <span class="time">May 28, 2025</span>
+                <span>{{ courseDetails?.instructor?.name || 'Unknown Instructor'}}</span>
+                <span class="time">{{ courseDetails?.createdOn ? (courseDetails?.createdOn | date:'MMM dd, yyyy') : 'Unknown Date' }}</span>
             </div>
         </div>
 <div class="grade-container">
@@ -63,14 +63,14 @@
         <div class="course-description">
             <h2>Course Description</h2>
             <p>
-                {{'No description available for this course.'}}
+                {{ courseDetails?.description || 'No description available for this course.' }}
             </p>
         </div>
         <div class="course-preview">
             <h2>Course Preview</h2>
-            <div class="video-box" *ngIf="false; else noVideo">
+            <div class="video-box" *ngIf="courseDetails?.introductionVideoUrl; else noVideo">
                 <video #previewVideo width="100%" height="360" controls style="max-width: 100%; max-height: 360px;">
-                    <source [src]="baseUrl + 'instructor/42/photo/.jpg/0f18daad-e6eb-4b02-a633-0041897b5842.jpg'"
+                    <source [src]="courseDetails?.introductionVideoUrl"
                         type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
@@ -85,53 +85,89 @@
 
     </div>
     <div *ngIf="selectedTab ===  CourseTab.Review">
-        <app-addand-show-rating></app-addand-show-rating>
+        <app-addand-show-rating 
+            [ratings]="courseDetails?.ratings || []"
+            [courseId]="courseId"
+            (ratingSubmitted)="onRatingSubmitted()">
+        </app-addand-show-rating>
 
 
     </div>
     <div *ngIf="selectedTab ===  CourseTab.Lesson">
-        <div class="lesson-list">
-            <div class="lesson-item" *ngFor="let lesson of lessons; let i = index">
-                <div class="lesson-index">{{ i + 1 }}</div>
-                <div class="lesson-title">{{ lesson }}</div>
+        <div class="lessons-container" *ngIf="courseDetails && courseDetails.lessons && courseDetails.lessons.length > 0; else noLessons">
+            <div class="lesson-card" *ngFor="let lesson of courseDetails.lessons; let i = index" (click)="viewLesson(lesson.id)">
+                <div class="lesson-header">
+                    <div class="lesson-number">{{ i + 1 }}</div>
+                    <div class="lesson-main-info">
+                        <h3 class="lesson-title">{{ lesson.name }}</h3>
+                        <p class="lesson-description">Click to view lesson details and videos</p>
+                    </div>
+                    <div class="lesson-icon">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                </div>
+                <div class="lesson-footer">
+                    <div class="lesson-info">
+                        <i class="fas fa-book-open"></i>
+                        <span>Lesson {{ i + 1 }}</span>
+                    </div>
+                    <div class="view-lesson-btn">
+                        <i class="fas fa-play-circle"></i>
+                        <span>View Lesson</span>
+                    </div>
+                </div>
             </div>
         </div>
+        <ng-template #noLessons>
+            <div class="d-flex flex-column align-items-center justify-content-center p-5 bg-light rounded">
+                <i class="fas fa-chalkboard-teacher fa-3x text-muted mb-3"></i>
+                <h5 class="text-muted">No lessons available yet</h5>
+                <p class="text-muted text-center">The instructor hasn't added any lessons to this course yet. Check back later!</p>
+            </div>
+        </ng-template>
     </div>
     <div *ngIf="selectedTab ===  CourseTab.Quiz">
-        <div class="quiz-grid">
-  <div class="quiz-card" *ngFor="let quiz of quizzes">
-    <div class="quiz-header">
-        <div class="bgIcon"  >
-                  <i class="fas fa-file-alt quiz-icon"></i>
+        <div class="quiz-grid" *ngIf="quizzes && quizzes.length > 0; else noQuizzes">
+          <div class="quiz-card" *ngFor="let quiz of quizzes">
+            <div class="quiz-header">
+                <div class="bgIcon"  >
+                          <i class="fas fa-file-alt quiz-icon"></i>
 
+                </div>
+              <button class="start-btn"  (click)="startQuiz(quiz.id, $event)">
+                <i class="fas fa-play"></i> Start
+              </button>
+            </div>
+
+            <h3 class="quiz-title">{{ quiz.title }}</h3>
+            <p class="quiz-desc">{{ quiz.description }}</p>
+
+            <div class="quiz-meta">
+              <span><i class="far fa-question-circle"></i> {{ quiz.questions }} Questions</span>
+              <span><i class="far fa-clock"></i> {{ quiz.duration }} min</span>
+              <span><i class="far fa-copy"></i> {{ quiz.attempts }} Attempts</span>
+            </div>
+
+            <div class="quiz-footer">
+              <span class="quiz-topic">{{ quiz.topic }}</span>
+              <span class="quiz-date">{{ quiz.date }}</span>
+              <span [ngClass]="{
+                'difficulty': true,
+                'easy': quiz.level === 'EASY',
+                'hard': quiz.level === 'Hard'
+              }">
+                <i class="fas fa-signal me-2"></i> {{ quiz.level }}
+              </span>
+            </div>
+          </div>
         </div>
-      <button class="start-btn"  (click)="startQuiz(5, $event)">
-        <i class="fas fa-play"></i> Start
-      </button>
-    </div>
-
-    <h3 class="quiz-title">{{ quiz.title }}</h3>
-    <p class="quiz-desc">{{ quiz.description }}</p>
-
-    <div class="quiz-meta">
-      <span><i class="far fa-question-circle"></i> {{ quiz.questions }} Questions</span>
-      <span><i class="far fa-clock"></i> {{ quiz.duration }} min</span>
-      <span><i class="far fa-copy"></i> {{ quiz.attempts }} Attempts</span>
-    </div>
-
-    <div class="quiz-footer">
-      <span class="quiz-topic">{{ quiz.topic }}</span>
-      <span class="quiz-date">{{ quiz.date }}</span>
-      <span [ngClass]="{
-        'difficulty': true,
-        'easy': quiz.level === 'EASY',
-        'hard': quiz.level === 'Hard'
-      }">
-        <i class="fas fa-signal me-2"></i> {{ quiz.level }}
-      </span>
-    </div>
-  </div>
-</div>
+        <ng-template #noQuizzes>
+            <div class="d-flex flex-column align-items-center justify-content-center p-5 bg-light rounded">
+                <i class="fas fa-question-circle fa-3x text-muted mb-3"></i>
+                <h5 class="text-muted">No quizzes available yet</h5>
+                <p class="text-muted text-center">The instructor hasn't created any quizzes for this course yet. Check back later!</p>
+            </div>
+        </ng-template>
     </div>
 </div>
 <!-- <div *ngIf="!isLoading " class="d-flex flex-column mt-5 align-items-center justify-content-center m-0">

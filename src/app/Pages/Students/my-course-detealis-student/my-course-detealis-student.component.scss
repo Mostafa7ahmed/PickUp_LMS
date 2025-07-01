@@ -251,49 +251,149 @@ $radius-2xl: 1.5rem;
 }
 
 
-//Lesson
+//Lesson Cards
 
-.lesson-list {
+.lessons-container {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-    height: calc(100vh - 302px);
-    overflow: scroll;
-    scrollbar-width: none;
+  gap: 1rem;
+  padding: 1rem 0;
+  height: calc(100vh - 302px);
+  overflow-y: auto;
+  scrollbar-width: none;
 
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
-.lesson-item {
-  display: flex;
-  align-items: center;
-  background-color: #ffffff;
+.lesson-card {
+  background: white;
+  border: 1px solid #e5e7eb;
   border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 0 0 1px #eaeaea;
-  transition: box-shadow 0.3s ease;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 
   &:hover {
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-color: #3b82f6;
+  }
+}
+
+.lesson-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.lesson-number {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.lesson-main-info {
+  flex: 1;
+}
+
+.lesson-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 0.5rem 0;
+}
+
+.lesson-description {
+  color: #6b7280;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.lesson-icon {
+  color: #3b82f6;
+  font-size: 1.5rem;
+}
+
+.lesson-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid #f3f4f6;
+}
+
+.lesson-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6b7280;
+  font-size: 0.9rem;
+
+  i {
+    color: #9ca3af;
+  }
+}
+
+.view-lesson-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #3b82f6;
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #eff6ff;
+    color: #1d4ed8;
   }
 
-  .lesson-index {
-    background-color: #e9f8ef;
-    color: #34a853;
-    font-weight: 600;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 16px;
-    font-size: 14px;
+  i {
+    font-size: 1rem;
+  }
+}
+
+// Responsive design for lessons
+@media (max-width: 768px) {
+  .lesson-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .lesson-number {
+    width: 35px;
+    height: 35px;
+    font-size: 0.9rem;
   }
 
   .lesson-title {
-    font-size: 16px;
-    font-weight: 500;
-    color: #333;
+    font-size: 1.1rem;
+  }
+
+  .lesson-footer {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .view-lesson-btn {
+    width: 100%;
+    justify-content: center;
   }
 }
 

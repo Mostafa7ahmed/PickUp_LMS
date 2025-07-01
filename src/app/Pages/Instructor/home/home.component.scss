@@ -212,3 +212,93 @@
   margin-right: 5px;
   border: 4px solid rgba(119, 143, 230, 0.8117647059);
 }
+
+// Ranking Badges
+.ranking-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rank-number {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+  color: white;
+  
+  &.rank-gold {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+  }
+  
+  &.rank-silver {
+    background: linear-gradient(135deg, #C0C0C0, #A0A0A0);
+    box-shadow: 0 2px 8px rgba(192, 192, 192, 0.3);
+  }
+  
+  &.rank-bronze {
+    background: linear-gradient(135deg, #CD7F32, #B87333);
+    box-shadow: 0 2px 8px rgba(205, 127, 50, 0.3);
+  }
+  
+  &.rank-default {
+    background: linear-gradient(135deg, #6B7280, #4B5563);
+    box-shadow: 0 2px 8px rgba(107, 114, 128, 0.3);
+  }
+}
+
+// Instructor Ranking and Photos
+.instructor-rank {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 10px;
+  color: white;
+  z-index: 1;
+  
+  &.rank-gold {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    box-shadow: 0 1px 4px rgba(255, 215, 0, 0.4);
+  }
+  
+  &.rank-silver {
+    background: linear-gradient(135deg, #C0C0C0, #A0A0A0);
+    box-shadow: 0 1px 4px rgba(192, 192, 192, 0.4);
+  }
+  
+  &.rank-bronze {
+    background: linear-gradient(135deg, #CD7F32, #B87333);
+    box-shadow: 0 1px 4px rgba(205, 127, 50, 0.4);
+  }
+  
+  &.rank-default {
+    background: linear-gradient(135deg, #6B7280, #4B5563);
+    box-shadow: 0 1px 4px rgba(107, 114, 128, 0.4);
+  }
+}
+
+.instructor-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #f3f4f6;
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}

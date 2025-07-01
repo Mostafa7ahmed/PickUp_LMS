@@ -10,45 +10,37 @@
         </h4>
       </div>
     </div>
-    <div class="cardWidget d-flex justify-content-between gap-4 p-3">
-      <div class="cardinfo">
-        <div class="informationCard">
-          <h5 class="title">Total Students</h5>
-          <span class="number">2,845</span>
+    <!-- Loading State for Widgets -->
+    <div *ngIf="isLoadingWidgets" class="cardWidget d-flex justify-content-between gap-4 p-3">
+      <div class="text-center py-4 w-100">
+        <div class="spinner-border spinner-border-sm text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
         </div>
-        <div class="iconCard">
-          <i class="fa-solid fa-user-large"></i>
-        </div>
+        <p class="mt-2 text-muted small">Loading statistics...</p>
       </div>
-      <div class="cardinfo">
-        <div class="informationCard">
-          <h5 class="title">Active Courses</h5>
-          <span class="number">2,845</span>
-        </div>
-        <div class="iconCard iconCourse">
-          <i class="fa-solid fa-person-chalkboard"></i>
-        </div>
-      </div>
+    </div>
 
-      <div class="cardinfo">
-        <div class="informationCard">
-          <h5 class="title">Total Revenue</h5>
-          <span class="number">2,845 $</span>
-        </div>
-        <div class="iconCard iconMoney">
-          <i class="fa-solid fa-money-bill"></i>
-        </div>
+    <!-- Error State for Widgets -->
+    <div *ngIf="widgetsError && !isLoadingWidgets" class="cardWidget p-3">
+      <div class="alert alert-warning alert-sm mb-0">
+        <i class="fas fa-exclamation-triangle me-1"></i>
+        <small>{{ widgetsError }}. Showing fallback data.</small>
       </div>
+    </div>
 
-      <div class="cardinfo">
-        <div class="informationCard">
-          <h5 class="title">Average Rating</h5>
-          <span class="number">4.9</span>
+    <!-- Widgets Data -->
+    <div *ngIf="!isLoadingWidgets" class="cardWidget d-flex justify-content-between gap-4 p-3">
+      @for (widget of widgetCards; track widget.title) {
+        <div class="cardinfo">
+          <div class="informationCard">
+            <h5 class="title">{{ widget.title }}</h5>
+            <span class="number">{{ widget.value }}</span>
+          </div>
+          <div class="iconCard" [ngStyle]="{ 'background-color': widget.color + '20', 'color': widget.color }">
+            <i [class]="widget.icon"></i>
+          </div>
         </div>
-        <div class="iconCard iconStar">
-          <i class="fa-solid fa-star"></i>
-        </div>
-      </div>
+      }
     </div>
   </div>
   <div class="p-3 py-1">
@@ -57,34 +49,71 @@
       <div class="col-md-6">
         <div class="custom-card">
           <div class="card-header-custom">
-            <h5>Top Instructors</h5>
+            <h5>Top 5 Instructors</h5>
+            <small class="text-muted">Sorted by highest rating</small>
           </div>
-                  <div class="listItem">
 
-     @for (instructor of instructors; track $index) {
-           
-        <div  class="entry-row">
-            <div class="entry-left">
-              <div
-                class="avatar"
-                [ngStyle]="{ 'background-color': instructor.bgColor }"
-              >
-                {{ instructor.initials }}
-              </div>
-              <div class="entry-info">
-                <div class="name">{{ instructor.name }}</div>
-                <div class="desc">{{ instructor.subject }}</div>
-              </div>
+          <!-- Loading State -->
+          <div *ngIf="isLoadingInstructors" class="text-center py-4">
+            <div class="spinner-border spinner-border-sm text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
             </div>
-            <div class="entry-right">
-              <div class="rating">⭐ {{ instructor.rating }}</div>
-              <div class="courses">{{ instructor.courses }} courses</div>
-            </div>
+            <p class="mt-2 text-muted small">Loading instructors...</p>
           </div>
-            
-          }
+
+          <!-- Error State -->
+          <div *ngIf="instructorsError && !isLoadingInstructors" class="alert alert-warning alert-sm">
+            <i class="fas fa-exclamation-triangle me-1"></i>
+            <small>{{ instructorsError }}. Showing sample data.</small>
+          </div>
+
+          <div class="listItem" *ngIf="!isLoadingInstructors">
+            @for (instructor of topRatedInstructors; track instructor.id; let i = $index) {
+              <div class="entry-row">
+                <div class="entry-left">
+                  <div class="position-relative">
+                    <!-- Ranking Badge -->
+                    <div class="instructor-rank" [ngClass]="getRankClass(i + 1)">{{ i + 1 }}</div>
+                    
+                    <!-- Photo or Avatar -->
+                    <div *ngIf="instructor.photo" class="instructor-photo">
+                      <img
+                        [src]="baseUrl + instructor.photo"
+                        alt="{{ instructor.name }}"
+                        class="rounded-circle"
+                        width="40"
+                        height="40"
+                        style="object-fit: cover;"
+                        (error)="onInstructorImageError($event, instructor)"
+                      />
+                    </div>
+                    <div
+                      *ngIf="!instructor.photo"
+                      class="avatar"
+                      [ngStyle]="{ 'background-color': instructor.bgColor }"
+                    >
+                      {{ instructor.initials }}
+                    </div>
+                  </div>
+                  
+                  <div class="entry-info">
+                    <div class="name">{{ instructor.name }}</div>
+                    <div class="desc">{{ instructor.subject }}</div>
+                  </div>
                 </div>
+                <div class="entry-right">
+                  <div class="rating">⭐ {{ instructor.rating }}</div>
+                  <div class="courses">{{ instructor.courses }} courses</div>
+                </div>
+              </div>
+            }
 
+            <!-- Empty State -->
+            <div *ngIf="topRatedInstructors.length === 0" class="text-center py-4">
+              <i class="fas fa-chalkboard-teacher fa-2x text-muted mb-2"></i>
+              <p class="text-muted small mb-0">No instructors found</p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -92,31 +121,73 @@
       <div class="col-md-6">
         <div class="custom-card">
           <div class="card-header-custom">
-            <h5>Top Students</h5>
+            <h5>Top 5 Students</h5>
+            <small class="text-muted">Sorted alphabetically</small>
           </div>
-          <div class="listItem">
-              <div *ngFor="let student of students" class="entry-row">
-            <div class="entry-left">
-              <div
-                class="avatar"
-                [ngStyle]="{ 'background-color': student.bgColor }"
-              >
-                {{ student.initials }}
-              </div>
-              <div class="entry-info">
-                <div class="name">{{ student.name }}</div>
-                <div class="desc">
-                  Completed {{ student.completed }} courses
+
+          <!-- Loading State -->
+          <div *ngIf="isLoadingStudents" class="text-center py-4">
+            <div class="spinner-border spinner-border-sm text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2 text-muted small">Loading students...</p>
+          </div>
+
+          <!-- Error State -->
+          <div *ngIf="studentsError && !isLoadingStudents" class="alert alert-warning alert-sm">
+            <i class="fas fa-exclamation-triangle me-1"></i>
+            <small>{{ studentsError }}. Showing sample data.</small>
+          </div>
+
+          <div class="listItem" *ngIf="!isLoadingStudents">
+            @for (student of topStudents; track student.id; let i = $index) {
+              <div class="entry-row">
+                <div class="entry-left">
+                  <div class="position-relative">
+                    <!-- Ranking Badge -->
+                    <div class="student-rank" [ngClass]="getRankClass(i + 1)">{{ i + 1 }}</div>
+                    
+                    <!-- Photo or Avatar -->
+                    <div *ngIf="student.photo" class="student-photo">
+                      <img
+                        [src]="baseUrl + student.photo"
+                        alt="{{ student.name }}"
+                        class="rounded-circle"
+                        width="40"
+                        height="40"
+                        style="object-fit: cover;"
+                        (error)="onStudentImageError($event, student)"
+                      />
+                    </div>
+                    <div
+                      *ngIf="!student.photo"
+                      class="avatar"
+                      [ngStyle]="{ 'background-color': student.bgColor }"
+                    >
+                      {{ student.initials }}
+                    </div>
+                  </div>
+                  
+                  <div class="entry-info">
+                    <div class="name">{{ student.name }}</div>
+                    <div class="desc">
+                      Completed {{ student.completed }} courses
+                    </div>
+                  </div>
+                </div>
+                <div class="entry-right">
+                  <div class="badge-title">🏅 {{ student.title }}</div>
+                  <div class="score">{{ student.score }} avg. score</div>
                 </div>
               </div>
-            </div>
-            <div class="entry-right">
-              <div class="badge-title">🏅 {{ student.title }}</div>
-              <div class="score">{{ student.score }} avg. score</div>
+            }
+
+            <!-- Empty State -->
+            <div *ngIf="topStudents.length === 0" class="text-center py-4">
+              <i class="fas fa-user-graduate fa-2x text-muted mb-2"></i>
+              <p class="text-muted small mb-0">No students found</p>
             </div>
           </div>
-          </div>
-        
         </div>
       </div>
     </div>
@@ -124,10 +195,26 @@
   <div class="p-3 py-2">
     <div class="custom-card">
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="fw-bold mb-0">Top Rated Courses</h5>
+        <h5 class="fw-bold mb-0">Top 5 Rated Courses</h5>
+        <small class="text-muted">Sorted by highest rating</small>
       </div>
 
-      <div class="table-responsive">
+      <!-- Loading State -->
+      <div *ngIf="isLoadingCourses" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3 text-muted">Loading top rated courses...</p>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="coursesError && !isLoadingCourses" class="alert alert-warning">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        {{ coursesError }}. Showing sample data.
+      </div>
+
+      <!-- Table -->
+      <div class="table-responsive" *ngIf="!isLoadingCourses">
         <table class="table align-middle custom-table">
           <thead>
             <tr>
@@ -140,30 +227,40 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let course of courses">
+            <tr *ngFor="let course of topRatedCourses; trackBy: trackByCourse; let i = index">
               <td>
                 <div class="d-flex align-items-center">
+                  <div class="ranking-badge me-2">
+                    <span class="rank-number" [ngClass]="getRankClass(i + 1)">{{ i + 1 }}</span>
+                  </div>
+                  <div class="course-image me-3" *ngIf="course.photo">
+                    <img
+                      [src]="baseUrl + course.photo"
+                      alt="{{ course.name }}"
+                      class="rounded-circle"
+                      width="40"
+                      height="40"
+                      style="object-fit: cover;"
+                      (error)="onImageError($event)"
+                    />
+                  </div>
                   <div
                     class="circle-icon me-2"
-                    [ngStyle]="{ 'background-color': course.color }"
+                    *ngIf="!course.photo"
+                    [ngStyle]="{ 'background-color': course.topic.color }"
                   >
-                    <img
-                      src="Images/Icons/Student.svg"
-                      alt="icon"
-                      width="16"
-                      *ngIf="course.icon"
-                    />
+                    <i [class]="course.topic.icon" style="color: white;"></i>
                   </div>
                   <div>
                     <div class="fw-semibold">{{ course.name }}</div>
-                    <div class="text-muted small">
-                      {{ course.modules }} modules • {{ course.hours }} hours
+                    <div class="text-muted small" *ngIf="course.description">
+                      {{ course.description }}
                     </div>
                   </div>
                 </div>
               </td>
-              <td>{{ course.topic }}</td>
-              <td>{{ course.students | number }}</td>
+              <td>{{ course.topic.name }}</td>
+              <td>{{ course.enrolledStudentsCount | number }}</td>
               <td>
                 <div class="d-flex align-items-center gap-1">
                   <span
@@ -179,8 +276,8 @@
                       >★</span
                     >
                   </ng-container>
-
-                  <span class="text-muted small">({{ course.reviews }})</span>
+                  
+                  <span class="text-muted small ms-1">{{ course.rating }}/5</span>
                 </div>
               </td>
               <td>${{ course.revenue | number }}</td>
@@ -188,14 +285,22 @@
                 <div class="stageName d-flex gap-1 align-items-center">
                   <div
                     class="progressBar"
-                    [style.border-color]="course.color"
+                    [style.border-color]="course.stage.color"
+                    [style.background-color]="course.stage.color + '20'"
                   ></div>
-                  <p>{{ course.stage }}</p>
+                  <p [style.color]="course.stage.color" class="mb-0">{{ course.stage.name }}</p>
                 </div>
               </td>
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="!isLoadingCourses && topRatedCourses.length === 0" class="text-center py-5">
+        <i class="fas fa-graduation-cap fa-3x text-muted mb-3"></i>
+        <h5 class="text-muted">No courses found</h5>
+        <p class="text-muted">Create your first course to see it here!</p>
       </div>
     </div>
   </div>

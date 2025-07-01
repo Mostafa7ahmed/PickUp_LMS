@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../Environments/environment';
 import { IPaginationResponse } from '../../../../../Core/Shared/Interface/irespose';
 import { Observable } from 'rxjs';
+import { ICourseDetailsResponse } from '../../../my-course-detealis-student/Core/interface/icourse-details-student';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,11 @@ import { Observable } from 'rxjs';
 export class CourseService {
 
   private urlPagination: string;
+  private baseUrl: string;
   
     constructor(private _HttpClient :HttpClient) {
       this.urlPagination = `${environment.baseUrl}${environment.pickup}student/enrollment-courses?`;
+      this.baseUrl = `${environment.baseUrl}${environment.pickup}`;
      }
   
   
@@ -47,4 +50,14 @@ export class CourseService {
   
       return this._HttpClient.get<IPaginationResponse<IcourseStudent>>(`${this.urlPagination}`, { params });
     } 
+
+    /**
+     * Get enrolled course details by course ID
+     * @param courseId - The ID of the course to fetch details for
+     * @returns Observable of course details response
+     */
+    getEnrolledCourseDetails(courseId: number): Observable<ICourseDetailsResponse> {
+      const url = `${this.baseUrl}student/enrolled-course-details?id=${courseId}`;
+      return this._HttpClient.get<ICourseDetailsResponse>(url);
+    }
 }

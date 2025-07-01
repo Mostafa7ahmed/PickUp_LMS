@@ -17,6 +17,7 @@ import { EditProfileStudentComponent } from '../Pages/Students/porfile-studnet/C
 import { DiscoverCourseDetailsComponent } from '../Pages/Students/discover-course-details/discover-course-details.component';
 import { MyCourseDetealisStudentComponent } from '../Pages/Students/my-course-detealis-student/my-course-detealis-student.component';
 import { QuizPreviewComponent } from '../Pages/quizlist/Components/quiz-preview/quiz-preview.component';
+import { ViewLessonComponent } from '../Pages/lesson/Components/view-lesson/view-lesson.component';
 
 export const studentRoutes: Routes = [
     {
@@ -29,6 +30,7 @@ export const studentRoutes: Routes = [
             { path: "myCourse", title: "My Course", component: MyCourseComponent },
             { path: "DiscoverCourses", title: "My Course", component: DiscoverCourseComponent },
              { path: "course/:id", title: "My Course", component: MyCourseDetealisStudentComponent },
+            { path: 'viewLesson/:lessonId', title: "View Lesson", component: ViewLessonComponent },
             { path: 'quizPreview/:id', outlet: 'dialog', component: QuizPreviewComponent },
 
             {

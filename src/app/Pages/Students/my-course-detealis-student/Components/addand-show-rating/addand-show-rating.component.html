@@ -16,7 +16,11 @@
                 <div class="headerRate d-flex align-items-center justify-content-between">
                   
                   <div class="d-flex align-items-center gap-2">
-                    <img [src]="baseUrl +reviewsByDate.student.photo" class="rounded-circle object-fit-cover" width="30" height="30" alt="">
+                    <img [src]="reviewsByDate.student.photo ? (baseUrl + reviewsByDate.student.photo) : '/Images/user.jpg'" 
+                         class="rounded-circle object-fit-cover" 
+                         width="30" height="30" 
+                         alt="User Avatar"
+                         (error)="onImageError($event)">
                     <p class="title">{{ reviewsByDate.student.name }}</p>
                   </div>
                   <p class="number">
@@ -62,17 +66,89 @@
   </div>
   
   
-  <div class="add-rating-section d-flex  ">
-    <form (ngSubmit)="submitRating()" #ratingForm="ngForm" class="rating-form p-3  bg-white d-flex flex-column flex-md-row align-items-center gap-3 w-100">
-      <div class="d-flex align-items-center gap-1 mb-2 mb-md-0">
-        <ng-container *ngFor="let star of getStarsArray(5); let i = index">
-          <i class="fa-solid fa-star"
-             [ngClass]="{'text-warning': i < newRating, 'text-secondary': i >= newRating}"
-             style="cursor:pointer; font-size: 2rem; transition: color 0.2s;"
-             (click)="!hasRated && setRating(i + 1)"></i>
-        </ng-container>
+  <div class="add-rating-section d-flex flex-column">
+    <!-- Success/Error/Info Message -->
+    <div *ngIf="submitMessage" class="alert mb-3" 
+         [ngClass]="{
+           'alert-success': submitMessage.includes('successfully'), 
+           'alert-danger': !submitMessage.includes('successfully'),
+           'alert-info': submitMessage.includes('already rated')
+         }">
+      <i class="fas" [ngClass]="{
+        'fa-check-circle': submitMessage.includes('successfully'), 
+        'fa-exclamation-triangle': !submitMessage.includes('successfully'),
+        'fa-info-circle': submitMessage.includes('already rated')
+      }"></i>
+      {{ submitMessage }}
+    </div>
+
+    <!-- Different UI states based on user rating status -->
+    @if (!hasRated || isEditingMode) {
+      <!-- New rating form or editing existing rating -->
+      <form (ngSubmit)="submitRating()" #ratingForm="ngForm" class="rating-form p-3 bg-white d-flex flex-column flex-md-row align-items-center gap-3 w-100">
+        <div class="d-flex align-items-center gap-1 mb-2 mb-md-0">
+          <ng-container *ngFor="let star of getStarsArray(5); let i = index">
+            <i class="fa-solid fa-star"
+               [ngClass]="{'text-warning': i < newRating, 'text-secondary': i >= newRating}"
+               style="cursor:pointer; font-size: 2rem; transition: color 0.2s;"
+               (click)="!isSubmitting && setRating(i + 1)"></i>
+          </ng-container>
+        </div>
+        <input type="text" name="note" [(ngModel)]="newNote" 
+               [placeholder]="isEditingMode ? 'Update your comment...' : 'Add a comment...'" 
+               class="form-control flex-grow-1" 
+               style="border-radius: 8px; border: 1px solid #eee;" 
+               [disabled]="isSubmitting" required>
+        
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-success px-4 py-2 d-flex align-items-center gap-2" 
+                  style="border-radius: 20px; font-weight: 600; letter-spacing: 1px;" 
+                  [disabled]="!newRating || !newNote || isSubmitting">
+            <i *ngIf="isSubmitting" class="fas fa-spinner fa-spin"></i>
+            {{ isSubmitting ? (isEditingMode ? 'Updating...' : 'Submitting...') : (isEditingMode ? 'Update Rating' : 'Submit Rating') }}
+          </button>
+          
+          @if (isEditingMode) {
+            <button type="button" class="btn btn-secondary px-4 py-2" 
+                    style="border-radius: 20px; font-weight: 600;" 
+                    (click)="cancelEditingRating()" 
+                    [disabled]="isSubmitting">
+              Cancel
+            </button>
+          }
+        </div>
+      </form>
+    } @else {
+      <!-- Show existing rating with edit option -->
+      <div class="rating-form p-3 bg-light d-flex flex-column align-items-center gap-3 w-100 existing-rating-display">
+        <div class="d-flex align-items-center gap-3 w-100 justify-content-between">
+          <div class="d-flex align-items-center gap-3">
+            <div class="d-flex align-items-center gap-2">
+              <i class="fas fa-star text-warning fa-2x"></i>
+              <div>
+                <span class="fs-5 fw-bold text-success">Your Rating: {{ userExistingRating?.value }}/5</span>
+                <div class="d-flex gap-1 mt-1">
+                  @for (star of getStarsArray(userExistingRating?.value || 0); track $index) {
+                    <i class="fa-solid fa-star text-warning"></i>
+                  }
+                  @for (star of getStarsArray(5 - (userExistingRating?.value || 0)); track $index) {
+                    <i class="fa-solid fa-star text-muted"></i>
+                  }
+                </div>
+              </div>
+            </div>
+            <div class="flex-grow-1">
+              <p class="mb-0 text-muted fst-italic">"{{ userExistingRating?.note }}"</p>
+            </div>
+          </div>
+          
+          <button class="btn btn-outline-primary px-4 py-2 d-flex align-items-center gap-2" 
+                  style="border-radius: 20px; font-weight: 600;" 
+                  (click)="startEditingRating()">
+            <i class="fas fa-edit"></i>
+            Edit Rating
+          </button>
+        </div>
       </div>
-      <input type="text" name="note" [(ngModel)]="newNote" placeholder="Add a comment..." class="form-control flex-grow-1" style=" border-radius: 8px; border: 1px solid #eee;" [disabled]="hasRated" required>
-      <button type="submit" class="btn btn-success px-4 py-2" style="border-radius: 20px; font-weight: 600; letter-spacing: 1px;" [disabled]="!newRating || !newNote || hasRated">Submit</button>
-    </form>
+    }
   </div>
