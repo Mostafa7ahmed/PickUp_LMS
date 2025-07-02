@@ -419,7 +419,17 @@
           "meeting": "No meeting tasks found. Add meeting tasks to prepare better.",
           "other": "No other tasks found. Add miscellaneous tasks here."
         }
+      },
+      "InstructorSidebar": {
+        "HomePage": "Home Page",
+        "Board": "Board",
+        "Course": "Course",
+        "Quiz": "Quiz",
+        "Coupon": "Coupon",
+        "ToDo": "To Do"
+      },
+      "StudentSidebar": {
+        "HomePage": "Home Page"
       }
-
 
 }

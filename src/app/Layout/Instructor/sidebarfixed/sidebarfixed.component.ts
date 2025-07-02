@@ -45,33 +45,33 @@ export class SidebarfixedComponent {
 
   ListSidebarOpen = [
     {
-      name: 'Home Page',
+      name: 'InstructorSidebar.HomePage',
       Icon: 'fa-solid fa-house',
       routes: "homeInstructor"
     },
     {
-      name: 'Board',
+      name: 'InstructorSidebar.Board',
       Icon: 'fa-solid fa-envelopes-bulk',
       routes: "topics"
     },
     {
-      name: 'Course',
+      name: 'InstructorSidebar.Course',
       Icon: 'fa-solid fa-person-chalkboard',
       routes: "course"
     },
     {
-      name: 'Quiz',
+      name: 'InstructorSidebar.Quiz',
       Icon: 'fa-solid fa-clipboard-question',
       routes: "quizlist"
     },
 
     {
-      name: 'Coupon',
+      name: 'InstructorSidebar.Coupon',
       Icon: 'fa-receipt fa-solid',
       routes: "Couponslist"
     },
     {
-      name: 'To Do',
+      name: 'InstructorSidebar.ToDo',
       Icon: 'fa-solid fa-list-check',
       routes: "todo"
     },

@@ -21,18 +21,17 @@ export class TranslationService {
 
    SetLang() {
     const savedLang = localStorage.getItem('lang');
-    if(savedLang !== null){
-      this._TranslateService.use(savedLang!);
+    // Always ensure a language is set; default to English if none stored
+    const langToUse = savedLang ?? 'en';
+    this._TranslateService.use(langToUse);
 
-    }
-
-    if (savedLang === 'en') {
+    if (langToUse === 'en') {
       this._render2.setAttribute(  document.documentElement ,'dir' , 'ltr')
       this._render2.setAttribute(  document.documentElement ,'lang' , 'en')
       
       
 
-    } else if (savedLang === 'ar') {
+    } else if (langToUse === 'ar') {
       this._render2.setAttribute(  document.documentElement ,'dir' , 'rtl')
       this._render2.setAttribute(  document.documentElement ,'lang' , 'ar')
 

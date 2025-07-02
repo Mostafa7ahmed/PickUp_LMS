@@ -43,7 +43,7 @@ export class SidebarStudentComponent {
 
   ListSidebarOpen = [
     {
-      name: 'Home Page',
+      name: 'StudentSidebar.HomePage',
       Icon: 'fa-solid fa-house',
       routes: "homeStudent"
     },

@@ -39,7 +39,7 @@
           >
             <div   class="left d-flex align-items-center gap-2">
               <i class="fs-5" [class]="item.Icon"></i>
-              <p class="m-0">{{ item.name  }}</p>
+              <p class="m-0">{{ item.name | translate }}</p>
             </div>
   
           </div>
@@ -59,10 +59,10 @@
         <ul>
           @for (menuItem of ListSidebarOpen; track $index) {
             <li class="home" [class.show]="activeIndex === $index" >
-              <i [routerLink]="menuItem.routes"  [class]="menuItem.Icon"  [pTooltip]="menuItem.name " tooltipPosition="right"  ></i>
+              <i [routerLink]="menuItem.routes"  [class]="menuItem.Icon"  [pTooltip]="menuItem.name | translate" tooltipPosition="right"  ></i>
               <div [class.showRouters]="!isCollapsed" [ngClass]="!isCollapsed ? '' : 'd-none'"  >
                 <a  [routerLink]="menuItem.routes" class="TextRouter d-flex gap-1">
-                  {{ menuItem.name}}
+                  {{ menuItem.name | translate}}
                 </a>
            
               </div>
