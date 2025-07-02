@@ -17,36 +17,35 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { provideClientHydration } from '@angular/platform-browser';
 
-// Create a custom loader that logs the loading process
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimations(),
-    provideClientHydration(),
+    provideClientHydration() ,
     importProvidersFrom(FormsModule),
     provideHttpClient(withFetch(), withInterceptors([headersInterceptor])),
     { provide: NGX_ECHARTS_CONFIG, useValue: { echarts } },
-    provideAnimationsAsync(),
-    providePrimeNG({
-      theme: {
-        preset: Aura,
-        options: {
-          darkModeSelector: false || 'none'
+    provideAnimationsAsync(), 
+    providePrimeNG({ 
+        theme: {
+            preset: Aura ,
+            options: {
+              darkModeSelector: false || 'none'
+          }
         }
-      }
     }),
     importProvidersFrom(
       TranslateModule.forRoot({
-        defaultLanguage: 'en',
-        useDefaultLang: true,
         loader: {
           provide: TranslateLoader,
-          useFactory: createTranslateLoader,
+          useFactory: HttpLoaderFactory,
           deps: [HttpClient]
         }
       })
