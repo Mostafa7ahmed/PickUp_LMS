@@ -23,24 +23,18 @@ import { CommonModule } from '@angular/common';
   styleUrl: './discover-course.component.scss'
 })
 export class DiscoverCourseComponent implements OnInit {
-  private translate = inject(TranslateService);
 
   // Enrollment popup state
   showEnrollmentPopup = false;
   selectedCourseForEnrollment: ICourseForEnrollment | null = null;
 
   constructor() {
-    // Ensure translations are available
-    this.translate.setDefaultLang('en');
-    this.translate.addLangs(['en', 'ar']);
+ 
   }
 
   ngOnInit() {
     // Load saved language preference
-    const savedLang = localStorage.getItem('lang');
-    if (savedLang) {
-      this.translate.use(savedLang);
-    }
+   
   }
 
   // Example method to show enrollment popup for a course
@@ -54,7 +48,7 @@ export class DiscoverCourseComponent implements OnInit {
       currency: 'USD', // or get from course data
       photo: course.photo || course.image,
       instructor: {
-        name: course.instructor?.name || this.translate.instant('DiscoverCourses.unknownInstructor'),
+        name: course.instructor?.name ,
         photo: course.instructor?.photo
       }
     };
