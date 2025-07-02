@@ -3,7 +3,7 @@
     <div class="search-container-right d-flex gap-3">
       <div class="inputSearch">
         <i class="fas fa-search search-icon"></i>
-        <input type="text" placeholder="Search For Quiz Name" [(ngModel)]="searchTerm" (input)="onSearchChange($event)"
+        <input type="text" [placeholder]="'Quiz.cards.searchPlaceholder' | translate" [(ngModel)]="searchTerm" (input)="onSearchChange($event)"
           (keydown)="onSearchKeydown($event)" class="search-input">
         <button *ngIf="searchTerm" class="clear-search-btn" (click)="clearSearch()" title="Clear search (ESC)">
           <i class="fas fa-times"></i>
@@ -31,7 +31,7 @@
 
 
       <div class="addCourse" (click)="openPopup()">
-        <button class="btn-add"><i class="fa fa-plus-square" aria-hidden="true"></i> Add Quiz</button>
+        <button class="btn-add"><i class="fa fa-plus-square" aria-hidden="true"></i> {{"Quiz.cards.addQuiz" | translate}}</button>
       </div>
     </div>
 
@@ -56,7 +56,7 @@
         <div class="quiz-actions">
 
 
-          <button class="action-btn delete-btn"  title="Delete Quiz"                        (click)="openDeleteQuizPopup(quiz)">
+          <button class="action-btn delete-btn"  [title]="'Quiz.cards.deleteTitle' | translate"                        (click)="openDeleteQuizPopup(quiz)">
             <i class="fas fa-trash"></i>
           </button>
         </div>
@@ -70,15 +70,15 @@
         <div class="quiz-stats">
           <div class="stat-item">
             <i class="fas fa-question-circle"></i>
-            <span>{{quiz.questionsCount}} Questions</span>
+            <span>{{quiz.questionsCount}} {{"Quiz.cards.questions" | translate}}</span>
           </div>
           <div class="stat-item">
             <i class="fas fa-clock"></i>
-            <span>{{quiz.duration}} min</span>
+            <span>{{quiz.duration}} {{"Quiz.cards.min" | translate}}</span>
           </div>
           <div class="stat-item">
             <i class="fas fa-users"></i>
-            <span>{{quiz.submissions}} Attempts</span>
+            <span>{{quiz.submissions}} {{"Quiz.cards.attempts" | translate}}</span>
           </div>
         </div>
 
@@ -101,7 +101,7 @@
         <div class="quiz-actions-footer">
           <button class="btn-preview" (click)="previewQuiz(quiz.id, $event)">
             <i class="fas fa-eye"></i>
-            Preview
+            {{"Quiz.cards.preview" | translate}}
           </button>
 
         </div>
@@ -116,10 +116,10 @@
   <div class="empty-icon">
     <i class="fas fa-clipboard-list"></i>
   </div>
-  <h3>No Quizzes Yet</h3>
+  <h3>{{"Quiz.cards.noQuizzesYet" | translate}}</h3>
   <p [innerHTML]="searchTerm 
-      ? 'No quizzes match your search for <strong>' + searchTerm + '</strong>' 
-      : 'Create your first quiz to get started with assessments'">
+      ? ('Quiz.cards.noSearchResults' | translate) + ' <strong>' + searchTerm + '</strong>' 
+      : ('Quiz.cards.createFirstQuizMessage' | translate)">
   </p>
 </div>
 
@@ -129,12 +129,12 @@
   <div class="filter-dialog-overlay" *ngIf="showFilterDialog" (click)="closeFilterDialog()">
 
     <div class="filter-dialog" (click)="$event.stopPropagation()">
-      <app-top-pop [NameIcon]="'fas fa-filter'" [NamePopup]="'Advanced Filters'"  (isVisibleChange)="closeFilterDialog()"></app-top-pop>
+      <app-top-pop [NameIcon]="'fas fa-filter'" [NamePopup]="'Quiz.filters.advancedFilters' | translate"  (isVisibleChange)="closeFilterDialog()"></app-top-pop>
  
 
       <div class="filter-body">
         <div class="filter-section bg-white  p-2 rounded-2">
-                    <app-text-header [title]="'Difficulty Level'"  [bgColor]="'#ca6438'"></app-text-header>
+                    <app-text-header [title]="'Quiz.filters.difficultyLevel' | translate"  [bgColor]="'#ca6438'"></app-text-header>
 
           <div class="difficulty-options mt-2 ">
             <div *ngFor="let option of difficultyOptions" class="difficulty-option"
@@ -150,44 +150,44 @@
 
         <!-- Questions Range Filter -->
         <div class="filter-section bg-white p-2 rounded-2">
-          <app-text-header [title]="'Number of Questions'" ></app-text-header>
+          <app-text-header [title]="'Quiz.filters.numberOfQuestions' | translate" ></app-text-header>
           <div class="range-inputs mt-2 ">
             <div class="input-group">
-              <label>Min</label>
+              <label>{{"Quiz.filters.min" | translate}}</label>
               <input type="number" [(ngModel)]="filters.questionsRange.min" min="0" max="100">
             </div>
             <div class="range-separator">-</div>
             <div class="input-group">
-              <label>Max</label>
+              <label>{{"Quiz.filters.max" | translate}}</label>
               <input type="number" [(ngModel)]="filters.questionsRange.max" min="0" max="100">
             </div>
           </div>
         </div>
 
         <div class="filter-section bg-white p-2 rounded-2">
-          <app-text-header [title]="'Duration (minutes)'"  [bgColor]="'#40de74'"></app-text-header>
+          <app-text-header [title]="'Quiz.filters.duration' | translate"  [bgColor]="'#40de74'"></app-text-header>
           <div class="range-inputs mt-2">
             <div class="input-group">
-              <label>Min</label>
+              <label>{{"Quiz.filters.min" | translate}}</label>
               <input type="number" [(ngModel)]="filters.durationRange.min" min="0" max="180">
             </div>
             <div class="range-separator">-</div>
             <div class="input-group">
-              <label>Max</label>
+              <label>{{"Quiz.filters.max" | translate}}</label>
               <input type="number" [(ngModel)]="filters.durationRange.max" min="0" max="180">
             </div>
           </div>
         </div>
 
         <div class="filter-section bg-white p-2 rounded-2">
-          <app-text-header [title]="'Creation Date'"  [bgColor]="'#515f32'"></app-text-header>
+          <app-text-header [title]="'Quiz.filters.creationDate' | translate"  [bgColor]="'#515f32'"></app-text-header>
           <div class="date-inputs mt-2">
             <div class="input-group">
-              <label>From</label>
+              <label>{{"Quiz.filters.from" | translate}}</label>
               <input type="date" [(ngModel)]="filters.dateRange.from">
             </div>
             <div class="input-group">
-              <label>To</label>
+              <label>{{"Quiz.filters.to" | translate}}</label>
               <input type="date" [(ngModel)]="filters.dateRange.to">
             </div>
           </div>
@@ -197,11 +197,11 @@
       <div class="filter-footer">
         <button class="btn-clear" (click)="clearAllFilters()" [disabled]="!hasActiveFilters()">
           <i class="fas fa-eraser"></i>
-          Clear All
+          {{"Quiz.filters.clearAll" | translate}}
         </button>
         <button class="btn-apply" (click)="applyFilters()">
           <i class="fas fa-check"></i>
-          Apply Filters
+          {{"Quiz.filters.applyFilters" | translate}}
         </button>
       </div>
     </div>

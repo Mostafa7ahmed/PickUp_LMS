@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../../../Environments/environment';
 import { 
   InstructorWidgetsResponse, 
@@ -15,7 +16,10 @@ import {
 export class InstructorWidgetsService {
   private readonly apiUrl = `${environment.baseUrl}${environment.pickup}homepage/instructor/widgets`;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private translateService: TranslateService
+  ) {}
 
   getInstructorWidgets(): Observable<InstructorWidgets> {
     return this.http.get<InstructorWidgetsResponse>(this.apiUrl).pipe(
@@ -36,25 +40,25 @@ export class InstructorWidgetsService {
   transformToWidgetCards(widgets: InstructorWidgets): WidgetCard[] {
     return [
       {
-        title: 'Total Students',
+        title: this.translateService.instant('InstructorHome.widgetTitles.totalStudents'),
         value: widgets.totalStudents,
         icon: 'fas fa-users',
         color: '#4F46E5'
       },
       {
-        title: 'Active Courses',
+        title: this.translateService.instant('InstructorHome.widgetTitles.activeCourses'),
         value: widgets.activeCourses,
         icon: 'fas fa-book-open',
         color: '#10B981'
       },
       {
-        title: 'Total Revenue',
+        title: this.translateService.instant('InstructorHome.widgetTitles.totalRevenue'),
         value: `$${widgets.totalRevenue}`,
         icon: 'fas fa-dollar-sign',
         color: '#F59E0B'
       },
       {
-        title: 'Average Rating',
+        title: this.translateService.instant('InstructorHome.widgetTitles.averageRating'),
         value: `${widgets.averageRating.toFixed(1)}`,
         icon: 'fas fa-star',
         color: '#EF4444'

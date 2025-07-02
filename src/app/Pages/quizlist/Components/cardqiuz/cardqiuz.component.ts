@@ -2,6 +2,7 @@ import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { QuizService, Quiz } from '../../Core/services/quiz.service';
 import { Subscription } from 'rxjs';
 import { GetallQuizService } from '../../Core/services/getall-quiz.service';
@@ -16,7 +17,7 @@ import { DeleteQuizComponent } from "../delete-quiz/delete-quiz.component";
 @Component({
   selector: 'app-cardqiuz',
   standalone: true,
-  imports: [CommonModule, FormsModule, TopPopComponent, TextHeaderComponent, DeleteQuizComponent],
+  imports: [CommonModule, FormsModule, TranslateModule, TopPopComponent, TextHeaderComponent, DeleteQuizComponent],
   templateUrl: './cardqiuz.component.html',
   styleUrl: './cardqiuz.component.scss'
 })
@@ -26,6 +27,7 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
   private quizService = inject(GetallQuizService);
   private quizRefreshService = inject(QuizRefreshService);
   private _deleteQuizService = inject(DeleteQuizService);
+  private translateService = inject(TranslateService);
 
   isDeletePopupVisible = false;
   selectedDeleteQuiz: IQuiz | null = null;
@@ -44,9 +46,9 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
   };
 
   difficultyOptions = [
-    { value: 0, label: 'Easy', class: 'difficulty-easy' },
-    { value: 1, label: 'Medium', class: 'difficulty-medium' },
-    { value: 2, label: 'Hard', class: 'difficulty-hard' }
+    { value: 0, label: this.translateService.instant('Quiz.difficulty.easy'), class: 'difficulty-easy' },
+    { value: 1, label: this.translateService.instant('Quiz.difficulty.medium'), class: 'difficulty-medium' },
+    { value: 2, label: this.translateService.instant('Quiz.difficulty.hard'), class: 'difficulty-hard' }
   ];
 
   // Delete confirmation dialog
@@ -347,11 +349,11 @@ export class CardqiuzComponent implements OnInit, OnDestroy {
   getDifficultyText(difficulty: number): string {
     switch (difficulty) {
       case 0:
-        return 'Easy';
+        return this.translateService.instant('Quiz.difficulty.easy');
       case 1:
-        return 'Medium';
+        return this.translateService.instant('Quiz.difficulty.medium');
       case 2:
-        return 'Hard';
+        return this.translateService.instant('Quiz.difficulty.hard');
       default:
         return 'Unknown';
     }

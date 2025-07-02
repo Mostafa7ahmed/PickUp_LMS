@@ -5,13 +5,13 @@
     <div class="rightContent">
       <h4 class="breakdown-title">
         <i class="fas fa-chart-pie"></i>
-        Quiz Analytics
+        {{"Quiz.widgets.quizAnalytics" | translate}}
       </h4>
 
       <div class="cards">
         <div class="cardInformation">
           <div class="aboutCourses d-flex justify-content-between align-items-center">
-            <p class="m-0">Total Quizzes</p>
+            <p class="m-0">{{"Quiz.widgets.totalQuizzes" | translate}}</p>
             <i class="fas fa-clipboard-list"></i>
           </div>
           <div class="numberCources  d-flex align-items-end justify-content-end">
@@ -23,7 +23,7 @@
         <!-- Total Questions -->
         <div class="cardInformation">
           <div class="aboutCourses d-flex justify-content-between align-items-center">
-            <p class="m-0">Total Questions</p>
+            <p class="m-0">{{"Quiz.widgets.totalQuestions" | translate}}</p>
             <i class="fas fa-question-circle"></i>
           </div>
           <div class="numberCources d-flex align-items-end justify-content-end">
@@ -37,11 +37,11 @@
         <!-- Average Duration -->
         <div class="cardInformation">
           <div class="aboutCourses d-flex justify-content-between align-items-center">
-            <p class="m-0">Avg Duration</p>
+            <p class="m-0">{{"Quiz.widgets.avgDuration" | translate}}</p>
             <i class="fas fa-clock"></i>
           </div>
           <div class="numberCources d-flex align-items-end justify-content-end">
-            <span>{{quizData.result.avgDuration | number:'1.2-2' }}<small class="unit">min</small></span>
+            <span>{{quizData.result.avgDuration | number:'1.2-2' }}<small class="unit">{{"Quiz.cards.min" | translate}}</small></span>
           </div>
        
         </div>
@@ -59,7 +59,7 @@
     <div class="leftContent flex-grow-1">
       <h4 class="breakdown-title">
       <i class="fa-solid fa-chart-simple"></i>
-        Difficulty Distribution
+        {{"Quiz.widgets.difficultyDistribution" | translate}}
       </h4>
 
       <div class="analytics-breakdown ">
@@ -79,7 +79,7 @@
             <div class="status-item" [style.flex]="quizData.result.easyCount || 1">
               <div class="status-indicator">
                 <div class="indicator-dot easy-dot"></div>
-                <span class="status-label">Easy</span>
+                <span class="status-label">{{"Quiz.difficulty.easy" | translate}}</span>
               </div>
               <div class="status-count">{{quizData.result.easyCount}}</div>
             </div>
@@ -87,7 +87,7 @@
             <div class="status-item" [style.flex]="quizData.result.mediumCount || 1">
               <div class="status-indicator">
                 <div class="indicator-dot medium-dot"></div>
-                <span class="status-label">Medium</span>
+                <span class="status-label">{{"Quiz.difficulty.medium" | translate}}</span>
               </div>
               <div class="status-count">{{quizData.result.mediumCount}}</div>
             </div>
@@ -95,7 +95,7 @@
             <div class="status-item" [style.flex]="quizData.result.hardCount || 1">
               <div class="status-indicator">
                 <div class="indicator-dot hard-dot"></div>
-                <span class="status-label">Hard</span>
+                <span class="status-label">{{"Quiz.difficulty.hard" | translate}}</span>
               </div>
               <div class="status-count">{{quizData.result.hardCount}}</div>
             </div>
@@ -110,8 +110,8 @@
     <div class="empty-analytics" >
     <div class="empty-content">
       <i class="fas fa-chart-bar"></i>
-      <h4>No Quiz Data</h4>
-      <p>Create your first quiz to see analytics</p>
+      <h4>{{"Quiz.widgets.noQuizData" | translate}}</h4>
+      <p>{{"Quiz.widgets.createFirstQuiz" | translate}}</p>
     </div>
   </div>
 }

@@ -241,5 +241,86 @@
       "NoChat": "لا توجد محادثات مع الكورس",
         "References": "المراجع",
         "VideoIntro": "مقدمة الفيديو"
+    },
+    "InstructorHome": {
+      "welcomeBack": "مرحباً بعودتك",
+      "loading": "جاري التحميل...",
+      "loadingStatistics": "جاري تحميل الإحصائيات...",
+      "loadingInstructors": "جاري تحميل المدربين...",
+      "loadingStudents": "جاري تحميل الطلاب...",
+      "loadingCourses": "جاري تحميل الدورات الأعلى تقييماً...",
+      "showingFallbackData": "عرض البيانات الاحتياطية.",
+      "showingSampleData": "عرض البيانات النموذجية.",
+      "topInstructors": "أفضل 5 مدربين",
+      "topStudents": "أفضل 5 طلاب", 
+      "topCourses": "أفضل 5 دورات تقييماً",
+      "tableHeaders": {
+        "rank": "الترتيب",
+        "course": "الدورة",
+        "topics": "المواضيع",
+        "students": "الطلاب",
+        "rating": "التقييم",
+        "revenue": "الإيرادات",
+        "stage": "المرحلة"
+      },
+      "emptyStates": {
+        "noInstructors": "لم يتم العثور على مدربين",
+        "noStudents": "لم يتم العثور على طلاب",
+        "noCourses": "لم يتم العثور على دورات",
+        "createFirstCourse": "أنشئ دورتك الأولى لتراها هنا!"
+      },
+      "widgetTitles": {
+        "totalStudents": "إجمالي الطلاب",
+        "activeCourses": "الدورات النشطة",
+        "totalRevenue": "إجمالي الإيرادات",
+        "averageRating": "متوسط التقييم"
+      },
+      "labels": {
+        "courses": "دورات",
+        "completed": "مكتملة",
+        "avgScore": "متوسط النتيجة"
+      }
+    },
+    "Quiz": {
+      "pageTitle": "قائمة الاختبارات",
+      "widgets": {
+        "quizAnalytics": "تحليلات الاختبارات",
+        "totalQuizzes": "إجمالي الاختبارات",
+        "totalQuestions": "إجمالي الأسئلة",
+        "avgDuration": "متوسط المدة",
+        "difficultyDistribution": "توزيع مستوى الصعوبة",
+        "noQuizData": "لا توجد بيانات اختبارات",
+        "createFirstQuiz": "أنشئ اختبارك الأول لمشاهدة التحليلات"
+      },
+      "cards": {
+        "addQuiz": "إضافة اختبار",
+        "searchPlaceholder": "ابحث عن اسم الاختبار",
+        "deleteTitle": "حذف الاختبار",
+        "preview": "معاينة",
+        "questions": "أسئلة",
+        "attempts": "محاولات",
+        "min": "دقيقة",
+        "noQuizzesYet": "لا توجد اختبارات بعد",
+        "noSearchResults": "لا توجد اختبارات تطابق البحث عن",
+        "createFirstQuizMessage": "أنشئ اختبارك الأول للبدء في التقييمات"
+      },
+      "difficulty": {
+        "easy": "سهل",
+        "medium": "متوسط",
+        "hard": "صعب"
+      },
+      "filters": {
+        "advancedFilters": "مرشحات متقدمة",
+        "difficultyLevel": "مستوى الصعوبة",
+        "numberOfQuestions": "عدد الأسئلة",
+        "duration": "المدة (بالدقائق)",
+        "creationDate": "تاريخ الإنشاء",
+        "from": "من",
+        "to": "إلى",
+        "min": "الحد الأدنى",
+        "max": "الحد الأقصى",
+        "clearAll": "مسح الكل",
+        "applyFilters": "تطبيق المرشحات"
+      }
     }
 }

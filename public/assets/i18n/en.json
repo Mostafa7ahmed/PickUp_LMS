@@ -215,10 +215,10 @@
         "welcomeMessage": "Welcome to the",
         "Logo" :" Pickup LMS",
         "subTitle": "Learning Experience Builder",
-        "quote": "Let’s create a learning space that helps you deliver powerful content and grow your learners’ success.",
+        "quote": "Let's create a learning space that helps you deliver powerful content and grow your learners' success.",
         "feature1": "Create and manage interactive courses easily",
         "feature2": "Build your own learning experience",
-        "feature3": "Track learners’ progress with real-time analytics",
+        "feature3": "Track learners' progress with real-time analytics",
         "feature4": "Add quizzes, assignments, and certifications in minutes",
         "startButton": "Start Learning 🚀"
       },
@@ -269,6 +269,87 @@
         "VideoIntro": "Video intro"
 
 
+      },
+      "InstructorHome": {
+        "welcomeBack": "Welcome Back",
+        "loading": "Loading...",
+        "loadingStatistics": "Loading statistics...",
+        "loadingInstructors": "Loading instructors...",
+        "loadingStudents": "Loading students...",
+        "loadingCourses": "Loading top rated courses...",
+        "showingFallbackData": "Showing fallback data.",
+        "showingSampleData": "Showing sample data.",
+        "topInstructors": "Top 5 Instructors",
+        "topStudents": "Top 5 Students", 
+        "topCourses": "Top 5 Rated Courses",
+        "tableHeaders": {
+          "rank": "Rank",
+          "course": "Course",
+          "topics": "Topics",
+          "students": "Students",
+          "rating": "Rating",
+          "revenue": "Revenue",
+          "stage": "Stage"
+        },
+        "emptyStates": {
+          "noInstructors": "No instructors found",
+          "noStudents": "No students found",
+          "noCourses": "No courses found",
+          "createFirstCourse": "Create your first course to see it here!"
+        },
+        "widgetTitles": {
+          "totalStudents": "Total Students",
+          "activeCourses": "Active Courses",
+          "totalRevenue": "Total Revenue",
+          "averageRating": "Average Rating"
+        },
+        "labels": {
+          "courses": "courses",
+          "completed": "Completed",
+          "avgScore": "avg. score"
+        }
+      },
+      "Quiz": {
+        "pageTitle": "Quiz List",
+        "widgets": {
+          "quizAnalytics": "Quiz Analytics",
+          "totalQuizzes": "Total Quizzes",
+          "totalQuestions": "Total Questions",
+          "avgDuration": "Avg Duration",
+          "difficultyDistribution": "Difficulty Distribution",
+          "noQuizData": "No Quiz Data",
+          "createFirstQuiz": "Create your first quiz to see analytics"
+        },
+        "cards": {
+          "addQuiz": "Add Quiz",
+          "searchPlaceholder": "Search For Quiz Name",
+          "deleteTitle": "Delete Quiz",
+          "preview": "Preview",
+          "questions": "Questions",
+          "attempts": "Attempts",
+          "min": "min",
+          "noQuizzesYet": "No Quizzes Yet",
+          "noSearchResults": "No quizzes match your search for",
+          "createFirstQuizMessage": "Create your first quiz to get started with assessments"
+        },
+        "difficulty": {
+          "easy": "Easy",
+          "medium": "Medium",
+          "hard": "Hard"
+        },
+        "filters": {
+          "advancedFilters": "Advanced Filters",
+          "difficultyLevel": "Difficulty Level",
+          "numberOfQuestions": "Number of Questions",
+          "duration": "Duration (minutes)",
+          "creationDate": "Creation Date",
+          "from": "From",
+          "to": "To",
+          "min": "Min",
+          "max": "Max",
+          "clearAll": "Clear All",
+          "applyFilters": "Apply Filters"
+        }
       }
 
 

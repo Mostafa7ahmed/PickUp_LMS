@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Decode } from '../../../Core/Interface/user';
 import { LoginService } from '../../../Core/Services/login.service';
 import { TopRatedCoursesService } from './core/services/top-rated-courses.service';
@@ -16,13 +17,14 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule , RouterLink] ,
+  imports: [CommonModule, RouterLink, TranslateModule] ,
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
     dataUser: Decode = {} as Decode;
     private _LoginService = inject(LoginService)
+    private translateService = inject(TranslateService);
     private topRatedCoursesService = inject(TopRatedCoursesService);
     private topRatedInstructorsService = inject(TopRatedInstructorsService);
     private topStudentsService = inject(TopStudentsService);
@@ -164,25 +166,25 @@ export class HomeComponent implements OnInit {
     getFallbackWidgets(): WidgetCard[] {
         return [
             {
-                title: 'Total Students',
+                title: this.translateService.instant('InstructorHome.widgetTitles.totalStudents'),
                 value: 0,
                 icon: 'fas fa-users',
                 color: '#4F46E5'
             },
             {
-                title: 'Active Courses',
+                title: this.translateService.instant('InstructorHome.widgetTitles.activeCourses'),
                 value: 0,
                 icon: 'fas fa-book-open',
                 color: '#10B981'
             },
             {
-                title: 'Total Revenue',
+                title: this.translateService.instant('InstructorHome.widgetTitles.totalRevenue'),
                 value: '$0',
                 icon: 'fas fa-dollar-sign',
                 color: '#F59E0B'
             },
             {
-                title: 'Average Rating',
+                title: this.translateService.instant('InstructorHome.widgetTitles.averageRating'),
                 value: '0.0',
                 icon: 'fas fa-star',
                 color: '#EF4444'

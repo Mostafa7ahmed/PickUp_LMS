@@ -5,7 +5,7 @@
       <div class="icon">👋</div>
       <div class="nameInstrctor">
         <h4>
-          Welcome Back , <br />
+          {{"InstructorHome.welcomeBack" | translate}} , <br />
        {{dataUser.UserName}}
         </h4>
       </div>
@@ -16,7 +16,7 @@
         <div class="spinner-border spinner-border-sm text-primary" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
-        <p class="mt-2 text-muted small">Loading statistics...</p>
+        <p class="mt-2 text-muted small">{{"InstructorHome.loadingStatistics" | translate}}</p>
       </div>
     </div>
 
@@ -24,7 +24,7 @@
     <div *ngIf="widgetsError && !isLoadingWidgets" class="cardWidget p-3">
       <div class="alert alert-warning alert-sm mb-0">
         <i class="fas fa-exclamation-triangle me-1"></i>
-        <small>{{ widgetsError }}. Showing fallback data.</small>
+        <small>{{ widgetsError }}. {{"InstructorHome.showingFallbackData" | translate}}</small>
       </div>
     </div>
 
@@ -49,7 +49,7 @@
       <div class="col-md-6">
         <div class="custom-card">
           <div class="card-header-custom">
-            <h5>Top 5 Instructors</h5>
+            <h5>{{"InstructorHome.topInstructors" | translate}}</h5>
           </div>
 
           <!-- Loading State -->
@@ -57,13 +57,13 @@
             <div class="spinner-border spinner-border-sm text-primary" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
-            <p class="mt-2 text-muted small">Loading instructors...</p>
+            <p class="mt-2 text-muted small">{{"InstructorHome.loadingInstructors" | translate}}</p>
           </div>
 
           <!-- Error State -->
           <div *ngIf="instructorsError && !isLoadingInstructors" class="alert alert-warning alert-sm">
             <i class="fas fa-exclamation-triangle me-1"></i>
-            <small>{{ instructorsError }}. Showing sample data.</small>
+            <small>{{ instructorsError }}. {{"InstructorHome.showingSampleData" | translate}}</small>
           </div>
 
           <div class="listItem" *ngIf="!isLoadingInstructors">
@@ -110,7 +110,7 @@
             <!-- Empty State -->
             <div *ngIf="topRatedInstructors.length === 0" class="text-center py-4">
               <i class="fas fa-chalkboard-teacher fa-2x text-muted mb-2"></i>
-              <p class="text-muted small mb-0">No instructors found</p>
+              <p class="text-muted small mb-0">{{"InstructorHome.emptyStates.noInstructors" | translate}}</p>
             </div>
           </div>
         </div>
@@ -120,7 +120,7 @@
       <div class="col-md-6">
         <div class="custom-card">
           <div class="card-header-custom">
-            <h5>Top 5 Students</h5>
+            <h5>{{"InstructorHome.topStudents" | translate}}</h5>
           </div>
 
           <!-- Loading State -->
@@ -128,13 +128,13 @@
             <div class="spinner-border spinner-border-sm text-primary" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
-            <p class="mt-2 text-muted small">Loading students...</p>
+            <p class="mt-2 text-muted small">{{"InstructorHome.loadingStudents" | translate}}</p>
           </div>
 
           <!-- Error State -->
           <div *ngIf="studentsError && !isLoadingStudents" class="alert alert-warning alert-sm">
             <i class="fas fa-exclamation-triangle me-1"></i>
-            <small>{{ studentsError }}. Showing sample data.</small>
+            <small>{{ studentsError }}. {{"InstructorHome.showingSampleData" | translate}}</small>
           </div>
 
           <div class="listItem" *ngIf="!isLoadingStudents">
@@ -166,13 +166,13 @@
                   <div class="entry-info">
                     <div class="name">{{ student.name }}</div>
                     <div class="desc">
-                      Completed {{ student.completed }} courses
+                      {{"InstructorHome.labels.completed" | translate}} {{ student.completed }} {{"InstructorHome.labels.courses" | translate}}
                     </div>
                   </div>
                 </div>
                 <div class="entry-right">
                   <div class="badge-title">🏅 {{ student.title }}</div>
-                  <div class="score">{{ student.score }} avg. score</div>
+                  <div class="score">{{ student.score }} {{"InstructorHome.labels.avgScore" | translate}}</div>
                 </div>
               </div>
             }
@@ -180,7 +180,7 @@
             <!-- Empty State -->
             <div *ngIf="topStudents.length === 0" class="text-center py-4">
               <i class="fas fa-user-graduate fa-2x text-muted mb-2"></i>
-              <p class="text-muted small mb-0">No students found</p>
+              <p class="text-muted small mb-0">{{"InstructorHome.emptyStates.noStudents" | translate}}</p>
             </div>
           </div>
         </div>
@@ -190,7 +190,7 @@
   <div class="p-3 py-2">
     <div class="custom-card">
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="fw-bold mb-0">Top 5 Rated Courses</h5>
+        <h5 class="fw-bold mb-0">{{"InstructorHome.topCourses" | translate}}</h5>
       </div>
 
       <!-- Loading State -->
@@ -198,13 +198,13 @@
         <div class="spinner-border text-primary" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
-        <p class="mt-3 text-muted">Loading top rated courses...</p>
+        <p class="mt-3 text-muted">{{"InstructorHome.loadingCourses" | translate}}</p>
       </div>
 
       <!-- Error State -->
       <div *ngIf="coursesError && !isLoadingCourses" class="alert alert-warning">
         <i class="fas fa-exclamation-triangle me-2"></i>
-        {{ coursesError }}. Showing sample data.
+        {{ coursesError }}. {{"InstructorHome.showingSampleData" | translate}}
       </div>
 
       <!-- Table -->
@@ -212,13 +212,13 @@
         <table class="table align-middle custom-table">
           <thead>
             <tr>
-               <th>Rank</th>
-              <th>Course</th>
-              <th>Topics</th>
-              <th>Students</th>
-              <th>Rating</th>
-              <th>Revenue</th>
-              <th>Stage</th>
+               <th>{{"InstructorHome.tableHeaders.rank" | translate}}</th>
+              <th>{{"InstructorHome.tableHeaders.course" | translate}}</th>
+              <th>{{"InstructorHome.tableHeaders.topics" | translate}}</th>
+              <th>{{"InstructorHome.tableHeaders.students" | translate}}</th>
+              <th>{{"InstructorHome.tableHeaders.rating" | translate}}</th>
+              <th>{{"InstructorHome.tableHeaders.revenue" | translate}}</th>
+              <th>{{"InstructorHome.tableHeaders.stage" | translate}}</th>
             </tr>
           </thead>
           <tbody>
@@ -297,8 +297,8 @@
       <!-- Empty State -->
       <div *ngIf="!isLoadingCourses && topRatedCourses.length === 0" class="text-center py-5">
         <i class="fas fa-graduation-cap fa-3x text-muted mb-3"></i>
-        <h5 class="text-muted">No courses found</h5>
-        <p class="text-muted">Create your first course to see it here!</p>
+        <h5 class="text-muted">{{"InstructorHome.emptyStates.noCourses" | translate}}</h5>
+        <p class="text-muted">{{"InstructorHome.emptyStates.createFirstCourse" | translate}}</p>
       </div>
     </div>
   </div>
