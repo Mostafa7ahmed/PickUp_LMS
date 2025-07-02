@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TooltipModule } from 'primeng/tooltip';
+import { TranslationService } from '../../../Core/Services/translation.service';
 
 @Component({
   selector: 'app-sidebar-student',
@@ -11,9 +12,15 @@ import { TooltipModule } from 'primeng/tooltip';
   templateUrl: './sidebar-student.component.html',
   styleUrl: '../../Instructor/sidebarfixed/sidebarfixed.component.scss'
 })
-export class SidebarStudentComponent {
-
+export class SidebarStudentComponent implements OnInit {
+  private translate = inject(TranslateService);
+  private translationService = inject(TranslationService);
   
+  ngOnInit() {
+    // Ensure translations are loaded
+    this.translationService.SetLang();
+  }
+
   activeIndex: number | null = null;
 
   togglesidebarCollaped(index: number) {
@@ -22,24 +29,14 @@ export class SidebarStudentComponent {
 
   isCollapsed: boolean = false;
 
-
   toggleSidebar() {
     this.isCollapsed = !this.isCollapsed;
     this.activeIndex = null;
-
   }
-
 
   toggleRoute() {
     this.activeIndex = null;
   }
-
-
-
-
-
-
-
 
   ListSidebarOpen = [
     {
@@ -47,28 +44,22 @@ export class SidebarStudentComponent {
       Icon: 'fa-solid fa-house',
       routes: "homeStudent"
     },
- 
     {
-      name: 'Course',
+      name: 'StudentSidebar.Course',
       Icon: 'fa-solid fa-person-chalkboard',
       routes: "myCourse"
     },
-   {
-      name: 'Discover Courses',
+    {
+      name: 'StudentSidebar.DiscoverCourses',
       Icon: 'fa-solid fa-compass',
       routes: "DiscoverCourses"
     },
-
- 
-    
     {
-      name: 'To Do',
+      name: 'StudentSidebar.ToDo',
       Icon: 'fa-solid fa-list-check',
       routes: "Todo"
     },
- 
   ];
-
 
   openIndex: number | null = null;
   isRotated: boolean = false;
@@ -77,6 +68,4 @@ export class SidebarStudentComponent {
     this.isRotated = !this.isRotated;
     this.openIndex = this.openIndex === index ? null : index;
   }
-
-
 }

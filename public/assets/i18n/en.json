@@ -429,7 +429,10 @@
         "ToDo": "To Do"
       },
       "StudentSidebar": {
-        "HomePage": "Home Page"
+        "HomePage": "Home Page",
+        "Course": "Course",
+        "DiscoverCourses": "Discover Courses",
+        "ToDo": "To Do"
       }
 
 }

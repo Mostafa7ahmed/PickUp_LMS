@@ -401,6 +401,9 @@
       "ToDo": "المهام"
     },
     "StudentSidebar": {
-      "HomePage": "الصفحة الرئيسية"
+      "HomePage": "الصفحة الرئيسية",
+      "Course": "الدورة",
+      "DiscoverCourses": "اكتشف الدورات",
+      "ToDo": "المهام"
     }
 }
