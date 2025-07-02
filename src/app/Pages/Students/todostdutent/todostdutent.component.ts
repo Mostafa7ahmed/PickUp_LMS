@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router, RouterOutlet, ActivatedRoute } from '@angular/router';
 import { ITaskStudent, TaskPriority, TaskType } from './core/Interface/itask-instrctor';
 import { IPaginationResponse } from '../../../Core/Shared/Interface/irespose';
@@ -11,15 +11,14 @@ import { GetalltaskStudentsService } from './core/Service/getalltask-students.se
 import { UpdateTaskService } from './core/Service/update-task.service';
 import { DeleteTaskInstructorComponent } from './components/delete-task-instructor/delete-task-instructor.component';
 
-
 @Component({
   selector: 'app-todostdutent',
   standalone: true,
-  imports: [CommonModule, FormsModule , DeleteTaskInstructorComponent],
+  imports: [CommonModule, FormsModule, TranslateModule, DeleteTaskInstructorComponent],
   templateUrl: './todostdutent.component.html',
   styleUrl: './todostdutent.component.scss'
 })
-export class TodostdutentComponent implements OnInit, OnDestroy  {
+export class TodostdutentComponent implements OnInit, OnDestroy {
    activeFilter: string ="all";
    searchTerm: string = '';
    isLoading = false;
@@ -33,6 +32,7 @@ export class TodostdutentComponent implements OnInit, OnDestroy  {
    private _deleteTaskService = inject(DeleteTaskService);
    private _getalltaskStudentsService = inject(GetalltaskStudentsService);
      private _updateTaskService = inject(UpdateTaskService);
+   private translate = inject(TranslateService);
  
    constructor( ) {}
  
@@ -87,8 +87,14 @@ export class TodostdutentComponent implements OnInit, OnDestroy  {
  
   
  
-   getPriorityLabel(priority: number): string {
-     return this._getalltaskStudentsService.getTaskPriorityLabel(priority);
+   getPriorityLabel(priority: TaskPriority): string {
+     const priorityMap: Record<TaskPriority, string> = {
+       [TaskPriority.Low]: 'TaskManagement.priorities.low',
+       [TaskPriority.Medium]: 'TaskManagement.priorities.medium',
+       [TaskPriority.High]: 'TaskManagement.priorities.high',
+       [TaskPriority.Urgent]: 'TaskManagement.priorities.urgent'
+     };
+     return priorityMap[priority] || 'TaskManagement.priorities.medium';
    }
  
  
@@ -252,15 +258,15 @@ export class TodostdutentComponent implements OnInit, OnDestroy  {
      }
    }
  
-   getTaskTypeLabel(type: number): string {
-     switch (type) {
-       case TaskType.Personal: return 'Personal';
-       case TaskType.Exam: return 'Exam';
-       case TaskType.Study: return 'Study';
-       case TaskType.Meeting: return 'Meeting';
-       case TaskType.Other: return 'Other';
-       default: return 'Unknown';
-     }
+   getTaskTypeLabel(type: TaskType): string {
+     const typeMap: Record<TaskType, string> = {
+       [TaskType.Exam]: 'TaskManagement.taskTypes.work',
+       [TaskType.Personal]: 'TaskManagement.taskTypes.personal',
+       [TaskType.Study]: 'TaskManagement.taskTypes.study',
+       [TaskType.Meeting]: 'TaskManagement.taskTypes.meeting',
+       [TaskType.Other]: 'TaskManagement.taskTypes.other'
+     };
+     return typeMap[type] || 'TaskManagement.taskTypes.other';
    }
  
    getTaskPriorityLabel(priority: number): string {
@@ -304,14 +310,15 @@ export class TodostdutentComponent implements OnInit, OnDestroy  {
      }
    }
     getEmptyStateMessage(): string {
-     switch (this.activeFilter) {
-       case 'Exam': return 'No Exam tasks found. Add a Exam task to get started!';
-       case 'study': return 'No study tasks found. Add a study task to get started!';
-       case 'meeting': return 'No meeting tasks found. Add a meeting task to get started!';
-       case 'personal': return 'No personal tasks found. Add a personal task to get started!';
-       case 'other': return 'No other tasks found. Add a task to get started!';
-       default: return 'No tasks found. Add your first task to get started!';
-     }
+     const messageMap: Record<string, string> = {
+       'all': 'TaskManagement.emptyStates.allTasks',
+       'Exam': 'TaskManagement.emptyStates.work',
+       'personal': 'TaskManagement.emptyStates.personal',
+       'study': 'TaskManagement.emptyStates.study',
+       'meeting': 'TaskManagement.emptyStates.meeting',
+       'other': 'TaskManagement.emptyStates.other'
+     };
+     return messageMap[this.activeFilter] || messageMap['all'];
    }
  
 }

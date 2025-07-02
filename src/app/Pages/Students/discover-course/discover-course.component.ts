@@ -7,19 +7,41 @@ import { IDicoverCourse } from './intarface/idicover-course';
 import { DicoverCourseService } from './service/dicover-course.service';
 import { CardDiscoverPageComponent } from "./Components/card-discover-page/card-discover-page.component";
 import { EnrollmentPopupComponent, ICourseForEnrollment } from '../../../Components/enrollment-popup/enrollment-popup.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-discover-course',
   standalone: true,
-  imports: [CardDiscoverPageComponent, EnrollmentPopupComponent],
+  imports: [
+    CommonModule,
+    CardDiscoverPageComponent,
+    EnrollmentPopupComponent,
+    TranslateModule
+  ],
   templateUrl: './discover-course.component.html',
   styleUrl: './discover-course.component.scss'
 })
-export class DiscoverCourseComponent {
+export class DiscoverCourseComponent implements OnInit {
+  private translate = inject(TranslateService);
 
   // Enrollment popup state
   showEnrollmentPopup = false;
   selectedCourseForEnrollment: ICourseForEnrollment | null = null;
+
+  constructor() {
+    // Ensure translations are available
+    this.translate.setDefaultLang('en');
+    this.translate.addLangs(['en', 'ar']);
+  }
+
+  ngOnInit() {
+    // Load saved language preference
+    const savedLang = localStorage.getItem('lang');
+    if (savedLang) {
+      this.translate.use(savedLang);
+    }
+  }
 
   // Example method to show enrollment popup for a course
   openEnrollmentPopup(course: any): void {
@@ -32,7 +54,7 @@ export class DiscoverCourseComponent {
       currency: 'USD', // or get from course data
       photo: course.photo || course.image,
       instructor: {
-        name: course.instructor?.name || 'Unknown Instructor',
+        name: course.instructor?.name || this.translate.instant('DiscoverCourses.unknownInstructor'),
         photo: course.instructor?.photo
       }
     };
@@ -44,7 +66,6 @@ export class DiscoverCourseComponent {
     if (success) {
       console.log('Enrollment successful!');
       // Handle successful enrollment (e.g., redirect, show success message, refresh data)
-      // You might want to navigate to the course or show a success notification
     }
   }
 

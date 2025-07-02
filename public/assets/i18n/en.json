@@ -433,6 +433,69 @@
         "Course": "Course",
         "DiscoverCourses": "Discover Courses",
         "ToDo": "To Do"
+      },
+      "StudentHome": {
+        "welcomeMessage": "Welcome to the",
+        "logo": "Pickup LMS",
+        "subTitle": "Learning Experience Builder",
+        "quote": "Let's create a learning space that helps you deliver powerful content and grow your learners' success.",
+        "feature1": "Create and manage interactive courses easily",
+        "feature2": "Build your own learning experience",
+        "feature3": "Track learners' progress with real-time analytics",
+        "feature4": "Add quizzes, assignments, and certifications in minutes",
+        "startButton": "Start Learning 🚀"
+      },
+      "StudentDashboard": {
+        "welcomeBack": "Welcome Back",
+        "streak": "Streak",
+        "activeCourses": "Active Courses",
+        "totalBalance": "Total Balance",
+        "clickToSeeNew": "Click to see new numbers!",
+        "loadingCourses": "Loading your real enrolled courses count...",
+        "clickToRefresh": "Real enrolled courses - Click to refresh!",
+        "loadingBalance": "Loading your real wallet balance...",
+        "clickForAnimation": "Real wallet balance - Click for animation!"
+      },
+      "StudentMyCourses": {
+        "title": "My Courses",
+        "subtitle": "Track your learning progress and continue your educational journey",
+        "allCourses": "All Courses",
+        "inProgress": "In Progress",
+        "completed": "Completed",
+        "searchPlaceholder": "Search courses...",
+        "untitledCourse": "Untitled Course",
+        "noTopic": "No Topic",
+        "unknownInstructor": "Unknown Instructor",
+        "noDescription": "No description available.",
+        "lessons": "lessons",
+        "noCoursesFound": "No courses found",
+        "noCoursesMessage": "Try adjusting your filters or explore our course catalog to find new learning opportunities.",
+        "exploreCourses": "Explore Courses"
+      },
+      "DiscoverCourses": {
+        "title": "Discover New Courses",
+        "subtitle": "Expand your skills with our comprehensive course catalog",
+        "searchPlaceholder": "Search courses...",
+        "noDescription": "No description available.",
+        "unknownInstructor": "Unknown Instructor",
+        "lessons": "lessons",
+        "enrollNow": "Enroll Now",
+        "viewDetails": "View Details",
+        "off": "OFF",
+        "emptyState": {
+            "title": "No Course Found",
+            "message": "This Topic doesn't have any Course yet"
+        },
+        "courseCard": {
+            "lessons": "lessons",
+            "rating": "rating",
+            "duration": "duration"
+        },
+        "enrollmentSuccess": {
+            "title": "Enrollment Successful!",
+            "message": "You have successfully enrolled in the course.",
+            "buttonText": "Go to My Courses"
+        }
       }
 
 }

@@ -11,11 +11,12 @@ import { WalletService } from '../../../Core/Services/wallet.service';
 import { IWallet } from '../../../Core/Interface/iwallet';
 import { CourseService } from '../my-course/core/service/course.service';
 import { CourseProgressStatus } from '../my-course/core/interface/icourse-student';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-homepage-student',
   standalone: true,
-  imports: [CommonModule, MyCoursesComponent, TodoComponent, DiscoverCardsComponent],
+  imports: [CommonModule, MyCoursesComponent, TodoComponent, DiscoverCardsComponent, TranslateModule],
   templateUrl: './homepage-student.component.html',
   styleUrl: './homepage-student.component.scss'
 })

@@ -1,23 +1,28 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { IcourseStudent, CourseProgressStatus } from './core/interface/icourse-student';
 import { CourseService } from './core/service/course.service';
 import { WidgetcourseStudentComponent } from "./Components/widgetcourse-student/widgetcourse-student.component";
 import { IPaginationResponse } from '../../../Core/Shared/Interface/irespose';
 import { environment } from '../../../Environments/environment';
+import { TranslationService } from '../../../Core/Services/translation.service';
 
 @Component({
   selector: 'app-my-course',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, TranslateModule],
   templateUrl: './my-course.component.html',
   styleUrl: './my-course.component.scss'
 })
 export class MyCourseComponent implements OnInit, OnDestroy {
+  private translate = inject(TranslateService);
+  private translationService = inject(TranslationService);
+  
   courses:IPaginationResponse<IcourseStudent>  = {} as  IPaginationResponse<IcourseStudent>;
   filterBy: string = 'all';
   sortBy: string = 'progress';
@@ -41,6 +46,8 @@ export class MyCourseComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    // Ensure translations are loaded
+    this.translationService.SetLang();
     this.loadCourses();
   }
 
@@ -106,9 +113,9 @@ export class MyCourseComponent implements OnInit, OnDestroy {
   dropdownOpen = false;
 
   filterOptions = [
-    { value: 'all', label: 'All Courses' },
-    { value: 'in-progress', label: 'In Progress' },
-    { value: 'completed', label: 'Completed' }
+    { value: 'all', label: 'StudentMyCourses.allCourses' },
+    { value: 'in-progress', label: 'StudentMyCourses.inProgress' },
+    { value: 'completed', label: 'StudentMyCourses.completed' }
   ];
 
   toggleDropdown() {
@@ -124,7 +131,8 @@ export class MyCourseComponent implements OnInit, OnDestroy {
   }
 
   getLabel(value: string): string {
-    return this.filterOptions.find(option => option.value === value)?.label || '';
+    const option = this.filterOptions.find(option => option.value === value);
+    return option ? this.translate.instant(option.label) : '';
   }
 
   getColor(value: string): string {
@@ -145,14 +153,9 @@ export class MyCourseComponent implements OnInit, OnDestroy {
     }
   }
 
-
-
-    getProgressColor(progress: number): string {
-      if (progress < 30) return '#ef4444';
-      if (progress < 70) return '#f59e0b';
-      return '#10b981';
-    }
-
-
-
+  getProgressColor(progress: number): string {
+    if (progress < 30) return '#ef4444';
+    if (progress < 70) return '#f59e0b';
+    return '#10b981';
+  }
 }

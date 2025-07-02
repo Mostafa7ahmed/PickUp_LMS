@@ -5,7 +5,7 @@
       <div class="icon">👋</div>
       <div class="nameInstrctor d-flex w-100 justify-content-between align-items-center">
         <h4>
-          Welcome Back , {{dataUser.UserName}}
+          {{ 'StudentDashboard.welcomeBack' | translate }}, {{dataUser.UserName}}
         </h4>
         <p><i class="fa-solid fa-quote-left mx-1"></i> {{randomMessage}} <i class="fa-solid fa-quote-right mx-1"></i></p>
       </div>
@@ -13,8 +13,8 @@
     <div class="cardWidget d-flex justify-content-between gap-4 p-3">
       <div class="cardinfo animated-card">
         <div class="informationCard">
-          <h5 class="title">Streak</h5>
-          <span class="number animated-number" (click)="onNumberClick('streak')" title="Click to see new numbers!">{{streakCount}}</span>
+          <h5 class="title">{{ 'StudentDashboard.streak' | translate }}</h5>
+          <span class="number animated-number" (click)="onNumberClick('streak')" title="{{ 'StudentDashboard.clickToSeeNew' | translate }}">{{streakCount}}</span>
         </div>
         <div class="iconCard">
           🔥
@@ -22,8 +22,8 @@
       </div>
       <div class="cardinfo animated-card">
         <div class="informationCard">
-          <h5 class="title">Active Courses</h5>
-          <span class="number animated-number" (click)="refreshAnimations()" [title]="isLoadingCourses ? 'Loading your real enrolled courses count...' : 'Real enrolled courses - Click to refresh!'">
+          <h5 class="title">{{ 'StudentDashboard.activeCourses' | translate }}</h5>
+          <span class="number animated-number" (click)="refreshAnimations()" [title]="isLoadingCourses ? ('StudentDashboard.loadingCourses' | translate) : ('StudentDashboard.clickToRefresh' | translate)">
             <ng-container *ngIf="isLoadingCourses; else coursesContent">
               <span class="loading-spinner">0</span>
             </ng-container>
@@ -39,8 +39,8 @@
 
       <div class="cardinfo animated-card">
         <div class="informationCard">
-          <h5 class="title">Total Balance</h5>
-          <span class="number animated-number" (click)="onNumberClick('revenue')" [title]="isLoadingBalance ? 'Loading your real wallet balance...' : 'Real wallet balance - Click for animation!'">
+          <h5 class="title">{{ 'StudentDashboard.totalBalance' | translate }}</h5>
+          <span class="number animated-number" (click)="onNumberClick('revenue')" [title]="isLoadingBalance ? ('StudentDashboard.loadingBalance' | translate) : ('StudentDashboard.clickForAnimation' | translate)">
             <ng-container *ngIf="isLoadingBalance; else balanceContent">
               <span class="loading-spinner">0</span>
             </ng-container>
@@ -53,21 +53,18 @@
           <i class="fa-solid fa-money-bill"></i>
         </div>
       </div>
-
-      
     </div>
   </div>
   <div class=" p-3 py-4 mt-5">
-  <div class="row g-3">
-    <div class="col-lg-8 col-12">
-      <app-my-courses></app-my-courses>
-    </div>
+    <div class="row g-3">
+      <div class="col-lg-8 col-12">
+        <app-my-courses></app-my-courses>
+      </div>
 
-    <div class="col-lg-4 col-12">
-      <app-todo></app-todo>
+      <div class="col-lg-4 col-12">
+        <app-todo></app-todo>
+      </div>
     </div>
+    <app-discover-cards class="mt-3"></app-discover-cards>
   </div>
-  <app-discover-cards class="mt-3"></app-discover-cards>
-</div>
-
 </div>

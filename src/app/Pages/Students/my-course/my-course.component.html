@@ -2,52 +2,30 @@
   <!-- Header Section -->
   <div class="header-section">
     <div class="title-area">
-      <h1><i class="fa-solid fa-graduation-cap me-3"></i>My Courses</h1>
-      <div
-        class="rightFooter d-flex justify-content-between align-items-center gap-3"
-      >
-        <p>
-          Track your learning progress and continue your educational journey
-        </p>
-
-      
+      <h1><i class="fa-solid fa-graduation-cap me-3"></i>{{ 'StudentMyCourses.title' | translate }}</h1>
+      <div class="rightFooter d-flex justify-content-between align-items-center gap-3">
+        <p>{{ 'StudentMyCourses.subtitle' | translate }}</p>
       </div>
     </div>
   </div>
 
-  <div
-    class="controls-section d-flex justify-content-between align-items-center mb-3 mt-2"
-  >
+  <div class="controls-section d-flex justify-content-between align-items-center mb-3 mt-2">
     <div class="filter-controls">
-      <div
-        class="custom-select-wrapper"
-        (click)="toggleDropdown()"
-        [class.open]="dropdownOpen"
-      >
+      <div class="custom-select-wrapper" (click)="toggleDropdown()" [class.open]="dropdownOpen">
         <div class="selected-option d-flex align-items-center">
-          <span
-            class="icon-box"
-            [ngStyle]="{ 'background-color': getColor(filterBy) }"
-          >
-            <i class="fa-solid "  [ngClass]="getIcon(filterBy)"></i>
+          <span class="icon-box" [ngStyle]="{ 'background-color': getColor(filterBy) }">
+            <i class="fa-solid" [ngClass]="getIcon(filterBy)"></i>
           </span>
           <span class="option-text ms-2">{{ getLabel(filterBy) }}</span>
           <i class="fa-solid fa-chevron-down ms-auto"></i>
         </div>
 
         <div class="custom-options" *ngIf="dropdownOpen">
-          <div
-            class="option-item d-flex align-items-center"
-            *ngFor="let option of filterOptions"
-            (click)="selectFilter(option.value); $event.stopPropagation()"
-          >
-            <span
-              class="icon-box"
-              [ngStyle]="{ 'background-color': getColor(option.value) }"
-            >
+          <div class="option-item d-flex align-items-center" *ngFor="let option of filterOptions" (click)="selectFilter(option.value); $event.stopPropagation()">
+            <span class="icon-box" [ngStyle]="{ 'background-color': getColor(option.value) }">
               <i class="fa-solid" [ngClass]="getIcon(option.value)"></i>
             </span>
-            <span class="option-text ms-2">{{ option.label }}</span>
+            <span class="option-text ms-2">{{ getLabel(option.value) }}</span>
           </div>
         </div>
       </div>
@@ -55,20 +33,20 @@
 
     <div class="search-box">
       <i class="fa-solid fa-search"></i>
-        <input 
-          type="text" 
-          [(ngModel)]="searchTerm" 
-          (input)="onSearchInput($event)"
-          placeholder="Search courses..." 
-        />
-        <button 
-          *ngIf="searchTerm" 
-          class="clear-search-btn" 
-          (click)="clearSearch()"
-          type="button"
-        >
-          <i class="fa-solid fa-times"></i>
-        </button>
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm" 
+        (input)="onSearchInput($event)"
+        placeholder="{{ 'StudentMyCourses.searchPlaceholder' | translate }}" 
+      />
+      <button 
+        *ngIf="searchTerm" 
+        class="clear-search-btn" 
+        (click)="clearSearch()"
+        type="button"
+      >
+        <i class="fa-solid fa-times"></i>
+      </button>
     </div>
   </div>
 
@@ -78,7 +56,7 @@
       <div class="course-image">
         <img
           [src]="baseurl+course.photo"
-          [alt]="course.name || 'Untitled Course'"
+          [alt]="course.name || ('StudentMyCourses.untitledCourse' | translate)"
           onerror="this.src='Images/Course/Image+Background.png'"
         />
         <div class="progress-overlay">
@@ -86,21 +64,23 @@
             <span>{{ course.courseProgressPercentage || 0 }}%</span>
           </div>
         </div>
-        <div class="category-badge">{{ course.topicName || 'No Topic' }}</div>
+        <div class="category-badge">{{ course.topicName || ('StudentMyCourses.noTopic' | translate) }}</div>
       </div>
 
       <div class="course-content">
-        <h3 class="course-title">{{ course.name || 'Untitled Course' }}</h3>
+        <h3 class="course-title">{{ course.name || ('StudentMyCourses.untitledCourse' | translate) }}</h3>
         <p class="course-instructor">
-        <img [src]="course.instructor &&  course.instructor.photo ? baseurl + course.instructor.photo : 'https://i.pravatar.cc/40'" alt="avatar" class="avatar rounded-circle object-fit-cover" width="40" height="40" />
-          {{ course.instructor && course.instructor.name ? course.instructor.name : 'Unknown Instructor' }}
+          <img [src]="course.instructor &&  course.instructor.photo ? baseurl + course.instructor.photo : 'https://i.pravatar.cc/40'" alt="avatar" class="avatar rounded-circle object-fit-cover" width="40" height="40" />
+          {{ course.instructor && course.instructor.name ? course.instructor.name : ('StudentMyCourses.unknownInstructor' | translate) }}
         </p>
-        <p class="course-description">          {{ (course.description || 'No description available.').length > 50 ? (course.description | slice:0:100) + '...' : (course.description || 'No description available.') }}</p>
+        <p class="course-description">
+          {{ (course.description || ('StudentMyCourses.noDescription' | translate)).length > 50 ? (course.description | slice:0:100) + '...' : (course.description || ('StudentMyCourses.noDescription' | translate)) }}
+        </p>
 
         <div class="course-stats">
           <div class="stat">
             <i class="fa-solid fa-play-circle"></i>
-            <span>{{ course.lessonsCount || 0 }} lessons</span>
+            <span>{{ course.lessonsCount || 0 }} {{ 'StudentMyCourses.lessons' | translate }}</span>
           </div>
           <div class="stat">
             <i class="fa-solid fa-clock"></i>
@@ -127,31 +107,24 @@
         </div>
 
         <div class="course-actions">
-          <button
-            class="btn-continue"
-            [routerLink]="['/Student/course', course.id]"
-          >
+          <button class="btn-continue" [routerLink]="['/Student/course', course.id]">
             <i class="fa-solid fa-play"></i>
           </button>
-    
         </div>
       </div>
     </div>
   </div>
 
   <!-- Empty State -->
-  <div class="empty-state" *ngIf="courses.result.length === 0">
+  <div class="empty-state" *ngIf="courses.result?.length === 0">
     <div class="empty-icon">
       <i class="fa-solid fa-graduation-cap"></i>
     </div>
-    <h3>No courses found</h3>
-    <p>
-      Try adjusting your filters or explore our course catalog to find new
-      learning opportunities.
-    </p>
+    <h3>{{ 'StudentMyCourses.noCoursesFound' | translate }}</h3>
+    <p>{{ 'StudentMyCourses.noCoursesMessage' | translate }}</p>
     <button class="btn-explore" routerLink="/Student/DiscoverCourses">
       <i class="fa-solid fa-search"></i>
-      Explore Courses
+      {{ 'StudentMyCourses.exploreCourses' | translate }}
     </button>
   </div>
 </div>

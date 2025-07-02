@@ -8,7 +8,7 @@
 
     <div class="search-box">
       <i class="fa-solid fa-search"></i>
-      <input type="text" [(ngModel)]="searchTerm" placeholder="Search courses..." />
+      <input type="text" [(ngModel)]="searchTerm" placeholder="{{ 'DiscoverCourses.searchPlaceholder' | translate }}" />
     </div>
   </div>
 
@@ -19,17 +19,17 @@
       <div class="course-image">
         <img
           [src]="baseUrl+course.photo"
-          [alt]="course.name"
+          [alt]="course.name || ('DiscoverCourses.noDescription' | translate)"
           onerror="this.src='Images/Course/Image+Background.png'"
         />
 
         <div class="category-badge">{{ course.topicName }}</div>
         <div *ngIf="course.discount" class="discount-badge">
           <ng-container *ngIf="course.discount.type === 1">
-            {{ course.discount.amount }}% OFF
+            {{ course.discount.amount }}% {{ 'DiscoverCourses.off' | translate }}
           </ng-container>
           <ng-container *ngIf="course.discount.type === 0">
-            ${{ formatNumber(course.discount.amount) }} OFF
+            ${{ formatNumber(course.discount.amount) }} {{ 'DiscoverCourses.off' | translate }}
           </ng-container>
         </div>
       </div>
@@ -40,24 +40,24 @@
           <div class="instructor-avatar" [style.background-image]="course.instructor ? 'url(' + baseUrl + course.instructor.photo + ')' : ''">
             <i *ngIf="!course.instructor" class="fa-solid fa-user"></i>
           </div>
-          <span class="instructor-name">{{ course.instructor?.name || 'Unknown Instructor' }}</span>
+          <span class="instructor-name">{{ course.instructor?.name || ('DiscoverCourses.unknownInstructor' | translate) }}</span>
         </div>
         <p class="course-description">
-          {{ (course.description || 'No description available.').length > 100 ? (course.description | slice:0:100) + '...' : (course.description || 'No description available.') }}
+          {{ (course.description || ('DiscoverCourses.noDescription' | translate)).length > 100 ? (course.description | slice:0:100) + '...' : (course.description || ('DiscoverCourses.noDescription' | translate)) }}
         </p>
 
         <div class="course-stats">
           <div class="stat">
             <i class="fa-solid fa-play-circle"></i>
-            <span>{{ course.lessonsCount }} lessons</span>
+            <span>{{ course.lessonsCount }} {{ 'DiscoverCourses.courseCard.lessons' | translate }}</span>
           </div>
           <div class="stat">
             <i class="fa-solid fa-clock"></i>
-            <span>{{ course.totalDuration }}</span>
+            <span>{{ course.totalDuration }} {{ 'DiscoverCourses.courseCard.duration' | translate }}</span>
           </div>
           <div class="stat">
             <i class="fa-solid fa-star"></i>
-            <span>{{ course.rating }}</span>
+            <span>{{ course.rating }} {{ 'DiscoverCourses.courseCard.rating' | translate }}</span>
           </div>
         </div>
 
@@ -74,10 +74,11 @@
           <div class="action-buttons">
             <button class="btn-enroll" (click)="openEnrollmentPopup(course)">
               <i class="fa-solid fa-graduation-cap me-1"></i>
-              Enroll Now
+              {{ 'DiscoverCourses.enrollNow' | translate }}
             </button>
             <button class="btn-details" routerLink="/Student/DicoverDetails/{{course.id}}">
               <i class="fa-solid fa-info-circle"></i>
+              {{ 'DiscoverCourses.viewDetails' | translate }}
             </button>
           </div>
         </div>
@@ -89,8 +90,8 @@
         <div class="empty-icon">
             <i class="fa-solid fa-person-chalkboard"></i>
         </div>
-        <h3>No Course Found</h3>
-        <p>This Topic doesn't have any Course yet</p>
+        <h3>{{ 'DiscoverCourses.emptyState.title' | translate }}</h3>
+        <p>{{ 'DiscoverCourses.emptyState.message' | translate }}</p>
 
     </div>
     }

@@ -1,29 +1,38 @@
-import { Component, inject } from '@angular/core';
-import { environment } from '../../../../../Environments/environment';
-import { IDicoverCourse } from '../../intarface/idicover-course';
-import { IPaginationResponse } from '../../../../../Core/Shared/Interface/irespose';
-import { DicoverCourseService } from '../../service/dicover-course.service';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { DicoverCourseService } from '../../service/dicover-course.service';
+import { IPaginationResponse } from '../../../../../Core/Shared/Interface/irespose';
+import { IDicoverCourse } from '../../intarface/idicover-course';
+import { environment } from '../../../../../Environments/environment';
 import { FilterCoursePipe } from './filter-course.pipe';
-import { Router, RouterLink } from '@angular/router';
 import { EnrollmentPopupComponent, ICourseForEnrollment } from '../../../../../Components/enrollment-popup/enrollment-popup.component';
-import { SuccessPopupComponent, ISuccessData } from '../../../../../Components/success-popup/success-popup.component';
+import { SuccessPopupComponent } from '../../../../../Components/success-popup/success-popup.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-card-discover-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, FilterCoursePipe, RouterLink, EnrollmentPopupComponent, SuccessPopupComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterLink,
+    FilterCoursePipe,
+    EnrollmentPopupComponent,
+    SuccessPopupComponent,
+    TranslateModule
+  ],
   templateUrl: './card-discover-page.component.html',
   styleUrl: './card-discover-page.component.scss'
 })
-export class CardDiscoverPageComponent {
-  baseUrl: string = environment.baseUrlFiles;
+export class CardDiscoverPageComponent implements OnInit {
+  private translate = inject(TranslateService);
+  private _DicoverCourseService = inject(DicoverCourseService);
 
   dataDiscover: IPaginationResponse<IDicoverCourse> = {} as IPaginationResponse<IDicoverCourse>;
+  baseUrl = environment.baseUrlFiles;
   searchTerm: string = '';
-  private _DicoverCourseService = inject(DicoverCourseService);
-  private _route = inject(Router);
 
   // Enrollment popup state
   showEnrollmentPopup = false;
@@ -31,82 +40,68 @@ export class CardDiscoverPageComponent {
 
   // Success popup state
   showSuccessPopup = false;
-  successData: ISuccessData | null = null;
+  successData: any = null;
+
+  constructor() {
+    // Ensure translations are available
+    this.translate.setDefaultLang('en');
+    this.translate.addLangs(['en', 'ar']);
+  }
 
   ngOnInit(): void {
+    // Load saved language preference
+    const savedLang = localStorage.getItem('lang');
+    if (savedLang) {
+      this.translate.use(savedLang);
+    }
+    this.loadCourses();
+  }
+
+  loadCourses() {
     this._DicoverCourseService.getDiscover().subscribe({
-      next: (res) => {
-        this.dataDiscover = res
+      next: (res: IPaginationResponse<IDicoverCourse>) => {
+        this.dataDiscover = res;
       }
-    })
+    });
   }
 
   formatNumber(num: number): string {
-    if (num >= 1000) {
-      return (num / 1000).toFixed(1) + 'k';
-    }
-    return num.toString();
+    return num.toFixed(2);
   }
 
-  // Method to open enrollment popup
   openEnrollmentPopup(course: IDicoverCourse): void {
-    // Map course data to enrollment interface
     this.selectedCourseForEnrollment = {
       id: course.id,
       name: course.name,
-      originalPrice: course.price || 0,
-      discountPrice: course.priceAfterDiscount !== course.price ? course.priceAfterDiscount : undefined,
-      currency: 'USD', // You might want to get this from course data or app config
-      photo: course.photo ? this.baseUrl + course.photo : 'Images/Course/Image+Background.png',
+      originalPrice: course.price,
+      discountPrice: course.priceAfterDiscount,
+      currency: 'USD',
+      photo: course.photo,
       instructor: {
-        name: course.instructor?.name || 'Unknown Instructor',
-        photo: course.instructor?.photo ? this.baseUrl + course.instructor.photo : undefined
+        name: course.instructor?.name || this.translate.instant('DiscoverCourses.unknownInstructor'),
+        photo: course.instructor?.photo
       }
     };
     this.showEnrollmentPopup = true;
   }
 
-  // Handle enrollment completion
   onEnrollmentComplete(event: { success: boolean, courseData?: any }): void {
+    this.showEnrollmentPopup = false;
     if (event.success) {
-      console.log('Enrollment successful!', event.courseData);
-      this.displaySuccessPopup(event.courseData);
+      this.successData = {
+        title: this.translate.instant('DiscoverCourses.enrollmentSuccess.title'),
+        message: this.translate.instant('DiscoverCourses.enrollmentSuccess.message'),
+        buttonText: this.translate.instant('DiscoverCourses.enrollmentSuccess.buttonText')
+      };
+      this.showSuccessPopup = true;
     }
   }
 
-  // Show success popup after enrollment
-  displaySuccessPopup(courseData: any): void {
-    const details = [
-      courseData.isFree
-        ? 'Free Course - 🎁'
-        : `Payment: ${courseData.price} ${courseData.currency} processed successfully`,
-    ];
-
-    this.successData = {
-      title: 'Enrollment Successful',
-      message: `Congratulations! You have successfully enrolled in ${courseData.name}`,
-      details: details,
-      autoClose: true,
-      autoCloseDelay: 3000
-    };
-
-    this.showSuccessPopup = true;
-
-
-    setTimeout(() => {
-      this._route.navigate([{ outlets: { dialog: null } }]).then(() => {
-        this._route.navigate(["Student/myCourse"]);
-      });
-    }, 3000);
-  }
-
-  // Handle popup close
   onCloseEnrollmentPopup(): void {
     this.showEnrollmentPopup = false;
     this.selectedCourseForEnrollment = null;
   }
 
-  // Handle success popup close
   onCloseSuccessPopup(): void {
     this.showSuccessPopup = false;
     this.successData = null;
