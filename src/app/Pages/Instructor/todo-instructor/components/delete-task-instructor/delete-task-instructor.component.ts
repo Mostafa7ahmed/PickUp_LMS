@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TopPopComponent } from '../../../../../Components/top-pop/top-pop.component';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-delete-task-instructor',
   standalone: true,
-  imports: [TopPopComponent , CommonModule],
+  imports: [TopPopComponent, CommonModule, TranslateModule],
   templateUrl: './delete-task-instructor.component.html',
   styleUrl: './delete-task-instructor.component.scss'
 })

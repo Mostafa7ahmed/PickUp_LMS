@@ -350,6 +350,75 @@
           "clearAll": "Clear All",
           "applyFilters": "Apply Filters"
         }
+      },
+      "TaskManagement": {
+        "pageTitle": "Task Management",
+        "pageDescription": "Manage and track your tasks easily and efficiently.",
+        "searchPlaceholder": "Search tasks...",
+        "addNewTask": "Add New Task",
+        "loadingTasks": "Loading tasks...",
+        "noTasksFound": "No tasks found",
+        "filters": {
+          "allTasks": "All Tasks",
+          "work": "Work",
+          "personal": "Personal",
+          "study": "Study",
+          "meeting": "Meeting",
+          "other": "Other"
+        },
+        "taskTypes": {
+          "work": "Work",
+          "personal": "Personal",
+          "study": "Study",
+          "meeting": "Meeting",
+          "other": "Other"
+        },
+        "priorities": {
+          "low": "Low",
+          "medium": "Medium",
+          "high": "High",
+          "urgent": "Urgent"
+        },
+        "form": {
+          "createTodo": "Create ToDo",
+          "editTask": "Edit Task",
+          "deleteTask": "Delete Task",
+          "taskTitle": "Task Title",
+          "description": "Description",
+          "type": "Type",
+          "priority": "Priority",
+          "dueDate": "Due Date",
+          "status": "Status",
+          "taskTitlePlaceholder": "Enter task title...",
+          "descriptionPlaceholder": "Task description (optional)...",
+          "taskTitleRequired": "Task title is required",
+          "markAsCompleted": "Mark as completed",
+          "createTask": "Create Task",
+          "updateTask": "Update Task",
+          "creating": "Creating...",
+          "updating": "Updating...",
+          "loadingTask": "Loading task..."
+        },
+        "actions": {
+          "editTask": "Edit Task",
+          "deleteTask": "Delete Task"
+        },
+        "delete": {
+          "confirmTitle": "Are you sure you want to delete this task?",
+          "confirmMessage": "will be permanently removed from your task list.",
+          "confirmMessageNoTitle": "This task will be permanently removed from your task list.",
+          "deleteButton": "Delete Task",
+          "cancelButton": "Cancel",
+          "deleting": "Deleting..."
+        },
+        "emptyStates": {
+          "allTasks": "Create your first task to get started with task management.",
+          "work": "No work tasks found. Add work-related tasks to stay organized.",
+          "personal": "No personal tasks found. Add personal tasks to track your goals.",
+          "study": "No study tasks found. Add study tasks to manage your learning.",
+          "meeting": "No meeting tasks found. Add meeting tasks to prepare better.",
+          "other": "No other tasks found. Add miscellaneous tasks here."
+        }
       }
 
 

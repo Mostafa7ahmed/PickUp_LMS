@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router, RouterOutlet, ActivatedRoute } from '@angular/router';
 import { ITaskInstrctor  , TaskType , TaskPriority}   from './core/Interface/itask-instrctor';
 import { GetalltaskinstrctorService } from './core/Service/getalltaskinstrctor.service';
@@ -28,6 +28,7 @@ export class TodoInstructorComponent implements OnInit, OnDestroy {
  @ViewChild(DeleteTaskInstructorComponent) deleteTaskComponent!: DeleteTaskInstructorComponent;
    private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private translateService = inject(TranslateService);
   private _deleteTaskService = inject(DeleteTaskService);
   private _getalltaskinstrctorService = inject(GetalltaskinstrctorService);
     private _updateTaskService = inject(UpdateTaskService);
@@ -252,21 +253,21 @@ export class TodoInstructorComponent implements OnInit, OnDestroy {
 
   getTaskTypeLabel(type: number): string {
     switch (type) {
-      case TaskType.Personal: return 'Personal';
-      case TaskType.Work: return 'Work';
-      case TaskType.Study: return 'Study';
-      case TaskType.Meeting: return 'Meeting';
-      case TaskType.Other: return 'Other';
+      case TaskType.Personal: return this.translateService.instant('TaskManagement.taskTypes.personal');
+      case TaskType.Work: return this.translateService.instant('TaskManagement.taskTypes.work');
+      case TaskType.Study: return this.translateService.instant('TaskManagement.taskTypes.study');
+      case TaskType.Meeting: return this.translateService.instant('TaskManagement.taskTypes.meeting');
+      case TaskType.Other: return this.translateService.instant('TaskManagement.taskTypes.other');
       default: return 'Unknown';
     }
   }
 
   getTaskPriorityLabel(priority: number): string {
     switch (priority) {
-      case TaskPriority.Low: return 'Low';
-      case TaskPriority.Medium: return 'Medium';
-      case TaskPriority.High: return 'High';
-      case TaskPriority.Urgent: return 'Urgent';
+      case TaskPriority.Low: return this.translateService.instant('TaskManagement.priorities.low');
+      case TaskPriority.Medium: return this.translateService.instant('TaskManagement.priorities.medium');
+      case TaskPriority.High: return this.translateService.instant('TaskManagement.priorities.high');
+      case TaskPriority.Urgent: return this.translateService.instant('TaskManagement.priorities.urgent');
       default: return 'Unknown';
     }
   }
@@ -303,12 +304,12 @@ export class TodoInstructorComponent implements OnInit, OnDestroy {
   }
    getEmptyStateMessage(): string {
     switch (this.activeFilter) {
-      case 'work': return 'No work tasks found. Add a work task to get started!';
-      case 'study': return 'No study tasks found. Add a study task to get started!';
-      case 'meeting': return 'No meeting tasks found. Add a meeting task to get started!';
-      case 'personal': return 'No personal tasks found. Add a personal task to get started!';
-      case 'other': return 'No other tasks found. Add a task to get started!';
-      default: return 'No tasks found. Add your first task to get started!';
+      case 'work': return this.translateService.instant('TaskManagement.emptyStates.work');
+      case 'study': return this.translateService.instant('TaskManagement.emptyStates.study');
+      case 'meeting': return this.translateService.instant('TaskManagement.emptyStates.meeting');
+      case 'personal': return this.translateService.instant('TaskManagement.emptyStates.personal');
+      case 'other': return this.translateService.instant('TaskManagement.emptyStates.other');
+      default: return this.translateService.instant('TaskManagement.emptyStates.allTasks');
     }
   }
 

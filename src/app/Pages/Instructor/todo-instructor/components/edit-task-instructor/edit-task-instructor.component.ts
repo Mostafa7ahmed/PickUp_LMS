@@ -2,6 +2,7 @@ import { ITaskInstrctor, TaskPriority, TaskType } from './../../core/Interface/i
 import { Component, EventEmitter, Output, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TextHeaderComponent } from '../../../../Courses/Components/text-header/text-header.component';
 import { TopPopComponent } from '../../../../../Components/top-pop/top-pop.component';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -12,7 +13,7 @@ import { IUpdateTaskRequest } from '../../core/Interface/iupdate-task-request';
 @Component({
   selector: 'app-edit-task-instructor',
   standalone: true,
-  imports: [CommonModule, FormsModule, TextHeaderComponent, TopPopComponent],
+  imports: [CommonModule, FormsModule, TranslateModule, TextHeaderComponent, TopPopComponent],
   templateUrl: './edit-task-instructor.component.html',
   styleUrl: './edit-task-instructor.component.scss'
 })
@@ -22,6 +23,7 @@ export class EditTaskInstructorComponent {
   private taskService = inject(UpdateTaskService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private translateService = inject(TranslateService);
 
   showValidation = false;
   isLoading = false;
@@ -39,19 +41,19 @@ export class EditTaskInstructorComponent {
 
   // Task type options for dropdown
   taskTypes = [
-    { value: TaskType.Personal, label: 'Personal', icon: 'fas fa-user' },
-    { value: TaskType.Work, label: 'Work', icon: 'fas fa-briefcase' },
-    { value: TaskType.Study, label: 'Study', icon: 'fas fa-book' },
-    { value: TaskType.Meeting, label: 'Meeting', icon: 'fas fa-users' },
-    { value: TaskType.Other, label: 'Other', icon: 'fas fa-tasks' }
+    { value: TaskType.Personal, label: this.translateService.instant('TaskManagement.taskTypes.personal'), icon: 'fas fa-user' },
+    { value: TaskType.Work, label: this.translateService.instant('TaskManagement.taskTypes.work'), icon: 'fas fa-briefcase' },
+    { value: TaskType.Study, label: this.translateService.instant('TaskManagement.taskTypes.study'), icon: 'fas fa-book' },
+    { value: TaskType.Meeting, label: this.translateService.instant('TaskManagement.taskTypes.meeting'), icon: 'fas fa-users' },
+    { value: TaskType.Other, label: this.translateService.instant('TaskManagement.taskTypes.other'), icon: 'fas fa-tasks' }
   ];
 
   // Priority options for dropdown
   priorityOptions = [
-    { value: TaskPriority.Low, label: 'Low', color: '#10b981' },
-    { value: TaskPriority.Medium, label: 'Medium', color: '#f59e0b' },
-    { value: TaskPriority.High, label: 'High', color: '#ef4444' },
-    { value: TaskPriority.Urgent, label: 'Urgent', color: '#dc2626' }
+    { value: TaskPriority.Low, label: this.translateService.instant('TaskManagement.priorities.low'), color: '#10b981' },
+    { value: TaskPriority.Medium, label: this.translateService.instant('TaskManagement.priorities.medium'), color: '#f59e0b' },
+    { value: TaskPriority.High, label: this.translateService.instant('TaskManagement.priorities.high'), color: '#ef4444' },
+    { value: TaskPriority.Urgent, label: this.translateService.instant('TaskManagement.priorities.urgent'), color: '#dc2626' }
   ];
 
   ngOnInit(): void {

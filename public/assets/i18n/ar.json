@@ -322,5 +322,74 @@
         "clearAll": "مسح الكل",
         "applyFilters": "تطبيق المرشحات"
       }
+    },
+    "TaskManagement": {
+      "pageTitle": "إدارة المهام",
+      "pageDescription": "إدارة وتتبع مهامك بسهولة وكفاءة.",
+      "searchPlaceholder": "البحث في المهام...",
+      "addNewTask": "إضافة مهمة جديدة",
+      "loadingTasks": "جاري تحميل المهام...",
+      "noTasksFound": "لم يتم العثور على مهام",
+      "filters": {
+        "allTasks": "جميع المهام",
+        "work": "العمل",
+        "personal": "شخصي",
+        "study": "الدراسة",
+        "meeting": "اجتماع",
+        "other": "أخرى"
+      },
+      "taskTypes": {
+        "work": "العمل",
+        "personal": "شخصي",
+        "study": "الدراسة",
+        "meeting": "اجتماع",
+        "other": "أخرى"
+      },
+      "priorities": {
+        "low": "منخفضة",
+        "medium": "متوسطة",
+        "high": "عالية",
+        "urgent": "عاجلة"
+      },
+      "form": {
+        "createTodo": "إنشاء مهمة",
+        "editTask": "تعديل المهمة",
+        "deleteTask": "حذف المهمة",
+        "taskTitle": "عنوان المهمة",
+        "description": "الوصف",
+        "type": "النوع",
+        "priority": "الأولوية",
+        "dueDate": "تاريخ الاستحقاق",
+        "status": "الحالة",
+        "taskTitlePlaceholder": "أدخل عنوان المهمة...",
+        "descriptionPlaceholder": "وصف المهمة (اختياري)...",
+        "taskTitleRequired": "عنوان المهمة مطلوب",
+        "markAsCompleted": "تحديد كمكتملة",
+        "createTask": "إنشاء المهمة",
+        "updateTask": "تحديث المهمة",
+        "creating": "جاري الإنشاء...",
+        "updating": "جاري التحديث...",
+        "loadingTask": "جاري تحميل المهمة..."
+      },
+      "actions": {
+        "editTask": "تعديل المهمة",
+        "deleteTask": "حذف المهمة"
+      },
+      "delete": {
+        "confirmTitle": "هل أنت متأكد من حذف هذه المهمة؟",
+        "confirmMessage": "ستتم إزالتها نهائياً من قائمة مهامك.",
+        "confirmMessageNoTitle": "ستتم إزالة هذه المهمة نهائياً من قائمة مهامك.",
+        "deleteButton": "حذف المهمة",
+        "cancelButton": "إلغاء",
+        "deleting": "جاري الحذف..."
+      },
+      "emptyStates": {
+        "allTasks": "أنشئ مهمتك الأولى للبدء في إدارة المهام.",
+        "work": "لا توجد مهام عمل. أضف مهام متعلقة بالعمل للبقاء منظماً.",
+        "personal": "لا توجد مهام شخصية. أضف مهام شخصية لتتبع أهدافك.",
+        "study": "لا توجد مهام دراسية. أضف مهام دراسية لإدارة تعلمك.",
+        "meeting": "لا توجد مهام اجتماعات. أضف مهام الاجتماعات للتحضير بشكل أفضل.",
+        "other": "لا توجد مهام أخرى. أضف المهام المتنوعة هنا."
+      }
     }
 }
