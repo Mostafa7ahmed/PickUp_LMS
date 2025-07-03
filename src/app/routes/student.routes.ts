@@ -2,12 +2,10 @@ import { Routes } from '@angular/router';
 import { RouteStuddentsComponent } from '../Layout/Students/route-studdents/route-studdents.component';
 import { notloginguardsGuard } from '../Core/Guards/notloginguards.guard';
 import { studentOnlyGuard } from '../Core/Guards/role-based.guard';
-import { ChangePasswordPopupComponent } from '../Pages/Auth/change-password-popup/change-password-popup.component';
 import { EnrollCoursePopupComponent } from '../Pages/enrollment/enroll-course-popup/enroll-course-popup.component';
 
 // Student Components
 import { HomepageStudentComponent } from '../Pages/Students/homepage-student/homepage-student.component';
-<<<<<<< HEAD
 import { StudentCoursesComponent } from '../Pages/Students/student-courses/student-courses.component';
 import { StudentTodoComponent } from '../Pages/Students/student-todo/student-todo.component';
 import { StudentChatComponent } from '../Pages/Students/student-chat/student-chat.component';
@@ -140,7 +138,7 @@ export const studentRoutes: Routes = [
             { 
                 path: '**', 
                 redirectTo: 'homeStudent'
-            }
+            },
             { path: '', redirectTo: 'homeStudent', pathMatch: 'full' },
             { path: "homeStudent", title: "Home Student", component: HomepageStudentComponent },
             { path: "myCourse", title: "My Course", component: MyCourseComponent },
