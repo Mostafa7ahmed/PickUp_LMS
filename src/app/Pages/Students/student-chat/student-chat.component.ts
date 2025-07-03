@@ -44,7 +44,7 @@ interface Course {
 export class StudentChatComponent {
   currentUser: User = {
     id: 100,
-    name: 'You (Student)',
+    name: 'Student',
     avatar: 'https://i.pravatar.cc/150?img=60',
     role: 'student',
     online: true
