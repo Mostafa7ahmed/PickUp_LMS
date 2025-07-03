@@ -31,6 +31,7 @@ import { WalletPopupInstructorComponent } from '../Pages/Instructor/wallet-popup
 import { UpdeatePorfileComponent } from '../Pages/Instructor/porfile/components/updeate-porfile/updeate-porfile.component';
 import { EditTaskInstructorComponent } from '../Pages/Instructor/todo-instructor/components/edit-task-instructor/edit-task-instructor.component';
 import { EditCouponComponent } from '../Pages/Coupon/Components/edit-coupon/edit-coupon.component';
+import { InstructorChatComponent } from '../Pages/Instructor/instructor-chat/instructor-chat.component';
 export const instructorRoutes: Routes = [
     {
         path: '',
@@ -43,6 +44,8 @@ export const instructorRoutes: Routes = [
             { path: 'ChangePasswordPopup', outlet: 'dialog', component: ChangePasswordPopupComponent },
             { path: "course", title: "Course", component: CoursesComponent },
             { path: "todo", title: "Task Management", component: TodoInstructorComponent },
+            { path: "chat", title: "Chat ", component: InstructorChatComponent  },
+
             { path: 'addTaskInstrcutor', outlet: 'dialog', component: AddtasktodoComponent },
              { path: 'editTaskinstructor/:id', outlet: 'dialog', component: EditTaskInstructorComponent },
 
