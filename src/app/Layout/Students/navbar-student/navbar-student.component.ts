@@ -5,7 +5,6 @@ import { Decode } from '../../../Core/Interface/user';
 import { TranslationService } from '../../../Core/Services/translation.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-<<<<<<< HEAD
 import { CommonModule } from '@angular/common';
 
 interface Notification {
@@ -17,11 +16,9 @@ interface Notification {
   createdAt: Date;
   actionUrl?: string;
 }
-=======
 import { Notification } from './core/interface/notification';
 import { GetallnotifactionService } from './core/service/getallnotifaction.service';
 import { CommonModule } from '@angular/common';
->>>>>>> 64669af2d189050710502789c0020a0a1285f09a
 
 @Component({
   selector: 'app-navbar-student',
@@ -31,8 +28,10 @@ import { CommonModule } from '@angular/common';
   styleUrl: './navbar-student.component.scss'
 })
 export class NavbarStudentComponent {
+openAddTaskPopup() {
+throw new Error('Method not implemented.');
+}
 
-<<<<<<< HEAD
   
     private readonly _MytranslationService = inject(TranslationService);
     readonly _TranslateService = inject(TranslateService);
@@ -127,7 +126,6 @@ export class NavbarStudentComponent {
   
     toggleAddMenu() {
       this.isAddMenuOpen = !this.isAddMenuOpen;
-=======
 
   private readonly _MytranslationService = inject(TranslationService);
   readonly _TranslateService = inject(TranslateService);
@@ -363,6 +361,10 @@ export class NavbarStudentComponent {
   }
   openAddTaskPopup(): void {
     this.router.navigate(['/Student', { outlets: { dialog: ['taskTodoStudent'] } }]);
+  }
+
+  openWalletPopup(): void {
+    this.router.navigate(['/Student', { outlets: { dialog: ['wallet'] } }]);
   }
 
   ToggleLang() {

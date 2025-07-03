@@ -310,8 +310,19 @@
 
                         <p-tabpanels>
                             <p-tabpanel [value]="0">
-                            <app-lesson></app-lesson>
-            
+                                @if(CourseId > 0) {
+                                    <app-course-lessons
+                                        [courseId]="CourseId"
+                                        [showPagination]="true"
+                                        [pageSize]="10"
+                                        [autoLoad]="true">
+                                    </app-course-lessons>
+                                } @else {
+                                    <div class="d-flex flex-column align-items-center justify-content-center m-0 tabView">
+                                        <img src="Images/Email_empty.svg" alt="" width="190px">
+                                        <p>{{'ViewCourse.Loading course lessons...' | translate}}</p>
+                                    </div>
+                                }
                             </p-tabpanel>
                             <p-tabpanel [value]="1">
                                 <div class="d-flex flex-column align-items-center justify-content-center m-0 tabView">

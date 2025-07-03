@@ -1,0 +1,213 @@
+@if(isVisible) {
+  <div class="overlay"></div>
+  <div class="enrollment-popup">
+    <app-top-pop 
+      [NamePopup]="'Enroll in Course'" 
+      [NameIcon]="'fa-solid fa-graduation-cap'"
+      [bgColor]="'#00c8531a'"
+      [ColorIcon]="'#00c853'"
+      (isVisibleChange)="closePopup()">
+    </app-top-pop>
+    
+    <div class="popup-body">
+      @if(isLoading) {
+        <div class="loading-section">
+          <i class="fas fa-spinner fa-spin"></i>
+          <span>Loading course information...</span>
+        </div>
+      } @else if(courseInfo) {
+        <div class="content-wrapper">
+          <!-- Course Information Section -->
+          <div class="course-info-section">
+            <div class="course-header">
+              <div class="course-image">
+                <img [src]="courseInfo.photoUrl" [alt]="courseInfo.name" />
+              </div>
+              <div class="course-details">
+                <h3>{{ courseInfo.name }}</h3>
+                <p class="instructor">
+                  <i class="fas fa-user-tie"></i>
+                  {{ courseInfo.instructor.name }}
+                </p>
+                <div class="course-stats">
+                  <span class="stat">
+                    <i class="fas fa-users"></i>
+                    {{ courseInfo.studentsCount }} students
+                  </span>
+                  <span class="stat">
+                    <i class="fas fa-play-circle"></i>
+                    {{ courseInfo.lessonssCount }} lessons
+                  </span>
+                  <span class="stat">
+                    <i class="fas fa-star"></i>
+                    {{ courseInfo.rating }}/5
+                  </span>
+                </div>
+              </div>
+            </div>
+            <p class="course-description">{{ courseInfo.description }}</p>
+          </div>
+
+          <!-- Enrollment Form Section -->
+          <form [formGroup]="enrollmentForm" (ngSubmit)="onSubmit()" class="enrollment-form">
+            
+            <!-- Enrollment Method Selection -->
+            <div class="form-section">
+              <h4>
+                <i class="fas fa-credit-card"></i>
+                Choose Enrollment Method
+              </h4>
+              
+              <div class="method-options">
+                @if(courseInfo.free) {
+                  <div class="method-option" 
+                       [class.selected]="selectedMethod === EnrollmentMethod.Free"
+                       (click)="onEnrollmentMethodChange(EnrollmentMethod.Free)">
+                    <div class="method-icon free">
+                      <i class="fas fa-gift"></i>
+                    </div>
+                    <div class="method-info">
+                      <h5>Free Enrollment</h5>
+                      <p>This course is completely free</p>
+                      <span class="price">$0.00</span>
+                    </div>
+                  </div>
+                } @else {
+                  <div class="method-option" 
+                       [class.selected]="selectedMethod === EnrollmentMethod.Paid"
+                       (click)="onEnrollmentMethodChange(EnrollmentMethod.Paid)">
+                    <div class="method-icon paid">
+                      <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="method-info">
+                      <h5>Standard Payment</h5>
+                      <p>Pay the full course price</p>
+                      <span class="price">
+                        @if(courseInfo.priceAfterDiscount && courseInfo.priceAfterDiscount < courseInfo.price) {
+                          <span class="original-price">${{ courseInfo.price }}</span>
+                          ${{ courseInfo.priceAfterDiscount }}
+                        } @else {
+                          ${{ courseInfo.price }}
+                        }
+                      </span>
+                    </div>
+                  </div>
+                }
+
+                <div class="method-option" 
+                     [class.selected]="selectedMethod === EnrollmentMethod.Coupon"
+                     (click)="onEnrollmentMethodChange(EnrollmentMethod.Coupon)">
+                  <div class="method-icon coupon">
+                    <i class="fas fa-ticket-alt"></i>
+                  </div>
+                  <div class="method-info">
+                    <h5>Use Coupon</h5>
+                    <p>Apply a discount coupon</p>
+                    <span class="price">Variable</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Coupon Code Section -->
+            @if(selectedMethod === EnrollmentMethod.Coupon) {
+              <div class="form-section">
+                <h4>
+                  <i class="fas fa-ticket-alt"></i>
+                  Coupon Code
+                </h4>
+                <div class="coupon-input-group">
+                  <input 
+                    type="text" 
+                    formControlName="couponCode"
+                    class="form-control"
+                    placeholder="Enter coupon code"
+                    [class.valid]="isCouponValid"
+                    [class.invalid]="couponValidationMessage && !isCouponValid"
+                  />
+                  <button 
+                    type="button" 
+                    class="btn-validate-coupon"
+                    (click)="validateCoupon()"
+                    [disabled]="isValidatingCoupon || !enrollmentForm.get('couponCode')?.value"
+                  >
+                    @if(isValidatingCoupon) {
+                      <i class="fas fa-spinner fa-spin"></i>
+                    } @else {
+                      <i class="fas fa-check"></i>
+                    }
+                    Validate
+                  </button>
+                </div>
+                @if(couponValidationMessage) {
+                  <div class="coupon-message" [class.success]="isCouponValid" [class.error]="!isCouponValid">
+                    <i [class]="isCouponValid ? 'fas fa-check-circle' : 'fas fa-exclamation-circle'"></i>
+                    {{ couponValidationMessage }}
+                  </div>
+                }
+              </div>
+            }
+
+            <!-- Price Summary -->
+            <div class="price-summary">
+              <div class="summary-row">
+                <span>Course Price:</span>
+                <span>${{ courseInfo.price }}</span>
+              </div>
+              @if(courseInfo.priceAfterDiscount && courseInfo.priceAfterDiscount < courseInfo.price) {
+                <div class="summary-row discount">
+                  <span>Course Discount:</span>
+                  <span>-${{ courseInfo.price - courseInfo.priceAfterDiscount }}</span>
+                </div>
+              }
+              @if(appliedDiscount > 0) {
+                <div class="summary-row discount">
+                  <span>Coupon Discount:</span>
+                  <span>-${{ appliedDiscount }}</span>
+                </div>
+              }
+              <div class="summary-row total">
+                <span>Total Amount:</span>
+                <span class="final-price">${{ finalPrice }}</span>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+              <button 
+                type="button" 
+                class="btn btn-cancel"
+                (click)="closePopup()"
+                [disabled]="isSubmitting"
+              >
+                Cancel
+              </button>
+              <button 
+                type="submit" 
+                class="btn btn-enroll"
+                [disabled]="isSubmitting || (selectedMethod === EnrollmentMethod.Coupon && !isCouponValid)"
+              >
+                @if(isSubmitting) {
+                  <i class="fas fa-spinner fa-spin"></i>
+                  Processing...
+                } @else {
+                  <i class="fas fa-graduation-cap"></i>
+                  @if(finalPrice === 0) {
+                    Enroll for Free
+                  } @else {
+                    Enroll for ${{ finalPrice }}
+                  }
+                }
+              </button>
+            </div>
+          </form>
+        </div>
+      } @else {
+        <div class="error-section">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>Unable to load course information</span>
+        </div>
+      }
+    </div>
+  </div>
+}
