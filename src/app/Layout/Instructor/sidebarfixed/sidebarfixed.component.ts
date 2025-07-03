@@ -59,6 +59,11 @@ export class SidebarfixedComponent {
       Icon: 'fa-solid fa-person-chalkboard',
       routes: "course"
     },
+      {
+      name: 'InstructorSidebar.Chat',
+      Icon: 'fa-solid fa-comments ',
+      routes: "chat"
+    },
     {
       name: 'InstructorSidebar.Quiz',
       Icon: 'fa-solid fa-clipboard-question',
