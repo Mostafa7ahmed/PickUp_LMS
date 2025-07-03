@@ -49,6 +49,11 @@ export class SidebarStudentComponent implements OnInit {
       Icon: 'fa-solid fa-person-chalkboard',
       routes: "myCourse"
     },
+     {
+      name: 'InstructorSidebar.Chat',
+      Icon: 'fa-solid fa-comments ',
+      routes: "chat"
+    },
     {
       name: 'StudentSidebar.DiscoverCourses',
       Icon: 'fa-solid fa-compass',

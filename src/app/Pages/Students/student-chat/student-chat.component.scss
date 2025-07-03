@@ -22,6 +22,11 @@
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-12px); }
 }
+.badge{
+  padding:   6px;
+  background-color: #28ab5d;
+}
+
 .instructor-chat-container {
     height: 91vh
 ;

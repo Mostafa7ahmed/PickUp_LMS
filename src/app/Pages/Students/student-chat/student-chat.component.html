@@ -110,15 +110,15 @@
 
               <!-- Sender avatar (for student messages) -->
               <div class="message-avatar" *ngIf="!isMessageFromCurrentUser(message)">
-                <img [src]="getMessageSender(message)?.avatar || 'Images/avatars/default.jpg'"
-                  [alt]="getMessageSender(message)?.name || 'Student'">
+                <img [src]="message.avatar || getMessageSender(message)?.avatar || 'Images/avatars/default.jpg'"
+                  [alt]="message.senderName || getMessageSender(message)?.name || 'Student'">
               </div>
 
               <div class="message-content">
                 <!-- Sender name (for student messages) -->
                 <div class="sender-name" *ngIf="!isMessageFromCurrentUser(message)">
-                  {{ getMessageSender(message)?.name || 'Student' }}
-                  <span *ngIf="getMessageSender(message)?.role === 'instructor'" class="badge  ms-2" style="font-size:0.8em;vertical-align:middle;">(Instructor)</span>
+                  {{ message.senderName || getMessageSender(message)?.name || 'Student' }}
+                  <span *ngIf="(message.role || getMessageSender(message)?.role) === 'instructor'" class="badge  ms-2" style="font-size:0.8em;vertical-align:middle;">(Instructor)</span>
                 </div>
 
                 <!-- Message bubble -->

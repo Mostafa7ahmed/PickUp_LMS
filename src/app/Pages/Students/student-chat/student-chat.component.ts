@@ -19,6 +19,9 @@ interface Message {
   type: 'text' | 'file' | 'image';
   fileName?: string;
   fileUrl?: string;
+  avatar?: string;
+  senderName?: string;
+  role?: string;
 }
 
 interface Course {
@@ -70,11 +73,11 @@ courses: Course[] = [
       { id: 17, name: 'Khaled Mansour', avatar: 'https://i.pravatar.cc/150?img=56', role: 'student', online: false, lastSeen: new Date('2024-03-09T15:45:00') }
     ],
     messages: [
-      { id: 1, senderId: 2, content: 'Doctor, I have a question about the normalization task. Can you explain 3NF again?', timestamp: new Date('2024-03-12T10:30:00'), type: 'text' },
-      { id: 2, senderId: 1, content: 'Sure Ahmed! 3NF means all non-key attributes must depend only on the primary key, no transitive dependencies.', timestamp: new Date('2024-03-12T11:00:00'), type: 'text' },
-      { id: 3, senderId: 3, content: 'I’m still not sure about the ER diagram. Should we include all relations?', timestamp: new Date('2024-03-12T11:15:00'), type: 'text' },
-      { id: 4, senderId: 1, content: 'Yes Menna, include all relationships. I’ll share a reference file soon.', timestamp: new Date('2024-03-12T11:20:00'), type: 'text' },
-      { id: 5, senderId: 4, content: 'Thanks, Doctor. That helps a lot!', timestamp: new Date('2024-03-12T12:00:00'), type: 'text' }
+      { id: 1, senderId: 2, content: 'Hello, I have a question about the assignment.', timestamp: new Date('2024-03-12T10:30:00'), type: 'text' },
+      { id: 2, senderId: 1, content: 'Of course! What would you like to ask?', timestamp: new Date('2024-03-12T11:00:00'), type: 'text' },
+      { id: 3, senderId: 3, content: 'Can you explain the requirements again?', timestamp: new Date('2024-03-12T11:15:00'), type: 'text' },
+      { id: 4, senderId: 1, content: 'Sure, the requirements are listed in the course portal.', timestamp: new Date('2024-03-12T11:20:00'), type: 'text' },
+      { id: 5, senderId: 4, content: 'Thank you so much!', timestamp: new Date('2024-03-12T12:00:00'), type: 'text' }
     ]
   },
   {
@@ -173,6 +176,9 @@ courses: Course[] = [
       }
     }
 
+    // Patch all messages to ensure avatar, senderName, and role are set
+    this.patchMessagesWithSenderInfo(course);
+
     this.selectedCourse = course;
     // Mark messages as read
     course.unreadCount = 0;
@@ -183,6 +189,27 @@ courses: Course[] = [
     }, 150);
   }
 
+  // Patch all messages in a course to ensure avatar, senderName, and role are set
+  patchMessagesWithSenderInfo(course: Course) {
+    if (!course || !course.messages) return;
+    for (const msg of course.messages) {
+      // Only patch if missing
+      if (!msg.avatar || !msg.senderName || !msg.role) {
+        let sender: User | undefined = undefined;
+        if (msg.senderId === this.currentUser.id) {
+          sender = this.currentUser;
+        } else {
+          sender = course.students.find(s => s.id === msg.senderId);
+        }
+        if (sender) {
+          msg.avatar = sender.avatar;
+          msg.senderName = sender.name;
+          msg.role = sender.role;
+        }
+      }
+    }
+  }
+
   sendMessage() {
     if (this.newMessage.trim() && this.selectedCourse) {
       const message: Message = {
@@ -190,7 +217,10 @@ courses: Course[] = [
         senderId: this.currentUser.id,
         content: this.newMessage.trim(),
         timestamp: new Date(),
-        type: 'text'
+        type: 'text',
+        avatar: this.currentUser.avatar,
+        senderName: this.currentUser.name,
+        role: this.currentUser.role
       };
 
       this.selectedCourse.messages.push(message);

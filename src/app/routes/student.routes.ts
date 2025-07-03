@@ -18,6 +18,7 @@ import { DiscoverCourseDetailsComponent } from '../Pages/Students/discover-cours
 import { MyCourseDetealisStudentComponent } from '../Pages/Students/my-course-detealis-student/my-course-detealis-student.component';
 import { QuizPreviewComponent } from '../Pages/quizlist/Components/quiz-preview/quiz-preview.component';
 import { ViewLessonComponent } from '../Pages/lesson/Components/view-lesson/view-lesson.component';
+import { StudentChatComponent } from '../Pages/Students/student-chat/student-chat.component';
 
 export const studentRoutes: Routes = [
     {
@@ -29,6 +30,8 @@ export const studentRoutes: Routes = [
             { path: "homeStudent", title: "Home Student", component: HomepageStudentComponent },
             { path: "myCourse", title: "My Course", component: MyCourseComponent },
             { path: "DiscoverCourses", title: "My Course", component: DiscoverCourseComponent },
+           { path: "chat", title: "Chat", component: StudentChatComponent },
+
              { path: "course/:id", title: "My Course", component: MyCourseDetealisStudentComponent },
             { path: 'viewLesson/:lessonId', title: "View Lesson", component: ViewLessonComponent },
             { path: 'quizPreview/:id', outlet: 'dialog', component: QuizPreviewComponent },

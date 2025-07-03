@@ -796,4 +796,26 @@
       }
     }
   }
+}
+
+.sender-info-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+.name {
+  font-weight: bold;
+  color: #222;
+}
+.role {
+  color: #888;
+  font-size: 0.95em;
 } 
