@@ -56,7 +56,7 @@ courses: Course[] = [
     image: 'https://s7280.pcdn.co/wp-content/uploads/2021/12/introduction-of-dbms.webp',
     unreadCount: 5,
     students: [
-      { id: 2, name: 'Ahmed Khaled', avatar: 'https://i.pravatar.cc/150?img=11', role: 'student', online: true },
+      { id: 2, name: 'Ahmed Khaled', avatar: 'https://i.pravatar.cc/150?img=11', role: 'instructor', online: true },
       { id: 3, name: 'Menna Saeed', avatar: 'https://i.pravatar.cc/150?img=47', role: 'student', online: false, lastSeen: new Date('2024-03-12T09:30:00') },
       { id: 4, name: 'Ali Ibrahim', avatar: 'https://i.pravatar.cc/150?img=14', role: 'student', online: true },
       { id: 12, name: 'Salma Mostafa', avatar: 'https://i.pravatar.cc/150?img=51', role: 'student', online: false, lastSeen: new Date('2024-03-10T17:00:00') },
@@ -85,7 +85,7 @@ courses: Course[] = [
     image: 'https://www.creativ.com.au/wp-content/uploads/2023/10/The-Fundamentals-of-Front-End-Web-Development-1024x556.png',
     unreadCount: 4,
     students: [
-      { id: 5, name: 'Sara Nabil', avatar: 'https://i.pravatar.cc/150?img=45', role: 'student', online: true },
+      { id: 5, name: 'Sara Nabil', avatar: 'https://i.pravatar.cc/150?img=45', role: 'instructor', online: true },
       { id: 6, name: 'Omar Tarek', avatar: 'https://i.pravatar.cc/150?img=15', role: 'student', online: true },
       { id: 7, name: 'Heba Adel', avatar: 'https://i.pravatar.cc/150?img=49', role: 'student', online: false, lastSeen: new Date('2024-03-11T16:45:00') },
       { id: 18, name: 'Nada Samir', avatar: 'https://i.pravatar.cc/150?img=57', role: 'student', online: true },
