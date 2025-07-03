@@ -426,7 +426,9 @@
         "Course": "Course",
         "Quiz": "Quiz",
         "Coupon": "Coupon",
-        "ToDo": "To Do"
+        "ToDo": "To Do",
+        "Chat": "Chat"
+
       },
       "StudentSidebar": {
         "HomePage": "Home Page",

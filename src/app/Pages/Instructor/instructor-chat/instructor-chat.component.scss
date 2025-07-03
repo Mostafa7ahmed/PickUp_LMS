@@ -1,0 +1,771 @@
+.instructor-chat-container {
+    height: 91vh
+;
+    background: #ffffff;
+    overflow: hidden;
+    /* padding: 15px 0; */
+    border-radius: 10px;
+    margin-top: 10px;
+    scrollbar-width: none;
+
+
+  .chat-layout {
+    display: flex;
+    height: 100%;
+    
+    .courses-sidebar {
+      width: 320px;
+      background: #ffffff;
+      border-right: 1px solid #e5e5e7;
+      display: flex;
+      flex-direction: column;
+
+      .sidebar-header {
+        padding: 20px;
+        border-bottom: 1px solid #e5e5e7;
+        background: #fff;
+
+        .header-content {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 16px;
+
+          h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1d1d1f;
+            margin: 0;
+            display: flex;
+            align-items: center;
+
+            i {
+              color: #28ab5d;
+            }
+          }
+
+          .unread-badge {
+            background: #ff3b30;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            min-width: 20px;
+            text-align: center;
+          }
+        }
+
+        .search-box {
+          position: relative;
+          display: flex;
+          align-items: center;
+
+          i {
+            position: absolute;
+            left: 12px;
+            color: #86868b;
+            z-index: 1;
+            font-size: 14px;
+          }
+
+          input {
+            width: 100%;
+            padding: 8px 16px 8px 36px;
+            border: 1px solid #d2d2d7;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s ease;
+            background: #ffffff;
+
+            &:focus {
+              box-shadow: 0 0 0 3px rgba(77, 248, 77, 0.1);
+            }
+
+            &::placeholder {
+              color: #86868b;
+            }
+          }
+        }
+      }
+
+      .courses-list {
+        flex: 1;
+        overflow-y: auto;
+        padding: 8px 0;
+
+        &::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: #f1f1f1;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background: #c1c1c1;
+          border-radius: 3px;
+
+          &:hover {
+            background: #a1a1a1;
+          }
+        }
+
+        .course-item {
+          padding: 16px 20px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          border-bottom: 1px solid #f2f2f7;
+          border-left: 3px solid #f2f2f7;
+
+          &:hover {
+            background: #f8f9fa;
+          }
+
+          &.active {
+            background: #28ab5c1a;
+            border-left: 3px solid #28ab5d;
+          }
+
+          .course-info {
+            .course-header {
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-start;
+              margin-bottom: 8px;
+
+              .course-main {
+                display: flex;
+                align-items: flex-start;
+                gap: 12px;
+                flex: 1;
+
+                .course-image {
+                  .course-thumbnail {
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 8px;
+                    object-fit: cover;
+                    border: 2px solid #e5e5e7;
+                    background: #f8f9fa;
+                  }
+                }
+
+                .course-details {
+                  flex: 1;
+                  min-width: 0;
+
+                  h3 {
+                    font-size: 0.875rem;
+                    font-weight: 600;
+                    color: #1d1d1f;
+                    margin: 0 0 4px 0;
+                    line-height: 1.3;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                  }
+
+                  .course-code {
+                    font-size: 0.75rem;
+                    color: #86868b;
+                    background: #f2f2f7;
+                    padding: 2px 6px;
+                    border-radius: 4px;
+                    font-weight: 500;
+                                  width: fit-content;
+
+                  }
+                }
+              }
+
+              .course-meta {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 4px;
+                margin-left: 8px;
+
+                .unread-count {
+                  background: #28ab5d;
+                  color: white;
+                  padding: 1px;
+          
+                  border-radius: 10px;
+                  font-size: 0.7rem;
+                  font-weight: 600;
+                  text-align: center;
+                  width: 18px;
+                  height: 18px;
+
+                }
+
+                .online-indicator {
+                  display: flex;
+                  align-items: center;
+                  gap: 4px;
+                  font-size: 0.7rem;
+                  color: #34c759;
+
+                  i {
+                    font-size: 6px;
+                  }
+                }
+              }
+            }
+
+            .last-message {
+              margin-bottom: 8px;
+
+              p {
+                font-size: 0.8125rem;
+                color: #86868b;
+                margin: 0 0 4px 0;
+                line-height: 1.3;
+              }
+
+              .timestamp {
+                font-size: 0.7rem;
+                color: #86868b;
+              }
+            }
+
+            .students-preview {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+
+              .student-avatars {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+
+                .student-avatar {
+                  width: 20px;
+                  height: 20px;
+                  border-radius: 50%;
+                  border: 2px solid #ffffff;
+                  position: relative;
+
+                  &.online::after {
+                    content: '';
+                    position: absolute;
+                    bottom: -1px;
+                    right: -1px;
+                    width: 6px;
+                    height: 6px;
+                    background: #34c759;
+                    border: 1px solid #ffffff;
+                    border-radius: 50%;
+                  }
+                }
+
+                .more-students {
+                  font-size: 0.7rem;
+                  color: #86868b;
+                  background: #f2f2f7;
+                  padding: 2px 6px;
+                  border-radius: 10px;
+                  font-weight: 500;
+                }
+              }
+
+              .student-count {
+                font-size: 0.7rem;
+                color: #86868b;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Chat Area
+    .chat-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+
+      .chat-header {
+        padding: 16px 20px;
+        background: #fbfbfd;
+        border-bottom: 1px solid #e5e5e7;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .course-info {
+          .course-details {
+            margin-bottom: 4px;
+
+            h3 {
+              font-size: 1.125rem;
+              font-weight: 600;
+              color: #1d1d1f;
+              margin: 0 0 4px 0;
+            }
+
+            .course-code {
+              font-size: 0.8125rem;
+              color: #86868b;
+              background: #f2f2f7;
+              padding: 2px 8px;
+              border-radius: 6px;
+              font-weight: 500;
+              width: fit-content;
+            }
+          }
+
+          .course-stats {
+            display: flex;
+            gap: 16px;
+            font-size: 0.8125rem;
+            color: #86868b;
+
+            span {
+              display: flex;
+              align-items: center;
+              gap: 4px;
+
+              i {
+                font-size: 0.75rem;
+
+                &.online {
+                  color: #34c759;
+                }
+              }
+            }
+          }
+        }
+
+        .chat-actions {
+          .btn-toggle-students {
+            background: none;
+            border: 1px solid #d2d2d7;
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: #86868b;
+            cursor: pointer;
+            transition: all 0.2s ease;
+
+            &:hover, &.active {
+              background: #28ab5d;
+              border-color: #28ab5d;
+              color: white;
+            }
+          }
+        }
+      }
+
+      .chat-content {
+        flex: 1;
+        display: flex;
+        overflow: hidden;
+
+        .chat-messages {
+          flex: 1;
+          padding: 20px;
+          overflow-y: auto;
+          background: #D8DEE4;
+          background-image: url("../../../../../public/Images/bg print.png");
+
+          &::-webkit-scrollbar {
+            width: 6px;
+          }
+
+          &::-webkit-scrollbar-track {
+            background: #f1f1f1;
+          }
+
+          &::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+
+            &:hover {
+              background: #a1a1a1;
+            }
+          }
+
+          .message-date-separator {
+            .date-separator {
+              text-align: center;
+              margin: 20px 0;
+
+              span {
+                background: #ffffff;
+                color: #86868b;
+                padding: 4px 12px;
+                border-radius: 12px;
+                font-size: 0.75rem;
+                font-weight: 500;
+                border: 1px solid #e5e5e7;
+              }
+            }
+
+            .message {
+              display: flex;
+              margin-bottom: 16px;
+              align-items: flex-start;
+
+              &.own-message {
+                justify-content: flex-end;
+
+                .message-content {
+                  align-items: flex-end;
+
+                  .message-bubble {
+                    background: #28ab5d;
+                    color: white;
+                  }
+                }
+              }
+
+              &.other-message {
+                justify-content: flex-start;
+
+                .message-content {
+                  align-items: flex-start;
+
+                  .sender-name {
+                    font-size: 0.75rem;
+                    color: rgb(0, 0, 0)8b;
+                    margin-bottom: 4px;
+                    font-weight: 800;
+                  }
+
+                  .message-bubble {
+                    background: #ffffff;
+                    color: #1d1d1f;
+                    border: 1px solid #e5e5e7;
+                  }
+                }
+              }
+
+              .message-avatar {
+                margin-right: 12px;
+                margin-top: 20px;
+
+                img {
+                  width: 32px;
+                  height: 32px;
+                  border-radius: 50%;
+                  border: 2px solid #e5e5e7;
+                }
+              }
+
+              .message-content {
+                display: flex;
+                flex-direction: column;
+                max-width: 70%;
+
+                .message-bubble {
+                  padding: 12px 16px;
+                  border-radius: 16px;
+                  position: relative;
+                  word-wrap: break-word;
+
+                  .message-text {
+                    line-height: 1.4;
+                    font-size: 0.875rem;
+                  }
+
+                  .message-file {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    font-size: 0.875rem;
+
+                    .download-btn {
+                      color: inherit;
+                      text-decoration: none;
+                      padding: 4px;
+                      border-radius: 4px;
+                      transition: background 0.2s ease;
+
+                      &:hover {
+                        background: rgba(0, 0, 0, 0.1);
+                      }
+                    }
+                  }
+
+                  .message-timestamp {
+                    font-size: 0.7rem;
+                    opacity: 0.7;
+                    margin-top: 4px;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        .students-panel {
+          width: 280px;
+          background: #fbfbfd;
+          border-left: 1px solid #e5e5e7;
+          display: flex;
+          flex-direction: column;
+
+          .panel-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e5e5e7;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            h4 {
+              font-size: 1rem;
+              font-weight: 600;
+              color: #1d1d1f;
+              margin: 0;
+            }
+
+            .btn-close-panel {
+              background: none;
+              border: none;
+              color: #86868b;
+              cursor: pointer;
+              padding: 4px;
+              border-radius: 4px;
+              transition: all 0.2s ease;
+
+              &:hover {
+                background: #f2f2f7;
+                color: #1d1d1f;
+              }
+            }
+          }
+
+          .students-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 0;
+
+            .student-item {
+              padding: 12px 20px;
+              display: flex;
+              align-items: center;
+              gap: 12px;
+              transition: background 0.2s ease;
+
+              &:hover {
+                background: #f8f9fa;
+              }
+
+              .student-avatar {
+                position: relative;
+
+                img {
+                  width: 36px;
+                  height: 36px;
+                  border-radius: 50%;
+                  border: 2px solid #e5e5e7;
+                }
+
+                .online-status {
+                  position: absolute;
+                  bottom: 0;
+                  right: 0;
+                  width: 12px;
+                  height: 12px;
+                  border: 2px solid #ffffff;
+                  border-radius: 50%;
+                  background: #86868b;
+
+                  &.online {
+                    background: #34c759;
+                  }
+                }
+              }
+
+              .student-info {
+                flex: 1;
+
+                .student-name {
+                  font-size: 0.875rem;
+                  font-weight: 500;
+                  color: #1d1d1f;
+                  margin-bottom: 2px;
+                }
+
+                .student-status {
+                  font-size: 0.75rem;
+                  color: #86868b;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .message-input-area {
+        padding: 16px 20px;
+        background: #ffffff;
+        border-top: 1px solid #e5e5e7;
+        position: relative;
+
+        .input-container {
+          display: flex;
+          align-items: flex-end;
+          gap: 12px;
+          background: #f8f9fa;
+          border: 1px solid #e5e5e7;
+          border-radius: 20px;
+          padding: 8px 12px;
+          transition: all 0.2s ease;
+
+          &:focus-within {
+            border-color: #34c759;
+          }
+
+          button {
+            background: none;
+            border: none;
+            color: #86868b;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+                width: 33px;
+              height: 33px;
+  
+            &:hover {
+              background: #e5e5e7;
+              color: #1d1d1f;
+            }
+
+            &.btn-send {
+              background: #34c759;
+              color: white;
+
+              &:hover:not(:disabled) {
+                background: #34c759;
+              }
+
+              &:disabled {
+                background: #86868b;
+                cursor: not-allowed;
+              }
+            }
+          }
+
+          textarea {
+            flex: 1;
+            border: none;
+            background: transparent;
+            resize: none;
+            outline: none;
+            font-family: inherit;
+            font-size: 0.875rem;
+            line-height: 1.4;
+            padding: 4px 0;
+            min-height: 20px;
+            max-height: 120px;
+
+            &::placeholder {
+              color: #86868b;
+            }
+          }
+        }
+
+        .emoji-picker {
+          position: absolute;
+          bottom: 100%;
+          left: 20px;
+          background: #ffffff;
+          border: 1px solid #e5e5e7;
+          border-radius: 12px;
+          padding: 16px;
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+          z-index: 1000;
+          margin-bottom: 8px;
+
+          .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+
+            .emoji {
+              font-size: 1.25rem;
+              cursor: pointer;
+              padding: 4px;
+              border-radius: 4px;
+              transition: background 0.2s ease;
+              text-align: center;
+
+              &:hover {
+                background: #f8f9fa;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Empty State
+    .empty-state {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+
+      .empty-content {
+        text-align: center;
+        color: #86868b;
+
+        i {
+          font-size: 4rem;
+          margin-bottom: 16px;
+          opacity: 0.5;
+        }
+
+        h3 {
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: #1d1d1f;
+          margin: 0 0 8px 0;
+        }
+
+        p {
+          font-size: 0.875rem;
+          margin: 0;
+          line-height: 1.4;
+        }
+      }
+    }
+  }
+
+  // Responsive Design
+  @media (max-width: 768px) {
+    .chat-layout {
+      .courses-sidebar {
+        width: 100%;
+        position: absolute;
+        z-index: 100;
+        height: 100%;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+
+        &.show {
+          transform: translateX(0);
+        }
+      }
+
+      .chat-area {
+        .chat-content {
+          .students-panel {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+} 
