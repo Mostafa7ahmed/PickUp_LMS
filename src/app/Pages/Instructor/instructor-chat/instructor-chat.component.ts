@@ -6,7 +6,7 @@ interface User {
   id: number;
   name: string;
   avatar: string;
-  role: 'instructor' | 'student';
+  role: string;
   online: boolean;
   lastSeen?: Date;
 }
@@ -143,11 +143,10 @@ courses: Course[] = [
   isLoading: boolean = true;
 
   ngOnInit() {
-    // Remove automatic selection to prevent flash
-    // Let user manually select a course
+    // Show loading for 5 seconds before showing the chat page
     setTimeout(() => {
       this.isLoading = false;
-    }, 100);
+    }, 3000);
   }
 
   selectCourse(course: Course) {
@@ -155,11 +154,30 @@ courses: Course[] = [
     if (this.selectedCourse?.id === course.id) {
       return; // Already selected
     }
-    
+
+    // Load messages from localStorage if available
+    const key = `instructor-chat-messages-course-${course.id}`;
+    const stored = localStorage.getItem(key);
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        // Convert timestamp strings back to Date objects
+        course.messages = parsed.map((msg: any) => ({
+          ...msg,
+          timestamp: new Date(msg.timestamp)
+        }));
+        if (course.messages.length > 0) {
+          course.lastMessage = course.messages[course.messages.length - 1];
+        }
+      } catch (e) {
+        // fallback: ignore if parse fails
+      }
+    }
+
     this.selectedCourse = course;
     // Mark messages as read
     course.unreadCount = 0;
-    
+
     // Scroll to bottom smoothly after selection
     setTimeout(() => {
       this.scrollToBottom();
@@ -178,13 +196,19 @@ courses: Course[] = [
 
       this.selectedCourse.messages.push(message);
       this.selectedCourse.lastMessage = message;
+      this.saveCourseMessagesToLocalStorage(this.selectedCourse);
       this.newMessage = '';
-      
       // Scroll to bottom
       setTimeout(() => {
         this.scrollToBottom();
       }, 100);
     }
+  }
+
+  saveCourseMessagesToLocalStorage(course: Course) {
+    const key = `instructor-chat-messages-course-${course.id}`;
+    // Only save messages, not the whole course object
+    localStorage.setItem(key, JSON.stringify(course.messages));
   }
 
   private scrollToBottom() {

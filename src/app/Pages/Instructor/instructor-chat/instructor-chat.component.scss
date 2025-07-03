@@ -1,3 +1,27 @@
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: rgba(255,255,255,0.95);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .chat-loading-icon {
+    margin-bottom: 1.5rem;
+    i {
+      color: #28ab5d;
+      filter: drop-shadow(0 2px 8px #28ab5c3b
+);
+      animation: chat-bounce 1.2s infinite;
+    }
+  }
+}
+
+@keyframes chat-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
 .instructor-chat-container {
     height: 91vh
 ;

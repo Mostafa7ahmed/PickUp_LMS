@@ -1,5 +1,12 @@
 <div class="instructor-chat-container">
-  <div class="chat-layout">
+  <div *ngIf="isLoading" class="loading-overlay d-flex flex-column justify-content-center align-items-center">
+    <div class="chat-loading-icon mb-3">
+      <i class="fa-solid fa-comments fa-3x "></i>
+    </div>
+  
+    <h4 class="">Loading chat, please wait...</h4>
+  </div>
+  <div class="chat-layout" *ngIf="!isLoading">
     <!-- Courses Sidebar -->
     <div class="courses-sidebar">
       <div class="sidebar-header">
