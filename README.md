@@ -39,15 +39,18 @@ A comprehensive Learning Management System (LMS) built with Angular, designed to
 - **Email Service APIs** - For sending notifications, welcome emails, and password reset communications
 - **REST API Architecture** - Standard HTTP-based APIs for communication between frontend, mobile app, and backend
 
-## Tech Stack
+## 🛠 Tech Stack
 
-- **Frontend**: Angular 17+
+- **Frontend**: Angular 18+
 - **Styling**: SCSS
+- **UI Components**: PrimeNG (NgPrime) 
+- **Real-time Communication**: SignalR 
 - **State Management**: Angular Services
 - **HTTP Client**: Angular HTTP Client
 - **Routing**: Angular Router
 - **Forms**: Angular Reactive Forms
-- **Internationalization**: Angular i18n
+- **Internationalization**: Angular i18n 
+
 
 ## Project Structure
 
