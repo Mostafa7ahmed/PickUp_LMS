@@ -10,7 +10,7 @@ A comprehensive Learning Management System (LMS) built with Angular, designed to
 - Progress tracking
 - Student profile management
 - Course ratings and reviews
-- Chat functionality
+-  Group Chat with File Sharing
 - Todo list management
 
 ### Instructor Features
@@ -18,6 +18,7 @@ A comprehensive Learning Management System (LMS) built with Angular, designed to
 - Lesson and topic management
 - Student enrollment tracking
 - Performance analytics
+- Group Chat with File Sharing
 - Instructor dashboard
 - Content upload and management
 - Quiz creation and grading
