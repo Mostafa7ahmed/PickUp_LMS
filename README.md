@@ -4,7 +4,7 @@ A comprehensive Learning Management System (LMS) built with Angular, designed to
 
 ## Features
 
-### Student Features
+### 👩‍🎓 Student Features
 - Course discovery and enrollment
 - Interactive lessons and quizzes
 - Progress tracking
@@ -13,7 +13,7 @@ A comprehensive Learning Management System (LMS) built with Angular, designed to
 -  Group Chat with File Sharing
 - Todo list management
 
-### Instructor Features
+### 👨‍🏫 Instructor Features
 - Course creation and management
 - Lesson and topic management
 - Student enrollment tracking
@@ -23,7 +23,7 @@ A comprehensive Learning Management System (LMS) built with Angular, designed to
 - Content upload and management
 - Quiz creation and grading
 
-### General Features
+### 🌐 General Features
 - Multi-language support (Arabic/English)
 - Responsive design
 - Authentication system
@@ -32,7 +32,7 @@ A comprehensive Learning Management System (LMS) built with Angular, designed to
 - File upload and management
 - Real-time updates
 
-## Tools & Technologies
+## 🧰 Tools & Technologies
 
 - **Supabase API** - Cloud storage and file management services for handling course materials and user uploads
 - **MEGA API Client** - Alternative cloud storage solution for large file handling and sharing
@@ -52,7 +52,7 @@ A comprehensive Learning Management System (LMS) built with Angular, designed to
 - **Internationalization**: Angular i18n 
 
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 src/app/
