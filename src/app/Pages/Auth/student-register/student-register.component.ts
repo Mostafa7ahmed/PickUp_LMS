@@ -154,7 +154,7 @@ export class StudentRegisterComponent {
     const nameKey = "name";
     const userNameValue = this.registerFrom.get(userNamekey)?.value;
     const emailValue = this.registerFrom.get(emailKey)?.value;
-    const phoneNumberValue = this.registerFrom.get(phoneNumberKey)?.value;
+const phoneNumberValue = '+2' + this.registerFrom.get(phoneNumberKey)?.value;
     const nameValue = this.registerFrom.get(nameKey)?.value;
 
     this.stepOneLoading = true;
