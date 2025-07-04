@@ -1,4 +1,4 @@
-# PickUp_LMS
+# 🎓  PickUp_LMS
 
 A comprehensive Learning Management System (LMS) built with Angular, designed to facilitate online education with separate interfaces for students and instructors.
 
