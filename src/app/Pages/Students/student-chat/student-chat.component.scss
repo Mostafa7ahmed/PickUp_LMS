@@ -398,7 +398,7 @@
           padding: 20px;
           overflow-y: auto;
           background: #D8DEE4;
-          background-image: url("../../../../../public/Images/bg print.png");
+          background-image: url("../../../../../public/Images/bg print.png") !important;
 
           &::-webkit-scrollbar {
             width: 6px;
